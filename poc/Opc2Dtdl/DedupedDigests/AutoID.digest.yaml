@@ -309,7 +309,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, AutoID:7042, AutoID:GetDeviceLocation ]
     - HasProperty:
-      - [ UAVariable, AutoID:6130, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6130, AutoID:InputArguments, Argument, 1, 0 ]
       - Arguments:
           LocationType: [ AutoID:LocationTypeEnumeration, 0 ]
       - HasModellingRule:
@@ -317,7 +317,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, AutoID:6129, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6129, AutoID:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Location: [ AutoID:Location, 0 ]
       - HasModellingRule:
@@ -345,7 +345,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, AutoID:7008, AutoID:Scan ]
     - HasProperty:
-      - [ UAVariable, AutoID:6050, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6050, AutoID:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Settings: [ AutoID:ScanSettings, 0 ]
       - HasModellingRule:
@@ -353,7 +353,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, AutoID:6001, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6001, AutoID:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Results: [ AutoID:ScanResult, 1 ]
           Status: [ AutoID:AutoIdOperationStatusEnumeration, 0 ]
@@ -366,7 +366,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, AutoID:7009, AutoID:ScanStart ]
     - HasProperty:
-      - [ UAVariable, AutoID:6051, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6051, AutoID:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Settings: [ AutoID:ScanSettings, 0 ]
       - HasModellingRule:
@@ -374,7 +374,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, AutoID:6208, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6208, AutoID:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ AutoID:AutoIdOperationStatusEnumeration, 0 ]
       - HasModellingRule:
@@ -416,7 +416,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, AutoID:7017, AutoID:KillTag ]
     - HasProperty:
-      - [ UAVariable, AutoID:6062, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6062, AutoID:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Identifier: [ AutoID:ScanData, 0 ]
           CodeType: [ AutoID:CodeTypeDataType, 0 ]
@@ -426,7 +426,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, AutoID:6063, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6063, AutoID:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ AutoID:AutoIdOperationStatusEnumeration, 0 ]
       - HasModellingRule:
@@ -442,7 +442,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, AutoID:7018, AutoID:LockTag ]
     - HasProperty:
-      - [ UAVariable, AutoID:6064, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6064, AutoID:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Identifier: [ AutoID:ScanData, 0 ]
           CodeType: [ AutoID:CodeTypeDataType, 0 ]
@@ -456,7 +456,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, AutoID:6065, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6065, AutoID:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ AutoID:AutoIdOperationStatusEnumeration, 0 ]
       - HasModellingRule:
@@ -464,7 +464,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, AutoID:7014, AutoID:ReadTag ]
     - HasProperty:
-      - [ UAVariable, AutoID:6054, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6054, AutoID:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Identifier: [ AutoID:ScanData, 0 ]
           CodeType: [ AutoID:CodeTypeDataType, 0 ]
@@ -477,7 +477,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, AutoID:6056, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6056, AutoID:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ResultData: [ ByteString, 0 ]
           Status: [ AutoID:AutoIdOperationStatusEnumeration, 0 ]
@@ -488,7 +488,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, AutoID:7016, AutoID:SetTagPassword ]
     - HasProperty:
-      - [ UAVariable, AutoID:6059, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6059, AutoID:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Identifier: [ AutoID:ScanData, 0 ]
           CodeType: [ AutoID:CodeTypeDataType, 0 ]
@@ -500,7 +500,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, AutoID:6060, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6060, AutoID:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ AutoID:AutoIdOperationStatusEnumeration, 0 ]
       - HasModellingRule:
@@ -508,7 +508,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, AutoID:7015, AutoID:WriteTag ]
     - HasProperty:
-      - [ UAVariable, AutoID:6057, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6057, AutoID:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Identifier: [ AutoID:ScanData, 0 ]
           CodeType: [ AutoID:CodeTypeDataType, 0 ]
@@ -521,7 +521,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, AutoID:6058, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6058, AutoID:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ AutoID:AutoIdOperationStatusEnumeration, 0 ]
       - HasModellingRule:
@@ -529,7 +529,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, AutoID:7023, AutoID:WriteTagID ]
     - HasProperty:
-      - [ UAVariable, AutoID:6137, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6137, AutoID:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Identifier: [ AutoID:ScanData, 0 ]
           CodeType: [ AutoID:CodeTypeDataType, 0 ]
@@ -542,7 +542,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, AutoID:6140, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6140, AutoID:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ AutoID:AutoIdOperationStatusEnumeration, 0 ]
       - HasModellingRule:
@@ -553,7 +553,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, AutoID:7056, AutoID:GetLocation ]
     - HasProperty:
-      - [ UAVariable, AutoID:6224, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6224, AutoID:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Identifier: [ AutoID:ScanData, 0 ]
           LocationType: [ AutoID:LocationTypeEnumeration, 0 ]
@@ -563,7 +563,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, AutoID:6225, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6225, AutoID:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Result: [ AutoID:RtlsLocationResult, 0 ]
       - HasModellingRule:
@@ -573,7 +573,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, AutoID:6226, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AutoID:6226, AutoID:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           SupportedLocationTypes: [ AutoID:LocationTypeEnumeration, 1 ]
       - HasModellingRule:

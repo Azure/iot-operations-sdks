@@ -234,7 +234,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:246, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:246, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductName: [ String, 0 ]
           ProductId: [ String, 0 ]
@@ -242,7 +242,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:177, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:177, Scales.V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductNodeId: [ NodeId, 0 ]
       - HasModellingRule:
@@ -256,7 +256,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:176, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:176, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductId: [ String, 0 ]
       - HasModellingRule:
@@ -272,7 +272,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:647, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:647, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductId: [ String, 0 ]
       - HasModellingRule:
@@ -282,7 +282,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:175, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:175, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductId: [ String, 0 ]
       - HasModellingRule:
@@ -292,7 +292,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:988, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:988, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductId: [ String, 0 ]
       - HasModellingRule:
@@ -379,7 +379,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:145, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:145, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ZoneName: [ LocalizedText, 0 ]
           LowerLimit: [ Double, 0 ]
@@ -388,7 +388,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:146, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:146, Scales.V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ZoneNodeId: [ NodeId, 0 ]
       - HasModellingRule:
@@ -418,7 +418,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:147, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:147, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ZoneNodeId: [ NodeId, 0 ]
       - HasModellingRule:
@@ -532,7 +532,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:398, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:398, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           TargetItemCount: [ UInt32, 0 ]
       - HasModellingRule:
@@ -542,7 +542,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:184, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:184, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           TargetPieceCount: [ UInt32, 0 ]
           PlusTolerance: [ UInt32, 0 ]
@@ -626,7 +626,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:1208, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:1208, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           VehicleId: [ String, 0 ]
       - HasModellingRule:
@@ -755,14 +755,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:181, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:181, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeId: [ String, 0 ]
           RecipeName: [ LocalizedText, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:182, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:182, Scales.V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeNodeId: [ NodeId, 0 ]
       - HasModellingRule:
@@ -772,7 +772,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:180, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:180, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeId: [ String, 0 ]
       - HasModellingRule:
@@ -787,7 +787,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:437, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:437, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ElementType: [ NodeId, 0 ]
           ElementName: [ String, 0 ]
@@ -795,7 +795,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:438, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:438, Scales.V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ElementNodeId: [ NodeId, 0 ]
       - HasModellingRule:
@@ -817,7 +817,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:439, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:439, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeElementNodeId: [ NodeId, 0 ]
       - HasModellingRule:
@@ -890,7 +890,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:337, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:337, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           FeederSpeed: [ Float, 0 ]
           EngineeringUnits: [ EUInformation, 0 ]
@@ -981,7 +981,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:1353, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:1353, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           PresetTare: [ Double, 0 ]
           EngineeringUnits: [ EUInformation, 0 ]
@@ -1173,7 +1173,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:990, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:990, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           NumberOfReferencePieces: [ UInt32, 0 ]
       - HasModellingRule:
@@ -1183,7 +1183,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:604, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:604, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ReferencePieceWeight: [ UInt32, 0 ]
           EngineeringUnits: [ EUInformation, 0 ]
@@ -1194,7 +1194,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:1013, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:1013, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           NumberOfReferencePieces: [ UInt32, 0 ]
       - HasModellingRule:
@@ -1207,7 +1207,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:1017, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:1017, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeNodeId: [ NodeId, 0 ]
       - HasModellingRule:
@@ -1217,7 +1217,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:1015, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:1015, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeNodeId: [ NodeId, 0 ]
       - HasModellingRule:
@@ -1241,7 +1241,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:1016, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:1016, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeNodeId: [ NodeId, 0 ]
       - HasModellingRule:
@@ -1251,7 +1251,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:373, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:373, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeNodeId: [ NodeId, 0 ]
       - HasModellingRule:
@@ -1261,7 +1261,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:1014, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:1014, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeNodeId: [ NodeId, 0 ]
       - HasModellingRule:
@@ -1312,7 +1312,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:762, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:762, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Shield: [ Scales.V2:DraftShieldType, 0 ]
       - HasModellingRule:
@@ -1324,7 +1324,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:759, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:759, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Shield: [ Scales.V2:DraftShieldType, 0 ]
       - HasModellingRule:
@@ -1369,7 +1369,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:946, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:946, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           VehicleId: [ String, 0 ]
       - HasModellingRule:
@@ -1379,7 +1379,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:949, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:949, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           VehicleId: [ String, 0 ]
       - HasModellingRule:
@@ -1389,7 +1389,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Scales.V2:947, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scales.V2:947, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           VehicleId: [ String, 0 ]
       - HasModellingRule:

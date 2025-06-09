@@ -206,7 +206,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PNGSDGM:6074, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNGSDGM:6074, PNGSDGM:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplicationTag: [ String, 0 ]
       - HasModellingRule:

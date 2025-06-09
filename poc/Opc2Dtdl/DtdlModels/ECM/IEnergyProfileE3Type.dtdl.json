@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -66,7 +67,7 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Qualified", "Subject", "Required" ],
+            "@type": [ "Field", "Subject", "Qualified", "Required" ],
             "name": "AcActivePowerPe",
             "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
@@ -95,7 +96,7 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Qualified", "Subject", "Required" ],
+            "@type": [ "Field", "Subject", "Qualified", "Required" ],
             "name": "AcCurrentPe",
             "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
@@ -124,7 +125,7 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Qualified", "Subject", "Required" ],
+            "@type": [ "Field", "Subject", "Qualified", "Required" ],
             "name": "AcPowerFactorPe",
             "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
@@ -153,7 +154,7 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Qualified", "Subject", "Required" ],
+            "@type": [ "Field", "Subject", "Qualified", "Required" ],
             "name": "AcReactivePowerPe",
             "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
@@ -182,7 +183,7 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Qualified", "Subject", "Required" ],
+            "@type": [ "Field", "Subject", "Qualified", "Required" ],
             "name": "AcVoltagePe",
             "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
@@ -211,7 +212,7 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Qualified", "Subject", "Required" ],
+            "@type": [ "Field", "Subject", "Qualified", "Required" ],
             "name": "AcVoltagePp",
             "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPpDataType;1"

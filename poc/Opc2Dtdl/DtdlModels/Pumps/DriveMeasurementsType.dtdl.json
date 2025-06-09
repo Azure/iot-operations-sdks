@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -16,51 +17,58 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Current" ],
       "name": "Current",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "ampere",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Current" ],
       "name": "DCLinkCurrent",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "ampere",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Voltage" ],
       "name": "DCLinkVoltage",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "volt",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Power" ],
       "name": "DriverPowerInput",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "watt",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Energy" ],
       "name": "EnergyConsumption",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "joule",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Frequency" ],
       "name": "Frequency",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hertz",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Current" ],
       "name": "MotorCurrent",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "ampere",
       "schema": "double",
       "writable": false
     },
@@ -72,16 +80,18 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "MotorTemperature",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "kelvin",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Voltage" ],
       "name": "MotorVoltage",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "volt",
       "schema": "double",
       "writable": false
     },
@@ -93,16 +103,18 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Torque" ],
       "name": "Torque",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "newtonMetre",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Voltage" ],
       "name": "Voltage",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "volt",
       "schema": "double",
       "writable": false
     }

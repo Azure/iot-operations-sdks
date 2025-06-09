@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -28,121 +29,27 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AddProduct",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ProductName",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ProductId",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ProductType",
-              "schema": "string"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ProductNodeId",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "DeselectProduct",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ProductId",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RemoveProduct",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ProductId",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SelectProduct",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ProductId",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SwitchProduct",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ProductId",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

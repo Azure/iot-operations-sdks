@@ -1,67 +1,67 @@
 DataTypes:
-- UADataType: [ FDI5:194, WindowModeType ]
+- UADataType: [ FDI5:194, FDI5:WindowModeType ]
   Enums:
     ModalWindow: 1
     NonModalWindow: 2
     UIP: 3
-- UADataType: [ FDI5:196, StyleType ]
+- UADataType: [ FDI5:196, FDI5:StyleType ]
   Enums:
     Window: 1
     Dialog: 2
-- UADataType: [ FDI5:37, RegistrationParameters ]
+- UADataType: [ FDI5:37, FDI5:RegistrationParameters ]
   Fields:
     Path: [ RelativePath, 0 ]
     SelectionFlags: [ UInt32, 0 ]
-- UADataType: [ FDI5:38, RegisteredNode ]
+- UADataType: [ FDI5:38, FDI5:RegisteredNode ]
   Fields:
     NodeStatus: [ Int32, 0 ]
     OnlineContextNodeId: [ NodeId, 0 ]
     OnlineDeviceNodeId: [ NodeId, 0 ]
     OfflineContextNodeId: [ NodeId, 0 ]
     OfflineDeviceNodeId: [ NodeId, 0 ]
-- UADataType: [ FDI5:39, RegisterNodesResult ]
+- UADataType: [ FDI5:39, FDI5:RegisterNodesResult ]
   Fields:
     Status: [ Int32, 0 ]
-    RegisteredNodes: [ RegisteredNode, 1 ]
-- UADataType: [ FDI5:43, TransferIncident ]
+    RegisteredNodes: [ FDI5:RegisteredNode, 1 ]
+- UADataType: [ FDI5:43, FDI5:TransferIncident ]
   Fields:
     ContextNodeId: [ NodeId, 0 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ FDI5:44, ApplyResult ]
+- UADataType: [ FDI5:44, FDI5:ApplyResult ]
   Fields:
     Status: [ Int32, 0 ]
-    TransferIncidents: [ TransferIncident, 1 ]
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+    TransferIncidents: [ FDI5:TransferIncident, 1 ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -71,91 +71,91 @@ DataTypes:
 
 DefinedTypes:
 
-  UIDescriptionType:
-  - [ UAVariableType, FDI5:1, UIDescriptionType, String, 0, 0 ]
+  FDI5:UIDescriptionType:
+  - [ UAVariableType, FDI5:1, FDI5:UIDescriptionType, String, 0, 0 ]
   - HasSubtype_reverse:
-    - [ UAVariableType, DI:6246, UIElementType ]
+    - [ UAVariableType, DI:6246, DI:UIElementType ]
 
-  UIPlugInType:
-  - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
+  FDI5:UIPlugInType:
+  - [ UAVariableType, FDI5:2, FDI5:UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
-    - [ UAVariable, FDI5:3, UIPVariantVersion, String, 0, 0 ]
+    - [ UAVariable, FDI5:3, FDI5:UIPVariantVersion, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
+      - [ UAVariableType, FDI5:2, FDI5:UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
-    - [ UAVariable, FDI5:4, FDITechnologyVersion, String, 0, 0 ]
+    - [ UAVariable, FDI5:4, FDI5:FDITechnologyVersion, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
+      - [ UAVariableType, FDI5:2, FDI5:UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
-    - [ UAVariable, FDI5:5, RuntimeId, String, 0, 0 ]
+    - [ UAVariable, FDI5:5, FDI5:RuntimeId, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
+      - [ UAVariableType, FDI5:2, FDI5:UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
-    - [ UAVariable, FDI5:6, CpuInformation, String, 0, 0 ]
+    - [ UAVariable, FDI5:6, FDI5:CpuInformation, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
+      - [ UAVariableType, FDI5:2, FDI5:UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
-    - [ UAVariable, FDI5:7, PlatformId, String, 0, 0 ]
+    - [ UAVariable, FDI5:7, FDI5:PlatformId, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
+      - [ UAVariableType, FDI5:2, FDI5:UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
-    - [ UAVariable, FDI5:8, Style, StyleType, 0, 0 ]
+    - [ UAVariable, FDI5:8, FDI5:Style, FDI5:StyleType, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
+      - [ UAVariableType, FDI5:2, FDI5:UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
-    - [ UAVariable, FDI5:9, StartElementName, String, 0, 0 ]
+    - [ UAVariable, FDI5:9, FDI5:StartElementName, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
+      - [ UAVariableType, FDI5:2, FDI5:UIPlugInType, Byte, 1, 0 ]
   - HasComponent:
-    - [ UAObject, FDI5:10, Documentation ]
+    - [ UAObject, FDI5:10, FDI5:Documentation ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
+      - [ UAVariableType, FDI5:2, FDI5:UIPlugInType, Byte, 1, 0 ]
   - HasSubtype_reverse:
-    - [ UAVariableType, DI:6246, UIElementType ]
+    - [ UAVariableType, DI:6246, DI:UIElementType ]
 
-  ActionType:
-  - [ UAObjectType, FDI5:11, ActionType ]
+  FDI5:ActionType:
+  - [ UAObjectType, FDI5:11, FDI5:ActionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  ActionServiceType:
-  - [ UAObjectType, FDI5:21, ActionServiceType ]
+  FDI5:ActionServiceType:
+  - [ UAObjectType, FDI5:21, FDI5:ActionServiceType ]
   - HasComponent:
-    - [ UAMethod, FDI5:22, InvokeAction ]
+    - [ UAMethod, FDI5:22, FDI5:InvokeAction ]
     - HasProperty:
-      - [ UAVariable, FDI5:23, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:23, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ActionName: [ String, 0 ]
           MethodArguments: [ String, 0 ]
@@ -164,9 +164,9 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:22, InvokeAction ]
+        - [ UAMethod, FDI5:22, FDI5:InvokeAction ]
     - HasProperty:
-      - [ UAVariable, FDI5:24, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:24, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ActionNodeId: [ NodeId, 0 ]
           InvokeActionError: [ Int32, 0 ]
@@ -175,15 +175,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:22, InvokeAction ]
+        - [ UAMethod, FDI5:22, FDI5:InvokeAction ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FDI5:21, ActionServiceType ]
+      - [ UAObjectType, FDI5:21, FDI5:ActionServiceType ]
   - HasComponent:
-    - [ UAMethod, FDI5:25, RespondAction ]
+    - [ UAMethod, FDI5:25, FDI5:RespondAction ]
     - HasProperty:
-      - [ UAVariable, FDI5:26, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:26, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ActionNodeId: [ NodeId, 0 ]
           Response: [ String, 0 ]
@@ -192,9 +192,9 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:25, RespondAction ]
+        - [ UAMethod, FDI5:25, FDI5:RespondAction ]
     - HasProperty:
-      - [ UAVariable, FDI5:27, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:27, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           RespondActionError: [ Int32, 0 ]
       - HasTypeDefinition:
@@ -202,15 +202,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:25, RespondAction ]
+        - [ UAMethod, FDI5:25, FDI5:RespondAction ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FDI5:21, ActionServiceType ]
+      - [ UAObjectType, FDI5:21, FDI5:ActionServiceType ]
   - HasComponent:
-    - [ UAMethod, FDI5:28, AbortAction ]
+    - [ UAMethod, FDI5:28, FDI5:AbortAction ]
     - HasProperty:
-      - [ UAVariable, FDI5:29, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:29, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ActionNodeId: [ NodeId, 0 ]
       - HasTypeDefinition:
@@ -218,9 +218,9 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:28, AbortAction ]
+        - [ UAMethod, FDI5:28, FDI5:AbortAction ]
     - HasProperty:
-      - [ UAVariable, FDI5:30, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:30, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           AbortActionError: [ Int32, 0 ]
       - HasTypeDefinition:
@@ -228,39 +228,39 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:28, AbortAction ]
+        - [ UAMethod, FDI5:28, FDI5:AbortAction ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FDI5:21, ActionServiceType ]
+      - [ UAObjectType, FDI5:21, FDI5:ActionServiceType ]
   - HasComponent:
-    - [ UAObject, FDI5:181, <ActionIdentifier> ]
+    - [ UAObject, FDI5:181, FDI5:<ActionIdentifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, FDI5:11, ActionType ]
+      - [ UAObjectType, FDI5:11, FDI5:ActionType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, FDI5:21, ActionServiceType ]
+      - [ UAObjectType, FDI5:21, FDI5:ActionServiceType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  EditContextType:
-  - [ UAObjectType, FDI5:54, EditContextType ]
+  FDI5:EditContextType:
+  - [ UAObjectType, FDI5:54, FDI5:EditContextType ]
   - HasComponent:
-    - [ UAMethod, FDI5:55, GetEditContext ]
+    - [ UAMethod, FDI5:55, FDI5:GetEditContext ]
     - HasProperty:
-      - [ UAVariable, FDI5:56, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:56, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ParentId: [ String, 0 ]
-          TargetWindowMode: [ WindowModeType, 0 ]
+          TargetWindowMode: [ FDI5:WindowModeType, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:55, GetEditContext ]
+        - [ UAMethod, FDI5:55, FDI5:GetEditContext ]
     - HasProperty:
-      - [ UAVariable, FDI5:57, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:57, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           EditContextId: [ String, 0 ]
           GetEditContextStatus: [ Int32, 0 ]
@@ -269,95 +269,69 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:55, GetEditContext ]
+        - [ UAMethod, FDI5:55, FDI5:GetEditContext ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FDI5:54, EditContextType ]
+      - [ UAObjectType, FDI5:54, FDI5:EditContextType ]
   - HasComponent:
-    - [ UAMethod, FDI5:58, RegisterNodesById ]
+    - [ UAMethod, FDI5:58, FDI5:RegisterNodesById ]
     - HasProperty:
-      - [ UAVariable, FDI5:59, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:59, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           EditContextId: [ String, 0 ]
-          NodesToRegister: [ RegistrationParameters, 1 ]
+          NodesToRegister: [ FDI5:RegistrationParameters, 1 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:58, RegisterNodesById ]
+        - [ UAMethod, FDI5:58, FDI5:RegisterNodesById ]
     - HasProperty:
-      - [ UAVariable, FDI5:60, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:60, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
-          RegisterNodesStatus: [ RegisterNodesResult, 0 ]
+          RegisterNodesStatus: [ FDI5:RegisterNodesResult, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:58, RegisterNodesById ]
+        - [ UAMethod, FDI5:58, FDI5:RegisterNodesById ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FDI5:54, EditContextType ]
+      - [ UAObjectType, FDI5:54, FDI5:EditContextType ]
   - HasComponent:
-    - [ UAMethod, FDI5:61, RegisterNodesByRelativePath ]
+    - [ UAMethod, FDI5:61, FDI5:RegisterNodesByRelativePath ]
     - HasProperty:
-      - [ UAVariable, FDI5:62, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:62, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           EditContextId: [ String, 0 ]
-          NodesToRegister: [ RegistrationParameters, 1 ]
+          NodesToRegister: [ FDI5:RegistrationParameters, 1 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:61, RegisterNodesByRelativePath ]
+        - [ UAMethod, FDI5:61, FDI5:RegisterNodesByRelativePath ]
     - HasProperty:
-      - [ UAVariable, FDI5:63, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:63, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
-          RegisterNodesStatus: [ RegisterNodesResult, 0 ]
+          RegisterNodesStatus: [ FDI5:RegisterNodesResult, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:61, RegisterNodesByRelativePath ]
+        - [ UAMethod, FDI5:61, FDI5:RegisterNodesByRelativePath ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FDI5:54, EditContextType ]
+      - [ UAObjectType, FDI5:54, FDI5:EditContextType ]
   - HasComponent:
-    - [ UAMethod, FDI5:64, Apply ]
+    - [ UAMethod, FDI5:64, FDI5:Apply ]
     - HasProperty:
-      - [ UAVariable, FDI5:65, InputArguments, Argument, 1, 0 ]
-      - Arguments:
-          EditContextId: [ String, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 68, PropertyType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty_reverse:
-        - [ UAMethod, FDI5:64, Apply ]
-    - HasProperty:
-      - [ UAVariable, FDI5:66, OutputArguments, Argument, 1, 0 ]
-      - Arguments:
-          ApplyStatus: [ ApplyResult, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 68, PropertyType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty_reverse:
-        - [ UAMethod, FDI5:64, Apply ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-    - HasComponent_reverse:
-      - [ UAObjectType, FDI5:54, EditContextType ]
-  - HasComponent:
-    - [ UAMethod, FDI5:67, Reset ]
-    - HasProperty:
-      - [ UAVariable, FDI5:68, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:65, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           EditContextId: [ String, 0 ]
       - HasTypeDefinition:
@@ -365,9 +339,35 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:67, Reset ]
+        - [ UAMethod, FDI5:64, FDI5:Apply ]
     - HasProperty:
-      - [ UAVariable, FDI5:69, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:66, FDI5:OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ApplyStatus: [ FDI5:ApplyResult, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:64, FDI5:Apply ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI5:54, FDI5:EditContextType ]
+  - HasComponent:
+    - [ UAMethod, FDI5:67, FDI5:Reset ]
+    - HasProperty:
+      - [ UAVariable, FDI5:68, FDI5:InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          EditContextId: [ String, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:67, FDI5:Reset ]
+    - HasProperty:
+      - [ UAVariable, FDI5:69, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ResetStatus: [ Int32, 0 ]
       - HasTypeDefinition:
@@ -375,15 +375,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:67, Reset ]
+        - [ UAMethod, FDI5:67, FDI5:Reset ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FDI5:54, EditContextType ]
+      - [ UAObjectType, FDI5:54, FDI5:EditContextType ]
   - HasComponent:
-    - [ UAMethod, FDI5:70, Discard ]
+    - [ UAMethod, FDI5:70, FDI5:Discard ]
     - HasProperty:
-      - [ UAVariable, FDI5:71, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:71, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           EditContextId: [ String, 0 ]
       - HasTypeDefinition:
@@ -391,9 +391,9 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:70, Discard ]
+        - [ UAMethod, FDI5:70, FDI5:Discard ]
     - HasProperty:
-      - [ UAVariable, FDI5:72, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:72, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           DiscardStatus: [ Int32, 0 ]
       - HasTypeDefinition:
@@ -401,20 +401,20 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:70, Discard ]
+        - [ UAMethod, FDI5:70, FDI5:Discard ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FDI5:54, EditContextType ]
+      - [ UAObjectType, FDI5:54, FDI5:EditContextType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  DirectDeviceAccessType:
-  - [ UAObjectType, FDI5:82, DirectDeviceAccessType ]
+  FDI5:DirectDeviceAccessType:
+  - [ UAObjectType, FDI5:82, FDI5:DirectDeviceAccessType ]
   - HasComponent:
-    - [ UAMethod, FDI5:83, InitDirectAccess ]
+    - [ UAMethod, FDI5:83, FDI5:InitDirectAccess ]
     - HasProperty:
-      - [ UAVariable, FDI5:84, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:84, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Context: [ String, 0 ]
       - HasTypeDefinition:
@@ -422,9 +422,9 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:83, InitDirectAccess ]
+        - [ UAMethod, FDI5:83, FDI5:InitDirectAccess ]
     - HasProperty:
-      - [ UAVariable, FDI5:85, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:85, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           InitDirectAccessError: [ Int32, 0 ]
       - HasTypeDefinition:
@@ -432,15 +432,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:83, InitDirectAccess ]
+        - [ UAMethod, FDI5:83, FDI5:InitDirectAccess ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FDI5:82, DirectDeviceAccessType ]
+      - [ UAObjectType, FDI5:82, FDI5:DirectDeviceAccessType ]
   - HasComponent:
-    - [ UAMethod, FDI5:86, Transfer ]
+    - [ UAMethod, FDI5:86, FDI5:Transfer ]
     - HasProperty:
-      - [ UAVariable, FDI5:87, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:87, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SendData: [ String, 0 ]
           ReceiveData: [ String, 0 ]
@@ -449,9 +449,9 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:86, Transfer ]
+        - [ UAMethod, FDI5:86, FDI5:Transfer ]
     - HasProperty:
-      - [ UAVariable, FDI5:88, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:88, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           TransferError: [ Int32, 0 ]
       - HasTypeDefinition:
@@ -459,15 +459,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:86, Transfer ]
+        - [ UAMethod, FDI5:86, FDI5:Transfer ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FDI5:82, DirectDeviceAccessType ]
+      - [ UAObjectType, FDI5:82, FDI5:DirectDeviceAccessType ]
   - HasComponent:
-    - [ UAMethod, FDI5:89, EndDirectAccess ]
+    - [ UAMethod, FDI5:89, FDI5:EndDirectAccess ]
     - HasProperty:
-      - [ UAVariable, FDI5:90, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:90, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           InvalidateCache: [ Boolean, 0 ]
       - HasTypeDefinition:
@@ -475,9 +475,9 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:89, EndDirectAccess ]
+        - [ UAMethod, FDI5:89, FDI5:EndDirectAccess ]
     - HasProperty:
-      - [ UAVariable, FDI5:91, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:91, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           EndDirectAccessError: [ Int32, 0 ]
       - HasTypeDefinition:
@@ -485,10 +485,10 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, FDI5:89, EndDirectAccess ]
+        - [ UAMethod, FDI5:89, FDI5:EndDirectAccess ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FDI5:82, DirectDeviceAccessType ]
+      - [ UAObjectType, FDI5:82, FDI5:DirectDeviceAccessType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

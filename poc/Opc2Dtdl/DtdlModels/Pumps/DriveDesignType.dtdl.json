@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -23,16 +24,18 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Frequency" ],
       "name": "MaxNominalFrequency",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hertz",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Frequency" ],
       "name": "MinNominalFrequency",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hertz",
       "schema": "double",
       "writable": false
     },
@@ -44,23 +47,26 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Frequency" ],
       "name": "NominalFrequency",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hertz",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Power" ],
       "name": "NominalPowerConsumption",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "watt",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Voltage" ],
       "name": "NominalVoltage",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "volt",
       "schema": "double",
       "writable": false
     },
@@ -79,9 +85,10 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Current" ],
       "name": "RatedCurrent",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "ampere",
       "schema": "double",
       "writable": false
     },
@@ -93,9 +100,10 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Force" ],
       "name": "TorqueAtNominalSpeedOfDrive",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "newton",
       "schema": "double",
       "writable": false
     }

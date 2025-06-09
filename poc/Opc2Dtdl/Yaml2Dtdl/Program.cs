@@ -23,6 +23,7 @@
 
         private static string sourceRoot = string.Empty;
         private static string destRoot = string.Empty;
+        private static string unitTypesFile = string.Empty;
         private static string resolverConfig = string.Empty;
 
         static Program()
@@ -42,17 +43,20 @@
 
         static void Main(string[] args)
         {
-            if (args.Length < 3)
+            if (args.Length < 4)
             {
-                Console.WriteLine("usage: Yaml2Dtdl <SOURCE_ROOT> <DEST_ROOT> <RESOLVER> [ <MAX_ERRORS> ]");
+                Console.WriteLine("usage: Yaml2Dtdl <SOURCE_ROOT> <DEST_ROOT> <UNIT_TYPES> <RESOLVER> [ <MAX_ERRORS> ]");
                 return;
             }
 
             sourceRoot = args[0];
             destRoot = args[1];
-            resolverConfig = args[2];
+            unitTypesFile = args[2];
+            resolverConfig = args[3];
 
-            int maxErrors = args.Length > 3 ? int.Parse(args[3]) : defaultMaxErrors;
+            int maxErrors = args.Length > 4 ? int.Parse(args[4]) : defaultMaxErrors;
+
+            Dictionary<int, (string, string)> unitTypesDict = File.ReadAllLines(unitTypesFile).Select(l => l.Split(',')).ToDictionary(v => int.Parse(v[0]), v => (v[1], v[2]));
 
             Resolver resolver = new Resolver(resolverConfig);
             ParsingOptions parsingOptions = new ParsingOptions() { DtmiResolver = resolver.Resolve, AllowUndefinedExtensions = WhenToAllow.Always };
@@ -78,7 +82,7 @@
                 string yamlFileName = Path.GetFileName(yamlFilePath);
                 string specName = yamlFileName.Substring(0, yamlFileName.Length - sourceFileSuffix.Length);
 
-                ConvertToDtdl(coreOpcUaDigest, deserializer, yamlFilePath, destRoot, specName);
+                ConvertToDtdl(coreOpcUaDigest, deserializer, yamlFilePath, destRoot, specName, unitTypesDict);
             }
 
             if (maxErrors == 0)
@@ -140,7 +144,7 @@
             }
         }
 
-        private static void ConvertToDtdl(OpcUaDigest coreOpcUaDigest, IDeserializer deserializer, string yamlFilePath, string destRoot, string specName)
+        private static void ConvertToDtdl(OpcUaDigest coreOpcUaDigest, IDeserializer deserializer, string yamlFilePath, string destRoot, string specName, Dictionary<int, (string, string)> unitTypesDict)
         {
             Console.WriteLine($"Processing file {yamlFilePath}");
 
@@ -161,7 +165,7 @@
                     string outFileName = $"{TypeConverter.Dequalify(definedType.Key)}{destFileSuffix}";
                     string outFilePath = Path.Combine(outFolderPath, outFileName);
 
-                    DtdlInterface dtdlInterface = new DtdlInterface(modelId, definedType.Value, opcUaDigest.DataTypes, coreOpcUaDigest.DataTypes);
+                    DtdlInterface dtdlInterface = new DtdlInterface(modelId, definedType.Value, opcUaDigest.DataTypes, coreOpcUaDigest.DataTypes, unitTypesDict);
                     string jsonText = dtdlInterface.TransformText();
 
                     Console.WriteLine($"  Writing file {outFilePath}");

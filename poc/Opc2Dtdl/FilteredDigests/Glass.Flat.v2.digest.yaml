@@ -286,7 +286,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Glass.Flat.v2:1063, Glass.Flat.v2:ConfigurationRulesType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat.v2:5016, FileSystem ]
+    - [ UAObject, Glass.Flat.v2:5016, Glass.Flat.v2:FileSystem ]
     - HasTypeDefinition:
       - [ UAObjectType, 13353, FileDirectoryType ]
     - HasModellingRule:

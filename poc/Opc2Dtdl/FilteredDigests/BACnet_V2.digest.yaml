@@ -1172,13 +1172,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6108, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6108, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RestartNotificationRecipients: [ BACnet_V2:BACnetRecipient, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6137, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6137, BACnet_V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FirstFailedElementNumber: [ UInt32, 0 ]
       - HasModellingRule:
@@ -1188,13 +1188,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6147, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6147, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RestartNotificationRecipients: [ BACnet_V2:BACnetRecipient, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6141, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6141, BACnet_V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FirstFailedElementNumber: [ UInt32, 0 ]
       - HasModellingRule:
@@ -1354,7 +1354,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6252, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6252, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Address: [ BaseDataType, 0 ]
       - HasModellingRule:
@@ -1364,7 +1364,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6248, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6248, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           DeviceObject: [ NodeId, 0 ]
       - HasModellingRule:
@@ -1374,7 +1374,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6247, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6247, BACnet_V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           BACnetDeviceIds: [ BACnet_V2:BACnetObjectIdentifier, 1 ]
           OpcUaObjectIds: [ NodeId, 1 ]
@@ -1385,7 +1385,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6660, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6660, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           WaitTimeInSeconds: [ UInt32, 0 ]
           ApplyRange: [ Boolean, 0 ]
@@ -1394,7 +1394,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6661, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6661, BACnet_V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           DeviceAddressBindings: [ BaseDataType, 1 ]
           MaxAPDULengthAccepted: [ UInt32, 1 ]
@@ -1407,7 +1407,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6662, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6662, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Time: [ UtcTime, 0 ]
       - HasModellingRule:
@@ -1417,13 +1417,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6245, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6245, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           BACnetIds: [ BACnet_V2:BACnetDeviceObjectPropertyReference, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6246, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6246, BACnet_V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           OpcUaIds: [ NodeId, 1 ]
       - HasModellingRule:
@@ -1550,13 +1550,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6083, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6083, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           CalendarEntries: [ BACnet_V2:BACnetCalendarEntry, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:106294, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:106294, BACnet_V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FirstFailedElementNumber: [ UInt32, 0 ]
       - HasModellingRule:
@@ -1572,13 +1572,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6084, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6084, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           CalendarEntries: [ BACnet_V2:BACnetCalendarEntry, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:106295, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:106295, BACnet_V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FirstFailedElementNumber: [ UInt32, 0 ]
       - HasModellingRule:
@@ -1591,13 +1591,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6271, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6271, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           AddressBindings: [ BACnet_V2:BACnetAddressBinding, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6272, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6272, BACnet_V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FirstFailedElementNumber: [ UInt32, 0 ]
       - HasModellingRule:
@@ -1615,7 +1615,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6254, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6254, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ObjectSpecifier: [ BACnet_V2:BACnetObjectIdentifier, 0 ]
           ListOfInitialValues: [ KeyValuePair, 1 ]
@@ -1626,7 +1626,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6256, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6256, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ObjectIdentifier: [ BACnet_V2:BACnetObjectIdentifier, 0 ]
       - HasModellingRule:
@@ -1636,7 +1636,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6266, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6266, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           TimeDurationInMinutes: [ UInt16, 0 ]
           EnableDisable: [ BACnet_V2:BACnetDeviceCommunicationEnabled, 0 ]
@@ -1666,7 +1666,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6255, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6255, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ReinitializedStateofDevice: [ BACnet_V2:BACnetReinitializedStateofDevice, 0 ]
           Password: [ String, 0 ]
@@ -1677,13 +1677,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6273, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6273, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           AddressBindings: [ BACnet_V2:BACnetAddressBinding, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6274, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6274, BACnet_V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FirstFailedElementNumber: [ UInt32, 0 ]
       - HasModellingRule:
@@ -1699,7 +1699,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6267, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6267, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SendUnconfirmed: [ Boolean, 0 ]
           TextMessageSourceDevice: [ BACnet_V2:BACnetObjectIdentifier, 0 ]
@@ -1736,7 +1736,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6331, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6331, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           EventParameters: [ BACnet_V2:BACnetEventParameter, 0 ]
       - HasModellingRule:
@@ -1746,7 +1746,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6332, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6332, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           FaultParameters: [ BACnet_V2:BACnetFaultParameter, 0 ]
       - HasModellingRule:
@@ -1939,13 +1939,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6323, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6323, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           DeviceObjectPropertyReferences: [ BACnet_V2:BACnetDeviceObjectPropertyReference, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6324, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6324, BACnet_V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FirstFailedElementNumber: [ UInt32, 0 ]
       - HasModellingRule:
@@ -1973,13 +1973,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6325, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6325, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           DeviceObjectPropertyReferences: [ BACnet_V2:BACnetDeviceObjectPropertyReference, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6326, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6326, BACnet_V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FirstFailedElementNumber: [ UInt32, 0 ]
       - HasModellingRule:
@@ -2013,7 +2013,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6346, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6346, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Time: [ UtcTime, 0 ]
       - HasModellingRule:
@@ -2028,14 +2028,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6353, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6353, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           AddToUtcList: [ Boolean, 0 ]
           TimeSynchronizationRecipients: [ BACnet_V2:BACnetRecipient, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6354, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6354, BACnet_V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FirstFailedElementNumber: [ UInt32, 0 ]
       - HasModellingRule:
@@ -2045,14 +2045,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6355, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6355, BACnet_V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RemoveFromUtcList: [ Boolean, 0 ]
           TimeSynchronizationRecipients: [ BACnet_V2:BACnetRecipient, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, BACnet_V2:6356, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, BACnet_V2:6356, BACnet_V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FirstFailedElementNumber: [ UInt32, 0 ]
       - HasModellingRule:

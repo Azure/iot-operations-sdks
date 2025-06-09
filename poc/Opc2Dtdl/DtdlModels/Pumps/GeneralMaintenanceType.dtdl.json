@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -72,23 +73,26 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "ActiveMaintenanceTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hour",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "DownTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hour",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "ExternalDisabledTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hour",
       "schema": "double",
       "writable": false
     },
@@ -100,9 +104,10 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "IdleTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hour",
       "schema": "double",
       "writable": false
     },
@@ -114,30 +119,34 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "MaintenanceTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hour",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "MeanOperatingTimeBetweenFailures",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hour",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "MeanRepairTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hour",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "MeanTimeToRestauration",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hour",
       "schema": "double",
       "writable": false
     },
@@ -149,37 +158,42 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "OperatingTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hour",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "OperatingTimeBetweenFailures",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hour",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "OperatingTimeToFailure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hour",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "RepairTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hour",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "StandbyTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hour",
       "schema": "double",
       "writable": false
     },
@@ -191,23 +205,26 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "TimeBetweenFailures",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hour",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "TimeToRestoration",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hour",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "UpTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hour",
       "schema": "double",
       "writable": false
     }

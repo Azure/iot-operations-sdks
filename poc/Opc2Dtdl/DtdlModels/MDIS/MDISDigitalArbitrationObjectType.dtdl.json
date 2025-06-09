@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -76,21 +77,7 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetArbitrationMode",
-      "namespace": "http://opcfoundation.org/UA/MDIS",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ArbitrationMode",
-              "schema": "dtmi:opcua:MDIS:MDISDigitalArbitrationObjectType:dataType:ArbitrationModeEnum;1"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MDIS"
     }
   ]
 }

@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -18,80 +19,12 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RegisterTickets",
-      "namespace": "http://opcfoundation.org/UA/Onboarding",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Tickets",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "string"
-              }
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Results",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "integer"
-              }
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/Onboarding"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "UnregisterTickets",
-      "namespace": "http://opcfoundation.org/UA/Onboarding",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Tickets",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "string"
-              }
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Results",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "integer"
-              }
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/Onboarding"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

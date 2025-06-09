@@ -2,118 +2,118 @@ DataTypes:
 
 DefinedTypes:
 
-  AMLBaseVariableType:
-  - [ UAVariableType, AMLBaseTypes:3001, AMLBaseVariableType ]
+  AMLBaseTypes:AMLBaseVariableType:
+  - [ UAVariableType, AMLBaseTypes:3001, AMLBaseTypes:AMLBaseVariableType ]
   - HasSubtype_reverse:
     - [ UAVariableType, 62, BaseVariableType ]
   - HasProperty:
-    - [ UAVariable, AMLBaseTypes:1010, ID, String, 0, 0 ]
+    - [ UAVariable, AMLBaseTypes:1010, AMLBaseTypes:ID, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
-    - [ UAVariable, AMLBaseTypes:1011, Version, String, 0, 0 ]
+    - [ UAVariable, AMLBaseTypes:1011, AMLBaseTypes:Version, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  AMLOpcUaConnectionType:
-  - [ UAVariableType, AMLBaseTypes:3002, AMLOpcUaConnectionType ]
+  AMLBaseTypes:AMLOpcUaConnectionType:
+  - [ UAVariableType, AMLBaseTypes:3002, AMLBaseTypes:AMLOpcUaConnectionType ]
   - HasSubtype_reverse:
-    - [ UAVariableType, AMLBaseTypes:3001, AMLBaseVariableType ]
+    - [ UAVariableType, AMLBaseTypes:3001, AMLBaseTypes:AMLBaseVariableType ]
   - HasComponent:
-    - [ UAVariable, AMLBaseTypes:1012, VariableNodeId, String, 0, 0 ]
+    - [ UAVariable, AMLBaseTypes:1012, AMLBaseTypes:VariableNodeId, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAVariableType, AMLBaseTypes:3002, AMLOpcUaConnectionType ]
+      - [ UAVariableType, AMLBaseTypes:3002, AMLBaseTypes:AMLOpcUaConnectionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, AMLBaseTypes:1013, VariableName, String, 0, 0 ]
+    - [ UAVariable, AMLBaseTypes:1013, AMLBaseTypes:VariableName, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAVariableType, AMLBaseTypes:3002, AMLOpcUaConnectionType ]
+      - [ UAVariableType, AMLBaseTypes:3002, AMLBaseTypes:AMLOpcUaConnectionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, AMLBaseTypes:1014, ServerAddress, String, 0, 0 ]
+    - [ UAVariable, AMLBaseTypes:1014, AMLBaseTypes:ServerAddress, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAVariableType, AMLBaseTypes:3002, AMLOpcUaConnectionType ]
+      - [ UAVariableType, AMLBaseTypes:3002, AMLBaseTypes:AMLOpcUaConnectionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, AMLBaseTypes:1015, ServerAlias, String, 0, 0 ]
+    - [ UAVariable, AMLBaseTypes:1015, AMLBaseTypes:ServerAlias, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAVariableType, AMLBaseTypes:3002, AMLOpcUaConnectionType ]
+      - [ UAVariableType, AMLBaseTypes:3002, AMLBaseTypes:AMLOpcUaConnectionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  CAEXBasicObjectType:
-  - [ UAObjectType, AMLBaseTypes:1006, CAEXBasicObjectType ]
+  AMLBaseTypes:CAEXBasicObjectType:
+  - [ UAObjectType, AMLBaseTypes:1006, AMLBaseTypes:CAEXBasicObjectType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
-    - [ UAVariable, AMLBaseTypes:6001, Version, String, 0, 0 ]
+    - [ UAVariable, AMLBaseTypes:6001, AMLBaseTypes:Version, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMLBaseTypes:1006, CAEXBasicObjectType ]
+      - [ UAObjectType, AMLBaseTypes:1006, AMLBaseTypes:CAEXBasicObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  CAEXFileType:
-  - [ UAObjectType, AMLBaseTypes:1005, CAEXFileType ]
+  AMLBaseTypes:CAEXFileType:
+  - [ UAObjectType, AMLBaseTypes:1005, AMLBaseTypes:CAEXFileType ]
   - HasComponent:
-    - [ UAObject, AMLBaseTypes:5001, InstanceHierarchies ]
+    - [ UAObject, AMLBaseTypes:5001, AMLBaseTypes:InstanceHierarchies ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasComponent_reverse:
-      - [ UAObjectType, AMLBaseTypes:1005, CAEXFileType ]
+      - [ UAObjectType, AMLBaseTypes:1005, AMLBaseTypes:CAEXFileType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, AMLBaseTypes:5002, InterfaceClassLibs ]
+    - [ UAObject, AMLBaseTypes:5002, AMLBaseTypes:InterfaceClassLibs ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasComponent_reverse:
-      - [ UAObjectType, AMLBaseTypes:1005, CAEXFileType ]
+      - [ UAObjectType, AMLBaseTypes:1005, AMLBaseTypes:CAEXFileType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, AMLBaseTypes:5003, RoleClassLibs ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 61, FolderType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-    - HasComponent_reverse:
-      - [ UAObjectType, AMLBaseTypes:1005, CAEXFileType ]
-  - HasComponent:
-    - [ UAObject, AMLBaseTypes:5004, SystemUnitClassLibs ]
+    - [ UAObject, AMLBaseTypes:5003, AMLBaseTypes:RoleClassLibs ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, AMLBaseTypes:1005, CAEXFileType ]
+      - [ UAObjectType, AMLBaseTypes:1005, AMLBaseTypes:CAEXFileType ]
+  - HasComponent:
+    - [ UAObject, AMLBaseTypes:5004, AMLBaseTypes:SystemUnitClassLibs ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AMLBaseTypes:1005, AMLBaseTypes:CAEXFileType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLBaseTypes:1006, CAEXBasicObjectType ]
+    - [ UAObjectType, AMLBaseTypes:1006, AMLBaseTypes:CAEXBasicObjectType ]
 
-  CAEXObjectType:
-  - [ UAObjectType, AMLBaseTypes:1001, CAEXObjectType ]
+  AMLBaseTypes:CAEXObjectType:
+  - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
   - HasProperty:
-    - [ UAVariable, AMLBaseTypes:6002, ID, String, 0, 0 ]
+    - [ UAVariable, AMLBaseTypes:6002, AMLBaseTypes:ID, String, 0, 0 ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMLBaseTypes:1001, CAEXObjectType ]
+      - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -121,19 +121,19 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLBaseTypes:1006, CAEXBasicObjectType ]
+    - [ UAObjectType, AMLBaseTypes:1006, AMLBaseTypes:CAEXBasicObjectType ]
 
-  AutomationMLBaseInterface:
-  - [ UAObjectType, AMLBaseTypes:1002, AutomationMLBaseInterface ]
+  AMLBaseTypes:AutomationMLBaseInterface:
+  - [ UAObjectType, AMLBaseTypes:1002, AMLBaseTypes:AutomationMLBaseInterface ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLBaseTypes:1001, CAEXObjectType ]
+    - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
 
-  AutomationMLBaseRole:
-  - [ UAObjectType, AMLBaseTypes:1003, AutomationMLBaseRole ]
+  AMLBaseTypes:AutomationMLBaseRole:
+  - [ UAObjectType, AMLBaseTypes:1003, AMLBaseTypes:AutomationMLBaseRole ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLBaseTypes:1001, CAEXObjectType ]
+    - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
 
-  AutomationMLBaseSystemUnit:
-  - [ UAObjectType, AMLBaseTypes:1004, AutomationMLBaseSystemUnit ]
+  AMLBaseTypes:AutomationMLBaseSystemUnit:
+  - [ UAObjectType, AMLBaseTypes:1004, AMLBaseTypes:AutomationMLBaseSystemUnit ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLBaseTypes:1001, CAEXObjectType ]
+    - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]

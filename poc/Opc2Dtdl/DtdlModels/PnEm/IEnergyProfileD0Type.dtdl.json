@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -15,9 +16,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Current" ],
       "name": "DcCurrent",
       "namespace": "http://opcfoundation.org/UA/PNEM",
+      "unit": "ampere",
       "schema": "float",
       "writable": true
     }

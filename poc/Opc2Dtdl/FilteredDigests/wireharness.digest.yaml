@@ -663,7 +663,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6058, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6058, WireHarness:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ArticleSpec: [ isa95-jobcontrol:ISA95MaterialDataType, 0 ]
       - HasModellingRule:
@@ -673,7 +673,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6057, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6057, WireHarness:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ArticleSpec: [ isa95-jobcontrol:ISA95MaterialDataType, 0 ]
       - HasModellingRule:
@@ -703,7 +703,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6055, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6055, WireHarness:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Part: [ isa95-jobcontrol:ISA95MaterialDataType, 0 ]
       - HasModellingRule:
@@ -713,13 +713,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6028, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6028, WireHarness:InputArguments, Argument, 1, 0 ]
       - Arguments:
           TypeNodeId: [ NodeId, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6034, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6034, WireHarness:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Parts: [ isa95-jobcontrol:ISA95MaterialDataType, 1 ]
       - HasModellingRule:
@@ -737,7 +737,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6054, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6054, WireHarness:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Part: [ isa95-jobcontrol:ISA95MaterialDataType, 0 ]
       - HasModellingRule:
@@ -760,14 +760,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6021, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6021, WireHarness:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6024, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6024, WireHarness:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
@@ -777,14 +777,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6018, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6018, WireHarness:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6020, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6020, WireHarness:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
@@ -794,14 +794,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6101, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6101, WireHarness:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6102, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6102, WireHarness:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
@@ -811,14 +811,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6103, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6103, WireHarness:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6104, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6104, WireHarness:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
@@ -828,14 +828,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6025, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6025, WireHarness:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6100, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6100, WireHarness:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
@@ -845,14 +845,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6105, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6105, WireHarness:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6106, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6106, WireHarness:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
@@ -862,14 +862,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6107, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6107, WireHarness:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrder: [ isa95-jobcontrol:ISA95JobOrderDataType, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6108, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6108, WireHarness:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:

@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -13,89 +14,12 @@
   "commandTopic": "opcua/FX_CM/ConnectionManagerConfigurationType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
-    {
-      "@id": "dtmi:opcua:FX_CM:ConnectionManagerConfigurationType:dataType:ConnectionConfigurationSetOperation;1",
-      "@type": [ "Enum", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=13054",
-      "valueSchema": "integer",
-      "enumValues": [
-        {
-          "name": "ElementAdd",
-          "enumValue": 0
-        },
-        {
-          "name": "ElementRemove",
-          "enumValue": 1
-        },
-        {
-          "name": "ElementReplace",
-          "enumValue": 2
-        }
-      ]
-    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "CloseAndUpdate",
-      "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "FileHandle",
-              "schema": "unsignedInteger"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "RequireCompleteUpdate",
-              "schema": "boolean"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Operations",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "dtmi:opcua:FX_CM:ConnectionManagerConfigurationType:dataType:ConnectionConfigurationSetOperation;1"
-              }
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ChangesApplied",
-              "schema": "boolean"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "OperationResults",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "integer"
-              }
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ConfigurationObjects",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "string"
-              }
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/FX.CM"
     }
   ]
 }

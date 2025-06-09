@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -18,92 +19,22 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "InitLock",
-      "namespace": "http://opcfoundation.org/UA/DI",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Context",
-              "schema": "string"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "InitLockStatus",
-              "schema": "integer"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RenewLock",
-      "namespace": "http://opcfoundation.org/UA/DI",
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "RenewLockStatus",
-              "schema": "integer"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ExitLock",
-      "namespace": "http://opcfoundation.org/UA/DI",
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ExitLockStatus",
-              "schema": "integer"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "BreakLock",
-      "namespace": "http://opcfoundation.org/UA/DI",
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "BreakLockStatus",
-              "schema": "integer"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/DI"
     }
   ]
 }

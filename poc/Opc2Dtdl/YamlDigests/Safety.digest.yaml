@@ -1,25 +1,25 @@
 DataTypes:
-- UADataType: [ Safety:3005, InFlagsType ]
+- UADataType: [ Safety:3005, Safety:InFlagsType ]
   Enums:
     CommunicationError: 0
     OperatorAckRequested: 1
     FSV_Activated: 2
-- UADataType: [ Safety:3006, OutFlagsType ]
+- UADataType: [ Safety:3006, Safety:OutFlagsType ]
   Enums:
     OperatorAckProvider: 0
     ActivateFSV: 1
     TestModeActivated: 2
-- UADataType: [ Safety:3002, NonSafetyDataPlaceholderDataType ]
+- UADataType: [ Safety:3002, Safety:NonSafetyDataPlaceholderDataType ]
   Fields:
     Dummy: [ Boolean, 0 ]
-- UADataType: [ Safety:3003, RequestSPDUDataType ]
+- UADataType: [ Safety:3003, Safety:RequestSPDUDataType ]
   Fields:
     InSafetyConsumerID: [ UInt32, 0 ]
     InMonitoringNumber: [ UInt32, 0 ]
-    InFlags: [ InFlagsType, 0 ]
-- UADataType: [ Safety:3004, ResponseSPDUDataType ]
+    InFlags: [ Safety:InFlagsType, 0 ]
+- UADataType: [ Safety:3004, Safety:ResponseSPDUDataType ]
   Fields:
-    OutFlags: [ OutFlagsType, 0 ]
+    OutFlags: [ Safety:OutFlagsType, 0 ]
     OutSPDU_ID_1: [ UInt32, 0 ]
     OutSPDU_ID_2: [ UInt32, 0 ]
     OutSPDU_ID_3: [ UInt32, 0 ]
@@ -29,32 +29,32 @@ DataTypes:
 
 DefinedTypes:
 
-  SafetyConsumerParametersType:
-  - [ UAObjectType, Safety:1006, SafetyConsumerParametersType ]
+  Safety:SafetyConsumerParametersType:
+  - [ UAObjectType, Safety:1006, Safety:SafetyConsumerParametersType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  SafetyObjectsType:
-  - [ UAObjectType, Safety:1004, SafetyObjectsType ]
+  Safety:SafetyObjectsType:
+  - [ UAObjectType, Safety:1004, Safety:SafetyObjectsType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  SafetyConsumerType:
-  - [ UAObjectType, Safety:1005, SafetyConsumerType ]
+  Safety:SafetyConsumerType:
+  - [ UAObjectType, Safety:1005, Safety:SafetyConsumerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Safety:1004, SafetyObjectsType ]
+    - [ UAObjectType, Safety:1004, Safety:SafetyObjectsType ]
 
-  SafetyProviderType:
-  - [ UAObjectType, Safety:1003, SafetyProviderType ]
+  Safety:SafetyProviderType:
+  - [ UAObjectType, Safety:1003, Safety:SafetyProviderType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Safety:1004, SafetyObjectsType ]
+    - [ UAObjectType, Safety:1004, Safety:SafetyObjectsType ]
 
-  SafetyPDUsType:
-  - [ UAObjectType, Safety:1007, SafetyPDUsType ]
+  Safety:SafetyPDUsType:
+  - [ UAObjectType, Safety:1007, Safety:SafetyPDUsType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  SafetyProviderParametersType:
-  - [ UAObjectType, Safety:1002, SafetyProviderParametersType ]
+  Safety:SafetyProviderParametersType:
+  - [ UAObjectType, Safety:1002, Safety:SafetyProviderParametersType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

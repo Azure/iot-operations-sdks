@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -18,59 +19,12 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AddRecipe",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "RecipeId",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "RecipeName",
-              "schema": "string"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "RecipeNodeId",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RemoveRecipe",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "RecipeId",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

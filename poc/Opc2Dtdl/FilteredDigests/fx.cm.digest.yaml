@@ -718,14 +718,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.CM:1265, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.CM:1265, FX.CM:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Action: [ FX.CM:FxEditEnum, 0 ]
           ConnectionConfigurationSets: [ NodeId, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FX.CM:1267, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.CM:1267, FX.CM:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Results: [ StatusCode, 1 ]
       - HasModellingRule:
@@ -735,14 +735,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.CM:1270, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.CM:1270, FX.CM:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Action: [ FX.CM:FxProcessEnum, 0 ]
           ConnectionConfigurationSets: [ NodeId, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FX.CM:1271, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.CM:1271, FX.CM:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Results: [ StatusCode, 1 ]
       - HasModellingRule:
@@ -757,7 +757,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FX.CM:16032, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.CM:16032, FX.CM:InputArguments, Argument, 1, 0 ]
       - Arguments:
           FileHandle: [ UInt32, 0 ]
           RequireCompleteUpdate: [ Boolean, 0 ]
@@ -765,7 +765,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FX.CM:16033, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.CM:16033, FX.CM:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ChangesApplied: [ Boolean, 0 ]
           OperationResults: [ StatusCode, 1 ]
@@ -791,7 +791,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAVariable, FX.CM:6081, LastTransition, LocalizedText, 0, 0 ]
+    - [ UAVariable, FX.CM:6081, FX.CM:LastTransition, LocalizedText, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:

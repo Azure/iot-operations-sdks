@@ -1,49 +1,49 @@
 DataTypes:
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ PNENC:3006, EncoderAlarmChannelControlEnumeration ]
+- UADataType: [ PNENC:3006, PNENC:EncoderAlarmChannelControlEnumeration ]
   Enums:
     ALARM_CHANNEL_DISABLED: 0
     ALARM_CHANNEL_ENABLED: 1
-- UADataType: [ PNENC:3004, EncoderAxisTypeEnumeration ]
+- UADataType: [ PNENC:3004, PNENC:EncoderAxisTypeEnumeration ]
   Enums:
     ROTARY: 0
     LINEAR: 1
-- UADataType: [ PNENC:3002, EncoderChannelStateEnumeration ]
+- UADataType: [ PNENC:3002, PNENC:EncoderChannelStateEnumeration ]
   Enums:
     NORMAL_OPERATION: 0
     ERROR_ACKNOWLEDGEMENT: 1
@@ -56,34 +56,34 @@ DataTypes:
     PARKING: 8
     PARKING_ERROR: 9
     PARKING_ERROR_ACK: 10
-- UADataType: [ PNENC:3005, EncoderCodeSequenceEnumeration ]
+- UADataType: [ PNENC:3005, PNENC:EncoderCodeSequenceEnumeration ]
   Enums:
     INCREASING_CLOCKWISE: 0
     INCREASING_COUNTERCLOCKWISE: 1
-- UADataType: [ PNENC:3010, EncoderConfigParameterResultEnumeration ]
+- UADataType: [ PNENC:3010, PNENC:EncoderConfigParameterResultEnumeration ]
   Enums:
     INVALID: 0
     NOT_SUPPORTED: 1
     READ_ONLY: 2
-- UADataType: [ PNENC:3011, EncoderConfigTypeEnumeration ]
+- UADataType: [ PNENC:3011, PNENC:EncoderConfigTypeEnumeration ]
   Enums:
     STATIC: 0
     DYNAMIC: 1
-- UADataType: [ PNENC:3012, EncoderDiagnosisReasonEnumeration ]
+- UADataType: [ PNENC:3012, PNENC:EncoderDiagnosisReasonEnumeration ]
   Enums:
     ALL_DISAPPEARS: 0
     APPEARS: 1
     DISAPPEARS: 2
     DISAPPEARS_OTHER_REMAIN: 3
-- UADataType: [ PNENC:3007, EncoderPresetControlEnumeration ]
+- UADataType: [ PNENC:3007, PNENC:EncoderPresetControlEnumeration ]
   Enums:
     ENABLE_PRESET_CONTROL: 0
     DISABLE_PRESET_CONTROL: 1
-- UADataType: [ PNENC:3008, EncoderSensorAbsoluteTypeEnumeration ]
+- UADataType: [ PNENC:3008, PNENC:EncoderSensorAbsoluteTypeEnumeration ]
   Enums:
     SINGLETURN: 0
     MULTITURN: 1
-- UADataType: [ PNENC:3009, EncoderSignalTypeEnumeration ]
+- UADataType: [ PNENC:3009, PNENC:EncoderSignalTypeEnumeration ]
   Enums:
     OTHER: 0
     BISS_C: 1
@@ -110,16 +110,16 @@ DataTypes:
     RS485_SINCOS: 22
     RS485_HTL: 23
     RS485_TTL: 24
-- UADataType: [ PNENC:3003, EventTypeEnumeration ]
+- UADataType: [ PNENC:3003, PNENC:EventTypeEnumeration ]
   Enums:
     FAULT: 0
     WARNING: 1
     UNSPECIFIED: 255
-- UADataType: [ PNENC:3013, LogEntryDataType ]
+- UADataType: [ PNENC:3013, PNENC:LogEntryDataType ]
   Fields:
     FaultSituationNumber: [ Byte, 0 ]
     EventNumber: [ UInt32, 0 ]
-    EventType: [ EventTypeEnumeration, 0 ]
+    EventType: [ PNENC:EventTypeEnumeration, 0 ]
     EventCode: [ Int32, 0 ]
     EventText: [ LocalizedText, 0 ]
     EventComing: [ UtcTime, 0 ]
@@ -128,82 +128,82 @@ DataTypes:
 
 DefinedTypes:
 
-  AxisTypeVariableType:
-  - [ UAVariableType, PDRV:2000, AxisTypeVariableType, Byte, 0, 0 ]
+  PDRV:AxisTypeVariableType:
+  - [ UAVariableType, PDRV:2000, PDRV:AxisTypeVariableType, Byte, 0, 0 ]
   - HasSubtype_reverse:
     - [ UAVariableType, 2376, MultiStateDiscreteType ]
   - HasProperty:
-    - [ UAVariable, PDRV:6152, EnumStrings, LocalizedText, 1, 0 ]
+    - [ UAVariable, PDRV:6152, PDRV:EnumStrings, LocalizedText, 1, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  TemperatureVariableType:
-  - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+  PDRV:TemperatureVariableType:
+  - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
   - HasSubtype_reverse:
     - [ UAVariableType, 17497, AnalogUnitType ]
   - HasProperty:
-    - [ UAVariable, PDRV:6205, WarningThreshold, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6205, PDRV:WarningThreshold, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
-    - [ UAVariable, PDRV:6206, FaultThreshold, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6206, PDRV:FaultThreshold, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  HomingDirectionType:
-  - [ UAVariableType, PDRV:2002, HomingDirectionType, Byte, 0, 0 ]
+  PDRV:HomingDirectionType:
+  - [ UAVariableType, PDRV:2002, PDRV:HomingDirectionType, Byte, 0, 0 ]
   - HasSubtype_reverse:
     - [ UAVariableType, 2376, MultiStateDiscreteType ]
   - HasProperty:
-    - [ UAVariable, PDRV:6257, EnumStrings, LocalizedText, 1, 0 ]
+    - [ UAVariable, PDRV:6257, PDRV:EnumStrings, LocalizedText, 1, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  HomingModeType:
-  - [ UAVariableType, PDRV:2003, HomingModeType, Byte, 0, 0 ]
+  PDRV:HomingModeType:
+  - [ UAVariableType, PDRV:2003, PDRV:HomingModeType, Byte, 0, 0 ]
   - HasSubtype_reverse:
     - [ UAVariableType, 2376, MultiStateDiscreteType ]
   - HasProperty:
-    - [ UAVariable, PDRV:6258, EnumStrings, LocalizedText, 1, 0 ]
+    - [ UAVariable, PDRV:6258, PDRV:EnumStrings, LocalizedText, 1, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  DriveAxisType:
-  - [ UAObjectType, PDRV:1000, DriveAxisType ]
+  PDRV:DriveAxisType:
+  - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - GeneratesEvent:
-    - [ UAObjectType, PDRV:1012, DiagnosisAlarmType ]
+    - [ UAObjectType, PDRV:1012, PDRV:DiagnosisAlarmType ]
   - HasComponent:
-    - [ UAObject, PDRV:5001, Monitoring ]
+    - [ UAObject, PDRV:5001, PDRV:Monitoring ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6029, AxisState, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6029, PDRV:AxisState, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasProperty:
-        - [ UAVariable, PDRV:6009, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6009, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6030, OutputCurrent, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6030, PDRV:OutputCurrent, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -211,7 +211,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6031, Torque, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6031, PDRV:Torque, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -219,7 +219,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6032, Power, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6032, PDRV:Power, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -227,23 +227,23 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6033, MotorTemperature, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6033, PDRV:MotorTemperature, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+        - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6034, ConverterTemperature, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6034, PDRV:ConverterTemperature, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+        - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6035, DcBusVoltage, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6035, PDRV:DcBusVoltage, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -251,27 +251,27 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6139, ControlPriority, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6139, PDRV:ControlPriority, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasProperty:
-        - [ UAVariable, PDRV:6149, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6149, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6053, DeviceTemperature, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6053, PDRV:DeviceTemperature, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+        - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6074, Force, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6074, PDRV:Force, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -279,13 +279,13 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6015, LimitFollowingError, Number, 0, 0 ]
+      - [ UAVariable, PDRV:6015, PDRV:LimitFollowingError, Number, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PDRV:6016, PositionFollowingError, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6016, PDRV:PositionFollowingError, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -293,207 +293,207 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6017, ControlMode, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6017, PDRV:ControlMode, UInt16, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6018, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6018, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6160, BrakeResistorTemperature, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6160, PDRV:BrakeResistorTemperature, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+        - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6019, FeedbackSensor1Temperature, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6019, PDRV:FeedbackSensor1Temperature, Float, 0, 0 ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+        - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6207, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6207, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6208, FeedbackSensor2Temperature, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6208, PDRV:FeedbackSensor2Temperature, Float, 0, 0 ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+        - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6209, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6209, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6210, FeedbackSensor3Temperature, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6210, PDRV:FeedbackSensor3Temperature, Float, 0, 0 ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+        - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6211, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6211, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6212, VelocityFollowingError, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6212, PDRV:VelocityFollowingError, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6213, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6213, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6221, FeedbackMode, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6221, PDRV:FeedbackMode, UInt16, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6222, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6222, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6246, BrakeStatus, Byte, 0, 0 ]
+      - [ UAVariable, PDRV:6246, PDRV:BrakeStatus, Byte, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6247, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6247, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
   - HasProperty:
-    - [ UAVariable, PDRV:6020, ApplicationTag, String, 0, 0 ]
+    - [ UAVariable, PDRV:6020, PDRV:ApplicationTag, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5002, Lock ]
+    - [ UAObject, PDRV:5002, PDRV:Lock ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:6388, LockingServicesType ]
+      - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAMethod, DI:6400, BreakLock ]
+      - [ UAMethod, DI:6400, DI:BreakLock ]
     - HasComponent:
-      - [ UAMethod, DI:6398, ExitLock ]
+      - [ UAMethod, DI:6398, DI:ExitLock ]
     - HasComponent:
-      - [ UAMethod, DI:6393, InitLock ]
+      - [ UAMethod, DI:6393, DI:InitLock ]
     - HasProperty:
-      - [ UAVariable, DI:6534, Locked ]
+      - [ UAVariable, DI:6534, DI:Locked ]
     - HasProperty:
-      - [ UAVariable, DI:6390, LockingClient ]
+      - [ UAVariable, DI:6390, DI:LockingClient ]
     - HasProperty:
-      - [ UAVariable, DI:6391, LockingUser ]
+      - [ UAVariable, DI:6391, DI:LockingUser ]
     - HasProperty:
-      - [ UAVariable, DI:6392, RemainingLockTime ]
+      - [ UAVariable, DI:6392, DI:RemainingLockTime ]
     - HasComponent:
-      - [ UAMethod, DI:6396, RenewLock ]
+      - [ UAMethod, DI:6396, DI:RenewLock ]
   - HasComponent:
-    - [ UAObject, PDRV:5004, PNSignals ]
+    - [ UAObject, PDRV:5004, PDRV:PNSignals ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PDRV:6040, <SignalName>, Number, 0, 0 ]
+      - [ UAVariable, PDRV:6040, PDRV:<SignalName>, Number, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasProperty:
-        - [ UAVariable, PDRV:6041, SignalNumber, UInt16, 0, 0 ]
+        - [ UAVariable, PDRV:6041, PDRV:SignalNumber, UInt16, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5005, Maintenance ]
+    - [ UAObject, PDRV:5005, PDRV:Maintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasInterface:
-      - [ UAObjectType, DI:480, IOperationCounterType ]
+      - [ UAObjectType, DI:480, DI:IOperationCounterType ]
     - HasProperty:
-      - [ UAVariable, PDRV:6027, PowerOnDuration, Duration, 0, 0 ]
+      - [ UAVariable, PDRV:6027, DI:PowerOnDuration, Duration, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PDRV:6036, OperationDuration, Duration, 0, 0 ]
+      - [ UAVariable, PDRV:6036, DI:OperationDuration, Duration, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PDRV:6037, OperationCycleCounter, UInteger, 0, 0 ]
+      - [ UAVariable, PDRV:6037, DI:OperationCycleCounter, UInteger, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PDRV:6161, MotorCapacityUtilization, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6161, PDRV:MotorCapacityUtilization, UInt16, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PDRV:6162, ConverterCapacityUtilization, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6162, PDRV:ConverterCapacityUtilization, UInt16, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5006, LimitSupervision ]
+    - [ UAObject, PDRV:5006, PDRV:LimitSupervision ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5007, Logbook ]
+    - [ UAObject, PDRV:5007, PDRV:Logbook ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1010, LogbookType ]
+      - [ UAObjectType, PNENC:1010, PNENC:LogbookType ]
     - GeneratesEvent:
-      - [ UAObjectType, PNENC:1003, LogbookEventType ]
+      - [ UAObjectType, PNENC:1003, PNENC:LogbookEventType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PNENC:6069, LogbookSize ]
+      - [ UAVariable, PNENC:6069, PNENC:LogbookSize ]
     - HasComponent:
-      - [ UAVariable, PNENC:6068, LogEntries ]
+      - [ UAVariable, PNENC:6068, PNENC:LogEntries ]
   - HasComponent:
-    - [ UAObject, PDRV:5009, CharacteristicsConverter ]
+    - [ UAObject, PDRV:5009, PDRV:CharacteristicsConverter ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6169, IntermediateCircuitVoltageConfigured, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6169, PDRV:IntermediateCircuitVoltageConfigured, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -501,7 +501,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6173, ConverterThermalLoadLimitConfigured, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6173, PDRV:ConverterThermalLoadLimitConfigured, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -509,7 +509,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6174, ConverterExcessCurrentConfigured, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6174, PDRV:ConverterExcessCurrentConfigured, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
@@ -517,7 +517,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6175, BrakeResistorExcessCurrentLimit, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6175, PDRV:BrakeResistorExcessCurrentLimit, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -525,35 +525,35 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6039, InputConverterAcInputVoltage, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6039, PDRV:InputConverterAcInputVoltage, UInt16, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6054, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6054, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6055, OutputConverterPulseFrequency, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6055, PDRV:OutputConverterPulseFrequency, UInt16, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, PDRV:6060, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6060, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, PDRV:7000, SetApplicationTag ]
+    - [ UAMethod, PDRV:7000, PDRV:SetApplicationTag ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PDRV:6038, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PDRV:6038, PDRV:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplicationTag: [ String, 0 ]
       - HasTypeDefinition:
@@ -561,61 +561,61 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5045, Safety ]
+    - [ UAObject, PDRV:5045, PDRV:Safety ]
     - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1015, SafetyType ]
+      - [ UAObjectType, PDRV:1015, PDRV:SafetyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAObject, PDRV:5046, STO ]
+      - [ UAObject, PDRV:5046, PDRV:STO ]
       - HasTypeDefinition:
-        - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
+        - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent:
-        - [ UAVariable, PDRV:6154, ActivationState, UInt16, 0, 0 ]
+        - [ UAVariable, PDRV:6154, PDRV:ActivationState, UInt16, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2376, MultiStateDiscreteType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
-          - [ UAVariable, PDRV:6165, EnumStrings, LocalizedText, 1, 0 ]
+          - [ UAVariable, PDRV:6165, PDRV:EnumStrings, LocalizedText, 1, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
       - HasComponent:
-        - [ UAVariable, PDRV:6151, SelectionState, UInt16, 0, 0 ]
+        - [ UAVariable, PDRV:6151, PDRV:SelectionState, UInt16, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2376, MultiStateDiscreteType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
-          - [ UAVariable, PDRV:6166, EnumStrings, LocalizedText, 1, 0 ]
+          - [ UAVariable, PDRV:6166, PDRV:EnumStrings, LocalizedText, 1, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
   - HasProperty:
-    - [ UAVariable, PDRV:6153, AxisType, Byte, 0, 0 ]
+    - [ UAVariable, PDRV:6153, PDRV:AxisType, Byte, 0, 0 ]
     - HasTypeDefinition:
-      - [ UAVariableType, PDRV:2000, AxisTypeVariableType, Byte, 0, 0 ]
+      - [ UAVariableType, PDRV:2000, PDRV:AxisTypeVariableType, Byte, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, PDRV:6152, EnumStrings, LocalizedText, 1, 0 ]
+      - [ UAVariable, PDRV:6152, PDRV:EnumStrings, LocalizedText, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5003, CharacteristicsMotorAndControl ]
+    - [ UAObject, PDRV:5003, PDRV:CharacteristicsMotorAndControl ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PDRV:6176, PowerRated, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6176, PDRV:PowerRated, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
@@ -623,7 +623,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6177, SpeedRated, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6177, PDRV:SpeedRated, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -631,7 +631,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6180, TorqueRated, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6180, PDRV:TorqueRated, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -639,73 +639,73 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6181, MaxCurrent, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6181, PDRV:MaxCurrent, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6182, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6182, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, PDRV:6183, UfRatio, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6183, PDRV:UfRatio, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
-      - [ UAVariable, PDRV:6184, RunUpVoltage, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6184, PDRV:RunUpVoltage, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6185, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6185, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6186, DcBrakingCurrent, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6186, PDRV:DcBrakingCurrent, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6187, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6187, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6188, DcBrakingTime, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6188, PDRV:DcBrakingTime, UInt16, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6189, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6189, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6192, FeedbackMode, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6192, PDRV:FeedbackMode, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasProperty:
-        - [ UAVariable, PDRV:6194, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6194, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6195, SpeedMaxConfigured, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6195, PDRV:SpeedMaxConfigured, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -713,7 +713,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6196, TorqueMaxConfigured, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6196, PDRV:TorqueMaxConfigured, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -721,7 +721,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6197, MotorThermalLoadLimitConfigured, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6197, PDRV:MotorThermalLoadLimitConfigured, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -729,7 +729,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6198, MotorExcessCurrentConfigured, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6198, PDRV:MotorExcessCurrentConfigured, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -737,79 +737,79 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6199, MotorType, Byte, 0, 0 ]
+      - [ UAVariable, PDRV:6199, PDRV:MotorType, Byte, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, PDRV:6200, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6200, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6215, ForceRated, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6215, PDRV:ForceRated, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6216, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6216, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6217, PositionFollowingErrorLimit, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6217, PDRV:PositionFollowingErrorLimit, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6218, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6218, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6219, VelocityFollowingErrorLimit, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6219, PDRV:VelocityFollowingErrorLimit, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6220, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6220, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5044, VelocityProfile ]
+    - [ UAObject, PDRV:5044, PDRV:VelocityProfile ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6013, RfgRampDownTime, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6013, PDRV:RfgRampDownTime, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6014, QuickStopRampDownTime, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6014, PDRV:QuickStopRampDownTime, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6193, NominalSpeed, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6193, PDRV:NominalSpeed, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6203, RampDeceleration, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6203, PDRV:RampDeceleration, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -817,7 +817,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6204, QuickStopRampDeceleration, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6204, PDRV:QuickStopRampDeceleration, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -825,46 +825,46 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
 
-  VelocityDriveAxisType:
-  - [ UAObjectType, PDRV:1002, VelocityDriveAxisType ]
+  PDRV:VelocityDriveAxisType:
+  - [ UAObjectType, PDRV:1002, PDRV:VelocityDriveAxisType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1000, DriveAxisType ]
+    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
   - GeneratesEvent:
-    - [ UAObjectType, PDRV:1016, TorqueLimitEventType ]
+    - [ UAObjectType, PDRV:1016, PDRV:TorqueLimitEventType ]
   - GeneratesEvent:
-    - [ UAObjectType, PDRV:1017, MotorCurrentLimitEventType ]
+    - [ UAObjectType, PDRV:1017, PDRV:MotorCurrentLimitEventType ]
   - HasComponent:
-    - [ UAObject, PDRV:5014, Monitoring ]
+    - [ UAObject, PDRV:5014, PDRV:Monitoring ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6139, ControlPriority, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6139, PDRV:ControlPriority, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasProperty:
-        - [ UAVariable, PDRV:6149, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6149, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6029, AxisState, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6029, PDRV:AxisState, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasProperty:
-        - [ UAVariable, PDRV:6009, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6009, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6030, OutputCurrent, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6030, PDRV:OutputCurrent, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -872,7 +872,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6046, VelocitySetpoint, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6046, PDRV:VelocitySetpoint, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -880,7 +880,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6035, DcBusVoltage, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6035, PDRV:DcBusVoltage, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -888,7 +888,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6031, Torque, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6031, PDRV:Torque, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -896,7 +896,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6032, Power, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6032, PDRV:Power, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -904,23 +904,23 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6033, MotorTemperature, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6033, PDRV:MotorTemperature, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+        - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6034, ConverterTemperature, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6034, PDRV:ConverterTemperature, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+        - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6048, VelocityCommandValue, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6048, PDRV:VelocityCommandValue, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -928,7 +928,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6049, VelocityActualValue, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6049, PDRV:VelocityActualValue, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -936,7 +936,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6050, OutputFrequency, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6050, PDRV:OutputFrequency, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -944,7 +944,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6051, OutputVoltage, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6051, PDRV:OutputVoltage, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -952,25 +952,25 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6052, OutputCosPhi, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6052, PDRV:OutputCosPhi, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PDRV:6015, LimitFollowingError, Number, 0, 0 ]
+      - [ UAVariable, PDRV:6015, PDRV:LimitFollowingError, Number, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5016, LimitSupervision ]
+    - [ UAObject, PDRV:5016, PDRV:LimitSupervision ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PDRV:6056, MotorCurrentLimitHigh, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6056, PDRV:MotorCurrentLimitHigh, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
@@ -978,7 +978,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6057, MotorCurrentLimitLow, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6057, PDRV:MotorCurrentLimitLow, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -986,7 +986,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6058, TorqueLimitLow, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6058, PDRV:TorqueLimitLow, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -994,7 +994,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6059, TorqueLimitHigh, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6059, PDRV:TorqueLimitHigh, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1002,19 +1002,19 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
   - HasComponent:
-    - [ UAObject, PDRV:5018, VelocityProfile ]
+    - [ UAObject, PDRV:5018, PDRV:VelocityProfile ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6193, NominalSpeed, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6193, PDRV:NominalSpeed, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6204, QuickStopRampDeceleration, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6204, PDRV:QuickStopRampDeceleration, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1022,13 +1022,13 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6014, QuickStopRampDownTime, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6014, PDRV:QuickStopRampDownTime, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6203, RampDeceleration, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6203, PDRV:RampDeceleration, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1036,13 +1036,13 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6013, RfgRampDownTime, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6013, PDRV:RfgRampDownTime, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6101, JogSpeed1, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6101, PDRV:JogSpeed1, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
@@ -1050,98 +1050,98 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6122, JogSpeed2, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6122, PDRV:JogSpeed2, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6127, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6127, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6137, RfgRampUpTime, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6137, PDRV:RfgRampUpTime, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent:
-      - [ UAVariable, PDRV:6170, RfgAcceleration, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6170, PDRV:RfgAcceleration, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, PDRV:6223, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6223, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6224, MinimumVelocity, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6224, PDRV:MinimumVelocity, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6225, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6225, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6226, MaximumVelocity, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6226, PDRV:MaximumVelocity, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6228, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6228, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
 
-  FrequencyDriveAxisType:
-  - [ UAObjectType, PDRV:1005, FrequencyDriveAxisType ]
+  PDRV:FrequencyDriveAxisType:
+  - [ UAObjectType, PDRV:1005, PDRV:FrequencyDriveAxisType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1000, DriveAxisType ]
+    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
   - GeneratesEvent:
-    - [ UAObjectType, PDRV:1017, MotorCurrentLimitEventType ]
+    - [ UAObjectType, PDRV:1017, PDRV:MotorCurrentLimitEventType ]
   - HasComponent:
-    - [ UAObject, PDRV:5017, Monitoring ]
+    - [ UAObject, PDRV:5017, PDRV:Monitoring ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6139, ControlPriority, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6139, PDRV:ControlPriority, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasProperty:
-        - [ UAVariable, PDRV:6149, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6149, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6029, AxisState, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6029, PDRV:AxisState, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasProperty:
-        - [ UAVariable, PDRV:6009, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6009, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6030, OutputCurrent, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6030, PDRV:OutputCurrent, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1149,7 +1149,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6035, DcBusVoltage, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6035, PDRV:DcBusVoltage, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1157,31 +1157,23 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6034, ConverterTemperature, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6034, PDRV:ConverterTemperature, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+        - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6033, MotorTemperature, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6033, PDRV:MotorTemperature, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+        - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6032, Power, Float, 0, 0 ]
-      - HasModellingRule:
-        - [ UAObject, 80, Optional ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 17497, AnalogUnitType ]
-      - HasProperty:
-        - [ UAVariable, 17502, EngineeringUnits ]
-    - HasComponent:
-      - [ UAVariable, PDRV:6031, Torque, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6032, PDRV:Power, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1189,7 +1181,15 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6068, FrequencyCommandValue, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6031, PDRV:Torque, Float, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 17497, AnalogUnitType ]
+      - HasProperty:
+        - [ UAVariable, 17502, EngineeringUnits ]
+    - HasComponent:
+      - [ UAVariable, PDRV:6068, PDRV:FrequencyCommandValue, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1197,7 +1197,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6069, VelocityActualValue, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6069, PDRV:VelocityActualValue, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1205,7 +1205,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6070, FrequencySetpoint, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6070, PDRV:FrequencySetpoint, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1213,7 +1213,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6071, OutputFrequency, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6071, PDRV:OutputFrequency, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1221,7 +1221,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6072, OutputVoltage, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6072, PDRV:OutputVoltage, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1229,25 +1229,25 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6073, OutputCosPhi, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6073, PDRV:OutputCosPhi, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent:
-      - [ UAVariable, PDRV:6015, LimitFollowingError, Number, 0, 0 ]
+      - [ UAVariable, PDRV:6015, PDRV:LimitFollowingError, Number, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5019, LimitSupervision ]
+    - [ UAObject, PDRV:5019, PDRV:LimitSupervision ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PDRV:6077, MotorCurrentLimitHigh, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6077, PDRV:MotorCurrentLimitHigh, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1255,7 +1255,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6078, MotorCurrentLimitLow, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6078, PDRV:MotorCurrentLimitLow, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1263,7 +1263,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6079, TorqueLimitLow, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6079, PDRV:TorqueLimitLow, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1271,7 +1271,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6080, TorqueLimitHigh, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6080, PDRV:TorqueLimitHigh, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1279,19 +1279,19 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
   - HasComponent:
-    - [ UAObject, PDRV:5010, VelocityProfile ]
+    - [ UAObject, PDRV:5010, PDRV:VelocityProfile ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6193, NominalSpeed, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6193, PDRV:NominalSpeed, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6204, QuickStopRampDeceleration, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6204, PDRV:QuickStopRampDeceleration, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1299,13 +1299,13 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6014, QuickStopRampDownTime, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6014, PDRV:QuickStopRampDownTime, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6203, RampDeceleration, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6203, PDRV:RampDeceleration, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1313,13 +1313,13 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6013, RfgRampDownTime, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6013, PDRV:RfgRampDownTime, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6008, JogSpeed1, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6008, PDRV:JogSpeed1, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
@@ -1327,82 +1327,82 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6010, JogSpeed2, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6010, PDRV:JogSpeed2, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6011, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6011, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6012, RfgRampUpTime, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6012, PDRV:RfgRampUpTime, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, PDRV:6021, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6021, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6022, RfgAcceleration, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6022, PDRV:RfgAcceleration, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, PDRV:6023, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6023, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6024, MinimumVelocity, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6024, PDRV:MinimumVelocity, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6025, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6025, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6061, MaximumVelocity, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6061, PDRV:MaximumVelocity, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6062, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6062, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
 
-  PositioningDriveAxisType:
-  - [ UAObjectType, PDRV:1006, PositioningDriveAxisType ]
+  PDRV:PositioningDriveAxisType:
+  - [ UAObjectType, PDRV:1006, PDRV:PositioningDriveAxisType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1000, DriveAxisType ]
+    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
   - GeneratesEvent:
-    - [ UAObjectType, PDRV:1016, TorqueLimitEventType ]
+    - [ UAObjectType, PDRV:1016, PDRV:TorqueLimitEventType ]
   - GeneratesEvent:
-    - [ UAObjectType, PDRV:1017, MotorCurrentLimitEventType ]
+    - [ UAObjectType, PDRV:1017, PDRV:MotorCurrentLimitEventType ]
   - HasComponent:
-    - [ UAObject, PDRV:5021, LimitSupervision ]
+    - [ UAObject, PDRV:5021, PDRV:LimitSupervision ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6102, MotorCurrentLimitHigh, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6102, PDRV:MotorCurrentLimitHigh, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1410,7 +1410,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6103, MotorCurrentLimitLow, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6103, PDRV:MotorCurrentLimitLow, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1418,7 +1418,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6104, TorqueLimitLow, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6104, PDRV:TorqueLimitLow, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1426,7 +1426,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6105, TorqueLimitHigh, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6105, PDRV:TorqueLimitHigh, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1434,7 +1434,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6106, SoftwareUpperPosLimit, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6106, PDRV:SoftwareUpperPosLimit, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1442,7 +1442,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6107, SoftwareLowerPosLimit, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6107, PDRV:SoftwareLowerPosLimit, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1450,43 +1450,43 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6245, TorqueLimiting, Boolean, 0, 0 ]
+      - [ UAVariable, PDRV:6245, PDRV:TorqueLimiting, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
   - HasComponent:
-    - [ UAObject, PDRV:5022, Monitoring ]
+    - [ UAObject, PDRV:5022, PDRV:Monitoring ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6139, ControlPriority, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6139, PDRV:ControlPriority, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasProperty:
-        - [ UAVariable, PDRV:6149, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6149, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6029, AxisState, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6029, PDRV:AxisState, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasProperty:
-        - [ UAVariable, PDRV:6009, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6009, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6030, OutputCurrent, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6030, PDRV:OutputCurrent, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1494,7 +1494,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6035, DcBusVoltage, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6035, PDRV:DcBusVoltage, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1502,7 +1502,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6031, Torque, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6031, PDRV:Torque, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1510,7 +1510,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6032, Power, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6032, PDRV:Power, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1518,23 +1518,23 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6033, MotorTemperature, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6033, PDRV:MotorTemperature, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+        - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6034, ConverterTemperature, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6034, PDRV:ConverterTemperature, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+        - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6087, PositionActualValue, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6087, PDRV:PositionActualValue, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1542,7 +1542,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6088, PositionSetpoint, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6088, PDRV:PositionSetpoint, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1550,7 +1550,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6089, VelocityActualValue, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6089, PDRV:VelocityActualValue, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1558,7 +1558,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6090, AccelerationActualValue, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6090, PDRV:AccelerationActualValue, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1566,49 +1566,49 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAObject, PDRV:5023, TraversingTask ]
+      - [ UAObject, PDRV:5023, PDRV:TraversingTask ]
       - HasTypeDefinition:
-        - [ UAObjectType, PDRV:1007, TraversingTaskType ]
+        - [ UAObjectType, PDRV:1007, PDRV:TraversingTaskType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent:
-        - [ UAVariable, PDRV:6097, PositioningMode, UInt16, 0, 0 ]
+        - [ UAVariable, PDRV:6097, PDRV:PositioningMode, UInt16, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 2376, MultiStateDiscreteType ]
         - HasProperty:
-          - [ UAVariable, PDRV:6168, EnumStrings, LocalizedText, 1, 0 ]
+          - [ UAVariable, PDRV:6168, PDRV:EnumStrings, LocalizedText, 1, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
       - HasComponent:
-        - [ UAVariable, PDRV:6092, TraversingTaskNumber, Int32, 0, 0 ]
+        - [ UAVariable, PDRV:6092, PDRV:TraversingTaskNumber, Int32, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6015, LimitFollowingError, Number, 0, 0 ]
+      - [ UAVariable, PDRV:6015, PDRV:LimitFollowingError, Number, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PDRV:6202, Override, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6202, PDRV:Override, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
   - HasComponent:
-    - [ UAObject, PDRV:5026, CharacteristicsMechanics ]
+    - [ UAObject, PDRV:5026, PDRV:CharacteristicsMechanics ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6108, Gearfactor, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6108, PDRV:Gearfactor, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1616,7 +1616,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6109, SpindlePitch, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6109, PDRV:SpindlePitch, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
@@ -1624,19 +1624,19 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6255, UnitOfLength, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6255, PDRV:UnitOfLength, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6256, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6256, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5027, MotionProgram ]
+    - [ UAObject, PDRV:5027, PDRV:MotionProgram ]
     - HasTypeDefinition:
       - [ UAObjectType, 11575, FileType ]
     - HasModellingRule:
@@ -1662,13 +1662,13 @@ DefinedTypes:
     - HasComponent:
       - [ UAMethod, 11588, Write ]
   - HasComponent:
-    - [ UAObject, PDRV:5043, CharacteristicsMotorAndControl ]
+    - [ UAObject, PDRV:5043, PDRV:CharacteristicsMotorAndControl ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6176, PowerRated, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6176, PDRV:PowerRated, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
@@ -1676,19 +1676,19 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6199, MotorType, Byte, 0, 0 ]
+      - [ UAVariable, PDRV:6199, PDRV:MotorType, Byte, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, PDRV:6200, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6200, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6274, UnitOfLength, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6274, PDRV:UnitOfLength, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
@@ -1696,37 +1696,37 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
   - HasComponent:
-    - [ UAObject, PDRV:5020, Homing ]
+    - [ UAObject, PDRV:5020, PDRV:Homing ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PDRV:6259, HomingDirection, Byte, 0, 0 ]
+      - [ UAVariable, PDRV:6259, PDRV:HomingDirection, Byte, 0, 0 ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2002, HomingDirectionType, Byte, 0, 0 ]
+        - [ UAVariableType, PDRV:2002, PDRV:HomingDirectionType, Byte, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6257, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6257, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6260, HomingMode, Byte, 0, 0 ]
+      - [ UAVariable, PDRV:6260, PDRV:HomingMode, Byte, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2003, HomingModeType, Byte, 0, 0 ]
+        - [ UAVariableType, PDRV:2003, PDRV:HomingModeType, Byte, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, PDRV:6258, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6258, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6262, HomingSpeedToCam, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6262, PDRV:HomingSpeedToCam, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1734,43 +1734,43 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6264, HomingSpeedToMark, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6264, PDRV:HomingSpeedToMark, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6265, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6265, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6266, HomingPointOffset, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6266, PDRV:HomingPointOffset, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6267, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6267, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5011, VelocityProfile ]
+    - [ UAObject, PDRV:5011, PDRV:VelocityProfile ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6193, NominalSpeed, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6193, PDRV:NominalSpeed, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6204, QuickStopRampDeceleration, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6204, PDRV:QuickStopRampDeceleration, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1778,13 +1778,13 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6014, QuickStopRampDownTime, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6014, PDRV:QuickStopRampDownTime, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6203, RampDeceleration, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6203, PDRV:RampDeceleration, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1792,13 +1792,13 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6013, RfgRampDownTime, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6013, PDRV:RfgRampDownTime, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6063, JogSpeed1, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6063, PDRV:JogSpeed1, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
@@ -1806,54 +1806,54 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6064, JogSpeed2, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6064, PDRV:JogSpeed2, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6065, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6065, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6066, JogPosInc1, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6066, PDRV:JogPosInc1, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6084, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6084, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6085, JogPosInc2, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6085, PDRV:JogPosInc2, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6098, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6098, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
 
-  TraversingTaskType:
-  - [ UAObjectType, PDRV:1007, TraversingTaskType ]
+  PDRV:TraversingTaskType:
+  - [ UAObjectType, PDRV:1007, PDRV:TraversingTaskType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, PDRV:6092, TraversingTaskNumber, Int32, 0, 0 ]
+    - [ UAVariable, PDRV:6092, PDRV:TraversingTaskNumber, Int32, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PDRV:6093, TargetPosition, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6093, PDRV:TargetPosition, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1861,7 +1861,7 @@ DefinedTypes:
     - HasProperty:
       - [ UAVariable, 17502, EngineeringUnits ]
   - HasComponent:
-    - [ UAVariable, PDRV:6094, Velocity, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6094, PDRV:Velocity, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1869,7 +1869,7 @@ DefinedTypes:
     - HasProperty:
       - [ UAVariable, 17502, EngineeringUnits ]
   - HasComponent:
-    - [ UAVariable, PDRV:6095, Acceleration, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6095, PDRV:Acceleration, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1877,7 +1877,7 @@ DefinedTypes:
     - HasProperty:
       - [ UAVariable, 17502, EngineeringUnits ]
   - HasComponent:
-    - [ UAVariable, PDRV:6096, Deceleration, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6096, PDRV:Deceleration, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1885,60 +1885,60 @@ DefinedTypes:
     - HasProperty:
       - [ UAVariable, 17502, EngineeringUnits ]
   - HasComponent:
-    - [ UAVariable, PDRV:6097, PositioningMode, UInt16, 0, 0 ]
+    - [ UAVariable, PDRV:6097, PDRV:PositioningMode, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 2376, MultiStateDiscreteType ]
     - HasProperty:
-      - [ UAVariable, PDRV:6168, EnumStrings, LocalizedText, 1, 0 ]
+      - [ UAVariable, PDRV:6168, PDRV:EnumStrings, LocalizedText, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
 
-  VelocityServoDriveAxisType:
-  - [ UAObjectType, PDRV:1008, VelocityServoDriveAxisType ]
+  PDRV:VelocityServoDriveAxisType:
+  - [ UAObjectType, PDRV:1008, PDRV:VelocityServoDriveAxisType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1000, DriveAxisType ]
+    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
   - GeneratesEvent:
-    - [ UAObjectType, PDRV:1014, AxisHwOvertravelEventType ]
+    - [ UAObjectType, PDRV:1014, PDRV:AxisHwOvertravelEventType ]
   - GeneratesEvent:
-    - [ UAObjectType, PDRV:1013, AxisSwOvertravelEventType ]
+    - [ UAObjectType, PDRV:1013, PDRV:AxisSwOvertravelEventType ]
   - GeneratesEvent:
-    - [ UAObjectType, PDRV:1016, TorqueLimitEventType ]
+    - [ UAObjectType, PDRV:1016, PDRV:TorqueLimitEventType ]
   - HasComponent:
-    - [ UAObject, PDRV:5028, Monitoring ]
+    - [ UAObject, PDRV:5028, PDRV:Monitoring ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6139, ControlPriority, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6139, PDRV:ControlPriority, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasProperty:
-        - [ UAVariable, PDRV:6149, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6149, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6029, AxisState, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6029, PDRV:AxisState, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasProperty:
-        - [ UAVariable, PDRV:6009, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6009, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6030, OutputCurrent, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6030, PDRV:OutputCurrent, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1946,7 +1946,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6035, DcBusVoltage, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6035, PDRV:DcBusVoltage, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1954,7 +1954,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6031, Torque, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6031, PDRV:Torque, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1962,7 +1962,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6032, Power, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6032, PDRV:Power, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1970,23 +1970,23 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6033, MotorTemperature, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6033, PDRV:MotorTemperature, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+        - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6034, ConverterTemperature, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6034, PDRV:ConverterTemperature, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+        - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6113, VelocitySetpoint, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6113, PDRV:VelocitySetpoint, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1994,7 +1994,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6114, VelocityCommandValue, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6114, PDRV:VelocityCommandValue, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2002,7 +2002,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6115, VelocityActualValue, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6115, PDRV:VelocityActualValue, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2010,7 +2010,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6116, AccelerationActualValue, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6116, PDRV:AccelerationActualValue, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2018,7 +2018,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6117, BrakeStatus, Byte, 0, 0 ]
+      - [ UAVariable, PDRV:6117, PDRV:BrakeStatus, Byte, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2026,31 +2026,31 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 2377, EnumStrings ]
     - HasComponent:
-      - [ UAVariable, PDRV:6015, LimitFollowingError, Number, 0, 0 ]
+      - [ UAVariable, PDRV:6015, PDRV:LimitFollowingError, Number, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PDRV:6212, VelocityFollowingError, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6212, PDRV:VelocityFollowingError, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6213, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6213, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5029, LimitSupervision ]
+    - [ UAObject, PDRV:5029, PDRV:LimitSupervision ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PDRV:6118, TorqueLimitHigh, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6118, PDRV:TorqueLimitHigh, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2058,7 +2058,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6119, TorqueLimitLow, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6119, PDRV:TorqueLimitLow, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2066,108 +2066,108 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6075, TorqueLimiting, Boolean, 0, 0 ]
+      - [ UAVariable, PDRV:6075, PDRV:TorqueLimiting, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5031, EncoderChannelMotor ]
+    - [ UAObject, PDRV:5031, PDRV:EncoderChannelMotor ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1002, EncoderChannelType ]
+      - [ UAObjectType, PNENC:1002, PNENC:EncoderChannelType ]
     - GeneratesEvent:
-      - [ UAObjectType, PNENC:1006, EncoderDiagnosisEventType ]
+      - [ UAObjectType, PNENC:1006, PNENC:EncoderDiagnosisEventType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAObject, PNENC:5011, Sensor ]
+      - [ UAObject, PNENC:5011, PNENC:Sensor ]
   - HasComponent:
-    - [ UAObject, PDRV:5032, Homing ]
+    - [ UAObject, PDRV:5032, PDRV:Homing ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6123, HomingMode, Byte, 0, 0 ]
+      - [ UAVariable, PDRV:6123, PDRV:HomingMode, Byte, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2003, HomingModeType, Byte, 0, 0 ]
+        - [ UAVariableType, PDRV:2003, PDRV:HomingModeType, Byte, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, PDRV:6258, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6258, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5054, EncoderChannelMechanic ]
+    - [ UAObject, PDRV:5054, PDRV:EncoderChannelMechanic ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1002, EncoderChannelType ]
+      - [ UAObjectType, PNENC:1002, PNENC:EncoderChannelType ]
     - GeneratesEvent:
-      - [ UAObjectType, PNENC:1006, EncoderDiagnosisEventType ]
+      - [ UAObjectType, PNENC:1006, PNENC:EncoderDiagnosisEventType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAObject, PDRV:5055, Sensor ]
+      - [ UAObject, PDRV:5055, PNENC:Sensor ]
       - HasTypeDefinition:
-        - [ UAObjectType, PNENC:1013, EncoderSensorType ]
+        - [ UAObjectType, PNENC:1013, PNENC:EncoderSensorType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent:
-        - [ UAVariable, PDRV:6156, PositionOffset, Number, 0, 0 ]
+        - [ UAVariable, PDRV:6156, PNENC:PositionOffset, Number, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5056, <EncoderChannelAuxiliary> ]
+    - [ UAObject, PDRV:5056, PDRV:<EncoderChannelAuxiliary> ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1002, EncoderChannelType ]
+      - [ UAObjectType, PNENC:1002, PNENC:EncoderChannelType ]
     - GeneratesEvent:
-      - [ UAObjectType, PNENC:1006, EncoderDiagnosisEventType ]
+      - [ UAObjectType, PNENC:1006, PNENC:EncoderDiagnosisEventType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent:
-      - [ UAObject, PDRV:5057, Sensor ]
+      - [ UAObject, PDRV:5057, PNENC:Sensor ]
       - HasTypeDefinition:
-        - [ UAObjectType, PNENC:1013, EncoderSensorType ]
+        - [ UAObjectType, PNENC:1013, PNENC:EncoderSensorType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent:
-        - [ UAVariable, PDRV:6157, PositionOffset, Number, 0, 0 ]
+        - [ UAVariable, PDRV:6157, PNENC:PositionOffset, Number, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
 
-  PositionServoDriveAxisType:
-  - [ UAObjectType, PDRV:1009, PositionServoDriveAxisType ]
+  PDRV:PositionServoDriveAxisType:
+  - [ UAObjectType, PDRV:1009, PDRV:PositionServoDriveAxisType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1000, DriveAxisType ]
+    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
   - GeneratesEvent:
-    - [ UAObjectType, PDRV:1013, AxisSwOvertravelEventType ]
+    - [ UAObjectType, PDRV:1013, PDRV:AxisSwOvertravelEventType ]
   - GeneratesEvent:
-    - [ UAObjectType, PDRV:1014, AxisHwOvertravelEventType ]
+    - [ UAObjectType, PDRV:1014, PDRV:AxisHwOvertravelEventType ]
   - GeneratesEvent:
-    - [ UAObjectType, PDRV:1016, TorqueLimitEventType ]
+    - [ UAObjectType, PDRV:1016, PDRV:TorqueLimitEventType ]
   - HasComponent:
-    - [ UAObject, PDRV:5033, <EncoderChannelAuxiliary> ]
+    - [ UAObject, PDRV:5033, PDRV:<EncoderChannelAuxiliary> ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1002, EncoderChannelType ]
+      - [ UAObjectType, PNENC:1002, PNENC:EncoderChannelType ]
     - GeneratesEvent:
-      - [ UAObjectType, PNENC:1006, EncoderDiagnosisEventType ]
+      - [ UAObjectType, PNENC:1006, PNENC:EncoderDiagnosisEventType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent:
-      - [ UAObject, PNENC:5011, Sensor ]
+      - [ UAObject, PNENC:5011, PNENC:Sensor ]
   - HasComponent:
-    - [ UAObject, PDRV:5035, CharacteristicsConverter ]
+    - [ UAObject, PDRV:5035, PDRV:CharacteristicsConverter ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6174, ConverterExcessCurrentConfigured, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6174, PDRV:ConverterExcessCurrentConfigured, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
@@ -2175,25 +2175,25 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6055, OutputConverterPulseFrequency, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6055, PDRV:OutputConverterPulseFrequency, UInt16, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, PDRV:6060, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6060, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5036, LimitSupervision ]
+    - [ UAObject, PDRV:5036, PDRV:LimitSupervision ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PDRV:6133, TorqueLimit, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6133, PDRV:TorqueLimit, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2201,7 +2201,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6134, SoftwareUpperPosLimit, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6134, PDRV:SoftwareUpperPosLimit, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2209,7 +2209,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6135, SoftwareLowerPosLimit, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6135, PDRV:SoftwareLowerPosLimit, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2217,43 +2217,43 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6082, TorqueLimiting, Boolean, 0, 0 ]
+      - [ UAVariable, PDRV:6082, PDRV:TorqueLimiting, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5037, Monitoring ]
+    - [ UAObject, PDRV:5037, PDRV:Monitoring ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6139, ControlPriority, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6139, PDRV:ControlPriority, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasProperty:
-        - [ UAVariable, PDRV:6149, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6149, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6029, AxisState, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6029, PDRV:AxisState, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasProperty:
-        - [ UAVariable, PDRV:6009, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6009, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6030, OutputCurrent, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6030, PDRV:OutputCurrent, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2261,7 +2261,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6035, DcBusVoltage, UInt16, 0, 0 ]
+      - [ UAVariable, PDRV:6035, PDRV:DcBusVoltage, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2269,7 +2269,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6032, Power, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6032, PDRV:Power, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2277,7 +2277,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6031, Torque, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6031, PDRV:Torque, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2285,23 +2285,23 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6033, MotorTemperature, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6033, PDRV:MotorTemperature, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+        - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6034, ConverterTemperature, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6034, PDRV:ConverterTemperature, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2001, TemperatureVariableType, Float, 0, 0 ]
+        - [ UAVariableType, PDRV:2001, PDRV:TemperatureVariableType, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6125, PositionCommandValue, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6125, PDRV:PositionCommandValue, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2309,7 +2309,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6126, VelocitySetpoint, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6126, PDRV:VelocitySetpoint, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2317,7 +2317,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6128, PositionActualValue, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6128, PDRV:PositionActualValue, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2325,7 +2325,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6129, VelocityActualValue, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6129, PDRV:VelocityActualValue, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2333,7 +2333,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6130, PositionSetpoint, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6130, PDRV:PositionSetpoint, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2341,7 +2341,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6131, AccelerationActualValue, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6131, PDRV:AccelerationActualValue, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2349,7 +2349,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6132, BrakeStatus, Byte, 0, 0 ]
+      - [ UAVariable, PDRV:6132, PDRV:BrakeStatus, Byte, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2357,83 +2357,83 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 2377, EnumStrings ]
     - HasComponent:
-      - [ UAVariable, PDRV:6015, LimitFollowingError, Number, 0, 0 ]
+      - [ UAVariable, PDRV:6015, PDRV:LimitFollowingError, Number, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PDRV:6076, ContouringError, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6076, PDRV:ContouringError, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, PDRV:6081, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6081, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5058, EncoderChannelMechanic ]
+    - [ UAObject, PDRV:5058, PDRV:EncoderChannelMechanic ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1002, EncoderChannelType ]
+      - [ UAObjectType, PNENC:1002, PNENC:EncoderChannelType ]
     - GeneratesEvent:
-      - [ UAObjectType, PNENC:1006, EncoderDiagnosisEventType ]
+      - [ UAObjectType, PNENC:1006, PNENC:EncoderDiagnosisEventType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAObject, PDRV:5059, Sensor ]
+      - [ UAObject, PDRV:5059, PNENC:Sensor ]
       - HasTypeDefinition:
-        - [ UAObjectType, PNENC:1013, EncoderSensorType ]
+        - [ UAObjectType, PNENC:1013, PNENC:EncoderSensorType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent:
-        - [ UAVariable, PDRV:6158, PositionOffset, Number, 0, 0 ]
+        - [ UAVariable, PDRV:6158, PNENC:PositionOffset, Number, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5060, EncoderChannelMotor ]
+    - [ UAObject, PDRV:5060, PDRV:EncoderChannelMotor ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1002, EncoderChannelType ]
+      - [ UAObjectType, PNENC:1002, PNENC:EncoderChannelType ]
     - GeneratesEvent:
-      - [ UAObjectType, PNENC:1006, EncoderDiagnosisEventType ]
+      - [ UAObjectType, PNENC:1006, PNENC:EncoderDiagnosisEventType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAObject, PDRV:5061, Sensor ]
+      - [ UAObject, PDRV:5061, PNENC:Sensor ]
       - HasTypeDefinition:
-        - [ UAObjectType, PNENC:1013, EncoderSensorType ]
+        - [ UAObjectType, PNENC:1013, PNENC:EncoderSensorType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent:
-        - [ UAVariable, PDRV:6159, PositionOffset, Number, 0, 0 ]
+        - [ UAVariable, PDRV:6159, PNENC:PositionOffset, Number, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5024, CharacteristicsMotorAndControl ]
+    - [ UAObject, PDRV:5024, PDRV:CharacteristicsMotorAndControl ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6199, MotorType, Byte, 0, 0 ]
+      - [ UAVariable, PDRV:6199, PDRV:MotorType, Byte, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, PDRV:6200, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6200, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6176, PowerRated, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6176, PDRV:PowerRated, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
@@ -2441,7 +2441,7 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6083, UnitOfLength, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6083, PDRV:UnitOfLength, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
@@ -2449,25 +2449,25 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
   - HasComponent:
-    - [ UAObject, PDRV:5030, Homing ]
+    - [ UAObject, PDRV:5030, PDRV:Homing ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PDRV:6091, HomingDirection, Byte, 0, 0 ]
+      - [ UAVariable, PDRV:6091, PDRV:HomingDirection, Byte, 0, 0 ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2002, HomingDirectionType, Byte, 0, 0 ]
+        - [ UAVariableType, PDRV:2002, PDRV:HomingDirectionType, Byte, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6257, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6257, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6099, HomingSpeedToCam, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6099, PDRV:HomingSpeedToCam, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
@@ -2475,496 +2475,496 @@ DefinedTypes:
       - HasProperty:
         - [ UAVariable, 17502, EngineeringUnits ]
     - HasComponent:
-      - [ UAVariable, PDRV:6100, HomingSpeedToMark, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6100, PDRV:HomingSpeedToMark, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6110, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6110, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6111, HomingPointOffset, Float, 0, 0 ]
+      - [ UAVariable, PDRV:6111, PDRV:HomingPointOffset, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PDRV:6120, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PDRV:6120, PDRV:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PDRV:6121, HomingMode, Byte, 0, 0 ]
+      - [ UAVariable, PDRV:6121, PDRV:HomingMode, Byte, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAVariableType, PDRV:2003, HomingModeType, Byte, 0, 0 ]
+        - [ UAVariableType, PDRV:2003, PDRV:HomingModeType, Byte, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, PDRV:6258, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, PDRV:6258, PDRV:EnumStrings, LocalizedText, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
 
-  DiagnosisAlarmType:
-  - [ UAObjectType, PDRV:1012, DiagnosisAlarmType ]
+  PDRV:DiagnosisAlarmType:
+  - [ UAObjectType, PDRV:1012, PDRV:DiagnosisAlarmType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2915, AlarmConditionType ]
   - HasProperty:
-    - [ UAVariable, PDRV:6026, LogEntry, LogEntryDataType, 0, 0 ]
+    - [ UAVariable, PDRV:6026, PDRV:LogEntry, PNENC:LogEntryDataType, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  AxisSwOvertravelEventType:
-  - [ UAObjectType, PDRV:1013, AxisSwOvertravelEventType ]
+  PDRV:AxisSwOvertravelEventType:
+  - [ UAObjectType, PDRV:1013, PDRV:AxisSwOvertravelEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1001, AxisEventType ]
+    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
   - HasProperty:
-    - [ UAVariable, PDRV:6147, IsUpperSwLimit, Boolean, 0, 0 ]
+    - [ UAVariable, PDRV:6147, PDRV:IsUpperSwLimit, Boolean, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  AxisHwOvertravelEventType:
-  - [ UAObjectType, PDRV:1014, AxisHwOvertravelEventType ]
+  PDRV:AxisHwOvertravelEventType:
+  - [ UAObjectType, PDRV:1014, PDRV:AxisHwOvertravelEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1001, AxisEventType ]
+    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
   - HasProperty:
-    - [ UAVariable, PDRV:6148, IsUpperHwLimit, Boolean, 0, 0 ]
+    - [ UAVariable, PDRV:6148, PDRV:IsUpperHwLimit, Boolean, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  SafetyType:
-  - [ UAObjectType, PDRV:1015, SafetyType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, 58, BaseObjectType ]
-  - HasComponent:
-    - [ UAObject, PDRV:5046, STO ]
-    - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-    - HasComponent:
-      - [ UAVariable, PDRV:6154, ActivationState, UInt16, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 2376, MultiStateDiscreteType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty:
-        - [ UAVariable, PDRV:6165, EnumStrings, LocalizedText, 1, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 68, PropertyType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-    - HasComponent:
-      - [ UAVariable, PDRV:6151, SelectionState, UInt16, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 2376, MultiStateDiscreteType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty:
-        - [ UAVariable, PDRV:6166, EnumStrings, LocalizedText, 1, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 68, PropertyType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-  - HasComponent:
-    - [ UAObject, PDRV:5047, SS1 ]
-    - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-    - HasComponent:
-      - [ UAVariable, PDRV:6154, ActivationState, UInt16, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 2376, MultiStateDiscreteType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty:
-        - [ UAVariable, PDRV:6165, EnumStrings, LocalizedText, 1, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 68, PropertyType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-    - HasComponent:
-      - [ UAVariable, PDRV:6151, SelectionState, UInt16, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 2376, MultiStateDiscreteType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty:
-        - [ UAVariable, PDRV:6166, EnumStrings, LocalizedText, 1, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 68, PropertyType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-  - HasComponent:
-    - [ UAObject, PDRV:5048, SS2 ]
-    - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-    - HasComponent:
-      - [ UAVariable, PDRV:6154, ActivationState, UInt16, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 2376, MultiStateDiscreteType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty:
-        - [ UAVariable, PDRV:6165, EnumStrings, LocalizedText, 1, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 68, PropertyType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-    - HasComponent:
-      - [ UAVariable, PDRV:6151, SelectionState, UInt16, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 2376, MultiStateDiscreteType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty:
-        - [ UAVariable, PDRV:6166, EnumStrings, LocalizedText, 1, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 68, PropertyType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-  - HasComponent:
-    - [ UAObject, PDRV:5049, SOS ]
-    - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-    - HasComponent:
-      - [ UAVariable, PDRV:6154, ActivationState, UInt16, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 2376, MultiStateDiscreteType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty:
-        - [ UAVariable, PDRV:6165, EnumStrings, LocalizedText, 1, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 68, PropertyType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-    - HasComponent:
-      - [ UAVariable, PDRV:6151, SelectionState, UInt16, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 2376, MultiStateDiscreteType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty:
-        - [ UAVariable, PDRV:6166, EnumStrings, LocalizedText, 1, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 68, PropertyType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-  - HasComponent:
-    - [ UAObject, PDRV:5050, SLS ]
-    - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-    - HasComponent:
-      - [ UAVariable, PDRV:6154, ActivationState, UInt16, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 2376, MultiStateDiscreteType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty:
-        - [ UAVariable, PDRV:6165, EnumStrings, LocalizedText, 1, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 68, PropertyType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-    - HasComponent:
-      - [ UAVariable, PDRV:6151, SelectionState, UInt16, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 2376, MultiStateDiscreteType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty:
-        - [ UAVariable, PDRV:6166, EnumStrings, LocalizedText, 1, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 68, PropertyType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-  - HasComponent:
-    - [ UAObject, PDRV:5051, SDI ]
-    - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-    - HasComponent:
-      - [ UAVariable, PDRV:6154, ActivationState, UInt16, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 2376, MultiStateDiscreteType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty:
-        - [ UAVariable, PDRV:6165, EnumStrings, LocalizedText, 1, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 68, PropertyType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-    - HasComponent:
-      - [ UAVariable, PDRV:6151, SelectionState, UInt16, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 2376, MultiStateDiscreteType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty:
-        - [ UAVariable, PDRV:6166, EnumStrings, LocalizedText, 1, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 68, PropertyType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-  - HasComponent:
-    - [ UAObject, PDRV:5052, SLA ]
-    - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-    - HasComponent:
-      - [ UAVariable, PDRV:6154, ActivationState, UInt16, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 2376, MultiStateDiscreteType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty:
-        - [ UAVariable, PDRV:6165, EnumStrings, LocalizedText, 1, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 68, PropertyType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-    - HasComponent:
-      - [ UAVariable, PDRV:6151, SelectionState, UInt16, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 2376, MultiStateDiscreteType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty:
-        - [ UAVariable, PDRV:6166, EnumStrings, LocalizedText, 1, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 68, PropertyType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-  - HasComponent:
-    - [ UAObject, PDRV:5053, SLP ]
-    - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-    - HasComponent:
-      - [ UAVariable, PDRV:6154, ActivationState, UInt16, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 2376, MultiStateDiscreteType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty:
-        - [ UAVariable, PDRV:6165, EnumStrings, LocalizedText, 1, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 68, PropertyType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-    - HasComponent:
-      - [ UAVariable, PDRV:6151, SelectionState, UInt16, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 2376, MultiStateDiscreteType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty:
-        - [ UAVariable, PDRV:6166, EnumStrings, LocalizedText, 1, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 68, PropertyType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-
-  TorqueLimitEventType:
-  - [ UAObjectType, PDRV:1016, TorqueLimitEventType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1001, AxisEventType ]
-  - HasProperty:
-    - [ UAVariable, PDRV:6270, TorqueLimit, Float, 0, 0 ]
-    - HasTypeDefinition:
-      - [ UAVariableType, 68, PropertyType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-  - HasProperty:
-    - [ UAVariable, PDRV:6271, Torque, Float, 0, 0 ]
-    - HasTypeDefinition:
-      - [ UAVariableType, 68, PropertyType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-
-  MotorCurrentLimitEventType:
-  - [ UAObjectType, PDRV:1017, MotorCurrentLimitEventType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1001, AxisEventType ]
-  - HasProperty:
-    - [ UAVariable, PDRV:6164, MotorCurrentLimitHigh, Float, 0, 0 ]
-    - HasTypeDefinition:
-      - [ UAVariableType, 68, PropertyType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-  - HasProperty:
-    - [ UAVariable, PDRV:6273, OutputCurrent, Float, 0, 0 ]
-    - HasTypeDefinition:
-      - [ UAVariableType, 68, PropertyType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-
-  SafetyFunctionType:
-  - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
+  PDRV:SafetyType:
+  - [ UAObjectType, PDRV:1015, PDRV:SafetyType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, PDRV:6151, SelectionState, UInt16, 0, 0 ]
+    - [ UAObject, PDRV:5046, PDRV:STO ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PDRV:6154, PDRV:ActivationState, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PDRV:6165, PDRV:EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PDRV:6151, PDRV:SelectionState, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PDRV:6166, PDRV:EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PDRV:5047, PDRV:SS1 ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PDRV:6154, PDRV:ActivationState, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PDRV:6165, PDRV:EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PDRV:6151, PDRV:SelectionState, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PDRV:6166, PDRV:EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PDRV:5048, PDRV:SS2 ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PDRV:6154, PDRV:ActivationState, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PDRV:6165, PDRV:EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PDRV:6151, PDRV:SelectionState, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PDRV:6166, PDRV:EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PDRV:5049, PDRV:SOS ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PDRV:6154, PDRV:ActivationState, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PDRV:6165, PDRV:EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PDRV:6151, PDRV:SelectionState, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PDRV:6166, PDRV:EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PDRV:5050, PDRV:SLS ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PDRV:6154, PDRV:ActivationState, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PDRV:6165, PDRV:EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PDRV:6151, PDRV:SelectionState, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PDRV:6166, PDRV:EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PDRV:5051, PDRV:SDI ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PDRV:6154, PDRV:ActivationState, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PDRV:6165, PDRV:EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PDRV:6151, PDRV:SelectionState, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PDRV:6166, PDRV:EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PDRV:5052, PDRV:SLA ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PDRV:6154, PDRV:ActivationState, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PDRV:6165, PDRV:EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PDRV:6151, PDRV:SelectionState, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PDRV:6166, PDRV:EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PDRV:5053, PDRV:SLP ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PDRV:6154, PDRV:ActivationState, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PDRV:6165, PDRV:EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PDRV:6151, PDRV:SelectionState, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PDRV:6166, PDRV:EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+
+  PDRV:TorqueLimitEventType:
+  - [ UAObjectType, PDRV:1016, PDRV:TorqueLimitEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6270, PDRV:TorqueLimit, Float, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6271, PDRV:Torque, Float, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  PDRV:MotorCurrentLimitEventType:
+  - [ UAObjectType, PDRV:1017, PDRV:MotorCurrentLimitEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6164, PDRV:MotorCurrentLimitHigh, Float, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6273, PDRV:OutputCurrent, Float, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  PDRV:SafetyFunctionType:
+  - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasComponent:
+    - [ UAVariable, PDRV:6151, PDRV:SelectionState, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 2376, MultiStateDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, PDRV:6166, EnumStrings, LocalizedText, 1, 0 ]
+      - [ UAVariable, PDRV:6166, PDRV:EnumStrings, LocalizedText, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PDRV:6154, ActivationState, UInt16, 0, 0 ]
+    - [ UAVariable, PDRV:6154, PDRV:ActivationState, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 2376, MultiStateDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, PDRV:6165, EnumStrings, LocalizedText, 1, 0 ]
+      - [ UAVariable, PDRV:6165, PDRV:EnumStrings, LocalizedText, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasProperty:
-    - [ UAVariable, PDRV:6155, Limit, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6155, PDRV:Limit, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  ForceLimitEventType:
-  - [ UAObjectType, PDRV:1019, ForceLimitEventType ]
+  PDRV:ForceLimitEventType:
+  - [ UAObjectType, PDRV:1019, PDRV:ForceLimitEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1001, AxisEventType ]
+    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
   - HasProperty:
-    - [ UAVariable, PDRV:6201, ForceLimit, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6201, PDRV:ForceLimit, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
-    - [ UAVariable, PDRV:6272, Force, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6272, PDRV:Force, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  AxisEventType:
-  - [ UAObjectType, PDRV:1001, AxisEventType ]
+  PDRV:AxisEventType:
+  - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
   - HasProperty:
-    - [ UAVariable, PDRV:6136, AxisState, UInt16, 0, 0 ]
+    - [ UAVariable, PDRV:6136, PDRV:AxisState, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
-    - [ UAVariable, PDRV:6150, ControlPriority, UInt16, 0, 0 ]
+    - [ UAVariable, PDRV:6150, PDRV:ControlPriority, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
-    - [ UAVariable, PDRV:6167, OutputCurrent, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6167, PDRV:OutputCurrent, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
-    - [ UAVariable, PDRV:6171, Torque, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6171, PDRV:Torque, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
-    - [ UAVariable, PDRV:6172, Force, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6172, PDRV:Force, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
-    - [ UAVariable, PDRV:6178, Power, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6178, PDRV:Power, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
-    - [ UAVariable, PDRV:6179, MotorTemperature, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6179, PDRV:MotorTemperature, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
-    - [ UAVariable, PDRV:6190, ConverterTemperature, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6190, PDRV:ConverterTemperature, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
-    - [ UAVariable, PDRV:6191, DeviceTemperature, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6191, PDRV:DeviceTemperature, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
-    - [ UAVariable, PDRV:6214, DcBusVoltage, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6214, PDRV:DcBusVoltage, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
-    - [ UAVariable, PDRV:6227, PositionFollowingError, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6227, PDRV:PositionFollowingError, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
-    - [ UAVariable, PDRV:6261, VelocityFollowingError, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6261, PDRV:VelocityFollowingError, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
-    - [ UAVariable, PDRV:6263, ControlMode, UInt16, 0, 0 ]
+    - [ UAVariable, PDRV:6263, PDRV:ControlMode, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
-    - [ UAVariable, PDRV:6268, <FeedbackSensor1..3Temperature>, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6268, PDRV:<FeedbackSensor1..3Temperature>, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasProperty:
-    - [ UAVariable, PDRV:6269, BrakeResistorTemperature, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6269, PDRV:BrakeResistorTemperature, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:

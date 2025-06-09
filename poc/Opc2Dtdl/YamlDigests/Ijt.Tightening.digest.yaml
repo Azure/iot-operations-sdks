@@ -1,75 +1,75 @@
 DataTypes:
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ AMB:3004, MaintenanceMethodEnum ]
+- UADataType: [ AMB:3004, AMB:MaintenanceMethodEnum ]
   Enums:
     Local: 0
     Remote: 1
-- UADataType: [ AMB:3003, NameNodeIdDataType ]
+- UADataType: [ AMB:3003, AMB:NameNodeIdDataType ]
   Fields:
     Name: [ LocalizedText, 0 ]
     NodeId: [ NodeId, 0 ]
-- UADataType: [ AMB:3002, RootCauseDataType ]
+- UADataType: [ AMB:3002, AMB:RootCauseDataType ]
   Fields:
     RootCauseId: [ NodeId, 0 ]
     RootCause: [ LocalizedText, 0 ]
-- UADataType: [ Machinery.Result:3002, ResultEvaluationEnum ]
+- UADataType: [ Machinery.Result:3002, Machinery.Result:ResultEvaluationEnum ]
   Enums:
     Undefined: 0
     OK: 1
     NotOK: 2
     NotDecidable: 3
-- UADataType: [ Machinery.Result:3005, BaseResultTransferOptionsDataType ]
+- UADataType: [ Machinery.Result:3005, Machinery.Result:BaseResultTransferOptionsDataType ]
   Fields:
     ResultId: [ TrimmedString, 0 ]
-- UADataType: [ Machinery.Result:3004, ResultTransferOptionsDataType ]
+- UADataType: [ Machinery.Result:3004, Machinery.Result:ResultTransferOptionsDataType ]
   Bases:
-  - BaseResultTransferOptionsDataType
-- UADataType: [ Machinery.Result:3006, ProcessingTimesDataType ]
+  - Machinery.Result:BaseResultTransferOptionsDataType
+- UADataType: [ Machinery.Result:3006, Machinery.Result:ProcessingTimesDataType ]
   Fields:
     StartTime: [ UtcTime, 0 ]
     EndTime: [ UtcTime, 0 ]
     AcquisitionDuration: [ Duration, 0 ]
     ProcessingDuration: [ Duration, 0 ]
-- UADataType: [ Machinery.Result:3008, ResultDataType ]
+- UADataType: [ Machinery.Result:3008, Machinery.Result:ResultDataType ]
   Fields:
-    ResultMetaData: [ ResultMetaDataType, 0 ]
+    ResultMetaData: [ Machinery.Result:ResultMetaDataType, 0 ]
     ResultContent: [ null, 1 ]
-- UADataType: [ Machinery.Result:3007, ResultMetaDataType ]
+- UADataType: [ Machinery.Result:3007, Machinery.Result:ResultMetaDataType ]
   Fields:
     ResultId: [ TrimmedString, 0 ]
     HasTransferableDataOnFile: [ Boolean, 0 ]
@@ -85,13 +85,13 @@ DataTypes:
     InternalConfigurationId: [ TrimmedString, 0 ]
     JobId: [ TrimmedString, 0 ]
     CreationTime: [ UtcTime, 0 ]
-    ProcessingTimes: [ ProcessingTimesDataType, 0 ]
+    ProcessingTimes: [ Machinery.Result:ProcessingTimesDataType, 0 ]
     ResultUri: [ UriString, 1 ]
-    ResultEvaluation: [ ResultEvaluationEnum, 0 ]
+    ResultEvaluation: [ Machinery.Result:ResultEvaluationEnum, 0 ]
     ResultEvaluationCode: [ Int64, 0 ]
     ResultEvaluationDetails: [ LocalizedText, 0 ]
     FileFormat: [ String, 1 ]
-- UADataType: [ IJT.Base:3003, CalibrationDataType ]
+- UADataType: [ IJT.Base:3003, IJT.Base:CalibrationDataType ]
   Fields:
     LastCalibration: [ UtcTime, 0 ]
     CalibrationPlace: [ String, 0 ]
@@ -100,13 +100,13 @@ DataTypes:
     SensorScale: [ Double, 0 ]
     CertificateUri: [ UriString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-- UADataType: [ IJT.Base:3015, DesignValueDataType ]
+- UADataType: [ IJT.Base:3015, IJT.Base:DesignValueDataType ]
   Fields:
     PhysicalQuantity: [ Byte, 0 ]
     Name: [ String, 0 ]
     DesignValue: [ null, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-- UADataType: [ IJT.Base:3010, EntityDataType ]
+- UADataType: [ IJT.Base:3010, IJT.Base:EntityDataType ]
   Fields:
     Name: [ String, 0 ]
     Description: [ String, 0 ]
@@ -114,22 +114,22 @@ DataTypes:
     EntityOriginId: [ TrimmedString, 0 ]
     IsExternal: [ Boolean, 0 ]
     EntityType: [ Int16, 0 ]
-- UADataType: [ IJT.Base:3006, ErrorInformationDataType ]
+- UADataType: [ IJT.Base:3006, IJT.Base:ErrorInformationDataType ]
   Fields:
     ErrorType: [ Byte, 0 ]
     ErrorId: [ TrimmedString, 0 ]
     LegacyError: [ String, 0 ]
     ErrorMessage: [ LocalizedText, 0 ]
-- UADataType: [ IJT.Base:3016, JoiningProcessDataType ]
+- UADataType: [ IJT.Base:3016, IJT.Base:JoiningProcessDataType ]
   Fields:
-    JoiningProcessMetaData: [ JoiningProcessMetaDataType, 0 ]
+    JoiningProcessMetaData: [ IJT.Base:JoiningProcessMetaDataType, 0 ]
     JoiningProcessContent: [ null, 1 ]
-- UADataType: [ IJT.Base:3029, JoiningProcessIdentificationDataType ]
+- UADataType: [ IJT.Base:3029, IJT.Base:JoiningProcessIdentificationDataType ]
   Fields:
     JoiningProcessId: [ TrimmedString, 0 ]
     JoiningProcessOriginId: [ TrimmedString, 0 ]
     SelectionName: [ TrimmedString, 0 ]
-- UADataType: [ IJT.Base:3024, JoiningProcessMetaDataType ]
+- UADataType: [ IJT.Base:3024, IJT.Base:JoiningProcessMetaDataType ]
   Fields:
     JoiningProcessId: [ TrimmedString, 0 ]
     JoiningProcessOriginId: [ TrimmedString, 0 ]
@@ -139,16 +139,16 @@ DataTypes:
     Description: [ LocalizedText, 0 ]
     JoiningTechnology: [ LocalizedText, 0 ]
     Classification: [ Int16, 0 ]
-    AssociatedEntities: [ EntityDataType, 1 ]
-- UADataType: [ IJT.Base:3005, JoiningResultDataType ]
+    AssociatedEntities: [ IJT.Base:EntityDataType, 1 ]
+- UADataType: [ IJT.Base:3005, IJT.Base:JoiningResultDataType ]
   Fields:
     FailureReason: [ Byte, 0 ]
-    OverallResultValues: [ ResultValueDataType, 1 ]
-    StepResults: [ StepResultDataType, 1 ]
-    Errors: [ ErrorInformationDataType, 1 ]
+    OverallResultValues: [ IJT.Base:ResultValueDataType, 1 ]
+    StepResults: [ IJT.Base:StepResultDataType, 1 ]
+    Errors: [ IJT.Base:ErrorInformationDataType, 1 ]
     FailingStepResultId: [ TrimmedString, 0 ]
-    Trace: [ JoiningTraceDataType, 0 ]
-- UADataType: [ IJT.Base:3021, JointComponentDataType ]
+    Trace: [ IJT.Base:JoiningTraceDataType, 0 ]
+- UADataType: [ IJT.Base:3021, IJT.Base:JointComponentDataType ]
   Fields:
     JointComponentId: [ TrimmedString, 0 ]
     Name: [ String, 0 ]
@@ -156,7 +156,7 @@ DataTypes:
     Manufacturer: [ LocalizedText, 0 ]
     ManufacturerUri: [ String, 0 ]
     JointComponentContent: [ null, 0 ]
-- UADataType: [ IJT.Base:3028, JointDataType ]
+- UADataType: [ IJT.Base:3028, IJT.Base:JointDataType ]
   Fields:
     JointId: [ TrimmedString, 0 ]
     JointOriginId: [ TrimmedString, 0 ]
@@ -168,20 +168,20 @@ DataTypes:
     Classification: [ Int16, 0 ]
     ClassificationDetails: [ LocalizedText, 0 ]
     JointStatus: [ TrimmedString, 0 ]
-    AssociatedEntities: [ EntityDataType, 1 ]
+    AssociatedEntities: [ IJT.Base:EntityDataType, 1 ]
     JoiningTechnology: [ LocalizedText, 0 ]
-- UADataType: [ IJT.Base:3025, JointDesignDataType ]
+- UADataType: [ IJT.Base:3025, IJT.Base:JointDesignDataType ]
   Fields:
     JointDesignId: [ TrimmedString, 0 ]
     Name: [ String, 0 ]
     Description: [ LocalizedText, 0 ]
-    JointDesignContent: [ DesignValueDataType, 1 ]
+    JointDesignContent: [ IJT.Base:DesignValueDataType, 1 ]
     JointComponentIdList: [ TrimmedString, 1 ]
-- UADataType: [ IJT.Base:3008, KeyValueDataType ]
+- UADataType: [ IJT.Base:3008, IJT.Base:KeyValueDataType ]
   Fields:
     Key: [ TrimmedString, 0 ]
     Value: [ null, 0 ]
-- UADataType: [ IJT.Base:3022, ReportedValueDataType ]
+- UADataType: [ IJT.Base:3022, IJT.Base:ReportedValueDataType ]
   Fields:
     PhysicalQuantity: [ Byte, 0 ]
     Name: [ String, 0 ]
@@ -190,12 +190,12 @@ DataTypes:
     LowLimit: [ Double, 0 ]
     HighLimit: [ Double, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-- UADataType: [ IJT.Base:3004, ResultCounterDataType ]
+- UADataType: [ IJT.Base:3004, IJT.Base:ResultCounterDataType ]
   Fields:
     Name: [ String, 0 ]
     CounterValue: [ UInt32, 0 ]
     CounterType: [ Int16, 0 ]
-- UADataType: [ IJT.Base:3020, JoiningResultMetaDataType ]
+- UADataType: [ IJT.Base:3020, IJT.Base:JoiningResultMetaDataType ]
   Fields:
     JoiningTechnology: [ LocalizedText, 0 ]
     SequenceNumber: [ UInt64, 0 ]
@@ -204,16 +204,16 @@ DataTypes:
     Classification: [ Byte, 0 ]
     OperationMode: [ Byte, 0 ]
     AssemblyType: [ Byte, 0 ]
-    AssociatedEntities: [ EntityDataType, 1 ]
-    ResultCounters: [ ResultCounterDataType, 1 ]
+    AssociatedEntities: [ IJT.Base:EntityDataType, 1 ]
+    ResultCounters: [ IJT.Base:ResultCounterDataType, 1 ]
     InterventionType: [ Byte, 0 ]
     IsGeneratedOffline: [ Boolean, 0 ]
-    ExtendedMetaData: [ KeyValueDataType, 1 ]
-- UADataType: [ IJT.Base:3007, ResultValueDataType ]
+    ExtendedMetaData: [ IJT.Base:KeyValueDataType, 1 ]
+- UADataType: [ IJT.Base:3007, IJT.Base:ResultValueDataType ]
   Fields:
     MeasuredValue: [ Double, 0 ]
     Name: [ String, 0 ]
-    ResultEvaluation: [ ResultEvaluationEnum, 0 ]
+    ResultEvaluation: [ Machinery.Result:ResultEvaluationEnum, 0 ]
     ValueId: [ TrimmedString, 0 ]
     ValueTag: [ Int16, 0 ]
     TracePointIndex: [ Int32, 0 ]
@@ -228,31 +228,31 @@ DataTypes:
     ResultStep: [ String, 0 ]
     PhysicalQuantity: [ Byte, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-- UADataType: [ IJT.Base:3019, SignalDataType ]
+- UADataType: [ IJT.Base:3019, IJT.Base:SignalDataType ]
   Fields:
     SignalId: [ TrimmedString, 0 ]
     SignalValue: [ Number, 0 ]
     SignalDescription: [ String, 0 ]
     SignalType: [ Int16, 0 ]
-- UADataType: [ IJT.Base:3009, StepResultDataType ]
+- UADataType: [ IJT.Base:3009, IJT.Base:StepResultDataType ]
   Fields:
     StepResultId: [ TrimmedString, 0 ]
     ProgramStepId: [ TrimmedString, 0 ]
     ProgramStep: [ String, 0 ]
     Name: [ String, 0 ]
-    ResultEvaluation: [ ResultEvaluationEnum, 0 ]
+    ResultEvaluation: [ Machinery.Result:ResultEvaluationEnum, 0 ]
     StartTimeOffset: [ Duration, 0 ]
     StepTraceId: [ TrimmedString, 0 ]
-    StepResultValues: [ ResultValueDataType, 1 ]
-- UADataType: [ IJT.Base:3013, StepTraceDataType ]
+    StepResultValues: [ IJT.Base:ResultValueDataType, 1 ]
+- UADataType: [ IJT.Base:3013, IJT.Base:StepTraceDataType ]
   Fields:
     StepTraceId: [ TrimmedString, 0 ]
     StepResultId: [ TrimmedString, 0 ]
     NumberOfTracePoints: [ UInt32, 0 ]
     SamplingInterval: [ Duration, 0 ]
     StartTimeOffset: [ Duration, 0 ]
-    StepTraceContent: [ TraceContentDataType, 1 ]
-- UADataType: [ IJT.Base:3014, TraceContentDataType ]
+    StepTraceContent: [ IJT.Base:TraceContentDataType, 1 ]
+- UADataType: [ IJT.Base:3014, IJT.Base:TraceContentDataType ]
   Fields:
     Values: [ Double, 1 ]
     SensorId: [ TrimmedString, 0 ]
@@ -260,185 +260,188 @@ DataTypes:
     Description: [ String, 0 ]
     PhysicalQuantity: [ Byte, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-- UADataType: [ IJT.Base:3011, TraceDataType ]
+- UADataType: [ IJT.Base:3011, IJT.Base:TraceDataType ]
   Fields:
     TraceId: [ TrimmedString, 0 ]
     ResultId: [ TrimmedString, 0 ]
-- UADataType: [ IJT.Base:3012, JoiningTraceDataType ]
+- UADataType: [ IJT.Base:3012, IJT.Base:JoiningTraceDataType ]
   Fields:
-    StepTraces: [ StepTraceDataType, 1 ]
+    StepTraces: [ IJT.Base:StepTraceDataType, 1 ]
 
 DefinedTypes:
 
-  ITighteningToolParametersType:
-  - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]
+  IJT.Tightening:ITighteningToolParametersType:
+  - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
   - HasComponent:
-    - [ UAVariable, IJT.Tightening:6005, DesignType, Byte, 0, 0 ]
+    - [ UAVariable, IJT.Tightening:6005, IJT.Tightening:DesignType, Byte, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 2376, MultiStateDiscreteType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]
+      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
     - HasProperty:
-      - [ UAVariable, IJT.Tightening:6006, EnumStrings, LocalizedText, 1, 0 ]
+      - [ UAVariable, IJT.Tightening:6006, IJT.Tightening:EnumStrings, LocalizedText, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, IJT.Tightening:6005, DesignType, Byte, 0, 0 ]
+        - [ UAVariable, IJT.Tightening:6005, IJT.Tightening:DesignType, Byte, 0, 0 ]
   - HasComponent:
-    - [ UAVariable, IJT.Tightening:6014, DriveMethod, Byte, 0, 0 ]
+    - [ UAVariable, IJT.Tightening:6014, IJT.Tightening:DriveMethod, Byte, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 2376, MultiStateDiscreteType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]
+      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
     - HasProperty:
-      - [ UAVariable, IJT.Tightening:6015, EnumStrings, LocalizedText, 1, 0 ]
+      - [ UAVariable, IJT.Tightening:6015, IJT.Tightening:EnumStrings, LocalizedText, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, IJT.Tightening:6014, DriveMethod, Byte, 0, 0 ]
+        - [ UAVariable, IJT.Tightening:6014, IJT.Tightening:DriveMethod, Byte, 0, 0 ]
   - HasComponent:
-    - [ UAVariable, IJT.Tightening:6016, DriveType, Byte, 0, 0 ]
+    - [ UAVariable, IJT.Tightening:6016, IJT.Tightening:DriveType, Byte, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 2376, MultiStateDiscreteType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]
+      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
     - HasProperty:
-      - [ UAVariable, IJT.Tightening:6017, EnumStrings, LocalizedText, 1, 0 ]
+      - [ UAVariable, IJT.Tightening:6017, IJT.Tightening:EnumStrings, LocalizedText, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, IJT.Tightening:6016, DriveType, Byte, 0, 0 ]
+        - [ UAVariable, IJT.Tightening:6016, IJT.Tightening:DriveType, Byte, 0, 0 ]
   - HasComponent:
-    - [ UAVariable, IJT.Tightening:6022, MaxSpeed, Double, 0, 0 ]
+    - [ UAVariable, IJT.Tightening:6022, IJT.Tightening:MaxSpeed, Double, 0, 0 ]
     - HasTypeDefinition:
-      - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
+      - [ UAVariableType, IJT.Base:2011, IJT.Base:JoiningDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Tightening:6036, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, IJT.Tightening:6036, IJT.Base:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAVariable, IJT.Tightening:6022, MaxSpeed, Double, 0, 0 ]
+        - [ UAVariable, IJT.Tightening:6022, IJT.Tightening:MaxSpeed, Double, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]
+      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
     - HasComponent:
-      - [ UAVariable, IJT.Tightening:6026, PhysicalQuantity, Byte, 0, 0 ]
+      - [ UAVariable, IJT.Tightening:6026, IJT.Base:PhysicalQuantity, Byte, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasProperty:
-        - [ UAVariable, IJT.Tightening:6027, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, IJT.Tightening:6027, IJT.Tightening:EnumStrings, LocalizedText, 1, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, IJT.Tightening:6026, PhysicalQuantity, Byte, 0, 0 ]
+          - [ UAVariable, IJT.Tightening:6026, IJT.Base:PhysicalQuantity, Byte, 0, 0 ]
       - HasComponent_reverse:
-        - [ UAVariable, IJT.Tightening:6022, MaxSpeed, Double, 0, 0 ]
+        - [ UAVariable, IJT.Tightening:6022, IJT.Tightening:MaxSpeed, Double, 0, 0 ]
   - HasComponent:
-    - [ UAVariable, IJT.Tightening:6020, MaxTorque, Double, 0, 0 ]
+    - [ UAVariable, IJT.Tightening:6020, IJT.Tightening:MaxTorque, Double, 0, 0 ]
     - HasTypeDefinition:
-      - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
+      - [ UAVariableType, IJT.Base:2011, IJT.Base:JoiningDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Tightening:6028, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, IJT.Tightening:6028, IJT.Base:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
-        - [ UAVariable, IJT.Tightening:6020, MaxTorque, Double, 0, 0 ]
+        - [ UAVariable, IJT.Tightening:6020, IJT.Tightening:MaxTorque, Double, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]
+      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
     - HasComponent:
-      - [ UAVariable, IJT.Tightening:6029, PhysicalQuantity, Byte, 0, 0 ]
+      - [ UAVariable, IJT.Tightening:6029, IJT.Base:PhysicalQuantity, Byte, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasProperty:
-        - [ UAVariable, IJT.Tightening:6032, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, IJT.Tightening:6032, IJT.Tightening:EnumStrings, LocalizedText, 1, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, IJT.Tightening:6029, PhysicalQuantity, Byte, 0, 0 ]
+          - [ UAVariable, IJT.Tightening:6029, IJT.Base:PhysicalQuantity, Byte, 0, 0 ]
       - HasComponent_reverse:
-        - [ UAVariable, IJT.Tightening:6020, MaxTorque, Double, 0, 0 ]
+        - [ UAVariable, IJT.Tightening:6020, IJT.Tightening:MaxTorque, Double, 0, 0 ]
   - HasComponent:
-    - [ UAVariable, IJT.Tightening:6021, MinTorque, Double, 0, 0 ]
+    - [ UAVariable, IJT.Tightening:6021, IJT.Tightening:MinTorque, Double, 0, 0 ]
     - HasTypeDefinition:
-      - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
+      - [ UAVariableType, IJT.Base:2011, IJT.Base:JoiningDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Tightening:6024, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, IJT.Tightening:6024, IJT.Base:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
-        - [ UAVariable, IJT.Tightening:6021, MinTorque, Double, 0, 0 ]
+        - [ UAVariable, IJT.Tightening:6021, IJT.Tightening:MinTorque, Double, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]
+      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
     - HasComponent:
-      - [ UAVariable, IJT.Tightening:6025, PhysicalQuantity, Byte, 0, 0 ]
+      - [ UAVariable, IJT.Tightening:6025, IJT.Base:PhysicalQuantity, Byte, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasProperty:
-        - [ UAVariable, IJT.Tightening:6033, EnumStrings, LocalizedText, 1, 0 ]
+        - [ UAVariable, IJT.Tightening:6033, IJT.Tightening:EnumStrings, LocalizedText, 1, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, IJT.Tightening:6025, PhysicalQuantity, Byte, 0, 0 ]
+          - [ UAVariable, IJT.Tightening:6025, IJT.Base:PhysicalQuantity, Byte, 0, 0 ]
       - HasComponent_reverse:
-        - [ UAVariable, IJT.Tightening:6021, MinTorque, Double, 0, 0 ]
+        - [ UAVariable, IJT.Tightening:6021, IJT.Tightening:MinTorque, Double, 0, 0 ]
   - HasComponent:
-    - [ UAVariable, IJT.Tightening:6023, MotorType, String, 0, 0 ]
+    - [ UAVariable, IJT.Tightening:6023, IJT.Tightening:MotorType, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]
+      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
-    - [ UAVariable, IJT.Tightening:6018, ShutOffMethod, Byte, 0, 0 ]
+    - [ UAVariable, IJT.Tightening:6018, IJT.Tightening:ShutOffMethod, Byte, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 2376, MultiStateDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Tightening:6019, EnumStrings, LocalizedText, 1, 0 ]
+      - [ UAVariable, IJT.Tightening:6019, IJT.Tightening:EnumStrings, LocalizedText, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, IJT.Tightening:6018, ShutOffMethod, Byte, 0, 0 ]
+        - [ UAVariable, IJT.Tightening:6018, IJT.Tightening:ShutOffMethod, Byte, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]
+      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]

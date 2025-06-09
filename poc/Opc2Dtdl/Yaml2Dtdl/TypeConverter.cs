@@ -64,7 +64,7 @@ namespace Yaml2Dtdl
             this.localTypeMap = localTypeMap;
         }
 
-        public string GetDtdlTypeFromOpcUaType(string modelId, string? opcUaType, int arrayDimensions, string propertyName, int indent)
+        public string GetDtdlTypeFromOpcUaType(string modelId, string? opcUaType, int arrayDimensions, string propertyName, (string, string) unitInfo, int indent)
         {
             if (!propertyName.Contains('<'))
             {
@@ -85,7 +85,15 @@ namespace Yaml2Dtdl
             stringBuilder.AppendLine($"{it}  }},");
 
             stringBuilder.AppendLine($"{it}  \"mapValue\": {{");
+            if (unitInfo.Item1 != string.Empty)
+            {
+                stringBuilder.AppendLine($"{it}    \"@type\": [ \"MapValue\", \"{unitInfo.Item1}\" ],");
+            }
             stringBuilder.AppendLine($"{it}    \"name\": \"{legalizedName}Schema\",");
+            if (unitInfo.Item2 != string.Empty)
+            {
+                stringBuilder.AppendLine($"{it}    \"unit\": \"{unitInfo.Item2}\",");
+            }
             stringBuilder.AppendLine($"{it}    \"schema\": {valueSchema}");
             stringBuilder.AppendLine($"{it}  }}");
             stringBuilder.Append($"{it}}}");

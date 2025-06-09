@@ -81,14 +81,14 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, FDI5:22, FDI5:InvokeAction ]
     - HasProperty:
-      - [ UAVariable, FDI5:23, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:23, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ActionName: [ String, 0 ]
           MethodArguments: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FDI5:24, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:24, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ActionNodeId: [ NodeId, 0 ]
           InvokeActionError: [ Int32, 0 ]
@@ -99,14 +99,14 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, FDI5:25, FDI5:RespondAction ]
     - HasProperty:
-      - [ UAVariable, FDI5:26, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:26, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ActionNodeId: [ NodeId, 0 ]
           Response: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FDI5:27, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:27, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           RespondActionError: [ Int32, 0 ]
       - HasModellingRule:
@@ -116,13 +116,13 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, FDI5:28, FDI5:AbortAction ]
     - HasProperty:
-      - [ UAVariable, FDI5:29, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:29, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ActionNodeId: [ NodeId, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FDI5:30, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:30, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           AbortActionError: [ Int32, 0 ]
       - HasModellingRule:
@@ -143,14 +143,14 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, FDI5:55, FDI5:GetEditContext ]
     - HasProperty:
-      - [ UAVariable, FDI5:56, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:56, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ParentId: [ String, 0 ]
           TargetWindowMode: [ FDI5:WindowModeType, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FDI5:57, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:57, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           EditContextId: [ String, 0 ]
           GetEditContextStatus: [ Int32, 0 ]
@@ -161,14 +161,14 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, FDI5:58, FDI5:RegisterNodesById ]
     - HasProperty:
-      - [ UAVariable, FDI5:59, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:59, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           EditContextId: [ String, 0 ]
           NodesToRegister: [ FDI5:RegistrationParameters, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FDI5:60, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:60, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           RegisterNodesStatus: [ FDI5:RegisterNodesResult, 0 ]
       - HasModellingRule:
@@ -178,14 +178,14 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, FDI5:61, FDI5:RegisterNodesByRelativePath ]
     - HasProperty:
-      - [ UAVariable, FDI5:62, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:62, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           EditContextId: [ String, 0 ]
           NodesToRegister: [ FDI5:RegistrationParameters, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FDI5:63, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:63, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           RegisterNodesStatus: [ FDI5:RegisterNodesResult, 0 ]
       - HasModellingRule:
@@ -195,13 +195,13 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, FDI5:64, FDI5:Apply ]
     - HasProperty:
-      - [ UAVariable, FDI5:65, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:65, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           EditContextId: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FDI5:66, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:66, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplyStatus: [ FDI5:ApplyResult, 0 ]
       - HasModellingRule:
@@ -211,13 +211,13 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, FDI5:67, FDI5:Reset ]
     - HasProperty:
-      - [ UAVariable, FDI5:68, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:68, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           EditContextId: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FDI5:69, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:69, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ResetStatus: [ Int32, 0 ]
       - HasModellingRule:
@@ -227,13 +227,13 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, FDI5:70, FDI5:Discard ]
     - HasProperty:
-      - [ UAVariable, FDI5:71, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:71, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           EditContextId: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FDI5:72, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:72, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           DiscardStatus: [ Int32, 0 ]
       - HasModellingRule:
@@ -248,13 +248,13 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, FDI5:83, FDI5:InitDirectAccess ]
     - HasProperty:
-      - [ UAVariable, FDI5:84, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:84, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Context: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FDI5:85, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:85, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           InitDirectAccessError: [ Int32, 0 ]
       - HasModellingRule:
@@ -264,14 +264,14 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, FDI5:86, FDI5:Transfer ]
     - HasProperty:
-      - [ UAVariable, FDI5:87, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:87, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SendData: [ String, 0 ]
           ReceiveData: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FDI5:88, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:88, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           TransferError: [ Int32, 0 ]
       - HasModellingRule:
@@ -281,13 +281,13 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, FDI5:89, FDI5:EndDirectAccess ]
     - HasProperty:
-      - [ UAVariable, FDI5:90, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:90, FDI5:InputArguments, Argument, 1, 0 ]
       - Arguments:
           InvalidateCache: [ Boolean, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FDI5:91, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FDI5:91, FDI5:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           EndDirectAccessError: [ Int32, 0 ]
       - HasModellingRule:

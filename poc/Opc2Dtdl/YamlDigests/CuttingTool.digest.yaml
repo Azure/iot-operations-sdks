@@ -1,51 +1,51 @@
 DataTypes:
-- UADataType: [ CuttingTool:3003, FileFormatDataType ]
+- UADataType: [ CuttingTool:3003, CuttingTool:FileFormatDataType ]
   Fields:
     Name: [ String, 0 ]
     FileExtension: [ String, 0 ]
     Version: [ SemanticVersionString, 0 ]
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ IA:3003, LevelDisplayMode ]
+- UADataType: [ IA:3003, IA:LevelDisplayMode ]
   Enums:
     Dimmed: 0
     Blinking: 1
     Other: 2
-- UADataType: [ IA:3004, SignalColor ]
+- UADataType: [ IA:3004, IA:SignalColor ]
   Enums:
     Off: 0
     Red: 1
@@ -55,41 +55,41 @@ DataTypes:
     Purple: 5
     Cyan: 6
     White: 7
-- UADataType: [ IA:3005, SignalModeLight ]
+- UADataType: [ IA:3005, IA:SignalModeLight ]
   Enums:
     Continuous: 0
     Blinking: 1
     Flashing: 2
     Other: 3
-- UADataType: [ IA:3002, StacklightOperationMode ]
+- UADataType: [ IA:3002, IA:StacklightOperationMode ]
   Enums:
     Segmented: 0
     Levelmeter: 1
     Running_Light: 2
     Other: 3
-- UADataType: [ Machinery.Result:3002, ResultEvaluationEnum ]
+- UADataType: [ Machinery.Result:3002, Machinery.Result:ResultEvaluationEnum ]
   Enums:
     Undefined: 0
     OK: 1
     NotOK: 2
     NotDecidable: 3
-- UADataType: [ Machinery.Result:3005, BaseResultTransferOptionsDataType ]
+- UADataType: [ Machinery.Result:3005, Machinery.Result:BaseResultTransferOptionsDataType ]
   Fields:
     ResultId: [ TrimmedString, 0 ]
-- UADataType: [ Machinery.Result:3004, ResultTransferOptionsDataType ]
+- UADataType: [ Machinery.Result:3004, Machinery.Result:ResultTransferOptionsDataType ]
   Bases:
-  - BaseResultTransferOptionsDataType
-- UADataType: [ Machinery.Result:3006, ProcessingTimesDataType ]
+  - Machinery.Result:BaseResultTransferOptionsDataType
+- UADataType: [ Machinery.Result:3006, Machinery.Result:ProcessingTimesDataType ]
   Fields:
     StartTime: [ UtcTime, 0 ]
     EndTime: [ UtcTime, 0 ]
     AcquisitionDuration: [ Duration, 0 ]
     ProcessingDuration: [ Duration, 0 ]
-- UADataType: [ Machinery.Result:3008, ResultDataType ]
+- UADataType: [ Machinery.Result:3008, Machinery.Result:ResultDataType ]
   Fields:
-    ResultMetaData: [ ResultMetaDataType, 0 ]
+    ResultMetaData: [ Machinery.Result:ResultMetaDataType, 0 ]
     ResultContent: [ null, 1 ]
-- UADataType: [ Machinery.Result:3007, ResultMetaDataType ]
+- UADataType: [ Machinery.Result:3007, Machinery.Result:ResultMetaDataType ]
   Fields:
     ResultId: [ TrimmedString, 0 ]
     HasTransferableDataOnFile: [ Boolean, 0 ]
@@ -105,51 +105,51 @@ DataTypes:
     InternalConfigurationId: [ TrimmedString, 0 ]
     JobId: [ TrimmedString, 0 ]
     CreationTime: [ UtcTime, 0 ]
-    ProcessingTimes: [ ProcessingTimesDataType, 0 ]
+    ProcessingTimes: [ Machinery.Result:ProcessingTimesDataType, 0 ]
     ResultUri: [ UriString, 1 ]
-    ResultEvaluation: [ ResultEvaluationEnum, 0 ]
+    ResultEvaluation: [ Machinery.Result:ResultEvaluationEnum, 0 ]
     ResultEvaluationCode: [ Int64, 0 ]
     ResultEvaluationDetails: [ LocalizedText, 0 ]
     FileFormat: [ String, 1 ]
-- UADataType: [ isa95-jobcontrol:3005, ISA95EquipmentDataType ]
+- UADataType: [ isa95-jobcontrol:3005, isa95-jobcontrol:ISA95EquipmentDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
     EquipmentUse: [ String, 0 ]
     Quantity: [ DecimalString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Properties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3015, ISA95JobOrderAndStateDataType ]
+    Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3015, isa95-jobcontrol:ISA95JobOrderAndStateDataType ]
   Fields:
-    JobOrder: [ ISA95JobOrderDataType, 0 ]
-    State: [ ISA95StateDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3008, ISA95JobOrderDataType ]
+    JobOrder: [ isa95-jobcontrol:ISA95JobOrderDataType, 0 ]
+    State: [ isa95-jobcontrol:ISA95StateDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3008, isa95-jobcontrol:ISA95JobOrderDataType ]
   Fields:
     JobOrderID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
-    WorkMasterID: [ ISA95WorkMasterDataType, 1 ]
+    WorkMasterID: [ isa95-jobcontrol:ISA95WorkMasterDataType, 1 ]
     StartTime: [ DateTime, 0 ]
     EndTime: [ DateTime, 0 ]
     Priority: [ Int16, 0 ]
-    JobOrderParameters: [ ISA95ParameterDataType, 1 ]
-    PersonnelRequirements: [ ISA95PersonnelDataType, 1 ]
-    EquipmentRequirements: [ ISA95EquipmentDataType, 1 ]
-    PhysicalAssetRequirements: [ ISA95PhysicalAssetDataType, 1 ]
-    MaterialRequirements: [ ISA95MaterialDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3013, ISA95JobResponseDataType ]
+    JobOrderParameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+    PersonnelRequirements: [ isa95-jobcontrol:ISA95PersonnelDataType, 1 ]
+    EquipmentRequirements: [ isa95-jobcontrol:ISA95EquipmentDataType, 1 ]
+    PhysicalAssetRequirements: [ isa95-jobcontrol:ISA95PhysicalAssetDataType, 1 ]
+    MaterialRequirements: [ isa95-jobcontrol:ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3013, isa95-jobcontrol:ISA95JobResponseDataType ]
   Fields:
     JobResponseID: [ String, 0 ]
     Description: [ LocalizedText, 0 ]
     JobOrderID: [ String, 0 ]
     StartTime: [ DateTime, 0 ]
     EndTime: [ DateTime, 0 ]
-    JobState: [ ISA95StateDataType, 1 ]
-    JobResponseData: [ ISA95ParameterDataType, 1 ]
-    PersonnelActuals: [ ISA95PersonnelDataType, 1 ]
-    EquipmentActuals: [ ISA95EquipmentDataType, 1 ]
-    PhysicalAssetActuals: [ ISA95PhysicalAssetDataType, 1 ]
-    MaterialActuals: [ ISA95MaterialDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3010, ISA95MaterialDataType ]
+    JobState: [ isa95-jobcontrol:ISA95StateDataType, 1 ]
+    JobResponseData: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+    PersonnelActuals: [ isa95-jobcontrol:ISA95PersonnelDataType, 1 ]
+    EquipmentActuals: [ isa95-jobcontrol:ISA95EquipmentDataType, 1 ]
+    PhysicalAssetActuals: [ isa95-jobcontrol:ISA95PhysicalAssetDataType, 1 ]
+    MaterialActuals: [ isa95-jobcontrol:ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3010, isa95-jobcontrol:ISA95MaterialDataType ]
   Fields:
     MaterialClassID: [ String, 0 ]
     MaterialDefinitionID: [ String, 0 ]
@@ -159,91 +159,91 @@ DataTypes:
     MaterialUse: [ String, 0 ]
     Quantity: [ DecimalString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Properties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3003, ISA95ParameterDataType ]
+    Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3003, isa95-jobcontrol:ISA95ParameterDataType ]
   Fields:
     ID: [ String, 0 ]
     Value: [ null, 0 ]
     Description: [ LocalizedText, 1 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Subparameters: [ ISA95ParameterDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3011, ISA95PersonnelDataType ]
+    Subparameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3011, isa95-jobcontrol:ISA95PersonnelDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
     PersonnelUse: [ String, 0 ]
     Quantity: [ DecimalString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Properties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3012, ISA95PhysicalAssetDataType ]
+    Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3012, isa95-jobcontrol:ISA95PhysicalAssetDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
     PhysicalAssetUse: [ String, 0 ]
     Quantity: [ DecimalString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Properties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3002, ISA95PropertyDataType ]
+    Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3002, isa95-jobcontrol:ISA95PropertyDataType ]
   Fields:
     ID: [ String, 0 ]
     Value: [ null, 0 ]
     Description: [ LocalizedText, 1 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Subproperties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3006, ISA95StateDataType ]
+    Subproperties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3006, isa95-jobcontrol:ISA95StateDataType ]
   Fields:
     BrowsePath: [ RelativePath, 0 ]
     StateText: [ LocalizedText, 0 ]
     StateNumber: [ UInt32, 0 ]
-- UADataType: [ isa95-jobcontrol:3007, ISA95WorkMasterDataType ]
+- UADataType: [ isa95-jobcontrol:3007, isa95-jobcontrol:ISA95WorkMasterDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 0 ]
-    Parameters: [ ISA95ParameterDataType, 1 ]
-- UADataType: [ Machinery.Jobs:3003, JobExecutionMode ]
+    Parameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3003, Machinery.Jobs:JobExecutionMode ]
   Enums:
     SimulationMode: 0
     TestMode: 1
     ProductionMode: 2
-- UADataType: [ Machinery.Jobs:3006, JobResult ]
+- UADataType: [ Machinery.Jobs:3006, Machinery.Jobs:JobResult ]
   Enums:
     Unknown: 0
     Successful: 1
     Unsuccessful: 2
-- UADataType: [ Machinery.Jobs:3004, ProcessIrregularity ]
+- UADataType: [ Machinery.Jobs:3004, Machinery.Jobs:ProcessIrregularity ]
   Enums:
     CapabilityUnavailable: 0
     Detected: 1
     NotDetected: 2
     NotYetDetermined: 3
-- UADataType: [ Machinery.Jobs:3009, OutputInfoType ]
+- UADataType: [ Machinery.Jobs:3009, Machinery.Jobs:OutputInfoType ]
   Enums:
     OrderNumber: 0
     LotNumber: 1
     SerialNumber: 2
-- UADataType: [ Machinery.Jobs:3015, BOMComponentInformationDataType ]
+- UADataType: [ Machinery.Jobs:3015, Machinery.Jobs:BOMComponentInformationDataType ]
   Fields:
-    Identification: [ OutputInformationDataType, 0 ]
+    Identification: [ Machinery.Jobs:OutputInformationDataType, 0 ]
     Quantity: [ Double, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-- UADataType: [ Machinery.Jobs:3018, BOMInformationDataType ]
+- UADataType: [ Machinery.Jobs:3018, Machinery.Jobs:BOMInformationDataType ]
   Fields:
-    Identification: [ OutputInformationDataType, 0 ]
-    ComponentInformation: [ BOMComponentInformationDataType, 1 ]
-- UADataType: [ Machinery.Jobs:3012, OutputInformationDataType ]
+    Identification: [ Machinery.Jobs:OutputInformationDataType, 0 ]
+    ComponentInformation: [ Machinery.Jobs:BOMComponentInformationDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3012, Machinery.Jobs:OutputInformationDataType ]
   Fields:
     ItemNumber: [ String, 0 ]
-    OutputInfo: [ OutputInfoType, 0 ]
+    OutputInfo: [ Machinery.Jobs:OutputInfoType, 0 ]
     OrderNumber: [ String, 0 ]
     LotNumber: [ String, 0 ]
     SerialNumber: [ String, 0 ]
-- UADataType: [ Machinery.Jobs:3021, OutputPerformanceInfoDataType ]
+- UADataType: [ Machinery.Jobs:3021, Machinery.Jobs:OutputPerformanceInfoDataType ]
   Fields:
-    Identification: [ OutputInformationDataType, 0 ]
+    Identification: [ Machinery.Jobs:OutputInformationDataType, 0 ]
     StartTime: [ DateTime, 0 ]
     EndTime: [ DateTime, 0 ]
-    Parameters: [ ISA95ParameterDataType, 1 ]
-- UADataType: [ MachineTool:67, ChannelMode ]
+    Parameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+- UADataType: [ MachineTool:67, MachineTool:ChannelMode ]
   Enums:
     Automatic: 0
     MdaMdi: 1
@@ -253,25 +253,25 @@ DataTypes:
     Remote: 5
     Reference: 6
     Other: 7
-- UADataType: [ MachineTool:64, ChannelState ]
+- UADataType: [ MachineTool:64, MachineTool:ChannelState ]
   Enums:
     Active: 0
     Interrupted: 1
     Reset: 2
-- UADataType: [ MachineTool:71, EDMGeneratorState ]
+- UADataType: [ MachineTool:71, MachineTool:EDMGeneratorState ]
   Enums:
     Undefined: 0
     Ready: 1
     Active_Low_Voltage: 2
     Active_High_Voltage: 3
     Error: 4
-- UADataType: [ MachineTool:70, LaserState ]
+- UADataType: [ MachineTool:70, MachineTool:LaserState ]
   Enums:
     Undefined: 0
     Ready: 1
     Active: 2
     Error: 3
-- UADataType: [ MachineTool:65, MachineOperationMode ]
+- UADataType: [ MachineTool:65, MachineTool:MachineOperationMode ]
   Enums:
     Manual: 0
     Automatic: 1
@@ -279,20 +279,20 @@ DataTypes:
     AutoWithManualIntervention: 3
     Service: 4
     Other: 5
-- UADataType: [ MachineTool:63, PartQuality ]
+- UADataType: [ MachineTool:63, MachineTool:PartQuality ]
   Enums:
     CapabilityUnavailable: 0
     Good: 1
     Bad: 2
     NotYetMeasured: 3
     WillNotBeMeasured: 4
-- UADataType: [ MachineTool:62, ProcessIrregularity ]
+- UADataType: [ MachineTool:62, MachineTool:ProcessIrregularity ]
   Enums:
     CapabilityUnavailable: 0
     Detected: 1
     NotDetected: 2
     NotYetDetermined: 3
-- UADataType: [ MachineTool:68, ToolLifeIndication ]
+- UADataType: [ MachineTool:68, MachineTool:ToolLifeIndication ]
   Enums:
     Time: 0
     NumberOfParts: 1
@@ -302,7 +302,7 @@ DataTypes:
     Length: 5
     Diameter: 6
     Other: 7
-- UADataType: [ MachineTool:66, ToolLocked ]
+- UADataType: [ MachineTool:66, MachineTool:ToolLocked ]
   Enums:
     CapabilityUnavailable: 0
     ByOperator: 1
@@ -310,12 +310,12 @@ DataTypes:
     ToolLife: 3
     MeasurementError: 4
     Other: 5
-- UADataType: [ MachineTool:69, ToolManagement ]
+- UADataType: [ MachineTool:69, MachineTool:ToolManagement ]
   Enums:
     NumberBased: 0
     GroupBased: 1
     Other: 2
-- UADataType: [ GMS:3009, MeasurementReasonEnum ]
+- UADataType: [ GMS:3009, GMS:MeasurementReasonEnum ]
   Enums:
     ContinuousMeasurements: 0
     SpecialMeasurement: 1
@@ -323,65 +323,65 @@ DataTypes:
     MinMastering: 3
     MedMastering: 4
     MaxMastering: 5
-- UADataType: [ GMS:3010, ToleranceLimitEnum ]
+- UADataType: [ GMS:3010, GMS:ToleranceLimitEnum ]
   Enums:
     NoLimit: 0
     LimitValue: 1
     NaturalLimit: 2
-- UADataType: [ GMS:3004, ToolAlignmentState ]
+- UADataType: [ GMS:3004, GMS:ToolAlignmentState ]
   Enums:
     Fixed: 0
     Indexed: 1
     Continuous: 2
-- UADataType: [ GMS:3002, ToolIsQualifiedStatus ]
+- UADataType: [ GMS:3002, GMS:ToolIsQualifiedStatus ]
   Enums:
     Qualified: 0
     Imprecise: 1
     NotQualified: 2
-- UADataType: [ GMS:3006, WorkspaceType ]
+- UADataType: [ GMS:3006, GMS:WorkspaceType ]
   Bases:
   - Structure
-- UADataType: [ GMS:3007, CartesianWorkspaceType ]
+- UADataType: [ GMS:3007, GMS:CartesianWorkspaceType ]
   Fields:
     Length: [ Double, 0 ]
     Width: [ Double, 0 ]
     Height: [ Double, 0 ]
-- UADataType: [ GMS:3008, CylindricalWorkspaceType ]
+- UADataType: [ GMS:3008, GMS:CylindricalWorkspaceType ]
   Fields:
     Length: [ Double, 0 ]
     Radius: [ Double, 0 ]
 
 DefinedTypes:
 
-  CuttingToolFileType:
-  - [ UAObjectType, CuttingTool:1003, CuttingToolFileType ]
+  CuttingTool:CuttingToolFileType:
+  - [ UAObjectType, CuttingTool:1003, CuttingTool:CuttingToolFileType ]
   - HasProperty:
-    - [ UAVariable, CuttingTool:6070, FileFormat, FileFormatDataType, 0, 3 ]
+    - [ UAVariable, CuttingTool:6070, CuttingTool:FileFormat, CuttingTool:FileFormatDataType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, CuttingTool:1003, CuttingToolFileType ]
+      - [ UAObjectType, CuttingTool:1003, CuttingTool:CuttingToolFileType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11575, FileType ]
 
-  ToolMeasuringMachineType:
-  - [ UAObjectType, CuttingTool:1021, ToolMeasuringMachineType ]
+  CuttingTool:ToolMeasuringMachineType:
+  - [ UAObjectType, CuttingTool:1021, CuttingTool:ToolMeasuringMachineType ]
   - HasComponent:
-    - [ UAObject, CuttingTool:5001, FileSystem ]
+    - [ UAObject, CuttingTool:5001, CuttingTool:FileSystem ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, 13353, FileDirectoryType ]
     - HasComponent:
-      - [ UAMethod, CuttingTool:7001, CreateDirectory ]
+      - [ UAMethod, CuttingTool:7001, CuttingTool:CreateDirectory ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, CuttingTool:5001, FileSystem ]
+        - [ UAObject, CuttingTool:5001, CuttingTool:FileSystem ]
       - HasProperty:
-        - [ UAVariable, CuttingTool:6001, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, CuttingTool:6001, CuttingTool:InputArguments, Argument, 1, 0 ]
         - Arguments:
             DirectoryName: [ String, 0 ]
         - HasTypeDefinition:
@@ -389,11 +389,11 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7001, CreateDirectory ]
+          - [ UAMethod, CuttingTool:7001, CuttingTool:CreateDirectory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7022, CreateDirectory ]
+          - [ UAMethod, CuttingTool:7022, CuttingTool:CreateDirectory ]
       - HasProperty:
-        - [ UAVariable, CuttingTool:6002, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, CuttingTool:6002, CuttingTool:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             DirectoryNodeId: [ NodeId, 0 ]
         - HasTypeDefinition:
@@ -401,17 +401,17 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7001, CreateDirectory ]
+          - [ UAMethod, CuttingTool:7001, CuttingTool:CreateDirectory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7022, CreateDirectory ]
+          - [ UAMethod, CuttingTool:7022, CuttingTool:CreateDirectory ]
     - HasComponent:
-      - [ UAMethod, CuttingTool:7002, CreateFile ]
+      - [ UAMethod, CuttingTool:7002, CuttingTool:CreateFile ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, CuttingTool:5001, FileSystem ]
+        - [ UAObject, CuttingTool:5001, CuttingTool:FileSystem ]
       - HasProperty:
-        - [ UAVariable, CuttingTool:6003, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, CuttingTool:6003, CuttingTool:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileName: [ String, 0 ]
             RequestFileOpen: [ Boolean, 0 ]
@@ -420,11 +420,11 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7002, CreateFile ]
+          - [ UAMethod, CuttingTool:7002, CuttingTool:CreateFile ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7023, CreateFile ]
+          - [ UAMethod, CuttingTool:7023, CuttingTool:CreateFile ]
       - HasProperty:
-        - [ UAVariable, CuttingTool:6004, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, CuttingTool:6004, CuttingTool:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             FileNodeId: [ NodeId, 0 ]
             FileHandle: [ UInt32, 0 ]
@@ -433,17 +433,17 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7002, CreateFile ]
+          - [ UAMethod, CuttingTool:7002, CuttingTool:CreateFile ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7023, CreateFile ]
+          - [ UAMethod, CuttingTool:7023, CuttingTool:CreateFile ]
     - HasComponent:
-      - [ UAMethod, CuttingTool:7003, Delete ]
+      - [ UAMethod, CuttingTool:7003, CuttingTool:Delete ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, CuttingTool:5001, FileSystem ]
+        - [ UAObject, CuttingTool:5001, CuttingTool:FileSystem ]
       - HasProperty:
-        - [ UAVariable, CuttingTool:6005, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, CuttingTool:6005, CuttingTool:InputArguments, Argument, 1, 0 ]
         - Arguments:
             ObjectToDelete: [ NodeId, 0 ]
         - HasTypeDefinition:
@@ -451,17 +451,17 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7003, Delete ]
+          - [ UAMethod, CuttingTool:7003, CuttingTool:Delete ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7024, Delete ]
+          - [ UAMethod, CuttingTool:7024, CuttingTool:Delete ]
     - HasComponent_reverse:
-      - [ UAObjectType, CuttingTool:1021, ToolMeasuringMachineType ]
+      - [ UAObjectType, CuttingTool:1021, CuttingTool:ToolMeasuringMachineType ]
     - HasComponent:
-      - [ UAMethod, CuttingTool:7004, MoveOrCopy ]
+      - [ UAMethod, CuttingTool:7004, CuttingTool:MoveOrCopy ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, CuttingTool:6006, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, CuttingTool:6006, CuttingTool:InputArguments, Argument, 1, 0 ]
         - Arguments:
             ObjectToMoveOrCopy: [ NodeId, 0 ]
             TargetDirectory: [ NodeId, 0 ]
@@ -472,13 +472,13 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7004, MoveOrCopy ]
+          - [ UAMethod, CuttingTool:7004, CuttingTool:MoveOrCopy ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7025, MoveOrCopy ]
+          - [ UAMethod, CuttingTool:7025, CuttingTool:MoveOrCopy ]
       - HasComponent_reverse:
-        - [ UAObject, CuttingTool:5001, FileSystem ]
+        - [ UAObject, CuttingTool:5001, CuttingTool:FileSystem ]
       - HasProperty:
-        - [ UAVariable, CuttingTool:6007, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, CuttingTool:6007, CuttingTool:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             NewNodeId: [ NodeId, 0 ]
         - HasTypeDefinition:
@@ -486,23 +486,23 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7004, MoveOrCopy ]
+          - [ UAMethod, CuttingTool:7004, CuttingTool:MoveOrCopy ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7025, MoveOrCopy ]
+          - [ UAMethod, CuttingTool:7025, CuttingTool:MoveOrCopy ]
     - HasComponent:
-      - [ UAObject, CuttingTool:5015, Results ]
+      - [ UAObject, CuttingTool:5015, CuttingTool:Results ]
       - HasTypeDefinition:
         - [ UAObjectType, 13353, FileDirectoryType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent:
-        - [ UAMethod, CuttingTool:7022, CreateDirectory ]
+        - [ UAMethod, CuttingTool:7022, CuttingTool:CreateDirectory ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, CuttingTool:5015, Results ]
+          - [ UAObject, CuttingTool:5015, CuttingTool:Results ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6074, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6074, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               DirectoryName: [ String, 0 ]
           - HasTypeDefinition:
@@ -510,9 +510,9 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7022, CreateDirectory ]
+            - [ UAMethod, CuttingTool:7022, CuttingTool:CreateDirectory ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6001, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6001, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               DirectoryName: [ String, 0 ]
           - HasTypeDefinition:
@@ -520,11 +520,11 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7001, CreateDirectory ]
+            - [ UAMethod, CuttingTool:7001, CuttingTool:CreateDirectory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7022, CreateDirectory ]
+            - [ UAMethod, CuttingTool:7022, CuttingTool:CreateDirectory ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6075, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6075, CuttingTool:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               DirectoryNodeId: [ NodeId, 0 ]
           - HasTypeDefinition:
@@ -532,9 +532,9 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7022, CreateDirectory ]
+            - [ UAMethod, CuttingTool:7022, CuttingTool:CreateDirectory ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6002, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6002, CuttingTool:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               DirectoryNodeId: [ NodeId, 0 ]
           - HasTypeDefinition:
@@ -542,17 +542,17 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7001, CreateDirectory ]
+            - [ UAMethod, CuttingTool:7001, CuttingTool:CreateDirectory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7022, CreateDirectory ]
+            - [ UAMethod, CuttingTool:7022, CuttingTool:CreateDirectory ]
       - HasComponent:
-        - [ UAMethod, CuttingTool:7023, CreateFile ]
+        - [ UAMethod, CuttingTool:7023, CuttingTool:CreateFile ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, CuttingTool:5015, Results ]
+          - [ UAObject, CuttingTool:5015, CuttingTool:Results ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6076, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6076, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               FileName: [ String, 0 ]
               RequestFileOpen: [ Boolean, 0 ]
@@ -561,9 +561,9 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7023, CreateFile ]
+            - [ UAMethod, CuttingTool:7023, CuttingTool:CreateFile ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6003, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6003, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               FileName: [ String, 0 ]
               RequestFileOpen: [ Boolean, 0 ]
@@ -572,11 +572,11 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7002, CreateFile ]
+            - [ UAMethod, CuttingTool:7002, CuttingTool:CreateFile ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7023, CreateFile ]
+            - [ UAMethod, CuttingTool:7023, CuttingTool:CreateFile ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6077, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6077, CuttingTool:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               FileNodeId: [ NodeId, 0 ]
               FileHandle: [ UInt32, 0 ]
@@ -585,9 +585,9 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7023, CreateFile ]
+            - [ UAMethod, CuttingTool:7023, CuttingTool:CreateFile ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6004, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6004, CuttingTool:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               FileNodeId: [ NodeId, 0 ]
               FileHandle: [ UInt32, 0 ]
@@ -596,17 +596,17 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7002, CreateFile ]
+            - [ UAMethod, CuttingTool:7002, CuttingTool:CreateFile ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7023, CreateFile ]
+            - [ UAMethod, CuttingTool:7023, CuttingTool:CreateFile ]
       - HasComponent:
-        - [ UAMethod, CuttingTool:7024, Delete ]
+        - [ UAMethod, CuttingTool:7024, CuttingTool:Delete ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, CuttingTool:5015, Results ]
+          - [ UAObject, CuttingTool:5015, CuttingTool:Results ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6080, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6080, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               ObjectToDelete: [ NodeId, 0 ]
           - HasTypeDefinition:
@@ -614,9 +614,9 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7024, Delete ]
+            - [ UAMethod, CuttingTool:7024, CuttingTool:Delete ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6005, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6005, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               ObjectToDelete: [ NodeId, 0 ]
           - HasTypeDefinition:
@@ -624,15 +624,15 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7003, Delete ]
+            - [ UAMethod, CuttingTool:7003, CuttingTool:Delete ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7024, Delete ]
+            - [ UAMethod, CuttingTool:7024, CuttingTool:Delete ]
       - HasComponent:
-        - [ UAMethod, CuttingTool:7025, MoveOrCopy ]
+        - [ UAMethod, CuttingTool:7025, CuttingTool:MoveOrCopy ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6081, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6081, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               ObjectToMoveOrCopy: [ NodeId, 0 ]
               TargetDirectory: [ NodeId, 0 ]
@@ -643,9 +643,9 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7025, MoveOrCopy ]
+            - [ UAMethod, CuttingTool:7025, CuttingTool:MoveOrCopy ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6006, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6006, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               ObjectToMoveOrCopy: [ NodeId, 0 ]
               TargetDirectory: [ NodeId, 0 ]
@@ -656,13 +656,13 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7004, MoveOrCopy ]
+            - [ UAMethod, CuttingTool:7004, CuttingTool:MoveOrCopy ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7025, MoveOrCopy ]
+            - [ UAMethod, CuttingTool:7025, CuttingTool:MoveOrCopy ]
         - HasComponent_reverse:
-          - [ UAObject, CuttingTool:5015, Results ]
+          - [ UAObject, CuttingTool:5015, CuttingTool:Results ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6082, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6082, CuttingTool:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               NewNodeId: [ NodeId, 0 ]
           - HasTypeDefinition:
@@ -670,9 +670,9 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7025, MoveOrCopy ]
+            - [ UAMethod, CuttingTool:7025, CuttingTool:MoveOrCopy ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6007, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6007, CuttingTool:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               NewNodeId: [ NodeId, 0 ]
           - HasTypeDefinition:
@@ -680,25 +680,25 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7004, MoveOrCopy ]
+            - [ UAMethod, CuttingTool:7004, CuttingTool:MoveOrCopy ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7025, MoveOrCopy ]
+            - [ UAMethod, CuttingTool:7025, CuttingTool:MoveOrCopy ]
       - HasComponent_reverse:
-        - [ UAObject, CuttingTool:5001, FileSystem ]
+        - [ UAObject, CuttingTool:5001, CuttingTool:FileSystem ]
     - HasComponent:
-      - [ UAObject, CuttingTool:5005, WorkMasters ]
+      - [ UAObject, CuttingTool:5005, MachineTool:WorkMasters ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAObjectType, 13353, FileDirectoryType ]
       - HasComponent:
-        - [ UAMethod, CuttingTool:7005, CreateDirectory ]
+        - [ UAMethod, CuttingTool:7005, CuttingTool:CreateDirectory ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, CuttingTool:5005, WorkMasters ]
+          - [ UAObject, CuttingTool:5005, MachineTool:WorkMasters ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6008, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6008, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               DirectoryName: [ String, 0 ]
           - HasModellingRule:
@@ -706,9 +706,9 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7005, CreateDirectory ]
+            - [ UAMethod, CuttingTool:7005, CuttingTool:CreateDirectory ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6009, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6009, CuttingTool:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               DirectoryNodeId: [ NodeId, 0 ]
           - HasModellingRule:
@@ -716,15 +716,15 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7005, CreateDirectory ]
+            - [ UAMethod, CuttingTool:7005, CuttingTool:CreateDirectory ]
       - HasComponent:
-        - [ UAMethod, CuttingTool:7006, CreateFile ]
+        - [ UAMethod, CuttingTool:7006, CuttingTool:CreateFile ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, CuttingTool:5005, WorkMasters ]
+          - [ UAObject, CuttingTool:5005, MachineTool:WorkMasters ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6010, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6010, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               FileName: [ String, 0 ]
               RequestFileOpen: [ Boolean, 0 ]
@@ -733,9 +733,9 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7006, CreateFile ]
+            - [ UAMethod, CuttingTool:7006, CuttingTool:CreateFile ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6011, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6011, CuttingTool:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               FileNodeId: [ NodeId, 0 ]
               FileHandle: [ UInt32, 0 ]
@@ -744,15 +744,15 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7006, CreateFile ]
+            - [ UAMethod, CuttingTool:7006, CuttingTool:CreateFile ]
       - HasComponent:
-        - [ UAMethod, CuttingTool:7007, Delete ]
+        - [ UAMethod, CuttingTool:7007, CuttingTool:Delete ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, CuttingTool:5005, WorkMasters ]
+          - [ UAObject, CuttingTool:5005, MachineTool:WorkMasters ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6012, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6012, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               ObjectToDelete: [ NodeId, 0 ]
           - HasModellingRule:
@@ -760,13 +760,13 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7007, Delete ]
+            - [ UAMethod, CuttingTool:7007, CuttingTool:Delete ]
       - HasComponent:
-        - [ UAMethod, CuttingTool:7008, MoveOrCopy ]
+        - [ UAMethod, CuttingTool:7008, CuttingTool:MoveOrCopy ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6013, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6013, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               ObjectToMoveOrCopy: [ NodeId, 0 ]
               TargetDirectory: [ NodeId, 0 ]
@@ -777,11 +777,11 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7008, MoveOrCopy ]
+            - [ UAMethod, CuttingTool:7008, CuttingTool:MoveOrCopy ]
         - HasComponent_reverse:
-          - [ UAObject, CuttingTool:5005, WorkMasters ]
+          - [ UAObject, CuttingTool:5005, MachineTool:WorkMasters ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6014, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6014, CuttingTool:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               NewNodeId: [ NodeId, 0 ]
           - HasModellingRule:
@@ -789,123 +789,123 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7008, MoveOrCopy ]
+            - [ UAMethod, CuttingTool:7008, CuttingTool:MoveOrCopy ]
       - HasComponent_reverse:
-        - [ UAObject, CuttingTool:5001, FileSystem ]
+        - [ UAObject, CuttingTool:5001, CuttingTool:FileSystem ]
   - HasComponent:
-    - [ UAObject, CuttingTool:5011, MachineryBuildingBlocks ]
+    - [ UAObject, CuttingTool:5011, Machinery:MachineryBuildingBlocks ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasAddIn:
-      - [ UAObject, CuttingTool:5002, JobManagement ]
+      - [ UAObject, CuttingTool:5002, Machinery.Jobs:JobManagement ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
-        - [ UAObjectType, Machinery.Jobs:1003, JobManagementType ]
+        - [ UAObjectType, Machinery.Jobs:1003, Machinery.Jobs:JobManagementType ]
       - HasComponent:
-        - [ UAObject, CuttingTool:5003, JobOrderControl ]
+        - [ UAObject, CuttingTool:5003, Machinery.Jobs:JobOrderControl ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
-          - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+          - [ UAObjectType, isa95-jobcontrol:1002, isa95-jobcontrol:ISA95JobOrderReceiverObjectType ]
         - HasComponent:
-          - [ UAVariable, CuttingTool:6035, CurrentState, LocalizedText, 0, 0 ]
+          - [ UAVariable, CuttingTool:6035, CuttingTool:CurrentState, LocalizedText, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 2760, FiniteStateVariableType ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5003, JobOrderControl ]
+            - [ UAObject, CuttingTool:5003, Machinery.Jobs:JobOrderControl ]
           - HasProperty:
-            - [ UAVariable, CuttingTool:6039, Id, NodeId, 0, 0 ]
+            - [ UAVariable, CuttingTool:6039, CuttingTool:Id, NodeId, 0, 0 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAVariable, CuttingTool:6035, CurrentState, LocalizedText, 0, 0 ]
+              - [ UAVariable, CuttingTool:6035, CuttingTool:CurrentState, LocalizedText, 0, 0 ]
         - HasComponent:
-          - [ UAVariable, CuttingTool:6040, EquipmentID, String, 1, 0 ]
+          - [ UAVariable, CuttingTool:6040, isa95-jobcontrol:EquipmentID, String, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5003, JobOrderControl ]
+            - [ UAObject, CuttingTool:5003, Machinery.Jobs:JobOrderControl ]
         - HasComponent_reverse:
-          - [ UAObject, CuttingTool:5002, JobManagement ]
+          - [ UAObject, CuttingTool:5002, Machinery.Jobs:JobManagement ]
         - HasComponent:
-          - [ UAVariable, CuttingTool:6041, JobOrderList, ISA95JobOrderAndStateDataType, 1, 0 ]
+          - [ UAVariable, CuttingTool:6041, isa95-jobcontrol:JobOrderList, isa95-jobcontrol:ISA95JobOrderAndStateDataType, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5003, JobOrderControl ]
+            - [ UAObject, CuttingTool:5003, Machinery.Jobs:JobOrderControl ]
         - HasComponent:
-          - [ UAVariable, CuttingTool:6042, MaterialClassID, String, 1, 0 ]
+          - [ UAVariable, CuttingTool:6042, isa95-jobcontrol:MaterialClassID, String, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5003, JobOrderControl ]
+            - [ UAObject, CuttingTool:5003, Machinery.Jobs:JobOrderControl ]
         - HasComponent:
-          - [ UAVariable, CuttingTool:6043, MaterialDefinitionID, String, 1, 0 ]
+          - [ UAVariable, CuttingTool:6043, isa95-jobcontrol:MaterialDefinitionID, String, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5003, JobOrderControl ]
+            - [ UAObject, CuttingTool:5003, Machinery.Jobs:JobOrderControl ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6044, MaxDownloadableJobOrders, UInt16, 0, 0 ]
+          - [ UAVariable, CuttingTool:6044, isa95-jobcontrol:MaxDownloadableJobOrders, UInt16, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, CuttingTool:5003, JobOrderControl ]
+            - [ UAObject, CuttingTool:5003, Machinery.Jobs:JobOrderControl ]
         - HasComponent:
-          - [ UAVariable, CuttingTool:6045, PersonnelID, String, 1, 0 ]
+          - [ UAVariable, CuttingTool:6045, isa95-jobcontrol:PersonnelID, String, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5003, JobOrderControl ]
+            - [ UAObject, CuttingTool:5003, Machinery.Jobs:JobOrderControl ]
         - HasComponent:
-          - [ UAVariable, CuttingTool:6046, PhysicalAssetID, String, 1, 0 ]
+          - [ UAVariable, CuttingTool:6046, isa95-jobcontrol:PhysicalAssetID, String, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5003, JobOrderControl ]
+            - [ UAObject, CuttingTool:5003, Machinery.Jobs:JobOrderControl ]
         - HasComponent:
-          - [ UAVariable, CuttingTool:6047, WorkMaster, ISA95WorkMasterDataType, 1, 0 ]
+          - [ UAVariable, CuttingTool:6047, isa95-jobcontrol:WorkMaster, isa95-jobcontrol:ISA95WorkMasterDataType, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5003, JobOrderControl ]
+            - [ UAObject, CuttingTool:5003, Machinery.Jobs:JobOrderControl ]
       - HasComponent:
-        - [ UAObject, CuttingTool:5004, JobOrderResults ]
+        - [ UAObject, CuttingTool:5004, Machinery.Jobs:JobOrderResults ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
-          - [ UAObjectType, isa95-jobcontrol:1003, ISA95JobResponseProviderObjectType ]
+          - [ UAObjectType, isa95-jobcontrol:1003, isa95-jobcontrol:ISA95JobResponseProviderObjectType ]
         - HasComponent_reverse:
-          - [ UAObject, CuttingTool:5002, JobManagement ]
+          - [ UAObject, CuttingTool:5002, Machinery.Jobs:JobManagement ]
         - HasComponent:
-          - [ UAMethod, CuttingTool:7017, RequestJobResponseByJobOrderID ]
+          - [ UAMethod, CuttingTool:7017, isa95-jobcontrol:RequestJobResponseByJobOrderID ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty:
-            - [ UAVariable, CuttingTool:6048, InputArguments, Argument, 1, 0 ]
+            - [ UAVariable, CuttingTool:6048, CuttingTool:InputArguments, Argument, 1, 0 ]
             - Arguments:
                 JobOrderID: [ String, 0 ]
             - HasModellingRule:
@@ -913,70 +913,70 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, CuttingTool:7017, RequestJobResponseByJobOrderID ]
+              - [ UAMethod, CuttingTool:7017, isa95-jobcontrol:RequestJobResponseByJobOrderID ]
           - HasProperty:
-            - [ UAVariable, CuttingTool:6049, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, CuttingTool:6049, CuttingTool:OutputArguments, Argument, 1, 0 ]
             - Arguments:
-                JobResponse: [ ISA95JobResponseDataType, 0 ]
+                JobResponse: [ isa95-jobcontrol:ISA95JobResponseDataType, 0 ]
                 ReturnStatus: [ UInt64, 0 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, CuttingTool:7017, RequestJobResponseByJobOrderID ]
+              - [ UAMethod, CuttingTool:7017, isa95-jobcontrol:RequestJobResponseByJobOrderID ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5004, JobOrderResults ]
+            - [ UAObject, CuttingTool:5004, Machinery.Jobs:JobOrderResults ]
         - HasComponent:
-          - [ UAMethod, CuttingTool:7020, RequestJobResponseByJobOrderState ]
+          - [ UAMethod, CuttingTool:7020, isa95-jobcontrol:RequestJobResponseByJobOrderState ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty:
-            - [ UAVariable, CuttingTool:6050, InputArguments, Argument, 1, 0 ]
+            - [ UAVariable, CuttingTool:6050, CuttingTool:InputArguments, Argument, 1, 0 ]
             - Arguments:
-                JobOrderState: [ ISA95StateDataType, 1 ]
+                JobOrderState: [ isa95-jobcontrol:ISA95StateDataType, 1 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, CuttingTool:7020, RequestJobResponseByJobOrderState ]
+              - [ UAMethod, CuttingTool:7020, isa95-jobcontrol:RequestJobResponseByJobOrderState ]
           - HasProperty:
-            - [ UAVariable, CuttingTool:6056, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, CuttingTool:6056, CuttingTool:OutputArguments, Argument, 1, 0 ]
             - Arguments:
-                JobResponses: [ ISA95JobResponseDataType, 1 ]
+                JobResponses: [ isa95-jobcontrol:ISA95JobResponseDataType, 1 ]
                 ReturnStatus: [ UInt64, 0 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, CuttingTool:7020, RequestJobResponseByJobOrderState ]
+              - [ UAMethod, CuttingTool:7020, isa95-jobcontrol:RequestJobResponseByJobOrderState ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5004, JobOrderResults ]
+            - [ UAObject, CuttingTool:5004, Machinery.Jobs:JobOrderResults ]
       - HasAddIn_reverse:
-        - [ UAObject, CuttingTool:5011, MachineryBuildingBlocks ]
+        - [ UAObject, CuttingTool:5011, Machinery:MachineryBuildingBlocks ]
     - HasComponent_reverse:
-      - [ UAObjectType, CuttingTool:1021, ToolMeasuringMachineType ]
+      - [ UAObjectType, CuttingTool:1021, CuttingTool:ToolMeasuringMachineType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, GMS:1002, GMSType ]
+    - [ UAObjectType, GMS:1002, GMS:GMSType ]
 
-  ToolManufacturingMachineType:
-  - [ UAObjectType, CuttingTool:1025, ToolManufacturingMachineType ]
+  CuttingTool:ToolManufacturingMachineType:
+  - [ UAObjectType, CuttingTool:1025, CuttingTool:ToolManufacturingMachineType ]
   - HasComponent:
-    - [ UAObject, CuttingTool:5017, FileSystem ]
+    - [ UAObject, CuttingTool:5017, CuttingTool:FileSystem ]
     - HasTypeDefinition:
       - [ UAObjectType, 13353, FileDirectoryType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAMethod, CuttingTool:7009, CreateDirectory ]
+      - [ UAMethod, CuttingTool:7009, CuttingTool:CreateDirectory ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, CuttingTool:5017, FileSystem ]
+        - [ UAObject, CuttingTool:5017, CuttingTool:FileSystem ]
       - HasProperty:
-        - [ UAVariable, CuttingTool:6024, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, CuttingTool:6024, CuttingTool:InputArguments, Argument, 1, 0 ]
         - Arguments:
             DirectoryName: [ String, 0 ]
         - HasTypeDefinition:
@@ -984,11 +984,11 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7009, CreateDirectory ]
+          - [ UAMethod, CuttingTool:7009, CuttingTool:CreateDirectory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7013, CreateDirectory ]
+          - [ UAMethod, CuttingTool:7013, CuttingTool:CreateDirectory ]
       - HasProperty:
-        - [ UAVariable, CuttingTool:6025, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, CuttingTool:6025, CuttingTool:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             DirectoryNodeId: [ NodeId, 0 ]
         - HasTypeDefinition:
@@ -996,17 +996,17 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7009, CreateDirectory ]
+          - [ UAMethod, CuttingTool:7009, CuttingTool:CreateDirectory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7013, CreateDirectory ]
+          - [ UAMethod, CuttingTool:7013, CuttingTool:CreateDirectory ]
     - HasComponent:
-      - [ UAMethod, CuttingTool:7010, CreateFile ]
+      - [ UAMethod, CuttingTool:7010, CuttingTool:CreateFile ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, CuttingTool:5017, FileSystem ]
+        - [ UAObject, CuttingTool:5017, CuttingTool:FileSystem ]
       - HasProperty:
-        - [ UAVariable, CuttingTool:6026, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, CuttingTool:6026, CuttingTool:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileName: [ String, 0 ]
             RequestFileOpen: [ Boolean, 0 ]
@@ -1015,11 +1015,11 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7010, CreateFile ]
+          - [ UAMethod, CuttingTool:7010, CuttingTool:CreateFile ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7014, CreateFile ]
+          - [ UAMethod, CuttingTool:7014, CuttingTool:CreateFile ]
       - HasProperty:
-        - [ UAVariable, CuttingTool:6027, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, CuttingTool:6027, CuttingTool:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             FileNodeId: [ NodeId, 0 ]
             FileHandle: [ UInt32, 0 ]
@@ -1028,17 +1028,17 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7010, CreateFile ]
+          - [ UAMethod, CuttingTool:7010, CuttingTool:CreateFile ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7014, CreateFile ]
+          - [ UAMethod, CuttingTool:7014, CuttingTool:CreateFile ]
     - HasComponent:
-      - [ UAMethod, CuttingTool:7011, Delete ]
+      - [ UAMethod, CuttingTool:7011, CuttingTool:Delete ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, CuttingTool:5017, FileSystem ]
+        - [ UAObject, CuttingTool:5017, CuttingTool:FileSystem ]
       - HasProperty:
-        - [ UAVariable, CuttingTool:6028, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, CuttingTool:6028, CuttingTool:InputArguments, Argument, 1, 0 ]
         - Arguments:
             ObjectToDelete: [ NodeId, 0 ]
         - HasTypeDefinition:
@@ -1046,17 +1046,17 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7011, Delete ]
+          - [ UAMethod, CuttingTool:7011, CuttingTool:Delete ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7015, Delete ]
+          - [ UAMethod, CuttingTool:7015, CuttingTool:Delete ]
     - HasComponent_reverse:
-      - [ UAObjectType, CuttingTool:1025, ToolManufacturingMachineType ]
+      - [ UAObjectType, CuttingTool:1025, CuttingTool:ToolManufacturingMachineType ]
     - HasComponent:
-      - [ UAMethod, CuttingTool:7012, MoveOrCopy ]
+      - [ UAMethod, CuttingTool:7012, CuttingTool:MoveOrCopy ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, CuttingTool:6029, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, CuttingTool:6029, CuttingTool:InputArguments, Argument, 1, 0 ]
         - Arguments:
             ObjectToMoveOrCopy: [ NodeId, 0 ]
             TargetDirectory: [ NodeId, 0 ]
@@ -1067,13 +1067,13 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7012, MoveOrCopy ]
+          - [ UAMethod, CuttingTool:7012, CuttingTool:MoveOrCopy ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7016, MoveOrCopy ]
+          - [ UAMethod, CuttingTool:7016, CuttingTool:MoveOrCopy ]
       - HasComponent_reverse:
-        - [ UAObject, CuttingTool:5017, FileSystem ]
+        - [ UAObject, CuttingTool:5017, CuttingTool:FileSystem ]
       - HasProperty:
-        - [ UAVariable, CuttingTool:6030, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, CuttingTool:6030, CuttingTool:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             NewNodeId: [ NodeId, 0 ]
         - HasTypeDefinition:
@@ -1081,23 +1081,23 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7012, MoveOrCopy ]
+          - [ UAMethod, CuttingTool:7012, CuttingTool:MoveOrCopy ]
         - HasProperty_reverse:
-          - [ UAMethod, CuttingTool:7016, MoveOrCopy ]
+          - [ UAMethod, CuttingTool:7016, CuttingTool:MoveOrCopy ]
     - HasComponent:
-      - [ UAObject, CuttingTool:5018, WorkMasters ]
+      - [ UAObject, CuttingTool:5018, MachineTool:WorkMasters ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAObjectType, 13353, FileDirectoryType ]
       - HasComponent:
-        - [ UAMethod, CuttingTool:7013, CreateDirectory ]
+        - [ UAMethod, CuttingTool:7013, CuttingTool:CreateDirectory ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, CuttingTool:5018, WorkMasters ]
+          - [ UAObject, CuttingTool:5018, MachineTool:WorkMasters ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6031, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6031, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               DirectoryName: [ String, 0 ]
           - HasModellingRule:
@@ -1105,9 +1105,9 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7013, CreateDirectory ]
+            - [ UAMethod, CuttingTool:7013, CuttingTool:CreateDirectory ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6024, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6024, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               DirectoryName: [ String, 0 ]
           - HasTypeDefinition:
@@ -1115,11 +1115,11 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7009, CreateDirectory ]
+            - [ UAMethod, CuttingTool:7009, CuttingTool:CreateDirectory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7013, CreateDirectory ]
+            - [ UAMethod, CuttingTool:7013, CuttingTool:CreateDirectory ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6032, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6032, CuttingTool:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               DirectoryNodeId: [ NodeId, 0 ]
           - HasModellingRule:
@@ -1127,9 +1127,9 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7013, CreateDirectory ]
+            - [ UAMethod, CuttingTool:7013, CuttingTool:CreateDirectory ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6025, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6025, CuttingTool:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               DirectoryNodeId: [ NodeId, 0 ]
           - HasTypeDefinition:
@@ -1137,17 +1137,17 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7009, CreateDirectory ]
+            - [ UAMethod, CuttingTool:7009, CuttingTool:CreateDirectory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7013, CreateDirectory ]
+            - [ UAMethod, CuttingTool:7013, CuttingTool:CreateDirectory ]
       - HasComponent:
-        - [ UAMethod, CuttingTool:7014, CreateFile ]
+        - [ UAMethod, CuttingTool:7014, CuttingTool:CreateFile ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, CuttingTool:5018, WorkMasters ]
+          - [ UAObject, CuttingTool:5018, MachineTool:WorkMasters ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6033, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6033, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               FileName: [ String, 0 ]
               RequestFileOpen: [ Boolean, 0 ]
@@ -1156,9 +1156,9 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7014, CreateFile ]
+            - [ UAMethod, CuttingTool:7014, CuttingTool:CreateFile ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6026, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6026, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               FileName: [ String, 0 ]
               RequestFileOpen: [ Boolean, 0 ]
@@ -1167,11 +1167,11 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7010, CreateFile ]
+            - [ UAMethod, CuttingTool:7010, CuttingTool:CreateFile ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7014, CreateFile ]
+            - [ UAMethod, CuttingTool:7014, CuttingTool:CreateFile ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6034, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6034, CuttingTool:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               FileNodeId: [ NodeId, 0 ]
               FileHandle: [ UInt32, 0 ]
@@ -1180,9 +1180,9 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7014, CreateFile ]
+            - [ UAMethod, CuttingTool:7014, CuttingTool:CreateFile ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6027, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6027, CuttingTool:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               FileNodeId: [ NodeId, 0 ]
               FileHandle: [ UInt32, 0 ]
@@ -1191,17 +1191,17 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7010, CreateFile ]
+            - [ UAMethod, CuttingTool:7010, CuttingTool:CreateFile ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7014, CreateFile ]
+            - [ UAMethod, CuttingTool:7014, CuttingTool:CreateFile ]
       - HasComponent:
-        - [ UAMethod, CuttingTool:7015, Delete ]
+        - [ UAMethod, CuttingTool:7015, CuttingTool:Delete ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, CuttingTool:5018, WorkMasters ]
+          - [ UAObject, CuttingTool:5018, MachineTool:WorkMasters ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6036, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6036, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               ObjectToDelete: [ NodeId, 0 ]
           - HasModellingRule:
@@ -1209,9 +1209,9 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7015, Delete ]
+            - [ UAMethod, CuttingTool:7015, CuttingTool:Delete ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6028, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6028, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               ObjectToDelete: [ NodeId, 0 ]
           - HasTypeDefinition:
@@ -1219,15 +1219,15 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7011, Delete ]
+            - [ UAMethod, CuttingTool:7011, CuttingTool:Delete ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7015, Delete ]
+            - [ UAMethod, CuttingTool:7015, CuttingTool:Delete ]
       - HasComponent:
-        - [ UAMethod, CuttingTool:7016, MoveOrCopy ]
+        - [ UAMethod, CuttingTool:7016, CuttingTool:MoveOrCopy ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6037, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6037, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               ObjectToMoveOrCopy: [ NodeId, 0 ]
               TargetDirectory: [ NodeId, 0 ]
@@ -1238,9 +1238,9 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7016, MoveOrCopy ]
+            - [ UAMethod, CuttingTool:7016, CuttingTool:MoveOrCopy ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6029, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6029, CuttingTool:InputArguments, Argument, 1, 0 ]
           - Arguments:
               ObjectToMoveOrCopy: [ NodeId, 0 ]
               TargetDirectory: [ NodeId, 0 ]
@@ -1251,13 +1251,13 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7012, MoveOrCopy ]
+            - [ UAMethod, CuttingTool:7012, CuttingTool:MoveOrCopy ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7016, MoveOrCopy ]
+            - [ UAMethod, CuttingTool:7016, CuttingTool:MoveOrCopy ]
         - HasComponent_reverse:
-          - [ UAObject, CuttingTool:5018, WorkMasters ]
+          - [ UAObject, CuttingTool:5018, MachineTool:WorkMasters ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6038, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6038, CuttingTool:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               NewNodeId: [ NodeId, 0 ]
           - HasModellingRule:
@@ -1265,9 +1265,9 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7016, MoveOrCopy ]
+            - [ UAMethod, CuttingTool:7016, CuttingTool:MoveOrCopy ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6030, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, CuttingTool:6030, CuttingTool:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               NewNodeId: [ NodeId, 0 ]
           - HasTypeDefinition:
@@ -1275,127 +1275,127 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7012, MoveOrCopy ]
+            - [ UAMethod, CuttingTool:7012, CuttingTool:MoveOrCopy ]
           - HasProperty_reverse:
-            - [ UAMethod, CuttingTool:7016, MoveOrCopy ]
+            - [ UAMethod, CuttingTool:7016, CuttingTool:MoveOrCopy ]
       - HasComponent_reverse:
-        - [ UAObject, CuttingTool:5017, FileSystem ]
+        - [ UAObject, CuttingTool:5017, CuttingTool:FileSystem ]
   - HasComponent:
-    - [ UAObject, CuttingTool:5006, MachineryBuildingBlocks ]
+    - [ UAObject, CuttingTool:5006, Machinery:MachineryBuildingBlocks ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasAddIn:
-      - [ UAObject, CuttingTool:5007, JobManagement ]
+      - [ UAObject, CuttingTool:5007, Machinery.Jobs:JobManagement ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
-        - [ UAObjectType, Machinery.Jobs:1003, JobManagementType ]
+        - [ UAObjectType, Machinery.Jobs:1003, Machinery.Jobs:JobManagementType ]
       - HasAddIn_reverse:
-        - [ UAObject, CuttingTool:5006, MachineryBuildingBlocks ]
+        - [ UAObject, CuttingTool:5006, Machinery:MachineryBuildingBlocks ]
       - HasComponent:
-        - [ UAObject, CuttingTool:5008, JobOrderControl ]
+        - [ UAObject, CuttingTool:5008, Machinery.Jobs:JobOrderControl ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
-          - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+          - [ UAObjectType, isa95-jobcontrol:1002, isa95-jobcontrol:ISA95JobOrderReceiverObjectType ]
         - HasComponent:
-          - [ UAVariable, CuttingTool:6015, CurrentState, LocalizedText, 0, 0 ]
+          - [ UAVariable, CuttingTool:6015, CuttingTool:CurrentState, LocalizedText, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 2760, FiniteStateVariableType ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5008, JobOrderControl ]
+            - [ UAObject, CuttingTool:5008, Machinery.Jobs:JobOrderControl ]
           - HasProperty:
-            - [ UAVariable, CuttingTool:6016, Id, NodeId, 0, 0 ]
+            - [ UAVariable, CuttingTool:6016, CuttingTool:Id, NodeId, 0, 0 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAVariable, CuttingTool:6015, CurrentState, LocalizedText, 0, 0 ]
+              - [ UAVariable, CuttingTool:6015, CuttingTool:CurrentState, LocalizedText, 0, 0 ]
         - HasComponent:
-          - [ UAVariable, CuttingTool:6017, EquipmentID, String, 1, 0 ]
+          - [ UAVariable, CuttingTool:6017, isa95-jobcontrol:EquipmentID, String, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5008, JobOrderControl ]
+            - [ UAObject, CuttingTool:5008, Machinery.Jobs:JobOrderControl ]
         - HasComponent_reverse:
-          - [ UAObject, CuttingTool:5007, JobManagement ]
+          - [ UAObject, CuttingTool:5007, Machinery.Jobs:JobManagement ]
         - HasComponent:
-          - [ UAVariable, CuttingTool:6018, JobOrderList, ISA95JobOrderAndStateDataType, 1, 0 ]
+          - [ UAVariable, CuttingTool:6018, isa95-jobcontrol:JobOrderList, isa95-jobcontrol:ISA95JobOrderAndStateDataType, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5008, JobOrderControl ]
+            - [ UAObject, CuttingTool:5008, Machinery.Jobs:JobOrderControl ]
         - HasComponent:
-          - [ UAVariable, CuttingTool:6019, MaterialClassID, String, 1, 0 ]
+          - [ UAVariable, CuttingTool:6019, isa95-jobcontrol:MaterialClassID, String, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5008, JobOrderControl ]
+            - [ UAObject, CuttingTool:5008, Machinery.Jobs:JobOrderControl ]
         - HasComponent:
-          - [ UAVariable, CuttingTool:6020, MaterialDefinitionID, String, 1, 0 ]
+          - [ UAVariable, CuttingTool:6020, isa95-jobcontrol:MaterialDefinitionID, String, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5008, JobOrderControl ]
+            - [ UAObject, CuttingTool:5008, Machinery.Jobs:JobOrderControl ]
         - HasProperty:
-          - [ UAVariable, CuttingTool:6021, MaxDownloadableJobOrders, UInt16, 0, 0 ]
+          - [ UAVariable, CuttingTool:6021, isa95-jobcontrol:MaxDownloadableJobOrders, UInt16, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, CuttingTool:5008, JobOrderControl ]
+            - [ UAObject, CuttingTool:5008, Machinery.Jobs:JobOrderControl ]
         - HasComponent:
-          - [ UAVariable, CuttingTool:6022, PersonnelID, String, 1, 0 ]
+          - [ UAVariable, CuttingTool:6022, isa95-jobcontrol:PersonnelID, String, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5008, JobOrderControl ]
+            - [ UAObject, CuttingTool:5008, Machinery.Jobs:JobOrderControl ]
         - HasComponent:
-          - [ UAVariable, CuttingTool:6023, PhysicalAssetID, String, 1, 0 ]
+          - [ UAVariable, CuttingTool:6023, isa95-jobcontrol:PhysicalAssetID, String, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5008, JobOrderControl ]
+            - [ UAObject, CuttingTool:5008, Machinery.Jobs:JobOrderControl ]
         - HasComponent:
-          - [ UAVariable, CuttingTool:6051, WorkMaster, ISA95WorkMasterDataType, 1, 0 ]
+          - [ UAVariable, CuttingTool:6051, isa95-jobcontrol:WorkMaster, isa95-jobcontrol:ISA95WorkMasterDataType, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5008, JobOrderControl ]
+            - [ UAObject, CuttingTool:5008, Machinery.Jobs:JobOrderControl ]
       - HasComponent:
-        - [ UAObject, CuttingTool:5009, JobOrderResults ]
+        - [ UAObject, CuttingTool:5009, Machinery.Jobs:JobOrderResults ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
-          - [ UAObjectType, isa95-jobcontrol:1003, ISA95JobResponseProviderObjectType ]
+          - [ UAObjectType, isa95-jobcontrol:1003, isa95-jobcontrol:ISA95JobResponseProviderObjectType ]
         - HasComponent_reverse:
-          - [ UAObject, CuttingTool:5007, JobManagement ]
+          - [ UAObject, CuttingTool:5007, Machinery.Jobs:JobManagement ]
         - HasComponent:
-          - [ UAMethod, CuttingTool:7018, RequestJobResponseByJobOrderID ]
+          - [ UAMethod, CuttingTool:7018, isa95-jobcontrol:RequestJobResponseByJobOrderID ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty:
-            - [ UAVariable, CuttingTool:6052, InputArguments, Argument, 1, 0 ]
+            - [ UAVariable, CuttingTool:6052, CuttingTool:InputArguments, Argument, 1, 0 ]
             - Arguments:
                 JobOrderID: [ String, 0 ]
             - HasModellingRule:
@@ -1403,48 +1403,48 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, CuttingTool:7018, RequestJobResponseByJobOrderID ]
+              - [ UAMethod, CuttingTool:7018, isa95-jobcontrol:RequestJobResponseByJobOrderID ]
           - HasProperty:
-            - [ UAVariable, CuttingTool:6053, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, CuttingTool:6053, CuttingTool:OutputArguments, Argument, 1, 0 ]
             - Arguments:
-                JobResponse: [ ISA95JobResponseDataType, 0 ]
+                JobResponse: [ isa95-jobcontrol:ISA95JobResponseDataType, 0 ]
                 ReturnStatus: [ UInt64, 0 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, CuttingTool:7018, RequestJobResponseByJobOrderID ]
+              - [ UAMethod, CuttingTool:7018, isa95-jobcontrol:RequestJobResponseByJobOrderID ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5009, JobOrderResults ]
+            - [ UAObject, CuttingTool:5009, Machinery.Jobs:JobOrderResults ]
         - HasComponent:
-          - [ UAMethod, CuttingTool:7019, RequestJobResponseByJobOrderState ]
+          - [ UAMethod, CuttingTool:7019, isa95-jobcontrol:RequestJobResponseByJobOrderState ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty:
-            - [ UAVariable, CuttingTool:6054, InputArguments, Argument, 1, 0 ]
+            - [ UAVariable, CuttingTool:6054, CuttingTool:InputArguments, Argument, 1, 0 ]
             - Arguments:
-                JobOrderState: [ ISA95StateDataType, 1 ]
+                JobOrderState: [ isa95-jobcontrol:ISA95StateDataType, 1 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, CuttingTool:7019, RequestJobResponseByJobOrderState ]
+              - [ UAMethod, CuttingTool:7019, isa95-jobcontrol:RequestJobResponseByJobOrderState ]
           - HasProperty:
-            - [ UAVariable, CuttingTool:6055, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, CuttingTool:6055, CuttingTool:OutputArguments, Argument, 1, 0 ]
             - Arguments:
-                JobResponses: [ ISA95JobResponseDataType, 1 ]
+                JobResponses: [ isa95-jobcontrol:ISA95JobResponseDataType, 1 ]
                 ReturnStatus: [ UInt64, 0 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, CuttingTool:7019, RequestJobResponseByJobOrderState ]
+              - [ UAMethod, CuttingTool:7019, isa95-jobcontrol:RequestJobResponseByJobOrderState ]
           - HasComponent_reverse:
-            - [ UAObject, CuttingTool:5009, JobOrderResults ]
+            - [ UAObject, CuttingTool:5009, Machinery.Jobs:JobOrderResults ]
     - HasComponent_reverse:
-      - [ UAObjectType, CuttingTool:1025, ToolManufacturingMachineType ]
+      - [ UAObjectType, CuttingTool:1025, CuttingTool:ToolManufacturingMachineType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineTool:13, MachineToolType ]
+    - [ UAObjectType, MachineTool:13, MachineTool:MachineToolType ]

@@ -1,10 +1,10 @@
 DataTypes:
-- UADataType: [ Robotics:18191, ExecutionModeEnumeration ]
+- UADataType: [ Robotics:18191, Robotics:ExecutionModeEnumeration ]
   Enums:
     CYCLE: 0
     CONTINUOUS: 1
     STEP: 2
-- UADataType: [ Robotics:18193, MotionDeviceCategoryEnumeration ]
+- UADataType: [ Robotics:18193, Robotics:MotionDeviceCategoryEnumeration ]
   Enums:
     OTHER: 0
     ARTICULATED_ROBOT: 1
@@ -13,50 +13,50 @@ DataTypes:
     SPHERICAL_ROBOT: 4
     PARALLEL_ROBOT: 5
     CYLINDRICAL_ROBOT: 6
-- UADataType: [ Robotics:3008, AxisMotionProfileEnumeration ]
+- UADataType: [ Robotics:3008, Robotics:AxisMotionProfileEnumeration ]
   Enums:
     OTHER: 0
     ROTARY: 1
     ROTARY_ENDLESS: 2
     LINEAR: 3
     LINEAR_ENDLESS: 4
-- UADataType: [ Robotics:3006, OperationalModeEnumeration ]
+- UADataType: [ Robotics:3006, Robotics:OperationalModeEnumeration ]
   Enums:
     OTHER: 0
     MANUAL_REDUCED_SPEED: 1
     MANUAL_HIGH_SPEED: 2
     AUTOMATIC: 3
     AUTOMATIC_EXTERNAL: 4
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -66,1693 +66,1429 @@ DataTypes:
 
 DefinedTypes:
 
-  MotionDeviceSystemType:
-  - [ UAObjectType, Robotics:1002, MotionDeviceSystemType ]
+  Robotics:MotionDeviceSystemType:
+  - [ UAObjectType, Robotics:1002, Robotics:MotionDeviceSystemType ]
   - HasComponent:
-    - [ UAObject, Robotics:5002, MotionDevices ]
+    - [ UAObject, Robotics:5002, Robotics:MotionDevices ]
     - HasComponent:
-      - [ UAObject, Robotics:15008, <MotionDeviceIdentifier> ]
+      - [ UAObject, Robotics:15008, Robotics:<MotionDeviceIdentifier> ]
       - HasComponent:
-        - [ UAObject, Robotics:15024, ParameterSet ]
+        - [ UAObject, Robotics:15024, DI:ParameterSet ]
         - HasComponent:
-          - [ UAVariable, Robotics:15061, SpeedOverride, Double, 0, 0 ]
+          - [ UAVariable, Robotics:15061, Robotics:SpeedOverride, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, Robotics:15024, ParameterSet ]
+            - [ UAObject, Robotics:15024, DI:ParameterSet ]
         - HasTypeDefinition:
           - [ UAObjectType, 58, BaseObjectType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Robotics:15008, <MotionDeviceIdentifier> ]
+          - [ UAObject, Robotics:15008, Robotics:<MotionDeviceIdentifier> ]
       - HasProperty:
-        - [ UAVariable, Robotics:15045, Manufacturer, LocalizedText, 0, 0 ]
+        - [ UAVariable, Robotics:15045, DI:Manufacturer, LocalizedText, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Robotics:15008, <MotionDeviceIdentifier> ]
+          - [ UAObject, Robotics:15008, Robotics:<MotionDeviceIdentifier> ]
       - HasProperty:
-        - [ UAVariable, Robotics:15047, Model, LocalizedText, 0, 0 ]
+        - [ UAVariable, Robotics:15047, DI:Model, LocalizedText, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Robotics:15008, <MotionDeviceIdentifier> ]
+          - [ UAObject, Robotics:15008, Robotics:<MotionDeviceIdentifier> ]
       - HasProperty:
-        - [ UAVariable, Robotics:15053, ProductCode, String, 0, 0 ]
+        - [ UAVariable, Robotics:15053, DI:ProductCode, String, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Robotics:15008, <MotionDeviceIdentifier> ]
+          - [ UAObject, Robotics:15008, Robotics:<MotionDeviceIdentifier> ]
       - HasProperty:
-        - [ UAVariable, Robotics:15048, SerialNumber, String, 0, 0 ]
+        - [ UAVariable, Robotics:15048, DI:SerialNumber, String, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Robotics:15008, <MotionDeviceIdentifier> ]
+          - [ UAObject, Robotics:15008, Robotics:<MotionDeviceIdentifier> ]
       - HasProperty:
-        - [ UAVariable, Robotics:15058, MotionDeviceCategory, MotionDeviceCategoryEnumeration, 0, 0 ]
+        - [ UAVariable, Robotics:15058, Robotics:MotionDeviceCategory, Robotics:MotionDeviceCategoryEnumeration, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Robotics:15008, <MotionDeviceIdentifier> ]
+          - [ UAObject, Robotics:15008, Robotics:<MotionDeviceIdentifier> ]
       - HasComponent:
-        - [ UAObject, Robotics:15062, Axes ]
+        - [ UAObject, Robotics:15062, Robotics:Axes ]
         - HasTypeDefinition:
           - [ UAObjectType, 61, FolderType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Robotics:15008, <MotionDeviceIdentifier> ]
+          - [ UAObject, Robotics:15008, Robotics:<MotionDeviceIdentifier> ]
       - HasComponent:
-        - [ UAObject, Robotics:15208, PowerTrains ]
+        - [ UAObject, Robotics:15208, Robotics:PowerTrains ]
         - HasTypeDefinition:
           - [ UAObjectType, 61, FolderType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Robotics:15008, <MotionDeviceIdentifier> ]
+          - [ UAObject, Robotics:15008, Robotics:<MotionDeviceIdentifier> ]
       - HasTypeDefinition:
-        - [ UAObjectType, Robotics:1004, MotionDeviceType ]
+        - [ UAObjectType, Robotics:1004, Robotics:MotionDeviceType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5002, MotionDevices ]
+        - [ UAObject, Robotics:5002, Robotics:MotionDevices ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1002, MotionDeviceSystemType ]
+      - [ UAObjectType, Robotics:1002, Robotics:MotionDeviceSystemType ]
   - HasComponent:
-    - [ UAObject, Robotics:5001, Controllers ]
+    - [ UAObject, Robotics:5001, Robotics:Controllers ]
     - HasComponent:
-      - [ UAObject, Robotics:15405, <ControllerIdentifier> ]
+      - [ UAObject, Robotics:15405, Robotics:<ControllerIdentifier> ]
       - HasProperty:
-        - [ UAVariable, Robotics:15426, Manufacturer, LocalizedText, 0, 0 ]
+        - [ UAVariable, Robotics:15426, DI:Manufacturer, LocalizedText, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Robotics:15405, <ControllerIdentifier> ]
+          - [ UAObject, Robotics:15405, Robotics:<ControllerIdentifier> ]
       - HasProperty:
-        - [ UAVariable, Robotics:15428, Model, LocalizedText, 0, 0 ]
+        - [ UAVariable, Robotics:15428, DI:Model, LocalizedText, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Robotics:15405, <ControllerIdentifier> ]
+          - [ UAObject, Robotics:15405, Robotics:<ControllerIdentifier> ]
       - HasProperty:
-        - [ UAVariable, Robotics:15434, ProductCode, String, 0, 0 ]
+        - [ UAVariable, Robotics:15434, DI:ProductCode, String, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Robotics:15405, <ControllerIdentifier> ]
+          - [ UAObject, Robotics:15405, Robotics:<ControllerIdentifier> ]
       - HasProperty:
-        - [ UAVariable, Robotics:15429, SerialNumber, String, 0, 0 ]
+        - [ UAVariable, Robotics:15429, DI:SerialNumber, String, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Robotics:15405, <ControllerIdentifier> ]
+          - [ UAObject, Robotics:15405, Robotics:<ControllerIdentifier> ]
       - HasComponent:
-        - [ UAObject, Robotics:15440, CurrentUser ]
+        - [ UAObject, Robotics:15440, Robotics:CurrentUser ]
         - HasProperty:
-          - [ UAVariable, Robotics:15441, Level, String, 0, 0 ]
+          - [ UAVariable, Robotics:15441, Robotics:Level, String, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAObject, Robotics:15440, CurrentUser ]
+            - [ UAObject, Robotics:15440, Robotics:CurrentUser ]
         - HasTypeDefinition:
-          - [ UAObjectType, Robotics:18175, UserType ]
+          - [ UAObjectType, Robotics:18175, Robotics:UserType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Robotics:15405, <ControllerIdentifier> ]
+          - [ UAObject, Robotics:15405, Robotics:<ControllerIdentifier> ]
       - HasComponent:
-        - [ UAObject, Robotics:15483, Software ]
+        - [ UAObject, Robotics:15483, Robotics:Software ]
         - HasTypeDefinition:
           - [ UAObjectType, 61, FolderType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Robotics:15405, <ControllerIdentifier> ]
+          - [ UAObject, Robotics:15405, Robotics:<ControllerIdentifier> ]
       - HasComponent:
-        - [ UAObject, Robotics:15518, TaskControls ]
+        - [ UAObject, Robotics:15518, Robotics:TaskControls ]
         - HasTypeDefinition:
           - [ UAObjectType, 61, FolderType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Robotics:15405, <ControllerIdentifier> ]
+          - [ UAObject, Robotics:15405, Robotics:<ControllerIdentifier> ]
       - HasTypeDefinition:
-        - [ UAObjectType, Robotics:1003, ControllerType ]
+        - [ UAObjectType, Robotics:1003, Robotics:ControllerType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5001, Controllers ]
+        - [ UAObject, Robotics:5001, Robotics:Controllers ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1002, MotionDeviceSystemType ]
+      - [ UAObjectType, Robotics:1002, Robotics:MotionDeviceSystemType ]
   - HasComponent:
-    - [ UAObject, Robotics:5010, SafetyStates ]
+    - [ UAObject, Robotics:5010, Robotics:SafetyStates ]
     - HasComponent:
-      - [ UAObject, Robotics:15697, <SafetyStateIdentifier> ]
+      - [ UAObject, Robotics:15697, Robotics:<SafetyStateIdentifier> ]
       - HasComponent:
-        - [ UAObject, Robotics:15698, ParameterSet ]
+        - [ UAObject, Robotics:15698, DI:ParameterSet ]
         - HasComponent:
-          - [ UAVariable, Robotics:15740, OperationalMode, OperationalModeEnumeration, 0, 0 ]
+          - [ UAVariable, Robotics:15740, Robotics:OperationalMode, Robotics:OperationalModeEnumeration, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, Robotics:15698, ParameterSet ]
+            - [ UAObject, Robotics:15698, DI:ParameterSet ]
         - HasComponent:
-          - [ UAVariable, Robotics:15741, EmergencyStop, Boolean, 0, 0 ]
+          - [ UAVariable, Robotics:15741, Robotics:EmergencyStop, Boolean, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, Robotics:15698, ParameterSet ]
+            - [ UAObject, Robotics:15698, DI:ParameterSet ]
         - HasComponent:
-          - [ UAVariable, Robotics:15742, ProtectiveStop, Boolean, 0, 0 ]
+          - [ UAVariable, Robotics:15742, Robotics:ProtectiveStop, Boolean, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, Robotics:15698, ParameterSet ]
+            - [ UAObject, Robotics:15698, DI:ParameterSet ]
         - HasTypeDefinition:
           - [ UAObjectType, 58, BaseObjectType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Robotics:15697, <SafetyStateIdentifier> ]
+          - [ UAObject, Robotics:15697, Robotics:<SafetyStateIdentifier> ]
       - HasTypeDefinition:
-        - [ UAObjectType, Robotics:1013, SafetyStateType ]
+        - [ UAObjectType, Robotics:1013, Robotics:SafetyStateType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5010, SafetyStates ]
+        - [ UAObject, Robotics:5010, Robotics:SafetyStates ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1002, MotionDeviceSystemType ]
+      - [ UAObjectType, Robotics:1002, Robotics:MotionDeviceSystemType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType ]
 
-  MotionDeviceType:
-  - [ UAObjectType, Robotics:1004, MotionDeviceType ]
+  Robotics:MotionDeviceType:
+  - [ UAObjectType, Robotics:1004, Robotics:MotionDeviceType ]
   - HasComponent:
-    - [ UAObject, Robotics:5029, ParameterSet ]
+    - [ UAObject, Robotics:5029, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:16363, OnPath, Boolean, 0, 0 ]
+      - [ UAVariable, Robotics:16363, Robotics:OnPath, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5029, ParameterSet ]
+        - [ UAObject, Robotics:5029, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:16364, InControl, Boolean, 0, 0 ]
+      - [ UAVariable, Robotics:16364, Robotics:InControl, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5029, ParameterSet ]
+        - [ UAObject, Robotics:5029, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:16365, SpeedOverride, Double, 0, 0 ]
+      - [ UAVariable, Robotics:16365, Robotics:SpeedOverride, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5029, ParameterSet ]
+        - [ UAObject, Robotics:5029, DI:ParameterSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1004, MotionDeviceType ]
+      - [ UAObjectType, Robotics:1004, Robotics:MotionDeviceType ]
   - HasProperty:
-    - [ UAVariable, Robotics:16351, Manufacturer, LocalizedText, 0, 0 ]
+    - [ UAVariable, Robotics:16351, DI:Manufacturer, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1004, MotionDeviceType ]
+      - [ UAObjectType, Robotics:1004, Robotics:MotionDeviceType ]
   - HasProperty:
-    - [ UAVariable, Robotics:16353, Model, LocalizedText, 0, 0 ]
+    - [ UAVariable, Robotics:16353, DI:Model, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1004, MotionDeviceType ]
+      - [ UAObjectType, Robotics:1004, Robotics:MotionDeviceType ]
   - HasProperty:
-    - [ UAVariable, Robotics:16359, ProductCode, String, 0, 0 ]
+    - [ UAVariable, Robotics:16359, DI:ProductCode, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1004, MotionDeviceType ]
+      - [ UAObjectType, Robotics:1004, Robotics:MotionDeviceType ]
   - HasProperty:
-    - [ UAVariable, Robotics:16354, SerialNumber, String, 0, 0 ]
+    - [ UAVariable, Robotics:16354, DI:SerialNumber, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1004, MotionDeviceType ]
+      - [ UAObjectType, Robotics:1004, Robotics:MotionDeviceType ]
   - HasProperty:
-    - [ UAVariable, Robotics:16362, MotionDeviceCategory, MotionDeviceCategoryEnumeration, 0, 0 ]
+    - [ UAVariable, Robotics:16362, Robotics:MotionDeviceCategory, Robotics:MotionDeviceCategoryEnumeration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1004, MotionDeviceType ]
+      - [ UAObjectType, Robotics:1004, Robotics:MotionDeviceType ]
   - HasComponent:
-    - [ UAObject, Robotics:15305, Axes ]
+    - [ UAObject, Robotics:15305, Robotics:Axes ]
     - HasComponent:
-      - [ UAObject, Robotics:15743, <AxisIdentifier> ]
+      - [ UAObject, Robotics:15743, Robotics:<AxisIdentifier> ]
       - HasComponent:
-        - [ UAObject, Robotics:15744, ParameterSet ]
+        - [ UAObject, Robotics:15744, DI:ParameterSet ]
         - HasComponent:
-          - [ UAVariable, Robotics:15863, ActualPosition, Double, 0, 0 ]
+          - [ UAVariable, Robotics:15863, Robotics:ActualPosition, Double, 0, 0 ]
           - HasProperty:
-            - [ UAVariable, Robotics:15869, EngineeringUnits, EUInformation, 0, 0 ]
+            - [ UAVariable, Robotics:15869, Robotics:EngineeringUnits, EUInformation, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasProperty_reverse:
-              - [ UAVariable, Robotics:15863, ActualPosition, Double, 0, 0 ]
+              - [ UAVariable, Robotics:15863, Robotics:ActualPosition, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 17497, AnalogUnitType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, Robotics:15744, ParameterSet ]
+            - [ UAObject, Robotics:15744, DI:ParameterSet ]
         - HasTypeDefinition:
           - [ UAObjectType, 58, BaseObjectType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Robotics:15743, <AxisIdentifier> ]
+          - [ UAObject, Robotics:15743, Robotics:<AxisIdentifier> ]
       - HasProperty:
-        - [ UAVariable, Robotics:15808, MotionProfile, AxisMotionProfileEnumeration, 0, 0 ]
+        - [ UAVariable, Robotics:15808, Robotics:MotionProfile, Robotics:AxisMotionProfileEnumeration, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Robotics:15743, <AxisIdentifier> ]
+          - [ UAObject, Robotics:15743, Robotics:<AxisIdentifier> ]
       - HasTypeDefinition:
-        - [ UAObjectType, Robotics:16601, AxisType ]
+        - [ UAObjectType, Robotics:16601, Robotics:AxisType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:15305, Axes ]
+        - [ UAObject, Robotics:15305, Robotics:Axes ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1004, MotionDeviceType ]
+      - [ UAObjectType, Robotics:1004, Robotics:MotionDeviceType ]
   - HasComponent:
-    - [ UAObject, Robotics:16443, PowerTrains ]
+    - [ UAObject, Robotics:16443, Robotics:PowerTrains ]
     - HasComponent:
-      - [ UAObject, Robotics:15905, <PowerTrainIdentifier> ]
+      - [ UAObject, Robotics:15905, Robotics:<PowerTrainIdentifier> ]
       - HasTypeDefinition:
-        - [ UAObjectType, Robotics:16794, PowerTrainType ]
+        - [ UAObjectType, Robotics:16794, Robotics:PowerTrainType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:16443, PowerTrains ]
+        - [ UAObject, Robotics:16443, Robotics:PowerTrains ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1004, MotionDeviceType ]
+      - [ UAObjectType, Robotics:1004, Robotics:MotionDeviceType ]
   - HasComponent:
-    - [ UAObject, Robotics:5091, FlangeLoad ]
+    - [ UAObject, Robotics:5091, Robotics:FlangeLoad ]
     - HasComponent:
-      - [ UAVariable, Robotics:6624, Mass, Double, 0, 0 ]
+      - [ UAVariable, Robotics:6624, Robotics:Mass, Double, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, Robotics:15659, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Robotics:15659, Robotics:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Robotics:6624, Mass, Double, 0, 0 ]
+          - [ UAVariable, Robotics:6624, Robotics:Mass, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5091, FlangeLoad ]
+        - [ UAObject, Robotics:5091, Robotics:FlangeLoad ]
     - HasTypeDefinition:
-      - [ UAObjectType, Robotics:1018, LoadType ]
+      - [ UAObjectType, Robotics:1018, Robotics:LoadType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1004, MotionDeviceType ]
+      - [ UAObjectType, Robotics:1004, Robotics:MotionDeviceType ]
   - HasComponent:
-    - [ UAObject, Robotics:16566, AdditionalComponents ]
+    - [ UAObject, Robotics:16566, Robotics:AdditionalComponents ]
     - HasComponent:
-      - [ UAObject, Robotics:18310, <AdditionalComponentIdentifier> ]
-      - HasInterface:
-        - [ UAObjectType, DI:15035, IVendorNameplateType ]
-      - HasInterface:
-        - [ UAObjectType, DI:15048, ITagNameplateType ]
+      - [ UAObject, Robotics:18310, Robotics:<AdditionalComponentIdentifier> ]
+      - i=17603:
+        - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+      - i=17603:
+        - [ UAObjectType, DI:15048, DI:ITagNameplateType ]
       - HasTypeDefinition:
-        - [ UAObjectType, DI:15063, ComponentType ]
+        - [ UAObjectType, DI:15063, DI:ComponentType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:16566, AdditionalComponents ]
+        - [ UAObject, Robotics:16566, Robotics:AdditionalComponents ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1004, MotionDeviceType ]
+      - [ UAObjectType, Robotics:1004, Robotics:MotionDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType ]
 
-  AxisType:
-  - [ UAObjectType, Robotics:16601, AxisType ]
+  Robotics:AxisType:
+  - [ UAObjectType, Robotics:16601, Robotics:AxisType ]
   - HasComponent:
-    - [ UAObject, Robotics:16602, ParameterSet ]
+    - [ UAObject, Robotics:16602, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:16662, ActualPosition, Double, 0, 0 ]
+      - [ UAVariable, Robotics:16662, Robotics:ActualPosition, Double, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, Robotics:16667, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Robotics:16667, Robotics:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Robotics:16662, ActualPosition, Double, 0, 0 ]
+          - [ UAVariable, Robotics:16662, Robotics:ActualPosition, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:16602, ParameterSet ]
+        - [ UAObject, Robotics:16602, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:16668, ActualSpeed, Double, 0, 0 ]
+      - [ UAVariable, Robotics:16668, Robotics:ActualSpeed, Double, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, Robotics:16673, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Robotics:16673, Robotics:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Robotics:16668, ActualSpeed, Double, 0, 0 ]
+          - [ UAVariable, Robotics:16668, Robotics:ActualSpeed, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:16602, ParameterSet ]
+        - [ UAObject, Robotics:16602, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:16674, ActualAcceleration, Double, 0, 0 ]
+      - [ UAVariable, Robotics:16674, Robotics:ActualAcceleration, Double, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, Robotics:16679, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Robotics:16679, Robotics:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Robotics:16674, ActualAcceleration, Double, 0, 0 ]
+          - [ UAVariable, Robotics:16674, Robotics:ActualAcceleration, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:16602, ParameterSet ]
+        - [ UAObject, Robotics:16602, DI:ParameterSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:16601, AxisType ]
+      - [ UAObjectType, Robotics:16601, Robotics:AxisType ]
   - HasProperty:
-    - [ UAVariable, Robotics:16637, MotionProfile, AxisMotionProfileEnumeration, 0, 0 ]
+    - [ UAVariable, Robotics:16637, Robotics:MotionProfile, Robotics:AxisMotionProfileEnumeration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:16601, AxisType ]
+      - [ UAObjectType, Robotics:16601, Robotics:AxisType ]
   - HasComponent:
-    - [ UAObject, Robotics:16638, AdditionalLoad ]
+    - [ UAObject, Robotics:16638, Robotics:AdditionalLoad ]
     - HasComponent:
-      - [ UAVariable, Robotics:16639, Mass, Double, 0, 0 ]
+      - [ UAVariable, Robotics:16639, Robotics:Mass, Double, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, Robotics:16644, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Robotics:16644, Robotics:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Robotics:16639, Mass, Double, 0, 0 ]
+          - [ UAVariable, Robotics:16639, Robotics:Mass, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:16638, AdditionalLoad ]
+        - [ UAObject, Robotics:16638, Robotics:AdditionalLoad ]
     - HasTypeDefinition:
-      - [ UAObjectType, Robotics:1018, LoadType ]
+      - [ UAObjectType, Robotics:1018, Robotics:LoadType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:16601, AxisType ]
-  - Robotics:18179:
-    - [ UAObject, Robotics:18344, <PowerTrainIdentifier> ]
-    - HasTypeDefinition:
-      - [ UAObjectType, Robotics:16794, PowerTrainType ]
-    - HasModellingRule:
-      - [ UAObject, 11508, OptionalPlaceholder ]
-    - Robotics:18179_reverse:
-      - [ UAObjectType, Robotics:16601, AxisType ]
+      - [ UAObjectType, Robotics:16601, Robotics:AxisType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType ]
 
-  PowerTrainType:
-  - [ UAObjectType, Robotics:16794, PowerTrainType ]
+  Robotics:PowerTrainType:
+  - [ UAObjectType, Robotics:16794, Robotics:PowerTrainType ]
   - HasComponent:
-    - [ UAObject, Robotics:15998, <MotorIdentifier> ]
+    - [ UAObject, Robotics:15998, Robotics:<MotorIdentifier> ]
     - HasComponent:
-      - [ UAObject, Robotics:15999, ParameterSet ]
+      - [ UAObject, Robotics:15999, DI:ParameterSet ]
       - HasComponent:
-        - [ UAVariable, Robotics:16034, MotorTemperature, Double, 0, 0 ]
+        - [ UAVariable, Robotics:16034, Robotics:MotorTemperature, Double, 0, 0 ]
         - HasProperty:
-          - [ UAVariable, Robotics:16039, EngineeringUnits, EUInformation, 0, 0 ]
+          - [ UAVariable, Robotics:16039, Robotics:EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAVariable, Robotics:16034, MotorTemperature, Double, 0, 0 ]
+            - [ UAVariable, Robotics:16034, Robotics:MotorTemperature, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Robotics:15999, ParameterSet ]
+          - [ UAObject, Robotics:15999, DI:ParameterSet ]
       - HasTypeDefinition:
         - [ UAObjectType, 58, BaseObjectType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:15998, <MotorIdentifier> ]
+        - [ UAObject, Robotics:15998, Robotics:<MotorIdentifier> ]
     - HasProperty:
-      - [ UAVariable, Robotics:16019, Manufacturer, LocalizedText, 0, 0 ]
+      - [ UAVariable, Robotics:16019, DI:Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Robotics:15998, <MotorIdentifier> ]
+        - [ UAObject, Robotics:15998, Robotics:<MotorIdentifier> ]
     - HasProperty:
-      - [ UAVariable, Robotics:16021, Model, LocalizedText, 0, 0 ]
+      - [ UAVariable, Robotics:16021, DI:Model, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Robotics:15998, <MotorIdentifier> ]
+        - [ UAObject, Robotics:15998, Robotics:<MotorIdentifier> ]
     - HasProperty:
-      - [ UAVariable, Robotics:16025, ProductCode, String, 0, 0 ]
+      - [ UAVariable, Robotics:16025, DI:ProductCode, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Robotics:15998, <MotorIdentifier> ]
+        - [ UAObject, Robotics:15998, Robotics:<MotorIdentifier> ]
     - HasProperty:
-      - [ UAVariable, Robotics:16028, SerialNumber, String, 0, 0 ]
+      - [ UAVariable, Robotics:16028, DI:SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Robotics:15998, <MotorIdentifier> ]
+        - [ UAObject, Robotics:15998, Robotics:<MotorIdentifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, Robotics:1019, MotorType ]
+      - [ UAObjectType, Robotics:1019, Robotics:MotorType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:16794, PowerTrainType ]
+      - [ UAObjectType, Robotics:16794, Robotics:PowerTrainType ]
   - HasComponent:
-    - [ UAObject, Robotics:16041, <GearIdentifier> ]
+    - [ UAObject, Robotics:16041, Robotics:<GearIdentifier> ]
     - HasProperty:
-      - [ UAVariable, Robotics:16062, Manufacturer, LocalizedText, 0, 0 ]
+      - [ UAVariable, Robotics:16062, DI:Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Robotics:16041, <GearIdentifier> ]
+        - [ UAObject, Robotics:16041, Robotics:<GearIdentifier> ]
     - HasProperty:
-      - [ UAVariable, Robotics:16064, Model, LocalizedText, 0, 0 ]
+      - [ UAVariable, Robotics:16064, DI:Model, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Robotics:16041, <GearIdentifier> ]
+        - [ UAObject, Robotics:16041, Robotics:<GearIdentifier> ]
     - HasProperty:
-      - [ UAVariable, Robotics:16068, ProductCode, String, 0, 0 ]
+      - [ UAVariable, Robotics:16068, DI:ProductCode, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Robotics:16041, <GearIdentifier> ]
+        - [ UAObject, Robotics:16041, Robotics:<GearIdentifier> ]
     - HasProperty:
-      - [ UAVariable, Robotics:16071, SerialNumber, String, 0, 0 ]
+      - [ UAVariable, Robotics:16071, DI:SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Robotics:16041, <GearIdentifier> ]
+        - [ UAObject, Robotics:16041, Robotics:<GearIdentifier> ]
     - HasComponent:
-      - [ UAVariable, Robotics:16076, GearRatio, RationalNumber, 0, 0 ]
+      - [ UAVariable, Robotics:16076, Robotics:GearRatio, RationalNumber, 0, 0 ]
       - HasComponent:
-        - [ UAVariable, Robotics:16077, Numerator, Int32, 0, 0 ]
+        - [ UAVariable, Robotics:16077, Robotics:Numerator, Int32, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAVariable, Robotics:16076, GearRatio, RationalNumber, 0, 0 ]
+          - [ UAVariable, Robotics:16076, Robotics:GearRatio, RationalNumber, 0, 0 ]
       - HasComponent:
-        - [ UAVariable, Robotics:16078, Denominator, UInt32, 0, 0 ]
+        - [ UAVariable, Robotics:16078, Robotics:Denominator, UInt32, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAVariable, Robotics:16076, GearRatio, RationalNumber, 0, 0 ]
+          - [ UAVariable, Robotics:16076, Robotics:GearRatio, RationalNumber, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17709, RationalNumberType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:16041, <GearIdentifier> ]
+        - [ UAObject, Robotics:16041, Robotics:<GearIdentifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, Robotics:1022, GearType ]
+      - [ UAObjectType, Robotics:1022, Robotics:GearType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:16794, PowerTrainType ]
-  - Robotics:18178:
-    - [ UAObject, Robotics:18536, <AxisIdentifier> ]
-    - HasComponent:
-      - [ UAObject, Robotics:18537, ParameterSet ]
-      - HasComponent:
-        - [ UAVariable, Robotics:18595, ActualPosition, Double, 0, 0 ]
-        - HasProperty:
-          - [ UAVariable, Robotics:18600, EngineeringUnits, EUInformation, 0, 0 ]
-          - HasTypeDefinition:
-            - [ UAVariableType, 68, PropertyType ]
-          - HasModellingRule:
-            - [ UAObject, 78, Mandatory ]
-          - HasProperty_reverse:
-            - [ UAVariable, Robotics:18595, ActualPosition, Double, 0, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 17497, AnalogUnitType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-        - HasComponent_reverse:
-          - [ UAObject, Robotics:18537, ParameterSet ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 58, BaseObjectType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasComponent_reverse:
-        - [ UAObject, Robotics:18536, <AxisIdentifier> ]
-    - HasProperty:
-      - [ UAVariable, Robotics:18570, MotionProfile, AxisMotionProfileEnumeration, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 68, PropertyType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty_reverse:
-        - [ UAObject, Robotics:18536, <AxisIdentifier> ]
-    - HasTypeDefinition:
-      - [ UAObjectType, Robotics:16601, AxisType ]
-    - HasModellingRule:
-      - [ UAObject, 11508, OptionalPlaceholder ]
-    - Robotics:18178_reverse:
-      - [ UAObjectType, Robotics:16794, PowerTrainType ]
-  - Robotics:18183:
-    - [ UAObject, Robotics:18613, <PowerTrainIdentifier> ]
-    - HasTypeDefinition:
-      - [ UAObjectType, Robotics:16794, PowerTrainType ]
-    - HasModellingRule:
-      - [ UAObject, 11508, OptionalPlaceholder ]
-    - Robotics:18183_reverse:
-      - [ UAObjectType, Robotics:16794, PowerTrainType ]
+      - [ UAObjectType, Robotics:16794, Robotics:PowerTrainType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType ]
 
-  MotorType:
-  - [ UAObjectType, Robotics:1019, MotorType ]
+  Robotics:MotorType:
+  - [ UAObjectType, Robotics:1019, Robotics:MotorType ]
   - HasComponent:
-    - [ UAObject, Robotics:5105, ParameterSet ]
+    - [ UAObject, Robotics:5105, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:17150, BrakeReleased, Boolean, 0, 0 ]
+      - [ UAVariable, Robotics:17150, Robotics:BrakeReleased, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5105, ParameterSet ]
+        - [ UAObject, Robotics:5105, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:6757, MotorTemperature, Double, 0, 0 ]
+      - [ UAVariable, Robotics:6757, Robotics:MotorTemperature, Double, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, Robotics:6762, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Robotics:6762, Robotics:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Robotics:6757, MotorTemperature, Double, 0, 0 ]
+          - [ UAVariable, Robotics:6757, Robotics:MotorTemperature, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5105, ParameterSet ]
+        - [ UAObject, Robotics:5105, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:6776, EffectiveLoadRate, UInt16, 0, 0 ]
+      - [ UAVariable, Robotics:6776, Robotics:EffectiveLoadRate, UInt16, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5105, ParameterSet ]
+        - [ UAObject, Robotics:5105, DI:ParameterSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1019, MotorType ]
+      - [ UAObjectType, Robotics:1019, Robotics:MotorType ]
   - HasProperty:
-    - [ UAVariable, Robotics:17101, Manufacturer, LocalizedText, 0, 0 ]
+    - [ UAVariable, Robotics:17101, DI:Manufacturer, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1019, MotorType ]
+      - [ UAObjectType, Robotics:1019, Robotics:MotorType ]
   - HasProperty:
-    - [ UAVariable, Robotics:17103, Model, LocalizedText, 0, 0 ]
+    - [ UAVariable, Robotics:17103, DI:Model, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1019, MotorType ]
+      - [ UAObjectType, Robotics:1019, Robotics:MotorType ]
   - HasProperty:
-    - [ UAVariable, Robotics:17109, ProductCode, String, 0, 0 ]
+    - [ UAVariable, Robotics:17109, DI:ProductCode, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1019, MotorType ]
+      - [ UAObjectType, Robotics:1019, Robotics:MotorType ]
   - HasProperty:
-    - [ UAVariable, Robotics:17104, SerialNumber, String, 0, 0 ]
+    - [ UAVariable, Robotics:17104, DI:SerialNumber, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1019, MotorType ]
-  - Robotics:18180:
-    - [ UAObject, Robotics:18763, <DriveIdentifier> ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 58, BaseObjectType ]
-    - HasModellingRule:
-      - [ UAObject, 11508, OptionalPlaceholder ]
-    - Robotics:18180_reverse:
-      - [ UAObjectType, Robotics:1019, MotorType ]
+      - [ UAObjectType, Robotics:1019, Robotics:MotorType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType ]
 
-  GearType:
-  - [ UAObjectType, Robotics:1022, GearType ]
+  Robotics:GearType:
+  - [ UAObjectType, Robotics:1022, Robotics:GearType ]
   - HasProperty:
-    - [ UAVariable, Robotics:17152, Manufacturer, LocalizedText, 0, 0 ]
+    - [ UAVariable, Robotics:17152, DI:Manufacturer, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1022, GearType ]
+      - [ UAObjectType, Robotics:1022, Robotics:GearType ]
   - HasProperty:
-    - [ UAVariable, Robotics:17154, Model, LocalizedText, 0, 0 ]
+    - [ UAVariable, Robotics:17154, DI:Model, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1022, GearType ]
+      - [ UAObjectType, Robotics:1022, Robotics:GearType ]
   - HasProperty:
-    - [ UAVariable, Robotics:17160, ProductCode, String, 0, 0 ]
+    - [ UAVariable, Robotics:17160, DI:ProductCode, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1022, GearType ]
+      - [ UAObjectType, Robotics:1022, Robotics:GearType ]
   - HasProperty:
-    - [ UAVariable, Robotics:17155, SerialNumber, String, 0, 0 ]
+    - [ UAVariable, Robotics:17155, DI:SerialNumber, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1022, GearType ]
+      - [ UAObjectType, Robotics:1022, Robotics:GearType ]
   - HasComponent:
-    - [ UAVariable, Robotics:15941, GearRatio, RationalNumber, 0, 0 ]
+    - [ UAVariable, Robotics:15941, Robotics:GearRatio, RationalNumber, 0, 0 ]
     - HasComponent:
-      - [ UAVariable, Robotics:15615, Numerator, Int32, 0, 0 ]
+      - [ UAVariable, Robotics:15615, Robotics:Numerator, Int32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAVariable, Robotics:15941, GearRatio, RationalNumber, 0, 0 ]
+        - [ UAVariable, Robotics:15941, Robotics:GearRatio, RationalNumber, 0, 0 ]
     - HasComponent:
-      - [ UAVariable, Robotics:15616, Denominator, UInt32, 0, 0 ]
+      - [ UAVariable, Robotics:15616, Robotics:Denominator, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAVariable, Robotics:15941, GearRatio, RationalNumber, 0, 0 ]
+        - [ UAVariable, Robotics:15941, Robotics:GearRatio, RationalNumber, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17709, RationalNumberType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1022, GearType ]
+      - [ UAObjectType, Robotics:1022, Robotics:GearType ]
   - HasComponent:
-    - [ UAVariable, Robotics:17165, Pitch, Double, 0, 0 ]
+    - [ UAVariable, Robotics:17165, Robotics:Pitch, Double, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1022, GearType ]
+      - [ UAObjectType, Robotics:1022, Robotics:GearType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType ]
 
-  SafetyStateType:
-  - [ UAObjectType, Robotics:1013, SafetyStateType ]
+  Robotics:SafetyStateType:
+  - [ UAObjectType, Robotics:1013, Robotics:SafetyStateType ]
   - HasComponent:
-    - [ UAObject, Robotics:5016, ParameterSet ]
+    - [ UAObject, Robotics:5016, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:15912, OperationalMode, OperationalModeEnumeration, 0, 0 ]
+      - [ UAVariable, Robotics:15912, Robotics:OperationalMode, Robotics:OperationalModeEnumeration, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5016, ParameterSet ]
+        - [ UAObject, Robotics:5016, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:15882, EmergencyStop, Boolean, 0, 0 ]
+      - [ UAVariable, Robotics:15882, Robotics:EmergencyStop, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5016, ParameterSet ]
+        - [ UAObject, Robotics:5016, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:15913, ProtectiveStop, Boolean, 0, 0 ]
+      - [ UAVariable, Robotics:15913, Robotics:ProtectiveStop, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5016, ParameterSet ]
+        - [ UAObject, Robotics:5016, DI:ParameterSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1013, SafetyStateType ]
+      - [ UAObjectType, Robotics:1013, Robotics:SafetyStateType ]
   - HasComponent:
-    - [ UAObject, Robotics:17221, EmergencyStopFunctions ]
+    - [ UAObject, Robotics:17221, Robotics:EmergencyStopFunctions ]
     - HasComponent:
-      - [ UAObject, Robotics:18806, <EmergencyStopFunctionIdentifier> ]
+      - [ UAObject, Robotics:18806, Robotics:<EmergencyStopFunctionIdentifier> ]
       - HasProperty:
-        - [ UAVariable, Robotics:18807, Name, String, 0, 0 ]
+        - [ UAVariable, Robotics:18807, Robotics:Name, String, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Robotics:18806, <EmergencyStopFunctionIdentifier> ]
+          - [ UAObject, Robotics:18806, Robotics:<EmergencyStopFunctionIdentifier> ]
       - HasComponent:
-        - [ UAVariable, Robotics:18808, Active, Boolean, 0, 0 ]
+        - [ UAVariable, Robotics:18808, Robotics:Active, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Robotics:18806, <EmergencyStopFunctionIdentifier> ]
+          - [ UAObject, Robotics:18806, Robotics:<EmergencyStopFunctionIdentifier> ]
       - HasTypeDefinition:
-        - [ UAObjectType, Robotics:17230, EmergencyStopFunctionType ]
+        - [ UAObjectType, Robotics:17230, Robotics:EmergencyStopFunctionType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:17221, EmergencyStopFunctions ]
+        - [ UAObject, Robotics:17221, Robotics:EmergencyStopFunctions ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1013, SafetyStateType ]
+      - [ UAObjectType, Robotics:1013, Robotics:SafetyStateType ]
   - HasComponent:
-    - [ UAObject, Robotics:17225, ProtectiveStopFunctions ]
+    - [ UAObject, Robotics:17225, Robotics:ProtectiveStopFunctions ]
     - HasComponent:
-      - [ UAObject, Robotics:18809, <ProtectiveStopFunctionIdentifier> ]
+      - [ UAObject, Robotics:18809, Robotics:<ProtectiveStopFunctionIdentifier> ]
       - HasProperty:
-        - [ UAVariable, Robotics:18810, Name, String, 0, 0 ]
+        - [ UAVariable, Robotics:18810, Robotics:Name, String, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Robotics:18809, <ProtectiveStopFunctionIdentifier> ]
+          - [ UAObject, Robotics:18809, Robotics:<ProtectiveStopFunctionIdentifier> ]
       - HasComponent:
-        - [ UAVariable, Robotics:18811, Enabled, Boolean, 0, 0 ]
+        - [ UAVariable, Robotics:18811, Robotics:Enabled, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Robotics:18809, <ProtectiveStopFunctionIdentifier> ]
+          - [ UAObject, Robotics:18809, Robotics:<ProtectiveStopFunctionIdentifier> ]
       - HasComponent:
-        - [ UAVariable, Robotics:18812, Active, Boolean, 0, 0 ]
+        - [ UAVariable, Robotics:18812, Robotics:Active, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Robotics:18809, <ProtectiveStopFunctionIdentifier> ]
+          - [ UAObject, Robotics:18809, Robotics:<ProtectiveStopFunctionIdentifier> ]
       - HasTypeDefinition:
-        - [ UAObjectType, Robotics:17233, ProtectiveStopFunctionType ]
+        - [ UAObjectType, Robotics:17233, Robotics:ProtectiveStopFunctionType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:17225, ProtectiveStopFunctions ]
+        - [ UAObject, Robotics:17225, Robotics:ProtectiveStopFunctions ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1013, SafetyStateType ]
+      - [ UAObjectType, Robotics:1013, Robotics:SafetyStateType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType ]
 
-  EmergencyStopFunctionType:
-  - [ UAObjectType, Robotics:17230, EmergencyStopFunctionType ]
+  Robotics:EmergencyStopFunctionType:
+  - [ UAObjectType, Robotics:17230, Robotics:EmergencyStopFunctionType ]
   - HasProperty:
-    - [ UAVariable, Robotics:17231, Name, String, 0, 0 ]
+    - [ UAVariable, Robotics:17231, Robotics:Name, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:17230, EmergencyStopFunctionType ]
+      - [ UAObjectType, Robotics:17230, Robotics:EmergencyStopFunctionType ]
   - HasComponent:
-    - [ UAVariable, Robotics:17232, Active, Boolean, 0, 0 ]
+    - [ UAVariable, Robotics:17232, Robotics:Active, Boolean, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:17230, EmergencyStopFunctionType ]
+      - [ UAObjectType, Robotics:17230, Robotics:EmergencyStopFunctionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  ProtectiveStopFunctionType:
-  - [ UAObjectType, Robotics:17233, ProtectiveStopFunctionType ]
+  Robotics:ProtectiveStopFunctionType:
+  - [ UAObjectType, Robotics:17233, Robotics:ProtectiveStopFunctionType ]
   - HasProperty:
-    - [ UAVariable, Robotics:17234, Name, String, 0, 0 ]
+    - [ UAVariable, Robotics:17234, Robotics:Name, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:17233, ProtectiveStopFunctionType ]
+      - [ UAObjectType, Robotics:17233, Robotics:ProtectiveStopFunctionType ]
   - HasComponent:
-    - [ UAVariable, Robotics:17235, Enabled, Boolean, 0, 0 ]
+    - [ UAVariable, Robotics:17235, Robotics:Enabled, Boolean, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:17233, ProtectiveStopFunctionType ]
+      - [ UAObjectType, Robotics:17233, Robotics:ProtectiveStopFunctionType ]
   - HasComponent:
-    - [ UAVariable, Robotics:17236, Active, Boolean, 0, 0 ]
+    - [ UAVariable, Robotics:17236, Robotics:Active, Boolean, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:17233, ProtectiveStopFunctionType ]
+      - [ UAObjectType, Robotics:17233, Robotics:ProtectiveStopFunctionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  ControllerType:
-  - [ UAObjectType, Robotics:1003, ControllerType ]
+  Robotics:ControllerType:
+  - [ UAObjectType, Robotics:1003, Robotics:ControllerType ]
   - HasComponent:
-    - [ UAObject, Robotics:5004, ParameterSet ]
+    - [ UAObject, Robotics:5004, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:17358, TotalPowerOnTime, DurationString, 0, 0 ]
+      - [ UAVariable, Robotics:17358, Robotics:TotalPowerOnTime, DurationString, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5004, ParameterSet ]
+        - [ UAObject, Robotics:5004, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:15366, StartUpTime, DateTime, 0, 0 ]
+      - [ UAVariable, Robotics:15366, Robotics:StartUpTime, DateTime, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5004, ParameterSet ]
+        - [ UAObject, Robotics:5004, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:15365, UpsState, String, 0, 0 ]
+      - [ UAVariable, Robotics:15365, Robotics:UpsState, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5004, ParameterSet ]
+        - [ UAObject, Robotics:5004, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:17359, TotalEnergyConsumption, Double, 0, 0 ]
+      - [ UAVariable, Robotics:17359, Robotics:TotalEnergyConsumption, Double, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, Robotics:17364, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Robotics:17364, Robotics:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Robotics:17359, TotalEnergyConsumption, Double, 0, 0 ]
+          - [ UAVariable, Robotics:17359, Robotics:TotalEnergyConsumption, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5004, ParameterSet ]
+        - [ UAObject, Robotics:5004, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:17365, CabinetFanSpeed, Double, 0, 0 ]
+      - [ UAVariable, Robotics:17365, Robotics:CabinetFanSpeed, Double, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, Robotics:17370, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Robotics:17370, Robotics:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Robotics:17365, CabinetFanSpeed, Double, 0, 0 ]
+          - [ UAVariable, Robotics:17365, Robotics:CabinetFanSpeed, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5004, ParameterSet ]
+        - [ UAObject, Robotics:5004, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:17371, CPUFanSpeed, Double, 0, 0 ]
+      - [ UAVariable, Robotics:17371, Robotics:CPUFanSpeed, Double, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, Robotics:17376, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Robotics:17376, Robotics:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Robotics:17371, CPUFanSpeed, Double, 0, 0 ]
+          - [ UAVariable, Robotics:17371, Robotics:CPUFanSpeed, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5004, ParameterSet ]
+        - [ UAObject, Robotics:5004, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:17377, InputVoltage, Double, 0, 0 ]
+      - [ UAVariable, Robotics:17377, Robotics:InputVoltage, Double, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, Robotics:17382, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Robotics:17382, Robotics:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Robotics:17377, InputVoltage, Double, 0, 0 ]
+          - [ UAVariable, Robotics:17377, Robotics:InputVoltage, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5004, ParameterSet ]
+        - [ UAObject, Robotics:5004, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:17383, Temperature, Double, 0, 0 ]
+      - [ UAVariable, Robotics:17383, Robotics:Temperature, Double, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, Robotics:17388, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Robotics:17388, Robotics:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Robotics:17383, Temperature, Double, 0, 0 ]
+          - [ UAVariable, Robotics:17383, Robotics:Temperature, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:5004, ParameterSet ]
+        - [ UAObject, Robotics:5004, DI:ParameterSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1003, ControllerType ]
+      - [ UAObjectType, Robotics:1003, Robotics:ControllerType ]
   - HasProperty:
-    - [ UAVariable, Robotics:17237, Manufacturer, LocalizedText, 0, 0 ]
+    - [ UAVariable, Robotics:17237, DI:Manufacturer, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1003, ControllerType ]
+      - [ UAObjectType, Robotics:1003, Robotics:ControllerType ]
   - HasProperty:
-    - [ UAVariable, Robotics:17239, Model, LocalizedText, 0, 0 ]
+    - [ UAVariable, Robotics:17239, DI:Model, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1003, ControllerType ]
+      - [ UAObjectType, Robotics:1003, Robotics:ControllerType ]
   - HasProperty:
-    - [ UAVariable, Robotics:17245, ProductCode, String, 0, 0 ]
+    - [ UAVariable, Robotics:17245, DI:ProductCode, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1003, ControllerType ]
+      - [ UAObjectType, Robotics:1003, Robotics:ControllerType ]
   - HasProperty:
-    - [ UAVariable, Robotics:17240, SerialNumber, String, 0, 0 ]
+    - [ UAVariable, Robotics:17240, DI:SerialNumber, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1003, ControllerType ]
+      - [ UAObjectType, Robotics:1003, Robotics:ControllerType ]
   - HasComponent:
-    - [ UAObject, Robotics:17249, CurrentUser ]
+    - [ UAObject, Robotics:17249, Robotics:CurrentUser ]
     - HasProperty:
-      - [ UAVariable, Robotics:17250, Level, String, 0, 0 ]
+      - [ UAVariable, Robotics:17250, Robotics:Level, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Robotics:17249, CurrentUser ]
+        - [ UAObject, Robotics:17249, Robotics:CurrentUser ]
     - HasTypeDefinition:
-      - [ UAObjectType, Robotics:18175, UserType ]
+      - [ UAObjectType, Robotics:18175, Robotics:UserType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1003, ControllerType ]
+      - [ UAObjectType, Robotics:1003, Robotics:ControllerType ]
   - HasComponent:
-    - [ UAObject, Robotics:17252, Components ]
+    - [ UAObject, Robotics:17252, Robotics:Components ]
     - HasComponent:
-      - [ UAObject, Robotics:18813, <ComponentIdentifier> ]
-      - HasInterface:
-        - [ UAObjectType, DI:15035, IVendorNameplateType ]
-      - HasInterface:
-        - [ UAObjectType, DI:15048, ITagNameplateType ]
+      - [ UAObject, Robotics:18813, Robotics:<ComponentIdentifier> ]
+      - i=17603:
+        - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+      - i=17603:
+        - [ UAObjectType, DI:15048, DI:ITagNameplateType ]
       - HasTypeDefinition:
-        - [ UAObjectType, DI:15063, ComponentType ]
+        - [ UAObjectType, DI:15063, DI:ComponentType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:17252, Components ]
+        - [ UAObject, Robotics:17252, Robotics:Components ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1003, ControllerType ]
+      - [ UAObjectType, Robotics:1003, Robotics:ControllerType ]
   - HasComponent:
-    - [ UAObject, Robotics:15800, Software ]
+    - [ UAObject, Robotics:15800, Robotics:Software ]
     - HasComponent:
-      - [ UAObject, Robotics:18847, <SoftwareIdentifier> ]
+      - [ UAObject, Robotics:18847, Robotics:<SoftwareIdentifier> ]
       - HasProperty:
-        - [ UAVariable, Robotics:18868, Manufacturer, LocalizedText, 0, 0 ]
+        - [ UAVariable, Robotics:18868, DI:Manufacturer, LocalizedText, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Robotics:18847, <SoftwareIdentifier> ]
+          - [ UAObject, Robotics:18847, Robotics:<SoftwareIdentifier> ]
       - HasProperty:
-        - [ UAVariable, Robotics:18870, Model, LocalizedText, 0, 0 ]
+        - [ UAVariable, Robotics:18870, DI:Model, LocalizedText, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Robotics:18847, <SoftwareIdentifier> ]
+          - [ UAObject, Robotics:18847, Robotics:<SoftwareIdentifier> ]
       - HasProperty:
-        - [ UAVariable, Robotics:18873, SoftwareRevision, String, 0, 0 ]
+        - [ UAVariable, Robotics:18873, DI:SoftwareRevision, String, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Robotics:18847, <SoftwareIdentifier> ]
+          - [ UAObject, Robotics:18847, Robotics:<SoftwareIdentifier> ]
       - HasTypeDefinition:
-        - [ UAObjectType, DI:15106, SoftwareType ]
+        - [ UAObjectType, DI:15106, DI:SoftwareType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:15800, Software ]
+        - [ UAObject, Robotics:15800, Robotics:Software ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1003, ControllerType ]
+      - [ UAObjectType, Robotics:1003, Robotics:ControllerType ]
   - HasComponent:
-    - [ UAObject, Robotics:15826, TaskControls ]
+    - [ UAObject, Robotics:15826, Robotics:TaskControls ]
     - HasComponent:
-      - [ UAObject, Robotics:18881, <TaskControlIdentifier> ]
+      - [ UAObject, Robotics:18881, Robotics:<TaskControlIdentifier> ]
       - HasComponent:
-        - [ UAObject, Robotics:18882, ParameterSet ]
+        - [ UAObject, Robotics:18882, DI:ParameterSet ]
         - HasComponent:
-          - [ UAVariable, Robotics:18915, TaskProgramName, String, 0, 0 ]
+          - [ UAVariable, Robotics:18915, Robotics:TaskProgramName, String, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, Robotics:18882, ParameterSet ]
+            - [ UAObject, Robotics:18882, DI:ParameterSet ]
         - HasComponent:
-          - [ UAVariable, Robotics:18916, TaskProgramLoaded, Boolean, 0, 0 ]
+          - [ UAVariable, Robotics:18916, Robotics:TaskProgramLoaded, Boolean, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, Robotics:18882, ParameterSet ]
+            - [ UAObject, Robotics:18882, DI:ParameterSet ]
         - HasTypeDefinition:
           - [ UAObjectType, 58, BaseObjectType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Robotics:18881, <TaskControlIdentifier> ]
+          - [ UAObject, Robotics:18881, Robotics:<TaskControlIdentifier> ]
       - HasProperty:
-        - [ UAVariable, Robotics:18914, ComponentName, LocalizedText, 0, 0 ]
+        - [ UAVariable, Robotics:18914, DI:ComponentName, LocalizedText, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Robotics:18881, <TaskControlIdentifier> ]
+          - [ UAObject, Robotics:18881, Robotics:<TaskControlIdentifier> ]
       - HasTypeDefinition:
-        - [ UAObjectType, Robotics:1011, TaskControlType ]
+        - [ UAObjectType, Robotics:1011, Robotics:TaskControlType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:15826, TaskControls ]
+        - [ UAObject, Robotics:15826, Robotics:TaskControls ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1003, ControllerType ]
-  - Robotics:18182:
-    - [ UAObject, Robotics:18918, <SafetyStatesIdentifier> ]
-    - HasComponent:
-      - [ UAObject, Robotics:18919, ParameterSet ]
-      - HasComponent:
-        - [ UAVariable, Robotics:18961, OperationalMode, OperationalModeEnumeration, 0, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 63, BaseDataVariableType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-        - HasComponent_reverse:
-          - [ UAObject, Robotics:18919, ParameterSet ]
-      - HasComponent:
-        - [ UAVariable, Robotics:18962, EmergencyStop, Boolean, 0, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 63, BaseDataVariableType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-        - HasComponent_reverse:
-          - [ UAObject, Robotics:18919, ParameterSet ]
-      - HasComponent:
-        - [ UAVariable, Robotics:18963, ProtectiveStop, Boolean, 0, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 63, BaseDataVariableType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-        - HasComponent_reverse:
-          - [ UAObject, Robotics:18919, ParameterSet ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 58, BaseObjectType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasComponent_reverse:
-        - [ UAObject, Robotics:18918, <SafetyStatesIdentifier> ]
-    - HasTypeDefinition:
-      - [ UAObjectType, Robotics:1013, SafetyStateType ]
-    - HasModellingRule:
-      - [ UAObject, 11508, OptionalPlaceholder ]
-    - Robotics:18182_reverse:
-      - [ UAObjectType, Robotics:1003, ControllerType ]
-  - Robotics:4002:
-    - [ UAObject, Robotics:18964, <MotionDeviceIdentifier> ]
-    - HasComponent:
-      - [ UAObject, Robotics:18965, ParameterSet ]
-      - HasComponent:
-        - [ UAVariable, Robotics:19001, SpeedOverride, Double, 0, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 63, BaseDataVariableType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-        - HasComponent_reverse:
-          - [ UAObject, Robotics:18965, ParameterSet ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 58, BaseObjectType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasComponent_reverse:
-        - [ UAObject, Robotics:18964, <MotionDeviceIdentifier> ]
-    - HasProperty:
-      - [ UAVariable, Robotics:18985, Manufacturer, LocalizedText, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 68, PropertyType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty_reverse:
-        - [ UAObject, Robotics:18964, <MotionDeviceIdentifier> ]
-    - HasProperty:
-      - [ UAVariable, Robotics:18987, Model, LocalizedText, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 68, PropertyType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty_reverse:
-        - [ UAObject, Robotics:18964, <MotionDeviceIdentifier> ]
-    - HasProperty:
-      - [ UAVariable, Robotics:18993, ProductCode, String, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 68, PropertyType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty_reverse:
-        - [ UAObject, Robotics:18964, <MotionDeviceIdentifier> ]
-    - HasProperty:
-      - [ UAVariable, Robotics:18988, SerialNumber, String, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 68, PropertyType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty_reverse:
-        - [ UAObject, Robotics:18964, <MotionDeviceIdentifier> ]
-    - HasProperty:
-      - [ UAVariable, Robotics:18998, MotionDeviceCategory, MotionDeviceCategoryEnumeration, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 68, PropertyType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty_reverse:
-        - [ UAObject, Robotics:18964, <MotionDeviceIdentifier> ]
-    - HasComponent:
-      - [ UAObject, Robotics:19002, Axes ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 61, FolderType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasComponent_reverse:
-        - [ UAObject, Robotics:18964, <MotionDeviceIdentifier> ]
-    - HasComponent:
-      - [ UAObject, Robotics:19080, PowerTrains ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 61, FolderType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasComponent_reverse:
-        - [ UAObject, Robotics:18964, <MotionDeviceIdentifier> ]
-    - HasTypeDefinition:
-      - [ UAObjectType, Robotics:1004, MotionDeviceType ]
-    - HasModellingRule:
-      - [ UAObject, 11508, OptionalPlaceholder ]
-    - Robotics:4002_reverse:
-      - [ UAObjectType, Robotics:1003, ControllerType ]
+      - [ UAObjectType, Robotics:1003, Robotics:ControllerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType ]
 
-  AuxiliaryComponentType:
-  - [ UAObjectType, Robotics:17725, AuxiliaryComponentType ]
+  Robotics:AuxiliaryComponentType:
+  - [ UAObjectType, Robotics:17725, Robotics:AuxiliaryComponentType ]
   - HasProperty:
-    - [ UAVariable, Robotics:17756, ProductCode, String, 0, 0 ]
+    - [ UAVariable, Robotics:17756, DI:ProductCode, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:17725, AuxiliaryComponentType ]
+      - [ UAObjectType, Robotics:17725, Robotics:AuxiliaryComponentType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1002, DeviceType ]
+    - [ UAObjectType, DI:1002, DI:DeviceType ]
 
-  DriveType:
-  - [ UAObjectType, Robotics:17793, DriveType ]
+  Robotics:DriveType:
+  - [ UAObjectType, Robotics:17793, Robotics:DriveType ]
   - HasProperty:
-    - [ UAVariable, Robotics:17824, ProductCode, String, 0, 0 ]
+    - [ UAVariable, Robotics:17824, DI:ProductCode, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:17793, DriveType ]
+      - [ UAObjectType, Robotics:17793, Robotics:DriveType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1002, DeviceType ]
+    - [ UAObjectType, DI:1002, DI:DeviceType ]
 
-  TaskControlType:
-  - [ UAObjectType, Robotics:1011, TaskControlType ]
+  Robotics:TaskControlType:
+  - [ UAObjectType, Robotics:1011, Robotics:TaskControlType ]
   - HasComponent:
-    - [ UAObject, Robotics:15883, ParameterSet ]
+    - [ UAObject, Robotics:15883, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:17874, TaskProgramName, String, 0, 0 ]
+      - [ UAVariable, Robotics:17874, Robotics:TaskProgramName, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:15883, ParameterSet ]
+        - [ UAObject, Robotics:15883, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:17875, TaskProgramLoaded, Boolean, 0, 0 ]
+      - [ UAVariable, Robotics:17875, Robotics:TaskProgramLoaded, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:15883, ParameterSet ]
+        - [ UAObject, Robotics:15883, DI:ParameterSet ]
     - HasComponent:
-      - [ UAVariable, Robotics:17876, ExecutionMode, ExecutionModeEnumeration, 0, 0 ]
+      - [ UAVariable, Robotics:17876, Robotics:ExecutionMode, Robotics:ExecutionModeEnumeration, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Robotics:15883, ParameterSet ]
+        - [ UAObject, Robotics:15883, DI:ParameterSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1011, TaskControlType ]
+      - [ UAObjectType, Robotics:1011, Robotics:TaskControlType ]
   - HasProperty:
-    - [ UAVariable, Robotics:17873, ComponentName, LocalizedText, 0, 0 ]
+    - [ UAVariable, Robotics:17873, DI:ComponentName, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:1011, TaskControlType ]
-  - Robotics:4002:
-    - [ UAObject, Robotics:19254, <MotionDeviceIdentifier> ]
-    - HasComponent:
-      - [ UAObject, Robotics:19255, ParameterSet ]
-      - HasComponent:
-        - [ UAVariable, Robotics:19291, SpeedOverride, Double, 0, 0 ]
-        - HasTypeDefinition:
-          - [ UAVariableType, 63, BaseDataVariableType ]
-        - HasModellingRule:
-          - [ UAObject, 78, Mandatory ]
-        - HasComponent_reverse:
-          - [ UAObject, Robotics:19255, ParameterSet ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 58, BaseObjectType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasComponent_reverse:
-        - [ UAObject, Robotics:19254, <MotionDeviceIdentifier> ]
-    - HasProperty:
-      - [ UAVariable, Robotics:19275, Manufacturer, LocalizedText, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 68, PropertyType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty_reverse:
-        - [ UAObject, Robotics:19254, <MotionDeviceIdentifier> ]
-    - HasProperty:
-      - [ UAVariable, Robotics:19277, Model, LocalizedText, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 68, PropertyType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty_reverse:
-        - [ UAObject, Robotics:19254, <MotionDeviceIdentifier> ]
-    - HasProperty:
-      - [ UAVariable, Robotics:19283, ProductCode, String, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 68, PropertyType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty_reverse:
-        - [ UAObject, Robotics:19254, <MotionDeviceIdentifier> ]
-    - HasProperty:
-      - [ UAVariable, Robotics:19278, SerialNumber, String, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 68, PropertyType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty_reverse:
-        - [ UAObject, Robotics:19254, <MotionDeviceIdentifier> ]
-    - HasProperty:
-      - [ UAVariable, Robotics:19288, MotionDeviceCategory, MotionDeviceCategoryEnumeration, 0, 0 ]
-      - HasTypeDefinition:
-        - [ UAVariableType, 68, PropertyType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasProperty_reverse:
-        - [ UAObject, Robotics:19254, <MotionDeviceIdentifier> ]
-    - HasComponent:
-      - [ UAObject, Robotics:19292, Axes ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 61, FolderType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasComponent_reverse:
-        - [ UAObject, Robotics:19254, <MotionDeviceIdentifier> ]
-    - HasComponent:
-      - [ UAObject, Robotics:19370, PowerTrains ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 61, FolderType ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-      - HasComponent_reverse:
-        - [ UAObject, Robotics:19254, <MotionDeviceIdentifier> ]
-    - HasTypeDefinition:
-      - [ UAObjectType, Robotics:1004, MotionDeviceType ]
-    - HasModellingRule:
-      - [ UAObject, 11508, OptionalPlaceholder ]
-    - Robotics:4002_reverse:
-      - [ UAObjectType, Robotics:1011, TaskControlType ]
+      - [ UAObjectType, Robotics:1011, Robotics:TaskControlType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType ]
 
-  LoadType:
-  - [ UAObjectType, Robotics:1018, LoadType ]
+  Robotics:LoadType:
+  - [ UAObjectType, Robotics:1018, Robotics:LoadType ]
   - HasComponent:
-    - [ UAVariable, Robotics:6723, Mass, Double, 0, 0 ]
+    - [ UAVariable, Robotics:6723, Robotics:Mass, Double, 0, 0 ]
     - HasProperty:
-      - [ UAVariable, Robotics:6728, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Robotics:6728, Robotics:EngineeringUnits, EUInformation, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Robotics:6723, Mass, Double, 0, 0 ]
+        - [ UAVariable, Robotics:6723, Robotics:Mass, Double, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1018, LoadType ]
+      - [ UAObjectType, Robotics:1018, Robotics:LoadType ]
   - HasComponent:
-    - [ UAVariable, Robotics:6013, CenterOfMass, 3DFrame, 0, 0 ]
+    - [ UAVariable, Robotics:6013, Robotics:CenterOfMass, 3DFrame, 0, 0 ]
     - HasComponent:
-      - [ UAVariable, Robotics:16130, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+      - [ UAVariable, Robotics:16130, Robotics:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
       - HasComponent:
-        - [ UAVariable, Robotics:16134, X, Double, 0, 0 ]
+        - [ UAVariable, Robotics:16134, Robotics:X, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAVariable, Robotics:16130, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+          - [ UAVariable, Robotics:16130, Robotics:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
       - HasComponent:
-        - [ UAVariable, Robotics:16135, Y, Double, 0, 0 ]
+        - [ UAVariable, Robotics:16135, Robotics:Y, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAVariable, Robotics:16130, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+          - [ UAVariable, Robotics:16130, Robotics:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
       - HasComponent:
-        - [ UAVariable, Robotics:16136, Z, Double, 0, 0 ]
+        - [ UAVariable, Robotics:16136, Robotics:Z, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAVariable, Robotics:16130, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+          - [ UAVariable, Robotics:16130, Robotics:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 18774, 3DCartesianCoordinatesType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAVariable, Robotics:6013, CenterOfMass, 3DFrame, 0, 0 ]
+        - [ UAVariable, Robotics:6013, Robotics:CenterOfMass, 3DFrame, 0, 0 ]
     - HasComponent:
-      - [ UAVariable, Robotics:16132, Orientation, 3DOrientation, 0, 0 ]
+      - [ UAVariable, Robotics:16132, Robotics:Orientation, 3DOrientation, 0, 0 ]
       - HasComponent:
-        - [ UAVariable, Robotics:16137, A, Double, 0, 0 ]
+        - [ UAVariable, Robotics:16137, Robotics:A, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAVariable, Robotics:16132, Orientation, 3DOrientation, 0, 0 ]
+          - [ UAVariable, Robotics:16132, Robotics:Orientation, 3DOrientation, 0, 0 ]
       - HasComponent:
-        - [ UAVariable, Robotics:16138, B, Double, 0, 0 ]
+        - [ UAVariable, Robotics:16138, Robotics:B, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAVariable, Robotics:16132, Orientation, 3DOrientation, 0, 0 ]
+          - [ UAVariable, Robotics:16132, Robotics:Orientation, 3DOrientation, 0, 0 ]
       - HasComponent:
-        - [ UAVariable, Robotics:16139, C, Double, 0, 0 ]
+        - [ UAVariable, Robotics:16139, Robotics:C, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAVariable, Robotics:16132, Orientation, 3DOrientation, 0, 0 ]
+          - [ UAVariable, Robotics:16132, Robotics:Orientation, 3DOrientation, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 18781, 3DOrientationType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAVariable, Robotics:6013, CenterOfMass, 3DFrame, 0, 0 ]
+        - [ UAVariable, Robotics:6013, Robotics:CenterOfMass, 3DFrame, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 18791, 3DFrameType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1018, LoadType ]
+      - [ UAObjectType, Robotics:1018, Robotics:LoadType ]
   - HasComponent:
-    - [ UAVariable, Robotics:18170, Inertia, 3DVector, 0, 0 ]
+    - [ UAVariable, Robotics:18170, Robotics:Inertia, 3DVector, 0, 0 ]
     - HasComponent:
-      - [ UAVariable, Robotics:18171, X, Double, 0, 0 ]
+      - [ UAVariable, Robotics:18171, Robotics:X, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAVariable, Robotics:18170, Inertia, 3DVector, 0, 0 ]
+        - [ UAVariable, Robotics:18170, Robotics:Inertia, 3DVector, 0, 0 ]
     - HasComponent:
-      - [ UAVariable, Robotics:18172, Y, Double, 0, 0 ]
+      - [ UAVariable, Robotics:18172, Robotics:Y, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAVariable, Robotics:18170, Inertia, 3DVector, 0, 0 ]
+        - [ UAVariable, Robotics:18170, Robotics:Inertia, 3DVector, 0, 0 ]
     - HasComponent:
-      - [ UAVariable, Robotics:18173, Z, Double, 0, 0 ]
+      - [ UAVariable, Robotics:18173, Robotics:Z, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAVariable, Robotics:18170, Inertia, 3DVector, 0, 0 ]
+        - [ UAVariable, Robotics:18170, Robotics:Inertia, 3DVector, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17716, 3DVectorType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Robotics:1018, LoadType ]
+      - [ UAObjectType, Robotics:1018, Robotics:LoadType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  UserType:
-  - [ UAObjectType, Robotics:18175, UserType ]
+  Robotics:UserType:
+  - [ UAObjectType, Robotics:18175, Robotics:UserType ]
   - HasProperty:
-    - [ UAVariable, Robotics:18176, Level, String, 0, 0 ]
+    - [ UAVariable, Robotics:18176, Robotics:Level, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:18175, UserType ]
+      - [ UAObjectType, Robotics:18175, Robotics:UserType ]
   - HasProperty:
-    - [ UAVariable, Robotics:18177, Name, String, 0, 0 ]
+    - [ UAVariable, Robotics:18177, Robotics:Name, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, Robotics:18175, UserType ]
+      - [ UAObjectType, Robotics:18175, Robotics:UserType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

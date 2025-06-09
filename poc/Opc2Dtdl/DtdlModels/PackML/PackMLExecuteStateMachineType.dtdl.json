@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -13,33 +14,6 @@
   "commandTopic": "opcua/PackML/PackMLExecuteStateMachineType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
-    {
-      "@id": "dtmi:opcua:PackML:PackMLExecuteStateMachineType:dataType:PackMLDescriptorDataType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=16",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ID",
-          "schema": "integer"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Name",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Unit",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Value",
-          "schema": "float"
-        }
-      ]
-    }
   ],
   "contents": [
     {
@@ -75,24 +49,7 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "Start",
-      "namespace": "http://opcfoundation.org/UA/PackML",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Parameter",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "dtmi:opcua:PackML:PackMLExecuteStateMachineType:dataType:PackMLDescriptorDataType;1"
-              }
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
       "@type": [ "Command", "Qualified" ],

@@ -663,7 +663,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6058, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6058, WireHarness:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ArticleSpec: [ isa95-jobcontrol:ISA95MaterialDataType, 0 ]
       - HasModellingRule:
@@ -673,7 +673,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6057, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6057, WireHarness:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ArticleSpec: [ isa95-jobcontrol:ISA95MaterialDataType, 0 ]
       - HasModellingRule:
@@ -703,7 +703,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6055, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6055, WireHarness:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Part: [ isa95-jobcontrol:ISA95MaterialDataType, 0 ]
       - HasModellingRule:
@@ -713,13 +713,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6028, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6028, WireHarness:InputArguments, Argument, 1, 0 ]
       - Arguments:
           TypeNodeId: [ NodeId, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6034, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6034, WireHarness:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Parts: [ isa95-jobcontrol:ISA95MaterialDataType, 1 ]
       - HasModellingRule:
@@ -737,7 +737,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, WireHarness:6054, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WireHarness:6054, WireHarness:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Part: [ isa95-jobcontrol:ISA95MaterialDataType, 0 ]
       - HasModellingRule:

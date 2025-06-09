@@ -1,47 +1,47 @@
 DataTypes:
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3020, CavityCycleQualityEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3020, PlasticsRubber.GeneralTypes:CavityCycleQualityEnumeration ]
   Enums:
     NO_PART: 0
     GOOD_PART: 1
     BAD_PART: 2
     REWORK: 3
-- UADataType: [ PlasticsRubber.GeneralTypes:3001, ControlModeEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3001, PlasticsRubber.GeneralTypes:ControlModeEnumeration ]
   Enums:
     OTHER: 0
     OFF: 1
@@ -50,27 +50,27 @@ DataTypes:
     STANDBY: 4
     OPEN_LOOP: 5
     ONLY_MEASUREMENT: 6
-- UADataType: [ PlasticsRubber.GeneralTypes:3019, CycleQualityEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3019, PlasticsRubber.GeneralTypes:CycleQualityEnumeration ]
   Enums:
     GOOD_CYCLE: 0
     BAD_CYCLE: 1
     TEST_SAMPLE_CYCLE: 2
     FAILED_CYCLE: 3
-- UADataType: [ PlasticsRubber.GeneralTypes:3027, DiagnosticsStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3027, PlasticsRubber.GeneralTypes:DiagnosticsStatusEnumeration ]
   Enums:
     OFF: 0
     ACTIVE_OK: 1
     ACTIVE_ERROR_DETECTED: 2
     COMPLETE: 3
     COMPLETE_ERROR_DETECTED: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3018, EventOriginatorEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3018, PlasticsRubber.GeneralTypes:EventOriginatorEnumeration ]
   Enums:
     OTHER: 0
     MACHINE: 1
     OPERATOR: 2
     MES: 3
     PERIPHERAL_DEVICE: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3017, JobStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3017, PlasticsRubber.GeneralTypes:JobStatusEnumeration ]
   Enums:
     OTHER: 0
     TRANSFERRED_ASSIGNED: 1
@@ -84,7 +84,7 @@ DataTypes:
     TEAR_DOWN_ACTIVE: 9
     TEAR_DOWN_INTERRUPTED: 10
     TEAR_DOWN_FINISHED: 11
-- UADataType: [ PlasticsRubber.GeneralTypes:3009, LogbookEventsEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3009, PlasticsRubber.GeneralTypes:LogbookEventsEnumeration ]
   Enums:
     PARAMETER_CHANGE: 0
     USER: 1
@@ -97,7 +97,7 @@ DataTypes:
     STANDSTILL_REASON: 8
     MESSAGE: 9
     USER_FEEDBACK: 10
-- UADataType: [ PlasticsRubber.GeneralTypes:3011, MachineModeEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3011, PlasticsRubber.GeneralTypes:MachineModeEnumeration ]
   Enums:
     OTHER: 0
     AUTOMATIC: 1
@@ -105,18 +105,18 @@ DataTypes:
     MANUAL: 3
     SETUP: 4
     SLEEP: 5
-- UADataType: [ PlasticsRubber.GeneralTypes:3013, MaintenanceStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3013, PlasticsRubber.GeneralTypes:MaintenanceStatusEnumeration ]
   Enums:
     NOT_DUE: 0
     WARNING: 1
     DUE: 2
-- UADataType: [ PlasticsRubber.GeneralTypes:3008, MouldStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3008, PlasticsRubber.GeneralTypes:MouldStatusEnumeration ]
   Enums:
     OTHER: 0
     MOULD_NOT_INSTALLED: 1
     MOULD_CHANGE: 2
     MOULD_INSTALLED: 3
-- UADataType: [ PlasticsRubber.GeneralTypes:3016, ProductionStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3016, PlasticsRubber.GeneralTypes:ProductionStatusEnumeration ]
   Enums:
     OTHER: 0
     NO_PRODUCTION: 1
@@ -124,14 +124,14 @@ DataTypes:
     READY_FOR_PRODUCTION: 3
     PRODUCTION: 4
     DRY_RUN: 5
-- UADataType: [ PlasticsRubber.GeneralTypes:3012, SequenceChangeEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3012, PlasticsRubber.GeneralTypes:SequenceChangeEnumeration ]
   Enums:
     UPDATE: 0
     ADD: 1
     MODIFY: 2
     MOVE: 3
     DELETE: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3025, StartEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3025, PlasticsRubber.GeneralTypes:StartEnumeration ]
   Enums:
     NOT_READY_TO_START: 0
     START_BLOCKED_BY_CLIENT: 1
@@ -139,12 +139,12 @@ DataTypes:
     START_REQUESTED: 3
     STARTED: 4
     STOP_REQUESTED: 5
-- UADataType: [ PlasticsRubber.GeneralTypes:3005, StorageEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3005, PlasticsRubber.GeneralTypes:StorageEnumeration ]
   Enums:
     PRODUCTION: 1
     PREPARATION: 2
     FILE_SYSTEM: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3029, TemperatureZoneClassificationEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3029, PlasticsRubber.GeneralTypes:TemperatureZoneClassificationEnumeration ]
   Enums:
     OTHER: 0
     HEATING: 1
@@ -152,26 +152,26 @@ DataTypes:
     TEMPERATURE_CONTROL: 3
     HOT_RUNNER: 4
     MEASURING: 5
-- UADataType: [ PlasticsRubber.GeneralTypes:3010, UserChangeEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3010, PlasticsRubber.GeneralTypes:UserChangeEnumeration ]
   Enums:
     LOG_ON: 0
     LOG_OFF: 1
-- UADataType: [ PlasticsRubber.GeneralTypes:3028, ActiveErrorDataType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3028, PlasticsRubber.GeneralTypes:ActiveErrorDataType ]
   Fields:
     Id: [ String, 0 ]
     Severity: [ UInt16, 0 ]
     Message: [ LocalizedText, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3003, ClassifiedActiveErrorDataType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3003, PlasticsRubber.GeneralTypes:ClassifiedActiveErrorDataType ]
   Fields:
     SourceNodes: [ NodeId, 1 ]
     Classification: [ UInt16, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3024, ConfigurationParameterType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3024, PlasticsRubber.GeneralTypes:ConfigurationParameterType ]
   Fields:
     Id: [ UInt32, 0 ]
     Description: [ LocalizedText, 0 ]
     DefaultValue: [ null, 0 ]
     Unit: [ EUInformation, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3021, JobListElementType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3021, PlasticsRubber.GeneralTypes:JobListElementType ]
   Fields:
     JobName: [ String, 0 ]
     JobDescription: [ String, 0 ]
@@ -186,27 +186,27 @@ DataTypes:
     PlannedStart: [ DateTime, 0 ]
     PlannedProductionTime: [ Duration, 0 ]
     LatestEnd: [ DateTime, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3022, CyclicJobListElementType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3022, PlasticsRubber.GeneralTypes:CyclicJobListElementType ]
   Fields:
     NominalParts: [ UInt64, 0 ]
     NominalBoxParts: [ UInt64, 0 ]
     ExpectedCycleTime: [ Duration, 0 ]
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3014, PageEntryDataType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3014, PlasticsRubber.GeneralTypes:PageEntryDataType ]
   Fields:
     Id: [ String, 0 ]
     Title: [ LocalizedText, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3026, ParameterSettingType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3026, PlasticsRubber.GeneralTypes:ParameterSettingType ]
   Fields:
     Id: [ UInt32, 0 ]
     Value: [ null, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3023, PIDParametersDataType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3023, PlasticsRubber.GeneralTypes:PIDParametersDataType ]
   Fields:
     P: [ Double, 0 ]
     I: [ Double, 0 ]
     D: [ Double, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3006, ProductionDatasetInformationType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3006, PlasticsRubber.GeneralTypes:ProductionDatasetInformationType ]
   Fields:
     Name: [ String, 0 ]
     Description: [ String, 0 ]
@@ -225,21 +225,21 @@ DataTypes:
     ProductName: [ String, 1 ]
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3007, ProductionDatasetReadOptionsType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3007, PlasticsRubber.GeneralTypes:ProductionDatasetReadOptionsType ]
   Fields:
-    Storage: [ StorageEnumeration, 0 ]
+    Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3004, ProductionDatasetWriteOptionsType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3004, PlasticsRubber.GeneralTypes:ProductionDatasetWriteOptionsType ]
   Fields:
-    Storage: [ StorageEnumeration, 0 ]
+    Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
     Components: [ UInt16, 1 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3015, StandstillReasonType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3015, PlasticsRubber.GeneralTypes:StandstillReasonType ]
   Fields:
     Id: [ String, 0 ]
     Text: [ LocalizedText, 0 ]
     LockedByMES: [ Boolean, 0 ]
-- UADataType: [ PlasticsRubber.Extrusion.GeneralTypes:3003, ComponentStatusEnumeration ]
+- UADataType: [ PlasticsRubber.Extrusion.GeneralTypes:3003, PlasticsRubber.Extrusion.GeneralTypes:ComponentStatusEnumeration ]
   Enums:
     OFFLINE: 0
     IDLE: 1
@@ -249,7 +249,7 @@ DataTypes:
     CONTROLLED_RUN: 5
     MALFUNCTION: 6
     MAINTENANCE: 7
-- UADataType: [ PlasticsRubber.Extrusion.GeneralTypes:3001, ExtrusionMessageClassificationEnumeration ]
+- UADataType: [ PlasticsRubber.Extrusion.GeneralTypes:3001, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionMessageClassificationEnumeration ]
   Enums:
     OTHER: 0
     LINE_CONTROL: 1
@@ -283,28 +283,28 @@ DataTypes:
 
 DefinedTypes:
 
-  CouplingProductForcesType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1003, CouplingProductForcesType ]
+  PlasticsRubber.Extrusion.Calender:CouplingProductForcesType:
+  - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1003, PlasticsRubber.Extrusion.Calender:CouplingProductForcesType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, CouplingProductForce_<Nr> ]
+    - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, PlasticsRubber.Extrusion.Calender:CouplingProductForce_<Nr> ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6077, ActualValue, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6077, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, CouplingProductForce_<Nr> ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, PlasticsRubber.Extrusion.Calender:CouplingProductForce_<Nr> ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6079, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6079, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6077, ActualValue, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6077, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6078, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6078, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6077, ActualValue, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6077, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -312,13 +312,13 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6080, AlarmSuppression, UInt16, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6080, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, CouplingProductForce_<Nr> ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, PlasticsRubber.Extrusion.Calender:CouplingProductForce_<Nr> ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6081, EnumValues, EnumValueType, 1, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6081, PlasticsRubber.Extrusion.Calender:EnumValues, EnumValueType, 1, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6080, AlarmSuppression, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6080, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -328,129 +328,129 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6082, ValueAsText, LocalizedText, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6082, PlasticsRubber.Extrusion.Calender:ValueAsText, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6080, AlarmSuppression, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6080, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6083, AutomaticMonitoring, Boolean, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6083, PlasticsRubber.GeneralTypes:AutomaticMonitoring, Boolean, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, CouplingProductForce_<Nr> ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, PlasticsRubber.Extrusion.Calender:CouplingProductForce_<Nr> ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1003, CouplingProductForcesType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1003, PlasticsRubber.Extrusion.Calender:CouplingProductForcesType ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6084, LowerTolerance, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6084, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6085, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6085, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6084, LowerTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6084, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, CouplingProductForce_<Nr> ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, PlasticsRubber.Extrusion.Calender:CouplingProductForce_<Nr> ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6086, LowerTolerance2, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6086, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6087, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6087, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6086, LowerTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6086, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, CouplingProductForce_<Nr> ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, PlasticsRubber.Extrusion.Calender:CouplingProductForce_<Nr> ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6088, MaxValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6088, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6089, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6089, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6088, MaxValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6088, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, CouplingProductForce_<Nr> ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, PlasticsRubber.Extrusion.Calender:CouplingProductForce_<Nr> ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6090, MinValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6090, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6091, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6091, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6090, MinValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6090, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, CouplingProductForce_<Nr> ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, PlasticsRubber.Extrusion.Calender:CouplingProductForce_<Nr> ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6092, MonitoringSensitivity, UInt16, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6092, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6093, EnumValues, EnumValueType, 1, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6093, PlasticsRubber.Extrusion.Calender:EnumValues, EnumValueType, 1, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6092, MonitoringSensitivity, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6092, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, CouplingProductForce_<Nr> ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, PlasticsRubber.Extrusion.Calender:CouplingProductForce_<Nr> ]
       - HasTypeDefinition:
         - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6094, ValueAsText, LocalizedText, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6094, PlasticsRubber.Extrusion.Calender:ValueAsText, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6092, MonitoringSensitivity, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6092, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent:
-      - [ UAMethod, PlasticsRubber.Extrusion.Calender:7003, ResetMonitoring ]
+      - [ UAMethod, PlasticsRubber.Extrusion.Calender:7003, PlasticsRubber.GeneralTypes:ResetMonitoring ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, CouplingProductForce_<Nr> ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, PlasticsRubber.Extrusion.Calender:CouplingProductForce_<Nr> ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6095, SetRampDown, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6095, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6096, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6096, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6095, SetRampDown, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6095, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -458,15 +458,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, CouplingProductForce_<Nr> ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, PlasticsRubber.Extrusion.Calender:CouplingProductForce_<Nr> ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6097, SetRampUp, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6097, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6098, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6098, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6097, SetRampUp, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6097, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -474,15 +474,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, CouplingProductForce_<Nr> ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, PlasticsRubber.Extrusion.Calender:CouplingProductForce_<Nr> ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6099, SetValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6099, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6100, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6100, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6099, SetValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6099, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -490,15 +490,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, CouplingProductForce_<Nr> ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, PlasticsRubber.Extrusion.Calender:CouplingProductForce_<Nr> ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6101, UpperTolerance, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6101, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6102, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6102, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6101, UpperTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6101, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -506,15 +506,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, CouplingProductForce_<Nr> ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, PlasticsRubber.Extrusion.Calender:CouplingProductForce_<Nr> ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6103, UpperTolerance2, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6103, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6104, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6104, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6103, UpperTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6103, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -522,34 +522,34 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, CouplingProductForce_<Nr> ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5003, PlasticsRubber.Extrusion.Calender:CouplingProductForce_<Nr> ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - GeneratesEvent:
     - [ UAObjectType, 2133, GeneralModelChangeEventType ]
   - HasProperty:
-    - [ UAVariable, PlasticsRubber.Extrusion.Calender:6076, NodeVersion, String, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.Extrusion.Calender:6076, PlasticsRubber.Extrusion.Calender:NodeVersion, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1003, CouplingProductForcesType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1003, PlasticsRubber.Extrusion.Calender:CouplingProductForcesType ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
 
-  CouplingProductTensionsType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1004, CouplingProductTensionsType ]
+  PlasticsRubber.Extrusion.Calender:CouplingProductTensionsType:
+  - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1004, PlasticsRubber.Extrusion.Calender:CouplingProductTensionsType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.Extrusion.Calender:5004, CouplingProductTension_<Nr> ]
+    - [ UAObject, PlasticsRubber.Extrusion.Calender:5004, PlasticsRubber.Extrusion.Calender:CouplingProductTension_<Nr> ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6106, ActualValue, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6106, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5004, CouplingProductTension_<Nr> ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5004, PlasticsRubber.Extrusion.Calender:CouplingProductTension_<Nr> ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6107, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6107, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6106, ActualValue, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6106, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -557,9 +557,9 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1004, CouplingProductTensionsType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1004, PlasticsRubber.Extrusion.Calender:CouplingProductTensionsType ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
@@ -567,86 +567,86 @@ DefinedTypes:
   - GeneratesEvent:
     - [ UAObjectType, 2133, GeneralModelChangeEventType ]
   - HasProperty:
-    - [ UAVariable, PlasticsRubber.Extrusion.Calender:6105, NodeVersion, String, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.Extrusion.Calender:6105, PlasticsRubber.Extrusion.Calender:NodeVersion, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1004, CouplingProductTensionsType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1004, PlasticsRubber.Extrusion.Calender:CouplingProductTensionsType ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
 
-  Calender_InterfaceType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, Calender_InterfaceType ]
+  PlasticsRubber.Extrusion.Calender:Calender_InterfaceType:
+  - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, PlasticsRubber.Extrusion.Calender:Calender_InterfaceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, ExtrusionDeviceType ]
+    - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.Extrusion.Calender:5005, CouplingProductForces ]
+    - [ UAObject, PlasticsRubber.Extrusion.Calender:5005, PlasticsRubber.Extrusion.Calender:CouplingProductForces ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, Calender_InterfaceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, PlasticsRubber.Extrusion.Calender:Calender_InterfaceType ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1003, CouplingProductForcesType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1003, PlasticsRubber.Extrusion.Calender:CouplingProductForcesType ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6109, NodeVersion, String, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6109, PlasticsRubber.Extrusion.Calender:NodeVersion, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5005, CouplingProductForces ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5005, PlasticsRubber.Extrusion.Calender:CouplingProductForces ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.Extrusion.Calender:5054, CouplingProductTensions ]
+    - [ UAObject, PlasticsRubber.Extrusion.Calender:5054, PlasticsRubber.Extrusion.Calender:CouplingProductTensions ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, Calender_InterfaceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, PlasticsRubber.Extrusion.Calender:Calender_InterfaceType ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1004, CouplingProductTensionsType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1004, PlasticsRubber.Extrusion.Calender:CouplingProductTensionsType ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6108, NodeVersion, String, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6108, PlasticsRubber.Extrusion.Calender:NodeVersion, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5054, CouplingProductTensions ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5054, PlasticsRubber.Extrusion.Calender:CouplingProductTensions ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.Extrusion.Calender:5056, Gaps ]
+    - [ UAObject, PlasticsRubber.Extrusion.Calender:5056, PlasticsRubber.Extrusion.Calender:Gaps ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, Calender_InterfaceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, PlasticsRubber.Extrusion.Calender:Calender_InterfaceType ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1004, GapsType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1004, PlasticsRubber.Extrusion.GeneralTypes:GapsType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6111, NodeVersion, String, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6111, PlasticsRubber.Extrusion.Calender:NodeVersion, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5056, Gaps ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5056, PlasticsRubber.Extrusion.Calender:Gaps ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, HorizontalPosition ]
+    - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, PlasticsRubber.Extrusion.Calender:HorizontalPosition ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6909, ActualValue, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6909, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, HorizontalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, PlasticsRubber.Extrusion.Calender:HorizontalPosition ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6989, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6989, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6909, ActualValue, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6909, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6910, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6910, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6909, ActualValue, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6909, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -654,13 +654,13 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6990, AlarmSuppression, UInt16, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6990, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, HorizontalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, PlasticsRubber.Extrusion.Calender:HorizontalPosition ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6991, EnumValues, EnumValueType, 1, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6991, PlasticsRubber.Extrusion.Calender:EnumValues, EnumValueType, 1, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6990, AlarmSuppression, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6990, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -670,169 +670,169 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6992, ValueAsText, LocalizedText, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6992, PlasticsRubber.Extrusion.Calender:ValueAsText, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6990, AlarmSuppression, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6990, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6993, AutomaticMonitoring, Boolean, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6993, PlasticsRubber.GeneralTypes:AutomaticMonitoring, Boolean, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, HorizontalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, PlasticsRubber.Extrusion.Calender:HorizontalPosition ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, Calender_InterfaceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, PlasticsRubber.Extrusion.Calender:Calender_InterfaceType ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6994, LowerTolerance, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6994, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7076, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7076, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6994, LowerTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6994, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6995, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6995, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6994, LowerTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6994, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, HorizontalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, PlasticsRubber.Extrusion.Calender:HorizontalPosition ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6996, LowerTolerance2, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6996, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7077, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7077, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6996, LowerTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6996, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6997, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6997, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6996, LowerTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6996, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, HorizontalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, PlasticsRubber.Extrusion.Calender:HorizontalPosition ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6998, MaxValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6998, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7078, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7078, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6998, MaxValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6998, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6999, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6999, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6998, MaxValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6998, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, HorizontalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, PlasticsRubber.Extrusion.Calender:HorizontalPosition ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7000, MinValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7000, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7079, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7079, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7000, MinValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7000, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7061, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7061, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7000, MinValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7000, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, HorizontalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, PlasticsRubber.Extrusion.Calender:HorizontalPosition ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7062, MonitoringSensitivity, UInt16, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7062, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7063, EnumValues, EnumValueType, 1, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7063, PlasticsRubber.Extrusion.Calender:EnumValues, EnumValueType, 1, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7062, MonitoringSensitivity, UInt16, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7062, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, HorizontalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, PlasticsRubber.Extrusion.Calender:HorizontalPosition ]
       - HasTypeDefinition:
         - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7064, ValueAsText, LocalizedText, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7064, PlasticsRubber.Extrusion.Calender:ValueAsText, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7062, MonitoringSensitivity, UInt16, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7062, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAMethod, PlasticsRubber.Extrusion.Calender:7065, ResetMonitoring ]
+      - [ UAMethod, PlasticsRubber.Extrusion.Calender:7065, PlasticsRubber.GeneralTypes:ResetMonitoring ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, HorizontalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, PlasticsRubber.Extrusion.Calender:HorizontalPosition ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7066, SetRampDown, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7066, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7080, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7080, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7066, SetRampDown, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7066, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7067, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7067, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7066, SetRampDown, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7066, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -840,23 +840,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, HorizontalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, PlasticsRubber.Extrusion.Calender:HorizontalPosition ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7068, SetRampUp, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7068, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7081, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7081, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7068, SetRampUp, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7068, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7069, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7069, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7068, SetRampUp, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7068, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -864,23 +864,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, HorizontalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, PlasticsRubber.Extrusion.Calender:HorizontalPosition ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7070, SetValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7070, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7082, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7082, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7070, SetValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7070, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7071, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7071, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7070, SetValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7070, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -888,23 +888,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, HorizontalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, PlasticsRubber.Extrusion.Calender:HorizontalPosition ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7072, UpperTolerance, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7072, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7083, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7083, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7072, UpperTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7072, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7073, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7073, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7072, UpperTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7072, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -912,23 +912,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, HorizontalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, PlasticsRubber.Extrusion.Calender:HorizontalPosition ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7074, UpperTolerance2, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7074, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7084, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7084, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7074, UpperTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7074, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7075, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7075, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7074, UpperTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7074, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -936,27 +936,27 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, HorizontalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5051, PlasticsRubber.Extrusion.Calender:HorizontalPosition ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, ProductForce ]
+    - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, PlasticsRubber.Extrusion.Calender:ProductForce ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6002, ActualValue, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6002, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, ProductForce ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, PlasticsRubber.Extrusion.Calender:ProductForce ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6006, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6006, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6002, ActualValue, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6002, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6003, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6003, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6002, ActualValue, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6002, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -964,13 +964,13 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6007, AlarmSuppression, UInt16, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6007, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, ProductForce ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, PlasticsRubber.Extrusion.Calender:ProductForce ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6008, EnumValues, EnumValueType, 1, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6008, PlasticsRubber.Extrusion.Calender:EnumValues, EnumValueType, 1, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6007, AlarmSuppression, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6007, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -980,169 +980,169 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6009, ValueAsText, LocalizedText, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6009, PlasticsRubber.Extrusion.Calender:ValueAsText, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6007, AlarmSuppression, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6007, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6010, AutomaticMonitoring, Boolean, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6010, PlasticsRubber.GeneralTypes:AutomaticMonitoring, Boolean, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, ProductForce ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, PlasticsRubber.Extrusion.Calender:ProductForce ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6011, LowerTolerance, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6011, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6032, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6032, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6011, LowerTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6011, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6012, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6012, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6011, LowerTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6011, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, ProductForce ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, PlasticsRubber.Extrusion.Calender:ProductForce ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6013, LowerTolerance2, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6013, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6033, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6033, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6013, LowerTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6013, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6014, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6014, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6013, LowerTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6013, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, ProductForce ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, PlasticsRubber.Extrusion.Calender:ProductForce ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6015, MaxValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6015, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6034, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6034, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6015, MaxValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6015, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6016, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6016, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6015, MaxValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6015, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, ProductForce ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, PlasticsRubber.Extrusion.Calender:ProductForce ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6017, MinValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6017, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6035, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6035, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6017, MinValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6017, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6018, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6018, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6017, MinValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6017, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, ProductForce ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, PlasticsRubber.Extrusion.Calender:ProductForce ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6019, MonitoringSensitivity, UInt16, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6019, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6020, EnumValues, EnumValueType, 1, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6020, PlasticsRubber.Extrusion.Calender:EnumValues, EnumValueType, 1, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6019, MonitoringSensitivity, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6019, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, ProductForce ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, PlasticsRubber.Extrusion.Calender:ProductForce ]
       - HasTypeDefinition:
         - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6021, ValueAsText, LocalizedText, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6021, PlasticsRubber.Extrusion.Calender:ValueAsText, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6019, MonitoringSensitivity, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6019, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, Calender_InterfaceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, PlasticsRubber.Extrusion.Calender:Calender_InterfaceType ]
     - HasComponent:
-      - [ UAMethod, PlasticsRubber.Extrusion.Calender:7001, ResetMonitoring ]
+      - [ UAMethod, PlasticsRubber.Extrusion.Calender:7001, PlasticsRubber.GeneralTypes:ResetMonitoring ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, ProductForce ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, PlasticsRubber.Extrusion.Calender:ProductForce ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6022, SetRampDown, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6022, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6036, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6036, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6022, SetRampDown, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6022, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6023, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6023, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6022, SetRampDown, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6022, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1150,23 +1150,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, ProductForce ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, PlasticsRubber.Extrusion.Calender:ProductForce ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6024, SetRampUp, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6024, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6037, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6037, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6024, SetRampUp, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6024, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6025, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6025, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6024, SetRampUp, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6024, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1174,23 +1174,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, ProductForce ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, PlasticsRubber.Extrusion.Calender:ProductForce ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6026, SetValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6026, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6038, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6038, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6026, SetValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6026, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6027, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6027, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6026, SetValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6026, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1198,23 +1198,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, ProductForce ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, PlasticsRubber.Extrusion.Calender:ProductForce ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6028, UpperTolerance, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6028, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6039, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6039, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6028, UpperTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6028, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6029, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6029, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6028, UpperTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6028, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1222,23 +1222,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, ProductForce ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, PlasticsRubber.Extrusion.Calender:ProductForce ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6030, UpperTolerance2, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6030, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6040, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6040, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6030, UpperTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6030, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6031, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6031, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6030, UpperTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6030, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1246,27 +1246,27 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, ProductForce ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5001, PlasticsRubber.Extrusion.Calender:ProductForce ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, ProductTension ]
+    - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, PlasticsRubber.Extrusion.Calender:ProductTension ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6004, ActualValue, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6004, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, ProductTension ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, PlasticsRubber.Extrusion.Calender:ProductTension ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6041, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6041, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6004, ActualValue, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6004, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6005, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6005, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6004, ActualValue, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6004, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1274,13 +1274,13 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6042, AlarmSuppression, UInt16, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6042, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, ProductTension ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, PlasticsRubber.Extrusion.Calender:ProductTension ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6043, EnumValues, EnumValueType, 1, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6043, PlasticsRubber.Extrusion.Calender:EnumValues, EnumValueType, 1, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6042, AlarmSuppression, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6042, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1290,169 +1290,169 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6044, ValueAsText, LocalizedText, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6044, PlasticsRubber.Extrusion.Calender:ValueAsText, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6042, AlarmSuppression, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6042, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6045, AutomaticMonitoring, Boolean, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6045, PlasticsRubber.GeneralTypes:AutomaticMonitoring, Boolean, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, ProductTension ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, PlasticsRubber.Extrusion.Calender:ProductTension ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6046, LowerTolerance, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6046, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6067, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6067, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6046, LowerTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6046, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6047, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6047, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6046, LowerTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6046, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, ProductTension ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, PlasticsRubber.Extrusion.Calender:ProductTension ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6048, LowerTolerance2, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6048, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6068, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6068, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6048, LowerTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6048, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6049, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6049, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6048, LowerTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6048, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, ProductTension ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, PlasticsRubber.Extrusion.Calender:ProductTension ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6050, MaxValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6050, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6069, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6069, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6050, MaxValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6050, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6051, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6051, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6050, MaxValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6050, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, ProductTension ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, PlasticsRubber.Extrusion.Calender:ProductTension ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6052, MinValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6052, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6070, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6070, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6052, MinValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6052, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6053, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6053, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6052, MinValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6052, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, ProductTension ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, PlasticsRubber.Extrusion.Calender:ProductTension ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6054, MonitoringSensitivity, UInt16, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6054, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6055, EnumValues, EnumValueType, 1, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6055, PlasticsRubber.Extrusion.Calender:EnumValues, EnumValueType, 1, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6054, MonitoringSensitivity, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6054, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, ProductTension ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, PlasticsRubber.Extrusion.Calender:ProductTension ]
       - HasTypeDefinition:
         - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6056, ValueAsText, LocalizedText, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6056, PlasticsRubber.Extrusion.Calender:ValueAsText, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6054, MonitoringSensitivity, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6054, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, Calender_InterfaceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, PlasticsRubber.Extrusion.Calender:Calender_InterfaceType ]
     - HasComponent:
-      - [ UAMethod, PlasticsRubber.Extrusion.Calender:7002, ResetMonitoring ]
+      - [ UAMethod, PlasticsRubber.Extrusion.Calender:7002, PlasticsRubber.GeneralTypes:ResetMonitoring ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, ProductTension ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, PlasticsRubber.Extrusion.Calender:ProductTension ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6057, SetRampDown, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6057, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6071, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6071, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6057, SetRampDown, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6057, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6058, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6058, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6057, SetRampDown, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6057, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1460,23 +1460,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, ProductTension ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, PlasticsRubber.Extrusion.Calender:ProductTension ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6059, SetRampUp, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6059, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6072, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6072, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6059, SetRampUp, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6059, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6060, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6060, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6059, SetRampUp, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6059, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1484,23 +1484,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, ProductTension ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, PlasticsRubber.Extrusion.Calender:ProductTension ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6061, SetValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6061, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6073, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6073, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6061, SetValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6061, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6062, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6062, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6061, SetValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6061, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1508,23 +1508,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, ProductTension ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, PlasticsRubber.Extrusion.Calender:ProductTension ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6063, UpperTolerance, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6063, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6074, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6074, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6063, UpperTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6063, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6064, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6064, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6063, UpperTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6063, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1532,23 +1532,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, ProductTension ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, PlasticsRubber.Extrusion.Calender:ProductTension ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6065, UpperTolerance2, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6065, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6075, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6075, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6065, UpperTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6065, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6066, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6066, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6065, UpperTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6065, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1556,43 +1556,43 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, ProductTension ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5002, PlasticsRubber.Extrusion.Calender:ProductTension ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.Extrusion.Calender:5055, Rolls ]
+    - [ UAObject, PlasticsRubber.Extrusion.Calender:5055, PlasticsRubber.Extrusion.Calender:Rolls ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6110, NodeVersion, String, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6110, PlasticsRubber.Extrusion.Calender:NodeVersion, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5055, Rolls ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5055, PlasticsRubber.Extrusion.Calender:Rolls ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, Calender_InterfaceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, PlasticsRubber.Extrusion.Calender:Calender_InterfaceType ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1006, RollsType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1006, PlasticsRubber.Extrusion.GeneralTypes:RollsType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, VerticalPosition ]
+    - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, PlasticsRubber.Extrusion.Calender:VerticalPosition ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6911, ActualValue, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:6911, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, VerticalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, PlasticsRubber.Extrusion.Calender:VerticalPosition ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7085, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7085, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6911, ActualValue, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6911, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6912, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6912, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6911, ActualValue, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:6911, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1600,13 +1600,13 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7086, AlarmSuppression, UInt16, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7086, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, VerticalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, PlasticsRubber.Extrusion.Calender:VerticalPosition ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7087, EnumValues, EnumValueType, 1, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7087, PlasticsRubber.Extrusion.Calender:EnumValues, EnumValueType, 1, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7086, AlarmSuppression, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7086, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1616,167 +1616,167 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7088, ValueAsText, LocalizedText, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7088, PlasticsRubber.Extrusion.Calender:ValueAsText, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7086, AlarmSuppression, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7086, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7089, AutomaticMonitoring, Boolean, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7089, PlasticsRubber.GeneralTypes:AutomaticMonitoring, Boolean, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, VerticalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, PlasticsRubber.Extrusion.Calender:VerticalPosition ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7090, LowerTolerance, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7090, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7110, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7110, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7090, LowerTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7090, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7091, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7091, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7090, LowerTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7090, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, VerticalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, PlasticsRubber.Extrusion.Calender:VerticalPosition ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7092, LowerTolerance2, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7092, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7111, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7111, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7092, LowerTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7092, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7093, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7093, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7092, LowerTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7092, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, VerticalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, PlasticsRubber.Extrusion.Calender:VerticalPosition ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7094, MaxValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7094, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7112, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7112, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7094, MaxValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7094, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7095, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7095, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7094, MaxValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7094, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, VerticalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, PlasticsRubber.Extrusion.Calender:VerticalPosition ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7096, MinValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7096, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7113, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7113, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7096, MinValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7096, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7097, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7097, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7096, MinValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7096, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, VerticalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, PlasticsRubber.Extrusion.Calender:VerticalPosition ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7098, MonitoringSensitivity, UInt16, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7098, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7099, EnumValues, EnumValueType, 1, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7099, PlasticsRubber.Extrusion.Calender:EnumValues, EnumValueType, 1, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7098, MonitoringSensitivity, UInt16, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7098, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, VerticalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, PlasticsRubber.Extrusion.Calender:VerticalPosition ]
       - HasTypeDefinition:
         - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7100, ValueAsText, LocalizedText, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7100, PlasticsRubber.Extrusion.Calender:ValueAsText, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7098, MonitoringSensitivity, UInt16, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7098, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAMethod, PlasticsRubber.Extrusion.Calender:7101, ResetMonitoring ]
+      - [ UAMethod, PlasticsRubber.Extrusion.Calender:7101, PlasticsRubber.GeneralTypes:ResetMonitoring ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, VerticalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, PlasticsRubber.Extrusion.Calender:VerticalPosition ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7102, SetRampDown, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7102, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7114, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7114, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7102, SetRampDown, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7102, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7103, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7103, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7102, SetRampDown, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7102, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1784,23 +1784,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, VerticalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, PlasticsRubber.Extrusion.Calender:VerticalPosition ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7104, SetRampUp, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7104, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7115, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7115, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7104, SetRampUp, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7104, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7105, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7105, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7104, SetRampUp, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7104, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1808,23 +1808,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, VerticalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, PlasticsRubber.Extrusion.Calender:VerticalPosition ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7106, SetValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7106, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7116, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7116, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7106, SetValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7106, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7107, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7107, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7106, SetValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7106, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1832,23 +1832,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, VerticalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, PlasticsRubber.Extrusion.Calender:VerticalPosition ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7108, UpperTolerance, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7108, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7117, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7117, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7108, UpperTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7108, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7109, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7109, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7108, UpperTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7108, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1856,23 +1856,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, VerticalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, PlasticsRubber.Extrusion.Calender:VerticalPosition ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7118, UpperTolerance2, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.Calender:7118, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6001, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:6001, PlasticsRubber.Extrusion.Calender:EngineeringUnits, EUInformation, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7118, UpperTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7118, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7119, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.Calender:7119, PlasticsRubber.Extrusion.Calender:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7118, UpperTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.Calender:7118, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1880,6 +1880,6 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, VerticalPosition ]
+        - [ UAObject, PlasticsRubber.Extrusion.Calender:5052, PlasticsRubber.Extrusion.Calender:VerticalPosition ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, Calender_InterfaceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.Calender:1002, PlasticsRubber.Extrusion.Calender:Calender_InterfaceType ]

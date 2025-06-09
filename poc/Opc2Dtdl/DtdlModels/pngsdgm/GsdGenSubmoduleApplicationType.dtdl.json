@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -26,7 +27,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "" ],
           "name": "EnumerationVariableSchema",
+          "unit": "",
           "schema": "string"
         }
       },
@@ -43,7 +46,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "" ],
           "name": "OptionSetVariableSchema",
+          "unit": "",
           "schema": "string"
         }
       },
@@ -60,7 +65,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "" ],
           "name": "UnitRangeVariableSchema",
+          "unit": "",
           "schema": "integer"
         }
       },
@@ -77,7 +84,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "" ],
           "name": "UnitVariableSchema",
+          "unit": "",
           "schema": "integer"
         }
       },
@@ -94,7 +103,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "" ],
           "name": "ValueVariableSchema",
+          "unit": "",
           "schema": "string"
         }
       },
@@ -103,21 +114,7 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetApplicationTag",
-      "namespace": "http://opcfoundation.org/UA/PNGSDGM",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ApplicationTag",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PNGSDGM"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

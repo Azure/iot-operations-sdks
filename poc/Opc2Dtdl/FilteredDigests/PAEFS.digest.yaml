@@ -539,7 +539,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PAEFS:6277, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PAEFS:6277, PAEFS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Value: [ Double, 0 ]
       - HasModellingRule:
@@ -549,7 +549,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PAEFS:6278, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PAEFS:6278, PAEFS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Value: [ Double, 0 ]
       - HasModellingRule:
@@ -559,7 +559,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PAEFS:6279, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PAEFS:6279, PAEFS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Value: [ Double, 0 ]
       - HasModellingRule:

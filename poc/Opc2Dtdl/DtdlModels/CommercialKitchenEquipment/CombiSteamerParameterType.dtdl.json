@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -126,7 +127,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "ActualExternalCoreTemperature_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "float"
         }
       },
@@ -150,7 +153,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "ActualInternalCoreTemperature_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "float"
         }
       },
@@ -167,7 +172,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "ActualTemperatureChamber_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "float"
         }
       },
@@ -209,9 +216,10 @@
       "writable": true
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "SetExternalCoreTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "degreeCelsius",
       "schema": "float",
       "writable": false
     },
@@ -223,30 +231,34 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "SetInternalCoreTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "degreeCelsius",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "SetProcessTimeProgram",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "second",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "SetProcessTimeStep",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "second",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "SetTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "degreeCelsius",
       "schema": "float",
       "writable": false
     },
@@ -258,16 +270,18 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "TimeRemainingProgram",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "second",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "TimeRemainingStep",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "second",
       "schema": "integer",
       "writable": false
     }

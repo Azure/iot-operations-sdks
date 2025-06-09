@@ -247,7 +247,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PROFINET:7004, PROFINET:SetNameOfStation ]
     - HasProperty:
-      - [ UAVariable, PROFINET:6095, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PROFINET:6095, PROFINET:InputArguments, Argument, 1, 0 ]
       - Arguments:
           NameOfStation: [ String, 0 ]
       - HasModellingRule:
@@ -462,7 +462,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PROFINET:7002, PROFINET:SetDate ]
     - HasProperty:
-      - [ UAVariable, PROFINET:6063, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PROFINET:6063, PROFINET:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Date: [ DateTime, 0 ]
       - HasModellingRule:
@@ -472,7 +472,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PROFINET:7003, PROFINET:SetDescriptor ]
     - HasProperty:
-      - [ UAVariable, PROFINET:6064, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PROFINET:6064, PROFINET:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Descriptor: [ String, 0 ]
       - HasModellingRule:
@@ -482,7 +482,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PROFINET:7001, PROFINET:SetTags ]
     - HasProperty:
-      - [ UAVariable, PROFINET:6062, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PROFINET:6062, PROFINET:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Tag_Selector: [ PROFINET:IMTagSelectorEnumeration, 0 ]
           Tag_Function: [ String, 0 ]

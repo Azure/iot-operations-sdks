@@ -305,7 +305,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7001, PNRIO:SetApplicationTag ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6072, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6072, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplicationTag: [ String, 0 ]
       - HasModellingRule:
@@ -330,7 +330,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7005, PNRIO:SetSimulation ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6133, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6133, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SimulationEnabled: [ Boolean, 0 ]
           Index: [ Int16, 0 ]
@@ -341,7 +341,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7023, PNRIO:SetSimulationValue ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6292, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6292, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Value: [ PNRIO:RioAnalogDataType, 0 ]
           Qualifier: [ Byte, 0 ]
@@ -362,7 +362,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7006, PNRIO:SetSimulation ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6169, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6169, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SimulationEnabled: [ Boolean, 0 ]
           Index: [ Int16, 0 ]
@@ -373,7 +373,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7039, PNRIO:SetSimulationValue ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6062, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6062, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Value: [ Boolean, 0 ]
           Qualifier: [ Byte, 0 ]
@@ -400,7 +400,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7002, PNRIO:SetApplicationTag ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6186, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6186, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplicationTag: [ String, 0 ]
       - HasModellingRule:
@@ -525,7 +525,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7025, PNRIO:SetManualProcessValue ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6294, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6294, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ManualProcessValue: [ PNRIO:RioAnalogDataType, 0 ]
       - HasModellingRule:
@@ -535,7 +535,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7024, PNRIO:SetMode ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6293, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6293, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Mode: [ PNRIO:RioChannelModeEnumeration, 0 ]
       - HasModellingRule:
@@ -545,7 +545,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7026, PNRIO:SetSimulation ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6295, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6295, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SimulationEnabled: [ Boolean, 0 ]
       - HasModellingRule:
@@ -555,7 +555,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7027, PNRIO:SetSimulationValue ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6296, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6296, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Value: [ PNRIO:RioAnalogDataType, 0 ]
           Qualifier: [ Byte, 0 ]
@@ -605,7 +605,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7029, PNRIO:SetManualOutValue ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6298, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6298, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ManualOutValue: [ PNRIO:RioAnalogDataType, 0 ]
       - HasModellingRule:
@@ -615,7 +615,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7028, PNRIO:SetMode ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6297, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6297, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Mode: [ PNRIO:RioChannelModeEnumeration, 0 ]
       - HasModellingRule:
@@ -625,7 +625,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7030, PNRIO:SetSimulation ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6299, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6299, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SimulationEnabled: [ Boolean, 0 ]
       - HasModellingRule:
@@ -635,7 +635,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7031, PNRIO:SetSimulationValue ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6300, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6300, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Value: [ PNRIO:RioAnalogDataType, 0 ]
           Qualifier: [ Byte, 0 ]
@@ -683,7 +683,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7033, PNRIO:SetManualProcessValue ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6302, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6302, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ManualProcessValue: [ Boolean, 0 ]
       - HasModellingRule:
@@ -693,7 +693,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7032, PNRIO:SetMode ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6301, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6301, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Mode: [ PNRIO:RioChannelModeEnumeration, 0 ]
       - HasModellingRule:
@@ -703,7 +703,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7034, PNRIO:SetSimulation ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6303, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6303, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SimulationEnabled: [ Boolean, 0 ]
       - HasModellingRule:
@@ -713,7 +713,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7035, PNRIO:SetSimulationValue ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6304, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6304, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Value: [ Boolean, 0 ]
           Qualifier: [ Byte, 0 ]
@@ -761,7 +761,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7040, PNRIO:SetManualOutValue ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6071, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6071, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ManualOutValue: [ Boolean, 0 ]
       - HasModellingRule:
@@ -771,7 +771,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7036, PNRIO:SetMode ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6305, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6305, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Mode: [ PNRIO:RioChannelModeEnumeration, 0 ]
       - HasModellingRule:
@@ -781,7 +781,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7037, PNRIO:SetSimulation ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6306, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6306, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SimulationEnabled: [ Boolean, 0 ]
       - HasModellingRule:
@@ -791,7 +791,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNRIO:7038, PNRIO:SetSimulationValue ]
     - HasProperty:
-      - [ UAVariable, PNRIO:6307, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNRIO:6307, PNRIO:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Value: [ Boolean, 0 ]
           Qualifier: [ Byte, 0 ]

@@ -111,7 +111,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, AMB:6018, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AMB:6018, AMB:InputArguments, Argument, 1, 0 ]
       - Arguments:
           LinkToExternalSource: [ UriString, 0 ]
           BrowseName: [ QualifiedName, 0 ]
@@ -120,7 +120,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, AMB:6019, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AMB:6019, AMB:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           LinkVariable: [ NodeId, 0 ]
       - HasModellingRule:
@@ -130,7 +130,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, AMB:6020, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AMB:6020, AMB:InputArguments, Argument, 1, 0 ]
       - Arguments:
           VariableToBeDeleted: [ NodeId, 0 ]
       - HasModellingRule:

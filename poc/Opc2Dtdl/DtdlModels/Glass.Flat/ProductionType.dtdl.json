@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -18,104 +19,17 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ChangePositionInList",
-      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Target",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Source",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Before",
-              "schema": "boolean"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "DeleteJob",
-      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Identifier",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "InsertJob",
-      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Identifier",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Name",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "InputMaterial",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "string"
-              }
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "OutputMaterial",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "string"
-              }
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "JobNodeId",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

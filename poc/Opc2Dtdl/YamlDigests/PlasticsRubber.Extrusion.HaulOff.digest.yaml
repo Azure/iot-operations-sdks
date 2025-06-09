@@ -1,47 +1,47 @@
 DataTypes:
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3020, CavityCycleQualityEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3020, PlasticsRubber.GeneralTypes:CavityCycleQualityEnumeration ]
   Enums:
     NO_PART: 0
     GOOD_PART: 1
     BAD_PART: 2
     REWORK: 3
-- UADataType: [ PlasticsRubber.GeneralTypes:3001, ControlModeEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3001, PlasticsRubber.GeneralTypes:ControlModeEnumeration ]
   Enums:
     OTHER: 0
     OFF: 1
@@ -50,27 +50,27 @@ DataTypes:
     STANDBY: 4
     OPEN_LOOP: 5
     ONLY_MEASUREMENT: 6
-- UADataType: [ PlasticsRubber.GeneralTypes:3019, CycleQualityEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3019, PlasticsRubber.GeneralTypes:CycleQualityEnumeration ]
   Enums:
     GOOD_CYCLE: 0
     BAD_CYCLE: 1
     TEST_SAMPLE_CYCLE: 2
     FAILED_CYCLE: 3
-- UADataType: [ PlasticsRubber.GeneralTypes:3027, DiagnosticsStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3027, PlasticsRubber.GeneralTypes:DiagnosticsStatusEnumeration ]
   Enums:
     OFF: 0
     ACTIVE_OK: 1
     ACTIVE_ERROR_DETECTED: 2
     COMPLETE: 3
     COMPLETE_ERROR_DETECTED: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3018, EventOriginatorEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3018, PlasticsRubber.GeneralTypes:EventOriginatorEnumeration ]
   Enums:
     OTHER: 0
     MACHINE: 1
     OPERATOR: 2
     MES: 3
     PERIPHERAL_DEVICE: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3017, JobStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3017, PlasticsRubber.GeneralTypes:JobStatusEnumeration ]
   Enums:
     OTHER: 0
     TRANSFERRED_ASSIGNED: 1
@@ -84,7 +84,7 @@ DataTypes:
     TEAR_DOWN_ACTIVE: 9
     TEAR_DOWN_INTERRUPTED: 10
     TEAR_DOWN_FINISHED: 11
-- UADataType: [ PlasticsRubber.GeneralTypes:3009, LogbookEventsEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3009, PlasticsRubber.GeneralTypes:LogbookEventsEnumeration ]
   Enums:
     PARAMETER_CHANGE: 0
     USER: 1
@@ -97,7 +97,7 @@ DataTypes:
     STANDSTILL_REASON: 8
     MESSAGE: 9
     USER_FEEDBACK: 10
-- UADataType: [ PlasticsRubber.GeneralTypes:3011, MachineModeEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3011, PlasticsRubber.GeneralTypes:MachineModeEnumeration ]
   Enums:
     OTHER: 0
     AUTOMATIC: 1
@@ -105,18 +105,18 @@ DataTypes:
     MANUAL: 3
     SETUP: 4
     SLEEP: 5
-- UADataType: [ PlasticsRubber.GeneralTypes:3013, MaintenanceStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3013, PlasticsRubber.GeneralTypes:MaintenanceStatusEnumeration ]
   Enums:
     NOT_DUE: 0
     WARNING: 1
     DUE: 2
-- UADataType: [ PlasticsRubber.GeneralTypes:3008, MouldStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3008, PlasticsRubber.GeneralTypes:MouldStatusEnumeration ]
   Enums:
     OTHER: 0
     MOULD_NOT_INSTALLED: 1
     MOULD_CHANGE: 2
     MOULD_INSTALLED: 3
-- UADataType: [ PlasticsRubber.GeneralTypes:3016, ProductionStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3016, PlasticsRubber.GeneralTypes:ProductionStatusEnumeration ]
   Enums:
     OTHER: 0
     NO_PRODUCTION: 1
@@ -124,14 +124,14 @@ DataTypes:
     READY_FOR_PRODUCTION: 3
     PRODUCTION: 4
     DRY_RUN: 5
-- UADataType: [ PlasticsRubber.GeneralTypes:3012, SequenceChangeEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3012, PlasticsRubber.GeneralTypes:SequenceChangeEnumeration ]
   Enums:
     UPDATE: 0
     ADD: 1
     MODIFY: 2
     MOVE: 3
     DELETE: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3025, StartEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3025, PlasticsRubber.GeneralTypes:StartEnumeration ]
   Enums:
     NOT_READY_TO_START: 0
     START_BLOCKED_BY_CLIENT: 1
@@ -139,12 +139,12 @@ DataTypes:
     START_REQUESTED: 3
     STARTED: 4
     STOP_REQUESTED: 5
-- UADataType: [ PlasticsRubber.GeneralTypes:3005, StorageEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3005, PlasticsRubber.GeneralTypes:StorageEnumeration ]
   Enums:
     PRODUCTION: 1
     PREPARATION: 2
     FILE_SYSTEM: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3029, TemperatureZoneClassificationEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3029, PlasticsRubber.GeneralTypes:TemperatureZoneClassificationEnumeration ]
   Enums:
     OTHER: 0
     HEATING: 1
@@ -152,26 +152,26 @@ DataTypes:
     TEMPERATURE_CONTROL: 3
     HOT_RUNNER: 4
     MEASURING: 5
-- UADataType: [ PlasticsRubber.GeneralTypes:3010, UserChangeEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3010, PlasticsRubber.GeneralTypes:UserChangeEnumeration ]
   Enums:
     LOG_ON: 0
     LOG_OFF: 1
-- UADataType: [ PlasticsRubber.GeneralTypes:3028, ActiveErrorDataType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3028, PlasticsRubber.GeneralTypes:ActiveErrorDataType ]
   Fields:
     Id: [ String, 0 ]
     Severity: [ UInt16, 0 ]
     Message: [ LocalizedText, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3003, ClassifiedActiveErrorDataType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3003, PlasticsRubber.GeneralTypes:ClassifiedActiveErrorDataType ]
   Fields:
     SourceNodes: [ NodeId, 1 ]
     Classification: [ UInt16, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3024, ConfigurationParameterType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3024, PlasticsRubber.GeneralTypes:ConfigurationParameterType ]
   Fields:
     Id: [ UInt32, 0 ]
     Description: [ LocalizedText, 0 ]
     DefaultValue: [ null, 0 ]
     Unit: [ EUInformation, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3021, JobListElementType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3021, PlasticsRubber.GeneralTypes:JobListElementType ]
   Fields:
     JobName: [ String, 0 ]
     JobDescription: [ String, 0 ]
@@ -186,27 +186,27 @@ DataTypes:
     PlannedStart: [ DateTime, 0 ]
     PlannedProductionTime: [ Duration, 0 ]
     LatestEnd: [ DateTime, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3022, CyclicJobListElementType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3022, PlasticsRubber.GeneralTypes:CyclicJobListElementType ]
   Fields:
     NominalParts: [ UInt64, 0 ]
     NominalBoxParts: [ UInt64, 0 ]
     ExpectedCycleTime: [ Duration, 0 ]
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3014, PageEntryDataType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3014, PlasticsRubber.GeneralTypes:PageEntryDataType ]
   Fields:
     Id: [ String, 0 ]
     Title: [ LocalizedText, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3026, ParameterSettingType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3026, PlasticsRubber.GeneralTypes:ParameterSettingType ]
   Fields:
     Id: [ UInt32, 0 ]
     Value: [ null, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3023, PIDParametersDataType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3023, PlasticsRubber.GeneralTypes:PIDParametersDataType ]
   Fields:
     P: [ Double, 0 ]
     I: [ Double, 0 ]
     D: [ Double, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3006, ProductionDatasetInformationType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3006, PlasticsRubber.GeneralTypes:ProductionDatasetInformationType ]
   Fields:
     Name: [ String, 0 ]
     Description: [ String, 0 ]
@@ -225,21 +225,21 @@ DataTypes:
     ProductName: [ String, 1 ]
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3007, ProductionDatasetReadOptionsType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3007, PlasticsRubber.GeneralTypes:ProductionDatasetReadOptionsType ]
   Fields:
-    Storage: [ StorageEnumeration, 0 ]
+    Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3004, ProductionDatasetWriteOptionsType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3004, PlasticsRubber.GeneralTypes:ProductionDatasetWriteOptionsType ]
   Fields:
-    Storage: [ StorageEnumeration, 0 ]
+    Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
     Components: [ UInt16, 1 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3015, StandstillReasonType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3015, PlasticsRubber.GeneralTypes:StandstillReasonType ]
   Fields:
     Id: [ String, 0 ]
     Text: [ LocalizedText, 0 ]
     LockedByMES: [ Boolean, 0 ]
-- UADataType: [ PlasticsRubber.Extrusion.GeneralTypes:3003, ComponentStatusEnumeration ]
+- UADataType: [ PlasticsRubber.Extrusion.GeneralTypes:3003, PlasticsRubber.Extrusion.GeneralTypes:ComponentStatusEnumeration ]
   Enums:
     OFFLINE: 0
     IDLE: 1
@@ -249,7 +249,7 @@ DataTypes:
     CONTROLLED_RUN: 5
     MALFUNCTION: 6
     MAINTENANCE: 7
-- UADataType: [ PlasticsRubber.Extrusion.GeneralTypes:3001, ExtrusionMessageClassificationEnumeration ]
+- UADataType: [ PlasticsRubber.Extrusion.GeneralTypes:3001, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionMessageClassificationEnumeration ]
   Enums:
     OTHER: 0
     LINE_CONTROL: 1
@@ -283,60 +283,60 @@ DataTypes:
 
 DefinedTypes:
 
-  HaulOff_InterfaceType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.HaulOff:1002, HaulOff_InterfaceType ]
+  PlasticsRubber.Extrusion.HaulOff:HaulOff_InterfaceType:
+  - [ UAObjectType, PlasticsRubber.Extrusion.HaulOff:1002, PlasticsRubber.Extrusion.HaulOff:HaulOff_InterfaceType ]
   - HasProperty:
-    - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6013, ClampClosed, Boolean, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6013, PlasticsRubber.Extrusion.HaulOff:ClampClosed, Boolean, 0, 0 ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.HaulOff:1002, HaulOff_InterfaceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.HaulOff:1002, PlasticsRubber.Extrusion.HaulOff:HaulOff_InterfaceType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.Extrusion.HaulOff:7002, CloseClamp ]
+    - [ UAMethod, PlasticsRubber.Extrusion.HaulOff:7002, PlasticsRubber.Extrusion.HaulOff:CloseClamp ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.HaulOff:1002, HaulOff_InterfaceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.HaulOff:1002, PlasticsRubber.Extrusion.HaulOff:HaulOff_InterfaceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5001, Drives ]
+    - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5001, PlasticsRubber.Extrusion.HaulOff:Drives ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.HaulOff:1002, HaulOff_InterfaceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.HaulOff:1002, PlasticsRubber.Extrusion.HaulOff:HaulOff_InterfaceType ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1069, DrivesType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1069, PlasticsRubber.GeneralTypes:DrivesType ]
     - GeneratesEvent:
       - [ UAObjectType, 2133, GeneralModelChangeEventType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6001, NodeVersion, String, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6001, PlasticsRubber.Extrusion.HaulOff:NodeVersion, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5001, Drives ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5001, PlasticsRubber.Extrusion.HaulOff:Drives ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, Force ]
+    - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, PlasticsRubber.Extrusion.HaulOff:Force ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6011, ActualValue, Double, 0, 5 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6011, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 5 ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, Force ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, PlasticsRubber.Extrusion.HaulOff:Force ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6018, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6018, PlasticsRubber.Extrusion.HaulOff:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6011, ActualValue, Double, 0, 5 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6011, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 5 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6012, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6012, PlasticsRubber.Extrusion.HaulOff:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6011, ActualValue, Double, 0, 5 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6011, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 5 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -344,13 +344,13 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6019, AlarmSuppression, UInt16, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6019, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, Force ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, PlasticsRubber.Extrusion.HaulOff:Force ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6020, EnumValues, EnumValueType, 1, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6020, PlasticsRubber.Extrusion.HaulOff:EnumValues, EnumValueType, 1, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6019, AlarmSuppression, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6019, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -360,169 +360,169 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6021, ValueAsText, LocalizedText, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6021, PlasticsRubber.Extrusion.HaulOff:ValueAsText, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6019, AlarmSuppression, UInt16, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6019, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6022, AutomaticMonitoring, Boolean, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6022, PlasticsRubber.GeneralTypes:AutomaticMonitoring, Boolean, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, Force ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, PlasticsRubber.Extrusion.HaulOff:Force ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.HaulOff:1002, HaulOff_InterfaceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.HaulOff:1002, PlasticsRubber.Extrusion.HaulOff:HaulOff_InterfaceType ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6023, LowerTolerance, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6023, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6107, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6107, PlasticsRubber.Extrusion.HaulOff:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6023, LowerTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6023, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6024, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6024, PlasticsRubber.Extrusion.HaulOff:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6023, LowerTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6023, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, Force ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, PlasticsRubber.Extrusion.HaulOff:Force ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6025, LowerTolerance2, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6025, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6108, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6108, PlasticsRubber.Extrusion.HaulOff:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6025, LowerTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6025, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6026, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6026, PlasticsRubber.Extrusion.HaulOff:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6025, LowerTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6025, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, Force ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, PlasticsRubber.Extrusion.HaulOff:Force ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6027, MaxValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6027, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6109, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6109, PlasticsRubber.Extrusion.HaulOff:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6027, MaxValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6027, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6028, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6028, PlasticsRubber.Extrusion.HaulOff:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6027, MaxValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6027, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, Force ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, PlasticsRubber.Extrusion.HaulOff:Force ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6029, MinValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6029, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6110, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6110, PlasticsRubber.Extrusion.HaulOff:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6029, MinValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6029, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6030, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6030, PlasticsRubber.Extrusion.HaulOff:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6029, MinValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6029, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, Force ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, PlasticsRubber.Extrusion.HaulOff:Force ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6031, MonitoringSensitivity, UInt16, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6031, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6032, EnumValues, EnumValueType, 1, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6032, PlasticsRubber.Extrusion.HaulOff:EnumValues, EnumValueType, 1, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6031, MonitoringSensitivity, UInt16, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6031, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, Force ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, PlasticsRubber.Extrusion.HaulOff:Force ]
       - HasTypeDefinition:
         - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6033, ValueAsText, LocalizedText, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6033, PlasticsRubber.Extrusion.HaulOff:ValueAsText, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6031, MonitoringSensitivity, UInt16, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6031, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAMethod, PlasticsRubber.Extrusion.HaulOff:7005, ResetMonitoring ]
+      - [ UAMethod, PlasticsRubber.Extrusion.HaulOff:7005, PlasticsRubber.GeneralTypes:ResetMonitoring ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, Force ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, PlasticsRubber.Extrusion.HaulOff:Force ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6034, SetRampDown, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6034, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6111, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6111, PlasticsRubber.Extrusion.HaulOff:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6034, SetRampDown, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6034, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6035, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6035, PlasticsRubber.Extrusion.HaulOff:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6034, SetRampDown, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6034, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -530,23 +530,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, Force ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, PlasticsRubber.Extrusion.HaulOff:Force ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6036, SetRampUp, Double, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6036, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6112, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6112, PlasticsRubber.Extrusion.HaulOff:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6036, SetRampUp, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6036, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6037, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6037, PlasticsRubber.Extrusion.HaulOff:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6036, SetRampUp, Double, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6036, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -554,23 +554,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, Force ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, PlasticsRubber.Extrusion.HaulOff:Force ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6038, SetValue, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6038, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6113, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6113, PlasticsRubber.Extrusion.HaulOff:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6038, SetValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6038, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6039, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6039, PlasticsRubber.Extrusion.HaulOff:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6038, SetValue, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6038, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -578,23 +578,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, Force ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, PlasticsRubber.Extrusion.HaulOff:Force ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6040, UpperTolerance, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6040, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6114, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6114, PlasticsRubber.Extrusion.HaulOff:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6040, UpperTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6040, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6041, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6041, PlasticsRubber.Extrusion.HaulOff:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6040, UpperTolerance, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6040, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -602,23 +602,23 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, Force ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, PlasticsRubber.Extrusion.HaulOff:Force ]
     - HasComponent:
-      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6042, UpperTolerance2, Double, 0, 3 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6042, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6115, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6115, PlasticsRubber.Extrusion.HaulOff:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6042, UpperTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6042, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6043, EURange, Range, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6043, PlasticsRubber.Extrusion.HaulOff:EURange, Range, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6042, UpperTolerance2, Double, 0, 3 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6042, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -626,75 +626,75 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, Force ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5005, PlasticsRubber.Extrusion.HaulOff:Force ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, ExtrusionDeviceType ]
+    - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.Extrusion.HaulOff:7001, OpenClamp ]
+    - [ UAMethod, PlasticsRubber.Extrusion.HaulOff:7001, PlasticsRubber.Extrusion.HaulOff:OpenClamp ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.HaulOff:1002, HaulOff_InterfaceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.HaulOff:1002, PlasticsRubber.Extrusion.HaulOff:HaulOff_InterfaceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5003, TemperatureZones ]
+    - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5003, PlasticsRubber.Extrusion.HaulOff:TemperatureZones ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1017, ExtrusionTemperatureZonesType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1017, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionTemperatureZonesType ]
     - HasComponent:
-      - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5004, Maintenance ]
+      - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5004, PlasticsRubber.Extrusion.GeneralTypes:Maintenance ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6016, AdditionalInformation, String, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6016, PlasticsRubber.GeneralTypes:AdditionalInformation, String, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5004, Maintenance ]
+          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5004, PlasticsRubber.Extrusion.GeneralTypes:Maintenance ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6017, Interval, Double, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6017, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6049, EngineeringUnits, EUInformation, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6049, PlasticsRubber.Extrusion.HaulOff:EngineeringUnits, EUInformation, 0, 0 ]
           - HasProperty_reverse:
-            - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6017, Interval, Double, 0, 0 ]
+            - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6017, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6044, EURange, Range, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6044, PlasticsRubber.Extrusion.HaulOff:EURange, Range, 0, 0 ]
           - HasProperty_reverse:
-            - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6017, Interval, Double, 0, 0 ]
+            - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6017, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasComponent_reverse:
-          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5004, Maintenance ]
+          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5004, PlasticsRubber.Extrusion.GeneralTypes:Maintenance ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5003, TemperatureZones ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5003, PlasticsRubber.Extrusion.HaulOff:TemperatureZones ]
       - HasTypeDefinition:
-        - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, MaintenanceType ]
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, PlasticsRubber.GeneralTypes:MaintenanceType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6045, RemainingInterval, Double, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6045, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6050, EngineeringUnits, EUInformation, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6050, PlasticsRubber.Extrusion.HaulOff:EngineeringUnits, EUInformation, 0, 0 ]
           - HasProperty_reverse:
-            - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6045, RemainingInterval, Double, 0, 0 ]
+            - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6045, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6046, EURange, Range, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6046, PlasticsRubber.Extrusion.HaulOff:EURange, Range, 0, 0 ]
           - HasProperty_reverse:
-            - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6045, RemainingInterval, Double, 0, 0 ]
+            - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6045, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -702,37 +702,37 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
-          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5004, Maintenance ]
+          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5004, PlasticsRubber.Extrusion.GeneralTypes:Maintenance ]
       - HasComponent:
-        - [ UAMethod, PlasticsRubber.Extrusion.HaulOff:7003, Reset ]
+        - [ UAMethod, PlasticsRubber.Extrusion.HaulOff:7003, PlasticsRubber.GeneralTypes:Reset ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5004, Maintenance ]
+          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5004, PlasticsRubber.Extrusion.GeneralTypes:Maintenance ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6010, Status, MaintenanceStatusEnumeration, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6010, PlasticsRubber.GeneralTypes:Status, PlasticsRubber.GeneralTypes:MaintenanceStatusEnumeration, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5004, Maintenance ]
+          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5004, PlasticsRubber.Extrusion.GeneralTypes:Maintenance ]
       - HasComponent:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6047, TotalOperation, Double, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6047, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6051, EngineeringUnits, EUInformation, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6051, PlasticsRubber.Extrusion.HaulOff:EngineeringUnits, EUInformation, 0, 0 ]
           - HasProperty_reverse:
-            - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6047, TotalOperation, Double, 0, 0 ]
+            - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6047, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
-          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6048, EURange, Range, 0, 0 ]
+          - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6048, PlasticsRubber.Extrusion.HaulOff:EURange, Range, 0, 0 ]
           - HasProperty_reverse:
-            - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6047, TotalOperation, Double, 0, 0 ]
+            - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6047, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -740,52 +740,52 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
-          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5004, Maintenance ]
+          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5004, PlasticsRubber.Extrusion.GeneralTypes:Maintenance ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6009, NodeVersion, String, 0, 0 ]
+      - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6009, PlasticsRubber.Extrusion.HaulOff:NodeVersion, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5003, TemperatureZones ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5003, PlasticsRubber.Extrusion.HaulOff:TemperatureZones ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5006, StartTempering ]
+      - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5006, PlasticsRubber.Extrusion.GeneralTypes:StartTempering ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6015, StartBlockedByClient, Boolean, 0, 3 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6015, PlasticsRubber.GeneralTypes:StartBlockedByClient, Boolean, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5006, StartTempering ]
+          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5006, PlasticsRubber.Extrusion.GeneralTypes:StartTempering ]
       - HasTypeDefinition:
-        - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, StartDeviceType ]
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, PlasticsRubber.GeneralTypes:StartDeviceType ]
       - HasComponent:
-        - [ UAMethod, PlasticsRubber.Extrusion.HaulOff:7004, StartRequest ]
+        - [ UAMethod, PlasticsRubber.Extrusion.HaulOff:7004, PlasticsRubber.GeneralTypes:StartRequest ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
-          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5006, StartTempering ]
+          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5006, PlasticsRubber.Extrusion.GeneralTypes:StartTempering ]
       - HasComponent_reverse:
-        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5003, TemperatureZones ]
+        - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5003, PlasticsRubber.Extrusion.HaulOff:TemperatureZones ]
       - HasProperty:
-        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6014, Status, StartEnumeration, 0, 0 ]
+        - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6014, PlasticsRubber.GeneralTypes:Status, PlasticsRubber.GeneralTypes:StartEnumeration, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5006, StartTempering ]
+          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5006, PlasticsRubber.Extrusion.GeneralTypes:StartTempering ]
       - HasComponent:
-        - [ UAMethod, PlasticsRubber.Extrusion.HaulOff:7006, StopRequest ]
+        - [ UAMethod, PlasticsRubber.Extrusion.HaulOff:7006, PlasticsRubber.GeneralTypes:StopRequest ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
-          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5006, StartTempering ]
+          - [ UAObject, PlasticsRubber.Extrusion.HaulOff:5006, PlasticsRubber.Extrusion.GeneralTypes:StartTempering ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.HaulOff:1002, HaulOff_InterfaceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.HaulOff:1002, PlasticsRubber.Extrusion.HaulOff:HaulOff_InterfaceType ]

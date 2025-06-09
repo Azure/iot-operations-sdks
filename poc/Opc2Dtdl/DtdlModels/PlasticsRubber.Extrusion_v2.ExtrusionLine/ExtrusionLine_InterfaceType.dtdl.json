@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -24,31 +25,7 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetMESMessage",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Id",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Message",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Message2",
-              "schema": "unsignedShort"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

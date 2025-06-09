@@ -64,11 +64,17 @@
 
         private static IEnumerable<OpcUaContent> FilteredContents(OpcUaDefinedType definedType)
         {
+            if (definedType.BrowseName == "CommercialKitchenEquipment:ChamberType")
+            {
+                int x = 0;
+            }
+
             foreach (OpcUaContent content in definedType.Contents)
             {
                 if (definedType.NodeType == "UAObjectType" && content.Relationship == "HasComponent" ||
                     definedType.NodeType == "UAObjectType" && content.Relationship == "HasSubtype_reverse" ||
                     definedType.NodeType == "UAVariable" && content.Relationship == "HasComponent" ||
+                    definedType.NodeType == "UAVariable" && content.Relationship == "HasProperty" && content.DefinedType.UnitId != null ||
                     definedType.NodeType == "UAMethod" && content.Relationship == "HasProperty" ||
                     definedType.NodeType == "UAObject" && content.Relationship == "HasTypeDefinition" ||
                     content.Relationship == "HasModellingRule")
@@ -145,6 +151,11 @@
                         outputFile.WriteLine($"{currentIndent}    {argument.Key}: [ {argument.Value.Item1}, {argument.Value.Item2} ]");
                     }
                 }
+            }
+
+            if (definedType.UnitId != null)
+            {
+                outputFile.WriteLine($"{currentIndent}- UnitId: {definedType.UnitId}");
             }
 
             foreach (OpcUaContent content in FilteredContents(definedType))

@@ -1,34 +1,34 @@
 DataTypes:
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -38,425 +38,425 @@ DataTypes:
 
 DefinedTypes:
 
-  ExampleComponentType:
-  - [ UAObjectType, Machinery_Example:1009, ExampleComponentType ]
+  Machinery_Example:ExampleComponentType:
+  - [ UAObjectType, Machinery_Example:1009, Machinery_Example:ExampleComponentType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, Machinery_Example:5044, Identification ]
+    - [ UAObject, Machinery_Example:5044, Machinery_Example:Identification ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6080, DeviceRevision, String, 0, 0 ]
+      - [ UAVariable, Machinery_Example:6080, DI:DeviceRevision, String, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5044, Identification ]
+        - [ UAObject, Machinery_Example:5044, Machinery_Example:Identification ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Machinery_Example:1009, ExampleComponentType ]
+      - [ UAObjectType, Machinery_Example:1009, Machinery_Example:ExampleComponentType ]
     - HasTypeDefinition:
-      - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
+      - [ UAObjectType, Machinery:1005, Machinery:MachineryComponentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6081, Manufacturer, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery_Example:6081, DI:Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5044, Identification ]
+        - [ UAObject, Machinery_Example:5044, Machinery_Example:Identification ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6082, SerialNumber, String, 0, 0 ]
+      - [ UAVariable, Machinery_Example:6082, DI:SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5044, Identification ]
+        - [ UAObject, Machinery_Example:5044, Machinery_Example:Identification ]
 
-  ExampleMachineType:
-  - [ UAObjectType, Machinery_Example:1002, ExampleMachineType ]
+  Machinery_Example:ExampleMachineType:
+  - [ UAObjectType, Machinery_Example:1002, Machinery_Example:ExampleMachineType ]
   - HasAddIn:
-    - [ UAObject, Machinery_Example:5005, Components ]
+    - [ UAObject, Machinery_Example:5005, Machinery:Components ]
     - HasAddIn_reverse:
-      - [ UAObjectType, Machinery_Example:1002, ExampleMachineType ]
+      - [ UAObjectType, Machinery_Example:1002, Machinery_Example:ExampleMachineType ]
     - HasTypeDefinition:
-      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+      - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAObject, Machinery_Example:5013, MyComponent ]
+      - [ UAObject, Machinery_Example:5013, Machinery_Example:MyComponent ]
       - HasTypeDefinition:
-        - [ UAObjectType, Machinery_Example:1009, ExampleComponentType ]
+        - [ UAObjectType, Machinery_Example:1009, Machinery_Example:ExampleComponentType ]
       - HasComponent:
-        - [ UAObject, Machinery_Example:5014, Identification ]
+        - [ UAObject, Machinery_Example:5014, Machinery_Example:Identification ]
         - HasProperty:
-          - [ UAVariable, Machinery_Example:6047, DeviceRevision, String, 0, 0 ]
+          - [ UAVariable, Machinery_Example:6047, DI:DeviceRevision, String, 0, 0 ]
           - HasProperty_reverse:
-            - [ UAObject, Machinery_Example:5014, Identification ]
+            - [ UAObject, Machinery_Example:5014, Machinery_Example:Identification ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasComponent_reverse:
-          - [ UAObject, Machinery_Example:5013, MyComponent ]
+          - [ UAObject, Machinery_Example:5013, Machinery_Example:MyComponent ]
         - HasTypeDefinition:
-          - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
+          - [ UAObjectType, Machinery:1005, Machinery:MachineryComponentIdentificationType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
-          - [ UAVariable, Machinery_Example:6048, Manufacturer, LocalizedText, 0, 0 ]
+          - [ UAVariable, Machinery_Example:6048, DI:Manufacturer, LocalizedText, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAObject, Machinery_Example:5014, Identification ]
+            - [ UAObject, Machinery_Example:5014, Machinery_Example:Identification ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
-          - [ UAVariable, Machinery_Example:6049, SerialNumber, String, 0, 0 ]
+          - [ UAVariable, Machinery_Example:6049, DI:SerialNumber, String, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, Machinery_Example:5014, Identification ]
+            - [ UAObject, Machinery_Example:5014, Machinery_Example:Identification ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery_Example:5005, Components ]
+        - [ UAObject, Machinery_Example:5005, Machinery:Components ]
     - HasAddIn_reverse:
-      - [ UAObject, Machinery_Example:5007, MachineryBuildingBlocks ]
+      - [ UAObject, Machinery_Example:5007, Machinery:MachineryBuildingBlocks ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasAddIn:
-    - [ UAObject, Machinery_Example:5001, Identification ]
+    - [ UAObject, Machinery_Example:5001, DI:Identification ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6004, AssetId, String, 0, 3 ]
+      - [ UAVariable, Machinery_Example:6004, DI:AssetId, String, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5001, Identification ]
+        - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6005, ComponentName, LocalizedText, 0, 3 ]
+      - [ UAVariable, Machinery_Example:6005, DI:ComponentName, LocalizedText, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5001, Identification ]
+        - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6006, DeviceClass, String, 0, 0 ]
+      - [ UAVariable, Machinery_Example:6006, DI:DeviceClass, String, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5001, Identification ]
+        - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6007, HardwareRevision, String, 0, 0 ]
+      - [ UAVariable, Machinery_Example:6007, DI:HardwareRevision, String, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5001, Identification ]
+        - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, Machinery_Example:1002, ExampleMachineType ]
+      - [ UAObjectType, Machinery_Example:1002, Machinery_Example:ExampleMachineType ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6008, InitialOperationDate, DateTime, 0, 0 ]
+      - [ UAVariable, Machinery_Example:6008, Machinery:InitialOperationDate, DateTime, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5001, Identification ]
+        - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6009, Location, String, 0, 3 ]
+      - [ UAVariable, Machinery_Example:6009, Machinery:Location, String, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5001, Identification ]
+        - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasTypeDefinition:
-      - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+      - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6001, Manufacturer, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery_Example:6001, DI:Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5001, Identification ]
+        - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6010, ManufacturerUri, String, 0, 0 ]
+      - [ UAVariable, Machinery_Example:6010, DI:ManufacturerUri, String, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5001, Identification ]
+        - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6011, Model, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery_Example:6011, DI:Model, LocalizedText, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5001, Identification ]
+        - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6012, MonthOfConstruction, Byte, 0, 0 ]
+      - [ UAVariable, Machinery_Example:6012, Machinery:MonthOfConstruction, Byte, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5001, Identification ]
+        - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6013, ProductCode, String, 0, 0 ]
+      - [ UAVariable, Machinery_Example:6013, DI:ProductCode, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5001, Identification ]
+        - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6002, ProductInstanceUri, String, 0, 0 ]
+      - [ UAVariable, Machinery_Example:6002, DI:ProductInstanceUri, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5001, Identification ]
+        - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6003, SerialNumber, String, 0, 0 ]
+      - [ UAVariable, Machinery_Example:6003, DI:SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5001, Identification ]
+        - [ UAObject, Machinery_Example:5001, DI:Identification ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6014, SoftwareRevision, String, 0, 0 ]
+      - [ UAVariable, Machinery_Example:6014, DI:SoftwareRevision, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5001, Identification ]
+        - [ UAObject, Machinery_Example:5001, DI:Identification ]
     - HasProperty:
-      - [ UAVariable, Machinery_Example:6015, YearOfConstruction, UInt16, 0, 0 ]
+      - [ UAVariable, Machinery_Example:6015, Machinery:YearOfConstruction, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery_Example:5001, Identification ]
+        - [ UAObject, Machinery_Example:5001, DI:Identification ]
     - HasAddIn_reverse:
-      - [ UAObject, Machinery_Example:5007, MachineryBuildingBlocks ]
+      - [ UAObject, Machinery_Example:5007, Machinery:MachineryBuildingBlocks ]
   - HasComponent:
-    - [ UAObject, Machinery_Example:5007, MachineryBuildingBlocks ]
+    - [ UAObject, Machinery_Example:5007, Machinery:MachineryBuildingBlocks ]
     - HasAddIn:
-      - [ UAObject, Machinery_Example:5005, Components ]
+      - [ UAObject, Machinery_Example:5005, Machinery:Components ]
       - HasAddIn_reverse:
-        - [ UAObjectType, Machinery_Example:1002, ExampleMachineType ]
+        - [ UAObjectType, Machinery_Example:1002, Machinery_Example:ExampleMachineType ]
       - HasTypeDefinition:
-        - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+        - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent:
-        - [ UAObject, Machinery_Example:5013, MyComponent ]
+        - [ UAObject, Machinery_Example:5013, Machinery_Example:MyComponent ]
         - HasTypeDefinition:
-          - [ UAObjectType, Machinery_Example:1009, ExampleComponentType ]
+          - [ UAObjectType, Machinery_Example:1009, Machinery_Example:ExampleComponentType ]
         - HasComponent:
-          - [ UAObject, Machinery_Example:5014, Identification ]
+          - [ UAObject, Machinery_Example:5014, Machinery_Example:Identification ]
           - HasProperty:
-            - [ UAVariable, Machinery_Example:6047, DeviceRevision, String, 0, 0 ]
+            - [ UAVariable, Machinery_Example:6047, DI:DeviceRevision, String, 0, 0 ]
             - HasProperty_reverse:
-              - [ UAObject, Machinery_Example:5014, Identification ]
+              - [ UAObject, Machinery_Example:5014, Machinery_Example:Identification ]
             - HasModellingRule:
               - [ UAObject, 80, Optional ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
           - HasComponent_reverse:
-            - [ UAObject, Machinery_Example:5013, MyComponent ]
+            - [ UAObject, Machinery_Example:5013, Machinery_Example:MyComponent ]
           - HasTypeDefinition:
-            - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
+            - [ UAObjectType, Machinery:1005, Machinery:MachineryComponentIdentificationType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty:
-            - [ UAVariable, Machinery_Example:6048, Manufacturer, LocalizedText, 0, 0 ]
+            - [ UAVariable, Machinery_Example:6048, DI:Manufacturer, LocalizedText, 0, 0 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasProperty_reverse:
-              - [ UAObject, Machinery_Example:5014, Identification ]
+              - [ UAObject, Machinery_Example:5014, Machinery_Example:Identification ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
           - HasProperty:
-            - [ UAVariable, Machinery_Example:6049, SerialNumber, String, 0, 0 ]
+            - [ UAVariable, Machinery_Example:6049, DI:SerialNumber, String, 0, 0 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAObject, Machinery_Example:5014, Identification ]
+              - [ UAObject, Machinery_Example:5014, Machinery_Example:Identification ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Machinery_Example:5005, Components ]
+          - [ UAObject, Machinery_Example:5005, Machinery:Components ]
       - HasAddIn_reverse:
-        - [ UAObject, Machinery_Example:5007, MachineryBuildingBlocks ]
+        - [ UAObject, Machinery_Example:5007, Machinery:MachineryBuildingBlocks ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasAddIn:
-      - [ UAObject, Machinery_Example:5001, Identification ]
+      - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasProperty:
-        - [ UAVariable, Machinery_Example:6004, AssetId, String, 0, 3 ]
+        - [ UAVariable, Machinery_Example:6004, DI:AssetId, String, 0, 3 ]
         - HasProperty_reverse:
-          - [ UAObject, Machinery_Example:5001, Identification ]
+          - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, Machinery_Example:6005, ComponentName, LocalizedText, 0, 3 ]
+        - [ UAVariable, Machinery_Example:6005, DI:ComponentName, LocalizedText, 0, 3 ]
         - HasProperty_reverse:
-          - [ UAObject, Machinery_Example:5001, Identification ]
+          - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, Machinery_Example:6006, DeviceClass, String, 0, 0 ]
+        - [ UAVariable, Machinery_Example:6006, DI:DeviceClass, String, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAObject, Machinery_Example:5001, Identification ]
+          - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, Machinery_Example:6007, HardwareRevision, String, 0, 0 ]
+        - [ UAVariable, Machinery_Example:6007, DI:HardwareRevision, String, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAObject, Machinery_Example:5001, Identification ]
+          - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasAddIn_reverse:
-        - [ UAObjectType, Machinery_Example:1002, ExampleMachineType ]
+        - [ UAObjectType, Machinery_Example:1002, Machinery_Example:ExampleMachineType ]
       - HasProperty:
-        - [ UAVariable, Machinery_Example:6008, InitialOperationDate, DateTime, 0, 0 ]
+        - [ UAVariable, Machinery_Example:6008, Machinery:InitialOperationDate, DateTime, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAObject, Machinery_Example:5001, Identification ]
+          - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, Machinery_Example:6009, Location, String, 0, 3 ]
+        - [ UAVariable, Machinery_Example:6009, Machinery:Location, String, 0, 3 ]
         - HasProperty_reverse:
-          - [ UAObject, Machinery_Example:5001, Identification ]
+          - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasTypeDefinition:
-        - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+        - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, Machinery_Example:6001, Manufacturer, LocalizedText, 0, 0 ]
+        - [ UAVariable, Machinery_Example:6001, DI:Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Machinery_Example:5001, Identification ]
+          - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, Machinery_Example:6010, ManufacturerUri, String, 0, 0 ]
+        - [ UAVariable, Machinery_Example:6010, DI:ManufacturerUri, String, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAObject, Machinery_Example:5001, Identification ]
+          - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, Machinery_Example:6011, Model, LocalizedText, 0, 0 ]
+        - [ UAVariable, Machinery_Example:6011, DI:Model, LocalizedText, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAObject, Machinery_Example:5001, Identification ]
+          - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, Machinery_Example:6012, MonthOfConstruction, Byte, 0, 0 ]
+        - [ UAVariable, Machinery_Example:6012, Machinery:MonthOfConstruction, Byte, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAObject, Machinery_Example:5001, Identification ]
+          - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, Machinery_Example:6013, ProductCode, String, 0, 0 ]
+        - [ UAVariable, Machinery_Example:6013, DI:ProductCode, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasProperty_reverse:
-          - [ UAObject, Machinery_Example:5001, Identification ]
+          - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, Machinery_Example:6002, ProductInstanceUri, String, 0, 0 ]
+        - [ UAVariable, Machinery_Example:6002, DI:ProductInstanceUri, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Machinery_Example:5001, Identification ]
+          - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, Machinery_Example:6003, SerialNumber, String, 0, 0 ]
+        - [ UAVariable, Machinery_Example:6003, DI:SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, Machinery_Example:5001, Identification ]
+          - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasProperty:
-        - [ UAVariable, Machinery_Example:6014, SoftwareRevision, String, 0, 0 ]
+        - [ UAVariable, Machinery_Example:6014, DI:SoftwareRevision, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, Machinery_Example:5001, Identification ]
+          - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasProperty:
-        - [ UAVariable, Machinery_Example:6015, YearOfConstruction, UInt16, 0, 0 ]
+        - [ UAVariable, Machinery_Example:6015, Machinery:YearOfConstruction, UInt16, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, Machinery_Example:5001, Identification ]
+          - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasAddIn_reverse:
-        - [ UAObject, Machinery_Example:5007, MachineryBuildingBlocks ]
+        - [ UAObject, Machinery_Example:5007, Machinery:MachineryBuildingBlocks ]
     - HasComponent_reverse:
-      - [ UAObjectType, Machinery_Example:1002, ExampleMachineType ]
+      - [ UAObjectType, Machinery_Example:1002, Machinery_Example:ExampleMachineType ]
     - HasAddIn:
-      - [ UAObject, Machinery_Example:5009, MachineryItemState ]
+      - [ UAObject, Machinery_Example:5009, Machinery_Example:MachineryItemState ]
       - HasComponent:
-        - [ UAVariable, Machinery_Example:6035, CurrentState, LocalizedText, 0, 0 ]
+        - [ UAVariable, Machinery_Example:6035, Machinery_Example:CurrentState, LocalizedText, 0, 0 ]
         - HasComponent_reverse:
-          - [ UAObject, Machinery_Example:5009, MachineryItemState ]
+          - [ UAObject, Machinery_Example:5009, Machinery_Example:MachineryItemState ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasProperty:
-          - [ UAVariable, Machinery_Example:6036, Id, NodeId, 0, 0 ]
+          - [ UAVariable, Machinery_Example:6036, Machinery_Example:Id, NodeId, 0, 0 ]
           - HasProperty_reverse:
-            - [ UAVariable, Machinery_Example:6035, CurrentState, LocalizedText, 0, 0 ]
+            - [ UAVariable, Machinery_Example:6035, Machinery_Example:CurrentState, LocalizedText, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -464,23 +464,23 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
-        - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
+        - [ UAObjectType, Machinery:1002, Machinery:MachineryItemState_StateMachineType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasAddIn_reverse:
-        - [ UAObject, Machinery_Example:5007, MachineryBuildingBlocks ]
+        - [ UAObject, Machinery_Example:5007, Machinery:MachineryBuildingBlocks ]
     - HasAddIn:
-      - [ UAObject, Machinery_Example:5011, MachineryOperationMode ]
+      - [ UAObject, Machinery_Example:5011, Machinery_Example:MachineryOperationMode ]
       - HasComponent:
-        - [ UAVariable, Machinery_Example:6042, CurrentState, LocalizedText, 0, 0 ]
+        - [ UAVariable, Machinery_Example:6042, Machinery_Example:CurrentState, LocalizedText, 0, 0 ]
         - HasComponent_reverse:
-          - [ UAObject, Machinery_Example:5011, MachineryOperationMode ]
+          - [ UAObject, Machinery_Example:5011, Machinery_Example:MachineryOperationMode ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasProperty:
-          - [ UAVariable, Machinery_Example:6043, Id, NodeId, 0, 0 ]
+          - [ UAVariable, Machinery_Example:6043, Machinery_Example:Id, NodeId, 0, 0 ]
           - HasProperty_reverse:
-            - [ UAVariable, Machinery_Example:6042, CurrentState, LocalizedText, 0, 0 ]
+            - [ UAVariable, Machinery_Example:6042, Machinery_Example:CurrentState, LocalizedText, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -488,10 +488,10 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
-        - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
+        - [ UAObjectType, Machinery:1008, Machinery:MachineryOperationModeStateMachineType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasAddIn_reverse:
-        - [ UAObject, Machinery_Example:5007, MachineryBuildingBlocks ]
+        - [ UAObject, Machinery_Example:5007, Machinery:MachineryBuildingBlocks ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]

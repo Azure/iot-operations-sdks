@@ -437,6 +437,12 @@
                 }
             }
 
+            XmlNode? unitIdNode = xmlNode.SelectSingleNode("descendant::uax:UnitId", nsmgr);
+            if (unitIdNode != null)
+            {
+                outputFile.WriteLine($"{currentIndent}- UnitId: {unitIdNode.InnerText}");
+            }
+
             foreach (XmlNode node in xmlNode.SelectNodes($"descendant::*[@ReferenceType]", nsmgr)!)
             {
                 bool reverseRef = node.Attributes!["IsForward"]?.Value == "false";

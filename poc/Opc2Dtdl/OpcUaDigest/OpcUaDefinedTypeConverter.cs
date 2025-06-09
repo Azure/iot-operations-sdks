@@ -38,9 +38,13 @@ namespace OpcUaDigest
 
                 Scalar relationship = parser.Consume<Scalar>();
 
-                if (relationship.Value == "Arguments")
+                if (relationship.Value == "UnitId")
                 {
-                    AddToDictionary(parser, definedType.Arguments);
+                    definedType.UnitId = parser.Consume<Scalar>().Value;
+                }
+                else if (relationship.Value == "Arguments")
+                {
+                    AddToDictionary(parser, definedType.Arguments, "Arguments");
                 }
                 else
                 {
@@ -78,11 +82,11 @@ namespace OpcUaDigest
             return new OpcUaDefinedType(nodeType, nodeId, browseName, datatype, valueRank, accessLevel);
         }
 
-        private void AddToDictionary(IParser parser, Dictionary<string, (string?, int)> dict)
+        private void AddToDictionary(IParser parser, Dictionary<string, (string?, int)> dict, string keyName)
         {
             if (!parser.TryConsume<MappingStart>(out _))
             {
-                throw new InvalidOperationException("Expected Arguments value to be a YAML object");
+                throw new InvalidOperationException($"Expected {keyName} value to be a YAML object");
             }
 
             while (!parser.TryConsume<MappingEnd>(out _))

@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -178,7 +179,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "ActualFinalRinseTemperature_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "unsignedShort"
         }
       },
@@ -209,7 +212,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "ActualMainTankTemperature_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "unsignedShort"
         }
       },
@@ -233,7 +238,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "ActualPreTankTemperature_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "unsignedShort"
         }
       },
@@ -257,7 +264,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "ActualPumpedFinalRinseTemperature_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "unsignedShort"
         }
       },
@@ -281,7 +290,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "FinalRinseTemperatureSetpoint_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "unsignedShort"
         }
       },
@@ -319,7 +330,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "MainTankTemperatureSetpoint_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "unsignedShort"
         }
       },
@@ -350,7 +363,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "PreTankTemperatureSetpoint_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "unsignedShort"
         }
       },
@@ -381,7 +396,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "PumpedFinalRinseTemperatureSetpoint_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "unsignedShort"
         }
       },

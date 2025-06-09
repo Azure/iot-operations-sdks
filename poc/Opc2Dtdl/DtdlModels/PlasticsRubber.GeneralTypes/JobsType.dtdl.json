@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -13,164 +14,17 @@
   "commandTopic": "opcua/PlasticsRubber_GeneralTypes/JobsType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
-    {
-      "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobsType:dataType:CyclicJobListElementType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3022",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "NominalParts",
-          "schema": "unsignedLong"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "NominalBoxParts",
-          "schema": "unsignedLong"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ExpectedCycleTime",
-          "schema": "duration"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "MouldId",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "NumCavities",
-          "schema": "unsignedInteger"
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobsType:dataType:JobListElementType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3021",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "JobName",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "JobDescription",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "JobClassification",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "CustomerName",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ProductionDatasetName",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ProductionDatasetDescription",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Material",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "string"
-          }
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ProductName",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "string"
-          }
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ProductDescription",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "string"
-          }
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "JobPriority",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "PlannedStart",
-          "schema": "dateTime"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "PlannedProductionTime",
-          "schema": "duration"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "LatestEnd",
-          "schema": "dateTime"
-        }
-      ]
-    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SendCyclicJobList",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "JobList",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobsType:dataType:CyclicJobListElementType;1"
-              }
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SendJobList",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "JobList",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobsType:dataType:JobListElementType;1"
-              }
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

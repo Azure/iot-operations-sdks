@@ -3,493 +3,493 @@ DataTypes:
 DefinedTypes:
 
   AutomationMLBaseInterface:
-  - [ UAObjectType, AMLLibs:22, AutomationMLBaseInterface ]
+  - [ UAObjectType, AMLLibs:22, AMLLibs:AutomationMLBaseInterface ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
 
   Order:
-  - [ UAObjectType, AMLLibs:25, Order ]
+  - [ UAObjectType, AMLLibs:25, AMLLibs:Order ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:22, AutomationMLBaseInterface ]
+    - [ UAObjectType, AMLLibs:22, AMLLibs:AutomationMLBaseInterface ]
   - HasComponent:
-    - [ UAVariable, AMLLibs:46, Direction, String, 0, 0 ]
+    - [ UAVariable, AMLLibs:46, AMLLibs:Direction, String, 0, 0 ]
 
   PortConnector:
-  - [ UAObjectType, AMLLibs:28, PortConnector ]
+  - [ UAObjectType, AMLLibs:28, AMLLibs:PortConnector ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:22, AutomationMLBaseInterface ]
+    - [ UAObjectType, AMLLibs:22, AMLLibs:AutomationMLBaseInterface ]
 
   InterlockingConnector:
-  - [ UAObjectType, AMLLibs:31, InterlockingConnector ]
+  - [ UAObjectType, AMLLibs:31, AMLLibs:InterlockingConnector ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:22, AutomationMLBaseInterface ]
+    - [ UAObjectType, AMLLibs:22, AMLLibs:AutomationMLBaseInterface ]
 
   PPRConnector:
-  - [ UAObjectType, AMLLibs:34, PPRConnector ]
+  - [ UAObjectType, AMLLibs:34, AMLLibs:PPRConnector ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:22, AutomationMLBaseInterface ]
+    - [ UAObjectType, AMLLibs:22, AMLLibs:AutomationMLBaseInterface ]
 
   ExternalDataConnector:
-  - [ UAObjectType, AMLLibs:37, ExternalDataConnector ]
+  - [ UAObjectType, AMLLibs:37, AMLLibs:ExternalDataConnector ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:22, AutomationMLBaseInterface ]
+    - [ UAObjectType, AMLLibs:22, AMLLibs:AutomationMLBaseInterface ]
   - HasComponent:
-    - [ UAVariable, AMLLibs:49, refURI, String, 0, 0 ]
+    - [ UAVariable, AMLLibs:49, AMLLibs:refURI, String, 0, 0 ]
 
   Communication:
-  - [ UAObjectType, AMLLibs:179, Communication ]
+  - [ UAObjectType, AMLLibs:179, AMLLibs:Communication ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:176, ControlEquipment ]
+    - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   AttachmentInterface:
-  - [ UAObjectType, AMLLibs:43, AttachmentInterface ]
+  - [ UAObjectType, AMLLibs:43, AMLLibs:AttachmentInterface ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:22, AutomationMLBaseInterface ]
+    - [ UAObjectType, AMLLibs:22, AMLLibs:AutomationMLBaseInterface ]
 
   COLLADAInterface:
-  - [ UAObjectType, AMLLibs:52, COLLADAInterface ]
+  - [ UAObjectType, AMLLibs:52, AMLLibs:COLLADAInterface ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:37, ExternalDataConnector ]
+    - [ UAObjectType, AMLLibs:37, AMLLibs:ExternalDataConnector ]
 
   PLCopenXMLInterface:
-  - [ UAObjectType, AMLLibs:55, PLCopenXMLInterface ]
+  - [ UAObjectType, AMLLibs:55, AMLLibs:PLCopenXMLInterface ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:37, ExternalDataConnector ]
+    - [ UAObjectType, AMLLibs:37, AMLLibs:ExternalDataConnector ]
 
   LogicInterface:
-  - [ UAObjectType, AMLLibs:58, LogicInterface ]
+  - [ UAObjectType, AMLLibs:58, AMLLibs:LogicInterface ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:55, PLCopenXMLInterface ]
+    - [ UAObjectType, AMLLibs:55, AMLLibs:PLCopenXMLInterface ]
 
   VariableInterface:
-  - [ UAObjectType, AMLLibs:61, VariableInterface ]
+  - [ UAObjectType, AMLLibs:61, AMLLibs:VariableInterface ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:55, PLCopenXMLInterface ]
+    - [ UAObjectType, AMLLibs:55, AMLLibs:PLCopenXMLInterface ]
 
   InterlockingVariableInterface:
-  - [ UAObjectType, AMLLibs:64, InterlockingVariableInterface ]
+  - [ UAObjectType, AMLLibs:64, AMLLibs:InterlockingVariableInterface ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:61, VariableInterface ]
+    - [ UAObjectType, AMLLibs:61, AMLLibs:VariableInterface ]
   - HasComponent:
-    - [ UAVariable, AMLLibs:67, SafeConditionEquals, Boolean, 0, 0 ]
+    - [ UAVariable, AMLLibs:67, AMLLibs:SafeConditionEquals, Boolean, 0, 0 ]
 
   SignalInterface:
-  - [ UAObjectType, AMLLibs:71, SignalInterface ]
+  - [ UAObjectType, AMLLibs:71, AMLLibs:SignalInterface ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:40, Communication ]
+    - [ UAObjectType, AMLLibs:40, AMLLibs:Communication ]
 
   AutomationMLBaseRole:
-  - [ UAObjectType, AMLLibs:74, AutomationMLBaseRole ]
+  - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
 
   Group:
-  - [ UAObjectType, AMLLibs:77, Group ]
+  - [ UAObjectType, AMLLibs:77, AMLLibs:Group ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:74, AutomationMLBaseRole ]
+    - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
   - HasComponent:
-    - [ UAVariable, AMLLibs:104, AssociatedFacet, String, 0, 0 ]
+    - [ UAVariable, AMLLibs:104, AMLLibs:AssociatedFacet, String, 0, 0 ]
 
   Facet:
-  - [ UAObjectType, AMLLibs:80, Facet ]
+  - [ UAObjectType, AMLLibs:80, AMLLibs:Facet ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:74, AutomationMLBaseRole ]
+    - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
 
   Port:
-  - [ UAObjectType, AMLLibs:83, Port ]
+  - [ UAObjectType, AMLLibs:83, AMLLibs:Port ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:74, AutomationMLBaseRole ]
+    - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
   - HasComponent:
-    - [ UAVariable, AMLLibs:113, Direction, String, 0, 0 ]
+    - [ UAVariable, AMLLibs:113, AMLLibs:Direction, String, 0, 0 ]
   - HasComponent:
-    - [ UAVariable, AMLLibs:116, Cardinality, String, 0, 0 ]
+    - [ UAVariable, AMLLibs:116, AMLLibs:Cardinality, String, 0, 0 ]
     - HasComponent:
-      - [ UAVariable, AMLLibs:125, MinOccur, UInt32, 0, 0 ]
+      - [ UAVariable, AMLLibs:125, AMLLibs:MinOccur, UInt32, 0, 0 ]
     - HasComponent:
-      - [ UAVariable, AMLLibs:128, MaxOccur, UInt32, 0, 0 ]
+      - [ UAVariable, AMLLibs:128, AMLLibs:MaxOccur, UInt32, 0, 0 ]
   - HasComponent:
-    - [ UAVariable, AMLLibs:119, Category, String, 0, 0 ]
+    - [ UAVariable, AMLLibs:119, AMLLibs:Category, String, 0, 0 ]
   - HasComponent:
-    - [ UAObject, AMLLibs:122, ConnectionPoint ]
+    - [ UAObject, AMLLibs:122, AMLLibs:ConnectionPoint ]
     - HasTypeDefinition:
-      - [ UAObjectType, AMLLibs:28, PortConnector ]
+      - [ UAObjectType, AMLLibs:28, AMLLibs:PortConnector ]
 
   Resource:
-  - [ UAObjectType, AMLLibs:86, Resource ]
+  - [ UAObjectType, AMLLibs:86, AMLLibs:Resource ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:74, AutomationMLBaseRole ]
+    - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
 
   Product:
-  - [ UAObjectType, AMLLibs:89, Product ]
+  - [ UAObjectType, AMLLibs:89, AMLLibs:Product ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:74, AutomationMLBaseRole ]
+    - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
 
   Process:
-  - [ UAObjectType, AMLLibs:92, Process ]
+  - [ UAObjectType, AMLLibs:92, AMLLibs:Process ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:74, AutomationMLBaseRole ]
+    - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
 
   Structure:
-  - [ UAObjectType, AMLLibs:95, Structure ]
+  - [ UAObjectType, AMLLibs:95, AMLLibs:Structure ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:74, AutomationMLBaseRole ]
+    - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
 
   PropertySet:
-  - [ UAObjectType, AMLLibs:98, PropertySet ]
+  - [ UAObjectType, AMLLibs:98, AMLLibs:PropertySet ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:74, AutomationMLBaseRole ]
+    - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
 
   Frame:
-  - [ UAObjectType, AMLLibs:101, Frame ]
+  - [ UAObjectType, AMLLibs:101, AMLLibs:Frame ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:74, AutomationMLBaseRole ]
+    - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
 
   SignalGroup:
-  - [ UAObjectType, AMLLibs:107, SignalGroup ]
+  - [ UAObjectType, AMLLibs:107, AMLLibs:SignalGroup ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:77, Group ]
+    - [ UAObjectType, AMLLibs:77, AMLLibs:Group ]
 
   ComponentGroup:
-  - [ UAObjectType, AMLLibs:110, ComponentGroup ]
+  - [ UAObjectType, AMLLibs:110, AMLLibs:ComponentGroup ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:77, Group ]
+    - [ UAObjectType, AMLLibs:77, AMLLibs:Group ]
 
   ProductStructure:
-  - [ UAObjectType, AMLLibs:131, ProductStructure ]
+  - [ UAObjectType, AMLLibs:131, AMLLibs:ProductStructure ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:95, Structure ]
+    - [ UAObjectType, AMLLibs:95, AMLLibs:Structure ]
 
   ProcessStructure:
-  - [ UAObjectType, AMLLibs:134, ProcessStructure ]
+  - [ UAObjectType, AMLLibs:134, AMLLibs:ProcessStructure ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:95, Structure ]
+    - [ UAObjectType, AMLLibs:95, AMLLibs:Structure ]
 
   ResourceStructure:
-  - [ UAObjectType, AMLLibs:137, ResourceStructure ]
+  - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:95, Structure ]
+    - [ UAObjectType, AMLLibs:95, AMLLibs:Structure ]
 
   BatchManufacturingEquipment:
-  - [ UAObjectType, AMLLibs:140, BatchManufacturingEquipment ]
+  - [ UAObjectType, AMLLibs:140, AMLLibs:BatchManufacturingEquipment ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
 
   ContManufacturingEquipment:
-  - [ UAObjectType, AMLLibs:143, ContManufacturingEquipment ]
+  - [ UAObjectType, AMLLibs:143, AMLLibs:ContManufacturingEquipment ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
 
   DiscManufacturingEquipment:
-  - [ UAObjectType, AMLLibs:146, DiscManufacturingEquipment ]
+  - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:86, Resource ]
+    - [ UAObjectType, AMLLibs:86, AMLLibs:Resource ]
 
   Transport:
-  - [ UAObjectType, AMLLibs:149, Transport ]
+  - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:146, DiscManufacturingEquipment ]
+    - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   Storage:
-  - [ UAObjectType, AMLLibs:152, Storage ]
+  - [ UAObjectType, AMLLibs:152, AMLLibs:Storage ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:146, DiscManufacturingEquipment ]
+    - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   Fixture:
-  - [ UAObjectType, AMLLibs:155, Fixture ]
+  - [ UAObjectType, AMLLibs:155, AMLLibs:Fixture ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:146, DiscManufacturingEquipment ]
+    - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   Gate:
-  - [ UAObjectType, AMLLibs:158, Gate ]
+  - [ UAObjectType, AMLLibs:158, AMLLibs:Gate ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:146, DiscManufacturingEquipment ]
+    - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   Robot:
-  - [ UAObjectType, AMLLibs:161, Robot ]
+  - [ UAObjectType, AMLLibs:161, AMLLibs:Robot ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:146, DiscManufacturingEquipment ]
+    - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   Tool:
-  - [ UAObjectType, AMLLibs:164, Tool ]
+  - [ UAObjectType, AMLLibs:164, AMLLibs:Tool ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:146, DiscManufacturingEquipment ]
+    - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   Carrier:
-  - [ UAObjectType, AMLLibs:167, Carrier ]
+  - [ UAObjectType, AMLLibs:167, AMLLibs:Carrier ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:146, DiscManufacturingEquipment ]
+    - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   Machine:
-  - [ UAObjectType, AMLLibs:170, Machine ]
+  - [ UAObjectType, AMLLibs:170, AMLLibs:Machine ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:146, DiscManufacturingEquipment ]
+    - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   StaticObject:
-  - [ UAObjectType, AMLLibs:173, StaticObject ]
+  - [ UAObjectType, AMLLibs:173, AMLLibs:StaticObject ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:146, DiscManufacturingEquipment ]
+    - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   ControlEquipment:
-  - [ UAObjectType, AMLLibs:176, ControlEquipment ]
+  - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:86, Resource ]
+    - [ UAObjectType, AMLLibs:86, AMLLibs:Resource ]
 
   ControlHardware:
-  - [ UAObjectType, AMLLibs:182, ControlHardware ]
+  - [ UAObjectType, AMLLibs:182, AMLLibs:ControlHardware ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:176, ControlEquipment ]
+    - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   Sensor:
-  - [ UAObjectType, AMLLibs:185, Sensor ]
+  - [ UAObjectType, AMLLibs:185, AMLLibs:Sensor ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:176, ControlEquipment ]
+    - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   Actuator:
-  - [ UAObjectType, AMLLibs:188, Actuator ]
+  - [ UAObjectType, AMLLibs:188, AMLLibs:Actuator ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:176, ControlEquipment ]
+    - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   Controller:
-  - [ UAObjectType, AMLLibs:191, Controller ]
+  - [ UAObjectType, AMLLibs:191, AMLLibs:Controller ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:176, ControlEquipment ]
+    - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   PC:
-  - [ UAObjectType, AMLLibs:194, PC ]
+  - [ UAObjectType, AMLLibs:194, AMLLibs:PC ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:182, ControlHardware ]
+    - [ UAObjectType, AMLLibs:182, AMLLibs:ControlHardware ]
 
   IPC:
-  - [ UAObjectType, AMLLibs:197, IPC ]
+  - [ UAObjectType, AMLLibs:197, AMLLibs:IPC ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:182, ControlHardware ]
+    - [ UAObjectType, AMLLibs:182, AMLLibs:ControlHardware ]
 
   EmbeddedDevice:
-  - [ UAObjectType, AMLLibs:200, EmbeddedDevice ]
+  - [ UAObjectType, AMLLibs:200, AMLLibs:EmbeddedDevice ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:182, ControlHardware ]
+    - [ UAObjectType, AMLLibs:182, AMLLibs:ControlHardware ]
 
   Handheld:
-  - [ UAObjectType, AMLLibs:203, Handheld ]
+  - [ UAObjectType, AMLLibs:203, AMLLibs:Handheld ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:182, ControlHardware ]
+    - [ UAObjectType, AMLLibs:182, AMLLibs:ControlHardware ]
 
   PLC:
-  - [ UAObjectType, AMLLibs:206, PLC ]
+  - [ UAObjectType, AMLLibs:206, AMLLibs:PLC ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:191, Controller ]
+    - [ UAObjectType, AMLLibs:191, AMLLibs:Controller ]
 
   NC:
-  - [ UAObjectType, AMLLibs:209, NC ]
+  - [ UAObjectType, AMLLibs:209, AMLLibs:NC ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:191, Controller ]
+    - [ UAObjectType, AMLLibs:191, AMLLibs:Controller ]
 
   RC:
-  - [ UAObjectType, AMLLibs:212, RC ]
+  - [ UAObjectType, AMLLibs:212, AMLLibs:RC ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:191, Controller ]
+    - [ UAObjectType, AMLLibs:191, AMLLibs:Controller ]
 
   PAC:
-  - [ UAObjectType, AMLLibs:215, PAC ]
+  - [ UAObjectType, AMLLibs:215, AMLLibs:PAC ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:191, Controller ]
+    - [ UAObjectType, AMLLibs:191, AMLLibs:Controller ]
 
   PLCFacet:
-  - [ UAObjectType, AMLLibs:218, PLCFacet ]
+  - [ UAObjectType, AMLLibs:218, AMLLibs:PLCFacet ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:80, Facet ]
+    - [ UAObjectType, AMLLibs:80, AMLLibs:Facet ]
 
   HMIFacet:
-  - [ UAObjectType, AMLLibs:221, HMIFacet ]
+  - [ UAObjectType, AMLLibs:221, AMLLibs:HMIFacet ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:80, Facet ]
+    - [ UAObjectType, AMLLibs:80, AMLLibs:Facet ]
 
   Enterprise:
-  - [ UAObjectType, AMLLibs:224, Enterprise ]
+  - [ UAObjectType, AMLLibs:224, AMLLibs:Enterprise ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:137, ResourceStructure ]
+    - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   Site:
-  - [ UAObjectType, AMLLibs:227, Site ]
+  - [ UAObjectType, AMLLibs:227, AMLLibs:Site ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:137, ResourceStructure ]
+    - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   Area:
-  - [ UAObjectType, AMLLibs:230, Area ]
+  - [ UAObjectType, AMLLibs:230, AMLLibs:Area ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:137, ResourceStructure ]
+    - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   ProductionLine:
-  - [ UAObjectType, AMLLibs:233, ProductionLine ]
+  - [ UAObjectType, AMLLibs:233, AMLLibs:ProductionLine ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:137, ResourceStructure ]
+    - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   WorkCell:
-  - [ UAObjectType, AMLLibs:236, WorkCell ]
+  - [ UAObjectType, AMLLibs:236, AMLLibs:WorkCell ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:137, ResourceStructure ]
+    - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   ProcessCell:
-  - [ UAObjectType, AMLLibs:239, ProcessCell ]
+  - [ UAObjectType, AMLLibs:239, AMLLibs:ProcessCell ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:137, ResourceStructure ]
+    - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   Unit:
-  - [ UAObjectType, AMLLibs:242, Unit ]
+  - [ UAObjectType, AMLLibs:242, AMLLibs:Unit ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:137, ResourceStructure ]
+    - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   ProductionUnit:
-  - [ UAObjectType, AMLLibs:245, ProductionUnit ]
+  - [ UAObjectType, AMLLibs:245, AMLLibs:ProductionUnit ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:137, ResourceStructure ]
+    - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   StorageZone:
-  - [ UAObjectType, AMLLibs:248, StorageZone ]
+  - [ UAObjectType, AMLLibs:248, AMLLibs:StorageZone ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:137, ResourceStructure ]
+    - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   StorageUnit:
-  - [ UAObjectType, AMLLibs:251, StorageUnit ]
+  - [ UAObjectType, AMLLibs:251, AMLLibs:StorageUnit ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:137, ResourceStructure ]
+    - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   Turntable:
-  - [ UAObjectType, AMLLibs:254, Turntable ]
+  - [ UAObjectType, AMLLibs:254, AMLLibs:Turntable ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:149, Transport ]
+    - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
 
   Conveyor:
-  - [ UAObjectType, AMLLibs:257, Conveyor ]
+  - [ UAObjectType, AMLLibs:257, AMLLibs:Conveyor ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:149, Transport ]
+    - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
 
   LiftingTable:
-  - [ UAObjectType, AMLLibs:260, LiftingTable ]
+  - [ UAObjectType, AMLLibs:260, AMLLibs:LiftingTable ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:149, Transport ]
+    - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
 
   AGV:
-  - [ UAObjectType, AMLLibs:263, AGV ]
+  - [ UAObjectType, AMLLibs:263, AMLLibs:AGV ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:149, Transport ]
+    - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
 
   Transposer:
-  - [ UAObjectType, AMLLibs:266, Transposer ]
+  - [ UAObjectType, AMLLibs:266, AMLLibs:Transposer ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:149, Transport ]
+    - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
 
   CarrierHandlingSystem:
-  - [ UAObjectType, AMLLibs:269, CarrierHandlingSystem ]
+  - [ UAObjectType, AMLLibs:269, AMLLibs:CarrierHandlingSystem ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:149, Transport ]
+    - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
 
   BodyStore:
-  - [ UAObjectType, AMLLibs:272, BodyStore ]
+  - [ UAObjectType, AMLLibs:272, AMLLibs:BodyStore ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:152, Storage ]
+    - [ UAObjectType, AMLLibs:152, AMLLibs:Storage ]
 
   Lift:
-  - [ UAObjectType, AMLLibs:275, Lift ]
+  - [ UAObjectType, AMLLibs:275, AMLLibs:Lift ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:149, Transport ]
+    - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
 
   Rollerbed:
-  - [ UAObjectType, AMLLibs:278, Rollerbed ]
+  - [ UAObjectType, AMLLibs:278, AMLLibs:Rollerbed ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:149, Transport ]
+    - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
 
   StationaryTool:
-  - [ UAObjectType, AMLLibs:281, StationaryTool ]
+  - [ UAObjectType, AMLLibs:281, AMLLibs:StationaryTool ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:164, Tool ]
+    - [ UAObjectType, AMLLibs:164, AMLLibs:Tool ]
 
   MovableTool:
-  - [ UAObjectType, AMLLibs:284, MovableTool ]
+  - [ UAObjectType, AMLLibs:284, AMLLibs:MovableTool ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:164, Tool ]
+    - [ UAObjectType, AMLLibs:164, AMLLibs:Tool ]
 
   ControlCabinet:
-  - [ UAObjectType, AMLLibs:287, ControlCabinet ]
+  - [ UAObjectType, AMLLibs:287, AMLLibs:ControlCabinet ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:176, ControlEquipment ]
+    - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   IODevice:
-  - [ UAObjectType, AMLLibs:290, IODevice ]
+  - [ UAObjectType, AMLLibs:290, AMLLibs:IODevice ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:176, ControlEquipment ]
+    - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   HMI:
-  - [ UAObjectType, AMLLibs:293, HMI ]
+  - [ UAObjectType, AMLLibs:293, AMLLibs:HMI ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:176, ControlEquipment ]
+    - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   ActuatingDrive:
-  - [ UAObjectType, AMLLibs:296, ActuatingDrive ]
+  - [ UAObjectType, AMLLibs:296, AMLLibs:ActuatingDrive ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:188, Actuator ]
+    - [ UAObjectType, AMLLibs:188, AMLLibs:Actuator ]
 
   MotionController:
-  - [ UAObjectType, AMLLibs:299, MotionController ]
+  - [ UAObjectType, AMLLibs:299, AMLLibs:MotionController ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:176, ControlEquipment ]
+    - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   Panel:
-  - [ UAObjectType, AMLLibs:302, Panel ]
+  - [ UAObjectType, AMLLibs:302, AMLLibs:Panel ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:182, ControlHardware ]
+    - [ UAObjectType, AMLLibs:182, AMLLibs:ControlHardware ]
 
   MeasuringEquipment:
-  - [ UAObjectType, AMLLibs:305, MeasuringEquipment ]
+  - [ UAObjectType, AMLLibs:305, AMLLibs:MeasuringEquipment ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:86, Resource ]
+    - [ UAObjectType, AMLLibs:86, AMLLibs:Resource ]
 
   Clamp:
-  - [ UAObjectType, AMLLibs:308, Clamp ]
+  - [ UAObjectType, AMLLibs:308, AMLLibs:Clamp ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:155, Fixture ]
+    - [ UAObjectType, AMLLibs:155, AMLLibs:Fixture ]
 
   ProcessController:
-  - [ UAObjectType, AMLLibs:311, ProcessController ]
+  - [ UAObjectType, AMLLibs:311, AMLLibs:ProcessController ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:191, Controller ]
+    - [ UAObjectType, AMLLibs:191, AMLLibs:Controller ]
 
   Loader:
-  - [ UAObjectType, AMLLibs:314, Loader ]
+  - [ UAObjectType, AMLLibs:314, AMLLibs:Loader ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:152, Storage ]
+    - [ UAObjectType, AMLLibs:152, AMLLibs:Storage ]
 
   Unloader:
-  - [ UAObjectType, AMLLibs:317, Unloader ]
+  - [ UAObjectType, AMLLibs:317, AMLLibs:Unloader ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:152, Storage ]
+    - [ UAObjectType, AMLLibs:152, AMLLibs:Storage ]
 
   BeltConveyor:
-  - [ UAObjectType, AMLLibs:320, BeltConveyor ]
+  - [ UAObjectType, AMLLibs:320, AMLLibs:BeltConveyor ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:257, Conveyor ]
+    - [ UAObjectType, AMLLibs:257, AMLLibs:Conveyor ]
 
   RollConveyor:
-  - [ UAObjectType, AMLLibs:323, RollConveyor ]
+  - [ UAObjectType, AMLLibs:323, AMLLibs:RollConveyor ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:257, Conveyor ]
+    - [ UAObjectType, AMLLibs:257, AMLLibs:Conveyor ]
 
   ChainConveyor:
-  - [ UAObjectType, AMLLibs:326, ChainConveyor ]
+  - [ UAObjectType, AMLLibs:326, AMLLibs:ChainConveyor ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:257, Conveyor ]
+    - [ UAObjectType, AMLLibs:257, AMLLibs:Conveyor ]
 
   PalletConveyor:
-  - [ UAObjectType, AMLLibs:329, PalletConveyor ]
+  - [ UAObjectType, AMLLibs:329, AMLLibs:PalletConveyor ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:257, Conveyor ]
+    - [ UAObjectType, AMLLibs:257, AMLLibs:Conveyor ]
 
   OverheadConveyor:
-  - [ UAObjectType, AMLLibs:332, OverheadConveyor ]
+  - [ UAObjectType, AMLLibs:332, AMLLibs:OverheadConveyor ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:257, Conveyor ]
+    - [ UAObjectType, AMLLibs:257, AMLLibs:Conveyor ]
 
   WarningEquipment:
-  - [ UAObjectType, AMLLibs:335, WarningEquipment ]
+  - [ UAObjectType, AMLLibs:335, AMLLibs:WarningEquipment ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLLibs:293, HMI ]
+    - [ UAObjectType, AMLLibs:293, AMLLibs:HMI ]

@@ -123,13 +123,13 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, Scheduler:40, Scheduler:AddDateListElements ]
     - HasProperty:
-      - [ UAVariable, Scheduler:41, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scheduler:41, Scheduler:InputArguments, Argument, 1, 0 ]
       - Arguments:
           CalendarEntries: [ Scheduler:CalendarEntryType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Scheduler:42, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scheduler:42, Scheduler:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           EntryResults: [ Int32, 1 ]
       - HasModellingRule:
@@ -139,13 +139,13 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, Scheduler:43, Scheduler:RemoveDateListElements ]
     - HasProperty:
-      - [ UAVariable, Scheduler:44, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scheduler:44, Scheduler:InputArguments, Argument, 1, 0 ]
       - Arguments:
           CalendarEntries: [ Scheduler:CalendarEntryType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Scheduler:45, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scheduler:45, Scheduler:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           EntryResults: [ Int32, 1 ]
       - HasModellingRule:
@@ -160,13 +160,13 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, Scheduler:54, Scheduler:AddExceptionScheduleElements ]
     - HasProperty:
-      - [ UAVariable, Scheduler:55, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scheduler:55, Scheduler:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SpecialEvents: [ Scheduler:SpecialEventType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Scheduler:56, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scheduler:56, Scheduler:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           EntryResults: [ Int32, 1 ]
       - HasModellingRule:
@@ -176,13 +176,13 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, Scheduler:57, Scheduler:RemoveExceptionScheduleElements ]
     - HasProperty:
-      - [ UAVariable, Scheduler:58, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scheduler:58, Scheduler:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SpecialEvents: [ Scheduler:SpecialEventType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Scheduler:59, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Scheduler:59, Scheduler:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           EntryResults: [ Int32, 1 ]
       - HasModellingRule:

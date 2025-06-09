@@ -159,7 +159,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNENC:7008, PNENC:SetAxisConfig ]
     - HasProperty:
-      - [ UAVariable, PNENC:6066, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNENC:6066, PNENC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           AxisConfigParameters: [ KeyValuePair, 1 ]
       - HasModellingRule:
@@ -167,7 +167,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PNENC:6067, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNENC:6067, PNENC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           AxisConfigParametersResult: [ KeyValuePair, 1 ]
       - HasModellingRule:
@@ -290,7 +290,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNENC:7001, PNENC:SetApplicationTag ]
     - HasProperty:
-      - [ UAVariable, PNENC:6002, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNENC:6002, PNENC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplicationTag: [ String, 0 ]
       - HasModellingRule:
@@ -325,7 +325,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNENC:7007, PNENC:SetControlConfig ]
     - HasProperty:
-      - [ UAVariable, PNENC:6057, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNENC:6057, PNENC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ControlConfigParameters: [ KeyValuePair, 1 ]
       - HasModellingRule:
@@ -333,7 +333,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PNENC:6058, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNENC:6058, PNENC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ControlConfigParametersResult: [ KeyValuePair, 1 ]
       - HasModellingRule:
@@ -380,7 +380,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNENC:7006, PNENC:SetSensorConfig ]
     - HasProperty:
-      - [ UAVariable, PNENC:6052, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNENC:6052, PNENC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SensorConfigParameters: [ KeyValuePair, 1 ]
       - HasModellingRule:
@@ -388,7 +388,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PNENC:6053, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNENC:6053, PNENC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           SensorConfigParametersResult: [ KeyValuePair, 1 ]
       - HasModellingRule:
@@ -405,7 +405,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNENC:7019, PNENC:PresetControl ]
     - HasProperty:
-      - [ UAVariable, PNENC:6086, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNENC:6086, PNENC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           PresetValue: [ Number, 0 ]
       - HasModellingRule:
@@ -436,7 +436,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PNENC:6074, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNENC:6074, PNENC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ActiveDiagnosis: [ PNENC:LogEntryDataType, 1 ]
       - HasModellingRule:
@@ -446,7 +446,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PNENC:6071, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNENC:6071, PNENC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           CurrentLogEntries: [ PNENC:LogEntryDataType, 1 ]
       - HasModellingRule:
@@ -454,7 +454,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNENC:7010, PNENC:GetFilteredLogbookEntries ]
     - HasProperty:
-      - [ UAVariable, PNENC:6070, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNENC:6070, PNENC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           LogbookFilterOptions: [ Byte, 0 ]
           FaultSituationNumber: [ Byte, 0 ]
@@ -466,7 +466,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PNENC:6033, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNENC:6033, PNENC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FilteredLogEntries: [ PNENC:LogEntryDataType, 1 ]
       - HasModellingRule:
@@ -474,7 +474,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNENC:7012, PNENC:GetHistoricFaultSituation ]
     - HasProperty:
-      - [ UAVariable, PNENC:6072, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNENC:6072, PNENC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           FaultSituationNumber: [ Byte, 0 ]
       - HasModellingRule:
@@ -482,7 +482,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PNENC:6073, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNENC:6073, PNENC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           HistoricLogEntries: [ PNENC:LogEntryDataType, 1 ]
       - HasModellingRule:

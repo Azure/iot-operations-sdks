@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -406,23 +407,26 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "VolumeFlowRate" ],
       "name": "BalancingRateOfFlow",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "cubicMetrePerSecond",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Pressure" ],
       "name": "BasePressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "pascal",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Volume" ],
       "name": "ClearanceVolume",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "cubicMetre",
       "schema": "double",
       "writable": false
     },
@@ -441,9 +445,10 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "Cool_DownTimeForAVaporJetPumpOrADiffusionPump",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "second",
       "schema": "double",
       "writable": false
     },
@@ -476,16 +481,18 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Force" ],
       "name": "DesignAxialLoad",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "newton",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Force" ],
       "name": "DesignRadialLoad",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "newton",
       "schema": "double",
       "writable": false
     },
@@ -511,44 +518,50 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "VolumeFlowRate" ],
       "name": "GeometricalFlow",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "cubicMetrePerSecond",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Volume" ],
       "name": "GeometricDisplacementVolume",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "cubicMetre",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Length" ],
       "name": "HeadAtPeakPoint",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "metre",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "VolumeFlowRate" ],
       "name": "LeakageRateOfFlow",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "cubicMetrePerSecond",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "MaximumAllowableAmbientTemperature",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "kelvin",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Pressure" ],
       "name": "MaximumAllowableCasingWorkingPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "pascal",
       "schema": "double",
       "writable": false
     },
@@ -560,9 +573,10 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Length" ],
       "name": "MaximumAllowableHead",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "metre",
       "schema": "double",
       "writable": false
     },
@@ -574,9 +588,10 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "MaximumAllowableTemperature",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "kelvin",
       "schema": "double",
       "writable": false
     },
@@ -588,51 +603,58 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Pressure" ],
       "name": "MaximumAllowableWorkingPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "pascal",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Force" ],
       "name": "MaximumAxialLoad",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "newton",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Power" ],
       "name": "MaximumPumpPowerInput",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "watt",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Force" ],
       "name": "MaximumRadialLoad",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "newton",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Pressure" ],
       "name": "MaximumStaticSealingPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "pascal",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "MeanTimebetweenFailures",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "hour",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "MinimumAllowableAmbientTemperature",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "kelvin",
       "schema": "double",
       "writable": false
     },
@@ -644,9 +666,10 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Length" ],
       "name": "MinimumAllowableHead",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "metre",
       "schema": "double",
       "writable": false
     },
@@ -658,44 +681,50 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "MinimumAllowableTemperature",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "kelvin",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "VolumeFlowRate" ],
       "name": "MinimumAllowableThermalFlow",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "cubicMetrePerSecond",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "VolumeFlowRate" ],
       "name": "MinimumContinuousStableFlow",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "cubicMetrePerSecond",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "VolumeFlowRate" ],
       "name": "MinimumContinuousThermalFlow",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "cubicMetrePerSecond",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Length" ],
       "name": "NetPositiveSuctionHeadRequired",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "metre",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Length" ],
       "name": "NetPositiveSuctionHeadRequiredForADropOf3Percent",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "metre",
       "schema": "double",
       "writable": false
     },
@@ -714,30 +743,34 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Length" ],
       "name": "OptimumHead",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "metre",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Power" ],
       "name": "OptimumPumpPowerInput",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "watt",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "VolumeFlowRate" ],
       "name": "OptimumRateOfFlow",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "cubicMetrePerSecond",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Velocity" ],
       "name": "PistonVelocity",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "metrePerSecond",
       "schema": "double",
       "writable": false
     },
@@ -752,9 +785,10 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Pressure" ],
       "name": "Pre_ChargePressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "pascal",
       "schema": "double",
       "writable": false
     },
@@ -766,65 +800,74 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Length" ],
       "name": "Shut_OffHead",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "metre",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Power" ],
       "name": "Shut_OffPumpPowerInput",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "watt",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "VolumeFlowRate" ],
       "name": "SlipFlow",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "cubicMetrePerSecond",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Energy" ],
       "name": "SoundEnergy",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "joule",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "SoundPressure" ],
       "name": "SoundEnergyLevel",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "decibel",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Power" ],
       "name": "SoundPower",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "watt",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "SoundPressure" ],
       "name": "SoundPowerLevel",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "decibel",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Pressure" ],
       "name": "SoundPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "pascal",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "SoundPressure" ],
       "name": "SoundPressureLevel",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "decibel",
       "schema": "double",
       "writable": false
     },
@@ -836,16 +879,18 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "VolumeFlowRate" ],
       "name": "StandardGasFlowrate",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "cubicMetrePerSecond",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Pressure" ],
       "name": "StartingPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "pascal",
       "schema": "double",
       "writable": false
     },
@@ -857,9 +902,10 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Volume" ],
       "name": "SweptVolume",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "cubicMetre",
       "schema": "double",
       "writable": false
     },
@@ -878,30 +924,34 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "VolumeFlowRate" ],
       "name": "VolumeFlowRate",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "cubicMetrePerSecond",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "VolumeFlowRate" ],
       "name": "VolumeFlowRateOfBackingPump",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "cubicMetrePerSecond",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "WarmUpTimeForAVaporJetPumpOrADiffusionPump",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "second",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "MassFlowRate" ],
       "name": "WaterVaporTolerableLoad",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "kilogramPerSecond",
       "schema": "double",
       "writable": false
     },

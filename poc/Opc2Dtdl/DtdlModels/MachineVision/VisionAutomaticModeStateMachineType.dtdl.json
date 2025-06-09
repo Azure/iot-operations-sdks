@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -13,343 +14,32 @@
   "commandTopic": "opcua/MachineVision/VisionAutomaticModeStateMachineType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
-    {
-      "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:MeasIdDataType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Id",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Description",
-          "schema": "string"
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:PartIdDataType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Id",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Description",
-          "schema": "string"
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:BinaryIdBaseDataType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Id",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Version",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Hash",
-          "schema": "bytes"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "HashAlgorithm",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Description",
-          "schema": "string"
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:ProductIdDataType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Id",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Description",
-          "schema": "string"
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:JobIdDataType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Id",
-          "schema": "string"
-        }
-      ]
-    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "Abort",
-      "namespace": "http://opcfoundation.org/UA/MachineVision",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Cause",
-              "schema": "integer"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "CauseDescription",
-              "schema": "string"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Error",
-              "schema": "integer"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SimulationMode",
-      "namespace": "http://opcfoundation.org/UA/MachineVision",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Activate",
-              "schema": "boolean"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Cause",
-              "schema": "integer"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "CauseDescription",
-              "schema": "string"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Error",
-              "schema": "integer"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "StartContinuous",
-      "namespace": "http://opcfoundation.org/UA/MachineVision",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "MeasId",
-              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:MeasIdDataType;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "PartId",
-              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:PartIdDataType;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "RecipeId",
-              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:BinaryIdBaseDataType;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ProductId",
-              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:ProductIdDataType;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Parameters",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "string"
-              }
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "JobId",
-              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:JobIdDataType;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Error",
-              "schema": "integer"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "StartSingleJob",
-      "namespace": "http://opcfoundation.org/UA/MachineVision",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "MeasId",
-              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:MeasIdDataType;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "PartId",
-              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:PartIdDataType;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "RecipeId",
-              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:BinaryIdBaseDataType;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ProductId",
-              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:ProductIdDataType;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Parameters",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "string"
-              }
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "JobId",
-              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:JobIdDataType;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Error",
-              "schema": "integer"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "Stop",
-      "namespace": "http://opcfoundation.org/UA/MachineVision",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Cause",
-              "schema": "integer"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "CauseDescription",
-              "schema": "string"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Error",
-              "schema": "integer"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -225,7 +226,7 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Qualified", "Subject", "Required" ],
+            "@type": [ "Field", "Subject", "Qualified", "Required" ],
             "name": "ActualProductionRate",
             "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
@@ -248,7 +249,7 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Qualified", "Subject", "Required" ],
+            "@type": [ "Field", "Subject", "Qualified", "Required" ],
             "name": "NominalProductionRate",
             "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
@@ -278,7 +279,7 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Qualified", "Subject", "Required" ],
+            "@type": [ "Field", "Subject", "Qualified", "Required" ],
             "name": "ProducedMaterialMasterTotal",
             "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
@@ -301,7 +302,7 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Qualified", "Subject", "Required" ],
+            "@type": [ "Field", "Subject", "Qualified", "Required" ],
             "name": "ProducedMaterialTotal",
             "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"

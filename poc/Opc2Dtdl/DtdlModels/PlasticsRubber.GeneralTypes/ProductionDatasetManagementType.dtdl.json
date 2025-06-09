@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -13,162 +14,17 @@
   "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionDatasetManagementType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
-    {
-      "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType:dataType:ProductionDatasetInformationType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3006",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Name",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Description",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "MESId",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "CreationTimestamp",
-          "schema": "dateTime"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "LastModificationTimestamp",
-          "schema": "dateTime"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "LastSaveTimestamp",
-          "schema": "dateTime"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "UserName",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Components",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "unsignedShort"
-          }
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Manufacturer",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "SerialNumber",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Model",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ControllerName",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "UserMachineName",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "LocationName",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ProductName",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "string"
-          }
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "MouldId",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "NumCavities",
-          "schema": "unsignedInteger"
-        }
-      ]
-    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetProductionDatasetInformation",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "fileHandle",
-              "schema": "unsignedInteger"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Information",
-              "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType:dataType:ProductionDatasetInformationType;1"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SendProductionDatasetInformation",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "fileHandle",
-              "schema": "unsignedInteger"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Information",
-              "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType:dataType:ProductionDatasetInformationType;1"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

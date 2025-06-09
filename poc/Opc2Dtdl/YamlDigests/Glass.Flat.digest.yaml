@@ -1,11 +1,11 @@
 DataTypes:
-- UADataType: [ Glass.Flat:3009, CoatingClassEnumeration ]
+- UADataType: [ Glass.Flat:3009, Glass.Flat:CoatingClassEnumeration ]
   Enums:
     HardCoating: 0
     SoftCoating: 1
     CoatedWithFoilProtection: 2
     UserDefined: 3
-- UADataType: [ Glass.Flat:3008, CoordinateSystemEnumeration ]
+- UADataType: [ Glass.Flat:3008, Glass.Flat:CoordinateSystemEnumeration ]
   Enums:
     Unknown: 0
     System1: 1
@@ -16,32 +16,32 @@ DataTypes:
     System6: 6
     System7: 7
     System8: 8
-- UADataType: [ Glass.Flat:3003, SignificantSideEnumeration ]
+- UADataType: [ Glass.Flat:3003, Glass.Flat:SignificantSideEnumeration ]
   Enums:
     Indifferent: 0
     Top: 1
     Down: 2
-- UADataType: [ Glass.Flat:3005, SpacerMaterialClass ]
+- UADataType: [ Glass.Flat:3005, Glass.Flat:SpacerMaterialClass ]
   Enums:
     Other: 0
     Metalic: 1
     TPS: 2
     Plastic: 3
     Elastic: 4
-- UADataType: [ Glass.Flat:3004, StructureAlignmentEnumeration ]
+- UADataType: [ Glass.Flat:3004, Glass.Flat:StructureAlignmentEnumeration ]
   Enums:
     Indifferent: 0
     Longitudinal: 1
     Transverse: 2
-- UADataType: [ Glass.Flat:3002, LimitedString64 ]
+- UADataType: [ Glass.Flat:3002, Glass.Flat:LimitedString64 ]
   Bases:
   - String
-- UADataType: [ Glass.Flat:3007, FileFormatType ]
+- UADataType: [ Glass.Flat:3007, Glass.Flat:FileFormatType ]
   Fields:
     Name: [ String, 0 ]
     FileExtension: [ String, 0 ]
     Version: [ String, 0 ]
-- UADataType: [ Glass.Flat:3006, UserProfileType ]
+- UADataType: [ Glass.Flat:3006, Glass.Flat:UserProfileType ]
   Fields:
     Name: [ String, 0 ]
     LoginTime: [ DateTime, 0 ]
@@ -49,36 +49,36 @@ DataTypes:
     MeasurementFormat: [ String, 0 ]
     AccessLevel: [ String, 0 ]
     OpcUaUser: [ Boolean, 0 ]
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -88,197 +88,197 @@ DataTypes:
 
 DefinedTypes:
 
-  GlassEventType:
-  - [ UAObjectType, Glass.Flat:1030, GlassEventType ]
+  Glass.Flat:GlassEventType:
+  - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6405, Identifier, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6405, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1030, GlassEventType ]
+      - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6410, JobdIdentifier, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6410, Glass.Flat:JobdIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1030, GlassEventType ]
+      - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6406, Location, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6406, Glass.Flat:Location, Glass.Flat:LimitedString64, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1030, GlassEventType ]
+      - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6411, MaterialIdentifier, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6411, Glass.Flat:MaterialIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1030, GlassEventType ]
+      - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
 
-  CommunicationErrorEventType:
-  - [ UAObjectType, Glass.Flat:1040, CommunicationErrorEventType ]
+  Glass.Flat:CommunicationErrorEventType:
+  - [ UAObjectType, Glass.Flat:1040, Glass.Flat:CommunicationErrorEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1030, GlassEventType ]
+    - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
 
-  GlassMaterialEventType:
-  - [ UAObjectType, Glass.Flat:1031, GlassMaterialEventType ]
+  Glass.Flat:GlassMaterialEventType:
+  - [ UAObjectType, Glass.Flat:1031, Glass.Flat:GlassMaterialEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1030, GlassEventType ]
+    - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
 
-  MaterialExitEventType:
-  - [ UAObjectType, Glass.Flat:1025, MaterialExitEventType ]
+  Glass.Flat:MaterialExitEventType:
+  - [ UAObjectType, Glass.Flat:1025, Glass.Flat:MaterialExitEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1031, GlassMaterialEventType ]
+    - [ UAObjectType, Glass.Flat:1031, Glass.Flat:GlassMaterialEventType ]
 
-  MaterialMissingEventType:
-  - [ UAObjectType, Glass.Flat:1027, MaterialMissingEventType ]
+  Glass.Flat:MaterialMissingEventType:
+  - [ UAObjectType, Glass.Flat:1027, Glass.Flat:MaterialMissingEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1031, GlassMaterialEventType ]
+    - [ UAObjectType, Glass.Flat:1031, Glass.Flat:GlassMaterialEventType ]
 
-  MaterialReceivedEventType:
-  - [ UAObjectType, Glass.Flat:1026, MaterialReceivedEventType ]
+  Glass.Flat:MaterialReceivedEventType:
+  - [ UAObjectType, Glass.Flat:1026, Glass.Flat:MaterialReceivedEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1031, GlassMaterialEventType ]
+    - [ UAObjectType, Glass.Flat:1031, Glass.Flat:GlassMaterialEventType ]
 
-  IntermediateStepEvent:
-  - [ UAObjectType, Glass.Flat:1029, IntermediateStepEvent ]
+  Glass.Flat:IntermediateStepEvent:
+  - [ UAObjectType, Glass.Flat:1029, Glass.Flat:IntermediateStepEvent ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1030, GlassEventType ]
+    - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6412, ProcessStep, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6412, Glass.Flat:ProcessStep, Glass.Flat:LimitedString64, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1029, IntermediateStepEvent ]
+      - [ UAObjectType, Glass.Flat:1029, Glass.Flat:IntermediateStepEvent ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6413, Status, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6413, Glass.Flat:Status, Glass.Flat:LimitedString64, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1029, IntermediateStepEvent ]
+      - [ UAObjectType, Glass.Flat:1029, Glass.Flat:IntermediateStepEvent ]
 
-  InterruptedEventType:
-  - [ UAObjectType, Glass.Flat:1032, InterruptedEventType ]
+  Glass.Flat:InterruptedEventType:
+  - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1030, GlassEventType ]
+    - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6403, ProcessName, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6403, Glass.Flat:ProcessName, Glass.Flat:LimitedString64, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1032, InterruptedEventType ]
+      - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
 
-  EmergencyButtonPressedEventType:
-  - [ UAObjectType, Glass.Flat:1038, EmergencyButtonPressedEventType ]
+  Glass.Flat:EmergencyButtonPressedEventType:
+  - [ UAObjectType, Glass.Flat:1038, Glass.Flat:EmergencyButtonPressedEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1032, InterruptedEventType ]
+    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType ]
 
-  MotorTemperatureTooHighEventType:
-  - [ UAObjectType, Glass.Flat:1039, MotorTemperatureTooHighEventType ]
+  Glass.Flat:MotorTemperatureTooHighEventType:
+  - [ UAObjectType, Glass.Flat:1039, Glass.Flat:MotorTemperatureTooHighEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1032, InterruptedEventType ]
+    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType ]
 
-  OpenSecurityFenceType:
-  - [ UAObjectType, Glass.Flat:1033, OpenSecurityFenceType ]
+  Glass.Flat:OpenSecurityFenceType:
+  - [ UAObjectType, Glass.Flat:1033, Glass.Flat:OpenSecurityFenceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1032, InterruptedEventType ]
+    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType ]
 
-  OutOfJobEventType:
-  - [ UAObjectType, Glass.Flat:1036, OutOfJobEventType ]
+  Glass.Flat:OutOfJobEventType:
+  - [ UAObjectType, Glass.Flat:1036, Glass.Flat:OutOfJobEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1032, InterruptedEventType ]
+    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType ]
 
-  ProcessParameterOutOfRangeType:
-  - [ UAObjectType, Glass.Flat:1034, ProcessParameterOutOfRangeType ]
+  Glass.Flat:ProcessParameterOutOfRangeType:
+  - [ UAObjectType, Glass.Flat:1034, Glass.Flat:ProcessParameterOutOfRangeType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1032, InterruptedEventType ]
+    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType ]
 
-  ToolMissingEventType:
-  - [ UAObjectType, Glass.Flat:1035, ToolMissingEventType ]
+  Glass.Flat:ToolMissingEventType:
+  - [ UAObjectType, Glass.Flat:1035, Glass.Flat:ToolMissingEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1032, InterruptedEventType ]
+    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType ]
 
-  JobMovedEventType:
-  - [ UAObjectType, Glass.Flat:1037, JobMovedEventType ]
+  Glass.Flat:JobMovedEventType:
+  - [ UAObjectType, Glass.Flat:1037, Glass.Flat:JobMovedEventType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6404, JobdIdentifier, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6404, Glass.Flat:JobdIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1037, JobMovedEventType ]
+      - [ UAObjectType, Glass.Flat:1037, Glass.Flat:JobMovedEventType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1030, GlassEventType ]
+    - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6407, NewPosition, Number, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6407, Glass.Flat:NewPosition, Number, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1037, JobMovedEventType ]
+      - [ UAObjectType, Glass.Flat:1037, Glass.Flat:JobMovedEventType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
 
-  BaseMaterialType:
-  - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+  Glass.Flat:BaseMaterialType:
+  - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6017, Description, LocalizedText, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6017, Glass.Flat:Description, LocalizedText, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+      - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6002, Identifier, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6002, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+      - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6070, Location, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6070, Glass.Flat:Location, Glass.Flat:LimitedString64, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+      - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6003, MaterialIdentifier, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6003, Glass.Flat:MaterialIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+      - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6021, Weight, Double, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6021, Glass.Flat:Weight, Double, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6022, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6022, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6021, Weight, Double, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6021, Glass.Flat:Weight, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -286,15 +286,15 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+      - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6019, X, Double, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6019, Glass.Flat:X, Double, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6029, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6029, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6019, X, Double, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6019, Glass.Flat:X, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -302,15 +302,15 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+      - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6018, Y, Double, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6018, Glass.Flat:Y, Double, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6028, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6028, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6018, Y, Double, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6018, Glass.Flat:Y, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -318,15 +318,15 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+      - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6020, Z, Double, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6020, Glass.Flat:Z, Double, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6030, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6030, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6020, Z, Double, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6020, Glass.Flat:Z, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -334,25 +334,25 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+      - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
 
-  AssemblyType:
-  - [ UAObjectType, Glass.Flat:1002, AssemblyType ]
+  Glass.Flat:AssemblyType:
+  - [ UAObjectType, Glass.Flat:1002, Glass.Flat:AssemblyType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+    - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
 
-  FoilType:
-  - [ UAObjectType, Glass.Flat:1019, FoilType ]
+  Glass.Flat:FoilType:
+  - [ UAObjectType, Glass.Flat:1019, Glass.Flat:FoilType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+    - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6401, Z, Double, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6401, Glass.Flat:Z, Double, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6402, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6402, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6401, Z, Double, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6401, Glass.Flat:Z, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -360,137 +360,139 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1019, FoilType ]
+      - [ UAObjectType, Glass.Flat:1019, Glass.Flat:FoilType ]
 
-  GasMixType:
-  - [ UAObjectType, Glass.Flat:1010, GasMixType ]
+  Glass.Flat:GasMixType:
+  - [ UAObjectType, Glass.Flat:1010, Glass.Flat:GasMixType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5078, Gas_1 ]
+    - [ UAObject, Glass.Flat:5078, Glass.Flat:Gas_1 ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+      - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1010, GasMixType ]
+      - [ UAObjectType, Glass.Flat:1010, Glass.Flat:GasMixType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6383, Identifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6383, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5078, Gas_1 ]
+        - [ UAObject, Glass.Flat:5078, Glass.Flat:Gas_1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6169, Location, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6169, Glass.Flat:Location, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5078, Gas_1 ]
+        - [ UAObject, Glass.Flat:5078, Glass.Flat:Gas_1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6382, MaterialIdentifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6382, Glass.Flat:MaterialIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5078, Gas_1 ]
+        - [ UAObject, Glass.Flat:5078, Glass.Flat:Gas_1 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5079, Gas_2 ]
+    - [ UAObject, Glass.Flat:5079, Glass.Flat:Gas_2 ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+      - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1010, GasMixType ]
+      - [ UAObjectType, Glass.Flat:1010, Glass.Flat:GasMixType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6386, Identifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6386, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5079, Gas_2 ]
+        - [ UAObject, Glass.Flat:5079, Glass.Flat:Gas_2 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6384, Location, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6384, Glass.Flat:Location, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5079, Gas_2 ]
+        - [ UAObject, Glass.Flat:5079, Glass.Flat:Gas_2 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6385, MaterialIdentifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6385, Glass.Flat:MaterialIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5079, Gas_2 ]
+        - [ UAObject, Glass.Flat:5079, Glass.Flat:Gas_2 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6116, GasFilling, Number, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6116, Glass.Flat:GasFilling, Number, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6117, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6117, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6116, GasFilling, Number, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6116, Glass.Flat:GasFilling, Number, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6059, EURange, Range, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6059, Glass.Flat:EURange, Range, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6116, GasFilling, Number, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6116, Glass.Flat:GasFilling, Number, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1010, GasMixType ]
+      - [ UAObjectType, Glass.Flat:1010, Glass.Flat:GasMixType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+    - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6118, MixingRatio, Number, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6118, Glass.Flat:MixingRatio, Number, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6119, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6119, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6118, MixingRatio, Number, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6118, Glass.Flat:MixingRatio, Number, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6060, EURange, Range, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6060, Glass.Flat:EURange, Range, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6118, MixingRatio, Number, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6118, Glass.Flat:MixingRatio, Number, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1010, GasMixType ]
+      - [ UAObjectType, Glass.Flat:1010, Glass.Flat:GasMixType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  GlassType:
-  - [ UAObjectType, Glass.Flat:1011, GlassType ]
+  Glass.Flat:GlassType:
+  - [ UAObjectType, Glass.Flat:1011, Glass.Flat:GlassType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6207, Absorption, Number, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6207, Glass.Flat:Absorption, Number, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1011, GlassType ]
+      - [ UAObjectType, Glass.Flat:1011, Glass.Flat:GlassType ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6208, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6208, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6207, Absorption, Number, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6207, Glass.Flat:Absorption, Number, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -498,23 +500,23 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6088, CoatingClass, CoatingClassEnumeration, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6088, Glass.Flat:CoatingClass, Glass.Flat:CoatingClassEnumeration, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1011, GlassType ]
+      - [ UAObjectType, Glass.Flat:1011, Glass.Flat:GlassType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6211, CoatingEmessivity, Number, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6211, Glass.Flat:CoatingEmessivity, Number, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1011, GlassType ]
+      - [ UAObjectType, Glass.Flat:1011, Glass.Flat:GlassType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6212, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6212, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6211, CoatingEmessivity, Number, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6211, Glass.Flat:CoatingEmessivity, Number, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -522,23 +524,23 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6128, CoatingSubClass, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6128, Glass.Flat:CoatingSubClass, Glass.Flat:LimitedString64, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1011, GlassType ]
+      - [ UAObjectType, Glass.Flat:1011, Glass.Flat:GlassType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6182, ElectricalConductivity, Number, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6182, Glass.Flat:ElectricalConductivity, Number, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1011, GlassType ]
+      - [ UAObjectType, Glass.Flat:1011, Glass.Flat:GlassType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6183, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6183, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6182, ElectricalConductivity, Number, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6182, Glass.Flat:ElectricalConductivity, Number, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -546,23 +548,23 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+    - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6132, Orientation, Number, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6132, Glass.Flat:Orientation, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1011, GlassType ]
+      - [ UAObjectType, Glass.Flat:1011, Glass.Flat:GlassType ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6209, Reflection, Number, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6209, Glass.Flat:Reflection, Number, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6210, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6210, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6209, Reflection, Number, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6209, Glass.Flat:Reflection, Number, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -570,39 +572,39 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1011, GlassType ]
+      - [ UAObjectType, Glass.Flat:1011, Glass.Flat:GlassType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6097, SignificantSide, SignificantSideEnumeration, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6097, Glass.Flat:SignificantSide, Glass.Flat:SignificantSideEnumeration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1011, GlassType ]
+      - [ UAObjectType, Glass.Flat:1011, Glass.Flat:GlassType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6098, StructureAlignment, StructureAlignmentEnumeration, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6098, Glass.Flat:StructureAlignment, Glass.Flat:StructureAlignmentEnumeration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1011, GlassType ]
+      - [ UAObjectType, Glass.Flat:1011, Glass.Flat:GlassType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6087, StructureClass, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6087, Glass.Flat:StructureClass, Glass.Flat:LimitedString64, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1011, GlassType ]
+      - [ UAObjectType, Glass.Flat:1011, Glass.Flat:GlassType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6213, Transmission, Number, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6213, Glass.Flat:Transmission, Number, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6214, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6214, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6213, Transmission, Number, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6213, Glass.Flat:Transmission, Number, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -610,15 +612,15 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1011, GlassType ]
+      - [ UAObjectType, Glass.Flat:1011, Glass.Flat:GlassType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6203, X, Double, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6203, Glass.Flat:X, Double, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6204, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6204, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6203, X, Double, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6203, Glass.Flat:X, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -626,15 +628,15 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1011, GlassType ]
+      - [ UAObjectType, Glass.Flat:1011, Glass.Flat:GlassType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6205, Y, Double, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6205, Glass.Flat:Y, Double, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6206, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6206, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6205, Y, Double, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6205, Glass.Flat:Y, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -642,164 +644,165 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1011, GlassType ]
+      - [ UAObjectType, Glass.Flat:1011, Glass.Flat:GlassType ]
 
-  PackagingType:
-  - [ UAObjectType, Glass.Flat:1017, PackagingType ]
+  Glass.Flat:PackagingType:
+  - [ UAObjectType, Glass.Flat:1017, Glass.Flat:PackagingType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6399, CornerProtection, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6399, Glass.Flat:CornerProtection, Glass.Flat:LimitedString64, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1017, PackagingType ]
+      - [ UAObjectType, Glass.Flat:1017, Glass.Flat:PackagingType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+    - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6400, PerimeterProtection, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6400, Glass.Flat:PerimeterProtection, Glass.Flat:LimitedString64, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1017, PackagingType ]
+      - [ UAObjectType, Glass.Flat:1017, Glass.Flat:PackagingType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6398, Spacer, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6398, Glass.Flat:Spacer, Glass.Flat:LimitedString64, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1017, PackagingType ]
+      - [ UAObjectType, Glass.Flat:1017, Glass.Flat:PackagingType ]
 
-  SealingMaterialType:
-  - [ UAObjectType, Glass.Flat:1018, SealingMaterialType ]
+  Glass.Flat:SealingMaterialType:
+  - [ UAObjectType, Glass.Flat:1018, Glass.Flat:SealingMaterialType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6181, AddOnMaterial, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6181, Glass.Flat:AddOnMaterial, Glass.Flat:LimitedString64, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1018, SealingMaterialType ]
+      - [ UAObjectType, Glass.Flat:1018, Glass.Flat:SealingMaterialType ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5081, Hardener ]
+    - [ UAObject, Glass.Flat:5081, Glass.Flat:Hardener ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+      - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1018, SealingMaterialType ]
+      - [ UAObjectType, Glass.Flat:1018, Glass.Flat:SealingMaterialType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6397, Identifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6397, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5081, Hardener ]
+        - [ UAObject, Glass.Flat:5081, Glass.Flat:Hardener ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6395, Location, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6395, Glass.Flat:Location, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5081, Hardener ]
+        - [ UAObject, Glass.Flat:5081, Glass.Flat:Hardener ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6396, MaterialIdentifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6396, Glass.Flat:MaterialIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5081, Hardener ]
+        - [ UAObject, Glass.Flat:5081, Glass.Flat:Hardener ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6170, MixingRatio, Double, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6170, Glass.Flat:MixingRatio, Double, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6068, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6068, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6170, MixingRatio, Double, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6170, Glass.Flat:MixingRatio, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1018, SealingMaterialType ]
+      - [ UAObjectType, Glass.Flat:1018, Glass.Flat:SealingMaterialType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5080, Resin ]
+    - [ UAObject, Glass.Flat:5080, Glass.Flat:Resin ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+      - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6394, Identifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6394, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5080, Resin ]
+        - [ UAObject, Glass.Flat:5080, Glass.Flat:Resin ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6392, Location, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6392, Glass.Flat:Location, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5080, Resin ]
+        - [ UAObject, Glass.Flat:5080, Glass.Flat:Resin ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6393, MaterialIdentifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6393, Glass.Flat:MaterialIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5080, Resin ]
+        - [ UAObject, Glass.Flat:5080, Glass.Flat:Resin ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1018, SealingMaterialType ]
+      - [ UAObjectType, Glass.Flat:1018, Glass.Flat:SealingMaterialType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+    - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
 
-  SpacerType:
-  - [ UAObjectType, Glass.Flat:1016, SpacerType ]
+  Glass.Flat:SpacerType:
+  - [ UAObjectType, Glass.Flat:1016, Glass.Flat:SpacerType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6164, Filling, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6164, Glass.Flat:Filling, Glass.Flat:LimitedString64, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1016, SpacerType ]
+      - [ UAObjectType, Glass.Flat:1016, Glass.Flat:SpacerType ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6168, FillLevel, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6168, Glass.Flat:FillLevel, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6381, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6381, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6168, FillLevel, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6168, Glass.Flat:FillLevel, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAVariable, Glass.Flat:6164, Filling, LimitedString64, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6164, Glass.Flat:Filling, Glass.Flat:LimitedString64, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6166, SealantDepth, Double, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6166, Glass.Flat:SealantDepth, Double, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6167, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6167, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, Glass.Flat:6166, SealantDepth, Double, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6166, Glass.Flat:SealantDepth, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -807,40 +810,40 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1016, SpacerType ]
+      - [ UAObjectType, Glass.Flat:1016, Glass.Flat:SpacerType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6163, SpacerMaterialClass, SpacerMaterialClass, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6163, Glass.Flat:SpacerMaterialClass, Glass.Flat:SpacerMaterialClass, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1016, SpacerType ]
+      - [ UAObjectType, Glass.Flat:1016, Glass.Flat:SpacerType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6165, SpacerMaterialSubClass, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6165, Glass.Flat:SpacerMaterialSubClass, Glass.Flat:LimitedString64, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1016, SpacerType ]
+      - [ UAObjectType, Glass.Flat:1016, Glass.Flat:SpacerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+    - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
 
-  ConfigurationRulesType:
-  - [ UAObjectType, Glass.Flat:1063, ConfigurationRulesType ]
+  Glass.Flat:ConfigurationRulesType:
+  - [ UAObjectType, Glass.Flat:1063, Glass.Flat:ConfigurationRulesType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6186, AllowedEngineeringUnits, EUInformation, 1, 0 ]
+    - [ UAVariable, Glass.Flat:6186, Glass.Flat:AllowedEngineeringUnits, EUInformation, 1, 0 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1063, ConfigurationRulesType ]
+      - [ UAObjectType, Glass.Flat:1063, Glass.Flat:ConfigurationRulesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6174, AllowedFileFormats, FileFormatType, 1, 0 ]
+    - [ UAVariable, Glass.Flat:6174, Glass.Flat:AllowedFileFormats, Glass.Flat:FileFormatType, 1, 0 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1063, ConfigurationRulesType ]
+      - [ UAObjectType, Glass.Flat:1063, Glass.Flat:ConfigurationRulesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -848,39 +851,39 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6188, MachineProcessingCoordinateSystem, CoordinateSystemEnumeration, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6188, Glass.Flat:MachineProcessingCoordinateSystem, Glass.Flat:CoordinateSystemEnumeration, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1063, ConfigurationRulesType ]
+      - [ UAObjectType, Glass.Flat:1063, Glass.Flat:ConfigurationRulesType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
 
-  GlassMachineIdentificationType:
-  - [ UAObjectType, Glass.Flat:1020, GlassMachineIdentificationType ]
+  Glass.Flat:GlassMachineIdentificationType:
+  - [ UAObjectType, Glass.Flat:1020, Glass.Flat:GlassMachineIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+    - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6414, LoggedInProfiles, UserProfileType, 1, 0 ]
+    - [ UAVariable, Glass.Flat:6414, Glass.Flat:LoggedInProfiles, Glass.Flat:UserProfileType, 1, 0 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1020, GlassMachineIdentificationType ]
+      - [ UAObjectType, Glass.Flat:1020, Glass.Flat:GlassMachineIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
 
-  ManualFolderType:
-  - [ UAObjectType, Glass.Flat:1041, ManualFolderType ]
+  Glass.Flat:ManualFolderType:
+  - [ UAObjectType, Glass.Flat:1041, Glass.Flat:ManualFolderType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5017, <LocalManuals> ]
+    - [ UAObject, Glass.Flat:5017, Glass.Flat:<LocalManuals> ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1041, ManualFolderType ]
+      - [ UAObjectType, Glass.Flat:1041, Glass.Flat:ManualFolderType ]
     - HasComponent:
-      - [ UAMethod, Glass.Flat:7001, Close ]
+      - [ UAMethod, Glass.Flat:7001, Glass.Flat:Close ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5017, <LocalManuals> ]
+        - [ UAObject, Glass.Flat:5017, Glass.Flat:<LocalManuals> ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6081, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6081, Glass.Flat:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -888,17 +891,17 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7001, Close ]
+          - [ UAMethod, Glass.Flat:7001, Glass.Flat:Close ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, 11575, FileType ]
     - HasComponent:
-      - [ UAMethod, Glass.Flat:7002, GetPosition ]
+      - [ UAMethod, Glass.Flat:7002, Glass.Flat:GetPosition ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5017, <LocalManuals> ]
+        - [ UAObject, Glass.Flat:5017, Glass.Flat:<LocalManuals> ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6082, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6082, Glass.Flat:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -906,11 +909,11 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7002, GetPosition ]
+          - [ UAMethod, Glass.Flat:7002, Glass.Flat:GetPosition ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6083, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6083, Glass.Flat:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             Position: [ UInt64, 0 ]
         - HasModellingRule:
@@ -918,11 +921,11 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7002, GetPosition ]
+          - [ UAMethod, Glass.Flat:7002, Glass.Flat:GetPosition ]
     - HasComponent:
-      - [ UAMethod, Glass.Flat:7005, Open ]
+      - [ UAMethod, Glass.Flat:7005, Glass.Flat:Open ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6084, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6084, Glass.Flat:InputArguments, Argument, 1, 0 ]
         - Arguments:
             Mode: [ Byte, 0 ]
         - HasModellingRule:
@@ -930,13 +933,13 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7005, Open ]
+          - [ UAMethod, Glass.Flat:7005, Glass.Flat:Open ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5017, <LocalManuals> ]
+        - [ UAObject, Glass.Flat:5017, Glass.Flat:<LocalManuals> ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6085, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6085, Glass.Flat:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -944,21 +947,21 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7005, Open ]
+          - [ UAMethod, Glass.Flat:7005, Glass.Flat:Open ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6086, OpenCount, UInt16, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6086, Glass.Flat:OpenCount, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5017, <LocalManuals> ]
+        - [ UAObject, Glass.Flat:5017, Glass.Flat:<LocalManuals> ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent:
-      - [ UAMethod, Glass.Flat:7012, Read ]
+      - [ UAMethod, Glass.Flat:7012, Glass.Flat:Read ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6124, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6124, Glass.Flat:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Length: [ Int32, 0 ]
@@ -967,11 +970,11 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7012, Read ]
+          - [ UAMethod, Glass.Flat:7012, Glass.Flat:Read ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6139, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6139, Glass.Flat:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             Data: [ ByteString, 0 ]
         - HasModellingRule:
@@ -979,13 +982,13 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7012, Read ]
+          - [ UAMethod, Glass.Flat:7012, Glass.Flat:Read ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5017, <LocalManuals> ]
+        - [ UAObject, Glass.Flat:5017, Glass.Flat:<LocalManuals> ]
     - HasComponent:
-      - [ UAMethod, Glass.Flat:7013, SetPosition ]
+      - [ UAMethod, Glass.Flat:7013, Glass.Flat:SetPosition ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6140, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6140, Glass.Flat:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Position: [ UInt64, 0 ]
@@ -994,39 +997,39 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7013, SetPosition ]
+          - [ UAMethod, Glass.Flat:7013, Glass.Flat:SetPosition ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5017, <LocalManuals> ]
+        - [ UAObject, Glass.Flat:5017, Glass.Flat:<LocalManuals> ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6157, Size, UInt64, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6157, Glass.Flat:Size, UInt64, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5017, <LocalManuals> ]
+        - [ UAObject, Glass.Flat:5017, Glass.Flat:<LocalManuals> ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6158, UserWritable, Boolean, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6158, Glass.Flat:UserWritable, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5017, <LocalManuals> ]
+        - [ UAObject, Glass.Flat:5017, Glass.Flat:<LocalManuals> ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6172, Writable, Boolean, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6172, Glass.Flat:Writable, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5017, <LocalManuals> ]
+        - [ UAObject, Glass.Flat:5017, Glass.Flat:<LocalManuals> ]
     - HasComponent:
-      - [ UAMethod, Glass.Flat:7014, Write ]
+      - [ UAMethod, Glass.Flat:7014, Glass.Flat:Write ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6175, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6175, Glass.Flat:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Data: [ ByteString, 0 ]
@@ -1035,15 +1038,15 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7014, Write ]
+          - [ UAMethod, Glass.Flat:7014, Glass.Flat:Write ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5017, <LocalManuals> ]
+        - [ UAObject, Glass.Flat:5017, Glass.Flat:<LocalManuals> ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6176, ExternalManuals, LimitedString64, 1, 0 ]
+    - [ UAVariable, Glass.Flat:6176, Glass.Flat:ExternalManuals, Glass.Flat:LimitedString64, 1, 0 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1041, ManualFolderType ]
+      - [ UAObjectType, Glass.Flat:1041, Glass.Flat:ManualFolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1051,26 +1054,26 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
-  GlassMachineType:
-  - [ UAObjectType, Glass.Flat:1015, GlassMachineType ]
+  Glass.Flat:GlassMachineType:
+  - [ UAObjectType, Glass.Flat:1015, Glass.Flat:GlassMachineType ]
   - HasAddIn:
-    - [ UAObject, Glass.Flat:5002, Components ]
+    - [ UAObject, Glass.Flat:5002, Glass.Flat:Components ]
     - HasAddIn_reverse:
-      - [ UAObjectType, Glass.Flat:1015, GlassMachineType ]
+      - [ UAObjectType, Glass.Flat:1015, Glass.Flat:GlassMachineType ]
     - HasTypeDefinition:
-      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+      - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5029, ConfigurationRules ]
+    - [ UAObject, Glass.Flat:5029, Glass.Flat:ConfigurationRules ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1015, GlassMachineType ]
+      - [ UAObjectType, Glass.Flat:1015, Glass.Flat:GlassMachineType ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1063, ConfigurationRulesType ]
+      - [ UAObjectType, Glass.Flat:1063, Glass.Flat:ConfigurationRulesType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6067, MachineProcessingCoordinateSystem, CoordinateSystemEnumeration, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6067, Glass.Flat:MachineProcessingCoordinateSystem, Glass.Flat:CoordinateSystemEnumeration, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5029, ConfigurationRules ]
+        - [ UAObject, Glass.Flat:5029, Glass.Flat:ConfigurationRules ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1080,15 +1083,15 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasAddIn:
-    - [ UAObject, Glass.Flat:5001, Identification ]
+    - [ UAObject, Glass.Flat:5001, Glass.Flat:Identification ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1020, GlassMachineIdentificationType ]
+      - [ UAObjectType, Glass.Flat:1020, Glass.Flat:GlassMachineIdentificationType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, Glass.Flat:1015, GlassMachineType ]
+      - [ UAObjectType, Glass.Flat:1015, Glass.Flat:GlassMachineType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6057, LoggedInProfiles, UserProfileType, 1, 0 ]
+      - [ UAVariable, Glass.Flat:6057, Glass.Flat:LoggedInProfiles, Glass.Flat:UserProfileType, 1, 0 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5001, Identification ]
+        - [ UAObject, Glass.Flat:5001, Glass.Flat:Identification ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1096,51 +1099,51 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6058, Manufacturer, LocalizedText, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6058, DI:Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5001, Identification ]
+        - [ UAObject, Glass.Flat:5001, Glass.Flat:Identification ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6061, ProductInstanceUri, String, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6061, DI:ProductInstanceUri, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5001, Identification ]
+        - [ UAObject, Glass.Flat:5001, Glass.Flat:Identification ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6062, SerialNumber, String, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6062, DI:SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5001, Identification ]
+        - [ UAObject, Glass.Flat:5001, Glass.Flat:Identification ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5009, MaintenanceManuals ]
+    - [ UAObject, Glass.Flat:5009, Glass.Flat:MaintenanceManuals ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1015, GlassMachineType ]
+      - [ UAObjectType, Glass.Flat:1015, Glass.Flat:GlassMachineType ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1041, ManualFolderType ]
+      - [ UAObjectType, Glass.Flat:1041, Glass.Flat:ManualFolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5011, OperationManuals ]
+    - [ UAObject, Glass.Flat:5011, Glass.Flat:OperationManuals ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1041, ManualFolderType ]
+      - [ UAObjectType, Glass.Flat:1041, Glass.Flat:ManualFolderType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1015, GlassMachineType ]
+      - [ UAObjectType, Glass.Flat:1015, Glass.Flat:GlassMachineType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5015, Production ]
+    - [ UAObject, Glass.Flat:5015, Glass.Flat:Production ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6063, JobListIsRecommendation, Boolean, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6063, Glass.Flat:JobListIsRecommendation, Boolean, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5015, Production ]
+        - [ UAObject, Glass.Flat:5015, Glass.Flat:Production ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1148,38 +1151,38 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1015, GlassMachineType ]
+      - [ UAObjectType, Glass.Flat:1015, Glass.Flat:GlassMachineType ]
     - HasComponent:
-      - [ UAObject, Glass.Flat:5016, ProductionPlan ]
+      - [ UAObject, Glass.Flat:5016, Glass.Flat:ProductionPlan ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5015, Production ]
+        - [ UAObject, Glass.Flat:5015, Glass.Flat:Production ]
       - HasTypeDefinition:
-        - [ UAObjectType, Glass.Flat:1023, ProductionPlanType ]
+        - [ UAObjectType, Glass.Flat:1023, Glass.Flat:ProductionPlanType ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1021, ProductionType ]
+      - [ UAObjectType, Glass.Flat:1021, Glass.Flat:ProductionType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6080, SupportedMaterialTypes, NodeId, 1, 3 ]
+      - [ UAVariable, Glass.Flat:6080, Glass.Flat:SupportedMaterialTypes, NodeId, 1, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5015, Production ]
+        - [ UAObject, Glass.Flat:5015, Glass.Flat:Production ]
 
-  InstructionType:
-  - [ UAObjectType, Glass.Flat:1003, InstructionType ]
+  Glass.Flat:InstructionType:
+  - [ UAObjectType, Glass.Flat:1003, Glass.Flat:InstructionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5008, Plan ]
+    - [ UAObject, Glass.Flat:5008, Glass.Flat:Plan ]
     - HasComponent:
-      - [ UAMethod, Glass.Flat:7006, Close ]
+      - [ UAMethod, Glass.Flat:7006, Glass.Flat:Close ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5008, Plan ]
+        - [ UAObject, Glass.Flat:5008, Glass.Flat:Plan ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6004, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6004, Glass.Flat:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -1187,17 +1190,17 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7006, Close ]
+          - [ UAMethod, Glass.Flat:7006, Glass.Flat:Close ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, 11575, FileType ]
     - HasComponent:
-      - [ UAMethod, Glass.Flat:7007, GetPosition ]
+      - [ UAMethod, Glass.Flat:7007, Glass.Flat:GetPosition ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5008, Plan ]
+        - [ UAObject, Glass.Flat:5008, Glass.Flat:Plan ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6005, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6005, Glass.Flat:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -1205,11 +1208,11 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7007, GetPosition ]
+          - [ UAMethod, Glass.Flat:7007, Glass.Flat:GetPosition ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6006, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6006, Glass.Flat:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             Position: [ UInt64, 0 ]
         - HasModellingRule:
@@ -1217,13 +1220,13 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7007, GetPosition ]
+          - [ UAMethod, Glass.Flat:7007, Glass.Flat:GetPosition ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAMethod, Glass.Flat:7008, Open ]
+      - [ UAMethod, Glass.Flat:7008, Glass.Flat:Open ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6007, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6007, Glass.Flat:InputArguments, Argument, 1, 0 ]
         - Arguments:
             Mode: [ Byte, 0 ]
         - HasModellingRule:
@@ -1231,13 +1234,13 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7008, Open ]
+          - [ UAMethod, Glass.Flat:7008, Glass.Flat:Open ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5008, Plan ]
+        - [ UAObject, Glass.Flat:5008, Glass.Flat:Plan ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6008, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6008, Glass.Flat:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -1245,21 +1248,21 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7008, Open ]
+          - [ UAMethod, Glass.Flat:7008, Glass.Flat:Open ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6009, OpenCount, UInt16, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6009, Glass.Flat:OpenCount, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5008, Plan ]
+        - [ UAObject, Glass.Flat:5008, Glass.Flat:Plan ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1003, InstructionType ]
+      - [ UAObjectType, Glass.Flat:1003, Glass.Flat:InstructionType ]
     - HasComponent:
-      - [ UAMethod, Glass.Flat:7009, Read ]
+      - [ UAMethod, Glass.Flat:7009, Glass.Flat:Read ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6010, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6010, Glass.Flat:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Length: [ Int32, 0 ]
@@ -1268,11 +1271,11 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7009, Read ]
+          - [ UAMethod, Glass.Flat:7009, Glass.Flat:Read ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6011, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6011, Glass.Flat:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             Data: [ ByteString, 0 ]
         - HasModellingRule:
@@ -1280,13 +1283,13 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7009, Read ]
+          - [ UAMethod, Glass.Flat:7009, Glass.Flat:Read ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5008, Plan ]
+        - [ UAObject, Glass.Flat:5008, Glass.Flat:Plan ]
     - HasComponent:
-      - [ UAMethod, Glass.Flat:7010, SetPosition ]
+      - [ UAMethod, Glass.Flat:7010, Glass.Flat:SetPosition ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6012, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6012, Glass.Flat:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Position: [ UInt64, 0 ]
@@ -1295,39 +1298,39 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7010, SetPosition ]
+          - [ UAMethod, Glass.Flat:7010, Glass.Flat:SetPosition ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5008, Plan ]
+        - [ UAObject, Glass.Flat:5008, Glass.Flat:Plan ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6013, Size, UInt64, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6013, Glass.Flat:Size, UInt64, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5008, Plan ]
+        - [ UAObject, Glass.Flat:5008, Glass.Flat:Plan ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6014, UserWritable, Boolean, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6014, Glass.Flat:UserWritable, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5008, Plan ]
+        - [ UAObject, Glass.Flat:5008, Glass.Flat:Plan ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6015, Writable, Boolean, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6015, Glass.Flat:Writable, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5008, Plan ]
+        - [ UAObject, Glass.Flat:5008, Glass.Flat:Plan ]
     - HasComponent:
-      - [ UAMethod, Glass.Flat:7011, Write ]
+      - [ UAMethod, Glass.Flat:7011, Glass.Flat:Write ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6016, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6016, Glass.Flat:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Data: [ ByteString, 0 ]
@@ -1336,62 +1339,62 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7011, Write ]
+          - [ UAMethod, Glass.Flat:7011, Glass.Flat:Write ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5008, Plan ]
+        - [ UAObject, Glass.Flat:5008, Glass.Flat:Plan ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6273, PlanFileFormat, FileFormatType, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6273, Glass.Flat:PlanFileFormat, Glass.Flat:FileFormatType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1003, InstructionType ]
+      - [ UAObjectType, Glass.Flat:1003, Glass.Flat:InstructionType ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
 
-  ProductionPlanType:
-  - [ UAObjectType, Glass.Flat:1023, ProductionPlanType ]
+  Glass.Flat:ProductionPlanType:
+  - [ UAObjectType, Glass.Flat:1023, Glass.Flat:ProductionPlanType ]
   - HasOrderedComponent:
-    - [ UAObject, Glass.Flat:5003, <OrderedObject> ]
+    - [ UAObject, Glass.Flat:5003, Glass.Flat:<OrderedObject> ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+      - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
     - HasOrderedComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1023, ProductionPlanType ]
+      - [ UAObjectType, Glass.Flat:1023, Glass.Flat:ProductionPlanType ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6052, EndTime, DateTime, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6052, Glass.Flat:EndTime, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5003, <OrderedObject> ]
+        - [ UAObject, Glass.Flat:5003, Glass.Flat:<OrderedObject> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6056, Identifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6056, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5003, <OrderedObject> ]
+        - [ UAObject, Glass.Flat:5003, Glass.Flat:<OrderedObject> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
-      - [ UAObject, Glass.Flat:5022, InputMaterials ]
+      - [ UAObject, Glass.Flat:5022, Glass.Flat:InputMaterials ]
       - HasComponent:
-        - [ UAObject, Glass.Flat:5006, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5006, Glass.Flat:<InputMaterial> ]
         - HasTypeDefinition:
-          - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+          - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
         - HasProperty:
-          - [ UAVariable, Glass.Flat:6027, Identifier, LimitedString64, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6027, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
           - HasProperty_reverse:
-            - [ UAObject, Glass.Flat:5006, <InputMaterial> ]
+            - [ UAObject, Glass.Flat:5006, Glass.Flat:<InputMaterial> ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
-          - [ UAVariable, Glass.Flat:6031, Location, LimitedString64, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6031, Glass.Flat:Location, Glass.Flat:LimitedString64, 0, 3 ]
           - HasProperty_reverse:
-            - [ UAObject, Glass.Flat:5006, <InputMaterial> ]
+            - [ UAObject, Glass.Flat:5006, Glass.Flat:<InputMaterial> ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -1399,51 +1402,51 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasComponent_reverse:
-          - [ UAObject, Glass.Flat:5022, InputMaterials ]
+          - [ UAObject, Glass.Flat:5022, Glass.Flat:InputMaterials ]
         - HasProperty:
-          - [ UAVariable, Glass.Flat:6032, MaterialIdentifier, LimitedString64, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6032, Glass.Flat:MaterialIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAObject, Glass.Flat:5006, <InputMaterial> ]
+            - [ UAObject, Glass.Flat:5006, Glass.Flat:<InputMaterial> ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
       - HasTypeDefinition:
         - [ UAObjectType, 61, FolderType ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5003, <OrderedObject> ]
+        - [ UAObject, Glass.Flat:5003, Glass.Flat:<OrderedObject> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6073, NumberInList, UInt16, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6073, Glass.Flat:NumberInList, UInt16, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5003, <OrderedObject> ]
+        - [ UAObject, Glass.Flat:5003, Glass.Flat:<OrderedObject> ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent:
-      - [ UAObject, Glass.Flat:5026, OutputMaterials ]
+      - [ UAObject, Glass.Flat:5026, Glass.Flat:OutputMaterials ]
       - HasComponent:
-        - [ UAObject, Glass.Flat:5028, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5028, Glass.Flat:<OutputMaterial> ]
         - HasComponent_reverse:
-          - [ UAObject, Glass.Flat:5026, OutputMaterials ]
+          - [ UAObject, Glass.Flat:5026, Glass.Flat:OutputMaterials ]
         - HasTypeDefinition:
-          - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+          - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
         - HasProperty:
-          - [ UAVariable, Glass.Flat:6036, Identifier, LimitedString64, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6036, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
           - HasProperty_reverse:
-            - [ UAObject, Glass.Flat:5028, <OutputMaterial> ]
+            - [ UAObject, Glass.Flat:5028, Glass.Flat:<OutputMaterial> ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
-          - [ UAVariable, Glass.Flat:6065, Location, LimitedString64, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6065, Glass.Flat:Location, Glass.Flat:LimitedString64, 0, 3 ]
           - HasProperty_reverse:
-            - [ UAObject, Glass.Flat:5028, <OutputMaterial> ]
+            - [ UAObject, Glass.Flat:5028, Glass.Flat:<OutputMaterial> ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -1451,11 +1454,11 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasProperty:
-          - [ UAVariable, Glass.Flat:6066, MaterialIdentifier, LimitedString64, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6066, Glass.Flat:MaterialIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAObject, Glass.Flat:5028, <OutputMaterial> ]
+            - [ UAObject, Glass.Flat:5028, Glass.Flat:<OutputMaterial> ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
       - HasTypeDefinition:
@@ -1463,60 +1466,60 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5003, <OrderedObject> ]
+        - [ UAObject, Glass.Flat:5003, Glass.Flat:<OrderedObject> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6074, StartTime, DateTime, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6074, Glass.Flat:StartTime, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5003, <OrderedObject> ]
+        - [ UAObject, Glass.Flat:5003, Glass.Flat:<OrderedObject> ]
   - HasSubtype_reverse:
     - [ UAObjectType, 23518, OrderedListType ]
 
-  ProductionJobType:
-  - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+  Glass.Flat:ProductionJobType:
+  - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
   - HasComponent:
-    - [ UAMethod, Glass.Flat:7022, AbortJob ]
+    - [ UAMethod, Glass.Flat:7022, Glass.Flat:AbortJob ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+      - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6054, EndTime, DateTime, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6054, Glass.Flat:EndTime, DateTime, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+      - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6050, Identifier, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6050, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+      - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5014, InputMaterials ]
+    - [ UAObject, Glass.Flat:5014, Glass.Flat:InputMaterials ]
     - HasComponent:
-      - [ UAObject, Glass.Flat:5005, <InputMaterial> ]
+      - [ UAObject, Glass.Flat:5005, Glass.Flat:<InputMaterial> ]
       - HasTypeDefinition:
-        - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+        - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6023, Identifier, LimitedString64, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6023, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
         - HasProperty_reverse:
-          - [ UAObject, Glass.Flat:5005, <InputMaterial> ]
+          - [ UAObject, Glass.Flat:5005, Glass.Flat:<InputMaterial> ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6025, Location, LimitedString64, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6025, Glass.Flat:Location, Glass.Flat:LimitedString64, 0, 3 ]
         - HasProperty_reverse:
-          - [ UAObject, Glass.Flat:5005, <InputMaterial> ]
+          - [ UAObject, Glass.Flat:5005, Glass.Flat:<InputMaterial> ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1524,37 +1527,37 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5014, InputMaterials ]
+        - [ UAObject, Glass.Flat:5014, Glass.Flat:InputMaterials ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6026, MaterialIdentifier, LimitedString64, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6026, Glass.Flat:MaterialIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Glass.Flat:5005, <InputMaterial> ]
+          - [ UAObject, Glass.Flat:5005, Glass.Flat:<InputMaterial> ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+      - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5010, Instruction ]
+    - [ UAObject, Glass.Flat:5010, Glass.Flat:Instruction ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+      - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1003, InstructionType ]
+      - [ UAObjectType, Glass.Flat:1003, Glass.Flat:InstructionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAObject, Glass.Flat:5012, Plan ]
+      - [ UAObject, Glass.Flat:5012, Glass.Flat:Plan ]
       - HasComponent:
-        - [ UAMethod, Glass.Flat:7015, Close ]
+        - [ UAMethod, Glass.Flat:7015, Glass.Flat:Close ]
         - HasComponent_reverse:
-          - [ UAObject, Glass.Flat:5012, Plan ]
+          - [ UAObject, Glass.Flat:5012, Glass.Flat:Plan ]
         - HasProperty:
-          - [ UAVariable, Glass.Flat:6037, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, Glass.Flat:6037, Glass.Flat:InputArguments, Argument, 1, 0 ]
           - Arguments:
               FileHandle: [ UInt32, 0 ]
           - HasModellingRule:
@@ -1562,17 +1565,17 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, Glass.Flat:7015, Close ]
+            - [ UAMethod, Glass.Flat:7015, Glass.Flat:Close ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAObjectType, 11575, FileType ]
       - HasComponent:
-        - [ UAMethod, Glass.Flat:7016, GetPosition ]
+        - [ UAMethod, Glass.Flat:7016, Glass.Flat:GetPosition ]
         - HasComponent_reverse:
-          - [ UAObject, Glass.Flat:5012, Plan ]
+          - [ UAObject, Glass.Flat:5012, Glass.Flat:Plan ]
         - HasProperty:
-          - [ UAVariable, Glass.Flat:6038, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, Glass.Flat:6038, Glass.Flat:InputArguments, Argument, 1, 0 ]
           - Arguments:
               FileHandle: [ UInt32, 0 ]
           - HasModellingRule:
@@ -1580,11 +1583,11 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, Glass.Flat:7016, GetPosition ]
+            - [ UAMethod, Glass.Flat:7016, Glass.Flat:GetPosition ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
-          - [ UAVariable, Glass.Flat:6039, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, Glass.Flat:6039, Glass.Flat:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               Position: [ UInt64, 0 ]
           - HasModellingRule:
@@ -1592,13 +1595,13 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, Glass.Flat:7016, GetPosition ]
+            - [ UAMethod, Glass.Flat:7016, Glass.Flat:GetPosition ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent:
-        - [ UAMethod, Glass.Flat:7017, Open ]
+        - [ UAMethod, Glass.Flat:7017, Glass.Flat:Open ]
         - HasProperty:
-          - [ UAVariable, Glass.Flat:6040, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, Glass.Flat:6040, Glass.Flat:InputArguments, Argument, 1, 0 ]
           - Arguments:
               Mode: [ Byte, 0 ]
           - HasModellingRule:
@@ -1606,13 +1609,13 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, Glass.Flat:7017, Open ]
+            - [ UAMethod, Glass.Flat:7017, Glass.Flat:Open ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Glass.Flat:5012, Plan ]
+          - [ UAObject, Glass.Flat:5012, Glass.Flat:Plan ]
         - HasProperty:
-          - [ UAVariable, Glass.Flat:6041, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, Glass.Flat:6041, Glass.Flat:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               FileHandle: [ UInt32, 0 ]
           - HasModellingRule:
@@ -1620,21 +1623,21 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, Glass.Flat:7017, Open ]
+            - [ UAMethod, Glass.Flat:7017, Glass.Flat:Open ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6042, OpenCount, UInt16, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6042, Glass.Flat:OpenCount, UInt16, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Glass.Flat:5012, Plan ]
+          - [ UAObject, Glass.Flat:5012, Glass.Flat:Plan ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5010, Instruction ]
+        - [ UAObject, Glass.Flat:5010, Glass.Flat:Instruction ]
       - HasComponent:
-        - [ UAMethod, Glass.Flat:7018, Read ]
+        - [ UAMethod, Glass.Flat:7018, Glass.Flat:Read ]
         - HasProperty:
-          - [ UAVariable, Glass.Flat:6043, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, Glass.Flat:6043, Glass.Flat:InputArguments, Argument, 1, 0 ]
           - Arguments:
               FileHandle: [ UInt32, 0 ]
               Length: [ Int32, 0 ]
@@ -1643,11 +1646,11 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, Glass.Flat:7018, Read ]
+            - [ UAMethod, Glass.Flat:7018, Glass.Flat:Read ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
-          - [ UAVariable, Glass.Flat:6044, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, Glass.Flat:6044, Glass.Flat:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               Data: [ ByteString, 0 ]
           - HasModellingRule:
@@ -1655,13 +1658,13 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, Glass.Flat:7018, Read ]
+            - [ UAMethod, Glass.Flat:7018, Glass.Flat:Read ]
         - HasComponent_reverse:
-          - [ UAObject, Glass.Flat:5012, Plan ]
+          - [ UAObject, Glass.Flat:5012, Glass.Flat:Plan ]
       - HasComponent:
-        - [ UAMethod, Glass.Flat:7019, SetPosition ]
+        - [ UAMethod, Glass.Flat:7019, Glass.Flat:SetPosition ]
         - HasProperty:
-          - [ UAVariable, Glass.Flat:6045, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, Glass.Flat:6045, Glass.Flat:InputArguments, Argument, 1, 0 ]
           - Arguments:
               FileHandle: [ UInt32, 0 ]
               Position: [ UInt64, 0 ]
@@ -1670,39 +1673,39 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, Glass.Flat:7019, SetPosition ]
+            - [ UAMethod, Glass.Flat:7019, Glass.Flat:SetPosition ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Glass.Flat:5012, Plan ]
+          - [ UAObject, Glass.Flat:5012, Glass.Flat:Plan ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6046, Size, UInt64, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6046, Glass.Flat:Size, UInt64, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, Glass.Flat:5012, Plan ]
+          - [ UAObject, Glass.Flat:5012, Glass.Flat:Plan ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6047, UserWritable, Boolean, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6047, Glass.Flat:UserWritable, Boolean, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, Glass.Flat:5012, Plan ]
+          - [ UAObject, Glass.Flat:5012, Glass.Flat:Plan ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6048, Writable, Boolean, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6048, Glass.Flat:Writable, Boolean, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, Glass.Flat:5012, Plan ]
+          - [ UAObject, Glass.Flat:5012, Glass.Flat:Plan ]
       - HasComponent:
-        - [ UAMethod, Glass.Flat:7020, Write ]
+        - [ UAMethod, Glass.Flat:7020, Glass.Flat:Write ]
         - HasProperty:
-          - [ UAVariable, Glass.Flat:6049, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, Glass.Flat:6049, Glass.Flat:InputArguments, Argument, 1, 0 ]
           - Arguments:
               FileHandle: [ UInt32, 0 ]
               Data: [ ByteString, 0 ]
@@ -1711,39 +1714,39 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, Glass.Flat:7020, Write ]
+            - [ UAMethod, Glass.Flat:7020, Glass.Flat:Write ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Glass.Flat:5012, Plan ]
+          - [ UAObject, Glass.Flat:5012, Glass.Flat:Plan ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6274, PlanFileFormat, FileFormatType, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6274, Glass.Flat:PlanFileFormat, Glass.Flat:FileFormatType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5010, Instruction ]
+        - [ UAObject, Glass.Flat:5010, Glass.Flat:Instruction ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasInterface:
     - [ UAObjectType, 23513, IOrderedObjectType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6055, JobGroup, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6055, Glass.Flat:JobGroup, Glass.Flat:LimitedString64, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+      - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5004, Lock ]
+    - [ UAObject, Glass.Flat:5004, Glass.Flat:Lock ]
     - HasComponent:
-      - [ UAMethod, Glass.Flat:7027, BreakLock ]
+      - [ UAMethod, Glass.Flat:7027, DI:BreakLock ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5004, Lock ]
+        - [ UAObject, Glass.Flat:5004, Glass.Flat:Lock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6191, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6191, Glass.Flat:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             BreakLockStatus: [ Int32, 0 ]
         - HasModellingRule:
@@ -1751,15 +1754,15 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7027, BreakLock ]
+          - [ UAMethod, Glass.Flat:7027, DI:BreakLock ]
     - HasComponent:
-      - [ UAMethod, Glass.Flat:7028, ExitLock ]
+      - [ UAMethod, Glass.Flat:7028, DI:ExitLock ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5004, Lock ]
+        - [ UAObject, Glass.Flat:5004, Glass.Flat:Lock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6192, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6192, Glass.Flat:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             ExitLockStatus: [ Int32, 0 ]
         - HasModellingRule:
@@ -1767,13 +1770,13 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7028, ExitLock ]
+          - [ UAMethod, Glass.Flat:7028, DI:ExitLock ]
     - HasComponent:
-      - [ UAMethod, Glass.Flat:7029, InitLock ]
+      - [ UAMethod, Glass.Flat:7029, DI:InitLock ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5004, Lock ]
+        - [ UAObject, Glass.Flat:5004, Glass.Flat:Lock ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6193, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6193, Glass.Flat:InputArguments, Argument, 1, 0 ]
         - Arguments:
             Context: [ String, 0 ]
         - HasModellingRule:
@@ -1781,11 +1784,11 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7029, InitLock ]
+          - [ UAMethod, Glass.Flat:7029, DI:InitLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6194, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6194, Glass.Flat:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             InitLockStatus: [ Int32, 0 ]
         - HasModellingRule:
@@ -1793,31 +1796,31 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7029, InitLock ]
+          - [ UAMethod, Glass.Flat:7029, DI:InitLock ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+      - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6195, Locked, Boolean, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6195, DI:Locked, Boolean, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5004, Lock ]
+        - [ UAObject, Glass.Flat:5004, Glass.Flat:Lock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6196, LockingClient, String, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6196, DI:LockingClient, String, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5004, Lock ]
+        - [ UAObject, Glass.Flat:5004, Glass.Flat:Lock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:6388, LockingServicesType ]
+      - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6197, LockingUser, String, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6197, DI:LockingUser, String, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5004, Lock ]
+        - [ UAObject, Glass.Flat:5004, Glass.Flat:Lock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1825,19 +1828,19 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6198, RemainingLockTime, Duration, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6198, DI:RemainingLockTime, Duration, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5004, Lock ]
+        - [ UAObject, Glass.Flat:5004, Glass.Flat:Lock ]
     - HasComponent:
-      - [ UAMethod, Glass.Flat:7030, RenewLock ]
+      - [ UAMethod, Glass.Flat:7030, DI:RenewLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6199, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Glass.Flat:6199, Glass.Flat:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             RenewLockStatus: [ Int32, 0 ]
         - HasModellingRule:
@@ -1845,45 +1848,45 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Glass.Flat:7030, RenewLock ]
+          - [ UAMethod, Glass.Flat:7030, DI:RenewLock ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5004, Lock ]
+        - [ UAObject, Glass.Flat:5004, Glass.Flat:Lock ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6051, Name, LimitedString64, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6051, Glass.Flat:Name, Glass.Flat:LimitedString64, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+      - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6001, NumberInList, UInt16, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6001, Glass.Flat:NumberInList, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+      - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5018, OutputMaterials ]
+    - [ UAObject, Glass.Flat:5018, Glass.Flat:OutputMaterials ]
     - HasComponent:
-      - [ UAObject, Glass.Flat:5027, <OutputMaterial> ]
+      - [ UAObject, Glass.Flat:5027, Glass.Flat:<OutputMaterial> ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5018, OutputMaterials ]
+        - [ UAObject, Glass.Flat:5018, Glass.Flat:OutputMaterials ]
       - HasTypeDefinition:
-        - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+        - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6033, Identifier, LimitedString64, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6033, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
         - HasProperty_reverse:
-          - [ UAObject, Glass.Flat:5027, <OutputMaterial> ]
+          - [ UAObject, Glass.Flat:5027, Glass.Flat:<OutputMaterial> ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6034, Location, LimitedString64, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6034, Glass.Flat:Location, Glass.Flat:LimitedString64, 0, 3 ]
         - HasProperty_reverse:
-          - [ UAObject, Glass.Flat:5027, <OutputMaterial> ]
+          - [ UAObject, Glass.Flat:5027, Glass.Flat:<OutputMaterial> ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1891,11 +1894,11 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6035, MaterialIdentifier, LimitedString64, 0, 3 ]
+        - [ UAVariable, Glass.Flat:6035, Glass.Flat:MaterialIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, Glass.Flat:5027, <OutputMaterial> ]
+          - [ UAObject, Glass.Flat:5027, Glass.Flat:<OutputMaterial> ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
     - HasTypeDefinition:
@@ -1903,53 +1906,53 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+      - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAMethod, Glass.Flat:7021, QueueJob ]
+    - [ UAMethod, Glass.Flat:7021, Glass.Flat:QueueJob ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+      - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
     - HasCause_reverse:
-      - [ UAObject, Glass.Flat:1044, IdleToQueued ]
+      - [ UAObject, Glass.Flat:1044, Glass.Flat:IdleToQueued ]
   - HasComponent:
-    - [ UAMethod, Glass.Flat:7003, ReleaseJob ]
+    - [ UAMethod, Glass.Flat:7003, Glass.Flat:ReleaseJob ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+      - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
     - HasCause_reverse:
-      - [ UAObject, Glass.Flat:1046, QueuedToReleased ]
+      - [ UAObject, Glass.Flat:1046, Glass.Flat:QueuedToReleased ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6053, StartTime, DateTime, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6053, Glass.Flat:StartTime, DateTime, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+      - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5013, State ]
+    - [ UAObject, Glass.Flat:5013, Glass.Flat:State ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6173, CurrentState, LocalizedText, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6173, Glass.Flat:CurrentState, LocalizedText, 0, 0 ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5013, State ]
+        - [ UAObject, Glass.Flat:5013, Glass.Flat:State ]
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
     - HasComponent:
-      - [ UAObject, Glass.Flat:5061, InitializedState ]
+      - [ UAObject, Glass.Flat:5061, Glass.Flat:InitializedState ]
       - HasComponent:
-        - [ UAVariable, Glass.Flat:6286, CurrentState, LocalizedText, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6286, Glass.Flat:CurrentState, LocalizedText, 0, 0 ]
         - HasComponent_reverse:
-          - [ UAObject, Glass.Flat:5061, InitializedState ]
+          - [ UAObject, Glass.Flat:5061, Glass.Flat:InitializedState ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasProperty:
-          - [ UAVariable, Glass.Flat:6287, Id, NodeId, 0, 0 ]
+          - [ UAVariable, Glass.Flat:6287, Glass.Flat:Id, NodeId, 0, 0 ]
           - HasProperty_reverse:
-            - [ UAVariable, Glass.Flat:6286, CurrentState, LocalizedText, 0, 0 ]
+            - [ UAVariable, Glass.Flat:6286, Glass.Flat:CurrentState, LocalizedText, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -1957,56 +1960,56 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5013, State ]
+        - [ UAObject, Glass.Flat:5013, Glass.Flat:State ]
       - HasTypeDefinition:
-        - [ UAObjectType, Glass.Flat:1024, InitializingSubStateMachineType ]
+        - [ UAObjectType, Glass.Flat:1024, Glass.Flat:InitializingSubStateMachineType ]
       - HasSubStateMachine:
-        - [ UAObjectType, Glass.Flat:1024, InitializingSubStateMachineType ]
+        - [ UAObjectType, Glass.Flat:1024, Glass.Flat:InitializingSubStateMachineType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+      - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
   - HasComponent:
-    - [ UAMethod, Glass.Flat:7004, SuspendJob ]
+    - [ UAMethod, Glass.Flat:7004, Glass.Flat:SuspendJob ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+      - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
     - HasCause_reverse:
-      - [ UAObject, Glass.Flat:1047, ReleasedToQueued ]
+      - [ UAObject, Glass.Flat:1047, Glass.Flat:ReleasedToQueued ]
 
-  AssemblyJobType:
-  - [ UAObjectType, Glass.Flat:1008, AssemblyJobType ]
+  Glass.Flat:AssemblyJobType:
+  - [ UAObjectType, Glass.Flat:1008, Glass.Flat:AssemblyJobType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5021, <InputMaterial> ]
+    - [ UAObject, Glass.Flat:5021, Glass.Flat:<InputMaterial> ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1008, AssemblyJobType ]
+      - [ UAObjectType, Glass.Flat:1008, Glass.Flat:AssemblyJobType ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+      - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6110, Description, LocalizedText, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6110, Glass.Flat:Description, LocalizedText, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5021, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5021, Glass.Flat:<InputMaterial> ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6108, Identifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6108, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5021, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5021, Glass.Flat:<InputMaterial> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6107, Location, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6107, Glass.Flat:Location, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5021, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5021, Glass.Flat:<InputMaterial> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2014,21 +2017,21 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6109, MaterialIdentifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6109, Glass.Flat:MaterialIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5021, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5021, Glass.Flat:<InputMaterial> ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6114, Weight, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6114, Glass.Flat:Weight, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6115, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6115, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6114, Weight, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6114, Glass.Flat:Weight, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2036,15 +2039,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5021, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5021, Glass.Flat:<InputMaterial> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6221, X, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6221, Glass.Flat:X, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6222, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6222, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6221, X, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6221, Glass.Flat:X, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2052,15 +2055,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5021, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5021, Glass.Flat:<InputMaterial> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6313, Y, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6313, Glass.Flat:Y, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6326, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6326, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6313, Y, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6313, Glass.Flat:Y, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2068,15 +2071,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5021, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5021, Glass.Flat:<InputMaterial> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6327, Z, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6327, Glass.Flat:Z, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6328, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6328, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6327, Z, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6327, Glass.Flat:Z, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2084,25 +2087,25 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5021, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5021, Glass.Flat:<InputMaterial> ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5023, <OutputMaterial> ]
+    - [ UAObject, Glass.Flat:5023, Glass.Flat:<OutputMaterial> ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1008, AssemblyJobType ]
+      - [ UAObjectType, Glass.Flat:1008, Glass.Flat:AssemblyJobType ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1002, AssemblyType ]
+      - [ UAObjectType, Glass.Flat:1002, Glass.Flat:AssemblyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6125, Identifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6125, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5023, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5023, Glass.Flat:<OutputMaterial> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6126, Location, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6126, Glass.Flat:Location, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5023, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5023, Glass.Flat:<OutputMaterial> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2110,44 +2113,44 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6127, MaterialIdentifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6127, Glass.Flat:MaterialIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5023, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5023, Glass.Flat:<OutputMaterial> ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+    - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
 
-  CuttingJobType:
-  - [ UAObjectType, Glass.Flat:1007, CuttingJobType ]
+  Glass.Flat:CuttingJobType:
+  - [ UAObjectType, Glass.Flat:1007, Glass.Flat:CuttingJobType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5019, <InputMaterial> ]
+    - [ UAObject, Glass.Flat:5019, Glass.Flat:<InputMaterial> ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1007, CuttingJobType ]
+      - [ UAObjectType, Glass.Flat:1007, Glass.Flat:CuttingJobType ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+      - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6090, Description, LocalizedText, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6090, Glass.Flat:Description, LocalizedText, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5019, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5019, Glass.Flat:<InputMaterial> ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6072, Identifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6072, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5019, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5019, Glass.Flat:<InputMaterial> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6071, Location, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6071, Glass.Flat:Location, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5019, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5019, Glass.Flat:<InputMaterial> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2155,21 +2158,21 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6089, MaterialIdentifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6089, Glass.Flat:MaterialIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5019, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5019, Glass.Flat:<InputMaterial> ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6094, Weight, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6094, Glass.Flat:Weight, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6095, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6095, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6094, Weight, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6094, Glass.Flat:Weight, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2177,15 +2180,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5019, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5019, Glass.Flat:<InputMaterial> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6120, X, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6120, Glass.Flat:X, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6121, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6121, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6120, X, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6120, Glass.Flat:X, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2193,15 +2196,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5019, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5019, Glass.Flat:<InputMaterial> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6122, Y, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6122, Glass.Flat:Y, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6129, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6129, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6122, Y, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6122, Glass.Flat:Y, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2209,15 +2212,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5019, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5019, Glass.Flat:<InputMaterial> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6130, Z, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6130, Glass.Flat:Z, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6131, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6131, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6130, Z, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6130, Glass.Flat:Z, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2225,75 +2228,75 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5019, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5019, Glass.Flat:<InputMaterial> ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+    - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1007, CuttingJobType ]
+      - [ UAObjectType, Glass.Flat:1007, Glass.Flat:CuttingJobType ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6217, Absorption, Number, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6217, Glass.Flat:Absorption, Number, 0, 3 ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6218, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6218, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6217, Absorption, Number, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6217, Glass.Flat:Absorption, Number, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6228, CoatingClass, CoatingClassEnumeration, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6228, Glass.Flat:CoatingClass, Glass.Flat:CoatingClassEnumeration, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6223, CoatingEmessivity, Number, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6223, Glass.Flat:CoatingEmessivity, Number, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6224, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6224, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6223, CoatingEmessivity, Number, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6223, Glass.Flat:CoatingEmessivity, Number, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6101, Description, LocalizedText, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6101, Glass.Flat:Description, LocalizedText, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6184, ElectricalConductivity, Number, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6184, Glass.Flat:ElectricalConductivity, Number, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6185, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6185, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6184, ElectricalConductivity, Number, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6184, Glass.Flat:ElectricalConductivity, Number, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1011, GlassType ]
+      - [ UAObjectType, Glass.Flat:1011, Glass.Flat:GlassType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6099, Identifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6099, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6096, Location, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6096, Glass.Flat:Location, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2301,69 +2304,69 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6100, MaterialIdentifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6100, Glass.Flat:MaterialIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6133, Orientation, Number, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6133, Glass.Flat:Orientation, Number, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6219, Reflection, Number, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6219, Glass.Flat:Reflection, Number, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6220, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6220, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6219, Reflection, Number, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6219, Glass.Flat:Reflection, Number, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6148, SignificantSide, SignificantSideEnumeration, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6148, Glass.Flat:SignificantSide, Glass.Flat:SignificantSideEnumeration, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6152, StructureAlignment, StructureAlignmentEnumeration, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6152, Glass.Flat:StructureAlignment, Glass.Flat:StructureAlignmentEnumeration, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6149, StructureClass, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6149, Glass.Flat:StructureClass, Glass.Flat:LimitedString64, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6225, Transmission, Number, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6225, Glass.Flat:Transmission, Number, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6226, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6226, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6225, Transmission, Number, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6225, Glass.Flat:Transmission, Number, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6105, Weight, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6105, Glass.Flat:Weight, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6106, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6106, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6105, Weight, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6105, Glass.Flat:Weight, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2371,15 +2374,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6138, X, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6138, Glass.Flat:X, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6141, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6141, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6138, X, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6138, Glass.Flat:X, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2387,15 +2390,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6142, Y, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6142, Glass.Flat:Y, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6151, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6151, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6142, Y, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6142, Glass.Flat:Y, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2403,15 +2406,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6154, Z, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6154, Glass.Flat:Z, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6155, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6155, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6154, Z, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6154, Glass.Flat:Z, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2419,38 +2422,38 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5020, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5020, Glass.Flat:<OutputMaterial> ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+    - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
 
-  ProcessingJobType:
-  - [ UAObjectType, Glass.Flat:1009, ProcessingJobType ]
+  Glass.Flat:ProcessingJobType:
+  - [ UAObjectType, Glass.Flat:1009, Glass.Flat:ProcessingJobType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5024, <InputMaterial> ]
+    - [ UAObject, Glass.Flat:5024, Glass.Flat:<InputMaterial> ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1009, ProcessingJobType ]
+      - [ UAObjectType, Glass.Flat:1009, Glass.Flat:ProcessingJobType ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+      - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6137, Description, LocalizedText, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6137, Glass.Flat:Description, LocalizedText, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5024, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5024, Glass.Flat:<InputMaterial> ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6135, Identifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6135, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5024, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5024, Glass.Flat:<InputMaterial> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6134, Location, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6134, Glass.Flat:Location, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5024, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5024, Glass.Flat:<InputMaterial> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2458,21 +2461,21 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6136, MaterialIdentifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6136, Glass.Flat:MaterialIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5024, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5024, Glass.Flat:<InputMaterial> ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6143, Weight, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6143, Glass.Flat:Weight, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6144, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6144, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6143, Weight, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6143, Glass.Flat:Weight, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2480,15 +2483,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5024, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5024, Glass.Flat:<InputMaterial> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6343, X, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6343, Glass.Flat:X, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6344, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6344, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6343, X, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6343, Glass.Flat:X, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2496,15 +2499,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5024, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5024, Glass.Flat:<InputMaterial> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6345, Y, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6345, Glass.Flat:Y, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6346, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6346, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6345, Y, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6345, Glass.Flat:Y, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2512,15 +2515,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5024, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5024, Glass.Flat:<InputMaterial> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6347, Z, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6347, Glass.Flat:Z, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6348, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6348, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6347, Z, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6347, Glass.Flat:Z, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2528,33 +2531,33 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5024, <InputMaterial> ]
+        - [ UAObject, Glass.Flat:5024, Glass.Flat:<InputMaterial> ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5025, <OutputMaterial> ]
+    - [ UAObject, Glass.Flat:5025, Glass.Flat:<OutputMaterial> ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1009, ProcessingJobType ]
+      - [ UAObjectType, Glass.Flat:1009, Glass.Flat:ProcessingJobType ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1006, BaseMaterialType ]
+      - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6150, Description, LocalizedText, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6150, Glass.Flat:Description, LocalizedText, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5025, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5025, Glass.Flat:<OutputMaterial> ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6146, Identifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6146, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5025, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5025, Glass.Flat:<OutputMaterial> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6145, Location, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6145, Glass.Flat:Location, Glass.Flat:LimitedString64, 0, 3 ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5025, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5025, Glass.Flat:<OutputMaterial> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2562,21 +2565,21 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6147, MaterialIdentifier, LimitedString64, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6147, Glass.Flat:MaterialIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5025, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5025, Glass.Flat:<OutputMaterial> ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6215, Weight, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6215, Glass.Flat:Weight, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6216, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6216, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6215, Weight, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6215, Glass.Flat:Weight, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2584,15 +2587,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5025, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5025, Glass.Flat:<OutputMaterial> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6349, X, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6349, Glass.Flat:X, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6350, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6350, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6349, X, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6349, Glass.Flat:X, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2600,15 +2603,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5025, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5025, Glass.Flat:<OutputMaterial> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6351, Y, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6351, Glass.Flat:Y, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6352, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6352, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6351, Y, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6351, Glass.Flat:Y, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2616,15 +2619,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5025, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5025, Glass.Flat:<OutputMaterial> ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6353, Z, Double, 0, 3 ]
+      - [ UAVariable, Glass.Flat:6353, Glass.Flat:Z, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6354, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6354, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6353, Z, Double, 0, 3 ]
+          - [ UAVariable, Glass.Flat:6353, Glass.Flat:Z, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2632,61 +2635,61 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5025, <OutputMaterial> ]
+        - [ UAObject, Glass.Flat:5025, Glass.Flat:<OutputMaterial> ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+    - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
 
-  ProductionType:
-  - [ UAObjectType, Glass.Flat:1021, ProductionType ]
+  Glass.Flat:ProductionType:
+  - [ UAObjectType, Glass.Flat:1021, Glass.Flat:ProductionType ]
   - HasComponent:
-    - [ UAMethod, Glass.Flat:7050, ChangePositionInList ]
+    - [ UAMethod, Glass.Flat:7050, Glass.Flat:ChangePositionInList ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1021, ProductionType ]
+      - [ UAObjectType, Glass.Flat:1021, Glass.Flat:ProductionType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6064, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Glass.Flat:6064, Glass.Flat:InputArguments, Argument, 1, 0 ]
       - Arguments:
-          Target: [ LimitedString64, 0 ]
-          Source: [ LimitedString64, 0 ]
+          Target: [ Glass.Flat:LimitedString64, 0 ]
+          Source: [ Glass.Flat:LimitedString64, 0 ]
           Before: [ Boolean, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, Glass.Flat:7050, ChangePositionInList ]
+        - [ UAMethod, Glass.Flat:7050, Glass.Flat:ChangePositionInList ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6178, CurrentCountOfJobs, UInt32, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6178, Glass.Flat:CurrentCountOfJobs, UInt32, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1021, ProductionType ]
+      - [ UAObjectType, Glass.Flat:1021, Glass.Flat:ProductionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAMethod, Glass.Flat:7049, DeleteJob ]
+    - [ UAMethod, Glass.Flat:7049, Glass.Flat:DeleteJob ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1021, ProductionType ]
+      - [ UAObjectType, Glass.Flat:1021, Glass.Flat:ProductionType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6123, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Glass.Flat:6123, Glass.Flat:InputArguments, Argument, 1, 0 ]
       - Arguments:
-          Identifier: [ LimitedString64, 0 ]
+          Identifier: [ Glass.Flat:LimitedString64, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, Glass.Flat:7049, DeleteJob ]
+        - [ UAMethod, Glass.Flat:7049, Glass.Flat:DeleteJob ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, Glass.Flat:7048, InsertJob ]
+    - [ UAMethod, Glass.Flat:7048, Glass.Flat:InsertJob ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6156, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Glass.Flat:6156, Glass.Flat:InputArguments, Argument, 1, 0 ]
       - Arguments:
-          Identifier: [ LimitedString64, 0 ]
-          Name: [ LimitedString64, 0 ]
+          Identifier: [ Glass.Flat:LimitedString64, 0 ]
+          Name: [ Glass.Flat:LimitedString64, 0 ]
           InputMaterial: [ NodeId, 1 ]
           OutputMaterial: [ NodeId, 1 ]
       - HasModellingRule:
@@ -2694,13 +2697,13 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, Glass.Flat:7048, InsertJob ]
+        - [ UAMethod, Glass.Flat:7048, Glass.Flat:InsertJob ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1021, ProductionType ]
+      - [ UAObjectType, Glass.Flat:1021, Glass.Flat:ProductionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6331, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Glass.Flat:6331, Glass.Flat:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           JobNodeId: [ NodeId, 0 ]
       - HasModellingRule:
@@ -2708,325 +2711,325 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, Glass.Flat:7048, InsertJob ]
+        - [ UAMethod, Glass.Flat:7048, Glass.Flat:InsertJob ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6269, JobListIsRecommendation, Boolean, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6269, Glass.Flat:JobListIsRecommendation, Boolean, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1021, ProductionType ]
+      - [ UAObjectType, Glass.Flat:1021, Glass.Flat:ProductionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6177, MaxCountOfJobs, UInt32, 0, 3 ]
+    - [ UAVariable, Glass.Flat:6177, Glass.Flat:MaxCountOfJobs, UInt32, 0, 3 ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1021, ProductionType ]
+      - [ UAObjectType, Glass.Flat:1021, Glass.Flat:ProductionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5007, ProductionPlan ]
+    - [ UAObject, Glass.Flat:5007, Glass.Flat:ProductionPlan ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1021, ProductionType ]
+      - [ UAObjectType, Glass.Flat:1021, Glass.Flat:ProductionType ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1023, ProductionPlanType ]
+      - [ UAObjectType, Glass.Flat:1023, Glass.Flat:ProductionPlanType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
-    - [ UAVariable, Glass.Flat:6079, SupportedMaterialTypes, NodeId, 1, 3 ]
+    - [ UAVariable, Glass.Flat:6079, Glass.Flat:SupportedMaterialTypes, NodeId, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1021, ProductionType ]
+      - [ UAObjectType, Glass.Flat:1021, Glass.Flat:ProductionType ]
 
-  InitializingSubStateMachineType:
-  - [ UAObjectType, Glass.Flat:1024, InitializingSubStateMachineType ]
+  Glass.Flat:InitializingSubStateMachineType:
+  - [ UAObjectType, Glass.Flat:1024, Glass.Flat:InitializingSubStateMachineType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5067, Idle ]
+    - [ UAObject, Glass.Flat:5067, Glass.Flat:Idle ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1024, InitializingSubStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1024, Glass.Flat:InitializingSubStateMachineType ]
     - FromState_reverse:
-      - [ UAObject, Glass.Flat:1044, IdleToQueued ]
+      - [ UAObject, Glass.Flat:1044, Glass.Flat:IdleToQueued ]
     - ToState_reverse:
-      - [ UAObject, Glass.Flat:1045, QueuedToIdle ]
+      - [ UAObject, Glass.Flat:1045, Glass.Flat:QueuedToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6298, StateNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6298, Glass.Flat:StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5067, Idle ]
+        - [ UAObject, Glass.Flat:5067, Glass.Flat:Idle ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:1044, IdleToQueued ]
+    - [ UAObject, Glass.Flat:1044, Glass.Flat:IdleToQueued ]
     - FromState:
-      - [ UAObject, Glass.Flat:5067, Idle ]
+      - [ UAObject, Glass.Flat:5067, Glass.Flat:Idle ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1024, InitializingSubStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1024, Glass.Flat:InitializingSubStateMachineType ]
     - ToState:
-      - [ UAObject, Glass.Flat:5076, Queued ]
+      - [ UAObject, Glass.Flat:5076, Glass.Flat:Queued ]
     - HasCause:
-      - [ UAMethod, Glass.Flat:7021, QueueJob ]
+      - [ UAMethod, Glass.Flat:7021, Glass.Flat:QueueJob ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+        - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
       - HasCause_reverse:
-        - [ UAObject, Glass.Flat:1044, IdleToQueued ]
+        - [ UAObject, Glass.Flat:1044, Glass.Flat:IdleToQueued ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:1056, TransitionNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:1056, Glass.Flat:TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:1044, IdleToQueued ]
+        - [ UAObject, Glass.Flat:1044, Glass.Flat:IdleToQueued ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
   - HasSubStateMachine_reverse:
-    - [ UAObject, Glass.Flat:5059, InitializingState ]
+    - [ UAObject, Glass.Flat:5059, Glass.Flat:InitializingState ]
   - HasSubStateMachine_reverse:
-    - [ UAObject, Glass.Flat:5061, InitializedState ]
+    - [ UAObject, Glass.Flat:5061, Glass.Flat:InitializedState ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5076, Queued ]
+    - [ UAObject, Glass.Flat:5076, Glass.Flat:Queued ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1024, InitializingSubStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1024, Glass.Flat:InitializingSubStateMachineType ]
     - ToState_reverse:
-      - [ UAObject, Glass.Flat:1044, IdleToQueued ]
+      - [ UAObject, Glass.Flat:1044, Glass.Flat:IdleToQueued ]
     - FromState_reverse:
-      - [ UAObject, Glass.Flat:1045, QueuedToIdle ]
+      - [ UAObject, Glass.Flat:1045, Glass.Flat:QueuedToIdle ]
     - FromState_reverse:
-      - [ UAObject, Glass.Flat:1046, QueuedToReleased ]
+      - [ UAObject, Glass.Flat:1046, Glass.Flat:QueuedToReleased ]
     - ToState_reverse:
-      - [ UAObject, Glass.Flat:1047, ReleasedToQueued ]
+      - [ UAObject, Glass.Flat:1047, Glass.Flat:ReleasedToQueued ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6307, StateNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6307, Glass.Flat:StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5076, Queued ]
+        - [ UAObject, Glass.Flat:5076, Glass.Flat:Queued ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:1045, QueuedToIdle ]
+    - [ UAObject, Glass.Flat:1045, Glass.Flat:QueuedToIdle ]
     - ToState:
-      - [ UAObject, Glass.Flat:5067, Idle ]
+      - [ UAObject, Glass.Flat:5067, Glass.Flat:Idle ]
     - FromState:
-      - [ UAObject, Glass.Flat:5076, Queued ]
+      - [ UAObject, Glass.Flat:5076, Glass.Flat:Queued ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1024, InitializingSubStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1024, Glass.Flat:InitializingSubStateMachineType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:1057, TransitionNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:1057, Glass.Flat:TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:1045, QueuedToIdle ]
+        - [ UAObject, Glass.Flat:1045, Glass.Flat:QueuedToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:1046, QueuedToReleased ]
+    - [ UAObject, Glass.Flat:1046, Glass.Flat:QueuedToReleased ]
     - FromState:
-      - [ UAObject, Glass.Flat:5076, Queued ]
+      - [ UAObject, Glass.Flat:5076, Glass.Flat:Queued ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1024, InitializingSubStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1024, Glass.Flat:InitializingSubStateMachineType ]
     - ToState:
-      - [ UAObject, Glass.Flat:5077, Released ]
+      - [ UAObject, Glass.Flat:5077, Glass.Flat:Released ]
     - HasCause:
-      - [ UAMethod, Glass.Flat:7003, ReleaseJob ]
+      - [ UAMethod, Glass.Flat:7003, Glass.Flat:ReleaseJob ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+        - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
       - HasCause_reverse:
-        - [ UAObject, Glass.Flat:1046, QueuedToReleased ]
+        - [ UAObject, Glass.Flat:1046, Glass.Flat:QueuedToReleased ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:1058, TransitionNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:1058, Glass.Flat:TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:1046, QueuedToReleased ]
+        - [ UAObject, Glass.Flat:1046, Glass.Flat:QueuedToReleased ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5077, Released ]
+    - [ UAObject, Glass.Flat:5077, Glass.Flat:Released ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1024, InitializingSubStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1024, Glass.Flat:InitializingSubStateMachineType ]
     - ToState_reverse:
-      - [ UAObject, Glass.Flat:1046, QueuedToReleased ]
+      - [ UAObject, Glass.Flat:1046, Glass.Flat:QueuedToReleased ]
     - FromState_reverse:
-      - [ UAObject, Glass.Flat:1047, ReleasedToQueued ]
+      - [ UAObject, Glass.Flat:1047, Glass.Flat:ReleasedToQueued ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6308, StateNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6308, Glass.Flat:StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5077, Released ]
+        - [ UAObject, Glass.Flat:5077, Glass.Flat:Released ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:1047, ReleasedToQueued ]
+    - [ UAObject, Glass.Flat:1047, Glass.Flat:ReleasedToQueued ]
     - ToState:
-      - [ UAObject, Glass.Flat:5076, Queued ]
+      - [ UAObject, Glass.Flat:5076, Glass.Flat:Queued ]
     - FromState:
-      - [ UAObject, Glass.Flat:5077, Released ]
+      - [ UAObject, Glass.Flat:5077, Glass.Flat:Released ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1024, InitializingSubStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1024, Glass.Flat:InitializingSubStateMachineType ]
     - HasCause:
-      - [ UAMethod, Glass.Flat:7004, SuspendJob ]
+      - [ UAMethod, Glass.Flat:7004, Glass.Flat:SuspendJob ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
-        - [ UAObjectType, Glass.Flat:1004, ProductionJobType ]
+        - [ UAObjectType, Glass.Flat:1004, Glass.Flat:ProductionJobType ]
       - HasCause_reverse:
-        - [ UAObject, Glass.Flat:1047, ReleasedToQueued ]
+        - [ UAObject, Glass.Flat:1047, Glass.Flat:ReleasedToQueued ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:1059, TransitionNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:1059, Glass.Flat:TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:1047, ReleasedToQueued ]
+        - [ UAObject, Glass.Flat:1047, Glass.Flat:ReleasedToQueued ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
 
-  ProductionStateMachineType:
-  - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+  Glass.Flat:ProductionStateMachineType:
+  - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5033, Aborted ]
+    - [ UAObject, Glass.Flat:5033, Glass.Flat:Aborted ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
     - ToState_reverse:
-      - [ UAObject, Glass.Flat:1013, RunningToAborted ]
+      - [ UAObject, Glass.Flat:1013, Glass.Flat:RunningToAborted ]
     - FromState_reverse:
-      - [ UAObject, Glass.Flat:1028, AbortedToInitializing ]
+      - [ UAObject, Glass.Flat:1028, Glass.Flat:AbortedToInitializing ]
     - ToState_reverse:
-      - [ UAObject, Glass.Flat:1043, InterruptedToAborted ]
+      - [ UAObject, Glass.Flat:1043, Glass.Flat:InterruptedToAborted ]
     - ToState_reverse:
-      - [ UAObject, Glass.Flat:1053, InitializingToAborted ]
+      - [ UAObject, Glass.Flat:1053, Glass.Flat:InitializingToAborted ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6159, StateNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6159, Glass.Flat:StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5033, Aborted ]
+        - [ UAObject, Glass.Flat:5033, Glass.Flat:Aborted ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:1028, AbortedToInitializing ]
+    - [ UAObject, Glass.Flat:1028, Glass.Flat:AbortedToInitializing ]
     - FromState:
-      - [ UAObject, Glass.Flat:5033, Aborted ]
+      - [ UAObject, Glass.Flat:5033, Glass.Flat:Aborted ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
     - ToState:
-      - [ UAObject, Glass.Flat:5032, Initializing ]
+      - [ UAObject, Glass.Flat:5032, Glass.Flat:Initializing ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:1061, TransitionNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:1061, Glass.Flat:TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:1028, AbortedToInitializing ]
+        - [ UAObject, Glass.Flat:1028, Glass.Flat:AbortedToInitializing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6280, CurrentState, LocalizedText, 0, 0 ]
+    - [ UAVariable, Glass.Flat:6280, Glass.Flat:CurrentState, LocalizedText, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
     - HasTypeDefinition:
       - [ UAVariableType, 2760, FiniteStateVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5034, Ended ]
+    - [ UAObject, Glass.Flat:5034, Glass.Flat:Ended ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
     - ToState_reverse:
-      - [ UAObject, Glass.Flat:1014, RunningToEnded ]
+      - [ UAObject, Glass.Flat:1014, Glass.Flat:RunningToEnded ]
     - FromState_reverse:
-      - [ UAObject, Glass.Flat:1042, EndedToInitializing ]
+      - [ UAObject, Glass.Flat:1042, Glass.Flat:EndedToInitializing ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6160, StateNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6160, Glass.Flat:StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5034, Ended ]
+        - [ UAObject, Glass.Flat:5034, Glass.Flat:Ended ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:1042, EndedToInitializing ]
+    - [ UAObject, Glass.Flat:1042, Glass.Flat:EndedToInitializing ]
     - FromState:
-      - [ UAObject, Glass.Flat:5034, Ended ]
+      - [ UAObject, Glass.Flat:5034, Glass.Flat:Ended ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
     - ToState:
-      - [ UAObject, Glass.Flat:5032, Initializing ]
+      - [ UAObject, Glass.Flat:5032, Glass.Flat:Initializing ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:1054, TransitionNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:1054, Glass.Flat:TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:1042, EndedToInitializing ]
+        - [ UAObject, Glass.Flat:1042, Glass.Flat:EndedToInitializing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5032, Initializing ]
+    - [ UAObject, Glass.Flat:5032, Glass.Flat:Initializing ]
     - FromState_reverse:
-      - [ UAObject, Glass.Flat:1000, InitializingToRunning ]
+      - [ UAObject, Glass.Flat:1000, Glass.Flat:InitializingToRunning ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
     - ToState_reverse:
-      - [ UAObject, Glass.Flat:1028, AbortedToInitializing ]
+      - [ UAObject, Glass.Flat:1028, Glass.Flat:AbortedToInitializing ]
     - ToState_reverse:
-      - [ UAObject, Glass.Flat:1042, EndedToInitializing ]
+      - [ UAObject, Glass.Flat:1042, Glass.Flat:EndedToInitializing ]
     - FromState_reverse:
-      - [ UAObject, Glass.Flat:1053, InitializingToAborted ]
+      - [ UAObject, Glass.Flat:1053, Glass.Flat:InitializingToAborted ]
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6024, StateNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6024, Glass.Flat:StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5032, Initializing ]
+        - [ UAObject, Glass.Flat:5032, Glass.Flat:Initializing ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5059, InitializingState ]
+    - [ UAObject, Glass.Flat:5059, Glass.Flat:InitializingState ]
     - HasComponent:
-      - [ UAVariable, Glass.Flat:6282, CurrentState, LocalizedText, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6282, Glass.Flat:CurrentState, LocalizedText, 0, 0 ]
       - HasComponent_reverse:
-        - [ UAObject, Glass.Flat:5059, InitializingState ]
+        - [ UAObject, Glass.Flat:5059, Glass.Flat:InitializingState ]
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasProperty:
-        - [ UAVariable, Glass.Flat:6283, Id, NodeId, 0, 0 ]
+        - [ UAVariable, Glass.Flat:6283, Glass.Flat:Id, NodeId, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, Glass.Flat:6282, CurrentState, LocalizedText, 0, 0 ]
+          - [ UAVariable, Glass.Flat:6282, Glass.Flat:CurrentState, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -3034,204 +3037,204 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat:1024, InitializingSubStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1024, Glass.Flat:InitializingSubStateMachineType ]
     - HasSubStateMachine:
-      - [ UAObjectType, Glass.Flat:1024, InitializingSubStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1024, Glass.Flat:InitializingSubStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:1053, InitializingToAborted ]
+    - [ UAObject, Glass.Flat:1053, Glass.Flat:InitializingToAborted ]
     - ToState:
-      - [ UAObject, Glass.Flat:5033, Aborted ]
+      - [ UAObject, Glass.Flat:5033, Glass.Flat:Aborted ]
     - FromState:
-      - [ UAObject, Glass.Flat:5032, Initializing ]
+      - [ UAObject, Glass.Flat:5032, Glass.Flat:Initializing ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:1062, TransitionNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:1062, Glass.Flat:TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:1053, InitializingToAborted ]
+        - [ UAObject, Glass.Flat:1053, Glass.Flat:InitializingToAborted ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:1000, InitializingToRunning ]
+    - [ UAObject, Glass.Flat:1000, Glass.Flat:InitializingToRunning ]
     - FromState:
-      - [ UAObject, Glass.Flat:5032, Initializing ]
+      - [ UAObject, Glass.Flat:5032, Glass.Flat:Initializing ]
     - ToState:
-      - [ UAObject, Glass.Flat:5036, Running ]
+      - [ UAObject, Glass.Flat:5036, Glass.Flat:Running ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:1048, TransitionNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:1048, Glass.Flat:TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:1000, InitializingToRunning ]
+        - [ UAObject, Glass.Flat:1000, Glass.Flat:InitializingToRunning ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5035, Interrupted ]
+    - [ UAObject, Glass.Flat:5035, Glass.Flat:Interrupted ]
     - ToState_reverse:
-      - [ UAObject, Glass.Flat:1001, RunningToInterrupted ]
+      - [ UAObject, Glass.Flat:1001, Glass.Flat:RunningToInterrupted ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
     - FromState_reverse:
-      - [ UAObject, Glass.Flat:1012, InterruptedToRunning ]
+      - [ UAObject, Glass.Flat:1012, Glass.Flat:InterruptedToRunning ]
     - FromState_reverse:
-      - [ UAObject, Glass.Flat:1043, InterruptedToAborted ]
+      - [ UAObject, Glass.Flat:1043, Glass.Flat:InterruptedToAborted ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6161, StateNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6161, Glass.Flat:StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5035, Interrupted ]
+        - [ UAObject, Glass.Flat:5035, Glass.Flat:Interrupted ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:1043, InterruptedToAborted ]
+    - [ UAObject, Glass.Flat:1043, Glass.Flat:InterruptedToAborted ]
     - ToState:
-      - [ UAObject, Glass.Flat:5033, Aborted ]
+      - [ UAObject, Glass.Flat:5033, Glass.Flat:Aborted ]
     - FromState:
-      - [ UAObject, Glass.Flat:5035, Interrupted ]
+      - [ UAObject, Glass.Flat:5035, Glass.Flat:Interrupted ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:1055, TransitionNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:1055, Glass.Flat:TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:1043, InterruptedToAborted ]
+        - [ UAObject, Glass.Flat:1043, Glass.Flat:InterruptedToAborted ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:1012, InterruptedToRunning ]
+    - [ UAObject, Glass.Flat:1012, Glass.Flat:InterruptedToRunning ]
     - FromState:
-      - [ UAObject, Glass.Flat:5035, Interrupted ]
+      - [ UAObject, Glass.Flat:5035, Glass.Flat:Interrupted ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
     - ToState:
-      - [ UAObject, Glass.Flat:5036, Running ]
+      - [ UAObject, Glass.Flat:5036, Glass.Flat:Running ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:1050, TransitionNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:1050, Glass.Flat:TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:1012, InterruptedToRunning ]
+        - [ UAObject, Glass.Flat:1012, Glass.Flat:InterruptedToRunning ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:5036, Running ]
+    - [ UAObject, Glass.Flat:5036, Glass.Flat:Running ]
     - ToState_reverse:
-      - [ UAObject, Glass.Flat:1000, InitializingToRunning ]
+      - [ UAObject, Glass.Flat:1000, Glass.Flat:InitializingToRunning ]
     - FromState_reverse:
-      - [ UAObject, Glass.Flat:1001, RunningToInterrupted ]
+      - [ UAObject, Glass.Flat:1001, Glass.Flat:RunningToInterrupted ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
     - ToState_reverse:
-      - [ UAObject, Glass.Flat:1012, InterruptedToRunning ]
+      - [ UAObject, Glass.Flat:1012, Glass.Flat:InterruptedToRunning ]
     - FromState_reverse:
-      - [ UAObject, Glass.Flat:1013, RunningToAborted ]
+      - [ UAObject, Glass.Flat:1013, Glass.Flat:RunningToAborted ]
     - FromState_reverse:
-      - [ UAObject, Glass.Flat:1014, RunningToEnded ]
+      - [ UAObject, Glass.Flat:1014, Glass.Flat:RunningToEnded ]
     - FromState_reverse:
-      - [ UAObject, Glass.Flat:1022, RunningToRunning ]
+      - [ UAObject, Glass.Flat:1022, Glass.Flat:RunningToRunning ]
     - ToState_reverse:
-      - [ UAObject, Glass.Flat:1022, RunningToRunning ]
+      - [ UAObject, Glass.Flat:1022, Glass.Flat:RunningToRunning ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6171, StateNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:6171, Glass.Flat:StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:5036, Running ]
+        - [ UAObject, Glass.Flat:5036, Glass.Flat:Running ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:1013, RunningToAborted ]
+    - [ UAObject, Glass.Flat:1013, Glass.Flat:RunningToAborted ]
     - ToState:
-      - [ UAObject, Glass.Flat:5033, Aborted ]
+      - [ UAObject, Glass.Flat:5033, Glass.Flat:Aborted ]
     - FromState:
-      - [ UAObject, Glass.Flat:5036, Running ]
+      - [ UAObject, Glass.Flat:5036, Glass.Flat:Running ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:1051, TransitionNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:1051, Glass.Flat:TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:1013, RunningToAborted ]
+        - [ UAObject, Glass.Flat:1013, Glass.Flat:RunningToAborted ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:1014, RunningToEnded ]
+    - [ UAObject, Glass.Flat:1014, Glass.Flat:RunningToEnded ]
     - ToState:
-      - [ UAObject, Glass.Flat:5034, Ended ]
+      - [ UAObject, Glass.Flat:5034, Glass.Flat:Ended ]
     - FromState:
-      - [ UAObject, Glass.Flat:5036, Running ]
+      - [ UAObject, Glass.Flat:5036, Glass.Flat:Running ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:1052, TransitionNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:1052, Glass.Flat:TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:1014, RunningToEnded ]
+        - [ UAObject, Glass.Flat:1014, Glass.Flat:RunningToEnded ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:1001, RunningToInterrupted ]
+    - [ UAObject, Glass.Flat:1001, Glass.Flat:RunningToInterrupted ]
     - ToState:
-      - [ UAObject, Glass.Flat:5035, Interrupted ]
+      - [ UAObject, Glass.Flat:5035, Glass.Flat:Interrupted ]
     - FromState:
-      - [ UAObject, Glass.Flat:5036, Running ]
+      - [ UAObject, Glass.Flat:5036, Glass.Flat:Running ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:1049, TransitionNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:1049, Glass.Flat:TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:1001, RunningToInterrupted ]
+        - [ UAObject, Glass.Flat:1001, Glass.Flat:RunningToInterrupted ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat:1022, RunningToRunning ]
+    - [ UAObject, Glass.Flat:1022, Glass.Flat:RunningToRunning ]
     - FromState:
-      - [ UAObject, Glass.Flat:5036, Running ]
+      - [ UAObject, Glass.Flat:5036, Glass.Flat:Running ]
     - ToState:
-      - [ UAObject, Glass.Flat:5036, Running ]
+      - [ UAObject, Glass.Flat:5036, Glass.Flat:Running ]
     - HasComponent_reverse:
-      - [ UAObjectType, Glass.Flat:1005, ProductionStateMachineType ]
+      - [ UAObjectType, Glass.Flat:1005, Glass.Flat:ProductionStateMachineType ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:1060, TransitionNumber, UInt32, 0, 0 ]
+      - [ UAVariable, Glass.Flat:1060, Glass.Flat:TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Glass.Flat:1022, RunningToRunning ]
+        - [ UAObject, Glass.Flat:1022, Glass.Flat:RunningToRunning ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]

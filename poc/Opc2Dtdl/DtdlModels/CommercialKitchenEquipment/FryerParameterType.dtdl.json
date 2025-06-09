@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -72,9 +73,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "ActualTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "degreeCelsius",
       "schema": "float",
       "writable": false
     },
@@ -93,16 +95,18 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "SetProcessTime",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "second",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "SetTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "degreeCelsius",
       "schema": "float",
       "writable": false
     },
@@ -114,9 +118,10 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "TimeRemaining",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "second",
       "schema": "integer",
       "writable": false
     }

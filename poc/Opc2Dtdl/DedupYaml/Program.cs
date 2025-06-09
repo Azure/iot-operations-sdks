@@ -228,6 +228,11 @@
                 }
             }
 
+            if (definedType.UnitId != null)
+            {
+                outputFile.WriteLine($"{currentIndent}- UnitId: {definedType.UnitId}");
+            }
+
             foreach (OpcUaContent content in DedupedContents(definedType, objectTypeComponents, objectTypeSupers))
             {
                 outputFile.WriteLine($"{currentIndent}- {content.Relationship}:");

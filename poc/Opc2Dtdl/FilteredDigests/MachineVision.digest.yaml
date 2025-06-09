@@ -204,7 +204,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7048, MachineVision:ActivateConfiguration ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6116, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6116, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           InternalId: [ MachineVision:ConfigurationIdDataType, 0 ]
       - HasModellingRule:
@@ -212,7 +212,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6117, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6117, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -224,7 +224,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7025, MachineVision:AddConfiguration ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6096, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6096, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ExternalId: [ MachineVision:ConfigurationIdDataType, 0 ]
       - HasModellingRule:
@@ -232,7 +232,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6097, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6097, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           InternalId: [ MachineVision:ConfigurationIdDataType, 0 ]
           Configuration: [ NodeId, 0 ]
@@ -257,7 +257,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7041, MachineVision:GetConfigurationById ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6100, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6100, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           InternalId: [ MachineVision:ConfigurationIdDataType, 0 ]
           Timeout: [ Int32, 0 ]
@@ -266,7 +266,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6101, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6101, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ConfigurationHandle: [ MachineVision:Handle, 0 ]
           Configuration: [ MachineVision:ConfigurationDataType, 0 ]
@@ -276,7 +276,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7045, MachineVision:GetConfigurationList ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6104, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6104, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           MaxResults: [ UInt32, 0 ]
           StartIndex: [ UInt32, 0 ]
@@ -286,7 +286,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6105, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6105, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           IsComplete: [ Boolean, 0 ]
           ResultCount: [ UInt32, 0 ]
@@ -298,7 +298,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7046, MachineVision:ReleaseConfigurationHandle ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6108, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6108, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ConfigurationHandle: [ MachineVision:Handle, 0 ]
       - HasModellingRule:
@@ -306,7 +306,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6109, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6109, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -314,7 +314,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7047, MachineVision:RemoveConfiguration ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6112, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6112, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           InternalId: [ MachineVision:ConfigurationIdDataType, 0 ]
       - HasModellingRule:
@@ -322,7 +322,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6113, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6113, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -399,7 +399,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7013, MachineVision:AddRecipe ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6144, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6144, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ExternalId: [ MachineVision:RecipeIdExternalDataType, 0 ]
           ProductId: [ MachineVision:ProductIdDataType, 0 ]
@@ -408,7 +408,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6145, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6145, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           InternalId: [ MachineVision:RecipeIdInternalDataType, 0 ]
           Recipe: [ NodeId, 0 ]
@@ -420,7 +420,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7014, MachineVision:GetRecipeListFiltered ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6156, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6156, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ExternalId: [ MachineVision:RecipeIdExternalDataType, 0 ]
           ProductId: [ MachineVision:ProductIdDataType, 0 ]
@@ -433,7 +433,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6157, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6157, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           IsComplete: [ Boolean, 0 ]
           ResultCount: [ UInt32, 0 ]
@@ -445,7 +445,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7060, MachineVision:PrepareProduct ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6172, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6172, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductId: [ MachineVision:ProductIdDataType, 0 ]
       - HasModellingRule:
@@ -453,7 +453,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6173, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6173, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           InternalId: [ MachineVision:RecipeIdInternalDataType, 0 ]
           Error: [ Int32, 0 ]
@@ -462,7 +462,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7015, MachineVision:PrepareRecipe ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6148, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6148, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ExternalId: [ MachineVision:RecipeIdExternalDataType, 0 ]
           InternalIdIn: [ MachineVision:RecipeIdInternalDataType, 0 ]
@@ -471,7 +471,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6149, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6149, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           InternalIdOut: [ MachineVision:RecipeIdInternalDataType, 0 ]
           IsCompleted: [ Boolean, 0 ]
@@ -501,7 +501,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7056, MachineVision:ReleaseRecipeHandle ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6160, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6160, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeHandle: [ MachineVision:Handle, 0 ]
       - HasModellingRule:
@@ -509,7 +509,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6161, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6161, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -517,7 +517,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7057, MachineVision:RemoveRecipe ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6164, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6164, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ExternalId: [ MachineVision:RecipeIdExternalDataType, 0 ]
       - HasModellingRule:
@@ -525,7 +525,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6165, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6165, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -533,7 +533,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7061, MachineVision:UnlinkProduct ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6180, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6180, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           InternalId: [ MachineVision:RecipeIdInternalDataType, 0 ]
           ProductId: [ MachineVision:ProductIdDataType, 0 ]
@@ -542,7 +542,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6181, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6181, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -550,7 +550,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7059, MachineVision:UnprepareProduct ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6176, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6176, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductId: [ MachineVision:ProductIdDataType, 0 ]
       - HasModellingRule:
@@ -558,7 +558,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6177, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6177, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           InternalId: [ MachineVision:RecipeIdInternalDataType, 0 ]
           Error: [ Int32, 0 ]
@@ -567,7 +567,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7055, MachineVision:UnprepareRecipe ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6152, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6152, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ExternalId: [ MachineVision:RecipeIdExternalDataType, 0 ]
           InternalIdIn: [ MachineVision:RecipeIdInternalDataType, 0 ]
@@ -576,7 +576,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6153, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6153, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           InternalIdOut: [ MachineVision:RecipeIdInternalDataType, 0 ]
           Error: [ Int32, 0 ]
@@ -594,7 +594,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7062, MachineVision:LinkProduct ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6190, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6190, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductId: [ MachineVision:ProductIdDataType, 0 ]
       - HasModellingRule:
@@ -602,7 +602,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6191, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6191, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -612,7 +612,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6202, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6202, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           IsCompleted: [ Boolean, 0 ]
           Error: [ Int32, 0 ]
@@ -623,7 +623,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7063, MachineVision:UnlinkProduct ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6196, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6196, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductId: [ MachineVision:ProductIdDataType, 0 ]
       - HasModellingRule:
@@ -631,7 +631,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6197, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6197, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -641,7 +641,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6205, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6205, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -652,7 +652,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7026, MachineVision:GetResultById ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6209, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6209, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ResultId: [ MachineVision:ResultIdDataType, 0 ]
           Timeout: [ Int32, 0 ]
@@ -661,7 +661,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6210, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6210, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ResultHandle: [ MachineVision:Handle, 0 ]
           Result: [ MachineVision:ResultDataType, 0 ]
@@ -671,7 +671,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7007, MachineVision:GetResultComponentsById ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6024, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6024, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ResultId: [ MachineVision:ResultIdDataType, 0 ]
           Timeout: [ Int32, 0 ]
@@ -680,7 +680,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6025, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6025, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           HasTransferableDataOnFile: [ Boolean, 0 ]
           ResultHandle: [ MachineVision:Handle, 0 ]
@@ -704,7 +704,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7089, MachineVision:GetResultListFiltered ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6213, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6213, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ResultState: [ MachineVision:ResultStateDataType, 0 ]
           MeasId: [ MachineVision:MeasIdDataType, 0 ]
@@ -723,7 +723,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6214, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6214, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           IsComplete: [ Boolean, 0 ]
           ResultCount: [ UInt32, 0 ]
@@ -735,7 +735,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7090, MachineVision:ReleaseResultHandle ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6217, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6217, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ResultHandle: [ MachineVision:Handle, 0 ]
       - HasModellingRule:
@@ -743,7 +743,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6218, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6218, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -768,7 +768,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7043, MachineVision:ReportSafetyState ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6222, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6222, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SafetyTriggered: [ Boolean, 0 ]
           SafetyInformation: [ String, 0 ]
@@ -777,7 +777,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6223, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6223, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -798,7 +798,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7097, MachineVision:Abort ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6285, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6285, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Cause: [ Int32, 0 ]
           CauseDescription: [ String, 0 ]
@@ -807,7 +807,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6286, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6286, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -897,7 +897,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7100, MachineVision:SimulationMode ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6289, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6289, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Activate: [ Boolean, 0 ]
           Cause: [ Int32, 0 ]
@@ -907,7 +907,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6290, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6290, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -937,7 +937,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7009, MachineVision:StartContinuous ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6086, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6086, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           MeasId: [ MachineVision:MeasIdDataType, 0 ]
           PartId: [ MachineVision:PartIdDataType, 0 ]
@@ -949,7 +949,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6087, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6087, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           JobId: [ MachineVision:JobIdDataType, 0 ]
           Error: [ Int32, 0 ]
@@ -958,7 +958,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7098, MachineVision:StartSingleJob ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6281, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6281, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           MeasId: [ MachineVision:MeasIdDataType, 0 ]
           PartId: [ MachineVision:PartIdDataType, 0 ]
@@ -970,7 +970,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6282, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6282, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           JobId: [ MachineVision:JobIdDataType, 0 ]
           Error: [ Int32, 0 ]
@@ -979,7 +979,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7096, MachineVision:Stop ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6287, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6287, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Cause: [ Int32, 0 ]
           CauseDescription: [ String, 0 ]
@@ -988,7 +988,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6288, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6288, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -1007,7 +1007,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7066, MachineVision:ConfirmAll ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6241, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6241, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Comment: [ LocalizedText, 0 ]
       - HasModellingRule:
@@ -1047,7 +1047,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7094, MachineVision:Halt ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6254, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6254, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Cause: [ Int32, 0 ]
           CauseDescription: [ String, 0 ]
@@ -1056,7 +1056,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6255, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6255, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -1144,7 +1144,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7093, MachineVision:Reset ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6256, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6256, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Cause: [ Int32, 0 ]
           CauseDescription: [ String, 0 ]
@@ -1153,7 +1153,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6257, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6257, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -1163,7 +1163,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6258, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6258, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -1204,7 +1204,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, MachineVision:7101, MachineVision:Sync ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6319, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6319, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Cause: [ Int32, 0 ]
           CauseDescription: [ String, 0 ]
@@ -1213,7 +1213,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6320, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6320, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -1238,9 +1238,9 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 15744, TemporaryFileTransferType ]
   - HasComponent:
-    - [ UAMethod, MachineVision:7129, GenerateFileForRead ]
+    - [ UAMethod, MachineVision:7129, MachineVision:GenerateFileForRead ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6617, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6617, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           GenerateOptions: [ MachineVision:ConfigurationTransferOptions, 0 ]
       - HasModellingRule:
@@ -1248,7 +1248,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6618, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6618, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FileNodeId: [ NodeId, 0 ]
           FileHandle: [ UInt32, 0 ]
@@ -1256,9 +1256,9 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, MachineVision:7130, GenerateFileForWrite ]
+    - [ UAMethod, MachineVision:7130, MachineVision:GenerateFileForWrite ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6121, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6121, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           GenerateOptions: [ MachineVision:ConfigurationTransferOptions, 0 ]
       - HasModellingRule:
@@ -1266,7 +1266,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6122, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6122, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FileNodeId: [ NodeId, 0 ]
           FileHandle: [ UInt32, 0 ]
@@ -1276,9 +1276,9 @@ DefinedTypes:
   MachineVision:RecipeTransferType:
   - [ UAObjectType, MachineVision:1014, MachineVision:RecipeTransferType ]
   - HasComponent:
-    - [ UAMethod, MachineVision:7123, GenerateFileForRead ]
+    - [ UAMethod, MachineVision:7123, MachineVision:GenerateFileForRead ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6184, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6184, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           generateOptions: [ MachineVision:RecipeTransferOptions, 0 ]
       - HasModellingRule:
@@ -1286,7 +1286,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6185, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6185, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           fileNodeId: [ NodeId, 0 ]
           fileHandle: [ UInt32, 0 ]
@@ -1294,9 +1294,9 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, MachineVision:7124, GenerateFileForWrite ]
+    - [ UAMethod, MachineVision:7124, MachineVision:GenerateFileForWrite ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6583, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6583, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           GenerateOptions: [ MachineVision:RecipeTransferOptions, 0 ]
       - HasModellingRule:
@@ -1304,7 +1304,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6584, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6584, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FileNodeId: [ NodeId, 0 ]
           FileHandle: [ UInt32, 0 ]
@@ -1316,9 +1316,9 @@ DefinedTypes:
   MachineVision:ResultTransferType:
   - [ UAObjectType, MachineVision:1039, MachineVision:ResultTransferType ]
   - HasComponent:
-    - [ UAMethod, MachineVision:7058, GenerateFileForRead ]
+    - [ UAMethod, MachineVision:7058, MachineVision:GenerateFileForRead ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6169, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6169, MachineVision:InputArguments, Argument, 1, 0 ]
       - Arguments:
           GenerateOptions: [ MachineVision:ResultTransferOptions, 0 ]
       - HasModellingRule:
@@ -1326,7 +1326,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MachineVision:6170, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MachineVision:6170, MachineVision:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FileNodeId: [ NodeId, 0 ]
           FileHandle: [ UInt32, 0 ]

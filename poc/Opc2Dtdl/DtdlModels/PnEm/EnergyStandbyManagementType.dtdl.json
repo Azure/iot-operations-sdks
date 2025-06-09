@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -32,132 +33,17 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "EndPause",
-      "namespace": "http://opcfoundation.org/UA/PNEM",
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "CurrentTimeToOperate",
-              "schema": "duration"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ReturnCode",
-              "schema": "unsignedByte"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PNEM"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "StartPause",
-      "namespace": "http://opcfoundation.org/UA/PNEM",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "PauseTime",
-              "schema": "duration"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ModeID",
-              "schema": "unsignedByte"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "CurrentTimeToDestination",
-              "schema": "duration"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "RegularTimeToOperate",
-              "schema": "duration"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "TimeMinLengthToStay",
-              "schema": "duration"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ReturnCode",
-              "schema": "unsignedByte"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PNEM"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SwitchToEnergySavingMode",
-      "namespace": "http://opcfoundation.org/UA/PNEM",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ModeID",
-              "schema": "unsignedByte"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "EffectiveModeID",
-              "schema": "unsignedByte"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "CurrentTimeToDestination",
-              "schema": "duration"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "RegularTimeToOperate",
-              "schema": "duration"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "TimeMinLengthOfStay",
-              "schema": "duration"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ReturnCode",
-              "schema": "unsignedByte"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PNEM"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

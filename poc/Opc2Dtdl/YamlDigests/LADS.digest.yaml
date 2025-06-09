@@ -1,347 +1,347 @@
 DataTypes:
-- UADataType: [ LADS:3003, KeyValueType ]
+- UADataType: [ LADS:3003, LADS:KeyValueType ]
   Fields:
     Key: [ String, 0 ]
     Value: [ String, 0 ]
-- UADataType: [ LADS:3002, SampleInfoType ]
+- UADataType: [ LADS:3002, LADS:SampleInfoType ]
   Fields:
     ContainerId: [ String, 0 ]
     SampleId: [ String, 0 ]
     Position: [ String, 0 ]
     CustomData: [ String, 0 ]
-- UADataType: [ LADS:3000, MaintenanceTaskResultEnum ]
+- UADataType: [ LADS:3000, LADS:MaintenanceTaskResultEnum ]
   Enums:
     Success: 0
     Failure: 1
     Undetermined: 2
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ AMB:3004, MaintenanceMethodEnum ]
+- UADataType: [ AMB:3004, AMB:MaintenanceMethodEnum ]
   Enums:
     Local: 0
     Remote: 1
-- UADataType: [ AMB:3003, NameNodeIdDataType ]
+- UADataType: [ AMB:3003, AMB:NameNodeIdDataType ]
   Fields:
     Name: [ LocalizedText, 0 ]
     NodeId: [ NodeId, 0 ]
-- UADataType: [ AMB:3002, RootCauseDataType ]
+- UADataType: [ AMB:3002, AMB:RootCauseDataType ]
   Fields:
     RootCauseId: [ NodeId, 0 ]
     RootCause: [ LocalizedText, 0 ]
 
 DefinedTypes:
 
-  ActiveProgramType:
-  - [ UAObjectType, LADS:1040, ActiveProgramType ]
+  LADS:ActiveProgramType:
+  - [ UAObjectType, LADS:1040, LADS:ActiveProgramType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  LADSComponentsType:
-  - [ UAObjectType, LADS:1025, LADSComponentsType ]
+  LADS:LADSComponentsType:
+  - [ UAObjectType, LADS:1025, LADS:LADSComponentsType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+    - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
   - GeneratesEvent:
     - [ UAObjectType, 2133, GeneralModelChangeEventType ]
 
-  LADSOperationCountersType:
-  - [ UAObjectType, LADS:1034, LADSOperationCountersType ]
+  LADS:LADSOperationCountersType:
+  - [ UAObjectType, LADS:1034, LADS:LADSOperationCountersType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1009, MachineryOperationCounterType ]
+    - [ UAObjectType, Machinery:1009, Machinery:MachineryOperationCounterType ]
   - HasInterface:
-    - [ UAObjectType, DI:480, IOperationCounterType ]
+    - [ UAObjectType, DI:480, DI:IOperationCounterType ]
 
-  FunctionalUnitSetType:
-  - [ UAObjectType, LADS:1023, FunctionalUnitSetType ]
+  LADS:FunctionalUnitSetType:
+  - [ UAObjectType, LADS:1023, LADS:FunctionalUnitSetType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:61, SetType ]
+    - [ UAObjectType, LADS:61, LADS:SetType ]
 
-  FunctionSetType:
-  - [ UAObjectType, LADS:1026, FunctionSetType ]
+  LADS:FunctionSetType:
+  - [ UAObjectType, LADS:1026, LADS:FunctionSetType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:61, SetType ]
+    - [ UAObjectType, LADS:61, LADS:SetType ]
 
-  ProgramTemplateSetType:
-  - [ UAObjectType, LADS:1019, ProgramTemplateSetType ]
+  LADS:ProgramTemplateSetType:
+  - [ UAObjectType, LADS:1019, LADS:ProgramTemplateSetType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:61, SetType ]
+    - [ UAObjectType, LADS:61, LADS:SetType ]
 
-  ProgramTemplateType:
-  - [ UAObjectType, LADS:1018, ProgramTemplateType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, 58, BaseObjectType ]
-
-  SupportedPropertiesSetType:
-  - [ UAObjectType, LADS:1033, SupportedPropertiesSetType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, LADS:61, SetType ]
-
-  SupportedPropertyType:
-  - [ UAObjectType, LADS:1035, SupportedPropertyType ]
+  LADS:ProgramTemplateType:
+  - [ UAObjectType, LADS:1018, LADS:ProgramTemplateType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  ResultFileSetType:
-  - [ UAObjectType, LADS:1022, ResultFileSetType ]
+  LADS:SupportedPropertiesSetType:
+  - [ UAObjectType, LADS:1033, LADS:SupportedPropertiesSetType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:61, SetType ]
+    - [ UAObjectType, LADS:61, LADS:SetType ]
 
-  ResultFileType:
-  - [ UAObjectType, LADS:1001, ResultFileType ]
+  LADS:SupportedPropertyType:
+  - [ UAObjectType, LADS:1035, LADS:SupportedPropertyType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  ResultSetType:
-  - [ UAObjectType, LADS:1020, ResultSetType ]
+  LADS:ResultFileSetType:
+  - [ UAObjectType, LADS:1022, LADS:ResultFileSetType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:61, SetType ]
+    - [ UAObjectType, LADS:61, LADS:SetType ]
 
-  ResultType:
-  - [ UAObjectType, LADS:1021, ResultType ]
+  LADS:ResultFileType:
+  - [ UAObjectType, LADS:1001, LADS:ResultFileType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  CoverStateMachineType:
-  - [ UAObjectType, LADS:1010, CoverStateMachineType ]
+  LADS:ResultSetType:
+  - [ UAObjectType, LADS:1020, LADS:ResultSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, LADS:61, LADS:SetType ]
+
+  LADS:ResultType:
+  - [ UAObjectType, LADS:1021, LADS:ResultType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  LADS:CoverStateMachineType:
+  - [ UAObjectType, LADS:1010, LADS:CoverStateMachineType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
-  LADSDeviceStateMachineType:
-  - [ UAObjectType, LADS:1039, LADSDeviceStateMachineType ]
+  LADS:LADSDeviceStateMachineType:
+  - [ UAObjectType, LADS:1039, LADS:LADSDeviceStateMachineType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
-  FunctionalStateMachineType:
-  - [ UAObjectType, LADS:1038, FunctionalStateMachineType ]
+  LADS:FunctionalStateMachineType:
+  - [ UAObjectType, LADS:1038, LADS:FunctionalStateMachineType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
-  RunningStateMachineType:
-  - [ UAObjectType, LADS:1036, RunningStateMachineType ]
+  LADS:RunningStateMachineType:
+  - [ UAObjectType, LADS:1036, LADS:RunningStateMachineType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
-  MaintenanceSetType:
-  - [ UAObjectType, LADS:1027, MaintenanceSetType ]
+  LADS:MaintenanceSetType:
+  - [ UAObjectType, LADS:1027, LADS:MaintenanceSetType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:61, SetType ]
+    - [ UAObjectType, LADS:61, LADS:SetType ]
   - GeneratesEvent:
     - [ UAObjectType, 2133, GeneralModelChangeEventType ]
 
-  MaintenanceTaskType:
-  - [ UAObjectType, LADS:1028, MaintenanceTaskType ]
+  LADS:MaintenanceTaskType:
+  - [ UAObjectType, LADS:1028, LADS:MaintenanceTaskType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15739, MaintenanceRequiredAlarmType ]
+    - [ UAObjectType, DI:15739, DI:MaintenanceRequiredAlarmType ]
   - HasInterface:
-    - [ UAObjectType, AMB:1012, IMaintenanceEventType ]
+    - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
 
-  LADSDeviceType:
-  - [ UAObjectType, LADS:1002, LADSDeviceType ]
+  LADS:LADSDeviceType:
+  - [ UAObjectType, LADS:1002, LADS:LADSDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1002, DeviceType ]
+    - [ UAObjectType, DI:1002, DI:DeviceType ]
 
-  LADSComponentType:
-  - [ UAObjectType, LADS:1024, LADSComponentType ]
+  LADS:LADSComponentType:
+  - [ UAObjectType, LADS:1024, LADS:LADSComponentType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType ]
   - HasInterface:
-    - [ UAObjectType, DI:15051, IDeviceHealthType ]
+    - [ UAObjectType, DI:15051, DI:IDeviceHealthType ]
 
-  FunctionalUnitType:
-  - [ UAObjectType, LADS:1003, FunctionalUnitType ]
+  LADS:FunctionalUnitType:
+  - [ UAObjectType, LADS:1003, LADS:FunctionalUnitType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1001, TopologyElementType ]
+    - [ UAObjectType, DI:1001, DI:TopologyElementType ]
   - HasInterface:
-    - [ UAObjectType, DI:15048, ITagNameplateType ]
+    - [ UAObjectType, DI:15048, DI:ITagNameplateType ]
 
-  FunctionType:
-  - [ UAObjectType, LADS:1004, FunctionType ]
+  LADS:FunctionType:
+  - [ UAObjectType, LADS:1004, LADS:FunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1001, TopologyElementType ]
+    - [ UAObjectType, DI:1001, DI:TopologyElementType ]
 
-  BaseControlFunctionType:
-  - [ UAObjectType, LADS:1007, BaseControlFunctionType ]
+  LADS:BaseControlFunctionType:
+  - [ UAObjectType, LADS:1007, LADS:BaseControlFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1004, FunctionType ]
+    - [ UAObjectType, LADS:1004, LADS:FunctionType ]
 
-  AnalogControlFunctionType:
-  - [ UAObjectType, LADS:1009, AnalogControlFunctionType ]
+  LADS:AnalogControlFunctionType:
+  - [ UAObjectType, LADS:1009, LADS:AnalogControlFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1007, BaseControlFunctionType ]
+    - [ UAObjectType, LADS:1007, LADS:BaseControlFunctionType ]
 
-  AnalogControlFunctionWithTotalizerType:
-  - [ UAObjectType, LADS:1014, AnalogControlFunctionWithTotalizerType ]
+  LADS:AnalogControlFunctionWithTotalizerType:
+  - [ UAObjectType, LADS:1014, LADS:AnalogControlFunctionWithTotalizerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1009, AnalogControlFunctionType ]
+    - [ UAObjectType, LADS:1009, LADS:AnalogControlFunctionType ]
 
-  DiscreteControlFunctionType:
-  - [ UAObjectType, LADS:1017, DiscreteControlFunctionType ]
+  LADS:DiscreteControlFunctionType:
+  - [ UAObjectType, LADS:1017, LADS:DiscreteControlFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1007, BaseControlFunctionType ]
+    - [ UAObjectType, LADS:1007, LADS:BaseControlFunctionType ]
 
-  MultiStateDiscreteControlFunctionType:
-  - [ UAObjectType, LADS:1045, MultiStateDiscreteControlFunctionType ]
+  LADS:MultiStateDiscreteControlFunctionType:
+  - [ UAObjectType, LADS:1045, LADS:MultiStateDiscreteControlFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1017, DiscreteControlFunctionType ]
+    - [ UAObjectType, LADS:1017, LADS:DiscreteControlFunctionType ]
 
-  TwoStateDiscreteControlFunctionType:
-  - [ UAObjectType, LADS:1042, TwoStateDiscreteControlFunctionType ]
+  LADS:TwoStateDiscreteControlFunctionType:
+  - [ UAObjectType, LADS:1042, LADS:TwoStateDiscreteControlFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1017, DiscreteControlFunctionType ]
+    - [ UAObjectType, LADS:1017, LADS:DiscreteControlFunctionType ]
 
-  BaseSensorFunctionType:
-  - [ UAObjectType, LADS:1005, BaseSensorFunctionType ]
+  LADS:BaseSensorFunctionType:
+  - [ UAObjectType, LADS:1005, LADS:BaseSensorFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1004, FunctionType ]
+    - [ UAObjectType, LADS:1004, LADS:FunctionType ]
 
-  AnalogScalarSensorFunctionType:
-  - [ UAObjectType, LADS:1016, AnalogScalarSensorFunctionType ]
+  LADS:AnalogScalarSensorFunctionType:
+  - [ UAObjectType, LADS:1016, LADS:AnalogScalarSensorFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1046, AnalogSensorFunctionType ]
+    - [ UAObjectType, LADS:1046, LADS:AnalogSensorFunctionType ]
 
-  DiscreteSensorFunctionType:
-  - [ UAObjectType, LADS:1012, DiscreteSensorFunctionType ]
+  LADS:DiscreteSensorFunctionType:
+  - [ UAObjectType, LADS:1012, LADS:DiscreteSensorFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1005, BaseSensorFunctionType ]
+    - [ UAObjectType, LADS:1005, LADS:BaseSensorFunctionType ]
 
-  CoverFunctionType:
-  - [ UAObjectType, LADS:1011, CoverFunctionType ]
+  LADS:CoverFunctionType:
+  - [ UAObjectType, LADS:1011, LADS:CoverFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1004, FunctionType ]
+    - [ UAObjectType, LADS:1004, LADS:FunctionType ]
 
-  ProgramManagerType:
-  - [ UAObjectType, LADS:1006, ProgramManagerType ]
+  LADS:ProgramManagerType:
+  - [ UAObjectType, LADS:1006, LADS:ProgramManagerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1001, TopologyElementType ]
+    - [ UAObjectType, DI:1001, DI:TopologyElementType ]
 
-  TimerControlFunctionType:
-  - [ UAObjectType, LADS:1013, TimerControlFunctionType ]
+  LADS:TimerControlFunctionType:
+  - [ UAObjectType, LADS:1013, LADS:TimerControlFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1007, BaseControlFunctionType ]
+    - [ UAObjectType, LADS:1007, LADS:BaseControlFunctionType ]
 
-  AnalogScalarSensorFunctionWithCompensationType:
-  - [ UAObjectType, LADS:1000, AnalogScalarSensorFunctionWithCompensationType ]
+  LADS:AnalogScalarSensorFunctionWithCompensationType:
+  - [ UAObjectType, LADS:1000, LADS:AnalogScalarSensorFunctionWithCompensationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1016, AnalogScalarSensorFunctionType ]
+    - [ UAObjectType, LADS:1016, LADS:AnalogScalarSensorFunctionType ]
 
-  ControllerTuningParameterType:
-  - [ UAObjectType, LADS:1008, ControllerTuningParameterType ]
+  LADS:ControllerTuningParameterType:
+  - [ UAObjectType, LADS:1008, LADS:ControllerTuningParameterType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  PidControllerParameterType:
-  - [ UAObjectType, LADS:1030, PidControllerParameterType ]
+  LADS:PidControllerParameterType:
+  - [ UAObjectType, LADS:1030, LADS:PidControllerParameterType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1008, ControllerTuningParameterType ]
+    - [ UAObjectType, LADS:1008, LADS:ControllerTuningParameterType ]
 
-  TwoStateDiscreteSensorFunctionType:
-  - [ UAObjectType, LADS:1031, TwoStateDiscreteSensorFunctionType ]
+  LADS:TwoStateDiscreteSensorFunctionType:
+  - [ UAObjectType, LADS:1031, LADS:TwoStateDiscreteSensorFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1012, DiscreteSensorFunctionType ]
+    - [ UAObjectType, LADS:1012, LADS:DiscreteSensorFunctionType ]
 
-  MultiStateDiscreteSensorFunctionType:
-  - [ UAObjectType, LADS:1037, MultiStateDiscreteSensorFunctionType ]
+  LADS:MultiStateDiscreteSensorFunctionType:
+  - [ UAObjectType, LADS:1037, LADS:MultiStateDiscreteSensorFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1012, DiscreteSensorFunctionType ]
+    - [ UAObjectType, LADS:1012, LADS:DiscreteSensorFunctionType ]
 
-  FunctionalUnitStateMachineType:
-  - [ UAObjectType, LADS:1043, FunctionalUnitStateMachineType ]
+  LADS:FunctionalUnitStateMachineType:
+  - [ UAObjectType, LADS:1043, LADS:FunctionalUnitStateMachineType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1038, FunctionalStateMachineType ]
+    - [ UAObjectType, LADS:1038, LADS:FunctionalStateMachineType ]
 
-  ControlFunctionStateMachineType:
-  - [ UAObjectType, LADS:1044, ControlFunctionStateMachineType ]
+  LADS:ControlFunctionStateMachineType:
+  - [ UAObjectType, LADS:1044, LADS:ControlFunctionStateMachineType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1038, FunctionalStateMachineType ]
+    - [ UAObjectType, LADS:1038, LADS:FunctionalStateMachineType ]
 
-  MultiModeAnalogControlFunctionType:
-  - [ UAObjectType, LADS:1047, MultiModeAnalogControlFunctionType ]
+  LADS:MultiModeAnalogControlFunctionType:
+  - [ UAObjectType, LADS:1047, LADS:MultiModeAnalogControlFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1007, BaseControlFunctionType ]
+    - [ UAObjectType, LADS:1007, LADS:BaseControlFunctionType ]
 
-  ControllerParameterType:
-  - [ UAObjectType, LADS:1048, ControllerParameterType ]
+  LADS:ControllerParameterType:
+  - [ UAObjectType, LADS:1048, LADS:ControllerParameterType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  ControllerParameterSetType:
-  - [ UAObjectType, LADS:1049, ControllerParameterSetType ]
+  LADS:ControllerParameterSetType:
+  - [ UAObjectType, LADS:1049, LADS:ControllerParameterSetType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:61, SetType ]
+    - [ UAObjectType, LADS:61, LADS:SetType ]
 
-  AnalogControlFunctionWithComposedTargetValueType:
-  - [ UAObjectType, LADS:1052, AnalogControlFunctionWithComposedTargetValueType ]
+  LADS:AnalogControlFunctionWithComposedTargetValueType:
+  - [ UAObjectType, LADS:1052, LADS:AnalogControlFunctionWithComposedTargetValueType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1009, AnalogControlFunctionType ]
+    - [ UAObjectType, LADS:1009, LADS:AnalogControlFunctionType ]
 
-  MultiSensorFunctionType:
-  - [ UAObjectType, LADS:1051, MultiSensorFunctionType ]
+  LADS:MultiSensorFunctionType:
+  - [ UAObjectType, LADS:1051, LADS:MultiSensorFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1005, BaseSensorFunctionType ]
+    - [ UAObjectType, LADS:1005, LADS:BaseSensorFunctionType ]
 
-  AnalogControlFunctionWithRelativeTargetValueType:
-  - [ UAObjectType, LADS:1029, AnalogControlFunctionWithRelativeTargetValueType ]
+  LADS:AnalogControlFunctionWithRelativeTargetValueType:
+  - [ UAObjectType, LADS:1029, LADS:AnalogControlFunctionWithRelativeTargetValueType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1009, AnalogControlFunctionType ]
+    - [ UAObjectType, LADS:1009, LADS:AnalogControlFunctionType ]
 
-  AnalogArraySensorFunctionType:
-  - [ UAObjectType, LADS:1015, AnalogArraySensorFunctionType ]
+  LADS:AnalogArraySensorFunctionType:
+  - [ UAObjectType, LADS:1015, LADS:AnalogArraySensorFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1046, AnalogSensorFunctionType ]
+    - [ UAObjectType, LADS:1046, LADS:AnalogSensorFunctionType ]
 
-  SetType:
-  - [ UAObjectType, LADS:61, SetType ]
+  LADS:SetType:
+  - [ UAObjectType, LADS:61, LADS:SetType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
   - GeneratesEvent:
     - [ UAObjectType, 2133, GeneralModelChangeEventType ]
 
-  VariableSetType:
-  - [ UAObjectType, LADS:1041, VariableSetType ]
+  LADS:VariableSetType:
+  - [ UAObjectType, LADS:1041, LADS:VariableSetType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:61, SetType ]
+    - [ UAObjectType, LADS:61, LADS:SetType ]
   - GeneratesEvent:
     - [ UAObjectType, 2133, GeneralModelChangeEventType ]
 
-  AnalogSensorFunctionType:
-  - [ UAObjectType, LADS:1046, AnalogSensorFunctionType ]
+  LADS:AnalogSensorFunctionType:
+  - [ UAObjectType, LADS:1046, LADS:AnalogSensorFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, LADS:1005, BaseSensorFunctionType ]
+    - [ UAObjectType, LADS:1005, LADS:BaseSensorFunctionType ]
 
-  LADSOperationModeStateMachineType:
-  - [ UAObjectType, LADS:1050, LADSOperationModeStateMachineType ]
+  LADS:LADSOperationModeStateMachineType:
+  - [ UAObjectType, LADS:1050, LADS:LADSOperationModeStateMachineType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
+    - [ UAObjectType, Machinery:1008, Machinery:MachineryOperationModeStateMachineType ]

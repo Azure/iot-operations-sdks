@@ -107,13 +107,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6042, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6042, isa95-jobcontrol:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderID: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6043, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6043, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           JobResponse: [ isa95-jobcontrol:ISA95JobResponseDataType, 0 ]
           ReturnStatus: [ UInt64, 0 ]
@@ -126,13 +126,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6016, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6016, isa95-jobcontrol:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderState: [ isa95-jobcontrol:ISA95StateDataType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6017, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6017, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           JobResponses: [ isa95-jobcontrol:ISA95JobResponseDataType, 1 ]
           ReturnStatus: [ UInt64, 0 ]
@@ -146,13 +146,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6044, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6044, isa95-jobcontrol:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobResponse: [ isa95-jobcontrol:ISA95JobResponseDataType, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6045, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6045, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
@@ -205,14 +205,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6063, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6063, isa95-jobcontrol:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6064, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6064, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
@@ -230,14 +230,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6065, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6065, isa95-jobcontrol:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6066, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6066, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
@@ -247,14 +247,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6067, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6067, isa95-jobcontrol:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6068, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6068, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
@@ -344,14 +344,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6057, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6057, isa95-jobcontrol:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6058, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6058, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
@@ -369,14 +369,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6059, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6059, isa95-jobcontrol:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6060, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6060, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
@@ -386,14 +386,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6069, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6069, isa95-jobcontrol:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6070, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6070, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
@@ -407,14 +407,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6053, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6053, isa95-jobcontrol:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6054, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6054, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
@@ -424,14 +424,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6055, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6055, isa95-jobcontrol:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6056, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6056, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
@@ -441,14 +441,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6040, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6040, isa95-jobcontrol:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrder: [ isa95-jobcontrol:ISA95JobOrderDataType, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6041, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6041, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
@@ -458,14 +458,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6051, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6051, isa95-jobcontrol:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrder: [ isa95-jobcontrol:ISA95JobOrderDataType, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6052, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6052, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
@@ -475,14 +475,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6061, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6061, isa95-jobcontrol:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrder: [ isa95-jobcontrol:ISA95JobOrderDataType, 0 ]
           Comment: [ LocalizedText, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, isa95-jobcontrol:6062, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, isa95-jobcontrol:6062, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:

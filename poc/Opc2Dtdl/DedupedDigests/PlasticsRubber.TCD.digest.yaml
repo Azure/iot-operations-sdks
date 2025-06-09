@@ -263,22 +263,47 @@ DefinedTypes:
   - [ UAObjectType, PlasticsRubber.TCD:1008, PlasticsRubber.TCD:DeviceZoneType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6237, PlasticsRubber.TCD:ActualProcessPower, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.TCD:6582, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4937556
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6247, PlasticsRubber.TCD:ActualPumpPower, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.TCD:6618, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4937556
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6245, PlasticsRubber.TCD:ActualPumpSpeedRPM, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.TCD:6616, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4405556
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6239, PlasticsRubber.TCD:ActualRegulationRatio, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.TCD:6584, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6241, PlasticsRubber.TCD:DelayTimeAfterCooling, Double, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.TCD:6586, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5065038
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -547,6 +572,11 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6131, PlasticsRubber.TCD:Time, Double, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.TCD:6186, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
@@ -558,6 +588,11 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6512, PlasticsRubber.TCD:HoursOfOperation, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.TCD:6167, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4740434
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -581,7 +616,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.TCD:7127, PlasticsRubber.TCD:ResetErrorById ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.TCD:6510, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.TCD:6510, PlasticsRubber.TCD:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
       - HasModellingRule:
@@ -636,10 +671,20 @@ DefinedTypes:
   - [ UAObjectType, PlasticsRubber.TCD:1011, PlasticsRubber.TCD:TCDSpecificationType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6518, PlasticsRubber.TCD:ConnectedLoad, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.TCD:6168, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4937556
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6522, PlasticsRubber.TCD:CoolingCapacity, UInt32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.TCD:6170, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4937556
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -652,6 +697,11 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6516, PlasticsRubber.TCD:PowerValue, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.TCD:6179, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4937556
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:

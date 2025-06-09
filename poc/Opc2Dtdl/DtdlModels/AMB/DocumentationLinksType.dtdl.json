@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -26,7 +27,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "" ],
           "name": "LinkSchema",
+          "unit": "",
           "schema": "string"
         }
       },
@@ -35,69 +38,12 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AddLink",
-      "namespace": "http://opcfoundation.org/UA/AMB",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "LinkToExternalSource",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "BrowseName",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "DisplayName",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Description",
-              "schema": "string"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "LinkVariable",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/AMB"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RemoveLink",
-      "namespace": "http://opcfoundation.org/UA/AMB",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "VariableToBeDeleted",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/AMB"
     }
   ]
 }

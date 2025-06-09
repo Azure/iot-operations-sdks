@@ -2,344 +2,344 @@ DataTypes:
 
 DefinedTypes:
 
-  RpyOrientationType:
-  - [ UAVariableType, RSL:2005, RpyOrientationType, 3DOrientation, 0, 0 ]
+  RSL:RpyOrientationType:
+  - [ UAVariableType, RSL:2005, RSL:RpyOrientationType, 3DOrientation, 0, 0 ]
   - HasComponent:
-    - [ UAVariable, RSL:6037, A, Double, 0, 3 ]
+    - [ UAVariable, RSL:6037, RSL:A, Double, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAVariableType, RSL:2005, RpyOrientationType, 3DOrientation, 0, 0 ]
+      - [ UAVariableType, RSL:2005, RSL:RpyOrientationType, 3DOrientation, 0, 0 ]
   - HasComponent:
-    - [ UAVariable, RSL:6040, B, Double, 0, 3 ]
+    - [ UAVariable, RSL:6040, RSL:B, Double, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAVariableType, RSL:2005, RpyOrientationType, 3DOrientation, 0, 0 ]
+      - [ UAVariableType, RSL:2005, RSL:RpyOrientationType, 3DOrientation, 0, 0 ]
   - HasComponent:
-    - [ UAVariable, RSL:6041, C, Double, 0, 3 ]
+    - [ UAVariable, RSL:6041, RSL:C, Double, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAVariableType, RSL:2005, RpyOrientationType, 3DOrientation, 0, 0 ]
+      - [ UAVariableType, RSL:2005, RSL:RpyOrientationType, 3DOrientation, 0, 0 ]
   - HasSubtype_reverse:
     - [ UAVariableType, 18779, OrientationType ]
 
-  RelativeValueType:
-  - [ UAVariableType, RSL:2002, RelativeValueType ]
+  RSL:RelativeValueType:
+  - [ UAVariableType, RSL:2002, RSL:RelativeValueType ]
   - HasComponent:
-    - [ UAVariable, RSL:6001, Base, NodeId, 0, 3 ]
+    - [ UAVariable, RSL:6001, RSL:Base, NodeId, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAVariableType, RSL:2002, RelativeValueType ]
+      - [ UAVariableType, RSL:2002, RSL:RelativeValueType ]
   - HasSubtype_reverse:
     - [ UAVariableType, 63, BaseDataVariableType ]
 
-  SpatialLocationType:
-  - [ UAVariableType, RSL:2003, SpatialLocationType ]
+  RSL:SpatialLocationType:
+  - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
   - HasComponent:
-    - [ UAVariable, RSL:6002, Base, NodeId, 0, 3 ]
+    - [ UAVariable, RSL:6002, RSL:Base, NodeId, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAVariableType, RSL:2003, SpatialLocationType ]
+      - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
   - HasComponent:
-    - [ UAVariable, RSL:6004, Orientation ]
+    - [ UAVariable, RSL:6004, RSL:Orientation ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAVariableType, RSL:2003, SpatialLocationType ]
+      - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
   - HasComponent:
-    - [ UAVariable, RSL:6003, Position ]
+    - [ UAVariable, RSL:6003, RSL:Position ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAVariableType, RSL:2003, SpatialLocationType ]
+      - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
   - HasSubtype_reverse:
-    - [ UAVariableType, RSL:2002, RelativeValueType ]
+    - [ UAVariableType, RSL:2002, RSL:RelativeValueType ]
 
-  CartesianFrameAngleOrientationType:
-  - [ UAVariableType, RSL:2004, CartesianFrameAngleOrientationType, 3DFrame, 0, 0 ]
+  RSL:CartesianFrameAngleOrientationType:
+  - [ UAVariableType, RSL:2004, RSL:CartesianFrameAngleOrientationType, 3DFrame, 0, 0 ]
   - HasComponent:
-    - [ UAVariable, RSL:6005, Base, NodeId, 0, 3 ]
+    - [ UAVariable, RSL:6005, RSL:Base, NodeId, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAVariableType, RSL:2004, CartesianFrameAngleOrientationType, 3DFrame, 0, 0 ]
+      - [ UAVariableType, RSL:2004, RSL:CartesianFrameAngleOrientationType, 3DFrame, 0, 0 ]
   - HasSubtype_reverse:
-    - [ UAVariableType, RSL:2003, SpatialLocationType ]
+    - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
   - HasComponent:
-    - [ UAVariable, RSL:6006, Orientation, 3DOrientation, 0, 3 ]
+    - [ UAVariable, RSL:6006, RSL:Orientation, 3DOrientation, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, RSL:2005, RpyOrientationType, 3DOrientation, 0, 0 ]
+      - [ UAVariableType, RSL:2005, RSL:RpyOrientationType, 3DOrientation, 0, 0 ]
     - HasComponent:
-      - [ UAVariable, RSL:6042, A, Double, 0, 3 ]
+      - [ UAVariable, RSL:6042, RSL:A, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAVariable, RSL:6006, Orientation, 3DOrientation, 0, 3 ]
+        - [ UAVariable, RSL:6006, RSL:Orientation, 3DOrientation, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, RSL:6036, AngleUnit, EUInformation, 0, 0 ]
+      - [ UAVariable, RSL:6036, RSL:AngleUnit, EUInformation, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, RSL:6006, Orientation, 3DOrientation, 0, 3 ]
+        - [ UAVariable, RSL:6006, RSL:Orientation, 3DOrientation, 0, 3 ]
     - HasComponent:
-      - [ UAVariable, RSL:6043, B, Double, 0, 3 ]
+      - [ UAVariable, RSL:6043, RSL:B, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAVariable, RSL:6006, Orientation, 3DOrientation, 0, 3 ]
+        - [ UAVariable, RSL:6006, RSL:Orientation, 3DOrientation, 0, 3 ]
     - HasComponent:
-      - [ UAVariable, RSL:6044, C, Double, 0, 3 ]
+      - [ UAVariable, RSL:6044, RSL:C, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAVariable, RSL:6006, Orientation, 3DOrientation, 0, 3 ]
+        - [ UAVariable, RSL:6006, RSL:Orientation, 3DOrientation, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAVariableType, RSL:2004, CartesianFrameAngleOrientationType, 3DFrame, 0, 0 ]
+      - [ UAVariableType, RSL:2004, RSL:CartesianFrameAngleOrientationType, 3DFrame, 0, 0 ]
   - HasComponent:
-    - [ UAVariable, RSL:6007, Position, 3DCartesianCoordinates, 0, 3 ]
+    - [ UAVariable, RSL:6007, RSL:Position, 3DCartesianCoordinates, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 18774, 3DCartesianCoordinatesType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, RSL:6045, LengthUnit, EUInformation, 0, 0 ]
+      - [ UAVariable, RSL:6045, RSL:LengthUnit, EUInformation, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAVariable, RSL:6007, Position, 3DCartesianCoordinates, 0, 3 ]
+        - [ UAVariable, RSL:6007, RSL:Position, 3DCartesianCoordinates, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAVariableType, RSL:2004, CartesianFrameAngleOrientationType, 3DFrame, 0, 0 ]
+      - [ UAVariableType, RSL:2004, RSL:CartesianFrameAngleOrientationType, 3DFrame, 0, 0 ]
     - HasComponent:
-      - [ UAVariable, RSL:6011, X, Double, 0, 0 ]
+      - [ UAVariable, RSL:6011, RSL:X, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAVariable, RSL:6007, Position, 3DCartesianCoordinates, 0, 3 ]
+        - [ UAVariable, RSL:6007, RSL:Position, 3DCartesianCoordinates, 0, 3 ]
     - HasComponent:
-      - [ UAVariable, RSL:6012, Y, Double, 0, 0 ]
+      - [ UAVariable, RSL:6012, RSL:Y, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAVariable, RSL:6007, Position, 3DCartesianCoordinates, 0, 3 ]
+        - [ UAVariable, RSL:6007, RSL:Position, 3DCartesianCoordinates, 0, 3 ]
     - HasComponent:
-      - [ UAVariable, RSL:6013, Z, Double, 0, 0 ]
+      - [ UAVariable, RSL:6013, RSL:Z, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAVariable, RSL:6007, Position, 3DCartesianCoordinates, 0, 3 ]
+        - [ UAVariable, RSL:6007, RSL:Position, 3DCartesianCoordinates, 0, 3 ]
 
-  SpatialObjectsListType:
-  - [ UAObjectType, RSL:1003, SpatialObjectsListType ]
+  RSL:SpatialObjectsListType:
+  - [ UAObjectType, RSL:1003, RSL:SpatialObjectsListType ]
   - Organizes:
-    - [ UAObject, RSL:5006, <SpatialObject> ]
+    - [ UAObject, RSL:5006, RSL:<SpatialObject> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, RSL:1002, SpatialObjectType ]
+      - [ UAObjectType, RSL:1002, RSL:SpatialObjectType ]
     - Organizes_reverse:
-      - [ UAObjectType, RSL:1003, SpatialObjectsListType ]
+      - [ UAObjectType, RSL:1003, RSL:SpatialObjectsListType ]
     - HasProperty:
-      - [ UAVariable, RSL:6035, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+      - [ UAVariable, RSL:6035, RSL:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, RSL:5006, <SpatialObject> ]
+        - [ UAObject, RSL:5006, RSL:<SpatialObject> ]
     - HasComponent:
-      - [ UAVariable, RSL:6038, PositionFrame ]
+      - [ UAVariable, RSL:6038, RSL:PositionFrame ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
-        - [ UAVariableType, RSL:2003, SpatialLocationType ]
+        - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
       - HasComponent:
-        - [ UAVariable, RSL:6039, Base, NodeId, 0, 3 ]
+        - [ UAVariable, RSL:6039, RSL:Base, NodeId, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAVariable, RSL:6038, PositionFrame ]
+          - [ UAVariable, RSL:6038, RSL:PositionFrame ]
       - HasComponent_reverse:
-        - [ UAObject, RSL:5006, <SpatialObject> ]
+        - [ UAObject, RSL:5006, RSL:<SpatialObject> ]
   - GeneratesEvent:
     - [ UAObjectType, 2133, GeneralModelChangeEventType ]
   - HasProperty:
-    - [ UAVariable, RSL:6024, Identifier, String, 0, 3 ]
+    - [ UAVariable, RSL:6024, RSL:Identifier, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, RSL:1003, SpatialObjectsListType ]
+      - [ UAObjectType, RSL:1003, RSL:SpatialObjectsListType ]
   - HasProperty:
-    - [ UAVariable, RSL:6027, NodeVersion, String, 0, 3 ]
+    - [ UAVariable, RSL:6027, RSL:NodeVersion, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, RSL:1003, SpatialObjectsListType ]
+      - [ UAObjectType, RSL:1003, RSL:SpatialObjectsListType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, RSL:6025, WorldFrame ]
+    - [ UAVariable, RSL:6025, RSL:WorldFrame ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, RSL:2003, SpatialLocationType ]
+      - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
     - HasComponent:
-      - [ UAVariable, RSL:6026, Base, NodeId, 0, 3 ]
+      - [ UAVariable, RSL:6026, RSL:Base, NodeId, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAVariable, RSL:6025, WorldFrame ]
+        - [ UAVariable, RSL:6025, RSL:WorldFrame ]
     - HasComponent_reverse:
-      - [ UAObjectType, RSL:1003, SpatialObjectsListType ]
+      - [ UAObjectType, RSL:1003, RSL:SpatialObjectsListType ]
 
-  SpatialObjectType:
-  - [ UAObjectType, RSL:1002, SpatialObjectType ]
+  RSL:SpatialObjectType:
+  - [ UAObjectType, RSL:1002, RSL:SpatialObjectType ]
   - HasComponent:
-    - [ UAObject, RSL:5004, AlternativeFrames ]
+    - [ UAObject, RSL:5004, RSL:AlternativeFrames ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, RSL:6020, <FrameIdentifier> ]
+      - [ UAVariable, RSL:6020, RSL:<FrameIdentifier> ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
-        - [ UAVariableType, RSL:2003, SpatialLocationType ]
+        - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
       - HasComponent_reverse:
-        - [ UAObject, RSL:5004, AlternativeFrames ]
+        - [ UAObject, RSL:5004, RSL:AlternativeFrames ]
       - HasComponent:
-        - [ UAVariable, RSL:6021, Base, NodeId, 0, 3 ]
+        - [ UAVariable, RSL:6021, RSL:Base, NodeId, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAVariable, RSL:6020, <FrameIdentifier> ]
+          - [ UAVariable, RSL:6020, RSL:<FrameIdentifier> ]
     - HasComponent_reverse:
-      - [ UAObjectType, RSL:1002, SpatialObjectType ]
+      - [ UAObjectType, RSL:1002, RSL:SpatialObjectType ]
   - HasComponent:
-    - [ UAObject, RSL:5002, AttachPoints ]
+    - [ UAObject, RSL:5002, RSL:AttachPoints ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, RSL:6018, <FrameIdentifier> ]
+      - [ UAVariable, RSL:6018, RSL:<FrameIdentifier> ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
-        - [ UAVariableType, RSL:2003, SpatialLocationType ]
+        - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
       - HasComponent_reverse:
-        - [ UAObject, RSL:5002, AttachPoints ]
+        - [ UAObject, RSL:5002, RSL:AttachPoints ]
       - HasComponent:
-        - [ UAVariable, RSL:6019, Base, NodeId, 0, 3 ]
+        - [ UAVariable, RSL:6019, RSL:Base, NodeId, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAVariable, RSL:6018, <FrameIdentifier> ]
+          - [ UAVariable, RSL:6018, RSL:<FrameIdentifier> ]
     - HasComponent_reverse:
-      - [ UAObjectType, RSL:1002, SpatialObjectType ]
+      - [ UAObjectType, RSL:1002, RSL:SpatialObjectType ]
   - HasProperty:
-    - [ UAVariable, RSL:6017, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - [ UAVariable, RSL:6017, RSL:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, RSL:1002, SpatialObjectType ]
+      - [ UAObjectType, RSL:1002, RSL:SpatialObjectType ]
   - HasProperty:
-    - [ UAVariable, RSL:6016, Identifier, String, 0, 3 ]
+    - [ UAVariable, RSL:6016, RSL:Identifier, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, RSL:1002, SpatialObjectType ]
+      - [ UAObjectType, RSL:1002, RSL:SpatialObjectType ]
   - HasComponent:
-    - [ UAObject, RSL:5003, InternalFrames ]
+    - [ UAObject, RSL:5003, RSL:InternalFrames ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, RSL:6022, <FrameIdentifier> ]
+      - [ UAVariable, RSL:6022, RSL:<FrameIdentifier> ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
-        - [ UAVariableType, RSL:2003, SpatialLocationType ]
+        - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
       - HasComponent_reverse:
-        - [ UAObject, RSL:5003, InternalFrames ]
+        - [ UAObject, RSL:5003, RSL:InternalFrames ]
       - HasComponent:
-        - [ UAVariable, RSL:6023, Base, NodeId, 0, 3 ]
+        - [ UAVariable, RSL:6023, RSL:Base, NodeId, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAVariable, RSL:6022, <FrameIdentifier> ]
+          - [ UAVariable, RSL:6022, RSL:<FrameIdentifier> ]
     - HasComponent_reverse:
-      - [ UAObjectType, RSL:1002, SpatialObjectType ]
+      - [ UAObjectType, RSL:1002, RSL:SpatialObjectType ]
   - HasComponent:
-    - [ UAVariable, RSL:6014, PositionFrame ]
+    - [ UAVariable, RSL:6014, RSL:PositionFrame ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, RSL:2003, SpatialLocationType ]
+      - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
     - HasComponent:
-      - [ UAVariable, RSL:6015, Base, NodeId, 0, 3 ]
+      - [ UAVariable, RSL:6015, RSL:Base, NodeId, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAVariable, RSL:6014, PositionFrame ]
+        - [ UAVariable, RSL:6014, RSL:PositionFrame ]
     - HasComponent_reverse:
-      - [ UAObjectType, RSL:1002, SpatialObjectType ]
+      - [ UAObjectType, RSL:1002, RSL:SpatialObjectType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

@@ -1,5 +1,5 @@
 DataTypes:
-- UADataType: [ Mining.DevelopmentSupport.Dozer:3002, DozerJobMissionEnum ]
+- UADataType: [ Mining.DevelopmentSupport.Dozer:3002, Mining.DevelopmentSupport.Dozer:DozerJobMissionEnum ]
   Enums:
     CleanupOperations: 0
     RippingOperations: 1
@@ -12,67 +12,67 @@ DataTypes:
     DozerPushIntoVoids: 8
     DozerPushIntoTraps: 9
     Stockpiles: 10
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ Mining.General:3002, LongwallShieldOffsetDataType ]
+- UADataType: [ Mining.General:3002, Mining.General:LongwallShieldOffsetDataType ]
   Fields:
     ShieldNumber: [ UInt16, 0 ]
     ShieldOffset: [ Double, 0 ]
 
 DefinedTypes:
 
-  DozerType:
-  - [ UAObjectType, Mining.DevelopmentSupport.Dozer:1002, DozerType ]
+  Mining.DevelopmentSupport.Dozer:DozerType:
+  - [ UAObjectType, Mining.DevelopmentSupport.Dozer:1002, Mining.DevelopmentSupport.Dozer:DozerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]
+    - [ UAObjectType, Mining.General:1002, Mining.General:MiningEquipmentType ]
   - HasComponent:
-    - [ UAObject, Mining.DevelopmentSupport.Dozer:5002, MethodSet ]
+    - [ UAObject, Mining.DevelopmentSupport.Dozer:5002, DI:MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAMethod, Mining.DevelopmentSupport.Dozer:7002, Clearway ]
+      - [ UAMethod, Mining.DevelopmentSupport.Dozer:7002, Mining.DevelopmentSupport.Dozer:Clearway ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Mining.DevelopmentSupport.Dozer:5002, MethodSet ]
+        - [ UAObject, Mining.DevelopmentSupport.Dozer:5002, DI:MethodSet ]
       - HasProperty:
-        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6009, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6009, Mining.DevelopmentSupport.Dozer:InputArguments, Argument, 1, 0 ]
         - Arguments:
             PassthroughExclusionZone: [ 3DFrame, 1 ]
         - HasModellingRule:
@@ -80,9 +80,9 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Mining.DevelopmentSupport.Dozer:7002, Clearway ]
+          - [ UAMethod, Mining.DevelopmentSupport.Dozer:7002, Mining.DevelopmentSupport.Dozer:Clearway ]
       - HasProperty:
-        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6010, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6010, Mining.DevelopmentSupport.Dozer:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             ClearWayResult: [ Boolean, 0 ]
         - HasModellingRule:
@@ -90,15 +90,15 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Mining.DevelopmentSupport.Dozer:7002, Clearway ]
+          - [ UAMethod, Mining.DevelopmentSupport.Dozer:7002, Mining.DevelopmentSupport.Dozer:Clearway ]
     - HasComponent_reverse:
-      - [ UAObjectType, Mining.DevelopmentSupport.Dozer:1002, DozerType ]
+      - [ UAObjectType, Mining.DevelopmentSupport.Dozer:1002, Mining.DevelopmentSupport.Dozer:DozerType ]
     - HasComponent:
-      - [ UAMethod, Mining.DevelopmentSupport.Dozer:7003, RequestResumeOperation ]
+      - [ UAMethod, Mining.DevelopmentSupport.Dozer:7003, Mining.DevelopmentSupport.Dozer:RequestResumeOperation ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6011, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6011, Mining.DevelopmentSupport.Dozer:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             RequestResult: [ Boolean, 0 ]
         - HasModellingRule:
@@ -106,15 +106,15 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Mining.DevelopmentSupport.Dozer:7003, RequestResumeOperation ]
+          - [ UAMethod, Mining.DevelopmentSupport.Dozer:7003, Mining.DevelopmentSupport.Dozer:RequestResumeOperation ]
       - HasComponent_reverse:
-        - [ UAObject, Mining.DevelopmentSupport.Dozer:5002, MethodSet ]
+        - [ UAObject, Mining.DevelopmentSupport.Dozer:5002, DI:MethodSet ]
     - HasComponent:
-      - [ UAMethod, Mining.DevelopmentSupport.Dozer:7004, RequestStopOperation ]
+      - [ UAMethod, Mining.DevelopmentSupport.Dozer:7004, Mining.DevelopmentSupport.Dozer:RequestStopOperation ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6012, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6012, Mining.DevelopmentSupport.Dozer:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             RequestResult: [ Boolean, 0 ]
         - HasModellingRule:
@@ -122,27 +122,27 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Mining.DevelopmentSupport.Dozer:7004, RequestStopOperation ]
+          - [ UAMethod, Mining.DevelopmentSupport.Dozer:7004, Mining.DevelopmentSupport.Dozer:RequestStopOperation ]
       - HasComponent_reverse:
-        - [ UAObject, Mining.DevelopmentSupport.Dozer:5002, MethodSet ]
+        - [ UAObject, Mining.DevelopmentSupport.Dozer:5002, DI:MethodSet ]
     - HasComponent:
-      - [ UAMethod, Mining.DevelopmentSupport.Dozer:7001, SetWorkJob ]
+      - [ UAMethod, Mining.DevelopmentSupport.Dozer:7001, Mining.DevelopmentSupport.Dozer:SetWorkJob ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6007, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6007, Mining.DevelopmentSupport.Dozer:InputArguments, Argument, 1, 0 ]
         - Arguments:
             WorkingArea: [ 3DFrame, 1 ]
             DumpArea: [ 3DFrame, 1 ]
-            JobMission: [ DozerJobMissionEnum, 0 ]
+            JobMission: [ Mining.DevelopmentSupport.Dozer:DozerJobMissionEnum, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Mining.DevelopmentSupport.Dozer:7001, SetWorkJob ]
+          - [ UAMethod, Mining.DevelopmentSupport.Dozer:7001, Mining.DevelopmentSupport.Dozer:SetWorkJob ]
       - HasProperty:
-        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6008, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6008, Mining.DevelopmentSupport.Dozer:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             WorkJobRequestSuccess: [ Boolean, 0 ]
         - HasModellingRule:
@@ -150,270 +150,270 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, Mining.DevelopmentSupport.Dozer:7001, SetWorkJob ]
+          - [ UAMethod, Mining.DevelopmentSupport.Dozer:7001, Mining.DevelopmentSupport.Dozer:SetWorkJob ]
       - HasComponent_reverse:
-        - [ UAObject, Mining.DevelopmentSupport.Dozer:5002, MethodSet ]
+        - [ UAObject, Mining.DevelopmentSupport.Dozer:5002, DI:MethodSet ]
   - HasAddIn:
-    - [ UAObject, Mining.DevelopmentSupport.Dozer:5001, MiningEquipmentIdentification ]
+    - [ UAObject, Mining.DevelopmentSupport.Dozer:5001, Mining.DevelopmentSupport.Dozer:MiningEquipmentIdentification ]
     - HasTypeDefinition:
-      - [ UAObjectType, Mining.General:1003, MiningEquipmentIdentificationType ]
+      - [ UAObjectType, Mining.General:1003, Mining.General:MiningEquipmentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6001, AssetId, String, 0, 3 ]
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6001, DI:AssetId, String, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.DevelopmentSupport.Dozer:5001, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.DevelopmentSupport.Dozer:5001, Mining.DevelopmentSupport.Dozer:MiningEquipmentIdentification ]
     - HasProperty:
-      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6003, DeviceClass, String, 0, 0 ]
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6003, DI:DeviceClass, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.DevelopmentSupport.Dozer:5001, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.DevelopmentSupport.Dozer:5001, Mining.DevelopmentSupport.Dozer:MiningEquipmentIdentification ]
     - HasProperty:
-      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6032, Manufacturer, LocalizedText, 0, 0 ]
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6032, DI:Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.DevelopmentSupport.Dozer:5001, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.DevelopmentSupport.Dozer:5001, Mining.DevelopmentSupport.Dozer:MiningEquipmentIdentification ]
     - HasProperty:
-      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6004, ManufacturerUri, String, 0, 0 ]
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6004, DI:ManufacturerUri, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.DevelopmentSupport.Dozer:5001, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.DevelopmentSupport.Dozer:5001, Mining.DevelopmentSupport.Dozer:MiningEquipmentIdentification ]
     - HasAddIn_reverse:
-      - [ UAObjectType, Mining.DevelopmentSupport.Dozer:1002, DozerType ]
+      - [ UAObjectType, Mining.DevelopmentSupport.Dozer:1002, Mining.DevelopmentSupport.Dozer:DozerType ]
     - HasProperty:
-      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6005, Model, LocalizedText, 0, 0 ]
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6005, DI:Model, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.DevelopmentSupport.Dozer:5001, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.DevelopmentSupport.Dozer:5001, Mining.DevelopmentSupport.Dozer:MiningEquipmentIdentification ]
     - HasProperty:
-      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6006, ProductInstanceUri, String, 0, 0 ]
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6006, DI:ProductInstanceUri, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.DevelopmentSupport.Dozer:5001, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.DevelopmentSupport.Dozer:5001, Mining.DevelopmentSupport.Dozer:MiningEquipmentIdentification ]
     - HasProperty:
-      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6038, SerialNumber, String, 0, 0 ]
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6038, DI:SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.DevelopmentSupport.Dozer:5001, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.DevelopmentSupport.Dozer:5001, Mining.DevelopmentSupport.Dozer:MiningEquipmentIdentification ]
   - HasComponent:
-    - [ UAObject, Mining.DevelopmentSupport.Dozer:5003, ParameterSet ]
+    - [ UAObject, Mining.DevelopmentSupport.Dozer:5003, DI:ParameterSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6013, ExclusionZone, 3DFrame, 1, 0 ]
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6013, Mining.DevelopmentSupport.Dozer:ExclusionZone, 3DFrame, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 18791, 3DFrameType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent:
-        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6029, BaseFrame, NodeId, 0, 0 ]
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6029, Mining.DevelopmentSupport.Dozer:BaseFrame, NodeId, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6013, ExclusionZone, 3DFrame, 1, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6013, Mining.DevelopmentSupport.Dozer:ExclusionZone, 3DFrame, 1, 0 ]
       - HasComponent:
-        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6014, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6014, Mining.DevelopmentSupport.Dozer:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 18774, 3DCartesianCoordinatesType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6013, ExclusionZone, 3DFrame, 1, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6013, Mining.DevelopmentSupport.Dozer:ExclusionZone, 3DFrame, 1, 0 ]
         - HasComponent:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6015, X, Double, 0, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6015, Mining.DevelopmentSupport.Dozer:X, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6014, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6014, Mining.DevelopmentSupport.Dozer:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasComponent:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6016, Y, Double, 0, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6016, Mining.DevelopmentSupport.Dozer:Y, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6014, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6014, Mining.DevelopmentSupport.Dozer:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasComponent:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6017, Z, Double, 0, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6017, Mining.DevelopmentSupport.Dozer:Z, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6014, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6014, Mining.DevelopmentSupport.Dozer:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6030, Constant, Boolean, 0, 0 ]
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6030, Mining.DevelopmentSupport.Dozer:Constant, Boolean, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6013, ExclusionZone, 3DFrame, 1, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6013, Mining.DevelopmentSupport.Dozer:ExclusionZone, 3DFrame, 1, 0 ]
       - HasComponent_reverse:
-        - [ UAObject, Mining.DevelopmentSupport.Dozer:5003, ParameterSet ]
+        - [ UAObject, Mining.DevelopmentSupport.Dozer:5003, DI:ParameterSet ]
       - HasProperty:
-        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6031, FixedBase, Boolean, 0, 0 ]
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6031, Mining.DevelopmentSupport.Dozer:FixedBase, Boolean, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6013, ExclusionZone, 3DFrame, 1, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6013, Mining.DevelopmentSupport.Dozer:ExclusionZone, 3DFrame, 1, 0 ]
       - HasComponent:
-        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6018, Orientation, 3DOrientation, 0, 0 ]
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6018, Mining.DevelopmentSupport.Dozer:Orientation, 3DOrientation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 18781, 3DOrientationType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6019, A, Double, 0, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6019, Mining.DevelopmentSupport.Dozer:A, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6018, Orientation, 3DOrientation, 0, 0 ]
+            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6018, Mining.DevelopmentSupport.Dozer:Orientation, 3DOrientation, 0, 0 ]
         - HasComponent:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6020, B, Double, 0, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6020, Mining.DevelopmentSupport.Dozer:B, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6018, Orientation, 3DOrientation, 0, 0 ]
+            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6018, Mining.DevelopmentSupport.Dozer:Orientation, 3DOrientation, 0, 0 ]
         - HasComponent:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6021, C, Double, 0, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6021, Mining.DevelopmentSupport.Dozer:C, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6018, Orientation, 3DOrientation, 0, 0 ]
+            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6018, Mining.DevelopmentSupport.Dozer:Orientation, 3DOrientation, 0, 0 ]
         - HasComponent_reverse:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6013, ExclusionZone, 3DFrame, 1, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6013, Mining.DevelopmentSupport.Dozer:ExclusionZone, 3DFrame, 1, 0 ]
     - HasComponent:
-      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6039, MachinePose, 3DFrame, 0, 0 ]
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6039, Mining.DevelopmentSupport.Dozer:MachinePose, 3DFrame, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 18791, 3DFrameType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent:
-        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6048, BaseFrame, NodeId, 0, 0 ]
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6048, Mining.DevelopmentSupport.Dozer:BaseFrame, NodeId, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6039, MachinePose, 3DFrame, 0, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6039, Mining.DevelopmentSupport.Dozer:MachinePose, 3DFrame, 0, 0 ]
       - HasComponent:
-        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6040, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6040, Mining.DevelopmentSupport.Dozer:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 18774, 3DCartesianCoordinatesType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6039, MachinePose, 3DFrame, 0, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6039, Mining.DevelopmentSupport.Dozer:MachinePose, 3DFrame, 0, 0 ]
         - HasComponent:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6041, X, Double, 0, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6041, Mining.DevelopmentSupport.Dozer:X, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6040, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6040, Mining.DevelopmentSupport.Dozer:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasComponent:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6042, Y, Double, 0, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6042, Mining.DevelopmentSupport.Dozer:Y, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6040, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6040, Mining.DevelopmentSupport.Dozer:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasComponent:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6043, Z, Double, 0, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6043, Mining.DevelopmentSupport.Dozer:Z, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6040, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6040, Mining.DevelopmentSupport.Dozer:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6049, Constant, Boolean, 0, 0 ]
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6049, Mining.DevelopmentSupport.Dozer:Constant, Boolean, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6039, MachinePose, 3DFrame, 0, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6039, Mining.DevelopmentSupport.Dozer:MachinePose, 3DFrame, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6050, FixedBase, Boolean, 0, 0 ]
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6050, Mining.DevelopmentSupport.Dozer:FixedBase, Boolean, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6039, MachinePose, 3DFrame, 0, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6039, Mining.DevelopmentSupport.Dozer:MachinePose, 3DFrame, 0, 0 ]
       - HasComponent_reverse:
-        - [ UAObject, Mining.DevelopmentSupport.Dozer:5003, ParameterSet ]
+        - [ UAObject, Mining.DevelopmentSupport.Dozer:5003, DI:ParameterSet ]
       - HasComponent:
-        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6044, Orientation, 3DOrientation, 0, 0 ]
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6044, Mining.DevelopmentSupport.Dozer:Orientation, 3DOrientation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 18781, 3DOrientationType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6045, A, Double, 0, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6045, Mining.DevelopmentSupport.Dozer:A, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6044, Orientation, 3DOrientation, 0, 0 ]
+            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6044, Mining.DevelopmentSupport.Dozer:Orientation, 3DOrientation, 0, 0 ]
         - HasComponent:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6046, B, Double, 0, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6046, Mining.DevelopmentSupport.Dozer:B, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6044, Orientation, 3DOrientation, 0, 0 ]
+            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6044, Mining.DevelopmentSupport.Dozer:Orientation, 3DOrientation, 0, 0 ]
         - HasComponent:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6047, C, Double, 0, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6047, Mining.DevelopmentSupport.Dozer:C, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6044, Orientation, 3DOrientation, 0, 0 ]
+            - [ UAVariable, Mining.DevelopmentSupport.Dozer:6044, Mining.DevelopmentSupport.Dozer:Orientation, 3DOrientation, 0, 0 ]
         - HasComponent_reverse:
-          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6039, MachinePose, 3DFrame, 0, 0 ]
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6039, Mining.DevelopmentSupport.Dozer:MachinePose, 3DFrame, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Mining.DevelopmentSupport.Dozer:1002, DozerType ]
+      - [ UAObjectType, Mining.DevelopmentSupport.Dozer:1002, Mining.DevelopmentSupport.Dozer:DozerType ]

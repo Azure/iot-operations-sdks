@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -65,43 +66,6 @@
             "@type": "Array",
             "elementSchema": "dtmi:opcua:TMC_v2:CarrierType:dataType:MaterialSublotType;1"
           }
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:TMC_v2:CarrierType:dataType:MethodExecutionFeedbackType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3009",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Success",
-          "schema": "boolean"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Message",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:opcua:TMC_v2:CarrierType:dataType:MessageType;1"
-          }
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:TMC_v2:CarrierType:dataType:MessageType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3002",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ID",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "LocalText",
-          "schema": "string"
         }
       ]
     },
@@ -267,234 +231,42 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "EndSubCarrierLoading",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ExecutionFeedback",
-              "schema": "dtmi:opcua:TMC_v2:CarrierType:dataType:MethodExecutionFeedbackType;1"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "EndSubCarrierUnloading",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ExecutionFeedback",
-              "schema": "dtmi:opcua:TMC_v2:CarrierType:dataType:MethodExecutionFeedbackType;1"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "LoadSubCarrier",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ID",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "MESID",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ParentCarrierID",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Sublots",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "dtmi:opcua:TMC_v2:CarrierType:dataType:MaterialSublotType;1"
-              }
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ExecutionFeedback",
-              "schema": "dtmi:opcua:TMC_v2:CarrierType:dataType:MethodExecutionFeedbackType;1"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "LoadSublots",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Sublots",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "dtmi:opcua:TMC_v2:CarrierType:dataType:MaterialSublotType;1"
-              }
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ExecutionFeedback",
-              "schema": "dtmi:opcua:TMC_v2:CarrierType:dataType:MethodExecutionFeedbackType;1"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "StartSubCarrierLoading",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ExecutionFeedback",
-              "schema": "dtmi:opcua:TMC_v2:CarrierType:dataType:MethodExecutionFeedbackType;1"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "StartSubCarrierUnloading",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ExecutionFeedback",
-              "schema": "dtmi:opcua:TMC_v2:CarrierType:dataType:MethodExecutionFeedbackType;1"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "UnloadSubCarrier",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ID",
-              "schema": "string"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ExecutionFeedback",
-              "schema": "dtmi:opcua:TMC_v2:CarrierType:dataType:MethodExecutionFeedbackType;1"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "UnloadSublots",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "SublotIDs",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "string"
-              }
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ExecutionFeedback",
-              "schema": "dtmi:opcua:TMC_v2:CarrierType:dataType:MethodExecutionFeedbackType;1"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

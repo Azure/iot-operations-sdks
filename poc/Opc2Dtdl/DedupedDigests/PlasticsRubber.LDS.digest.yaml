@@ -403,7 +403,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.LDS:6448, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.LDS:6448, PlasticsRubber.LDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Density: [ Double, 0 ]
       - HasModellingRule:
@@ -551,7 +551,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.LDS:6059, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.LDS:6059, PlasticsRubber.LDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
       - HasModellingRule:
@@ -561,7 +561,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.LDS:6039, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.LDS:6039, PlasticsRubber.LDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           CycleNumber: [ UInt64, 0 ]
       - HasModellingRule:

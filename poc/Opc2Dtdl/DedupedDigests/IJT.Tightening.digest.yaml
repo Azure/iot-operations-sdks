@@ -288,6 +288,11 @@ DefinedTypes:
     - [ UAVariable, IJT.Tightening:6022, IJT.Tightening:MaxSpeed, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Tightening:6036, IJT.Base:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, IJT.Tightening:6026, IJT.Base:PhysicalQuantity, Byte, 0, 0 ]
       - HasModellingRule:
@@ -296,6 +301,11 @@ DefinedTypes:
     - [ UAVariable, IJT.Tightening:6020, IJT.Tightening:MaxTorque, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Tightening:6028, IJT.Base:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, IJT.Tightening:6029, IJT.Base:PhysicalQuantity, Byte, 0, 0 ]
       - HasModellingRule:
@@ -304,6 +314,11 @@ DefinedTypes:
     - [ UAVariable, IJT.Tightening:6021, IJT.Tightening:MinTorque, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Tightening:6024, IJT.Base:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, IJT.Tightening:6025, IJT.Base:PhysicalQuantity, Byte, 0, 0 ]
       - HasModellingRule:

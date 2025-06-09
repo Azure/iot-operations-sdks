@@ -210,12 +210,22 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Glass.Flat:6116, Glass.Flat:GasFilling, Number, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, Glass.Flat:6117, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Glass.Flat:1006, Glass.Flat:BaseMaterialType ]
   - HasComponent:
     - [ UAVariable, Glass.Flat:6118, Glass.Flat:MixingRatio, Number, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, Glass.Flat:6119, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
@@ -275,6 +285,11 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Glass.Flat:6170, Glass.Flat:MixingRatio, Double, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, Glass.Flat:6068, Glass.Flat:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -484,7 +499,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, Glass.Flat:7050, Glass.Flat:ChangePositionInList ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6064, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Glass.Flat:6064, Glass.Flat:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Target: [ Glass.Flat:LimitedString64, 0 ]
           Source: [ Glass.Flat:LimitedString64, 0 ]
@@ -496,7 +511,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, Glass.Flat:7049, Glass.Flat:DeleteJob ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6123, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Glass.Flat:6123, Glass.Flat:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Identifier: [ Glass.Flat:LimitedString64, 0 ]
       - HasModellingRule:
@@ -506,7 +521,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, Glass.Flat:7048, Glass.Flat:InsertJob ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6156, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Glass.Flat:6156, Glass.Flat:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Identifier: [ Glass.Flat:LimitedString64, 0 ]
           Name: [ Glass.Flat:LimitedString64, 0 ]
@@ -517,7 +532,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Glass.Flat:6331, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Glass.Flat:6331, Glass.Flat:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           JobNodeId: [ NodeId, 0 ]
       - HasModellingRule:
@@ -575,7 +590,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAVariable, Glass.Flat:6280, CurrentState, LocalizedText, 0, 0 ]
+    - [ UAVariable, Glass.Flat:6280, Glass.Flat:CurrentState, LocalizedText, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:

@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -50,26 +51,6 @@
         },
         {
           "name": "Manual",
-          "enumValue": 4
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1",
-      "@type": [ "Enum", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
-      "valueSchema": "integer",
-      "enumValues": [
-        {
-          "name": "SEM_A",
-          "enumValue": 1
-        },
-        {
-          "name": "SEM_B",
-          "enumValue": 2
-        },
-        {
-          "name": "Auto",
           "enumValue": 4
         }
       ]
@@ -189,142 +170,27 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ResetTotalFlow",
-      "namespace": "http://opcfoundation.org/UA/MDIS",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Initial",
-              "schema": "float"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MDIS"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetFlowRate",
-      "namespace": "http://opcfoundation.org/UA/MDIS",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "FlowRate",
-              "schema": "float"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "SEM",
-              "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ShutdownRequest",
-              "schema": "boolean"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MDIS"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetManual",
-      "namespace": "http://opcfoundation.org/UA/MDIS",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Direction",
-              "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVMoveEnum;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Delta",
-              "schema": "float"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "SEM",
-              "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ShutdownRequest",
-              "schema": "boolean"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MDIS"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetOperationMode",
-      "namespace": "http://opcfoundation.org/UA/MDIS",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Mode",
-              "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVOperationModeEnum;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "SEM",
-              "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ShutdownRequest",
-              "schema": "boolean"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MDIS"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetPosition",
-      "namespace": "http://opcfoundation.org/UA/MDIS",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Position",
-              "schema": "float"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "SEM",
-              "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ShutdownRequest",
-              "schema": "boolean"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MDIS"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

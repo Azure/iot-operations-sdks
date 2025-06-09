@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -13,23 +14,6 @@
   "commandTopic": "opcua/PNENC/EncoderAxisConfigType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
-    {
-      "@id": "dtmi:opcua:PNENC:EncoderAxisConfigType:dataType:KeyValuePair;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA;i=14533",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Key",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Value",
-          "schema": "string"
-        }
-      ]
-    }
   ],
   "contents": [
     {
@@ -56,41 +40,7 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetAxisConfig",
-      "namespace": "http://opcfoundation.org/UA/PNENC",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "AxisConfigParameters",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "dtmi:opcua:PNENC:EncoderAxisConfigType:dataType:KeyValuePair;1"
-              }
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "AxisConfigParametersResult",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "dtmi:opcua:PNENC:EncoderAxisConfigType:dataType:KeyValuePair;1"
-              }
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PNENC"
     }
   ]
 }

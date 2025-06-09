@@ -830,6 +830,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1228, DEXPI:InsulationThickness, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1229, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1231, DEXPI:InsulationTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -854,6 +859,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1236, DEXPI:LowerLimitHeatTracingTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1237, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DEXPI:1195, DEXPI:PrimaryElementType ]
 
@@ -1086,6 +1096,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1313, DEXPI:DesignCapacityMotiveFluid, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1314, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DEXPI:1716, DEXPI:PumpType ]
 
@@ -1095,14 +1110,29 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1317, DEXPI:DesignRotationalSpeed, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1318, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1320, DEXPI:DesignShaftPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1321, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1323, DEXPI:UpperLimitAllowableDesignPressureDrop, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1324, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DEXPI:1454, DEXPI:MixerType ]
 
@@ -1112,14 +1142,29 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1327, DEXPI:DesignHeatFlowRate, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1328, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1330, DEXPI:DesignHeatTransferArea, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1331, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1333, DEXPI:DesignHeatTransferCoefficient, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1334, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
 
@@ -1150,10 +1195,20 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1343, DEXPI:DesignRotationalSpeed, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1344, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1346, DEXPI:DesignShaftPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1347, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2085, DEXPI:<Displacer> ]
     - HasTypeDefinition:
@@ -1169,14 +1224,29 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1351, DEXPI:DesignPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1352, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1354, DEXPI:DesignRotationalSpeed, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1355, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1357, DEXPI:DesignShaftPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1358, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2086, DEXPI:<Rotor> ]
     - HasTypeDefinition:
@@ -1228,6 +1298,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1371, DEXPI:Height, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1372, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1374, DEXPI:MaterialOfConstructionCodeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -1260,10 +1335,20 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1380, DEXPI:DesignRotationalSpeed, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1381, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1383, DEXPI:DesignShaftPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1384, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2089, DEXPI:<Displacer> ]
     - HasTypeDefinition:
@@ -1279,14 +1364,29 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1388, DEXPI:DesignCapacityMotiveFluid, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1389, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1391, DEXPI:DesignRotationalSpeed, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1392, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1394, DEXPI:DesignShaftPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1395, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1397, DEXPI:TypeNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -1310,10 +1410,20 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1401, DEXPI:Height, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1402, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1404, DEXPI:InsideDiameter, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1405, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2091, DEXPI:<Internal> ]
     - HasTypeDefinition:
@@ -1329,10 +1439,20 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1409, DEXPI:DesignVolumeFlowRate, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1410, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1412, DEXPI:DifferentialPressure, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1413, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
 
@@ -1342,14 +1462,29 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1416, DEXPI:UpperLimitAllowableDesignPressureDrop, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1417, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1419, DEXPI:DesignRotationalSpeed, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1420, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1422, DEXPI:DesignShaftPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1423, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DEXPI:1454, DEXPI:MixerType ]
 
@@ -1359,6 +1494,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1426, DEXPI:NominalCapacityVolume, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1427, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
 
@@ -1368,18 +1508,38 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1432, DEXPI:Capacity_VolumeFlowRate, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1433, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1435, DEXPI:UpperLimitAllowableDesignPressureDrop, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1436, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1438, DEXPI:DesignRotationalSpeed, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1439, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1441, DEXPI:DesignShaftPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1442, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2092, DEXPI:<FilterUnit> ]
     - HasTypeDefinition:
@@ -1395,6 +1555,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1446, DEXPI:CylinderLength, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1447, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DEXPI:1425, DEXPI:VesselType ]
 
@@ -1404,6 +1569,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1450, DEXPI:CylinderLength, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1451, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1453, DEXPI:TypeNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -1428,18 +1598,38 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1458, DEXPI:Efficiency, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1459, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1461, DEXPI:FilterArea, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1462, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1464, DEXPI:LowerLimitAllowableSolidsConcentration, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1465, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1467, DEXPI:LowerLimitPermeableParticleDiameter, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1468, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1470, DEXPI:MaterialOfConstructionCodeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -1452,10 +1642,20 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1472, DEXPI:UpperLimitAllowableSolidsConcentration, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1473, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1475, DEXPI:UpperLimitPermeableParticleDiameter, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1476, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
 
@@ -1465,14 +1665,29 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1479, DEXPI:DesignPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1480, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1482, DEXPI:DesignRotationalSpeed, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1483, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1485, DEXPI:DesignShaftPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1486, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2094, DEXPI:<Rotor> ]
     - HasTypeDefinition:
@@ -1507,10 +1722,20 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1495, DEXPI:Height, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1496, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1498, DEXPI:InsideDiameter, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1499, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2095, DEXPI:<Internal> ]
     - HasTypeDefinition:
@@ -1531,10 +1756,20 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1504, DEXPI:DesignRotationalSpeed, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1505, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1507, DEXPI:DesignShaftPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1508, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2096, DEXPI:<Displacer> ]
     - HasTypeDefinition:
@@ -1566,10 +1801,20 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1516, DEXPI:Height, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1517, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1519, DEXPI:InsideDiameter, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1520, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2097, DEXPI:<Internal> ]
     - HasTypeDefinition:
@@ -1601,22 +1846,47 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1528, DEXPI:Height, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1529, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1531, DEXPI:InsideDiameter, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1532, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1534, DEXPI:Length, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1535, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1537, DEXPI:LowerLimitDesignPressure, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1538, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1540, DEXPI:LowerLimitDesignTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1541, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1543, DEXPI:MaterialOfConstructionCodeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -1625,6 +1895,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1544, DEXPI:NominalDiameter, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1545, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1547, DEXPI:NominalDiameterTypeRepresentationAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -1633,14 +1908,29 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1548, DEXPI:UpperLimitDesignPressure, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1549, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1551, DEXPI:UpperLimitDesignTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1552, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1554, DEXPI:Width, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1555, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
 
@@ -1650,6 +1940,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1558, DEXPI:DesignPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1559, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2098, DEXPI:<TubeBundle> ]
     - HasTypeDefinition:
@@ -1678,10 +1973,20 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1567, DEXPI:DesignRotationalSpeed, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1568, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1570, DEXPI:DesignShaftPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1571, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2099, DEXPI:<Impeller> ]
     - HasTypeDefinition:
@@ -1712,10 +2017,20 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1578, DEXPI:PlateHeight, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1579, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1581, DEXPI:PlateWidth, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1582, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DEXPI:1326, DEXPI:HeatExchangerType ]
 
@@ -1725,10 +2040,20 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1585, DEXPI:DesignRotationalSpeed, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1586, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1588, DEXPI:DesignShaftPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1589, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2101, DEXPI:<Impeller> ]
     - HasTypeDefinition:
@@ -1748,6 +2073,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1594, DEXPI:TubeLength, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1595, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1597, DEXPI:TubeMaterialOfConstructionCodeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -1798,14 +2128,29 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1609, DEXPI:DesignCapacityMotiveFluid, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1610, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1612, DEXPI:DesignRotationalSpeed, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1613, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1615, DEXPI:DesignShaftPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1616, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2102, DEXPI:<PumpEquipmentItem> ]
     - HasTypeDefinition:
@@ -1826,6 +2171,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1621, DEXPI:DesignCapacityMotiveFluid, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1622, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2103, DEXPI:<Impeller> ]
     - HasTypeDefinition:
@@ -1841,6 +2191,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1626, DEXPI:UpperLimitAllowableDesignPressureDrop, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1627, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DEXPI:1454, DEXPI:MixerType ]
 
@@ -1850,6 +2205,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1630, DEXPI:Diameter, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1631, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1633, DEXPI:MaterialOfConstructionCodeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -1872,10 +2232,20 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1638, DEXPI:DesignRotationalSpeed, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1639, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1641, DEXPI:DesignShaftPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1642, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2104, DEXPI:<Rotor> ]
     - HasTypeDefinition:
@@ -1891,10 +2261,20 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1646, DEXPI:DesignRotationalSpeed, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1647, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1649, DEXPI:DesignShaftPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1650, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2105, DEXPI:<Impeller> ]
     - HasTypeDefinition:
@@ -1933,6 +2313,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1659, DEXPI:VolumePerStroke, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1660, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
 
@@ -1942,6 +2327,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1664, DEXPI:CylinderLength, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1665, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DEXPI:1425, DEXPI:VesselType ]
 
@@ -1951,6 +2341,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1668, DEXPI:NominalCapacityVolume, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1669, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2107, DEXPI:<ColumnSection> ]
     - HasTypeDefinition:
@@ -1966,10 +2361,20 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1673, DEXPI:Diameter, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1674, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1676, DEXPI:LengthToMountingFlange, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1677, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1679, DEXPI:MaterialOfConstructionCodeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2024,18 +2429,38 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1695, DEXPI:Capacity_VolumeFlowRate, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1696, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1698, DEXPI:DesignRotationalSpeed, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1699, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1701, DEXPI:DesignShaftPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1702, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1704, DEXPI:UpperLimitAllowableDesignPressureDrop, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1705, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2110, DEXPI:<FilterUnit> ]
     - HasTypeDefinition:
@@ -2051,10 +2476,20 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1709, DEXPI:DesignRotationalSpeed, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1710, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1712, DEXPI:DesignShaftPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1713, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DEXPI:2111, DEXPI:<Displacer> ]
     - HasTypeDefinition:
@@ -2070,14 +2505,29 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1717, DEXPI:DesignVolumeFlowRate, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1718, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1720, DEXPI:DesignPressureHead, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1721, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1723, DEXPI:DifferentialPressure, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1724, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
 
@@ -2095,6 +2545,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1729, DEXPI:InsulationThickness, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1730, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1732, DEXPI:InsulationTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2103,6 +2558,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1733, DEXPI:LowerLimitHeatTracingTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1734, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1736, DEXPI:HeatTracingTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2191,6 +2651,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1759, DEXPI:LowerLimitHeatTracingTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1760, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1762, DEXPI:HeatTracingTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2203,6 +2668,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1764, DEXPI:InsulationThickness, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1765, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1767, DEXPI:InsulationTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2251,6 +2721,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1777, DEXPI:InsulationThickness, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1778, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1780, DEXPI:InsulationTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2259,6 +2734,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1781, DEXPI:LowerLimitHeatTracingTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1782, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1784, DEXPI:PipingClassCodeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2316,6 +2796,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1795, DEXPI:LowerLimitHeatTracingTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1796, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1798, DEXPI:HeatTracingTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2328,6 +2813,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1800, DEXPI:InsulationThickness, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1801, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1803, DEXPI:InsulationTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2384,6 +2874,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1814, DEXPI:LowerLimitHeatTracingTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1815, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1817, DEXPI:HeatTracingTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2396,6 +2891,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1819, DEXPI:InsulationThickness, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1820, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1822, DEXPI:InsulationTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2458,6 +2958,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1834, DEXPI:LowerLimitHeatTracingTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1835, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1837, DEXPI:HeatTracingTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2470,6 +2975,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1839, DEXPI:InsulationThickness, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1840, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1842, DEXPI:InsulationTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2503,6 +3013,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1849, DEXPI:InsulationThickness, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1850, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1852, DEXPI:InsulationTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2511,6 +3026,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1853, DEXPI:LowerLimitHeatTracingTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1854, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1856, DEXPI:PipingClassCodeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2605,6 +3125,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1879, DEXPI:LowerLimitHeatTracingTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1880, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1882, DEXPI:HeatTracingTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2617,6 +3142,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1884, DEXPI:InsulationThickness, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1885, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1887, DEXPI:InsulationTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2686,10 +3216,20 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1906, DEXPI:Inclination, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1907, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1909, DEXPI:InsulationThickness, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1910, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1912, DEXPI:InsulationTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2702,6 +3242,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1914, DEXPI:LowerLimitHeatTracingTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1915, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1917, DEXPI:NominalDiameterNumericalValueRepresentationAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2726,6 +3271,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1922, DEXPI:OperatingTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1923, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1925, DEXPI:PipingClassCodeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2820,10 +3370,20 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1949, DEXPI:SetPressureLow, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1950, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1952, DEXPI:SetPressureHigh, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1953, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType ]
 
@@ -2852,6 +3412,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1960, DEXPI:LowerLimitHeatTracingTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1961, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1963, DEXPI:HeatTracingTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2864,6 +3429,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1965, DEXPI:InsulationThickness, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1966, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1968, DEXPI:InsulationTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2911,6 +3481,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1978, DEXPI:LowerLimitHeatTracingTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1979, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1981, DEXPI:HeatTracingTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
@@ -2923,6 +3498,11 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1983, DEXPI:InsulationThickness, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, DEXPI:1984, DEXPI:EngineeringUnits, EUInformation, 0, 3 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DEXPI:1986, DEXPI:InsulationTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:

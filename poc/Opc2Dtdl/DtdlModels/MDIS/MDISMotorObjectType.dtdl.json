@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -81,59 +82,17 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetOperation",
-      "namespace": "http://opcfoundation.org/UA/MDIS",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Mode",
-              "schema": "dtmi:opcua:MDIS:MDISMotorObjectType:dataType:MotorOperationEnum;1"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MDIS"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "Start",
-      "namespace": "http://opcfoundation.org/UA/MDIS",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "OverrideInterlocks",
-              "schema": "boolean"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MDIS"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "Stop",
-      "namespace": "http://opcfoundation.org/UA/MDIS",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "OverrideInterlocks",
-              "schema": "boolean"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MDIS"
     }
   ]
 }

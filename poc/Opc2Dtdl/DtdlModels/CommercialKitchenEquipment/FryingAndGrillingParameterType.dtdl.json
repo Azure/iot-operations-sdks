@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -74,7 +75,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "ActualGrillTemperature_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "float"
         }
       },
@@ -91,7 +94,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "ActualPlatenTemperature_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "float"
         }
       },
@@ -126,9 +131,10 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "RemainingProcessTime",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "second",
       "schema": "integer",
       "writable": false
     },
@@ -143,7 +149,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "SetGrillTemperature_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "float"
         }
       },
@@ -160,16 +168,19 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "SetPlatenTemperature_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "float"
         }
       },
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "SetProcessTime",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "second",
       "schema": "integer",
       "writable": false
     }

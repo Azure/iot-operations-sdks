@@ -448,7 +448,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.HotRunner:7019, PlasticsRubber.HotRunner:ResetErrorById ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.HotRunner:6378, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.HotRunner:6378, PlasticsRubber.HotRunner:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
       - HasModellingRule:
@@ -458,7 +458,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.HotRunner:7031, PlasticsRubber.HotRunner:SetReactionOnDisconnect ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.HotRunner:6651, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.HotRunner:6651, PlasticsRubber.HotRunner:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ReactionOnDisconnect: [ UInt16, 0 ]
       - HasModellingRule:

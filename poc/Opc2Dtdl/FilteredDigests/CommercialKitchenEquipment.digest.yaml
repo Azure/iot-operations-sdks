@@ -322,30 +322,65 @@ DefinedTypes:
   - [ UAObjectType, CommercialKitchenEquipment:1012, CommercialKitchenEquipment:ChamberType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6192, CommercialKitchenEquipment:ActualBoilerTemperature_<No.>, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6691, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6188, CommercialKitchenEquipment:ActualBottomTemperature_<No.>, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6692, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6182, CommercialKitchenEquipment:ActualChamberTemperature_<No.>, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6693, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6190, CommercialKitchenEquipment:ActualCoreTemperature_<No.>, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6694, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6201, CommercialKitchenEquipment:ActualFanSpeed_<No.>, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6695, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6196, CommercialKitchenEquipment:ActualHumidity_<No.>, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6696, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6186, CommercialKitchenEquipment:ActualTopTemperature_<No.>, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6697, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
@@ -368,38 +403,83 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6180, CommercialKitchenEquipment:SetBoilerTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6698, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6176, CommercialKitchenEquipment:SetBottomTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6699, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6172, CommercialKitchenEquipment:SetChamberTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6700, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6178, CommercialKitchenEquipment:SetCoreTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6701, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6203, CommercialKitchenEquipment:SetFanSpeed, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6702, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6194, CommercialKitchenEquipment:SetHumidity, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6703, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6184, CommercialKitchenEquipment:SetProcessTimeProgram, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6704, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6174, CommercialKitchenEquipment:SetTopTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6705, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6170, CommercialKitchenEquipment:TimeRemaining, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6706, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
@@ -411,6 +491,11 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6369, CommercialKitchenEquipment:BoilerPressureWater, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6380, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5259596
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -419,6 +504,11 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6371, CommercialKitchenEquipment:BoilerTempWater, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6382, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -429,6 +519,11 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6378, CommercialKitchenEquipment:GrinderRuntime_<No.>, UInt64, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6383, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
@@ -448,6 +543,11 @@ DefinedTypes:
   - [ UAObjectType, CommercialKitchenEquipment:1023, CommercialKitchenEquipment:CoffeeMachineRecipeParameterType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6384, CommercialKitchenEquipment:BeverageSize, Float, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6403, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -466,22 +566,47 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6399, CommercialKitchenEquipment:FoamAmount, Float, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6404, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5065812
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6387, CommercialKitchenEquipment:GroundsAmount, Float, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6405, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4674125
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6389, CommercialKitchenEquipment:GroundsWater, Float, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6406, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5065812
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6397, CommercialKitchenEquipment:MilkAmount, Float, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6407, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5065812
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6401, CommercialKitchenEquipment:PowderAmount, Float, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6408, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4674125
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -493,18 +618,38 @@ DefinedTypes:
   - [ UAObjectType, CommercialKitchenEquipment:1010, CommercialKitchenEquipment:CombiSteamerParameterType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6119, CommercialKitchenEquipment:ActualExternalCoreTemperature_<No.>, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6134, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6128, CommercialKitchenEquipment:ActualHumidity, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6135, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6115, CommercialKitchenEquipment:ActualInternalCoreTemperature_<No.>, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6136, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6107, CommercialKitchenEquipment:ActualTemperatureChamber_<No.>, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6137, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
@@ -531,26 +676,56 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6117, CommercialKitchenEquipment:SetExternalCoreTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6138, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6126, CommercialKitchenEquipment:SetHumidity, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6139, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6113, CommercialKitchenEquipment:SetInternalCoreTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6140, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6109, CommercialKitchenEquipment:SetProcessTimeProgram, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6141, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6122, CommercialKitchenEquipment:SetProcessTimeStep, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6142, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6105, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6143, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -559,10 +734,20 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6111, CommercialKitchenEquipment:TimeRemainingProgram, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6144, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6124, CommercialKitchenEquipment:TimeRemainingStep, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6145, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
@@ -570,10 +755,20 @@ DefinedTypes:
   - [ UAObjectType, CommercialKitchenEquipment:1016, CommercialKitchenEquipment:CookingKettleParameterType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6265, CommercialKitchenEquipment:ActualCoreTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6657, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6257, CommercialKitchenEquipment:ActualTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6660, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -588,14 +783,29 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6263, CommercialKitchenEquipment:SetCoreTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6663, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6259, CommercialKitchenEquipment:SetProcessTime, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6666, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6255, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6669, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -604,6 +814,11 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6261, CommercialKitchenEquipment:TimeRemaining, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6672, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
@@ -615,10 +830,20 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6536, CommercialKitchenEquipment:ActualProcessTime, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6546, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6532, CommercialKitchenEquipment:ActualTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6547, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -637,14 +862,29 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6543, CommercialKitchenEquipment:NominalPower, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6548, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5723220
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6538, CommercialKitchenEquipment:SetPowerValue, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6549, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6534, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6550, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
@@ -652,6 +892,11 @@ DefinedTypes:
   - [ UAObjectType, CommercialKitchenEquipment:1025, CommercialKitchenEquipment:DishWashingMachineProgramParameterType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6470, CommercialKitchenEquipment:ActualFinalRinseTemperature_<No.>, UInt16, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6477, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
@@ -664,6 +909,11 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6464, CommercialKitchenEquipment:ActualMainTankTemperature_<No.>, UInt16, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6478, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
@@ -672,6 +922,11 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6461, CommercialKitchenEquipment:ActualPreTankTemperature_<No.>, UInt16, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6479, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
@@ -680,6 +935,11 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6467, CommercialKitchenEquipment:ActualPumpedFinalRinseTemperature_<No.>, UInt16, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6480, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
@@ -690,6 +950,11 @@ DefinedTypes:
     - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6458, CommercialKitchenEquipment:FinalRinseTemperatureSetpoint_<No.>, UInt16, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6481, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
@@ -706,6 +971,11 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6452, CommercialKitchenEquipment:MainTankTemperatureSetpoint_<No.>, UInt16, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6482, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
@@ -718,6 +988,11 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6449, CommercialKitchenEquipment:PreTankTemperatureSetpoint_<No.>, UInt16, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6483, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
@@ -730,6 +1005,11 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6455, CommercialKitchenEquipment:PumpedFinalRinseTemperatureSetpoint_<No.>, UInt16, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6484, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
@@ -741,6 +1021,11 @@ DefinedTypes:
   - [ UAObjectType, CommercialKitchenEquipment:1006, CommercialKitchenEquipment:FryerParameterType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6025, CommercialKitchenEquipment:ActualTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6033, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -755,10 +1040,20 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6027, CommercialKitchenEquipment:SetProcessTime, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6035, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6023, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6034, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -767,6 +1062,11 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6029, CommercialKitchenEquipment:TimeRemaining, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6036, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
@@ -774,10 +1074,20 @@ DefinedTypes:
   - [ UAObjectType, CommercialKitchenEquipment:1031, CommercialKitchenEquipment:FryingAndGrillingParameterType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6560, CommercialKitchenEquipment:ActualGrillTemperature_<No.>, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6574, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6564, CommercialKitchenEquipment:ActualPlatenTemperature_<No.>, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6575, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
@@ -800,18 +1110,38 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6570, CommercialKitchenEquipment:RemainingProcessTime, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6576, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6562, CommercialKitchenEquipment:SetGrillTemperature_<No.>, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6577, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6566, CommercialKitchenEquipment:SetPlatenTemperature_<No.>, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6578, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6568, CommercialKitchenEquipment:SetProcessTime, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6579, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
@@ -819,14 +1149,29 @@ DefinedTypes:
   - [ UAObjectType, CommercialKitchenEquipment:1008, CommercialKitchenEquipment:FryingPanParameterType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6067, CommercialKitchenEquipment:ActualCoreTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6073, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6070, CommercialKitchenEquipment:ActualPressurePan, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6074, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5063250
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6058, CommercialKitchenEquipment:ActualTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6075, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -845,14 +1190,29 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6064, CommercialKitchenEquipment:SetCoreTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6066, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6060, CommercialKitchenEquipment:SetProcessTime, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6076, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6056, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6077, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -861,6 +1221,11 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6062, CommercialKitchenEquipment:TimeRemaining, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6078, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
@@ -870,10 +1235,20 @@ DefinedTypes:
     - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6622, CommercialKitchenEquipment:LastFreezeTime, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6630, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6624, CommercialKitchenEquipment:LastHarvestTime, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6631, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -882,10 +1257,20 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6628, CommercialKitchenEquipment:Temperature_<No.>, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6632, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6626, CommercialKitchenEquipment:WaterFillTime, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6633, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
@@ -893,6 +1278,11 @@ DefinedTypes:
   - [ UAObjectType, CommercialKitchenEquipment:1033, CommercialKitchenEquipment:MicrowaveCombiOvenParameterType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6582, CommercialKitchenEquipment:ActualTemperatureChamber, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6599, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -901,6 +1291,11 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6593, CommercialKitchenEquipment:FanSpeed, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6600, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -911,6 +1306,11 @@ DefinedTypes:
     - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6595, CommercialKitchenEquipment:MicrowaveEnergy, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6601, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -919,18 +1319,38 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6588, CommercialKitchenEquipment:RemainingProcessTime, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6602, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6590, CommercialKitchenEquipment:RemainingProcessTimeStep, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6603, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6586, CommercialKitchenEquipment:SetProcessTime, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6604, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6584, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6605, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
@@ -938,18 +1358,38 @@ DefinedTypes:
   - [ UAObjectType, CommercialKitchenEquipment:1018, CommercialKitchenEquipment:MultiFunctionPanParameterType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6303, CommercialKitchenEquipment:ActualCoreTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6638, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6305, CommercialKitchenEquipment:ActualPressureAbsolute, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6640, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5063250
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6293, CommercialKitchenEquipment:ActualTemperatureBottom, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6641, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6295, CommercialKitchenEquipment:ActualTemperatureCup, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6643, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -992,22 +1432,47 @@ DefinedTypes:
     - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6301, CommercialKitchenEquipment:SetCoreTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6646, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6297, CommercialKitchenEquipment:SetProcessTimeProgram, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6648, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6307, CommercialKitchenEquipment:SetProcessTimeStep, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6650, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6291, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6651, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6311, CommercialKitchenEquipment:SetZoneTemperature_<No.>, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6653, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
@@ -1016,10 +1481,20 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6299, CommercialKitchenEquipment:TimeRemainingProgram, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6654, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6309, CommercialKitchenEquipment:TimeRemainingStep, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6656, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
@@ -1027,6 +1502,11 @@ DefinedTypes:
   - [ UAObjectType, CommercialKitchenEquipment:1020, CommercialKitchenEquipment:PastaCookerParameterType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6342, CommercialKitchenEquipment:ActualTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6634, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -1041,10 +1521,20 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6344, CommercialKitchenEquipment:SetProcessTime, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6635, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6340, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6636, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -1053,6 +1543,11 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6346, CommercialKitchenEquipment:TimeRemaining, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6637, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
@@ -1060,18 +1555,38 @@ DefinedTypes:
   - [ UAObjectType, CommercialKitchenEquipment:1014, CommercialKitchenEquipment:PressureCookingKettleParameterType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6219, CommercialKitchenEquipment:ActualCoreTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6675, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6221, CommercialKitchenEquipment:ActualPressureAbsolute, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6677, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5063250
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6223, CommercialKitchenEquipment:ActualPressureKettle, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6679, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5063250
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6211, CommercialKitchenEquipment:ActualTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6681, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -1098,14 +1613,29 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6217, CommercialKitchenEquipment:SetCoreTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6683, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6213, CommercialKitchenEquipment:SetProcessTime, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6685, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6209, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6687, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -1114,6 +1644,11 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6215, CommercialKitchenEquipment:TimeRemaining, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6689, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
@@ -1121,14 +1656,29 @@ DefinedTypes:
   - [ UAObjectType, CommercialKitchenEquipment:1027, CommercialKitchenEquipment:TrayType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6506, CommercialKitchenEquipment:ActiveSince, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6510, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6500, CommercialKitchenEquipment:ActualTemperature, Float, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6511, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6508, CommercialKitchenEquipment:OperatingCounter, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6512, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5457219
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -1137,6 +1687,11 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6502, CommercialKitchenEquipment:SetTemperature, Float, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6513, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4408652
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -1226,6 +1781,11 @@ DefinedTypes:
     - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6553, CommercialKitchenEquipment:NominalVoltage, Int32, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, CommercialKitchenEquipment:6556, CommercialKitchenEquipment:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5655636
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 

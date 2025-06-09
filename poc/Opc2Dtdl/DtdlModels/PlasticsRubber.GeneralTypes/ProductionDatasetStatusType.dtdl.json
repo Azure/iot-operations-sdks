@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -18,48 +19,12 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "Load",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Name",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Components",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "unsignedShort"
-              }
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "Save",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Name",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     }
   ]
 }

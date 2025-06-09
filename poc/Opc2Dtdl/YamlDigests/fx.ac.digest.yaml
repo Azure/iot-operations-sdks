@@ -1,135 +1,135 @@
 DataTypes:
-- UADataType: [ FX.AC:3001, ClampKindEnum ]
+- UADataType: [ FX.AC:3001, FX.AC:ClampKindEnum ]
   Enums:
     Screw: 0
     Thumb: 1
-- UADataType: [ FX.AC:3007, ConnectionEndpointStatusEnum ]
+- UADataType: [ FX.AC:3007, FX.AC:ConnectionEndpointStatusEnum ]
   Enums:
     Initial: 0
     Ready: 1
     PreOperational: 2
     Operational: 3
     Error: 4
-- UADataType: [ FX.AC:3006, FxTimeUnitsEnum ]
+- UADataType: [ FX.AC:3006, FX.AC:FxTimeUnitsEnum ]
   Enums:
     Nanosecond: 0
     Microsecond: 1
     Millisecond: 2
     Second: 3
-- UADataType: [ FX.AC:3002, SocketKindEnum ]
+- UADataType: [ FX.AC:3002, FX.AC:SocketKindEnum ]
   Enums:
     RJ45: 0
     M12: 1
-- UADataType: [ FX.AC:3004, CommHealthOptionSet ]
+- UADataType: [ FX.AC:3004, FX.AC:CommHealthOptionSet ]
   Enums:
     CommInitial: 0
     CommPreOperational: 1
     CommError: 2
-- UADataType: [ FX.AC:3005, DeviceHealthOptionSet ]
+- UADataType: [ FX.AC:3005, FX.AC:DeviceHealthOptionSet ]
   Enums:
     DeviceFailure: 0
     DeviceCheckFunction: 1
     DeviceMaintenanceRequired: 2
     DeviceOffSpec: 3
-- UADataType: [ FX.AC:3010, OperationalHealthOptionSet ]
+- UADataType: [ FX.AC:3010, FX.AC:OperationalHealthOptionSet ]
   Enums:
     OperationalWarning: 16
     OperationalError: 17
     SubOperationalWarning: 18
     SubOperationalError: 19
-- UADataType: [ FX.AC:3003, AggregatedHealthDataType ]
+- UADataType: [ FX.AC:3003, FX.AC:AggregatedHealthDataType ]
   Fields:
-    AggregatedDeviceHealth: [ DeviceHealthOptionSet, 0 ]
-    AggregatedOperationalHealth: [ OperationalHealthOptionSet, 0 ]
-- UADataType: [ FX.AC:28, ApplicationIdentifierDataType ]
+    AggregatedDeviceHealth: [ FX.AC:DeviceHealthOptionSet, 0 ]
+    AggregatedOperationalHealth: [ FX.AC:OperationalHealthOptionSet, 0 ]
+- UADataType: [ FX.AC:28, FX.AC:ApplicationIdentifierDataType ]
   Fields:
     Name: [ LocalizedText, 0 ]
-    UniqueIdentifier: [ ApplicationId, 0 ]
-- UADataType: [ FX.AC:25, FxVersion ]
+    UniqueIdentifier: [ FX.AC:ApplicationId, 0 ]
+- UADataType: [ FX.AC:25, FX.AC:FxVersion ]
   Fields:
     Major: [ UInt16, 0 ]
     Minor: [ UInt16, 0 ]
     Build: [ UInt16, 0 ]
     SubBuild: [ UInt16, 0 ]
-- UADataType: [ FX.AC:3008, IntervalRange ]
+- UADataType: [ FX.AC:3008, FX.AC:IntervalRange ]
   Fields:
     Min: [ UInt32, 0 ]
     Max: [ UInt32, 0 ]
     Increment: [ UInt16, 0 ]
     Multiplier: [ UInt16, 0 ]
-    Unit: [ FxTimeUnitsEnum, 0 ]
-- UADataType: [ FX.AC:3011, PublisherQosDataType ]
+    Unit: [ FX.AC:FxTimeUnitsEnum, 0 ]
+- UADataType: [ FX.AC:3011, FX.AC:PublisherQosDataType ]
   Fields:
     QosCategory: [ String, 0 ]
     DatagramQos: [ TransmitQosDataType, 1 ]
-- UADataType: [ FX.AC:3012, SubscriberQosDataType ]
+- UADataType: [ FX.AC:3012, FX.AC:SubscriberQosDataType ]
   Fields:
     QosCategory: [ String, 0 ]
     DatagramQos: [ ReceiveQosDataType, 1 ]
-- UADataType: [ FX.AC:3013, ApplicationId ]
+- UADataType: [ FX.AC:3013, FX.AC:ApplicationId ]
   Fields:
     IdNumeric: [ UInt32, 0 ]
     IdString: [ String, 0 ]
     IdGuid: [ Guid, 0 ]
     IdByteString: [ ByteString, 0 ]
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ FX.Data:1029, AssetVerificationModeEnum ]
+- UADataType: [ FX.Data:1029, FX.Data:AssetVerificationModeEnum ]
   Enums:
     AssetCompatibility: 0
     AssetIdentity: 1
     AssetIdentityAndCompatibility: 2
-- UADataType: [ FX.Data:1037, AssetVerificationResultEnum ]
+- UADataType: [ FX.Data:1037, FX.Data:AssetVerificationResultEnum ]
   Enums:
     NotSet: 0
     Match: 1
     Compatible: 2
     Mismatch: 3
-- UADataType: [ FX.Data:3002, FunctionalEntityVerificationResultEnum ]
+- UADataType: [ FX.Data:3002, FX.Data:FunctionalEntityVerificationResultEnum ]
   Enums:
     NotSet: 0
     Match: 1
     Mismatch: 2
-- UADataType: [ FX.Data:31, PubSubConnectionEndpointModeEnum ]
+- UADataType: [ FX.Data:31, FX.Data:PubSubConnectionEndpointModeEnum ]
   Enums:
     PublisherSubscriber: 1
     Publisher: 2
     Subscriber: 3
-- UADataType: [ FX.Data:1024, FxCommandMask ]
+- UADataType: [ FX.Data:1024, FX.Data:FxCommandMask ]
   Enums:
     VerifyAssetCmd: 0
     VerifyFunctionalEntityCmd: 1
@@ -140,60 +140,60 @@ DataTypes:
     ReserveCommunicationIdsCmd: 6
     SetCommunicationConfigurationCmd: 7
     EnableCommunicationCmd: 8
-- UADataType: [ FX.Data:1048, AssetVerificationDataType ]
+- UADataType: [ FX.Data:1048, FX.Data:AssetVerificationDataType ]
   Fields:
     AssetToVerify: [ NodeId, 0 ]
-    VerificationMode: [ AssetVerificationModeEnum, 0 ]
-    ExpectedVerificationResult: [ AssetVerificationResultEnum, 0 ]
+    VerificationMode: [ FX.Data:AssetVerificationModeEnum, 0 ]
+    ExpectedVerificationResult: [ FX.Data:AssetVerificationResultEnum, 0 ]
     ExpectedVerificationVariables: [ KeyValuePair, 1 ]
-    ExpectedAdditionalVerificationVariables: [ NodeIdValuePair, 1 ]
-- UADataType: [ FX.Data:1038, AssetVerificationResultDataType ]
+    ExpectedAdditionalVerificationVariables: [ FX.Data:NodeIdValuePair, 1 ]
+- UADataType: [ FX.Data:1038, FX.Data:AssetVerificationResultDataType ]
   Fields:
     VerificationStatus: [ StatusCode, 0 ]
-    VerificationResult: [ AssetVerificationResultEnum, 0 ]
+    VerificationResult: [ FX.Data:AssetVerificationResultEnum, 0 ]
     VerificationVariablesErrors: [ StatusCode, 1 ]
     VerificationAdditionalVariablesErrors: [ StatusCode, 1 ]
-- UADataType: [ FX.Data:1046, CommunicationConfigurationDataType ]
+- UADataType: [ FX.Data:1046, FX.Data:CommunicationConfigurationDataType ]
   Bases:
   - Structure
-- UADataType: [ FX.Data:1045, PubSubCommunicationConfigurationDataType ]
+- UADataType: [ FX.Data:1045, FX.Data:PubSubCommunicationConfigurationDataType ]
   Fields:
     PubSubConfiguration: [ PubSubConfiguration2DataType, 0 ]
     RequireCompleteUpdate: [ Boolean, 0 ]
     ConfigurationReferences: [ PubSubConfigurationRefDataType, 1 ]
-- UADataType: [ FX.Data:1033, CommunicationConfigurationResultDataType ]
+- UADataType: [ FX.Data:1033, FX.Data:CommunicationConfigurationResultDataType ]
   Bases:
   - Structure
-- UADataType: [ FX.Data:1039, PubSubCommunicationConfigurationResultDataType ]
+- UADataType: [ FX.Data:1039, FX.Data:PubSubCommunicationConfigurationResultDataType ]
   Fields:
     Result: [ StatusCode, 0 ]
     ChangesApplied: [ Boolean, 0 ]
     ReferenceResults: [ StatusCode, 1 ]
     ConfigurationValues: [ PubSubConfigurationValueDataType, 1 ]
     ConfigurationObjects: [ NodeId, 1 ]
-- UADataType: [ FX.Data:3007, CommunicationLinkConfigurationDataType ]
+- UADataType: [ FX.Data:3007, FX.Data:CommunicationLinkConfigurationDataType ]
   Bases:
   - Structure
-- UADataType: [ FX.Data:1031, PubSubCommunicationLinkConfigurationDataType ]
+- UADataType: [ FX.Data:1031, FX.Data:PubSubCommunicationLinkConfigurationDataType ]
   Fields:
     DataSetReaderRef: [ PubSubConfigurationRefDataType, 0 ]
     ExpectedSubscribedDataSetVersion: [ ConfigurationVersionDataType, 0 ]
     DataSetWriterRef: [ PubSubConfigurationRefDataType, 0 ]
     ExpectedPublishedDataSetVersion: [ ConfigurationVersionDataType, 0 ]
-- UADataType: [ FX.Data:1044, ConnectionEndpointConfigurationDataType ]
+- UADataType: [ FX.Data:1044, FX.Data:ConnectionEndpointConfigurationDataType ]
   Fields:
     FunctionalEntityNode: [ NodeId, 0 ]
-    ConnectionEndpoint: [ ConnectionEndpointDefinitionDataType, 0 ]
-    ExpectedVerificationVariables: [ NodeIdValuePair, 1 ]
+    ConnectionEndpoint: [ FX.Data:ConnectionEndpointDefinitionDataType, 0 ]
+    ExpectedVerificationVariables: [ FX.Data:NodeIdValuePair, 1 ]
     ControlGroups: [ NodeId, 1 ]
-    ConfigurationData: [ NodeIdValuePair, 1 ]
-    CommunicationLinks: [ CommunicationLinkConfigurationDataType, 0 ]
-- UADataType: [ FX.Data:3008, ConnectionEndpointConfigurationResultDataType ]
+    ConfigurationData: [ FX.Data:NodeIdValuePair, 1 ]
+    CommunicationLinks: [ FX.Data:CommunicationLinkConfigurationDataType, 0 ]
+- UADataType: [ FX.Data:3008, FX.Data:ConnectionEndpointConfigurationResultDataType ]
   Fields:
     ConnectionEndpointId: [ NodeId, 0 ]
     FunctionalEntityNodeResult: [ StatusCode, 0 ]
     ConnectionEndpointResult: [ StatusCode, 0 ]
-    VerificationResult: [ FunctionalEntityVerificationResultEnum, 0 ]
+    VerificationResult: [ FX.Data:FunctionalEntityVerificationResultEnum, 0 ]
     VerificationStatus: [ StatusCode, 0 ]
     VerificationVariablesErrors: [ StatusCode, 1 ]
     EstablishControlResult: [ StatusCode, 1 ]
@@ -201,7 +201,7 @@ DataTypes:
     ReassignControlResult: [ StatusCode, 1 ]
     CommunicationLinksResult: [ StatusCode, 0 ]
     EnableCommunicationResult: [ StatusCode, 0 ]
-- UADataType: [ FX.Data:3009, ConnectionEndpointParameterDataType ]
+- UADataType: [ FX.Data:3009, FX.Data:ConnectionEndpointParameterDataType ]
   Fields:
     Name: [ String, 0 ]
     ConnectionEndpointTypeId: [ NodeId, 0 ]
@@ -209,85 +209,85 @@ DataTypes:
     OutputVariableIds: [ NodeId, 1 ]
     IsPersistent: [ Boolean, 0 ]
     CleanupTimeout: [ Duration, 0 ]
-    RelatedEndpoint: [ RelatedEndpointDataType, 0 ]
+    RelatedEndpoint: [ FX.Data:RelatedEndpointDataType, 0 ]
     IsPreconfigured: [ Boolean, 0 ]
-- UADataType: [ FX.Data:3006, PubSubConnectionEndpointParameterDataType ]
+- UADataType: [ FX.Data:3006, FX.Data:PubSubConnectionEndpointParameterDataType ]
   Fields:
-    Mode: [ PubSubConnectionEndpointModeEnum, 0 ]
-- UADataType: [ FX.Data:1034, NodeIdArray ]
+    Mode: [ FX.Data:PubSubConnectionEndpointModeEnum, 0 ]
+- UADataType: [ FX.Data:1034, FX.Data:NodeIdArray ]
   Fields:
     Node: [ NodeId, 0 ]
     ArrayIndex: [ UInt32, 1 ]
-- UADataType: [ FX.Data:1028, NodeIdValuePair ]
+- UADataType: [ FX.Data:1028, FX.Data:NodeIdValuePair ]
   Fields:
-    Key: [ NodeIdArray, 0 ]
+    Key: [ FX.Data:NodeIdArray, 0 ]
     Value: [ null, 0 ]
-- UADataType: [ FX.Data:3003, RelatedEndpointDataType ]
+- UADataType: [ FX.Data:3003, FX.Data:RelatedEndpointDataType ]
   Fields:
     Address: [ UriString, 0 ]
     ConnectionEndpointPath: [ PortableQualifiedName, 1 ]
     ConnectionEndpointName: [ String, 0 ]
-- UADataType: [ FX.Data:3017, ReserveCommunicationIdsDataType ]
+- UADataType: [ FX.Data:3017, FX.Data:ReserveCommunicationIdsDataType ]
   Bases:
   - Structure
-- UADataType: [ FX.Data:3018, PubSubReserveCommunicationIdsDataType ]
+- UADataType: [ FX.Data:3018, FX.Data:PubSubReserveCommunicationIdsDataType ]
   Fields:
     TransportProfileUri: [ String, 0 ]
     NumReqWriterGroupIds: [ UInt16, 0 ]
     NumReqDataSetWriterIds: [ UInt16, 0 ]
-- UADataType: [ FX.Data:3019, ReserveCommunicationIdsResultDataType ]
+- UADataType: [ FX.Data:3019, FX.Data:ReserveCommunicationIdsResultDataType ]
   Bases:
   - Structure
-- UADataType: [ FX.Data:3020, PubSubReserveCommunicationIdsResultDataType ]
+- UADataType: [ FX.Data:3020, FX.Data:PubSubReserveCommunicationIdsResultDataType ]
   Fields:
     Result: [ StatusCode, 0 ]
     DefaultPublisherId: [ null, 0 ]
     WriterGroupIds: [ UInt16, 1 ]
     DataSetWriterIds: [ UInt16, 1 ]
-- UADataType: [ FX.Data:3011, ConnectionEndpointDefinitionDataType ]
+- UADataType: [ FX.Data:3011, FX.Data:ConnectionEndpointDefinitionDataType ]
   Fields:
-    Parameter: [ ConnectionEndpointParameterDataType, 0 ]
+    Parameter: [ FX.Data:ConnectionEndpointParameterDataType, 0 ]
     Node: [ NodeId, 0 ]
 
 DefinedTypes:
 
-  AggregatedHealthType:
-  - [ UAVariableType, FX.AC:2001, AggregatedHealthType, AggregatedHealthDataType, 0, 0 ]
+  FX.AC:AggregatedHealthType:
+  - [ UAVariableType, FX.AC:2001, FX.AC:AggregatedHealthType, FX.AC:AggregatedHealthDataType, 0, 0 ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6052, AggregatedDeviceHealth, DeviceHealthOptionSet, 0, 0 ]
+    - [ UAVariable, FX.AC:6052, FX.AC:AggregatedDeviceHealth, FX.AC:DeviceHealthOptionSet, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAVariableType, FX.AC:2001, AggregatedHealthType, AggregatedHealthDataType, 0, 0 ]
+      - [ UAVariableType, FX.AC:2001, FX.AC:AggregatedHealthType, FX.AC:AggregatedHealthDataType, 0, 0 ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6053, AggregatedOperationalHealth, OperationalHealthOptionSet, 0, 0 ]
+    - [ UAVariable, FX.AC:6053, FX.AC:AggregatedOperationalHealth, FX.AC:OperationalHealthOptionSet, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAVariableType, FX.AC:2001, AggregatedHealthType, AggregatedHealthDataType, 0, 0 ]
+      - [ UAVariableType, FX.AC:2001, FX.AC:AggregatedHealthType, FX.AC:AggregatedHealthDataType, 0, 0 ]
   - HasSubtype_reverse:
     - [ UAVariableType, 63, BaseDataVariableType ]
 
-  AcDescriptorType:
-  - [ UAObjectType, FX.AC:1027, AcDescriptorType ]
+  FX.AC:AcDescriptorType:
+  - [ UAObjectType, FX.AC:1027, FX.AC:AcDescriptorType ]
   - HasComponent:
-    - [ UAObject, FX.AC:5072, DescriptorFile ]
+    - [ UAObject, FX.AC:5072, FX.AC:DescriptorFile ]
     - HasTypeDefinition:
       - [ UAObjectType, 11575, FileType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAMethod, FX.AC:7001, Close ]
+      - [ UAMethod, FX.AC:7001, FX.AC:Close ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5072, DescriptorFile ]
+        - [ UAObject, FX.AC:5072, FX.AC:DescriptorFile ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6337, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, FX.AC:6337, FX.AC:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -295,17 +295,17 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, FX.AC:7001, Close ]
+          - [ UAMethod, FX.AC:7001, FX.AC:Close ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1027, AcDescriptorType ]
+      - [ UAObjectType, FX.AC:1027, FX.AC:AcDescriptorType ]
     - HasComponent:
-      - [ UAMethod, FX.AC:7002, GetPosition ]
+      - [ UAMethod, FX.AC:7002, FX.AC:GetPosition ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5072, DescriptorFile ]
+        - [ UAObject, FX.AC:5072, FX.AC:DescriptorFile ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6338, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, FX.AC:6338, FX.AC:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -313,9 +313,9 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, FX.AC:7002, GetPosition ]
+          - [ UAMethod, FX.AC:7002, FX.AC:GetPosition ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6339, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, FX.AC:6339, FX.AC:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             Position: [ UInt64, 0 ]
         - HasModellingRule:
@@ -323,13 +323,13 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, FX.AC:7002, GetPosition ]
+          - [ UAMethod, FX.AC:7002, FX.AC:GetPosition ]
     - HasComponent:
-      - [ UAMethod, FX.AC:7007, Open ]
+      - [ UAMethod, FX.AC:7007, FX.AC:Open ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6340, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, FX.AC:6340, FX.AC:InputArguments, Argument, 1, 0 ]
         - Arguments:
             Mode: [ Byte, 0 ]
         - HasModellingRule:
@@ -337,11 +337,11 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, FX.AC:7007, Open ]
+          - [ UAMethod, FX.AC:7007, FX.AC:Open ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5072, DescriptorFile ]
+        - [ UAObject, FX.AC:5072, FX.AC:DescriptorFile ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6341, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, FX.AC:6341, FX.AC:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -349,21 +349,21 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, FX.AC:7007, Open ]
+          - [ UAMethod, FX.AC:7007, FX.AC:Open ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6342, OpenCount, UInt16, 0, 0 ]
+      - [ UAVariable, FX.AC:6342, FX.AC:OpenCount, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, FX.AC:5072, DescriptorFile ]
+        - [ UAObject, FX.AC:5072, FX.AC:DescriptorFile ]
     - HasComponent:
-      - [ UAMethod, FX.AC:7008, Read ]
+      - [ UAMethod, FX.AC:7008, FX.AC:Read ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6343, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, FX.AC:6343, FX.AC:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Length: [ Int32, 0 ]
@@ -372,9 +372,9 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, FX.AC:7008, Read ]
+          - [ UAMethod, FX.AC:7008, FX.AC:Read ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6344, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, FX.AC:6344, FX.AC:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             Data: [ ByteString, 0 ]
         - HasModellingRule:
@@ -382,15 +382,15 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, FX.AC:7008, Read ]
+          - [ UAMethod, FX.AC:7008, FX.AC:Read ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5072, DescriptorFile ]
+        - [ UAObject, FX.AC:5072, FX.AC:DescriptorFile ]
     - HasComponent:
-      - [ UAMethod, FX.AC:7009, SetPosition ]
+      - [ UAMethod, FX.AC:7009, FX.AC:SetPosition ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6345, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, FX.AC:6345, FX.AC:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Position: [ UInt64, 0 ]
@@ -399,39 +399,39 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, FX.AC:7009, SetPosition ]
+          - [ UAMethod, FX.AC:7009, FX.AC:SetPosition ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5072, DescriptorFile ]
+        - [ UAObject, FX.AC:5072, FX.AC:DescriptorFile ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6346, Size, UInt64, 0, 0 ]
+      - [ UAVariable, FX.AC:6346, FX.AC:Size, UInt64, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, FX.AC:5072, DescriptorFile ]
+        - [ UAObject, FX.AC:5072, FX.AC:DescriptorFile ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6347, UserWritable, Boolean, 0, 0 ]
+      - [ UAVariable, FX.AC:6347, FX.AC:UserWritable, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, FX.AC:5072, DescriptorFile ]
+        - [ UAObject, FX.AC:5072, FX.AC:DescriptorFile ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6348, Writable, Boolean, 0, 0 ]
+      - [ UAVariable, FX.AC:6348, FX.AC:Writable, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, FX.AC:5072, DescriptorFile ]
+        - [ UAObject, FX.AC:5072, FX.AC:DescriptorFile ]
     - HasComponent:
-      - [ UAMethod, FX.AC:7010, Write ]
+      - [ UAMethod, FX.AC:7010, FX.AC:Write ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6349, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, FX.AC:6349, FX.AC:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Data: [ ByteString, 0 ]
@@ -440,275 +440,275 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, FX.AC:7010, Write ]
+          - [ UAMethod, FX.AC:7010, FX.AC:Write ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5072, DescriptorFile ]
+        - [ UAObject, FX.AC:5072, FX.AC:DescriptorFile ]
   - HasProperty:
-    - [ UAVariable, FX.AC:6335, DescriptorIdentifier, UriString, 0, 3 ]
+    - [ UAVariable, FX.AC:6335, FX.AC:DescriptorIdentifier, UriString, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:1027, AcDescriptorType ]
+      - [ UAObjectType, FX.AC:1027, FX.AC:AcDescriptorType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:6336, DescriptorVersion, FxVersion, 0, 3 ]
+    - [ UAVariable, FX.AC:6336, FX.AC:DescriptorVersion, FX.AC:FxVersion, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:1027, AcDescriptorType ]
+      - [ UAObjectType, FX.AC:1027, FX.AC:AcDescriptorType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  AssetConnectorType:
-  - [ UAObjectType, FX.AC:5, AssetConnectorType ]
+  FX.AC:AssetConnectorType:
+  - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:114, Id, UInt16, 0, 3 ]
+    - [ UAVariable, FX.AC:114, FX.AC:Id, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:5, AssetConnectorType ]
+      - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:116, Name, String, 0, 3 ]
+    - [ UAVariable, FX.AC:116, FX.AC:Name, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:5, AssetConnectorType ]
+      - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  ClampBlockType:
-  - [ UAObjectType, FX.AC:7, ClampBlockType ]
+  FX.AC:ClampBlockType:
+  - [ UAObjectType, FX.AC:7, FX.AC:ClampBlockType ]
   - HasComponent:
-    - [ UAObject, FX.AC:94, <Clamp> ]
+    - [ UAObject, FX.AC:94, FX.AC:<Clamp> ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:10, ClampType ]
+      - [ UAObjectType, FX.AC:10, FX.AC:ClampType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:7, ClampBlockType ]
+      - [ UAObjectType, FX.AC:7, FX.AC:ClampBlockType ]
     - HasProperty:
-      - [ UAVariable, FX.AC:220, Name, String, 0, 3 ]
+      - [ UAVariable, FX.AC:220, FX.AC:Name, String, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, FX.AC:94, <Clamp> ]
+        - [ UAObject, FX.AC:94, FX.AC:<Clamp> ]
   - HasProperty:
-    - [ UAVariable, FX.AC:218, BlockSize, UInt16, 0, 3 ]
+    - [ UAVariable, FX.AC:218, FX.AC:BlockSize, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:7, ClampBlockType ]
+      - [ UAObjectType, FX.AC:7, FX.AC:ClampBlockType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FX.AC:5, AssetConnectorType ]
+    - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:1250, Kind, UInt16, 0, 3 ]
+    - [ UAVariable, FX.AC:1250, FX.AC:Kind, UInt16, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1251, EnumValues, EnumValueType, 1, 0 ]
+      - [ UAVariable, FX.AC:1251, FX.AC:EnumValues, EnumValueType, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAVariable, FX.AC:1250, Kind, UInt16, 0, 3 ]
+        - [ UAVariable, FX.AC:1250, FX.AC:Kind, UInt16, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:7, ClampBlockType ]
+      - [ UAObjectType, FX.AC:7, FX.AC:ClampBlockType ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1252, ValueAsText, LocalizedText, 0, 0 ]
+      - [ UAVariable, FX.AC:1252, FX.AC:ValueAsText, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAVariable, FX.AC:1250, Kind, UInt16, 0, 3 ]
+        - [ UAVariable, FX.AC:1250, FX.AC:Kind, UInt16, 0, 3 ]
   - HasProperty:
-    - [ UAVariable, FX.AC:217, Name, String, 0, 3 ]
+    - [ UAVariable, FX.AC:217, FX.AC:Name, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:7, ClampBlockType ]
+      - [ UAObjectType, FX.AC:7, FX.AC:ClampBlockType ]
 
-  ClampType:
-  - [ UAObjectType, FX.AC:10, ClampType ]
+  FX.AC:ClampType:
+  - [ UAObjectType, FX.AC:10, FX.AC:ClampType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FX.AC:5, AssetConnectorType ]
+    - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:215, Kind, UInt16, 0, 3 ]
+    - [ UAVariable, FX.AC:215, FX.AC:Kind, UInt16, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1254, EnumValues, EnumValueType, 1, 0 ]
+      - [ UAVariable, FX.AC:1254, FX.AC:EnumValues, EnumValueType, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAVariable, FX.AC:215, Kind, UInt16, 0, 3 ]
+        - [ UAVariable, FX.AC:215, FX.AC:Kind, UInt16, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:10, ClampType ]
+      - [ UAObjectType, FX.AC:10, FX.AC:ClampType ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1255, ValueAsText, LocalizedText, 0, 0 ]
+      - [ UAVariable, FX.AC:1255, FX.AC:ValueAsText, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAVariable, FX.AC:215, Kind, UInt16, 0, 3 ]
+        - [ UAVariable, FX.AC:215, FX.AC:Kind, UInt16, 0, 3 ]
   - HasProperty:
-    - [ UAVariable, FX.AC:214, Name, String, 0, 3 ]
+    - [ UAVariable, FX.AC:214, FX.AC:Name, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:10, ClampType ]
+      - [ UAObjectType, FX.AC:10, FX.AC:ClampType ]
 
-  SlotType:
-  - [ UAObjectType, FX.AC:6, SlotType ]
+  FX.AC:SlotType:
+  - [ UAObjectType, FX.AC:6, FX.AC:SlotType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:115, Id, UInt16, 0, 3 ]
+    - [ UAVariable, FX.AC:115, FX.AC:Id, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:6, SlotType ]
+      - [ UAObjectType, FX.AC:6, FX.AC:SlotType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:159, LogicalId, UInt16, 0, 3 ]
+    - [ UAVariable, FX.AC:159, FX.AC:LogicalId, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:6, SlotType ]
+      - [ UAObjectType, FX.AC:6, FX.AC:SlotType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FX.AC:5, AssetConnectorType ]
+    - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
 
-  SocketType:
-  - [ UAObjectType, FX.AC:8, SocketType ]
+  FX.AC:SocketType:
+  - [ UAObjectType, FX.AC:8, FX.AC:SocketType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6008, Kind, UInt16, 0, 3 ]
+    - [ UAVariable, FX.AC:6008, FX.AC:Kind, UInt16, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6009, EnumValues, EnumValueType, 1, 0 ]
+      - [ UAVariable, FX.AC:6009, FX.AC:EnumValues, EnumValueType, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAVariable, FX.AC:6008, Kind, UInt16, 0, 3 ]
+        - [ UAVariable, FX.AC:6008, FX.AC:Kind, UInt16, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:8, SocketType ]
+      - [ UAObjectType, FX.AC:8, FX.AC:SocketType ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6010, ValueAsText, LocalizedText, 0, 0 ]
+      - [ UAVariable, FX.AC:6010, FX.AC:ValueAsText, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAVariable, FX.AC:6008, Kind, UInt16, 0, 3 ]
+        - [ UAVariable, FX.AC:6008, FX.AC:Kind, UInt16, 0, 3 ]
   - HasProperty:
-    - [ UAVariable, FX.AC:211, Name, String, 0, 3 ]
+    - [ UAVariable, FX.AC:211, FX.AC:Name, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:8, SocketType ]
+      - [ UAObjectType, FX.AC:8, FX.AC:SocketType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FX.AC:5, AssetConnectorType ]
+    - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
 
-  AutomationComponentType:
-  - [ UAObjectType, FX.AC:2, AutomationComponentType ]
+  FX.AC:AutomationComponentType:
+  - [ UAObjectType, FX.AC:2, FX.AC:AutomationComponentType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6048, AggregatedHealth, AggregatedHealthDataType, 0, 3 ]
+    - [ UAVariable, FX.AC:6048, FX.AC:AggregatedHealth, FX.AC:AggregatedHealthDataType, 0, 3 ]
     - HasTypeDefinition:
-      - [ UAVariableType, FX.AC:2001, AggregatedHealthType, AggregatedHealthDataType, 0, 0 ]
+      - [ UAVariableType, FX.AC:2001, FX.AC:AggregatedHealthType, FX.AC:AggregatedHealthDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6051, AggregatedDeviceHealth, DeviceHealthOptionSet, 0, 0 ]
+      - [ UAVariable, FX.AC:6051, FX.AC:AggregatedDeviceHealth, FX.AC:DeviceHealthOptionSet, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAVariable, FX.AC:6048, AggregatedHealth, AggregatedHealthDataType, 0, 3 ]
+        - [ UAVariable, FX.AC:6048, FX.AC:AggregatedHealth, FX.AC:AggregatedHealthDataType, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:2, AutomationComponentType ]
+      - [ UAObjectType, FX.AC:2, FX.AC:AutomationComponentType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6070, AggregatedOperationalHealth, OperationalHealthOptionSet, 0, 0 ]
+      - [ UAVariable, FX.AC:6070, FX.AC:AggregatedOperationalHealth, FX.AC:OperationalHealthOptionSet, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAVariable, FX.AC:6048, AggregatedHealth, AggregatedHealthDataType, 0, 3 ]
+        - [ UAVariable, FX.AC:6048, FX.AC:AggregatedHealth, FX.AC:AggregatedHealthDataType, 0, 3 ]
   - HasComponent:
-    - [ UAObject, FX.AC:68, Assets ]
+    - [ UAObject, FX.AC:68, FX.AC:Assets ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - Organizes:
-      - [ UAObject, FX.AC:73, <Asset> ]
+      - [ UAObject, FX.AC:73, FX.AC:<Asset> ]
       - HasTypeDefinition:
-        - [ UAObjectType, FX.AC:3, FxAssetType ]
+        - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
       - HasModellingRule:
         - [ UAObject, 11508, OptionalPlaceholder ]
       - Organizes_reverse:
-        - [ UAObject, FX.AC:68, Assets ]
+        - [ UAObject, FX.AC:68, FX.AC:Assets ]
       - HasProperty:
-        - [ UAVariable, FX.AC:200, ManufacturerUri, String, 0, 3 ]
+        - [ UAVariable, FX.AC:200, DI:ManufacturerUri, String, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, FX.AC:73, <Asset> ]
+          - [ UAObject, FX.AC:73, FX.AC:<Asset> ]
       - HasProperty:
-        - [ UAVariable, FX.AC:201, ProductCode, String, 0, 3 ]
+        - [ UAVariable, FX.AC:201, DI:ProductCode, String, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, FX.AC:73, <Asset> ]
+          - [ UAObject, FX.AC:73, FX.AC:<Asset> ]
       - IsHostedBy_reverse:
-        - [ UAObject, FX.AC:82, <FunctionalEntity> ]
+        - [ UAObject, FX.AC:82, FX.AC:<FunctionalEntity> ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:2, AutomationComponentType ]
+      - [ UAObjectType, FX.AC:2, FX.AC:AutomationComponentType ]
   - HasComponent:
-    - [ UAMethod, FX.AC:293, CloseConnections ]
+    - [ UAMethod, FX.AC:293, FX.AC:CloseConnections ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - GeneratesEvent:
-      - [ UAObjectType, FX.Data:1025, AuditUpdateMethodResultEventType ]
+      - [ UAObjectType, FX.Data:1025, FX.Data:AuditUpdateMethodResultEventType ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:2, AutomationComponentType ]
+      - [ UAObjectType, FX.AC:2, FX.AC:AutomationComponentType ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1305, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1305, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ConnectionEndpoints: [ NodeId, 1 ]
           Remove: [ Boolean, 0 ]
@@ -717,9 +717,9 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:293, CloseConnections ]
+        - [ UAMethod, FX.AC:293, FX.AC:CloseConnections ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1306, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1306, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Results: [ StatusCode, 1 ]
       - HasModellingRule:
@@ -727,665 +727,665 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:293, CloseConnections ]
+        - [ UAMethod, FX.AC:293, FX.AC:CloseConnections ]
   - HasComponent:
-    - [ UAObject, FX.AC:1066, ComponentCapabilities ]
+    - [ UAObject, FX.AC:1066, FX.AC:ComponentCapabilities ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1001, AutomationComponentCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1001, FX.AC:AutomationComponentCapabilitiesType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:2, AutomationComponentType ]
+      - [ UAObjectType, FX.AC:2, FX.AC:AutomationComponentType ]
     - HasCapability:
-      - [ UAVariable, FX.AC:6360, MaxConnections, UInt32, 0, 3 ]
+      - [ UAVariable, FX.AC:6360, FX.AC:MaxConnections, UInt32, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasCapability_reverse:
-        - [ UAObject, FX.AC:1066, ComponentCapabilities ]
+        - [ UAObject, FX.AC:1066, FX.AC:ComponentCapabilities ]
     - HasCapability:
-      - [ UAVariable, FX.AC:6359, SupportsPersistence, Boolean, 0, 3 ]
+      - [ UAVariable, FX.AC:6359, FX.AC:SupportsPersistence, Boolean, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasCapability_reverse:
-        - [ UAObject, FX.AC:1066, ComponentCapabilities ]
+        - [ UAObject, FX.AC:1066, FX.AC:ComponentCapabilities ]
   - HasProperty:
-    - [ UAVariable, FX.AC:210, ConformanceName, UriString, 0, 0 ]
+    - [ UAVariable, FX.AC:210, FX.AC:ConformanceName, UriString, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:2, AutomationComponentType ]
+      - [ UAObjectType, FX.AC:2, FX.AC:AutomationComponentType ]
   - HasComponent:
-    - [ UAObject, FX.AC:5073, Descriptors ]
+    - [ UAObject, FX.AC:5073, FX.AC:Descriptors ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:2, AutomationComponentType ]
+      - [ UAObjectType, FX.AC:2, FX.AC:AutomationComponentType ]
   - HasComponent:
-    - [ UAMethod, FX.AC:292, EstablishConnections ]
+    - [ UAMethod, FX.AC:292, FX.AC:EstablishConnections ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - GeneratesEvent:
-      - [ UAObjectType, FX.Data:1025, AuditUpdateMethodResultEventType ]
+      - [ UAObjectType, FX.Data:1025, FX.Data:AuditUpdateMethodResultEventType ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:2, AutomationComponentType ]
+      - [ UAObjectType, FX.AC:2, FX.AC:AutomationComponentType ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1303, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1303, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
-          CommandMask: [ FxCommandMask, 0 ]
-          AssetVerifications: [ AssetVerificationDataType, 1 ]
-          ConnectionEndpointConfigurations: [ ConnectionEndpointConfigurationDataType, 1 ]
-          ReserveCommunicationIds: [ ReserveCommunicationIdsDataType, 1 ]
-          CommunicationConfigurations: [ CommunicationConfigurationDataType, 1 ]
+          CommandMask: [ FX.Data:FxCommandMask, 0 ]
+          AssetVerifications: [ FX.Data:AssetVerificationDataType, 1 ]
+          ConnectionEndpointConfigurations: [ FX.Data:ConnectionEndpointConfigurationDataType, 1 ]
+          ReserveCommunicationIds: [ FX.Data:ReserveCommunicationIdsDataType, 1 ]
+          CommunicationConfigurations: [ FX.Data:CommunicationConfigurationDataType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:292, EstablishConnections ]
+        - [ UAMethod, FX.AC:292, FX.AC:EstablishConnections ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1304, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1304, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
-          AssetVerificationResults: [ AssetVerificationResultDataType, 1 ]
-          ConnectionEndpointConfigurationResults: [ ConnectionEndpointConfigurationResultDataType, 1 ]
-          ReserveCommunicationIdsResults: [ ReserveCommunicationIdsResultDataType, 1 ]
-          CommunicationConfigurationResults: [ CommunicationConfigurationResultDataType, 1 ]
+          AssetVerificationResults: [ FX.Data:AssetVerificationResultDataType, 1 ]
+          ConnectionEndpointConfigurationResults: [ FX.Data:ConnectionEndpointConfigurationResultDataType, 1 ]
+          ReserveCommunicationIdsResults: [ FX.Data:ReserveCommunicationIdsResultDataType, 1 ]
+          CommunicationConfigurationResults: [ FX.Data:CommunicationConfigurationResultDataType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:292, EstablishConnections ]
+        - [ UAMethod, FX.AC:292, FX.AC:EstablishConnections ]
   - HasComponent:
-    - [ UAObject, FX.AC:67, FunctionalEntities ]
+    - [ UAObject, FX.AC:67, FX.AC:FunctionalEntities ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - Organizes:
-      - [ UAObject, FX.AC:82, <FunctionalEntity> ]
+      - [ UAObject, FX.AC:82, FX.AC:<FunctionalEntity> ]
       - HasTypeDefinition:
-        - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+        - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
       - HasModellingRule:
         - [ UAObject, 11508, OptionalPlaceholder ]
       - IsHostedBy:
-        - [ UAObject, FX.AC:73, <Asset> ]
+        - [ UAObject, FX.AC:73, FX.AC:<Asset> ]
         - HasTypeDefinition:
-          - [ UAObjectType, FX.AC:3, FxAssetType ]
+          - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
         - HasModellingRule:
           - [ UAObject, 11508, OptionalPlaceholder ]
         - Organizes_reverse:
-          - [ UAObject, FX.AC:68, Assets ]
+          - [ UAObject, FX.AC:68, FX.AC:Assets ]
         - HasProperty:
-          - [ UAVariable, FX.AC:200, ManufacturerUri, String, 0, 3 ]
+          - [ UAVariable, FX.AC:200, DI:ManufacturerUri, String, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:73, <Asset> ]
+            - [ UAObject, FX.AC:73, FX.AC:<Asset> ]
         - HasProperty:
-          - [ UAVariable, FX.AC:201, ProductCode, String, 0, 3 ]
+          - [ UAVariable, FX.AC:201, DI:ProductCode, String, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:73, <Asset> ]
+            - [ UAObject, FX.AC:73, FX.AC:<Asset> ]
         - IsHostedBy_reverse:
-          - [ UAObject, FX.AC:82, <FunctionalEntity> ]
+          - [ UAObject, FX.AC:82, FX.AC:<FunctionalEntity> ]
       - Organizes_reverse:
-        - [ UAObject, FX.AC:67, FunctionalEntities ]
+        - [ UAObject, FX.AC:67, FX.AC:FunctionalEntities ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:2, AutomationComponentType ]
+      - [ UAObjectType, FX.AC:2, FX.AC:AutomationComponentType ]
   - HasComponent:
-    - [ UAObject, FX.AC:5009, PublisherCapabilities ]
+    - [ UAObject, FX.AC:5009, FX.AC:PublisherCapabilities ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1003, PublisherCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1003, FX.AC:PublisherCapabilitiesType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6032, PreconfiguredDataSetOnly, Boolean, 0, 3 ]
+      - [ UAVariable, FX.AC:6032, FX.AC:PreconfiguredDataSetOnly, Boolean, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5009, PublisherCapabilities ]
+        - [ UAObject, FX.AC:5009, FX.AC:PublisherCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6041, PreconfiguredPublishedDataSets, String, 1, 3 ]
+      - [ UAVariable, FX.AC:6041, FX.AC:PreconfiguredPublishedDataSets, String, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5009, PublisherCapabilities ]
+        - [ UAObject, FX.AC:5009, FX.AC:PublisherCapabilities ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:2, AutomationComponentType ]
+      - [ UAObjectType, FX.AC:2, FX.AC:AutomationComponentType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6042, SupportedPublishingIntervals, IntervalRange, 1, 3 ]
+      - [ UAVariable, FX.AC:6042, FX.AC:SupportedPublishingIntervals, FX.AC:IntervalRange, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5009, PublisherCapabilities ]
+        - [ UAObject, FX.AC:5009, FX.AC:PublisherCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6043, SupportedQos, PublisherQosDataType, 1, 3 ]
+      - [ UAVariable, FX.AC:6043, FX.AC:SupportedQos, FX.AC:PublisherQosDataType, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5009, PublisherCapabilities ]
+        - [ UAObject, FX.AC:5009, FX.AC:PublisherCapabilities ]
   - HasComponent:
-    - [ UAObject, FX.AC:5010, SubscriberCapabilities ]
+    - [ UAObject, FX.AC:5010, FX.AC:SubscriberCapabilities ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1004, SubscriberCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1004, FX.AC:SubscriberCapabilitiesType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6036, PreconfiguredDataSetOnly, Boolean, 0, 3 ]
+      - [ UAVariable, FX.AC:6036, FX.AC:PreconfiguredDataSetOnly, Boolean, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5010, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5010, FX.AC:SubscriberCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6044, PreconfiguredSubscribedDataSets, String, 1, 3 ]
+      - [ UAVariable, FX.AC:6044, FX.AC:PreconfiguredSubscribedDataSets, String, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5010, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5010, FX.AC:SubscriberCapabilities ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:2, AutomationComponentType ]
+      - [ UAObjectType, FX.AC:2, FX.AC:AutomationComponentType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6045, SupportedMessageReceiveTimeouts, IntervalRange, 1, 3 ]
+      - [ UAVariable, FX.AC:6045, FX.AC:SupportedMessageReceiveTimeouts, FX.AC:IntervalRange, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5010, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5010, FX.AC:SubscriberCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6046, SupportedPublishingIntervals, IntervalRange, 1, 3 ]
+      - [ UAVariable, FX.AC:6046, FX.AC:SupportedPublishingIntervals, FX.AC:IntervalRange, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5010, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5010, FX.AC:SubscriberCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6047, SupportedQos, SubscriberQosDataType, 1, 3 ]
+      - [ UAVariable, FX.AC:6047, FX.AC:SupportedQos, FX.AC:SubscriberQosDataType, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5010, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5010, FX.AC:SubscriberCapabilities ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - GeneratesEvent:
     - [ UAObjectType, 11446, SystemStatusChangeEventType ]
 
-  AuditUaFxEventType:
-  - [ UAObjectType, FX.AC:1030, AuditUaFxEventType ]
+  FX.AC:AuditUaFxEventType:
+  - [ UAObjectType, FX.AC:1030, FX.AC:AuditUaFxEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2052, AuditEventType ]
 
-  AuditConnectionCleanupEventType:
-  - [ UAObjectType, FX.AC:1040, AuditConnectionCleanupEventType ]
+  FX.AC:AuditConnectionCleanupEventType:
+  - [ UAObjectType, FX.AC:1040, FX.AC:AuditConnectionCleanupEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FX.AC:1030, AuditUaFxEventType ]
+    - [ UAObjectType, FX.AC:1030, FX.AC:AuditUaFxEventType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:6351, RelatedEndpoint, RelatedEndpointDataType, 0, 3 ]
+    - [ UAVariable, FX.AC:6351, FX.AC:RelatedEndpoint, FX.Data:RelatedEndpointDataType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:1040, AuditConnectionCleanupEventType ]
+      - [ UAObjectType, FX.AC:1040, FX.AC:AuditConnectionCleanupEventType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:6350, RemovedEndpoint, String, 0, 3 ]
+    - [ UAVariable, FX.AC:6350, FX.AC:RemovedEndpoint, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:1040, AuditConnectionCleanupEventType ]
+      - [ UAObjectType, FX.AC:1040, FX.AC:AuditConnectionCleanupEventType ]
 
-  IAssetExtensionsType:
-  - [ UAObjectType, FX.AC:1009, IAssetExtensionsType ]
+  FX.AC:IAssetExtensionsType:
+  - [ UAObjectType, FX.AC:1009, FX.AC:IAssetExtensionsType ]
   - HasComponent:
-    - [ UAObject, FX.AC:5042, Connectors ]
+    - [ UAObject, FX.AC:5042, FX.AC:Connectors ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1009, IAssetExtensionsType ]
+      - [ UAObjectType, FX.AC:1009, FX.AC:IAssetExtensionsType ]
   - HasInterface_reverse:
-    - [ UAObjectType, FX.AC:3, FxAssetType ]
+    - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  IAssetRevisionType:
-  - [ UAObjectType, FX.AC:9, IAssetRevisionType ]
+  FX.AC:IAssetRevisionType:
+  - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:119, BuildAssetNumber, UInt16, 0, 3 ]
+    - [ UAVariable, FX.AC:119, FX.AC:BuildAssetNumber, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:9, IAssetRevisionType ]
+      - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType ]
   - HasInterface_reverse:
-    - [ UAObjectType, FX.AC:3, FxAssetType ]
+    - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:117, MajorAssetVersion, UInt16, 0, 3 ]
+    - [ UAVariable, FX.AC:117, FX.AC:MajorAssetVersion, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:9, IAssetRevisionType ]
+      - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:118, MinorAssetVersion, UInt16, 0, 3 ]
+    - [ UAVariable, FX.AC:118, FX.AC:MinorAssetVersion, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:9, IAssetRevisionType ]
+      - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:120, SubBuildAssetNumber, UInt16, 0, 3 ]
+    - [ UAVariable, FX.AC:120, FX.AC:SubBuildAssetNumber, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:9, IAssetRevisionType ]
+      - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType ]
   - HasComponent:
-    - [ UAMethod, FX.AC:1476, VerifyAsset ]
+    - [ UAMethod, FX.AC:1476, FX.AC:VerifyAsset ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1422, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1422, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
-          VerificationMode: [ AssetVerificationModeEnum, 1 ]
+          VerificationMode: [ FX.Data:AssetVerificationModeEnum, 1 ]
           ExpectedVerificationVariables: [ KeyValuePair, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:1476, VerifyAsset ]
+        - [ UAMethod, FX.AC:1476, FX.AC:VerifyAsset ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1423, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1423, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
-          VerificationResult: [ AssetVerificationResultEnum, 0 ]
+          VerificationResult: [ FX.Data:AssetVerificationResultEnum, 0 ]
           VerificationVariablesErrors: [ StatusCode, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:1476, VerifyAsset ]
+        - [ UAMethod, FX.AC:1476, FX.AC:VerifyAsset ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:9, IAssetRevisionType ]
+      - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  IFunctionalEntityType:
-  - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+  FX.AC:IFunctionalEntityType:
+  - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:129, ApplicationIdentifier, ApplicationIdentifierDataType, 1, 3 ]
+    - [ UAVariable, FX.AC:129, FX.AC:ApplicationIdentifier, FX.AC:ApplicationIdentifierDataType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:127, AuthorAssignedIdentifier, String, 0, 3 ]
+    - [ UAVariable, FX.AC:127, FX.AC:AuthorAssignedIdentifier, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:128, AuthorAssignedVersion, FxVersion, 0, 3 ]
+    - [ UAVariable, FX.AC:128, FX.AC:AuthorAssignedVersion, FX.AC:FxVersion, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:126, AuthorUri, UriString, 0, 3 ]
+    - [ UAVariable, FX.AC:126, FX.AC:AuthorUri, UriString, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
   - HasComponent:
-    - [ UAObject, FX.AC:5039, Capabilities ]
+    - [ UAObject, FX.AC:5039, FX.AC:Capabilities ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1008, FunctionalEntityCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1008, FX.AC:FunctionalEntityCapabilitiesType ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
     - HasCapability:
-      - [ UAVariable, FX.AC:6121, FeedbackSignalRequired, Boolean, 0, 3 ]
+      - [ UAVariable, FX.AC:6121, FX.AC:FeedbackSignalRequired, Boolean, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasCapability_reverse:
-        - [ UAObject, FX.AC:5039, Capabilities ]
+        - [ UAObject, FX.AC:5039, FX.AC:Capabilities ]
   - HasComponent:
-    - [ UAObject, FX.AC:5104, ConfigurationData ]
+    - [ UAObject, FX.AC:5104, FX.AC:ConfigurationData ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1041, ConfigurationDataFolderType ]
+      - [ UAObjectType, FX.AC:1041, FX.AC:ConfigurationDataFolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
   - HasComponent:
-    - [ UAObject, FX.AC:52, ConnectionEndpoints ]
+    - [ UAObject, FX.AC:52, FX.AC:ConnectionEndpoints ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:20, ConnectionEndpointsFolderType ]
+      - [ UAObjectType, FX.AC:20, FX.AC:ConnectionEndpointsFolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
   - HasComponent:
-    - [ UAObject, FX.AC:1064, ControlGroups ]
+    - [ UAObject, FX.AC:1064, FX.AC:ControlGroups ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1010, ControlGroupsFolderType ]
+      - [ UAObjectType, FX.AC:1010, FX.AC:ControlGroupsFolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
   - HasInterface_reverse:
-    - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+    - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
   - HasComponent:
-    - [ UAObject, FX.AC:1203, InputData ]
+    - [ UAObject, FX.AC:1203, FX.AC:InputData ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1000, InputsFolderType ]
+      - [ UAObjectType, FX.AC:1000, FX.AC:InputsFolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6101, OperationalHealth, OperationalHealthOptionSet, 0, 0 ]
+    - [ UAVariable, FX.AC:6101, FX.AC:OperationalHealth, FX.AC:OperationalHealthOptionSet, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
   - HasComponent:
-    - [ UAObject, FX.AC:5035, OperationalHealthAlarms ]
+    - [ UAObject, FX.AC:5035, FX.AC:OperationalHealthAlarms ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
   - HasComponent:
-    - [ UAObject, FX.AC:1204, OutputData ]
+    - [ UAObject, FX.AC:1204, FX.AC:OutputData ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1019, OutputsFolderType ]
+      - [ UAObjectType, FX.AC:1019, FX.AC:OutputsFolderType ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
   - HasComponent:
-    - [ UAObject, FX.AC:5007, PublisherCapabilities ]
+    - [ UAObject, FX.AC:5007, FX.AC:PublisherCapabilities ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1003, PublisherCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1003, FX.AC:PublisherCapabilitiesType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6030, PreconfiguredDataSetOnly, Boolean, 0, 3 ]
+      - [ UAVariable, FX.AC:6030, FX.AC:PreconfiguredDataSetOnly, Boolean, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5007, PublisherCapabilities ]
+        - [ UAObject, FX.AC:5007, FX.AC:PublisherCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6031, PreconfiguredPublishedDataSets, String, 1, 3 ]
+      - [ UAVariable, FX.AC:6031, FX.AC:PreconfiguredPublishedDataSets, String, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5007, PublisherCapabilities ]
+        - [ UAObject, FX.AC:5007, FX.AC:PublisherCapabilities ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6033, SupportedPublishingIntervals, IntervalRange, 1, 3 ]
+      - [ UAVariable, FX.AC:6033, FX.AC:SupportedPublishingIntervals, FX.AC:IntervalRange, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5007, PublisherCapabilities ]
+        - [ UAObject, FX.AC:5007, FX.AC:PublisherCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6034, SupportedQos, PublisherQosDataType, 1, 3 ]
+      - [ UAVariable, FX.AC:6034, FX.AC:SupportedQos, FX.AC:PublisherQosDataType, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5007, PublisherCapabilities ]
+        - [ UAObject, FX.AC:5007, FX.AC:PublisherCapabilities ]
   - HasComponent:
-    - [ UAObject, FX.AC:5008, SubscriberCapabilities ]
+    - [ UAObject, FX.AC:5008, FX.AC:SubscriberCapabilities ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1004, SubscriberCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1004, FX.AC:SubscriberCapabilitiesType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6035, PreconfiguredDataSetOnly, Boolean, 0, 3 ]
+      - [ UAVariable, FX.AC:6035, FX.AC:PreconfiguredDataSetOnly, Boolean, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5008, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5008, FX.AC:SubscriberCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6037, PreconfiguredSubscribedDataSets, String, 1, 3 ]
+      - [ UAVariable, FX.AC:6037, FX.AC:PreconfiguredSubscribedDataSets, String, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5008, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5008, FX.AC:SubscriberCapabilities ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6038, SupportedMessageReceiveTimeouts, IntervalRange, 1, 3 ]
+      - [ UAVariable, FX.AC:6038, FX.AC:SupportedMessageReceiveTimeouts, FX.AC:IntervalRange, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5008, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5008, FX.AC:SubscriberCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6039, SupportedPublishingIntervals, IntervalRange, 1, 3 ]
+      - [ UAVariable, FX.AC:6039, FX.AC:SupportedPublishingIntervals, FX.AC:IntervalRange, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5008, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5008, FX.AC:SubscriberCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6040, SupportedQos, SubscriberQosDataType, 1, 3 ]
+      - [ UAVariable, FX.AC:6040, FX.AC:SupportedQos, FX.AC:SubscriberQosDataType, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5008, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5008, FX.AC:SubscriberCapabilities ]
   - HasComponent:
-    - [ UAMethod, FX.AC:289, Verify ]
+    - [ UAMethod, FX.AC:289, FX.AC:Verify ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1420, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1420, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
-          ExpectedVerificationVariables: [ NodeIdValuePair, 1 ]
+          ExpectedVerificationVariables: [ FX.Data:NodeIdValuePair, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:289, Verify ]
+        - [ UAMethod, FX.AC:289, FX.AC:Verify ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1421, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1421, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
-          VerificationResult: [ FunctionalEntityVerificationResultEnum, 0 ]
+          VerificationResult: [ FX.Data:FunctionalEntityVerificationResultEnum, 0 ]
           VerificationVariablesErrors: [ StatusCode, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:289, Verify ]
+        - [ UAMethod, FX.AC:289, FX.AC:Verify ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  ConnectionEndpointType:
-  - [ UAObjectType, FX.AC:1002, ConnectionEndpointType ]
+  FX.AC:ConnectionEndpointType:
+  - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:1316, CleanupTimeout, Duration, 0, 3 ]
+    - [ UAVariable, FX.AC:1316, FX.AC:CleanupTimeout, Duration, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1002, ConnectionEndpointType ]
+      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6197, InputVariables, NodeId, 1, 3 ]
+    - [ UAVariable, FX.AC:6197, FX.AC:InputVariables, NodeId, 1, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1002, ConnectionEndpointType ]
+      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:1308, IsPersistent, Boolean, 0, 3 ]
+    - [ UAVariable, FX.AC:1308, FX.AC:IsPersistent, Boolean, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1002, ConnectionEndpointType ]
+      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6198, OutputVariables, NodeId, 1, 3 ]
+    - [ UAVariable, FX.AC:6198, FX.AC:OutputVariables, NodeId, 1, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1002, ConnectionEndpointType ]
+      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6069, RelatedEndpoint, RelatedEndpointDataType, 0, 3 ]
+    - [ UAVariable, FX.AC:6069, FX.AC:RelatedEndpoint, FX.Data:RelatedEndpointDataType, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1002, ConnectionEndpointType ]
+      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:1300, Status, ConnectionEndpointStatusEnum, 0, 0 ]
+    - [ UAVariable, FX.AC:1300, FX.AC:Status, FX.AC:ConnectionEndpointStatusEnum, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1002, ConnectionEndpointType ]
+      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  PubSubConnectionEndpointType:
-  - [ UAObjectType, FX.AC:1005, PubSubConnectionEndpointType ]
+  FX.AC:PubSubConnectionEndpointType:
+  - [ UAObjectType, FX.AC:1005, FX.AC:PubSubConnectionEndpointType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:1352, Mode, PubSubConnectionEndpointModeEnum, 0, 3 ]
+    - [ UAVariable, FX.AC:1352, FX.AC:Mode, FX.Data:PubSubConnectionEndpointModeEnum, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1005, PubSubConnectionEndpointType ]
+      - [ UAObjectType, FX.AC:1005, FX.AC:PubSubConnectionEndpointType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FX.AC:1002, ConnectionEndpointType ]
+    - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
 
-  ControlGroupType:
-  - [ UAObjectType, FX.AC:15, ControlGroupType ]
+  FX.AC:ControlGroupType:
+  - [ UAObjectType, FX.AC:15, FX.AC:ControlGroupType ]
   - HasComponent:
-    - [ UAObject, FX.AC:5018, <ControlGroup> ]
+    - [ UAObject, FX.AC:5018, FX.AC:<ControlGroup> ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:15, ControlGroupType ]
+      - [ UAObjectType, FX.AC:15, FX.AC:ControlGroupType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:15, ControlGroupType ]
+      - [ UAObjectType, FX.AC:15, FX.AC:ControlGroupType ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6089, IsControlled, Boolean, 0, 3 ]
+      - [ UAVariable, FX.AC:6089, FX.AC:IsControlled, Boolean, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, FX.AC:5018, <ControlGroup> ]
+        - [ UAObject, FX.AC:5018, FX.AC:<ControlGroup> ]
     - HasComponent:
-      - [ UAObject, FX.AC:5030, ListOfRelated ]
+      - [ UAObject, FX.AC:5030, FX.AC:ListOfRelated ]
       - HasTypeDefinition:
         - [ UAObjectType, 61, FolderType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5018, <ControlGroup> ]
+        - [ UAObject, FX.AC:5018, FX.AC:<ControlGroup> ]
     - HasComponent:
-      - [ UAObject, FX.AC:5033, ListToBlock ]
+      - [ UAObject, FX.AC:5033, FX.AC:ListToBlock ]
       - HasTypeDefinition:
-        - [ UAObjectType, FX.AC:1011, ControlItemFolderType ]
+        - [ UAObjectType, FX.AC:1011, FX.AC:ControlItemFolderType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5018, <ControlGroup> ]
+        - [ UAObject, FX.AC:5018, FX.AC:<ControlGroup> ]
       - HasComponent:
-        - [ UAObject, FX.AC:5034, Lock ]
+        - [ UAObject, FX.AC:5034, FX.AC:Lock ]
         - HasTypeDefinition:
-          - [ UAObjectType, DI:6388, LockingServicesType ]
+          - [ UAObjectType, DI:6388, DI:LockingServicesType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent:
-          - [ UAMethod, FX.AC:7003, BreakLock ]
+          - [ UAMethod, FX.AC:7003, DI:BreakLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, FX.AC:5034, Lock ]
+            - [ UAObject, FX.AC:5034, FX.AC:Lock ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6090, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6090, FX.AC:OutputArguments, Argument, 1, 0 ]
             - Arguments:
                 BreakLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -1393,15 +1393,15 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7003, BreakLock ]
+              - [ UAMethod, FX.AC:7003, DI:BreakLock ]
         - HasComponent:
-          - [ UAMethod, FX.AC:7004, ExitLock ]
+          - [ UAMethod, FX.AC:7004, DI:ExitLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, FX.AC:5034, Lock ]
+            - [ UAObject, FX.AC:5034, FX.AC:Lock ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6102, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6102, FX.AC:OutputArguments, Argument, 1, 0 ]
             - Arguments:
                 ExitLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -1409,15 +1409,15 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7004, ExitLock ]
+              - [ UAMethod, FX.AC:7004, DI:ExitLock ]
         - HasComponent:
-          - [ UAMethod, FX.AC:7005, InitLock ]
+          - [ UAMethod, FX.AC:7005, DI:InitLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, FX.AC:5034, Lock ]
+            - [ UAObject, FX.AC:5034, FX.AC:Lock ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6103, InputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6103, FX.AC:InputArguments, Argument, 1, 0 ]
             - Arguments:
                 Context: [ String, 0 ]
             - HasModellingRule:
@@ -1425,9 +1425,9 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7005, InitLock ]
+              - [ UAMethod, FX.AC:7005, DI:InitLock ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6104, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6104, FX.AC:OutputArguments, Argument, 1, 0 ]
             - Arguments:
                 InitLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -1435,47 +1435,47 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7005, InitLock ]
+              - [ UAMethod, FX.AC:7005, DI:InitLock ]
         - HasComponent_reverse:
-          - [ UAObject, FX.AC:5033, ListToBlock ]
+          - [ UAObject, FX.AC:5033, FX.AC:ListToBlock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6105, Locked, Boolean, 0, 0 ]
+          - [ UAVariable, FX.AC:6105, DI:Locked, Boolean, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:5034, Lock ]
+            - [ UAObject, FX.AC:5034, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6106, LockingClient, String, 0, 0 ]
+          - [ UAVariable, FX.AC:6106, DI:LockingClient, String, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:5034, Lock ]
+            - [ UAObject, FX.AC:5034, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6107, LockingUser, String, 0, 0 ]
+          - [ UAVariable, FX.AC:6107, DI:LockingUser, String, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:5034, Lock ]
+            - [ UAObject, FX.AC:5034, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6108, RemainingLockTime, Duration, 0, 0 ]
+          - [ UAVariable, FX.AC:6108, DI:RemainingLockTime, Duration, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:5034, Lock ]
+            - [ UAObject, FX.AC:5034, FX.AC:Lock ]
         - HasComponent:
-          - [ UAMethod, FX.AC:7006, RenewLock ]
+          - [ UAMethod, FX.AC:7006, DI:RenewLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6109, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6109, FX.AC:OutputArguments, Argument, 1, 0 ]
             - Arguments:
                 RenewLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -1483,31 +1483,31 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7006, RenewLock ]
+              - [ UAMethod, FX.AC:7006, DI:RenewLock ]
           - HasComponent_reverse:
-            - [ UAObject, FX.AC:5034, Lock ]
+            - [ UAObject, FX.AC:5034, FX.AC:Lock ]
     - HasComponent:
-      - [ UAObject, FX.AC:5036, ListToRestrict ]
+      - [ UAObject, FX.AC:5036, FX.AC:ListToRestrict ]
       - HasTypeDefinition:
-        - [ UAObjectType, FX.AC:1011, ControlItemFolderType ]
+        - [ UAObjectType, FX.AC:1011, FX.AC:ControlItemFolderType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5018, <ControlGroup> ]
+        - [ UAObject, FX.AC:5018, FX.AC:<ControlGroup> ]
       - HasComponent:
-        - [ UAObject, FX.AC:5037, Lock ]
+        - [ UAObject, FX.AC:5037, FX.AC:Lock ]
         - HasTypeDefinition:
-          - [ UAObjectType, DI:6388, LockingServicesType ]
+          - [ UAObjectType, DI:6388, DI:LockingServicesType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent:
-          - [ UAMethod, FX.AC:7027, BreakLock ]
+          - [ UAMethod, FX.AC:7027, DI:BreakLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, FX.AC:5037, Lock ]
+            - [ UAObject, FX.AC:5037, FX.AC:Lock ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6110, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6110, FX.AC:OutputArguments, Argument, 1, 0 ]
             - Arguments:
                 BreakLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -1515,15 +1515,15 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7027, BreakLock ]
+              - [ UAMethod, FX.AC:7027, DI:BreakLock ]
         - HasComponent:
-          - [ UAMethod, FX.AC:7028, ExitLock ]
+          - [ UAMethod, FX.AC:7028, DI:ExitLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, FX.AC:5037, Lock ]
+            - [ UAObject, FX.AC:5037, FX.AC:Lock ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6111, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6111, FX.AC:OutputArguments, Argument, 1, 0 ]
             - Arguments:
                 ExitLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -1531,15 +1531,15 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7028, ExitLock ]
+              - [ UAMethod, FX.AC:7028, DI:ExitLock ]
         - HasComponent:
-          - [ UAMethod, FX.AC:7029, InitLock ]
+          - [ UAMethod, FX.AC:7029, DI:InitLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, FX.AC:5037, Lock ]
+            - [ UAObject, FX.AC:5037, FX.AC:Lock ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6112, InputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6112, FX.AC:InputArguments, Argument, 1, 0 ]
             - Arguments:
                 Context: [ String, 0 ]
             - HasModellingRule:
@@ -1547,9 +1547,9 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7029, InitLock ]
+              - [ UAMethod, FX.AC:7029, DI:InitLock ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6113, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6113, FX.AC:OutputArguments, Argument, 1, 0 ]
             - Arguments:
                 InitLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -1557,47 +1557,47 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7029, InitLock ]
+              - [ UAMethod, FX.AC:7029, DI:InitLock ]
         - HasComponent_reverse:
-          - [ UAObject, FX.AC:5036, ListToRestrict ]
+          - [ UAObject, FX.AC:5036, FX.AC:ListToRestrict ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6114, Locked, Boolean, 0, 0 ]
+          - [ UAVariable, FX.AC:6114, DI:Locked, Boolean, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:5037, Lock ]
+            - [ UAObject, FX.AC:5037, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6115, LockingClient, String, 0, 0 ]
+          - [ UAVariable, FX.AC:6115, DI:LockingClient, String, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:5037, Lock ]
+            - [ UAObject, FX.AC:5037, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6116, LockingUser, String, 0, 0 ]
+          - [ UAVariable, FX.AC:6116, DI:LockingUser, String, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:5037, Lock ]
+            - [ UAObject, FX.AC:5037, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6117, RemainingLockTime, Duration, 0, 0 ]
+          - [ UAVariable, FX.AC:6117, DI:RemainingLockTime, Duration, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:5037, Lock ]
+            - [ UAObject, FX.AC:5037, FX.AC:Lock ]
         - HasComponent:
-          - [ UAMethod, FX.AC:7030, RenewLock ]
+          - [ UAMethod, FX.AC:7030, DI:RenewLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6118, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6118, FX.AC:OutputArguments, Argument, 1, 0 ]
             - Arguments:
                 RenewLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -1605,17 +1605,17 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7030, RenewLock ]
+              - [ UAMethod, FX.AC:7030, DI:RenewLock ]
           - HasComponent_reverse:
-            - [ UAObject, FX.AC:5037, Lock ]
+            - [ UAObject, FX.AC:5037, FX.AC:Lock ]
   - HasComponent:
-    - [ UAMethod, FX.AC:290, EstablishControl ]
+    - [ UAMethod, FX.AC:290, FX.AC:EstablishControl ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:15, ControlGroupType ]
+      - [ UAObjectType, FX.AC:15, FX.AC:ControlGroupType ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6093, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6093, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           LockContext: [ String, 0 ]
       - HasModellingRule:
@@ -1623,9 +1623,9 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:290, EstablishControl ]
+        - [ UAMethod, FX.AC:290, FX.AC:EstablishControl ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6094, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6094, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           LockStatus: [ Int32, 0 ]
       - HasModellingRule:
@@ -1633,45 +1633,45 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:290, EstablishControl ]
+        - [ UAMethod, FX.AC:290, FX.AC:EstablishControl ]
   - HasProperty:
-    - [ UAVariable, FX.AC:6095, IsControlled, Boolean, 0, 3 ]
+    - [ UAVariable, FX.AC:6095, FX.AC:IsControlled, Boolean, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:15, ControlGroupType ]
+      - [ UAObjectType, FX.AC:15, FX.AC:ControlGroupType ]
   - HasComponent:
-    - [ UAObject, FX.AC:5075, ListOfRelated ]
+    - [ UAObject, FX.AC:5075, FX.AC:ListOfRelated ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:15, ControlGroupType ]
+      - [ UAObjectType, FX.AC:15, FX.AC:ControlGroupType ]
   - HasComponent:
-    - [ UAObject, FX.AC:1069, ListToBlock ]
+    - [ UAObject, FX.AC:1069, FX.AC:ListToBlock ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1011, ControlItemFolderType ]
+      - [ UAObjectType, FX.AC:1011, FX.AC:ControlItemFolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:15, ControlGroupType ]
+      - [ UAObjectType, FX.AC:15, FX.AC:ControlGroupType ]
     - HasComponent:
-      - [ UAObject, FX.AC:5078, Lock ]
+      - [ UAObject, FX.AC:5078, FX.AC:Lock ]
       - HasTypeDefinition:
-        - [ UAObjectType, DI:6388, LockingServicesType ]
+        - [ UAObjectType, DI:6388, DI:LockingServicesType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent:
-        - [ UAMethod, FX.AC:7016, BreakLock ]
+        - [ UAMethod, FX.AC:7016, DI:BreakLock ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, FX.AC:5078, Lock ]
+          - [ UAObject, FX.AC:5078, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6253, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, FX.AC:6253, FX.AC:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               BreakLockStatus: [ Int32, 0 ]
           - HasModellingRule:
@@ -1679,15 +1679,15 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, FX.AC:7016, BreakLock ]
+            - [ UAMethod, FX.AC:7016, DI:BreakLock ]
       - HasComponent:
-        - [ UAMethod, FX.AC:7017, ExitLock ]
+        - [ UAMethod, FX.AC:7017, DI:ExitLock ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, FX.AC:5078, Lock ]
+          - [ UAObject, FX.AC:5078, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6264, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, FX.AC:6264, FX.AC:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               ExitLockStatus: [ Int32, 0 ]
           - HasModellingRule:
@@ -1695,15 +1695,15 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, FX.AC:7017, ExitLock ]
+            - [ UAMethod, FX.AC:7017, DI:ExitLock ]
       - HasComponent:
-        - [ UAMethod, FX.AC:7018, InitLock ]
+        - [ UAMethod, FX.AC:7018, DI:InitLock ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, FX.AC:5078, Lock ]
+          - [ UAObject, FX.AC:5078, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6265, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, FX.AC:6265, FX.AC:InputArguments, Argument, 1, 0 ]
           - Arguments:
               Context: [ String, 0 ]
           - HasModellingRule:
@@ -1711,9 +1711,9 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, FX.AC:7018, InitLock ]
+            - [ UAMethod, FX.AC:7018, DI:InitLock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6266, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, FX.AC:6266, FX.AC:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               InitLockStatus: [ Int32, 0 ]
           - HasModellingRule:
@@ -1721,47 +1721,47 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, FX.AC:7018, InitLock ]
+            - [ UAMethod, FX.AC:7018, DI:InitLock ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:1069, ListToBlock ]
+        - [ UAObject, FX.AC:1069, FX.AC:ListToBlock ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6271, Locked, Boolean, 0, 0 ]
+        - [ UAVariable, FX.AC:6271, DI:Locked, Boolean, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, FX.AC:5078, Lock ]
+          - [ UAObject, FX.AC:5078, FX.AC:Lock ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6272, LockingClient, String, 0, 0 ]
+        - [ UAVariable, FX.AC:6272, DI:LockingClient, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, FX.AC:5078, Lock ]
+          - [ UAObject, FX.AC:5078, FX.AC:Lock ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6273, LockingUser, String, 0, 0 ]
+        - [ UAVariable, FX.AC:6273, DI:LockingUser, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, FX.AC:5078, Lock ]
+          - [ UAObject, FX.AC:5078, FX.AC:Lock ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6274, RemainingLockTime, Duration, 0, 0 ]
+        - [ UAVariable, FX.AC:6274, DI:RemainingLockTime, Duration, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, FX.AC:5078, Lock ]
+          - [ UAObject, FX.AC:5078, FX.AC:Lock ]
       - HasComponent:
-        - [ UAMethod, FX.AC:7019, RenewLock ]
+        - [ UAMethod, FX.AC:7019, DI:RenewLock ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6275, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, FX.AC:6275, FX.AC:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               RenewLockStatus: [ Int32, 0 ]
           - HasModellingRule:
@@ -1769,31 +1769,31 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, FX.AC:7019, RenewLock ]
+            - [ UAMethod, FX.AC:7019, DI:RenewLock ]
         - HasComponent_reverse:
-          - [ UAObject, FX.AC:5078, Lock ]
+          - [ UAObject, FX.AC:5078, FX.AC:Lock ]
   - HasComponent:
-    - [ UAObject, FX.AC:1070, ListToRestrict ]
+    - [ UAObject, FX.AC:1070, FX.AC:ListToRestrict ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1011, ControlItemFolderType ]
+      - [ UAObjectType, FX.AC:1011, FX.AC:ControlItemFolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:15, ControlGroupType ]
+      - [ UAObjectType, FX.AC:15, FX.AC:ControlGroupType ]
     - HasComponent:
-      - [ UAObject, FX.AC:5080, Lock ]
+      - [ UAObject, FX.AC:5080, FX.AC:Lock ]
       - HasTypeDefinition:
-        - [ UAObjectType, DI:6388, LockingServicesType ]
+        - [ UAObjectType, DI:6388, DI:LockingServicesType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent:
-        - [ UAMethod, FX.AC:7020, BreakLock ]
+        - [ UAMethod, FX.AC:7020, DI:BreakLock ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, FX.AC:5080, Lock ]
+          - [ UAObject, FX.AC:5080, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6306, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, FX.AC:6306, FX.AC:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               BreakLockStatus: [ Int32, 0 ]
           - HasModellingRule:
@@ -1801,15 +1801,15 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, FX.AC:7020, BreakLock ]
+            - [ UAMethod, FX.AC:7020, DI:BreakLock ]
       - HasComponent:
-        - [ UAMethod, FX.AC:7021, ExitLock ]
+        - [ UAMethod, FX.AC:7021, DI:ExitLock ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, FX.AC:5080, Lock ]
+          - [ UAObject, FX.AC:5080, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6312, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, FX.AC:6312, FX.AC:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               ExitLockStatus: [ Int32, 0 ]
           - HasModellingRule:
@@ -1817,15 +1817,15 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, FX.AC:7021, ExitLock ]
+            - [ UAMethod, FX.AC:7021, DI:ExitLock ]
       - HasComponent:
-        - [ UAMethod, FX.AC:7022, InitLock ]
+        - [ UAMethod, FX.AC:7022, DI:InitLock ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, FX.AC:5080, Lock ]
+          - [ UAObject, FX.AC:5080, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6313, InputArguments, Argument, 1, 0 ]
+          - [ UAVariable, FX.AC:6313, FX.AC:InputArguments, Argument, 1, 0 ]
           - Arguments:
               Context: [ String, 0 ]
           - HasModellingRule:
@@ -1833,9 +1833,9 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, FX.AC:7022, InitLock ]
+            - [ UAMethod, FX.AC:7022, DI:InitLock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6314, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, FX.AC:6314, FX.AC:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               InitLockStatus: [ Int32, 0 ]
           - HasModellingRule:
@@ -1843,47 +1843,47 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, FX.AC:7022, InitLock ]
+            - [ UAMethod, FX.AC:7022, DI:InitLock ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:1070, ListToRestrict ]
+        - [ UAObject, FX.AC:1070, FX.AC:ListToRestrict ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6317, Locked, Boolean, 0, 0 ]
+        - [ UAVariable, FX.AC:6317, DI:Locked, Boolean, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, FX.AC:5080, Lock ]
+          - [ UAObject, FX.AC:5080, FX.AC:Lock ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6368, LockingClient, String, 0, 0 ]
+        - [ UAVariable, FX.AC:6368, DI:LockingClient, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, FX.AC:5080, Lock ]
+          - [ UAObject, FX.AC:5080, FX.AC:Lock ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6369, LockingUser, String, 0, 0 ]
+        - [ UAVariable, FX.AC:6369, DI:LockingUser, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, FX.AC:5080, Lock ]
+          - [ UAObject, FX.AC:5080, FX.AC:Lock ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6370, RemainingLockTime, Duration, 0, 0 ]
+        - [ UAVariable, FX.AC:6370, DI:RemainingLockTime, Duration, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, FX.AC:5080, Lock ]
+          - [ UAObject, FX.AC:5080, FX.AC:Lock ]
       - HasComponent:
-        - [ UAMethod, FX.AC:7023, RenewLock ]
+        - [ UAMethod, FX.AC:7023, DI:RenewLock ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6371, OutputArguments, Argument, 1, 0 ]
+          - [ UAVariable, FX.AC:6371, FX.AC:OutputArguments, Argument, 1, 0 ]
           - Arguments:
               RenewLockStatus: [ Int32, 0 ]
           - HasModellingRule:
@@ -1891,15 +1891,15 @@ DefinedTypes:
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAMethod, FX.AC:7023, RenewLock ]
+            - [ UAMethod, FX.AC:7023, DI:RenewLock ]
         - HasComponent_reverse:
-          - [ UAObject, FX.AC:5080, Lock ]
+          - [ UAObject, FX.AC:5080, FX.AC:Lock ]
   - HasComponent:
-    - [ UAMethod, FX.AC:7011, ReassignControl ]
+    - [ UAMethod, FX.AC:7011, FX.AC:ReassignControl ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6366, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6366, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           LockContext: [ String, 0 ]
       - HasModellingRule:
@@ -1907,9 +1907,9 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:7011, ReassignControl ]
+        - [ UAMethod, FX.AC:7011, FX.AC:ReassignControl ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6367, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6367, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           LockStatus: [ Int32, 0 ]
       - HasModellingRule:
@@ -1917,172 +1917,172 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:7011, ReassignControl ]
+        - [ UAMethod, FX.AC:7011, FX.AC:ReassignControl ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:15, ControlGroupType ]
+      - [ UAObjectType, FX.AC:15, FX.AC:ControlGroupType ]
   - HasComponent:
-    - [ UAMethod, FX.AC:1493, ReleaseControl ]
+    - [ UAMethod, FX.AC:1493, FX.AC:ReleaseControl ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:15, ControlGroupType ]
+      - [ UAObjectType, FX.AC:15, FX.AC:ControlGroupType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  AutomationComponentCapabilitiesType:
-  - [ UAObjectType, FX.AC:1001, AutomationComponentCapabilitiesType ]
+  FX.AC:AutomationComponentCapabilitiesType:
+  - [ UAObjectType, FX.AC:1001, FX.AC:AutomationComponentCapabilitiesType ]
   - HasCapability:
-    - [ UAVariable, FX.AC:1249, <Capability> ]
+    - [ UAVariable, FX.AC:1249, FX.AC:<Capability> ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasCapability_reverse:
-      - [ UAObjectType, FX.AC:1001, AutomationComponentCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1001, FX.AC:AutomationComponentCapabilitiesType ]
   - HasCapability:
-    - [ UAVariable, FX.AC:6077, CommandBundleRequired, Boolean, 0, 3 ]
+    - [ UAVariable, FX.AC:6077, FX.AC:CommandBundleRequired, Boolean, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasCapability_reverse:
-      - [ UAObjectType, FX.AC:1001, AutomationComponentCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1001, FX.AC:AutomationComponentCapabilitiesType ]
   - HasCapability:
-    - [ UAVariable, FX.AC:6358, MaxConnections, UInt32, 0, 3 ]
+    - [ UAVariable, FX.AC:6358, FX.AC:MaxConnections, UInt32, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasCapability_reverse:
-      - [ UAObjectType, FX.AC:1001, AutomationComponentCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1001, FX.AC:AutomationComponentCapabilitiesType ]
   - HasCapability:
-    - [ UAVariable, FX.AC:6076, MaxConnectionsPerCall, UInt32, 0, 3 ]
+    - [ UAVariable, FX.AC:6076, FX.AC:MaxConnectionsPerCall, UInt32, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasCapability_reverse:
-      - [ UAObjectType, FX.AC:1001, AutomationComponentCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1001, FX.AC:AutomationComponentCapabilitiesType ]
   - HasCapability:
-    - [ UAVariable, FX.AC:6357, MaxFunctionalEntities, UInt32, 0, 3 ]
+    - [ UAVariable, FX.AC:6357, FX.AC:MaxFunctionalEntities, UInt32, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasCapability_reverse:
-      - [ UAObjectType, FX.AC:1001, AutomationComponentCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1001, FX.AC:AutomationComponentCapabilitiesType ]
   - HasCapability:
-    - [ UAVariable, FX.AC:6356, SupportsPersistence, Boolean, 0, 3 ]
+    - [ UAVariable, FX.AC:6356, FX.AC:SupportsPersistence, Boolean, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasCapability_reverse:
-      - [ UAObjectType, FX.AC:1001, AutomationComponentCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1001, FX.AC:AutomationComponentCapabilitiesType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
-  ConnectionEndpointsFolderType:
-  - [ UAObjectType, FX.AC:20, ConnectionEndpointsFolderType ]
+  FX.AC:ConnectionEndpointsFolderType:
+  - [ UAObjectType, FX.AC:20, FX.AC:ConnectionEndpointsFolderType ]
   - HasConnectionEndpoint:
-    - [ UAObject, FX.AC:1077, <ConnectionEndpoint> ]
+    - [ UAObject, FX.AC:1077, FX.AC:<ConnectionEndpoint> ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1002, ConnectionEndpointType ]
+      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasConnectionEndpoint_reverse:
-      - [ UAObjectType, FX.AC:20, ConnectionEndpointsFolderType ]
+      - [ UAObjectType, FX.AC:20, FX.AC:ConnectionEndpointsFolderType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6073, CleanupTimeout, Duration, 0, 3 ]
+      - [ UAVariable, FX.AC:6073, FX.AC:CleanupTimeout, Duration, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:1077, <ConnectionEndpoint> ]
+        - [ UAObject, FX.AC:1077, FX.AC:<ConnectionEndpoint> ]
     - HasComponent:
-      - [ UAVariable, FX.AC:1309, IsPersistent, Boolean, 0, 3 ]
+      - [ UAVariable, FX.AC:1309, FX.AC:IsPersistent, Boolean, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:1077, <ConnectionEndpoint> ]
+        - [ UAObject, FX.AC:1077, FX.AC:<ConnectionEndpoint> ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6092, RelatedEndpoint, RelatedEndpointDataType, 0, 3 ]
+      - [ UAVariable, FX.AC:6092, FX.AC:RelatedEndpoint, FX.Data:RelatedEndpointDataType, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:1077, <ConnectionEndpoint> ]
+        - [ UAObject, FX.AC:1077, FX.AC:<ConnectionEndpoint> ]
     - HasComponent:
-      - [ UAVariable, FX.AC:1331, Status, ConnectionEndpointStatusEnum, 0, 0 ]
+      - [ UAVariable, FX.AC:1331, FX.AC:Status, FX.AC:ConnectionEndpointStatusEnum, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:1077, <ConnectionEndpoint> ]
+        - [ UAObject, FX.AC:1077, FX.AC:<ConnectionEndpoint> ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6096, CommHealth, CommHealthOptionSet, 0, 0 ]
+    - [ UAVariable, FX.AC:6096, FX.AC:CommHealth, FX.AC:CommHealthOptionSet, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:20, ConnectionEndpointsFolderType ]
+      - [ UAObjectType, FX.AC:20, FX.AC:ConnectionEndpointsFolderType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
-  ControlGroupsFolderType:
-  - [ UAObjectType, FX.AC:1010, ControlGroupsFolderType ]
+  FX.AC:ControlGroupsFolderType:
+  - [ UAObjectType, FX.AC:1010, FX.AC:ControlGroupsFolderType ]
   - HasControlGroup:
-    - [ UAObject, FX.AC:1074, <ControlGroup> ]
+    - [ UAObject, FX.AC:1074, FX.AC:<ControlGroup> ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:15, ControlGroupType ]
+      - [ UAObjectType, FX.AC:15, FX.AC:ControlGroupType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasControlGroup_reverse:
-      - [ UAObjectType, FX.AC:1010, ControlGroupsFolderType ]
+      - [ UAObjectType, FX.AC:1010, FX.AC:ControlGroupsFolderType ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6365, IsControlled, Boolean, 0, 3 ]
+      - [ UAVariable, FX.AC:6365, FX.AC:IsControlled, Boolean, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, FX.AC:1074, <ControlGroup> ]
+        - [ UAObject, FX.AC:1074, FX.AC:<ControlGroup> ]
     - HasComponent:
-      - [ UAObject, FX.AC:5077, ListOfRelated ]
+      - [ UAObject, FX.AC:5077, FX.AC:ListOfRelated ]
       - HasTypeDefinition:
         - [ UAObjectType, 61, FolderType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:1074, <ControlGroup> ]
+        - [ UAObject, FX.AC:1074, FX.AC:<ControlGroup> ]
     - HasComponent:
-      - [ UAObject, FX.AC:1081, ListToBlock ]
+      - [ UAObject, FX.AC:1081, FX.AC:ListToBlock ]
       - HasTypeDefinition:
-        - [ UAObjectType, FX.AC:1011, ControlItemFolderType ]
+        - [ UAObjectType, FX.AC:1011, FX.AC:ControlItemFolderType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:1074, <ControlGroup> ]
+        - [ UAObject, FX.AC:1074, FX.AC:<ControlGroup> ]
       - HasComponent:
-        - [ UAObject, FX.AC:5099, Lock ]
+        - [ UAObject, FX.AC:5099, FX.AC:Lock ]
         - HasTypeDefinition:
-          - [ UAObjectType, DI:6388, LockingServicesType ]
+          - [ UAObjectType, DI:6388, DI:LockingServicesType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent:
-          - [ UAMethod, FX.AC:7053, BreakLock ]
+          - [ UAMethod, FX.AC:7053, DI:BreakLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, FX.AC:5099, Lock ]
+            - [ UAObject, FX.AC:5099, FX.AC:Lock ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6457, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6457, FX.AC:OutputArguments, Argument, 1, 0 ]
             - Arguments:
                 BreakLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -2090,15 +2090,15 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7053, BreakLock ]
+              - [ UAMethod, FX.AC:7053, DI:BreakLock ]
         - HasComponent:
-          - [ UAMethod, FX.AC:7054, ExitLock ]
+          - [ UAMethod, FX.AC:7054, DI:ExitLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, FX.AC:5099, Lock ]
+            - [ UAObject, FX.AC:5099, FX.AC:Lock ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6458, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6458, FX.AC:OutputArguments, Argument, 1, 0 ]
             - Arguments:
                 ExitLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -2106,15 +2106,15 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7054, ExitLock ]
+              - [ UAMethod, FX.AC:7054, DI:ExitLock ]
         - HasComponent:
-          - [ UAMethod, FX.AC:7055, InitLock ]
+          - [ UAMethod, FX.AC:7055, DI:InitLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, FX.AC:5099, Lock ]
+            - [ UAObject, FX.AC:5099, FX.AC:Lock ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6459, InputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6459, FX.AC:InputArguments, Argument, 1, 0 ]
             - Arguments:
                 Context: [ String, 0 ]
             - HasModellingRule:
@@ -2122,9 +2122,9 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7055, InitLock ]
+              - [ UAMethod, FX.AC:7055, DI:InitLock ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6460, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6460, FX.AC:OutputArguments, Argument, 1, 0 ]
             - Arguments:
                 InitLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -2132,47 +2132,47 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7055, InitLock ]
+              - [ UAMethod, FX.AC:7055, DI:InitLock ]
         - HasComponent_reverse:
-          - [ UAObject, FX.AC:1081, ListToBlock ]
+          - [ UAObject, FX.AC:1081, FX.AC:ListToBlock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6461, Locked, Boolean, 0, 0 ]
+          - [ UAVariable, FX.AC:6461, DI:Locked, Boolean, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:5099, Lock ]
+            - [ UAObject, FX.AC:5099, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6462, LockingClient, String, 0, 0 ]
+          - [ UAVariable, FX.AC:6462, DI:LockingClient, String, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:5099, Lock ]
+            - [ UAObject, FX.AC:5099, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6463, LockingUser, String, 0, 0 ]
+          - [ UAVariable, FX.AC:6463, DI:LockingUser, String, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:5099, Lock ]
+            - [ UAObject, FX.AC:5099, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6464, RemainingLockTime, Duration, 0, 0 ]
+          - [ UAVariable, FX.AC:6464, DI:RemainingLockTime, Duration, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:5099, Lock ]
+            - [ UAObject, FX.AC:5099, FX.AC:Lock ]
         - HasComponent:
-          - [ UAMethod, FX.AC:7056, RenewLock ]
+          - [ UAMethod, FX.AC:7056, DI:RenewLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6465, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6465, FX.AC:OutputArguments, Argument, 1, 0 ]
             - Arguments:
                 RenewLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -2180,31 +2180,31 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7056, RenewLock ]
+              - [ UAMethod, FX.AC:7056, DI:RenewLock ]
           - HasComponent_reverse:
-            - [ UAObject, FX.AC:5099, Lock ]
+            - [ UAObject, FX.AC:5099, FX.AC:Lock ]
     - HasComponent:
-      - [ UAObject, FX.AC:1082, ListToRestrict ]
+      - [ UAObject, FX.AC:1082, FX.AC:ListToRestrict ]
       - HasTypeDefinition:
-        - [ UAObjectType, FX.AC:1011, ControlItemFolderType ]
+        - [ UAObjectType, FX.AC:1011, FX.AC:ControlItemFolderType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:1074, <ControlGroup> ]
+        - [ UAObject, FX.AC:1074, FX.AC:<ControlGroup> ]
       - HasComponent:
-        - [ UAObject, FX.AC:5103, Lock ]
+        - [ UAObject, FX.AC:5103, FX.AC:Lock ]
         - HasTypeDefinition:
-          - [ UAObjectType, DI:6388, LockingServicesType ]
+          - [ UAObjectType, DI:6388, DI:LockingServicesType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent:
-          - [ UAMethod, FX.AC:7057, BreakLock ]
+          - [ UAMethod, FX.AC:7057, DI:BreakLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, FX.AC:5103, Lock ]
+            - [ UAObject, FX.AC:5103, FX.AC:Lock ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6466, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6466, FX.AC:OutputArguments, Argument, 1, 0 ]
             - Arguments:
                 BreakLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -2212,15 +2212,15 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7057, BreakLock ]
+              - [ UAMethod, FX.AC:7057, DI:BreakLock ]
         - HasComponent:
-          - [ UAMethod, FX.AC:7058, ExitLock ]
+          - [ UAMethod, FX.AC:7058, DI:ExitLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, FX.AC:5103, Lock ]
+            - [ UAObject, FX.AC:5103, FX.AC:Lock ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6467, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6467, FX.AC:OutputArguments, Argument, 1, 0 ]
             - Arguments:
                 ExitLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -2228,15 +2228,15 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7058, ExitLock ]
+              - [ UAMethod, FX.AC:7058, DI:ExitLock ]
         - HasComponent:
-          - [ UAMethod, FX.AC:7059, InitLock ]
+          - [ UAMethod, FX.AC:7059, DI:InitLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
-            - [ UAObject, FX.AC:5103, Lock ]
+            - [ UAObject, FX.AC:5103, FX.AC:Lock ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6468, InputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6468, FX.AC:InputArguments, Argument, 1, 0 ]
             - Arguments:
                 Context: [ String, 0 ]
             - HasModellingRule:
@@ -2244,9 +2244,9 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7059, InitLock ]
+              - [ UAMethod, FX.AC:7059, DI:InitLock ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6469, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6469, FX.AC:OutputArguments, Argument, 1, 0 ]
             - Arguments:
                 InitLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -2254,47 +2254,47 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7059, InitLock ]
+              - [ UAMethod, FX.AC:7059, DI:InitLock ]
         - HasComponent_reverse:
-          - [ UAObject, FX.AC:1082, ListToRestrict ]
+          - [ UAObject, FX.AC:1082, FX.AC:ListToRestrict ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6470, Locked, Boolean, 0, 0 ]
+          - [ UAVariable, FX.AC:6470, DI:Locked, Boolean, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:5103, Lock ]
+            - [ UAObject, FX.AC:5103, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6471, LockingClient, String, 0, 0 ]
+          - [ UAVariable, FX.AC:6471, DI:LockingClient, String, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:5103, Lock ]
+            - [ UAObject, FX.AC:5103, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6472, LockingUser, String, 0, 0 ]
+          - [ UAVariable, FX.AC:6472, DI:LockingUser, String, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:5103, Lock ]
+            - [ UAObject, FX.AC:5103, FX.AC:Lock ]
         - HasProperty:
-          - [ UAVariable, FX.AC:6473, RemainingLockTime, Duration, 0, 0 ]
+          - [ UAVariable, FX.AC:6473, DI:RemainingLockTime, Duration, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasProperty_reverse:
-            - [ UAObject, FX.AC:5103, Lock ]
+            - [ UAObject, FX.AC:5103, FX.AC:Lock ]
         - HasComponent:
-          - [ UAMethod, FX.AC:7060, RenewLock ]
+          - [ UAMethod, FX.AC:7060, DI:RenewLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty:
-            - [ UAVariable, FX.AC:6474, OutputArguments, Argument, 1, 0 ]
+            - [ UAVariable, FX.AC:6474, FX.AC:OutputArguments, Argument, 1, 0 ]
             - Arguments:
                 RenewLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -2302,51 +2302,51 @@ DefinedTypes:
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasProperty_reverse:
-              - [ UAMethod, FX.AC:7060, RenewLock ]
+              - [ UAMethod, FX.AC:7060, DI:RenewLock ]
           - HasComponent_reverse:
-            - [ UAObject, FX.AC:5103, Lock ]
+            - [ UAObject, FX.AC:5103, FX.AC:Lock ]
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
-  FunctionalEntityCapabilitiesType:
-  - [ UAObjectType, FX.AC:1008, FunctionalEntityCapabilitiesType ]
+  FX.AC:FunctionalEntityCapabilitiesType:
+  - [ UAObjectType, FX.AC:1008, FX.AC:FunctionalEntityCapabilitiesType ]
   - HasCapability:
-    - [ UAVariable, FX.AC:6120, <Capability> ]
+    - [ UAVariable, FX.AC:6120, FX.AC:<Capability> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasCapability_reverse:
-      - [ UAObjectType, FX.AC:1008, FunctionalEntityCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1008, FX.AC:FunctionalEntityCapabilitiesType ]
   - HasCapability:
-    - [ UAVariable, FX.AC:6119, FeedbackSignalRequired, Boolean, 0, 3 ]
+    - [ UAVariable, FX.AC:6119, FX.AC:FeedbackSignalRequired, Boolean, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasCapability_reverse:
-      - [ UAObjectType, FX.AC:1008, FunctionalEntityCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1008, FX.AC:FunctionalEntityCapabilitiesType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
-  ConfigurationDataFolderType:
-  - [ UAObjectType, FX.AC:1041, ConfigurationDataFolderType ]
+  FX.AC:ConfigurationDataFolderType:
+  - [ UAObjectType, FX.AC:1041, FX.AC:ConfigurationDataFolderType ]
   - Organizes:
-    - [ UAVariable, FX.AC:6049, <ConfigurationVariable> ]
+    - [ UAVariable, FX.AC:6049, FX.AC:<ConfigurationVariable> ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - Organizes_reverse:
-      - [ UAObjectType, FX.AC:1041, ConfigurationDataFolderType ]
+      - [ UAObjectType, FX.AC:1041, FX.AC:ConfigurationDataFolderType ]
   - HasComponent:
-    - [ UAMethod, FX.AC:7025, ClearStoredVariables ]
+    - [ UAMethod, FX.AC:7025, FX.AC:ClearStoredVariables ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1041, ConfigurationDataFolderType ]
+      - [ UAObjectType, FX.AC:1041, FX.AC:ConfigurationDataFolderType ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6398, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6398, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           VariablesToClear: [ NodeId, 1 ]
       - HasModellingRule:
@@ -2354,9 +2354,9 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:7025, ClearStoredVariables ]
+        - [ UAMethod, FX.AC:7025, FX.AC:ClearStoredVariables ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6399, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6399, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Results: [ StatusCode, 1 ]
       - HasModellingRule:
@@ -2364,29 +2364,29 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:7025, ClearStoredVariables ]
+        - [ UAMethod, FX.AC:7025, FX.AC:ClearStoredVariables ]
   - HasComponent:
-    - [ UAMethod, FX.AC:7026, ListStoredVariables ]
+    - [ UAMethod, FX.AC:7026, FX.AC:ListStoredVariables ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1041, ConfigurationDataFolderType ]
+      - [ UAObjectType, FX.AC:1041, FX.AC:ConfigurationDataFolderType ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6401, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6401, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
-          StoredVariables: [ NodeIdValuePair, 1 ]
+          StoredVariables: [ FX.Data:NodeIdValuePair, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:7026, ListStoredVariables ]
+        - [ UAMethod, FX.AC:7026, FX.AC:ListStoredVariables ]
   - HasComponent:
-    - [ UAMethod, FX.AC:7024, SetStoredVariables ]
+    - [ UAMethod, FX.AC:7024, FX.AC:SetStoredVariables ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6396, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6396, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           VariablesToStore: [ NodeId, 1 ]
       - HasModellingRule:
@@ -2394,9 +2394,9 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:7024, SetStoredVariables ]
+        - [ UAMethod, FX.AC:7024, FX.AC:SetStoredVariables ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6397, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6397, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Results: [ StatusCode, 1 ]
       - HasModellingRule:
@@ -2404,28 +2404,28 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:7024, SetStoredVariables ]
+        - [ UAMethod, FX.AC:7024, FX.AC:SetStoredVariables ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1041, ConfigurationDataFolderType ]
+      - [ UAObjectType, FX.AC:1041, FX.AC:ConfigurationDataFolderType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
 
-  ControlItemFolderType:
-  - [ UAObjectType, FX.AC:1011, ControlItemFolderType ]
+  FX.AC:ControlItemFolderType:
+  - [ UAObjectType, FX.AC:1011, FX.AC:ControlItemFolderType ]
   - HasComponent:
-    - [ UAObject, FX.AC:5051, Lock ]
+    - [ UAObject, FX.AC:5051, FX.AC:Lock ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:6388, LockingServicesType ]
+      - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAMethod, FX.AC:7012, BreakLock ]
+      - [ UAMethod, FX.AC:7012, DI:BreakLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5051, Lock ]
+        - [ UAObject, FX.AC:5051, FX.AC:Lock ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6091, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, FX.AC:6091, FX.AC:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             BreakLockStatus: [ Int32, 0 ]
         - HasModellingRule:
@@ -2433,15 +2433,15 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, FX.AC:7012, BreakLock ]
+          - [ UAMethod, FX.AC:7012, DI:BreakLock ]
     - HasComponent:
-      - [ UAMethod, FX.AC:7013, ExitLock ]
+      - [ UAMethod, FX.AC:7013, DI:ExitLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5051, Lock ]
+        - [ UAObject, FX.AC:5051, FX.AC:Lock ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6245, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, FX.AC:6245, FX.AC:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             ExitLockStatus: [ Int32, 0 ]
         - HasModellingRule:
@@ -2449,15 +2449,15 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, FX.AC:7013, ExitLock ]
+          - [ UAMethod, FX.AC:7013, DI:ExitLock ]
     - HasComponent:
-      - [ UAMethod, FX.AC:7014, InitLock ]
+      - [ UAMethod, FX.AC:7014, DI:InitLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5051, Lock ]
+        - [ UAObject, FX.AC:5051, FX.AC:Lock ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6246, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, FX.AC:6246, FX.AC:InputArguments, Argument, 1, 0 ]
         - Arguments:
             Context: [ String, 0 ]
         - HasModellingRule:
@@ -2465,9 +2465,9 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, FX.AC:7014, InitLock ]
+          - [ UAMethod, FX.AC:7014, DI:InitLock ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6247, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, FX.AC:6247, FX.AC:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             InitLockStatus: [ Int32, 0 ]
         - HasModellingRule:
@@ -2475,47 +2475,47 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, FX.AC:7014, InitLock ]
+          - [ UAMethod, FX.AC:7014, DI:InitLock ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1011, ControlItemFolderType ]
+      - [ UAObjectType, FX.AC:1011, FX.AC:ControlItemFolderType ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6248, Locked, Boolean, 0, 0 ]
+      - [ UAVariable, FX.AC:6248, DI:Locked, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, FX.AC:5051, Lock ]
+        - [ UAObject, FX.AC:5051, FX.AC:Lock ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6249, LockingClient, String, 0, 0 ]
+      - [ UAVariable, FX.AC:6249, DI:LockingClient, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, FX.AC:5051, Lock ]
+        - [ UAObject, FX.AC:5051, FX.AC:Lock ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6250, LockingUser, String, 0, 0 ]
+      - [ UAVariable, FX.AC:6250, DI:LockingUser, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, FX.AC:5051, Lock ]
+        - [ UAObject, FX.AC:5051, FX.AC:Lock ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6251, RemainingLockTime, Duration, 0, 0 ]
+      - [ UAVariable, FX.AC:6251, DI:RemainingLockTime, Duration, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, FX.AC:5051, Lock ]
+        - [ UAObject, FX.AC:5051, FX.AC:Lock ]
     - HasComponent:
-      - [ UAMethod, FX.AC:7015, RenewLock ]
+      - [ UAMethod, FX.AC:7015, DI:RenewLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, FX.AC:6252, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, FX.AC:6252, FX.AC:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             RenewLockStatus: [ Int32, 0 ]
         - HasModellingRule:
@@ -2523,608 +2523,608 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, FX.AC:7015, RenewLock ]
+          - [ UAMethod, FX.AC:7015, DI:RenewLock ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5051, Lock ]
+        - [ UAObject, FX.AC:5051, FX.AC:Lock ]
   - HasProperty:
-    - [ UAVariable, FX.AC:6485, MaxInactiveLockTime, Duration, 0, 3 ]
+    - [ UAVariable, FX.AC:6485, FX.AC:MaxInactiveLockTime, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:1011, ControlItemFolderType ]
+      - [ UAObjectType, FX.AC:1011, FX.AC:ControlItemFolderType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
 
-  InputsFolderType:
-  - [ UAObjectType, FX.AC:1000, InputsFolderType ]
+  FX.AC:InputsFolderType:
+  - [ UAObjectType, FX.AC:1000, FX.AC:InputsFolderType ]
   - HasInputGroup:
-    - [ UAObject, FX.AC:5016, <InputGroup> ]
+    - [ UAObject, FX.AC:5016, FX.AC:<InputGroup> ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1000, InputsFolderType ]
+      - [ UAObjectType, FX.AC:1000, FX.AC:InputsFolderType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasInputGroup_reverse:
-      - [ UAObjectType, FX.AC:1000, InputsFolderType ]
+      - [ UAObjectType, FX.AC:1000, FX.AC:InputsFolderType ]
   - Organizes:
-    - [ UAVariable, FX.AC:1319, <InputVariable> ]
+    - [ UAVariable, FX.AC:1319, FX.AC:<InputVariable> ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - Organizes_reverse:
-      - [ UAObjectType, FX.AC:1000, InputsFolderType ]
+      - [ UAObjectType, FX.AC:1000, FX.AC:InputsFolderType ]
   - HasComponent:
-    - [ UAObject, FX.AC:5017, SubscriberCapabilities ]
+    - [ UAObject, FX.AC:5017, FX.AC:SubscriberCapabilities ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1004, SubscriberCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1004, FX.AC:SubscriberCapabilitiesType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6064, PreconfiguredDataSetOnly, Boolean, 0, 3 ]
+      - [ UAVariable, FX.AC:6064, FX.AC:PreconfiguredDataSetOnly, Boolean, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5017, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5017, FX.AC:SubscriberCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6065, PreconfiguredSubscribedDataSets, String, 1, 3 ]
+      - [ UAVariable, FX.AC:6065, FX.AC:PreconfiguredSubscribedDataSets, String, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5017, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5017, FX.AC:SubscriberCapabilities ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1000, InputsFolderType ]
+      - [ UAObjectType, FX.AC:1000, FX.AC:InputsFolderType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6066, SupportedMessageReceiveTimeouts, IntervalRange, 1, 3 ]
+      - [ UAVariable, FX.AC:6066, FX.AC:SupportedMessageReceiveTimeouts, FX.AC:IntervalRange, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5017, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5017, FX.AC:SubscriberCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6067, SupportedPublishingIntervals, IntervalRange, 1, 3 ]
+      - [ UAVariable, FX.AC:6067, FX.AC:SupportedPublishingIntervals, FX.AC:IntervalRange, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5017, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5017, FX.AC:SubscriberCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6068, SupportedQos, SubscriberQosDataType, 1, 3 ]
+      - [ UAVariable, FX.AC:6068, FX.AC:SupportedQos, FX.AC:SubscriberQosDataType, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5017, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5017, FX.AC:SubscriberCapabilities ]
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
-  OutputsFolderType:
-  - [ UAObjectType, FX.AC:1019, OutputsFolderType ]
+  FX.AC:OutputsFolderType:
+  - [ UAObjectType, FX.AC:1019, FX.AC:OutputsFolderType ]
   - HasOutputGroup:
-    - [ UAObject, FX.AC:5014, <OutputGroup> ]
+    - [ UAObject, FX.AC:5014, FX.AC:<OutputGroup> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1019, OutputsFolderType ]
+      - [ UAObjectType, FX.AC:1019, FX.AC:OutputsFolderType ]
     - HasOutputGroup_reverse:
-      - [ UAObjectType, FX.AC:1019, OutputsFolderType ]
+      - [ UAObjectType, FX.AC:1019, FX.AC:OutputsFolderType ]
   - Organizes:
-    - [ UAVariable, FX.AC:1425, <OutputVariable> ]
+    - [ UAVariable, FX.AC:1425, FX.AC:<OutputVariable> ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - Organizes_reverse:
-      - [ UAObjectType, FX.AC:1019, OutputsFolderType ]
+      - [ UAObjectType, FX.AC:1019, FX.AC:OutputsFolderType ]
   - HasComponent:
-    - [ UAObject, FX.AC:5015, PublisherCapabilities ]
+    - [ UAObject, FX.AC:5015, FX.AC:PublisherCapabilities ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1003, PublisherCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1003, FX.AC:PublisherCapabilitiesType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6097, PreconfiguredDataSetOnly, Boolean, 0, 3 ]
+      - [ UAVariable, FX.AC:6097, FX.AC:PreconfiguredDataSetOnly, Boolean, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5015, PublisherCapabilities ]
+        - [ UAObject, FX.AC:5015, FX.AC:PublisherCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6098, PreconfiguredPublishedDataSets, String, 1, 3 ]
+      - [ UAVariable, FX.AC:6098, FX.AC:PreconfiguredPublishedDataSets, String, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5015, PublisherCapabilities ]
+        - [ UAObject, FX.AC:5015, FX.AC:PublisherCapabilities ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1019, OutputsFolderType ]
+      - [ UAObjectType, FX.AC:1019, FX.AC:OutputsFolderType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6099, SupportedPublishingIntervals, IntervalRange, 1, 3 ]
+      - [ UAVariable, FX.AC:6099, FX.AC:SupportedPublishingIntervals, FX.AC:IntervalRange, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5015, PublisherCapabilities ]
+        - [ UAObject, FX.AC:5015, FX.AC:PublisherCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6100, SupportedQos, PublisherQosDataType, 1, 3 ]
+      - [ UAVariable, FX.AC:6100, FX.AC:SupportedQos, FX.AC:PublisherQosDataType, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5015, PublisherCapabilities ]
+        - [ UAObject, FX.AC:5015, FX.AC:PublisherCapabilities ]
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
-  FunctionalEntityType:
-  - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+  FX.AC:FunctionalEntityType:
+  - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
   - HasSubFunctionalEntity:
-    - [ UAObject, FX.AC:5011, <SubFunctionalEntity> ]
+    - [ UAObject, FX.AC:5011, FX.AC:<SubFunctionalEntity> ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+      - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasSubFunctionalEntity_reverse:
-      - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+      - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:205, ApplicationIdentifier, ApplicationIdentifierDataType, 1, 3 ]
+    - [ UAVariable, FX.AC:205, FX.AC:ApplicationIdentifier, FX.AC:ApplicationIdentifierDataType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+      - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:203, AuthorAssignedIdentifier, String, 0, 3 ]
+    - [ UAVariable, FX.AC:203, FX.AC:AuthorAssignedIdentifier, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+      - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:204, AuthorAssignedVersion, FxVersion, 0, 3 ]
+    - [ UAVariable, FX.AC:204, FX.AC:AuthorAssignedVersion, FX.AC:FxVersion, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+      - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:202, AuthorUri, UriString, 0, 3 ]
+    - [ UAVariable, FX.AC:202, FX.AC:AuthorUri, UriString, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+      - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
   - HasComponent:
-    - [ UAObject, FX.AC:5040, Capabilities ]
+    - [ UAObject, FX.AC:5040, FX.AC:Capabilities ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1008, FunctionalEntityCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1008, FX.AC:FunctionalEntityCapabilitiesType ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+      - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
     - HasCapability:
-      - [ UAVariable, FX.AC:6122, FeedbackSignalRequired, Boolean, 0, 3 ]
+      - [ UAVariable, FX.AC:6122, FX.AC:FeedbackSignalRequired, Boolean, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasCapability_reverse:
-        - [ UAObject, FX.AC:5040, Capabilities ]
+        - [ UAObject, FX.AC:5040, FX.AC:Capabilities ]
   - HasComponent:
-    - [ UAObject, FX.AC:5031, ConfigurationData ]
+    - [ UAObject, FX.AC:5031, FX.AC:ConfigurationData ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1041, ConfigurationDataFolderType ]
+      - [ UAObjectType, FX.AC:1041, FX.AC:ConfigurationDataFolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+      - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
   - HasComponent:
-    - [ UAObject, FX.AC:5032, ConnectionEndpoints ]
+    - [ UAObject, FX.AC:5032, FX.AC:ConnectionEndpoints ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:20, ConnectionEndpointsFolderType ]
+      - [ UAObjectType, FX.AC:20, FX.AC:ConnectionEndpointsFolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+      - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
   - HasComponent:
-    - [ UAObject, FX.AC:1065, ControlGroups ]
+    - [ UAObject, FX.AC:1065, FX.AC:ControlGroups ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1010, ControlGroupsFolderType ]
+      - [ UAObjectType, FX.AC:1010, FX.AC:ControlGroupsFolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+      - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
   - HasInterface:
-    - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+    - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
   - HasComponent:
-    - [ UAObject, FX.AC:1125, InputData ]
+    - [ UAObject, FX.AC:1125, FX.AC:InputData ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1000, InputsFolderType ]
+      - [ UAObjectType, FX.AC:1000, FX.AC:InputsFolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+      - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6056, OperationalHealth, OperationalHealthOptionSet, 0, 0 ]
+    - [ UAVariable, FX.AC:6056, FX.AC:OperationalHealth, FX.AC:OperationalHealthOptionSet, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+      - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
   - HasComponent:
-    - [ UAObject, FX.AC:5041, OperationalHealthAlarms ]
+    - [ UAObject, FX.AC:5041, FX.AC:OperationalHealthAlarms ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+      - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
   - HasComponent:
-    - [ UAObject, FX.AC:1126, OutputData ]
+    - [ UAObject, FX.AC:1126, FX.AC:OutputData ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1019, OutputsFolderType ]
+      - [ UAObjectType, FX.AC:1019, FX.AC:OutputsFolderType ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+      - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
   - HasComponent:
-    - [ UAObject, FX.AC:5012, PublisherCapabilities ]
+    - [ UAObject, FX.AC:5012, FX.AC:PublisherCapabilities ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1003, PublisherCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1003, FX.AC:PublisherCapabilitiesType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6054, PreconfiguredDataSetOnly, Boolean, 0, 3 ]
+      - [ UAVariable, FX.AC:6054, FX.AC:PreconfiguredDataSetOnly, Boolean, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5012, PublisherCapabilities ]
+        - [ UAObject, FX.AC:5012, FX.AC:PublisherCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6057, PreconfiguredPublishedDataSets, String, 1, 3 ]
+      - [ UAVariable, FX.AC:6057, FX.AC:PreconfiguredPublishedDataSets, String, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5012, PublisherCapabilities ]
+        - [ UAObject, FX.AC:5012, FX.AC:PublisherCapabilities ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+      - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6058, SupportedPublishingIntervals, IntervalRange, 1, 3 ]
+      - [ UAVariable, FX.AC:6058, FX.AC:SupportedPublishingIntervals, FX.AC:IntervalRange, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5012, PublisherCapabilities ]
+        - [ UAObject, FX.AC:5012, FX.AC:PublisherCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6059, SupportedQos, PublisherQosDataType, 1, 3 ]
+      - [ UAVariable, FX.AC:6059, FX.AC:SupportedQos, FX.AC:PublisherQosDataType, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5012, PublisherCapabilities ]
+        - [ UAObject, FX.AC:5012, FX.AC:PublisherCapabilities ]
   - HasComponent:
-    - [ UAObject, FX.AC:5013, SubscriberCapabilities ]
+    - [ UAObject, FX.AC:5013, FX.AC:SubscriberCapabilities ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1004, SubscriberCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1004, FX.AC:SubscriberCapabilitiesType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6055, PreconfiguredDataSetOnly, Boolean, 0, 3 ]
+      - [ UAVariable, FX.AC:6055, FX.AC:PreconfiguredDataSetOnly, Boolean, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5013, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5013, FX.AC:SubscriberCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6060, PreconfiguredSubscribedDataSets, String, 1, 3 ]
+      - [ UAVariable, FX.AC:6060, FX.AC:PreconfiguredSubscribedDataSets, String, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5013, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5013, FX.AC:SubscriberCapabilities ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+      - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6061, SupportedMessageReceiveTimeouts, IntervalRange, 1, 3 ]
+      - [ UAVariable, FX.AC:6061, FX.AC:SupportedMessageReceiveTimeouts, FX.AC:IntervalRange, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5013, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5013, FX.AC:SubscriberCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6062, SupportedPublishingIntervals, IntervalRange, 1, 3 ]
+      - [ UAVariable, FX.AC:6062, FX.AC:SupportedPublishingIntervals, FX.AC:IntervalRange, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5013, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5013, FX.AC:SubscriberCapabilities ]
     - HasComponent:
-      - [ UAVariable, FX.AC:6063, SupportedQos, SubscriberQosDataType, 1, 3 ]
+      - [ UAVariable, FX.AC:6063, FX.AC:SupportedQos, FX.AC:SubscriberQosDataType, 1, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:5013, SubscriberCapabilities ]
+        - [ UAObject, FX.AC:5013, FX.AC:SubscriberCapabilities ]
   - HasComponent:
-    - [ UAMethod, FX.AC:301, Verify ]
+    - [ UAMethod, FX.AC:301, FX.AC:Verify ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1358, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1358, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
-          ExpectedVerificationVariables: [ NodeIdValuePair, 1 ]
+          ExpectedVerificationVariables: [ FX.Data:NodeIdValuePair, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:301, Verify ]
+        - [ UAMethod, FX.AC:301, FX.AC:Verify ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1359, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1359, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
-          VerificationResult: [ FunctionalEntityVerificationResultEnum, 0 ]
+          VerificationResult: [ FX.Data:FunctionalEntityVerificationResultEnum, 0 ]
           VerificationVariablesErrors: [ StatusCode, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:301, Verify ]
+        - [ UAMethod, FX.AC:301, FX.AC:Verify ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+      - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  FxAssetType:
-  - [ UAObjectType, FX.AC:3, FxAssetType ]
+  FX.AC:FxAssetType:
+  - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:195, AssetId, String, 0, 3 ]
+    - [ UAVariable, FX.AC:195, DI:AssetId, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:198, BuildAssetNumber, UInt16, 0, 3 ]
+    - [ UAVariable, FX.AC:198, FX.AC:BuildAssetNumber, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:184, ComponentName, LocalizedText, 0, 3 ]
+    - [ UAVariable, FX.AC:184, DI:ComponentName, LocalizedText, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasComponent:
-    - [ UAObject, FX.AC:72, Connectors ]
+    - [ UAObject, FX.AC:72, FX.AC:Connectors ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAObject, FX.AC:76, <AssetConnector> ]
+      - [ UAObject, FX.AC:76, FX.AC:<AssetConnector> ]
       - HasTypeDefinition:
-        - [ UAObjectType, FX.AC:5, AssetConnectorType ]
+        - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
       - HasModellingRule:
         - [ UAObject, 11508, OptionalPlaceholder ]
       - HasComponent_reverse:
-        - [ UAObject, FX.AC:72, Connectors ]
+        - [ UAObject, FX.AC:72, FX.AC:Connectors ]
       - HasProperty:
-        - [ UAVariable, FX.AC:1253, Name, String, 0, 3 ]
+        - [ UAVariable, FX.AC:1253, FX.AC:Name, String, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAObject, FX.AC:76, <AssetConnector> ]
+          - [ UAObject, FX.AC:76, FX.AC:<AssetConnector> ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:191, DeviceClass, String, 0, 3 ]
+    - [ UAVariable, FX.AC:191, DI:DeviceClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6081, DeviceHealth, DeviceHealthEnumeration, 0, 3 ]
+    - [ UAVariable, FX.AC:6081, DI:DeviceHealth, DI:DeviceHealthEnumeration, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasComponent:
-    - [ UAObject, FX.AC:5023, DeviceHealthAlarms ]
+    - [ UAObject, FX.AC:5023, DI:DeviceHealthAlarms ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:190, DeviceManual, String, 0, 3 ]
+    - [ UAVariable, FX.AC:190, DI:DeviceManual, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:189, DeviceRevision, String, 0, 3 ]
+    - [ UAVariable, FX.AC:189, DI:DeviceRevision, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:187, HardwareRevision, String, 0, 3 ]
+    - [ UAVariable, FX.AC:187, DI:HardwareRevision, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasInterface:
-    - [ UAObjectType, FX.AC:1009, IAssetExtensionsType ]
+    - [ UAObjectType, FX.AC:1009, FX.AC:IAssetExtensionsType ]
   - HasInterface:
-    - [ UAObjectType, FX.AC:9, IAssetRevisionType ]
+    - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType ]
   - HasInterface:
-    - [ UAObjectType, DI:15051, IDeviceHealthType ]
+    - [ UAObjectType, DI:15051, DI:IDeviceHealthType ]
   - HasInterface:
-    - [ UAObjectType, DI:15048, ITagNameplateType ]
+    - [ UAObjectType, DI:15048, DI:ITagNameplateType ]
   - HasInterface:
-    - [ UAObjectType, DI:15035, IVendorNameplateType ]
+    - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:196, MajorAssetVersion, UInt16, 0, 3 ]
+    - [ UAVariable, FX.AC:196, FX.AC:MajorAssetVersion, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:175, Manufacturer, LocalizedText, 0, 3 ]
+    - [ UAVariable, FX.AC:175, DI:Manufacturer, LocalizedText, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:185, ManufacturerUri, String, 0, 3 ]
+    - [ UAVariable, FX.AC:185, DI:ManufacturerUri, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:197, MinorAssetVersion, UInt16, 0, 3 ]
+    - [ UAVariable, FX.AC:197, FX.AC:MinorAssetVersion, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:176, Model, LocalizedText, 0, 3 ]
+    - [ UAVariable, FX.AC:176, DI:Model, LocalizedText, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:186, ProductCode, String, 0, 3 ]
+    - [ UAVariable, FX.AC:186, DI:ProductCode, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:193, ProductInstanceUri, String, 0, 3 ]
+    - [ UAVariable, FX.AC:193, DI:ProductInstanceUri, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:194, RevisionCounter, Int32, 0, 3 ]
+    - [ UAVariable, FX.AC:194, DI:RevisionCounter, Int32, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:192, SerialNumber, String, 0, 3 ]
+    - [ UAVariable, FX.AC:192, DI:SerialNumber, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:188, SoftwareRevision, String, 0, 3 ]
+    - [ UAVariable, FX.AC:188, DI:SoftwareRevision, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasAddIn:
-    - [ UAObject, FX.AC:5002, SoftwareUpdate ]
+    - [ UAObject, FX.AC:5002, DI:SoftwareUpdate ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1, SoftwareUpdateType ]
+      - [ UAObjectType, DI:1, DI:SoftwareUpdateType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
-    - [ UAVariable, FX.AC:199, SubBuildAssetNumber, UInt16, 0, 3 ]
+    - [ UAVariable, FX.AC:199, FX.AC:SubBuildAssetNumber, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasComponent:
-    - [ UAMethod, FX.AC:1502, VerifyAsset ]
+    - [ UAMethod, FX.AC:1502, FX.AC:VerifyAsset ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1356, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1356, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
-          VerificationMode: [ AssetVerificationModeEnum, 0 ]
+          VerificationMode: [ FX.Data:AssetVerificationModeEnum, 0 ]
           ExpectedVerificationVariables: [ KeyValuePair, 1 ]
-          ExpectedAdditionalVerificationVariables: [ NodeIdValuePair, 1 ]
+          ExpectedAdditionalVerificationVariables: [ FX.Data:NodeIdValuePair, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:1502, VerifyAsset ]
+        - [ UAMethod, FX.AC:1502, FX.AC:VerifyAsset ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1357, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1357, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
-          VerificationResult: [ AssetVerificationResultEnum, 0 ]
+          VerificationResult: [ FX.Data:AssetVerificationResultEnum, 0 ]
           VerificationVariablesErrors: [ StatusCode, 1 ]
           VerificationAdditionalVariablesErrors: [ StatusCode, 1 ]
       - HasModellingRule:
@@ -3132,90 +3132,90 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, FX.AC:1502, VerifyAsset ]
+        - [ UAMethod, FX.AC:1502, FX.AC:VerifyAsset ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:3, FxAssetType ]
+      - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  PublisherCapabilitiesType:
-  - [ UAObjectType, FX.AC:1003, PublisherCapabilitiesType ]
+  FX.AC:PublisherCapabilitiesType:
+  - [ UAObjectType, FX.AC:1003, FX.AC:PublisherCapabilitiesType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6023, PreconfiguredDataSetOnly, Boolean, 0, 3 ]
+    - [ UAVariable, FX.AC:6023, FX.AC:PreconfiguredDataSetOnly, Boolean, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1003, PublisherCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1003, FX.AC:PublisherCapabilitiesType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6022, PreconfiguredPublishedDataSets, String, 1, 3 ]
+    - [ UAVariable, FX.AC:6022, FX.AC:PreconfiguredPublishedDataSets, String, 1, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1003, PublisherCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1003, FX.AC:PublisherCapabilitiesType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6020, SupportedPublishingIntervals, IntervalRange, 1, 3 ]
+    - [ UAVariable, FX.AC:6020, FX.AC:SupportedPublishingIntervals, FX.AC:IntervalRange, 1, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1003, PublisherCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1003, FX.AC:PublisherCapabilitiesType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6021, SupportedQos, PublisherQosDataType, 1, 3 ]
+    - [ UAVariable, FX.AC:6021, FX.AC:SupportedQos, FX.AC:PublisherQosDataType, 1, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1003, PublisherCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1003, FX.AC:PublisherCapabilitiesType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  SubscriberCapabilitiesType:
-  - [ UAObjectType, FX.AC:1004, SubscriberCapabilitiesType ]
+  FX.AC:SubscriberCapabilitiesType:
+  - [ UAObjectType, FX.AC:1004, FX.AC:SubscriberCapabilitiesType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6028, PreconfiguredDataSetOnly, Boolean, 0, 3 ]
+    - [ UAVariable, FX.AC:6028, FX.AC:PreconfiguredDataSetOnly, Boolean, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1004, SubscriberCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1004, FX.AC:SubscriberCapabilitiesType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6027, PreconfiguredSubscribedDataSets, String, 1, 3 ]
+    - [ UAVariable, FX.AC:6027, FX.AC:PreconfiguredSubscribedDataSets, String, 1, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1004, SubscriberCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1004, FX.AC:SubscriberCapabilitiesType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6026, SupportedMessageReceiveTimeouts, IntervalRange, 1, 3 ]
+    - [ UAVariable, FX.AC:6026, FX.AC:SupportedMessageReceiveTimeouts, FX.AC:IntervalRange, 1, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1004, SubscriberCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1004, FX.AC:SubscriberCapabilitiesType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6024, SupportedPublishingIntervals, IntervalRange, 1, 3 ]
+    - [ UAVariable, FX.AC:6024, FX.AC:SupportedPublishingIntervals, FX.AC:IntervalRange, 1, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1004, SubscriberCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1004, FX.AC:SubscriberCapabilitiesType ]
   - HasComponent:
-    - [ UAVariable, FX.AC:6025, SupportedQos, SubscriberQosDataType, 1, 3 ]
+    - [ UAVariable, FX.AC:6025, FX.AC:SupportedQos, FX.AC:SubscriberQosDataType, 1, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1004, SubscriberCapabilitiesType ]
+      - [ UAObjectType, FX.AC:1004, FX.AC:SubscriberCapabilitiesType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

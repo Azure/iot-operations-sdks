@@ -1,211 +1,211 @@
 DataTypes:
-- UADataType: [ AMB:3004, MaintenanceMethodEnum ]
+- UADataType: [ AMB:3004, AMB:MaintenanceMethodEnum ]
   Enums:
     Local: 0
     Remote: 1
-- UADataType: [ AMB:3003, NameNodeIdDataType ]
+- UADataType: [ AMB:3003, AMB:NameNodeIdDataType ]
   Fields:
     Name: [ LocalizedText, 0 ]
     NodeId: [ NodeId, 0 ]
-- UADataType: [ AMB:3002, RootCauseDataType ]
+- UADataType: [ AMB:3002, AMB:RootCauseDataType ]
   Fields:
     RootCauseId: [ NodeId, 0 ]
     RootCause: [ LocalizedText, 0 ]
 
 DefinedTypes:
 
-  CalibrationDueConditionClassType:
-  - [ UAObjectType, AMB:1005, CalibrationDueConditionClassType ]
+  AMB:CalibrationDueConditionClassType:
+  - [ UAObjectType, AMB:1005, AMB:CalibrationDueConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
-  ExternalCheckConditionClassType:
-  - [ UAObjectType, AMB:1015, ExternalCheckConditionClassType ]
+  AMB:ExternalCheckConditionClassType:
+  - [ UAObjectType, AMB:1015, AMB:ExternalCheckConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
-  FlashUpdateInProgressConditionClassType:
-  - [ UAObjectType, AMB:1007, FlashUpdateInProgressConditionClassType ]
+  AMB:FlashUpdateInProgressConditionClassType:
+  - [ UAObjectType, AMB:1007, AMB:FlashUpdateInProgressConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
-  ImprovementConditionClassType:
-  - [ UAObjectType, AMB:1018, ImprovementConditionClassType ]
+  AMB:ImprovementConditionClassType:
+  - [ UAObjectType, AMB:1018, AMB:ImprovementConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
-  InspectionConditionClassType:
-  - [ UAObjectType, AMB:1014, InspectionConditionClassType ]
+  AMB:InspectionConditionClassType:
+  - [ UAObjectType, AMB:1014, AMB:InspectionConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
-  RepairConditionClassType:
-  - [ UAObjectType, AMB:1017, RepairConditionClassType ]
+  AMB:RepairConditionClassType:
+  - [ UAObjectType, AMB:1017, AMB:RepairConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
-  ServicingConditionClassType:
-  - [ UAObjectType, AMB:1016, ServicingConditionClassType ]
+  AMB:ServicingConditionClassType:
+  - [ UAObjectType, AMB:1016, AMB:ServicingConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
-  BadConfigurationConditionClassType:
-  - [ UAObjectType, AMB:1008, BadConfigurationConditionClassType ]
+  AMB:BadConfigurationConditionClassType:
+  - [ UAObjectType, AMB:1008, AMB:BadConfigurationConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
-  ConnectionFailureConditionClassType:
-  - [ UAObjectType, AMB:1003, ConnectionFailureConditionClassType ]
+  AMB:ConnectionFailureConditionClassType:
+  - [ UAObjectType, AMB:1003, AMB:ConnectionFailureConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
-  FlashUpdateFailedConditionClassType:
-  - [ UAObjectType, AMB:1019, FlashUpdateFailedConditionClassType ]
+  AMB:FlashUpdateFailedConditionClassType:
+  - [ UAObjectType, AMB:1019, AMB:FlashUpdateFailedConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
-  OutOfResourcesConditionClassType:
-  - [ UAObjectType, AMB:1009, OutOfResourcesConditionClassType ]
+  AMB:OutOfResourcesConditionClassType:
+  - [ UAObjectType, AMB:1009, AMB:OutOfResourcesConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
-  OutOfMemoryConditionClassType:
-  - [ UAObjectType, AMB:1010, OutOfMemoryConditionClassType ]
+  AMB:OutOfMemoryConditionClassType:
+  - [ UAObjectType, AMB:1010, AMB:OutOfMemoryConditionClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMB:1009, OutOfResourcesConditionClassType ]
+    - [ UAObjectType, AMB:1009, AMB:OutOfResourcesConditionClassType ]
 
-  OverTemperatureConditionClassType:
-  - [ UAObjectType, AMB:1004, OverTemperatureConditionClassType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, 11166, SystemConditionClassType ]
-
-  SelfTestFailureConditionClassType:
-  - [ UAObjectType, AMB:1006, SelfTestFailureConditionClassType ]
+  AMB:OverTemperatureConditionClassType:
+  - [ UAObjectType, AMB:1004, AMB:OverTemperatureConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
-  IMaintenanceEventType:
-  - [ UAObjectType, AMB:1012, IMaintenanceEventType ]
+  AMB:SelfTestFailureConditionClassType:
+  - [ UAObjectType, AMB:1006, AMB:SelfTestFailureConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11166, SystemConditionClassType ]
+
+  AMB:IMaintenanceEventType:
+  - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasProperty:
-    - [ UAVariable, AMB:6042, ConfigurationChanged, Boolean, 0, 3 ]
+    - [ UAVariable, AMB:6042, AMB:ConfigurationChanged, Boolean, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1012, IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasProperty:
-    - [ UAVariable, AMB:6036, EstimatedDowntime, Duration, 0, 3 ]
+    - [ UAVariable, AMB:6036, AMB:EstimatedDowntime, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1012, IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasProperty:
-    - [ UAVariable, AMB:6041, MaintenanceMethod, MaintenanceMethodEnum, 0, 3 ]
+    - [ UAVariable, AMB:6041, AMB:MaintenanceMethod, AMB:MaintenanceMethodEnum, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1012, IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasComponent:
-    - [ UAObject, AMB:5014, MaintenanceState ]
+    - [ UAObject, AMB:5014, AMB:MaintenanceState ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, AMB:1013, MaintenanceEventStateMachineType ]
+      - [ UAObjectType, AMB:1013, AMB:MaintenanceEventStateMachineType ]
     - HasComponent:
-      - [ UAVariable, AMB:6033, CurrentState, LocalizedText, 0, 0 ]
+      - [ UAVariable, AMB:6033, AMB:CurrentState, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, AMB:6034, Id, NodeId, 0, 0 ]
+        - [ UAVariable, AMB:6034, AMB:Id, NodeId, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAVariable, AMB:6033, CurrentState, LocalizedText, 0, 0 ]
+          - [ UAVariable, AMB:6033, AMB:CurrentState, LocalizedText, 0, 0 ]
       - HasComponent_reverse:
-        - [ UAObject, AMB:5014, MaintenanceState ]
+        - [ UAObject, AMB:5014, AMB:MaintenanceState ]
     - HasComponent_reverse:
-      - [ UAObjectType, AMB:1012, IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasProperty:
-    - [ UAVariable, AMB:6037, MaintenanceSupplier, NameNodeIdDataType, 0, 3 ]
+    - [ UAVariable, AMB:6037, AMB:MaintenanceSupplier, AMB:NameNodeIdDataType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1012, IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasProperty:
-    - [ UAVariable, AMB:6039, PartsOfAssetReplaced, NameNodeIdDataType, 1, 3 ]
+    - [ UAVariable, AMB:6039, AMB:PartsOfAssetReplaced, AMB:NameNodeIdDataType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1012, IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasProperty:
-    - [ UAVariable, AMB:6040, PartsOfAssetServiced, NameNodeIdDataType, 1, 3 ]
+    - [ UAVariable, AMB:6040, AMB:PartsOfAssetServiced, AMB:NameNodeIdDataType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1012, IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasProperty:
-    - [ UAVariable, AMB:6035, PlannedDate, UtcTime, 0, 3 ]
+    - [ UAVariable, AMB:6035, AMB:PlannedDate, UtcTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1012, IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasProperty:
-    - [ UAVariable, AMB:6038, QualificationOfPersonnel, NameNodeIdDataType, 0, 3 ]
+    - [ UAVariable, AMB:6038, AMB:QualificationOfPersonnel, AMB:NameNodeIdDataType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1012, IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  IRootCauseIndicationType:
-  - [ UAObjectType, AMB:1002, IRootCauseIndicationType ]
+  AMB:IRootCauseIndicationType:
+  - [ UAObjectType, AMB:1002, AMB:IRootCauseIndicationType ]
   - HasProperty:
-    - [ UAVariable, AMB:6015, PotentialRootCauses, RootCauseDataType, 1, 3 ]
+    - [ UAVariable, AMB:6015, AMB:PotentialRootCauses, AMB:RootCauseDataType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1002, IRootCauseIndicationType ]
+      - [ UAObjectType, AMB:1002, AMB:IRootCauseIndicationType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  DocumentationLinksType:
-  - [ UAObjectType, AMB:1011, DocumentationLinksType ]
+  AMB:DocumentationLinksType:
+  - [ UAObjectType, AMB:1011, AMB:DocumentationLinksType ]
   - HasComponent:
-    - [ UAVariable, AMB:6017, <Link>, UriString, 0, 3 ]
+    - [ UAVariable, AMB:6017, AMB:<Link>, UriString, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, AMB:1011, DocumentationLinksType ]
+      - [ UAObjectType, AMB:1011, AMB:DocumentationLinksType ]
   - HasComponent:
-    - [ UAMethod, AMB:7004, AddLink ]
+    - [ UAMethod, AMB:7004, AMB:AddLink ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, AMB:6018, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AMB:6018, AMB:InputArguments, Argument, 1, 0 ]
       - Arguments:
           LinkToExternalSource: [ UriString, 0 ]
           BrowseName: [ QualifiedName, 0 ]
@@ -216,9 +216,9 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, AMB:7004, AddLink ]
+        - [ UAMethod, AMB:7004, AMB:AddLink ]
     - HasProperty:
-      - [ UAVariable, AMB:6019, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AMB:6019, AMB:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           LinkVariable: [ NodeId, 0 ]
       - HasModellingRule:
@@ -226,21 +226,21 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, AMB:7004, AddLink ]
+        - [ UAMethod, AMB:7004, AMB:AddLink ]
     - HasComponent_reverse:
-      - [ UAObjectType, AMB:1011, DocumentationLinksType ]
+      - [ UAObjectType, AMB:1011, AMB:DocumentationLinksType ]
   - HasProperty:
-    - [ UAVariable, AMB:6016, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - [ UAVariable, AMB:6016, AMB:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1011, DocumentationLinksType ]
+      - [ UAObjectType, AMB:1011, AMB:DocumentationLinksType ]
   - HasComponent:
-    - [ UAMethod, AMB:7005, RemoveLink ]
+    - [ UAMethod, AMB:7005, AMB:RemoveLink ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, AMB:6020, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, AMB:6020, AMB:InputArguments, Argument, 1, 0 ]
       - Arguments:
           VariableToBeDeleted: [ NodeId, 0 ]
       - HasModellingRule:
@@ -248,121 +248,121 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, AMB:7005, RemoveLink ]
+        - [ UAMethod, AMB:7005, AMB:RemoveLink ]
     - HasComponent_reverse:
-      - [ UAObjectType, AMB:1011, DocumentationLinksType ]
+      - [ UAObjectType, AMB:1011, AMB:DocumentationLinksType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  MaintenanceEventStateMachineType:
-  - [ UAObjectType, AMB:1013, MaintenanceEventStateMachineType ]
+  AMB:MaintenanceEventStateMachineType:
+  - [ UAObjectType, AMB:1013, AMB:MaintenanceEventStateMachineType ]
   - HasComponent:
-    - [ UAObject, AMB:5007, Executing ]
+    - [ UAObject, AMB:5007, AMB:Executing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
     - HasProperty:
-      - [ UAVariable, AMB:6022, StateNumber, UInt32, 0, 0 ]
+      - [ UAVariable, AMB:6022, AMB:StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, AMB:5007, Executing ]
+        - [ UAObject, AMB:5007, AMB:Executing ]
     - HasComponent_reverse:
-      - [ UAObjectType, AMB:1013, MaintenanceEventStateMachineType ]
+      - [ UAObjectType, AMB:1013, AMB:MaintenanceEventStateMachineType ]
     - FromState_reverse:
-      - [ UAObject, AMB:5010, FromExecutingToFinished ]
+      - [ UAObject, AMB:5010, AMB:FromExecutingToFinished ]
     - ToState_reverse:
-      - [ UAObject, AMB:5009, FromPlannedToExecuting ]
+      - [ UAObject, AMB:5009, AMB:FromPlannedToExecuting ]
   - HasComponent:
-    - [ UAObject, AMB:5008, Finished ]
+    - [ UAObject, AMB:5008, AMB:Finished ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
     - HasProperty:
-      - [ UAVariable, AMB:6023, StateNumber, UInt32, 0, 0 ]
+      - [ UAVariable, AMB:6023, AMB:StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, AMB:5008, Finished ]
+        - [ UAObject, AMB:5008, AMB:Finished ]
     - HasComponent_reverse:
-      - [ UAObjectType, AMB:1013, MaintenanceEventStateMachineType ]
+      - [ UAObjectType, AMB:1013, AMB:MaintenanceEventStateMachineType ]
     - ToState_reverse:
-      - [ UAObject, AMB:5010, FromExecutingToFinished ]
+      - [ UAObject, AMB:5010, AMB:FromExecutingToFinished ]
     - FromState_reverse:
-      - [ UAObject, AMB:5011, FromFinishedToPlanned ]
+      - [ UAObject, AMB:5011, AMB:FromFinishedToPlanned ]
   - HasComponent:
-    - [ UAObject, AMB:5010, FromExecutingToFinished ]
+    - [ UAObject, AMB:5010, AMB:FromExecutingToFinished ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
-      - [ UAObject, AMB:5007, Executing ]
+      - [ UAObject, AMB:5007, AMB:Executing ]
     - ToState:
-      - [ UAObject, AMB:5008, Finished ]
+      - [ UAObject, AMB:5008, AMB:Finished ]
     - HasProperty:
-      - [ UAVariable, AMB:6025, TransitionNumber, UInt32, 0, 0 ]
+      - [ UAVariable, AMB:6025, AMB:TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, AMB:5010, FromExecutingToFinished ]
+        - [ UAObject, AMB:5010, AMB:FromExecutingToFinished ]
     - HasComponent_reverse:
-      - [ UAObjectType, AMB:1013, MaintenanceEventStateMachineType ]
+      - [ UAObjectType, AMB:1013, AMB:MaintenanceEventStateMachineType ]
   - HasComponent:
-    - [ UAObject, AMB:5011, FromFinishedToPlanned ]
+    - [ UAObject, AMB:5011, AMB:FromFinishedToPlanned ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
-      - [ UAObject, AMB:5008, Finished ]
+      - [ UAObject, AMB:5008, AMB:Finished ]
     - ToState:
-      - [ UAObject, AMB:5006, Planned ]
+      - [ UAObject, AMB:5006, AMB:Planned ]
     - HasProperty:
-      - [ UAVariable, AMB:6026, TransitionNumber, UInt32, 0, 0 ]
+      - [ UAVariable, AMB:6026, AMB:TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, AMB:5011, FromFinishedToPlanned ]
+        - [ UAObject, AMB:5011, AMB:FromFinishedToPlanned ]
     - HasComponent_reverse:
-      - [ UAObjectType, AMB:1013, MaintenanceEventStateMachineType ]
+      - [ UAObjectType, AMB:1013, AMB:MaintenanceEventStateMachineType ]
   - HasComponent:
-    - [ UAObject, AMB:5009, FromPlannedToExecuting ]
+    - [ UAObject, AMB:5009, AMB:FromPlannedToExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
-      - [ UAObject, AMB:5007, Executing ]
+      - [ UAObject, AMB:5007, AMB:Executing ]
     - FromState:
-      - [ UAObject, AMB:5006, Planned ]
+      - [ UAObject, AMB:5006, AMB:Planned ]
     - HasProperty:
-      - [ UAVariable, AMB:6024, TransitionNumber, UInt32, 0, 0 ]
+      - [ UAVariable, AMB:6024, AMB:TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, AMB:5009, FromPlannedToExecuting ]
+        - [ UAObject, AMB:5009, AMB:FromPlannedToExecuting ]
     - HasComponent_reverse:
-      - [ UAObjectType, AMB:1013, MaintenanceEventStateMachineType ]
+      - [ UAObjectType, AMB:1013, AMB:MaintenanceEventStateMachineType ]
   - HasComponent:
-    - [ UAObject, AMB:5006, Planned ]
+    - [ UAObject, AMB:5006, AMB:Planned ]
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
     - HasProperty:
-      - [ UAVariable, AMB:6021, StateNumber, UInt32, 0, 0 ]
+      - [ UAVariable, AMB:6021, AMB:StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, AMB:5006, Planned ]
+        - [ UAObject, AMB:5006, AMB:Planned ]
     - HasComponent_reverse:
-      - [ UAObjectType, AMB:1013, MaintenanceEventStateMachineType ]
+      - [ UAObjectType, AMB:1013, AMB:MaintenanceEventStateMachineType ]
     - FromState_reverse:
-      - [ UAObject, AMB:5009, FromPlannedToExecuting ]
+      - [ UAObject, AMB:5009, AMB:FromPlannedToExecuting ]
     - ToState_reverse:
-      - [ UAObject, AMB:5011, FromFinishedToPlanned ]
+      - [ UAObject, AMB:5011, AMB:FromFinishedToPlanned ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]

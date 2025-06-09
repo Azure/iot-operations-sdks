@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -54,7 +55,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "" ],
           "name": "ProductSchema",
+          "unit": "",
           "schema": "dtmi:opcua:MachineVision:ProductFolderType:dataType:ProductDataType;1"
         }
       },

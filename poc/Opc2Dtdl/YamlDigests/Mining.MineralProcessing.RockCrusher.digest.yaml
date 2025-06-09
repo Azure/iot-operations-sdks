@@ -1,63 +1,63 @@
 DataTypes:
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ Mining.General:3002, LongwallShieldOffsetDataType ]
+- UADataType: [ Mining.General:3002, Mining.General:LongwallShieldOffsetDataType ]
   Fields:
     ShieldNumber: [ UInt16, 0 ]
     ShieldOffset: [ Double, 0 ]
 
 DefinedTypes:
 
-  RockCrusherControlType:
-  - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1003, RockCrusherControlType ]
+  Mining.MineralProcessing.RockCrusher:RockCrusherControlType:
+  - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1003, Mining.MineralProcessing.RockCrusher:RockCrusherControlType ]
   - HasComponent:
-    - [ UAObject, Mining.MineralProcessing.RockCrusher:5004, MethodSet ]
+    - [ UAObject, Mining.MineralProcessing.RockCrusher:5004, DI:MethodSet ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1003, RockCrusherControlType ]
+      - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1003, Mining.MineralProcessing.RockCrusher:RockCrusherControlType ]
     - HasComponent:
-      - [ UAMethod, Mining.MineralProcessing.RockCrusher:7001, RequestUnloading ]
+      - [ UAMethod, Mining.MineralProcessing.RockCrusher:7001, Mining.MineralProcessing.RockCrusher:RequestUnloading ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, Mining.MineralProcessing.RockCrusher:6022, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Mining.MineralProcessing.RockCrusher:6022, Mining.MineralProcessing.RockCrusher:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             RequestUnloadingAcknowledged: [ Boolean, 0 ]
         - HasTypeDefinition:
@@ -65,237 +65,237 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, Mining.MineralProcessing.RockCrusher:7001, RequestUnloading ]
+          - [ UAMethod, Mining.MineralProcessing.RockCrusher:7001, Mining.MineralProcessing.RockCrusher:RequestUnloading ]
       - HasComponent_reverse:
-        - [ UAObject, Mining.MineralProcessing.RockCrusher:5004, MethodSet ]
+        - [ UAObject, Mining.MineralProcessing.RockCrusher:5004, DI:MethodSet ]
   - HasAddIn:
-    - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, MiningEquipmentIdentification ]
+    - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, Mining.General:MiningEquipmentIdentification ]
     - HasTypeDefinition:
-      - [ UAObjectType, Mining.General:1003, MiningEquipmentIdentificationType ]
+      - [ UAObjectType, Mining.General:1003, Mining.General:MiningEquipmentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6007, DeviceClass, String, 0, 0 ]
+      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6007, DI:DeviceClass, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
-      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6008, Manufacturer, LocalizedText, 0, 0 ]
+      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6008, DI:Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
-      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6009, ManufacturerUri, String, 0, 0 ]
+      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6009, DI:ManufacturerUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, Mining.General:MiningEquipmentIdentification ]
     - HasAddIn_reverse:
-      - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1003, RockCrusherControlType ]
+      - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1003, Mining.MineralProcessing.RockCrusher:RockCrusherControlType ]
     - HasProperty:
-      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6010, Model, LocalizedText, 0, 0 ]
+      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6010, DI:Model, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
-      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6011, ProductInstanceUri, String, 0, 0 ]
+      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6011, DI:ProductInstanceUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
-      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6012, SerialNumber, String, 0, 0 ]
+      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6012, DI:SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, Mining.General:MiningEquipmentIdentification ]
   - HasComponent:
-    - [ UAObject, Mining.MineralProcessing.RockCrusher:5005, ParameterSet ]
+    - [ UAObject, Mining.MineralProcessing.RockCrusher:5005, DI:ParameterSet ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasComponent:
-      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6013, ExclusionZone, 3DFrame, 1, 0 ]
+      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6013, Mining.MineralProcessing.RockCrusher:ExclusionZone, 3DFrame, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 18791, 3DFrameType ]
       - HasComponent:
-        - [ UAVariable, Mining.MineralProcessing.RockCrusher:6023, BaseFrame, NodeId, 0, 0 ]
+        - [ UAVariable, Mining.MineralProcessing.RockCrusher:6023, Mining.MineralProcessing.RockCrusher:BaseFrame, NodeId, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasComponent_reverse:
-          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6013, ExclusionZone, 3DFrame, 1, 0 ]
+          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6013, Mining.MineralProcessing.RockCrusher:ExclusionZone, 3DFrame, 1, 0 ]
       - HasComponent:
-        - [ UAVariable, Mining.MineralProcessing.RockCrusher:6014, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+        - [ UAVariable, Mining.MineralProcessing.RockCrusher:6014, Mining.MineralProcessing.RockCrusher:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 18774, 3DCartesianCoordinatesType ]
         - HasComponent_reverse:
-          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6013, ExclusionZone, 3DFrame, 1, 0 ]
+          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6013, Mining.MineralProcessing.RockCrusher:ExclusionZone, 3DFrame, 1, 0 ]
         - HasComponent:
-          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6015, X, Double, 0, 0 ]
+          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6015, Mining.MineralProcessing.RockCrusher:X, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.MineralProcessing.RockCrusher:6014, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+            - [ UAVariable, Mining.MineralProcessing.RockCrusher:6014, Mining.MineralProcessing.RockCrusher:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasComponent:
-          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6016, Y, Double, 0, 0 ]
+          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6016, Mining.MineralProcessing.RockCrusher:Y, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.MineralProcessing.RockCrusher:6014, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+            - [ UAVariable, Mining.MineralProcessing.RockCrusher:6014, Mining.MineralProcessing.RockCrusher:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasComponent:
-          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6017, Z, Double, 0, 0 ]
+          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6017, Mining.MineralProcessing.RockCrusher:Z, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.MineralProcessing.RockCrusher:6014, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+            - [ UAVariable, Mining.MineralProcessing.RockCrusher:6014, Mining.MineralProcessing.RockCrusher:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
       - HasProperty:
-        - [ UAVariable, Mining.MineralProcessing.RockCrusher:6024, Constant, Boolean, 0, 0 ]
+        - [ UAVariable, Mining.MineralProcessing.RockCrusher:6024, Mining.MineralProcessing.RockCrusher:Constant, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasProperty_reverse:
-          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6013, ExclusionZone, 3DFrame, 1, 0 ]
+          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6013, Mining.MineralProcessing.RockCrusher:ExclusionZone, 3DFrame, 1, 0 ]
       - HasComponent_reverse:
-        - [ UAObject, Mining.MineralProcessing.RockCrusher:5005, ParameterSet ]
+        - [ UAObject, Mining.MineralProcessing.RockCrusher:5005, DI:ParameterSet ]
       - HasProperty:
-        - [ UAVariable, Mining.MineralProcessing.RockCrusher:6025, FixedBase, Boolean, 0, 0 ]
+        - [ UAVariable, Mining.MineralProcessing.RockCrusher:6025, Mining.MineralProcessing.RockCrusher:FixedBase, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasProperty_reverse:
-          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6013, ExclusionZone, 3DFrame, 1, 0 ]
+          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6013, Mining.MineralProcessing.RockCrusher:ExclusionZone, 3DFrame, 1, 0 ]
       - HasComponent:
-        - [ UAVariable, Mining.MineralProcessing.RockCrusher:6018, Orientation, 3DOrientation, 0, 0 ]
+        - [ UAVariable, Mining.MineralProcessing.RockCrusher:6018, Mining.MineralProcessing.RockCrusher:Orientation, 3DOrientation, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 18781, 3DOrientationType ]
         - HasComponent:
-          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6019, A, Double, 0, 0 ]
+          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6019, Mining.MineralProcessing.RockCrusher:A, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.MineralProcessing.RockCrusher:6018, Orientation, 3DOrientation, 0, 0 ]
+            - [ UAVariable, Mining.MineralProcessing.RockCrusher:6018, Mining.MineralProcessing.RockCrusher:Orientation, 3DOrientation, 0, 0 ]
         - HasComponent:
-          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6020, B, Double, 0, 0 ]
+          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6020, Mining.MineralProcessing.RockCrusher:B, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.MineralProcessing.RockCrusher:6018, Orientation, 3DOrientation, 0, 0 ]
+            - [ UAVariable, Mining.MineralProcessing.RockCrusher:6018, Mining.MineralProcessing.RockCrusher:Orientation, 3DOrientation, 0, 0 ]
         - HasComponent:
-          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6021, C, Double, 0, 0 ]
+          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6021, Mining.MineralProcessing.RockCrusher:C, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasComponent_reverse:
-            - [ UAVariable, Mining.MineralProcessing.RockCrusher:6018, Orientation, 3DOrientation, 0, 0 ]
+            - [ UAVariable, Mining.MineralProcessing.RockCrusher:6018, Mining.MineralProcessing.RockCrusher:Orientation, 3DOrientation, 0, 0 ]
         - HasComponent_reverse:
-          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6013, ExclusionZone, 3DFrame, 1, 0 ]
+          - [ UAVariable, Mining.MineralProcessing.RockCrusher:6013, Mining.MineralProcessing.RockCrusher:ExclusionZone, 3DFrame, 1, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1003, RockCrusherControlType ]
+      - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1003, Mining.MineralProcessing.RockCrusher:RockCrusherControlType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]
+    - [ UAObjectType, Mining.General:1002, Mining.General:MiningEquipmentType ]
 
-  RockCrusherType:
-  - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1002, RockCrusherType ]
+  Mining.MineralProcessing.RockCrusher:RockCrusherType:
+  - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1002, Mining.MineralProcessing.RockCrusher:RockCrusherType ]
   - HasAddIn:
-    - [ UAObject, Mining.MineralProcessing.RockCrusher:5001, Components ]
+    - [ UAObject, Mining.MineralProcessing.RockCrusher:5001, Mining.General:Components ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+      - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1002, RockCrusherType ]
+      - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1002, Mining.MineralProcessing.RockCrusher:RockCrusherType ]
   - HasAddIn:
-    - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, MiningEquipmentIdentification ]
+    - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, Mining.General:MiningEquipmentIdentification ]
     - HasTypeDefinition:
-      - [ UAObjectType, Mining.General:1003, MiningEquipmentIdentificationType ]
+      - [ UAObjectType, Mining.General:1003, Mining.General:MiningEquipmentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6001, DeviceClass, String, 0, 0 ]
+      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6001, DI:DeviceClass, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
-      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6002, Manufacturer, LocalizedText, 0, 0 ]
+      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6002, DI:Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
-      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6003, ManufacturerUri, String, 0, 0 ]
+      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6003, DI:ManufacturerUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, Mining.General:MiningEquipmentIdentification ]
     - HasAddIn_reverse:
-      - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1002, RockCrusherType ]
+      - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1002, Mining.MineralProcessing.RockCrusher:RockCrusherType ]
     - HasProperty:
-      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6004, Model, LocalizedText, 0, 0 ]
+      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6004, DI:Model, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
-      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6005, ProductInstanceUri, String, 0, 0 ]
+      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6005, DI:ProductInstanceUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
-      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6006, SerialNumber, String, 0, 0 ]
+      - [ UAVariable, Mining.MineralProcessing.RockCrusher:6006, DI:SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, MiningEquipmentIdentification ]
+        - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, Mining.General:MiningEquipmentIdentification ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]
+    - [ UAObjectType, Mining.General:1002, Mining.General:MiningEquipmentType ]

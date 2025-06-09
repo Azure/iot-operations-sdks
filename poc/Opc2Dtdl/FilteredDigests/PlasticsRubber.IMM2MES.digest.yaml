@@ -352,10 +352,20 @@ DefinedTypes:
   - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6118, PlasticsRubber.IMM2MES:BackPressure, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6120, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6129, PlasticsRubber.IMM2MES:CavityPressureMaximum, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6448, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -368,10 +378,20 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6131, PlasticsRubber.IMM2MES:DecompressionVolumeAfterPlastification, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6449, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6064, PlasticsRubber.IMM2MES:DecompressionVolumeBeforePlastification, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6450, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -384,22 +404,47 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6146, PlasticsRubber.IMM2MES:HoldHydraulicPressureAverage, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6454, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6148, PlasticsRubber.IMM2MES:HoldHydraulicPressureMaximum, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6455, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6150, PlasticsRubber.IMM2MES:HoldSpecificPressureAverage, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6456, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6152, PlasticsRubber.IMM2MES:HoldSpecificPressureMaximum, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6457, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6188, PlasticsRubber.IMM2MES:HydraulicPressureMaximum, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6459, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -422,10 +467,20 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6208, PlasticsRubber.IMM2MES:PlastificationCircumferentialSpeedAverage, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6472, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6211, PlasticsRubber.IMM2MES:PlastificationCircumferentialSpeedMaximum, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6473, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -434,14 +489,29 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6197, PlasticsRubber.IMM2MES:PlastificationHydraulicPressureMaximum, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6471, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6223, PlasticsRubber.IMM2MES:PlastificationRotationalSpeedAverage, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6474, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6225, PlasticsRubber.IMM2MES:PlastificationRotationalSpeedMaximum, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6476, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -454,22 +524,47 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6063, PlasticsRubber.IMM2MES:PlastificationVolume, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6477, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6247, PlasticsRubber.IMM2MES:SpecificPressureMaximum, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6479, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6117, PlasticsRubber.IMM2MES:TransferCavityPressure, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6428, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6156, PlasticsRubber.IMM2MES:TransferHydraulicPressure, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6458, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6228, PlasticsRubber.IMM2MES:TransferSpecificPressure, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6478, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -478,6 +573,11 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6254, PlasticsRubber.IMM2MES:TransferVolume, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6481, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -506,10 +606,20 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6100, PlasticsRubber.IMM2MES:ScrewDiameter, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6691, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6104, PlasticsRubber.IMM2MES:ScrewVolume, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.IMM2MES:6251, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:

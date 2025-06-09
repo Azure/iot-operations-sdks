@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -191,40 +192,12 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ResetErrorById",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Id",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetCycleNumber",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "CycleNumber",
-              "schema": "unsignedLong"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
     },
     {
       "@type": [ "Command", "Qualified" ],

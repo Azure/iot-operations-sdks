@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -47,9 +48,10 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Pressure" ],
       "name": "BoilerPressureWater",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "pascal",
       "schema": "float",
       "writable": false
     },
@@ -61,9 +63,10 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "BoilerTempWater",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "degreeCelsius",
       "schema": "float",
       "writable": false
     },
@@ -85,7 +88,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "TimeSpan" ],
           "name": "GrinderRuntime_NoSchema",
+          "unit": "second",
           "schema": "unsignedLong"
         }
       },
@@ -109,7 +114,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "" ],
           "name": "TotalBrew_NoSchema",
+          "unit": "",
           "schema": "unsignedLong"
         }
       },

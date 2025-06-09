@@ -92,6 +92,11 @@ DefinedTypes:
       - [ UAVariable, Machinery.ProcessValues:6104, Machinery.ProcessValues:PercentageValue, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6111, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
+        - UnitId: 20529
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasModellingRule:

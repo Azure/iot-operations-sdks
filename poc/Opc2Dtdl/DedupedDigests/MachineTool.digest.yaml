@@ -585,7 +585,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, MachineTool:5025, FileSystem ]
+    - [ UAObject, MachineTool:5025, MachineTool:FileSystem ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1035,7 +1035,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAVariable, MachineTool:270, CurrentState, LocalizedText, 0, 0 ]
+    - [ UAVariable, MachineTool:270, MachineTool:CurrentState, LocalizedText, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -1071,7 +1071,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAVariable, MachineTool:272, LastTransition, LocalizedText, 0, 0 ]
+    - [ UAVariable, MachineTool:272, MachineTool:LastTransition, LocalizedText, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:

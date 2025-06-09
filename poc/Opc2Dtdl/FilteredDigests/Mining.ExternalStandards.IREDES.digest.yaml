@@ -431,7 +431,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
 
   ProjectInfoType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1003, ProjectInfoType ]
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1003, Mining.ExternalStandards.IREDES:ProjectInfoType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:

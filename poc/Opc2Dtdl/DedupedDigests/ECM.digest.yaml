@@ -114,6 +114,11 @@ DefinedTypes:
       - [ UAVariable, ECM:6235, ECM:AccuracyClass, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ECM:6105, ECM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4279632
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, ECM:6269, ECM:Resource, UInt32, 0, 3 ]
       - HasModellingRule:
@@ -129,6 +134,11 @@ DefinedTypes:
       - [ UAVariable, ECM:6308, ECM:AccuracyClass, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ECM:6351, ECM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5723220
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, ECM:6312, ECM:Resource, UInt32, 0, 3 ]
       - HasModellingRule:
@@ -141,6 +151,11 @@ DefinedTypes:
       - [ UAVariable, ECM:6292, ECM:AccuracyClass, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ECM:6347, ECM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4279632
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, ECM:6296, ECM:Resource, UInt32, 0, 3 ]
       - HasModellingRule:
@@ -153,6 +168,11 @@ DefinedTypes:
       - [ UAVariable, ECM:6300, ECM:AccuracyClass, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ECM:6349, ECM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5655636
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, ECM:6304, ECM:Resource, UInt32, 0, 3 ]
       - HasModellingRule:
@@ -172,6 +192,11 @@ DefinedTypes:
       - [ UAVariable, ECM:6077, ECM:AccuracyClass, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ECM:6063, ECM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4279632
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, ECM:6173, ECM:Resource, UInt32, 0, 3 ]
       - HasModellingRule:
@@ -189,6 +214,11 @@ DefinedTypes:
       - [ UAVariable, ECM:6091, ECM:AccuracyClass, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ECM:6067, ECM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5723220
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, ECM:6179, ECM:Resource, UInt32, 0, 3 ]
       - HasModellingRule:
@@ -206,6 +236,11 @@ DefinedTypes:
       - [ UAVariable, ECM:6122, ECM:AccuracyClass, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ECM:6071, ECM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5723220
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, ECM:6185, ECM:Resource, UInt32, 0, 3 ]
       - HasModellingRule:
@@ -223,6 +258,11 @@ DefinedTypes:
       - [ UAVariable, ECM:6205, ECM:AccuracyClass, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ECM:6124, ECM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5723220
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, ECM:6239, ECM:Resource, UInt32, 0, 3 ]
       - HasModellingRule:
@@ -235,6 +275,11 @@ DefinedTypes:
       - [ UAVariable, ECM:6229, ECM:AccuracyClass, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ECM:6127, ECM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4279632
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, ECM:6263, ECM:Resource, UInt32, 0, 3 ]
       - HasModellingRule:
@@ -259,6 +304,11 @@ DefinedTypes:
       - [ UAVariable, ECM:6208, ECM:AccuracyClass, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ECM:6133, ECM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4469812
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, ECM:6242, ECM:Resource, UInt32, 0, 3 ]
       - HasModellingRule:
@@ -271,6 +321,11 @@ DefinedTypes:
       - [ UAVariable, ECM:6223, ECM:AccuracyClass, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ECM:6136, ECM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5655636
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, ECM:6257, ECM:Resource, UInt32, 0, 3 ]
       - HasModellingRule:
@@ -283,6 +338,11 @@ DefinedTypes:
       - [ UAVariable, ECM:6226, ECM:AccuracyClass, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ECM:6139, ECM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5655636
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, ECM:6260, ECM:Resource, UInt32, 0, 3 ]
       - HasModellingRule:
@@ -305,7 +365,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, ECM:6110, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, ECM:6110, ECM:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ModeID: [ Byte, 0 ]
           CurrentTimeToDestination: [ Duration, 0 ]
@@ -331,6 +391,11 @@ DefinedTypes:
       - [ UAVariable, ECM:6065, ECM:AccuracyClass, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ECM:6059, ECM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, ECM:6130, ECM:Resource, UInt32, 0, 3 ]
       - HasModellingRule:
@@ -410,7 +475,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, ECM:6054, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, ECM:6054, ECM:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           CurrentTimeToOperate: [ Duration, 0 ]
           ReturnCode: [ Byte, 0 ]
@@ -447,13 +512,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, ECM:6050, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, ECM:6050, ECM:InputArguments, Argument, 1, 0 ]
       - Arguments:
           PauseTime: [ Duration, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, ECM:6051, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, ECM:6051, ECM:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ModeID: [ Byte, 0 ]
           CurrentTimeToDestination: [ Duration, 0 ]
@@ -467,13 +532,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, ECM:6052, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, ECM:6052, ECM:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ModeID: [ Byte, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, ECM:6053, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, ECM:6053, ECM:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           EffectiveModeID: [ Byte, 0 ]
           CurrentTimeToDestination: [ Duration, 0 ]

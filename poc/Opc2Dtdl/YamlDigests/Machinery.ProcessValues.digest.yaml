@@ -1,449 +1,451 @@
 DataTypes:
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ PADIM:1156, ResetModeEnum ]
+- UADataType: [ PADIM:1156, PADIM:ResetModeEnum ]
   Enums:
     Application: 1
     Communication: 2712
     Factory: 2713
-- UADataType: [ PADIM:1158, ExecutionModeEnum ]
+- UADataType: [ PADIM:1158, PADIM:ExecutionModeEnum ]
   Enums:
     Start: 2
     Abort: 255
-- UADataType: [ PADIM:1276, PatDictionaryEnum ]
+- UADataType: [ PADIM:1276, PADIM:PatDictionaryEnum ]
   Enums:
     CAS: 0
     PAT: 1
     User-defined: 2
-- UADataType: [ PADIM:1275, ChemicalSubstanceDataType ]
+- UADataType: [ PADIM:1275, PADIM:ChemicalSubstanceDataType ]
   Fields:
-    PatDictionary: [ PatDictionaryEnum, 0 ]
+    PatDictionary: [ PADIM:PatDictionaryEnum, 0 ]
     Label: [ LocalizedText, 0 ]
     Id: [ LocalizedText, 0 ]
 
 DefinedTypes:
 
-  ProcessValueVariableType:
-  - [ UAVariableType, Machinery.ProcessValues:2002, ProcessValueVariableType, Number, -2, 0 ]
+  Machinery.ProcessValues:ProcessValueVariableType:
+  - [ UAVariableType, Machinery.ProcessValues:2002, Machinery.ProcessValues:ProcessValueVariableType, Number, -2, 0 ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6017, HighHighLimit, Number, 0, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6017, Machinery.ProcessValues:HighHighLimit, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6018, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6018, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6017, HighHighLimit, Number, 0, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6017, Machinery.ProcessValues:HighHighLimit, Number, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAVariableType, Machinery.ProcessValues:2002, ProcessValueVariableType, Number, -2, 0 ]
+      - [ UAVariableType, Machinery.ProcessValues:2002, Machinery.ProcessValues:ProcessValueVariableType, Number, -2, 0 ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6015, HighLimit, Number, 0, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6015, Machinery.ProcessValues:HighLimit, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6016, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6016, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6015, HighLimit, Number, 0, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6015, Machinery.ProcessValues:HighLimit, Number, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAVariableType, Machinery.ProcessValues:2002, ProcessValueVariableType, Number, -2, 0 ]
+      - [ UAVariableType, Machinery.ProcessValues:2002, Machinery.ProcessValues:ProcessValueVariableType, Number, -2, 0 ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6013, LowLimit, Number, 0, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6013, Machinery.ProcessValues:LowLimit, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6014, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6014, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6013, LowLimit, Number, 0, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6013, Machinery.ProcessValues:LowLimit, Number, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAVariableType, Machinery.ProcessValues:2002, ProcessValueVariableType, Number, -2, 0 ]
+      - [ UAVariableType, Machinery.ProcessValues:2002, Machinery.ProcessValues:ProcessValueVariableType, Number, -2, 0 ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6011, LowLowLimit, Number, 0, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6011, Machinery.ProcessValues:LowLowLimit, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6012, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6012, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6011, LowLowLimit, Number, 0, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6011, Machinery.ProcessValues:LowLowLimit, Number, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAVariableType, Machinery.ProcessValues:2002, ProcessValueVariableType, Number, -2, 0 ]
+      - [ UAVariableType, Machinery.ProcessValues:2002, Machinery.ProcessValues:ProcessValueVariableType, Number, -2, 0 ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6008, PercentageValue, Double, 0, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6008, Machinery.ProcessValues:PercentageValue, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 17570, AnalogUnitRangeType ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6009, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6009, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 20529
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6008, PercentageValue, Double, 0, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6008, Machinery.ProcessValues:PercentageValue, Double, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6010, EURange, Range, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6010, Machinery.ProcessValues:EURange, Range, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6008, PercentageValue, Double, 0, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6008, Machinery.ProcessValues:PercentageValue, Double, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAVariableType, Machinery.ProcessValues:2002, ProcessValueVariableType, Number, -2, 0 ]
+      - [ UAVariableType, Machinery.ProcessValues:2002, Machinery.ProcessValues:ProcessValueVariableType, Number, -2, 0 ]
   - HasSubtype_reverse:
-    - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
+    - [ UAVariableType, PADIM:1111, PADIM:AnalogSignalVariableType ]
 
-  ProcessValueSetpointVariableType:
-  - [ UAVariableType, Machinery.ProcessValues:2003, ProcessValueSetpointVariableType, Number, -2, 0 ]
+  Machinery.ProcessValues:ProcessValueSetpointVariableType:
+  - [ UAVariableType, Machinery.ProcessValues:2003, Machinery.ProcessValues:ProcessValueSetpointVariableType, Number, -2, 0 ]
   - HasProperty:
-    - [ UAVariable, Machinery.ProcessValues:6027, AutoDeviationAdjustment, Boolean, 0, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6027, Machinery.ProcessValues:AutoDeviationAdjustment, Boolean, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAVariableType, Machinery.ProcessValues:2003, ProcessValueSetpointVariableType, Number, -2, 0 ]
+      - [ UAVariableType, Machinery.ProcessValues:2003, Machinery.ProcessValues:ProcessValueSetpointVariableType, Number, -2, 0 ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6028, DeviationSensitivity, UInt16, 0, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6028, Machinery.ProcessValues:DeviationSensitivity, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
     - HasComponent_reverse:
-      - [ UAVariableType, Machinery.ProcessValues:2003, ProcessValueSetpointVariableType, Number, -2, 0 ]
+      - [ UAVariableType, Machinery.ProcessValues:2003, Machinery.ProcessValues:ProcessValueSetpointVariableType, Number, -2, 0 ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6029, EnumValues, EnumValueType, 1, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6029, Machinery.ProcessValues:EnumValues, EnumValueType, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6028, DeviationSensitivity, UInt16, 0, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6028, Machinery.ProcessValues:DeviationSensitivity, UInt16, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6030, ValueAsText, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6030, Machinery.ProcessValues:ValueAsText, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6028, DeviationSensitivity, UInt16, 0, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6028, Machinery.ProcessValues:DeviationSensitivity, UInt16, 0, 3 ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6023, HighDeviation, Number, 0, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6023, Machinery.ProcessValues:HighDeviation, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6024, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6024, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6023, HighDeviation, Number, 0, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6023, Machinery.ProcessValues:HighDeviation, Number, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAVariableType, Machinery.ProcessValues:2003, ProcessValueSetpointVariableType, Number, -2, 0 ]
+      - [ UAVariableType, Machinery.ProcessValues:2003, Machinery.ProcessValues:ProcessValueSetpointVariableType, Number, -2, 0 ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6025, HighHighDeviation, Number, 0, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6025, Machinery.ProcessValues:HighHighDeviation, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6026, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6026, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6025, HighHighDeviation, Number, 0, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6025, Machinery.ProcessValues:HighHighDeviation, Number, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAVariableType, Machinery.ProcessValues:2003, ProcessValueSetpointVariableType, Number, -2, 0 ]
+      - [ UAVariableType, Machinery.ProcessValues:2003, Machinery.ProcessValues:ProcessValueSetpointVariableType, Number, -2, 0 ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6021, LowDeviation, Number, 0, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6021, Machinery.ProcessValues:LowDeviation, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6022, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6022, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6021, LowDeviation, Number, 0, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6021, Machinery.ProcessValues:LowDeviation, Number, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAVariableType, Machinery.ProcessValues:2003, ProcessValueSetpointVariableType, Number, -2, 0 ]
+      - [ UAVariableType, Machinery.ProcessValues:2003, Machinery.ProcessValues:ProcessValueSetpointVariableType, Number, -2, 0 ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6019, LowLowDeviation, Number, 0, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6019, Machinery.ProcessValues:LowLowDeviation, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6020, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6020, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6019, LowLowDeviation, Number, 0, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6019, Machinery.ProcessValues:LowLowDeviation, Number, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAVariableType, Machinery.ProcessValues:2003, ProcessValueSetpointVariableType, Number, -2, 0 ]
+      - [ UAVariableType, Machinery.ProcessValues:2003, Machinery.ProcessValues:ProcessValueSetpointVariableType, Number, -2, 0 ]
   - HasSubtype_reverse:
     - [ UAVariableType, 17570, AnalogUnitRangeType ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6031, SubstituteValue, Number, -2, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6031, Machinery.ProcessValues:SubstituteValue, Number, -2, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAVariableType, Machinery.ProcessValues:2003, ProcessValueSetpointVariableType, Number, -2, 0 ]
+      - [ UAVariableType, Machinery.ProcessValues:2003, Machinery.ProcessValues:ProcessValueSetpointVariableType, Number, -2, 0 ]
 
-  ZeroPointAdjustmentEventType:
-  - [ UAObjectType, Machinery.ProcessValues:1002, ZeroPointAdjustmentEventType ]
+  Machinery.ProcessValues:ZeroPointAdjustmentEventType:
+  - [ UAObjectType, Machinery.ProcessValues:1002, Machinery.ProcessValues:ZeroPointAdjustmentEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
   - HasProperty:
-    - [ UAVariable, Machinery.ProcessValues:6032, ZeroPointAdjustmentResult, StatusCode, 0, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6032, Machinery.ProcessValues:ZeroPointAdjustmentResult, StatusCode, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Machinery.ProcessValues:1002, ZeroPointAdjustmentEventType ]
+      - [ UAObjectType, Machinery.ProcessValues:1002, Machinery.ProcessValues:ZeroPointAdjustmentEventType ]
   - GeneratesEvent_reverse:
-    - [ UAMethod, Machinery.ProcessValues:7001, ZeroPointAdjustment ]
+    - [ UAMethod, Machinery.ProcessValues:7001, PADIM:ZeroPointAdjustment ]
 
-  ProcessValueType:
-  - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
+  Machinery.ProcessValues:ProcessValueType:
+  - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6108, AlarmSuppression, UInt16, 0, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6108, Machinery.ProcessValues:AlarmSuppression, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
+      - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6109, EnumValues, EnumValueType, 1, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6109, Machinery.ProcessValues:EnumValues, EnumValueType, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6108, AlarmSuppression, UInt16, 0, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6108, Machinery.ProcessValues:AlarmSuppression, UInt16, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6110, ValueAsText, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6110, Machinery.ProcessValues:ValueAsText, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6108, AlarmSuppression, UInt16, 0, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6108, Machinery.ProcessValues:AlarmSuppression, UInt16, 0, 3 ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6033, AnalogSignal, Number, -2, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6033, PADIM:AnalogSignal, Number, -2, 3 ]
     - HasTypeDefinition:
-      - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
+      - [ UAVariableType, PADIM:1111, PADIM:AnalogSignalVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
+      - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6034, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6034, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6033, AnalogSignal, Number, -2, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6033, PADIM:AnalogSignal, Number, -2, 3 ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6035, EURange, Range, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6035, Machinery.ProcessValues:EURange, Range, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6033, AnalogSignal, Number, -2, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6033, PADIM:AnalogSignal, Number, -2, 3 ]
     - HasComponent:
-      - [ UAVariable, Machinery.ProcessValues:6119, HighHighLimit, Number, 0, 3 ]
+      - [ UAVariable, Machinery.ProcessValues:6119, Machinery.ProcessValues:HighHighLimit, Number, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6120, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6120, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6119, HighHighLimit, Number, 0, 3 ]
+          - [ UAVariable, Machinery.ProcessValues:6119, Machinery.ProcessValues:HighHighLimit, Number, 0, 3 ]
       - HasComponent_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6033, AnalogSignal, Number, -2, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6033, PADIM:AnalogSignal, Number, -2, 3 ]
     - HasComponent:
-      - [ UAVariable, Machinery.ProcessValues:6117, HighLimit, Number, 0, 3 ]
+      - [ UAVariable, Machinery.ProcessValues:6117, Machinery.ProcessValues:HighLimit, Number, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6118, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6118, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6117, HighLimit, Number, 0, 3 ]
+          - [ UAVariable, Machinery.ProcessValues:6117, Machinery.ProcessValues:HighLimit, Number, 0, 3 ]
       - HasComponent_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6033, AnalogSignal, Number, -2, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6033, PADIM:AnalogSignal, Number, -2, 3 ]
     - HasComponent:
-      - [ UAVariable, Machinery.ProcessValues:6115, LowLimit, Number, 0, 3 ]
+      - [ UAVariable, Machinery.ProcessValues:6115, Machinery.ProcessValues:LowLimit, Number, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6116, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6116, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6115, LowLimit, Number, 0, 3 ]
+          - [ UAVariable, Machinery.ProcessValues:6115, Machinery.ProcessValues:LowLimit, Number, 0, 3 ]
       - HasComponent_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6033, AnalogSignal, Number, -2, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6033, PADIM:AnalogSignal, Number, -2, 3 ]
     - HasComponent:
-      - [ UAVariable, Machinery.ProcessValues:6113, LowLowLimit, Number, 0, 3 ]
+      - [ UAVariable, Machinery.ProcessValues:6113, Machinery.ProcessValues:LowLowLimit, Number, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6114, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6114, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6113, LowLowLimit, Number, 0, 3 ]
+          - [ UAVariable, Machinery.ProcessValues:6113, Machinery.ProcessValues:LowLowLimit, Number, 0, 3 ]
       - HasComponent_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6033, AnalogSignal, Number, -2, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6033, PADIM:AnalogSignal, Number, -2, 3 ]
     - HasComponent:
-      - [ UAVariable, Machinery.ProcessValues:6104, PercentageValue, Double, 0, 3 ]
+      - [ UAVariable, Machinery.ProcessValues:6104, Machinery.ProcessValues:PercentageValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17570, AnalogUnitRangeType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6111, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6111, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
+        - UnitId: 20529
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6104, PercentageValue, Double, 0, 3 ]
+          - [ UAVariable, Machinery.ProcessValues:6104, Machinery.ProcessValues:PercentageValue, Double, 0, 3 ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6112, EURange, Range, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6112, Machinery.ProcessValues:EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6104, PercentageValue, Double, 0, 3 ]
+          - [ UAVariable, Machinery.ProcessValues:6104, Machinery.ProcessValues:PercentageValue, Double, 0, 3 ]
       - HasComponent_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6033, AnalogSignal, Number, -2, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6033, PADIM:AnalogSignal, Number, -2, 3 ]
   - HasComponent:
-    - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+    - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 9764, ExclusiveDeviationAlarmType ]
     - HasComponent:
-      - [ UAVariable, Machinery.ProcessValues:6048, AckedState, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6048, Machinery.ProcessValues:AckedState, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 8995, TwoStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6049, Id, Boolean, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6049, Machinery.ProcessValues:Id, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6048, AckedState, LocalizedText, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6048, Machinery.ProcessValues:AckedState, LocalizedText, 0, 0 ]
     - HasComponent:
-      - [ UAMethod, Machinery.ProcessValues:7002, Acknowledge ]
+      - [ UAMethod, Machinery.ProcessValues:7002, Machinery.ProcessValues:Acknowledge ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
       - AlwaysGeneratesEvent:
         - [ UAObjectType, 8944, AuditConditionAcknowledgeEventType ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6050, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6050, Machinery.ProcessValues:InputArguments, Argument, 1, 0 ]
         - Arguments:
             EventId: [ ByteString, 0 ]
             Comment: [ LocalizedText, 0 ]
@@ -452,61 +454,61 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, Machinery.ProcessValues:7002, Acknowledge ]
+          - [ UAMethod, Machinery.ProcessValues:7002, Machinery.ProcessValues:Acknowledge ]
     - HasComponent:
-      - [ UAVariable, Machinery.ProcessValues:6040, ActiveState, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6040, Machinery.ProcessValues:ActiveState, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 8995, TwoStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6041, Id, Boolean, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6041, Machinery.ProcessValues:Id, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6040, ActiveState, LocalizedText, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6040, Machinery.ProcessValues:ActiveState, LocalizedText, 0, 0 ]
       - HasTrueSubState:
-        - [ UAObject, Machinery.ProcessValues:5003, LimitState ]
+        - [ UAObject, Machinery.ProcessValues:5003, Machinery.ProcessValues:LimitState ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAObjectType, 9318, ExclusiveLimitStateMachineType ]
         - HasComponent:
-          - [ UAVariable, Machinery.ProcessValues:6042, CurrentState, LocalizedText, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6042, Machinery.ProcessValues:CurrentState, LocalizedText, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 2760, FiniteStateVariableType ]
           - HasComponent_reverse:
-            - [ UAObject, Machinery.ProcessValues:5003, LimitState ]
+            - [ UAObject, Machinery.ProcessValues:5003, Machinery.ProcessValues:LimitState ]
           - HasProperty:
-            - [ UAVariable, Machinery.ProcessValues:6043, Id, NodeId, 0, 0 ]
+            - [ UAVariable, Machinery.ProcessValues:6043, Machinery.ProcessValues:Id, NodeId, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasProperty_reverse:
-              - [ UAVariable, Machinery.ProcessValues:6042, CurrentState, LocalizedText, 0, 0 ]
+              - [ UAVariable, Machinery.ProcessValues:6042, Machinery.ProcessValues:CurrentState, LocalizedText, 0, 0 ]
         - HasComponent_reverse:
-          - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+          - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
         - HasTrueSubState_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6040, ActiveState, LocalizedText, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6040, Machinery.ProcessValues:ActiveState, LocalizedText, 0, 0 ]
       - HasTrueSubState_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6044, EnabledState, LocalizedText, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6044, Machinery.ProcessValues:EnabledState, LocalizedText, 0, 0 ]
     - HasComponent:
-      - [ UAMethod, Machinery.ProcessValues:7003, AddComment ]
+      - [ UAMethod, Machinery.ProcessValues:7003, Machinery.ProcessValues:AddComment ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
       - AlwaysGeneratesEvent:
         - [ UAObjectType, 2829, AuditConditionCommentEventType ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6051, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6051, Machinery.ProcessValues:InputArguments, Argument, 1, 0 ]
         - Arguments:
             EventId: [ ByteString, 0 ]
             Comment: [ LocalizedText, 0 ]
@@ -515,325 +517,325 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, Machinery.ProcessValues:7003, AddComment ]
+          - [ UAMethod, Machinery.ProcessValues:7003, Machinery.ProcessValues:AddComment ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6052, BranchId, NodeId, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6052, Machinery.ProcessValues:BranchId, NodeId, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6053, ClientUserId, String, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6053, Machinery.ProcessValues:ClientUserId, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasComponent:
-      - [ UAVariable, Machinery.ProcessValues:6054, Comment, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6054, Machinery.ProcessValues:Comment, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 9002, ConditionVariableType ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6055, SourceTimestamp, UtcTime, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6055, Machinery.ProcessValues:SourceTimestamp, UtcTime, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6054, Comment, LocalizedText, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6054, Machinery.ProcessValues:Comment, LocalizedText, 0, 0 ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6056, ConditionClassId, NodeId, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6056, Machinery.ProcessValues:ConditionClassId, NodeId, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6057, ConditionClassName, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6057, Machinery.ProcessValues:ConditionClassName, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6058, ConditionName, String, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6058, Machinery.ProcessValues:ConditionName, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasComponent_reverse:
-      - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
+      - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
     - HasComponent:
-      - [ UAMethod, Machinery.ProcessValues:7004, Disable ]
+      - [ UAMethod, Machinery.ProcessValues:7004, Machinery.ProcessValues:Disable ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - AlwaysGeneratesEvent:
         - [ UAObjectType, 2803, AuditConditionEnableEventType ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasComponent:
-      - [ UAMethod, Machinery.ProcessValues:7005, Enable ]
+      - [ UAMethod, Machinery.ProcessValues:7005, Machinery.ProcessValues:Enable ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - AlwaysGeneratesEvent:
         - [ UAObjectType, 2803, AuditConditionEnableEventType ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasComponent:
-      - [ UAVariable, Machinery.ProcessValues:6044, EnabledState, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6044, Machinery.ProcessValues:EnabledState, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 8995, TwoStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTrueSubState:
-        - [ UAVariable, Machinery.ProcessValues:6040, ActiveState, LocalizedText, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6040, Machinery.ProcessValues:ActiveState, LocalizedText, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 8995, TwoStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
-          - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+          - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
         - HasProperty:
-          - [ UAVariable, Machinery.ProcessValues:6041, Id, Boolean, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6041, Machinery.ProcessValues:Id, Boolean, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAVariable, Machinery.ProcessValues:6040, ActiveState, LocalizedText, 0, 0 ]
+            - [ UAVariable, Machinery.ProcessValues:6040, Machinery.ProcessValues:ActiveState, LocalizedText, 0, 0 ]
         - HasTrueSubState:
-          - [ UAObject, Machinery.ProcessValues:5003, LimitState ]
+          - [ UAObject, Machinery.ProcessValues:5003, Machinery.ProcessValues:LimitState ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAObjectType, 9318, ExclusiveLimitStateMachineType ]
           - HasComponent:
-            - [ UAVariable, Machinery.ProcessValues:6042, CurrentState, LocalizedText, 0, 0 ]
+            - [ UAVariable, Machinery.ProcessValues:6042, Machinery.ProcessValues:CurrentState, LocalizedText, 0, 0 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 2760, FiniteStateVariableType ]
             - HasComponent_reverse:
-              - [ UAObject, Machinery.ProcessValues:5003, LimitState ]
+              - [ UAObject, Machinery.ProcessValues:5003, Machinery.ProcessValues:LimitState ]
             - HasProperty:
-              - [ UAVariable, Machinery.ProcessValues:6043, Id, NodeId, 0, 0 ]
+              - [ UAVariable, Machinery.ProcessValues:6043, Machinery.ProcessValues:Id, NodeId, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
               - HasProperty_reverse:
-                - [ UAVariable, Machinery.ProcessValues:6042, CurrentState, LocalizedText, 0, 0 ]
+                - [ UAVariable, Machinery.ProcessValues:6042, Machinery.ProcessValues:CurrentState, LocalizedText, 0, 0 ]
           - HasComponent_reverse:
-            - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+            - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
           - HasTrueSubState_reverse:
-            - [ UAVariable, Machinery.ProcessValues:6040, ActiveState, LocalizedText, 0, 0 ]
+            - [ UAVariable, Machinery.ProcessValues:6040, Machinery.ProcessValues:ActiveState, LocalizedText, 0, 0 ]
         - HasTrueSubState_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6044, EnabledState, LocalizedText, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6044, Machinery.ProcessValues:EnabledState, LocalizedText, 0, 0 ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6045, Id, Boolean, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6045, Machinery.ProcessValues:Id, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6044, EnabledState, LocalizedText, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6044, Machinery.ProcessValues:EnabledState, LocalizedText, 0, 0 ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6064, EventId, ByteString, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6064, Machinery.ProcessValues:EventId, ByteString, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6065, EventType, NodeId, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6065, Machinery.ProcessValues:EventType, NodeId, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6046, InputNode, NodeId, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6046, Machinery.ProcessValues:InputNode, NodeId, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasComponent:
-      - [ UAVariable, Machinery.ProcessValues:6059, LastSeverity, UInt16, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6059, Machinery.ProcessValues:LastSeverity, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 9002, ConditionVariableType ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6060, SourceTimestamp, UtcTime, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6060, Machinery.ProcessValues:SourceTimestamp, UtcTime, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6059, LastSeverity, UInt16, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6059, Machinery.ProcessValues:LastSeverity, UInt16, 0, 0 ]
     - HasComponent:
-      - [ UAObject, Machinery.ProcessValues:5003, LimitState ]
+      - [ UAObject, Machinery.ProcessValues:5003, Machinery.ProcessValues:LimitState ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAObjectType, 9318, ExclusiveLimitStateMachineType ]
       - HasComponent:
-        - [ UAVariable, Machinery.ProcessValues:6042, CurrentState, LocalizedText, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6042, Machinery.ProcessValues:CurrentState, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasComponent_reverse:
-          - [ UAObject, Machinery.ProcessValues:5003, LimitState ]
+          - [ UAObject, Machinery.ProcessValues:5003, Machinery.ProcessValues:LimitState ]
         - HasProperty:
-          - [ UAVariable, Machinery.ProcessValues:6043, Id, NodeId, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6043, Machinery.ProcessValues:Id, NodeId, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAVariable, Machinery.ProcessValues:6042, CurrentState, LocalizedText, 0, 0 ]
+            - [ UAVariable, Machinery.ProcessValues:6042, Machinery.ProcessValues:CurrentState, LocalizedText, 0, 0 ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
       - HasTrueSubState_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6040, ActiveState, LocalizedText, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6040, Machinery.ProcessValues:ActiveState, LocalizedText, 0, 0 ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6066, Message, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6066, Machinery.ProcessValues:Message, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasComponent:
-      - [ UAVariable, Machinery.ProcessValues:6061, Quality, StatusCode, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6061, Machinery.ProcessValues:Quality, StatusCode, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 9002, ConditionVariableType ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6062, SourceTimestamp, UtcTime, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6062, Machinery.ProcessValues:SourceTimestamp, UtcTime, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6061, Quality, StatusCode, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6061, Machinery.ProcessValues:Quality, StatusCode, 0, 0 ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6067, ReceiveTime, UtcTime, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6067, Machinery.ProcessValues:ReceiveTime, UtcTime, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6063, Retain, Boolean, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6063, Machinery.ProcessValues:Retain, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6039, SetpointNode, NodeId, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6039, Machinery.ProcessValues:SetpointNode, NodeId, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6068, Severity, UInt16, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6068, Machinery.ProcessValues:Severity, UInt16, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6069, SourceName, String, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6069, Machinery.ProcessValues:SourceName, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6070, SourceNode, NodeId, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6070, Machinery.ProcessValues:SourceNode, NodeId, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6047, SuppressedOrShelved, Boolean, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6047, Machinery.ProcessValues:SuppressedOrShelved, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6071, Time, UtcTime, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6071, Machinery.ProcessValues:Time, UtcTime, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
   - HasComponent:
-    - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+    - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 9341, ExclusiveLimitAlarmType ]
     - HasComponent:
-      - [ UAVariable, Machinery.ProcessValues:6080, AckedState, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6080, Machinery.ProcessValues:AckedState, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 8995, TwoStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6081, Id, Boolean, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6081, Machinery.ProcessValues:Id, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6080, AckedState, LocalizedText, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6080, Machinery.ProcessValues:AckedState, LocalizedText, 0, 0 ]
     - HasComponent:
-      - [ UAMethod, Machinery.ProcessValues:7006, Acknowledge ]
+      - [ UAMethod, Machinery.ProcessValues:7006, Machinery.ProcessValues:Acknowledge ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6082, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6082, Machinery.ProcessValues:InputArguments, Argument, 1, 0 ]
         - Arguments:
             EventId: [ ByteString, 0 ]
             Comment: [ LocalizedText, 0 ]
@@ -842,31 +844,31 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, Machinery.ProcessValues:7006, Acknowledge ]
+          - [ UAMethod, Machinery.ProcessValues:7006, Machinery.ProcessValues:Acknowledge ]
     - HasComponent:
-      - [ UAVariable, Machinery.ProcessValues:6072, ActiveState, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6072, Machinery.ProcessValues:ActiveState, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 8995, TwoStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6073, Id, Boolean, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6073, Machinery.ProcessValues:Id, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6072, ActiveState, LocalizedText, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6072, Machinery.ProcessValues:ActiveState, LocalizedText, 0, 0 ]
     - HasComponent:
-      - [ UAMethod, Machinery.ProcessValues:7007, AddComment ]
+      - [ UAMethod, Machinery.ProcessValues:7007, Machinery.ProcessValues:AddComment ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6083, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6083, Machinery.ProcessValues:InputArguments, Argument, 1, 0 ]
         - Arguments:
             EventId: [ ByteString, 0 ]
             Comment: [ LocalizedText, 0 ]
@@ -875,292 +877,292 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, Machinery.ProcessValues:7007, AddComment ]
+          - [ UAMethod, Machinery.ProcessValues:7007, Machinery.ProcessValues:AddComment ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6084, BranchId, NodeId, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6084, Machinery.ProcessValues:BranchId, NodeId, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6085, ClientUserId, String, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6085, Machinery.ProcessValues:ClientUserId, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasComponent:
-      - [ UAVariable, Machinery.ProcessValues:6086, Comment, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6086, Machinery.ProcessValues:Comment, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 9002, ConditionVariableType ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6087, SourceTimestamp, UtcTime, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6087, Machinery.ProcessValues:SourceTimestamp, UtcTime, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6086, Comment, LocalizedText, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6086, Machinery.ProcessValues:Comment, LocalizedText, 0, 0 ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6088, ConditionClassId, NodeId, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6088, Machinery.ProcessValues:ConditionClassId, NodeId, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6089, ConditionClassName, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6089, Machinery.ProcessValues:ConditionClassName, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6090, ConditionName, String, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6090, Machinery.ProcessValues:ConditionName, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasComponent:
-      - [ UAMethod, Machinery.ProcessValues:7008, Disable ]
+      - [ UAMethod, Machinery.ProcessValues:7008, Machinery.ProcessValues:Disable ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasComponent:
-      - [ UAMethod, Machinery.ProcessValues:7009, Enable ]
+      - [ UAMethod, Machinery.ProcessValues:7009, Machinery.ProcessValues:Enable ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasComponent:
-      - [ UAVariable, Machinery.ProcessValues:6076, EnabledState, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6076, Machinery.ProcessValues:EnabledState, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 8995, TwoStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6077, Id, Boolean, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6077, Machinery.ProcessValues:Id, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6076, EnabledState, LocalizedText, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6076, Machinery.ProcessValues:EnabledState, LocalizedText, 0, 0 ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6096, EventId, ByteString, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6096, Machinery.ProcessValues:EventId, ByteString, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6097, EventType, NodeId, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6097, Machinery.ProcessValues:EventType, NodeId, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6078, InputNode, NodeId, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6078, Machinery.ProcessValues:InputNode, NodeId, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasComponent:
-      - [ UAVariable, Machinery.ProcessValues:6091, LastSeverity, UInt16, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6091, Machinery.ProcessValues:LastSeverity, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 9002, ConditionVariableType ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6092, SourceTimestamp, UtcTime, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6092, Machinery.ProcessValues:SourceTimestamp, UtcTime, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6091, LastSeverity, UInt16, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6091, Machinery.ProcessValues:LastSeverity, UInt16, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
+      - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
     - HasComponent:
-      - [ UAObject, Machinery.ProcessValues:5005, LimitState ]
+      - [ UAObject, Machinery.ProcessValues:5005, Machinery.ProcessValues:LimitState ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAObjectType, 9318, ExclusiveLimitStateMachineType ]
       - HasComponent:
-        - [ UAVariable, Machinery.ProcessValues:6074, CurrentState, LocalizedText, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6074, Machinery.ProcessValues:CurrentState, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasComponent_reverse:
-          - [ UAObject, Machinery.ProcessValues:5005, LimitState ]
+          - [ UAObject, Machinery.ProcessValues:5005, Machinery.ProcessValues:LimitState ]
         - HasProperty:
-          - [ UAVariable, Machinery.ProcessValues:6075, Id, NodeId, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6075, Machinery.ProcessValues:Id, NodeId, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
-            - [ UAVariable, Machinery.ProcessValues:6074, CurrentState, LocalizedText, 0, 0 ]
+            - [ UAVariable, Machinery.ProcessValues:6074, Machinery.ProcessValues:CurrentState, LocalizedText, 0, 0 ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6098, Message, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6098, Machinery.ProcessValues:Message, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasComponent:
-      - [ UAVariable, Machinery.ProcessValues:6093, Quality, StatusCode, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6093, Machinery.ProcessValues:Quality, StatusCode, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 9002, ConditionVariableType ]
       - HasComponent_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
       - HasProperty:
-        - [ UAVariable, Machinery.ProcessValues:6094, SourceTimestamp, UtcTime, 0, 0 ]
+        - [ UAVariable, Machinery.ProcessValues:6094, Machinery.ProcessValues:SourceTimestamp, UtcTime, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, Machinery.ProcessValues:6093, Quality, StatusCode, 0, 0 ]
+          - [ UAVariable, Machinery.ProcessValues:6093, Machinery.ProcessValues:Quality, StatusCode, 0, 0 ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6099, ReceiveTime, UtcTime, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6099, Machinery.ProcessValues:ReceiveTime, UtcTime, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6095, Retain, Boolean, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6095, Machinery.ProcessValues:Retain, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6100, Severity, UInt16, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6100, Machinery.ProcessValues:Severity, UInt16, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6101, SourceName, String, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6101, Machinery.ProcessValues:SourceName, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6102, SourceNode, NodeId, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6102, Machinery.ProcessValues:SourceNode, NodeId, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6079, SuppressedOrShelved, Boolean, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6079, Machinery.ProcessValues:SuppressedOrShelved, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6103, Time, UtcTime, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6103, Machinery.ProcessValues:Time, UtcTime, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+        - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6036, ProcessValueSetpoint, Number, -2, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6036, Machinery.ProcessValues:ProcessValueSetpoint, Number, -2, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAVariableType, Machinery.ProcessValues:2003, ProcessValueSetpointVariableType, Number, -2, 0 ]
+      - [ UAVariableType, Machinery.ProcessValues:2003, Machinery.ProcessValues:ProcessValueSetpointVariableType, Number, -2, 0 ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6037, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6037, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6036, ProcessValueSetpoint, Number, -2, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6036, Machinery.ProcessValues:ProcessValueSetpoint, Number, -2, 3 ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6038, EURange, Range, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6038, Machinery.ProcessValues:EURange, Range, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6036, ProcessValueSetpoint, Number, -2, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6036, Machinery.ProcessValues:ProcessValueSetpoint, Number, -2, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
+      - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PADIM:1022, AnalogSignalType ]
+    - [ UAObjectType, PADIM:1022, PADIM:AnalogSignalType ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6105, Status, UInt16, 0, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6105, Machinery.ProcessValues:Status, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6106, EnumValues, EnumValueType, 1, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6106, Machinery.ProcessValues:EnumValues, EnumValueType, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6105, Status, UInt16, 0, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6105, Machinery.ProcessValues:Status, UInt16, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
+      - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
     - HasProperty:
-      - [ UAVariable, Machinery.ProcessValues:6107, ValueAsText, LocalizedText, 0, 0 ]
+      - [ UAVariable, Machinery.ProcessValues:6107, Machinery.ProcessValues:ValueAsText, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, Machinery.ProcessValues:6105, Status, UInt16, 0, 3 ]
+        - [ UAVariable, Machinery.ProcessValues:6105, Machinery.ProcessValues:Status, UInt16, 0, 3 ]
   - HasComponent:
-    - [ UAMethod, Machinery.ProcessValues:7001, ZeroPointAdjustment ]
+    - [ UAMethod, Machinery.ProcessValues:7001, PADIM:ZeroPointAdjustment ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
+      - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
     - GeneratesEvent:
-      - [ UAObjectType, Machinery.ProcessValues:1002, ZeroPointAdjustmentEventType ]
+      - [ UAObjectType, Machinery.ProcessValues:1002, Machinery.ProcessValues:ZeroPointAdjustmentEventType ]

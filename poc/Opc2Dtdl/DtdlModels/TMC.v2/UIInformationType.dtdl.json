@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -13,115 +14,17 @@
   "commandTopic": "opcua/TMC_v2/UIInformationType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
-    {
-      "@id": "dtmi:opcua:TMC_v2:UIInformationType:dataType:MethodExecutionFeedbackType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3009",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Success",
-          "schema": "boolean"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Message",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:opcua:TMC_v2:UIInformationType:dataType:MessageType;1"
-          }
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:TMC_v2:UIInformationType:dataType:MessageType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3002",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ID",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "LocalText",
-          "schema": "string"
-        }
-      ]
-    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "DeleteUIResource",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ResourceName",
-              "schema": "string"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ExecutionFeedback",
-              "schema": "dtmi:opcua:TMC_v2:UIInformationType:dataType:MethodExecutionFeedbackType;1"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "LoadUIResource",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ResourceName",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ResourceValue",
-              "schema": "string"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ExecutionFeedback",
-              "schema": "dtmi:opcua:TMC_v2:UIInformationType:dataType:MethodExecutionFeedbackType;1"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

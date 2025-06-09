@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -16,51 +17,58 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Pressure" ],
       "name": "MaximumAllowableOutletPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "pascal",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Pressure" ],
       "name": "MinimumAllowableOutetPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "pascal",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Area" ],
       "name": "OutletAreaOfThePump",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "squareMetre",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Pressure" ],
       "name": "ReliefValveAccumulationPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "pascal",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Pressure" ],
       "name": "ReliefValveBackPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "pascal",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Pressure" ],
       "name": "ReliefValveReseatPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "pascal",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Pressure" ],
       "name": "ReliefValveSetPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "pascal",
       "schema": "double",
       "writable": false
     }

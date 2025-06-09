@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -13,23 +14,6 @@
   "commandTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/JobGroupType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
-    {
-      "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupType:dataType:ParameterSettingType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3026",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Id",
-          "schema": "unsignedInteger"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Value",
-          "schema": "string"
-        }
-      ]
-    }
   ],
   "contents": [
     {
@@ -56,159 +40,27 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AddJob",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Id",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Description",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "CustomerName",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ProductName",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ProductDescription",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Strand",
-              "schema": "unsignedInteger"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Sequence",
-              "schema": "unsignedInteger"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ParameterSetting",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupType:dataType:ParameterSettingType;1"
-              }
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "SetOutput",
-              "schema": "double"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "LotSize",
-              "schema": "double"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "JobNodeId",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "FinishJobById",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Id",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "InterruptJobById",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Id",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RemoveJobById",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Id",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "StartJobById",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Id",
-              "schema": "string"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

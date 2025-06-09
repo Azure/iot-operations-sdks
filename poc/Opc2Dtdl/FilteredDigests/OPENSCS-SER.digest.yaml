@@ -100,7 +100,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15099, OPENSCS-SER:AggregationPackingEvent ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15100, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15100, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           AggregationElement: [ OPENSCS-SER:OPENSCSAggregationDataType, 1 ]
           ParentSNFormat: [ String, 0 ]
@@ -111,7 +111,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15101, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15101, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
       - HasModellingRule:
@@ -119,7 +119,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:7004, OPENSCS-SER:AggregationUnpackingEvent ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:6011, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:6011, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           AggregationElement: [ OPENSCS-SER:OPENSCSAggregationDataType, 1 ]
           ParentSNFormat: [ String, 0 ]
@@ -130,7 +130,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:6013, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:6013, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
       - HasModellingRule:
@@ -149,7 +149,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15088, OPENSCS-SER:LabelsEncodingEvent ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15089, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15089, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           LabelCollection: [ OPENSCS-SER:OPENSCSLabelCollectionDataType, 0 ]
           SNFormat: [ String, 0 ]
@@ -159,7 +159,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15090, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15090, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
       - HasModellingRule:
@@ -167,7 +167,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15082, OPENSCS-SER:LabelsInspectingEvent ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15083, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15083, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           LabelCollection: [ OPENSCS-SER:OPENSCSLabelCollectionDataType, 0 ]
           SNFormat: [ String, 0 ]
@@ -177,7 +177,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15084, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15084, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
       - HasModellingRule:
@@ -185,7 +185,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15079, OPENSCS-SER:LabelsSamplingEvent ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15080, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15080, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           LabelCollection: [ OPENSCS-SER:OPENSCSLabelCollectionDataType, 0 ]
           SNFormat: [ String, 0 ]
@@ -195,7 +195,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15081, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15081, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
       - HasModellingRule:
@@ -203,7 +203,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15085, OPENSCS-SER:LabelsScrappingEvent ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15086, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15086, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           LabelCollection: [ OPENSCS-SER:OPENSCSLabelCollectionDataType, 0 ]
           SNFormat: [ String, 0 ]
@@ -213,7 +213,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15087, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15087, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
       - HasModellingRule:
@@ -223,7 +223,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15076, OPENSCS-SER:SIDCommissioningEvent ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15077, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15077, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           LabelCollection: [ OPENSCS-SER:OPENSCSLabelCollectionDataType, 0 ]
           SNFormat: [ String, 0 ]
@@ -233,7 +233,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15078, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15078, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
       - HasModellingRule:
@@ -241,7 +241,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15064, OPENSCS-SER:SIDDecommissioningEvent ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15065, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15065, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           LabelCollection: [ OPENSCS-SER:OPENSCSLabelCollectionDataType, 0 ]
           SNFormat: [ String, 0 ]
@@ -251,7 +251,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15066, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15066, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
       - HasModellingRule:
@@ -259,7 +259,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15073, OPENSCS-SER:SIDDestroyingEvent ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15074, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15074, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           LabelCollection: [ OPENSCS-SER:OPENSCSLabelCollectionDataType, 0 ]
           SNFormat: [ String, 0 ]
@@ -269,7 +269,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15075, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15075, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
       - HasModellingRule:
@@ -277,7 +277,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15067, OPENSCS-SER:SIDInspectingEvent ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15068, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15068, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           LabelCollection: [ OPENSCS-SER:OPENSCSLabelCollectionDataType, 0 ]
           SNFormat: [ String, 0 ]
@@ -287,7 +287,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15069, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15069, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
       - HasModellingRule:
@@ -295,7 +295,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15070, OPENSCS-SER:SIDShippingEvent ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15071, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15071, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           LabelCollection: [ OPENSCS-SER:OPENSCSLabelCollectionDataType, 0 ]
           SNFormat: [ String, 0 ]
@@ -305,7 +305,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15072, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15072, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
       - HasModellingRule:
@@ -313,7 +313,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15091, OPENSCS-SER:SNInvalidatingEvent ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15092, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15092, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SNCollection: [ OPENSCS-SER:OPENSCSSNCollectionDataType, 0 ]
           SNFormat: [ String, 0 ]
@@ -323,7 +323,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15093, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15093, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
       - HasModellingRule:
@@ -336,7 +336,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15053, OPENSCS-SER:SNRequestAllocated ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15054, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15054, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SNCollectionID: [ String, 0 ]
           Count: [ UInt32, 0 ]
@@ -348,7 +348,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15055, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15055, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
           SNCollection: [ OPENSCS-SER:OPENSCSSNCollectionDataType, 0 ]
@@ -358,7 +358,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15056, OPENSCS-SER:SNRequestUnallocated ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15057, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15057, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SNCollectionID: [ String, 0 ]
           Count: [ UInt32, 0 ]
@@ -370,7 +370,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15058, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15058, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
           SNCollection: [ OPENSCS-SER:OPENSCSSNCollectionDataType, 0 ]
@@ -380,7 +380,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15059, OPENSCS-SER:SNRequestUnassigned ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15060, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15060, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SNCollectionID: [ String, 0 ]
           Count: [ UInt32, 0 ]
@@ -392,7 +392,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15061, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15061, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
           SNCollection: [ OPENSCS-SER:OPENSCSSNCollectionDataType, 0 ]
@@ -402,7 +402,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15047, OPENSCS-SER:SNReturnAllocated ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15048, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15048, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SNCollection: [ OPENSCS-SER:OPENSCSSNCollectionDataType, 0 ]
           PoolSelectionCriteria: [ OPENSCS-SER:OPENSCSKeyValueDataType, 1 ]
@@ -412,7 +412,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15049, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15049, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
       - HasModellingRule:
@@ -420,7 +420,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15050, OPENSCS-SER:SNReturnUnallocated ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15051, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15051, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SNCollection: [ OPENSCS-SER:OPENSCSSNCollectionDataType, 0 ]
           PoolSelectionCriteria: [ OPENSCS-SER:OPENSCSKeyValueDataType, 1 ]
@@ -430,7 +430,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15052, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15052, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
       - HasModellingRule:
@@ -438,7 +438,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15110, OPENSCS-SER:SNtoAllocated ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15111, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15111, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SNCollection: [ OPENSCS-SER:OPENSCSSNCollectionDataType, 0 ]
           PoolSelectionCriteria: [ OPENSCS-SER:OPENSCSKeyValueDataType, 1 ]
@@ -448,7 +448,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15112, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15112, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
       - HasModellingRule:
@@ -456,7 +456,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15038, OPENSCS-SER:SNtoEncoded ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15039, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15039, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SNCollection: [ OPENSCS-SER:OPENSCSSNCollectionDataType, 0 ]
           PoolSelectionCriteria: [ OPENSCS-SER:OPENSCSKeyValueDataType, 1 ]
@@ -466,7 +466,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15040, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15040, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
       - HasModellingRule:
@@ -474,7 +474,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, OPENSCS-SER:15044, OPENSCS-SER:SNtoUnallocated ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15045, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15045, OPENSCS-SER:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SNCollection: [ OPENSCS-SER:OPENSCSSNCollectionDataType, 0 ]
           PoolSelectionCriteria: [ OPENSCS-SER:OPENSCSKeyValueDataType, 1 ]
@@ -484,7 +484,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, OPENSCS-SER:15046, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, OPENSCS-SER:15046, OPENSCS-SER:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ OPENSCS-SER:OPENSCSReturnEnum, 0 ]
       - HasModellingRule:

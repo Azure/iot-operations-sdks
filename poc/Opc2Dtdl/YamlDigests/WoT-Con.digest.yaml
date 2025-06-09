@@ -2,22 +2,22 @@ DataTypes:
 
 DefinedTypes:
 
-  WoTAssetConnectionManagementType:
-  - [ UAObjectType, WoT-Con:1, WoTAssetConnectionManagementType ]
+  WoT-Con:WoTAssetConnectionManagementType:
+  - [ UAObjectType, WoT-Con:1, WoT-Con:WoTAssetConnectionManagementType ]
   - Organizes:
-    - [ UAObject, WoT-Con:2, <WoTAssetName> ]
+    - [ UAObject, WoT-Con:2, WoT-Con:<WoTAssetName> ]
     - HasInterface:
-      - [ UAObjectType, WoT-Con:42, IWoTAssetType ]
+      - [ UAObjectType, WoT-Con:42, WoT-Con:IWoTAssetType ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - Organizes_reverse:
-      - [ UAObjectType, WoT-Con:1, WoTAssetConnectionManagementType ]
+      - [ UAObjectType, WoT-Con:1, WoT-Con:WoTAssetConnectionManagementType ]
   - HasComponent:
-    - [ UAMethod, WoT-Con:26, CreateAsset ]
+    - [ UAMethod, WoT-Con:26, WoT-Con:CreateAsset ]
     - HasProperty:
-      - [ UAVariable, WoT-Con:27, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WoT-Con:27, WoT-Con:InputArguments, Argument, 1, 0 ]
       - Arguments:
           AssetName: [ String, 0 ]
       - HasTypeDefinition:
@@ -25,9 +25,9 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, WoT-Con:26, CreateAsset ]
+        - [ UAMethod, WoT-Con:26, WoT-Con:CreateAsset ]
     - HasProperty:
-      - [ UAVariable, WoT-Con:28, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WoT-Con:28, WoT-Con:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           AssetId: [ NodeId, 0 ]
       - HasTypeDefinition:
@@ -35,15 +35,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, WoT-Con:26, CreateAsset ]
+        - [ UAMethod, WoT-Con:26, WoT-Con:CreateAsset ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, WoT-Con:1, WoTAssetConnectionManagementType ]
+      - [ UAObjectType, WoT-Con:1, WoT-Con:WoTAssetConnectionManagementType ]
   - HasComponent:
-    - [ UAMethod, WoT-Con:29, DeleteAsset ]
+    - [ UAMethod, WoT-Con:29, WoT-Con:DeleteAsset ]
     - HasProperty:
-      - [ UAVariable, WoT-Con:30, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WoT-Con:30, WoT-Con:InputArguments, Argument, 1, 0 ]
       - Arguments:
           AssetId: [ NodeId, 0 ]
       - HasTypeDefinition:
@@ -51,54 +51,54 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, WoT-Con:29, DeleteAsset ]
+        - [ UAMethod, WoT-Con:29, WoT-Con:DeleteAsset ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, WoT-Con:1, WoTAssetConnectionManagementType ]
+      - [ UAObjectType, WoT-Con:1, WoT-Con:WoTAssetConnectionManagementType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  IWoTAssetType:
-  - [ UAObjectType, WoT-Con:42, IWoTAssetType ]
+  WoT-Con:IWoTAssetType:
+  - [ UAObjectType, WoT-Con:42, WoT-Con:IWoTAssetType ]
   - HasComponent:
-    - [ UAObject, WoT-Con:43, WoTFile ]
+    - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasProperty:
-      - [ UAVariable, WoT-Con:44, Size, UInt64, 0, 0 ]
+      - [ UAVariable, WoT-Con:44, WoT-Con:Size, UInt64, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, WoT-Con:43, WoTFile ]
+        - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasProperty:
-      - [ UAVariable, WoT-Con:45, Writable, Boolean, 0, 0 ]
+      - [ UAVariable, WoT-Con:45, WoT-Con:Writable, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, WoT-Con:43, WoTFile ]
+        - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasProperty:
-      - [ UAVariable, WoT-Con:46, UserWritable, Boolean, 0, 0 ]
+      - [ UAVariable, WoT-Con:46, WoT-Con:UserWritable, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, WoT-Con:43, WoTFile ]
+        - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasProperty:
-      - [ UAVariable, WoT-Con:47, OpenCount, UInt16, 0, 0 ]
+      - [ UAVariable, WoT-Con:47, WoT-Con:OpenCount, UInt16, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, WoT-Con:43, WoTFile ]
+        - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasComponent:
-      - [ UAMethod, WoT-Con:51, Open ]
+      - [ UAMethod, WoT-Con:51, WoT-Con:Open ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:52, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:52, WoT-Con:InputArguments, Argument, 1, 0 ]
         - Arguments:
             Mode: [ Byte, 0 ]
         - HasTypeDefinition:
@@ -106,9 +106,9 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:51, Open ]
+          - [ UAMethod, WoT-Con:51, WoT-Con:Open ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:53, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:53, WoT-Con:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -116,15 +116,15 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:51, Open ]
+          - [ UAMethod, WoT-Con:51, WoT-Con:Open ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, WoT-Con:43, WoTFile ]
+        - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasComponent:
-      - [ UAMethod, WoT-Con:54, Close ]
+      - [ UAMethod, WoT-Con:54, WoT-Con:Close ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:55, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:55, WoT-Con:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -132,15 +132,15 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:54, Close ]
+          - [ UAMethod, WoT-Con:54, WoT-Con:Close ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, WoT-Con:43, WoTFile ]
+        - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasComponent:
-      - [ UAMethod, WoT-Con:56, Read ]
+      - [ UAMethod, WoT-Con:56, WoT-Con:Read ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:57, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:57, WoT-Con:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Length: [ Int32, 0 ]
@@ -149,9 +149,9 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:56, Read ]
+          - [ UAMethod, WoT-Con:56, WoT-Con:Read ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:58, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:58, WoT-Con:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             Data: [ ByteString, 0 ]
         - HasTypeDefinition:
@@ -159,15 +159,15 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:56, Read ]
+          - [ UAMethod, WoT-Con:56, WoT-Con:Read ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, WoT-Con:43, WoTFile ]
+        - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasComponent:
-      - [ UAMethod, WoT-Con:59, Write ]
+      - [ UAMethod, WoT-Con:59, WoT-Con:Write ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:60, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:60, WoT-Con:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Data: [ ByteString, 0 ]
@@ -176,15 +176,15 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:59, Write ]
+          - [ UAMethod, WoT-Con:59, WoT-Con:Write ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, WoT-Con:43, WoTFile ]
+        - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasComponent:
-      - [ UAMethod, WoT-Con:61, GetPosition ]
+      - [ UAMethod, WoT-Con:61, WoT-Con:GetPosition ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:62, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:62, WoT-Con:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -192,9 +192,9 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:61, GetPosition ]
+          - [ UAMethod, WoT-Con:61, WoT-Con:GetPosition ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:63, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:63, WoT-Con:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             Position: [ UInt64, 0 ]
         - HasTypeDefinition:
@@ -202,15 +202,15 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:61, GetPosition ]
+          - [ UAMethod, WoT-Con:61, WoT-Con:GetPosition ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, WoT-Con:43, WoTFile ]
+        - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasComponent:
-      - [ UAMethod, WoT-Con:64, SetPosition ]
+      - [ UAMethod, WoT-Con:64, WoT-Con:SetPosition ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:65, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:65, WoT-Con:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Position: [ UInt64, 0 ]
@@ -219,15 +219,15 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:64, SetPosition ]
+          - [ UAMethod, WoT-Con:64, WoT-Con:SetPosition ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, WoT-Con:43, WoTFile ]
+        - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasComponent:
-      - [ UAMethod, WoT-Con:106, CloseAndUpdate ]
+      - [ UAMethod, WoT-Con:106, WoT-Con:CloseAndUpdate ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:107, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:107, WoT-Con:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -235,68 +235,60 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:106, CloseAndUpdate ]
+          - [ UAMethod, WoT-Con:106, WoT-Con:CloseAndUpdate ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, WoT-Con:43, WoTFile ]
+        - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasTypeDefinition:
-      - [ UAObjectType, WoT-Con:110, WoTAssetFileType ]
+      - [ UAObjectType, WoT-Con:110, WoT-Con:WoTAssetFileType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, WoT-Con:42, IWoTAssetType ]
-  - WoT-Con:142:
-    - [ UAVariable, WoT-Con:66, <WoTPropertyName> ]
-    - HasTypeDefinition:
-      - [ UAVariableType, 63, BaseDataVariableType ]
-    - HasModellingRule:
-      - [ UAObject, 11508, OptionalPlaceholder ]
-    - WoT-Con:142_reverse:
-      - [ UAObjectType, WoT-Con:42, IWoTAssetType ]
+      - [ UAObjectType, WoT-Con:42, WoT-Con:IWoTAssetType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  WoTAssetType:
-  - [ UAObjectType, WoT-Con:115, WoTAssetType ]
+  WoT-Con:WoTAssetType:
+  - [ UAObjectType, WoT-Con:115, WoT-Con:WoTAssetType ]
   - HasComponent:
-    - [ UAObject, WoT-Con:116, WoTFile ]
+    - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasProperty:
-      - [ UAVariable, WoT-Con:117, Size, UInt64, 0, 0 ]
+      - [ UAVariable, WoT-Con:117, WoT-Con:Size, UInt64, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, WoT-Con:116, WoTFile ]
+        - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasProperty:
-      - [ UAVariable, WoT-Con:118, Writable, Boolean, 0, 0 ]
+      - [ UAVariable, WoT-Con:118, WoT-Con:Writable, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, WoT-Con:116, WoTFile ]
+        - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasProperty:
-      - [ UAVariable, WoT-Con:119, UserWritable, Boolean, 0, 0 ]
+      - [ UAVariable, WoT-Con:119, WoT-Con:UserWritable, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, WoT-Con:116, WoTFile ]
+        - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasProperty:
-      - [ UAVariable, WoT-Con:120, OpenCount, UInt16, 0, 0 ]
+      - [ UAVariable, WoT-Con:120, WoT-Con:OpenCount, UInt16, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, WoT-Con:116, WoTFile ]
+        - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasComponent:
-      - [ UAMethod, WoT-Con:124, Open ]
+      - [ UAMethod, WoT-Con:124, WoT-Con:Open ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:125, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:125, WoT-Con:InputArguments, Argument, 1, 0 ]
         - Arguments:
             Mode: [ Byte, 0 ]
         - HasTypeDefinition:
@@ -304,9 +296,9 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:124, Open ]
+          - [ UAMethod, WoT-Con:124, WoT-Con:Open ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:126, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:126, WoT-Con:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -314,15 +306,15 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:124, Open ]
+          - [ UAMethod, WoT-Con:124, WoT-Con:Open ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, WoT-Con:116, WoTFile ]
+        - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasComponent:
-      - [ UAMethod, WoT-Con:127, Close ]
+      - [ UAMethod, WoT-Con:127, WoT-Con:Close ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:128, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:128, WoT-Con:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -330,15 +322,15 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:127, Close ]
+          - [ UAMethod, WoT-Con:127, WoT-Con:Close ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, WoT-Con:116, WoTFile ]
+        - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasComponent:
-      - [ UAMethod, WoT-Con:129, Read ]
+      - [ UAMethod, WoT-Con:129, WoT-Con:Read ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:130, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:130, WoT-Con:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Length: [ Int32, 0 ]
@@ -347,9 +339,9 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:129, Read ]
+          - [ UAMethod, WoT-Con:129, WoT-Con:Read ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:131, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:131, WoT-Con:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             Data: [ ByteString, 0 ]
         - HasTypeDefinition:
@@ -357,15 +349,15 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:129, Read ]
+          - [ UAMethod, WoT-Con:129, WoT-Con:Read ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, WoT-Con:116, WoTFile ]
+        - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasComponent:
-      - [ UAMethod, WoT-Con:132, Write ]
+      - [ UAMethod, WoT-Con:132, WoT-Con:Write ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:133, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:133, WoT-Con:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Data: [ ByteString, 0 ]
@@ -374,15 +366,15 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:132, Write ]
+          - [ UAMethod, WoT-Con:132, WoT-Con:Write ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, WoT-Con:116, WoTFile ]
+        - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasComponent:
-      - [ UAMethod, WoT-Con:134, GetPosition ]
+      - [ UAMethod, WoT-Con:134, WoT-Con:GetPosition ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:135, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:135, WoT-Con:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -390,9 +382,9 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:134, GetPosition ]
+          - [ UAMethod, WoT-Con:134, WoT-Con:GetPosition ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:136, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:136, WoT-Con:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             Position: [ UInt64, 0 ]
         - HasTypeDefinition:
@@ -400,15 +392,15 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:134, GetPosition ]
+          - [ UAMethod, WoT-Con:134, WoT-Con:GetPosition ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, WoT-Con:116, WoTFile ]
+        - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasComponent:
-      - [ UAMethod, WoT-Con:137, SetPosition ]
+      - [ UAMethod, WoT-Con:137, WoT-Con:SetPosition ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:138, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:138, WoT-Con:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Position: [ UInt64, 0 ]
@@ -417,15 +409,15 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:137, SetPosition ]
+          - [ UAMethod, WoT-Con:137, WoT-Con:SetPosition ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, WoT-Con:116, WoTFile ]
+        - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasComponent:
-      - [ UAMethod, WoT-Con:139, CloseAndUpdate ]
+      - [ UAMethod, WoT-Con:139, WoT-Con:CloseAndUpdate ]
       - HasProperty:
-        - [ UAVariable, WoT-Con:140, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, WoT-Con:140, WoT-Con:InputArguments, Argument, 1, 0 ]
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -433,36 +425,28 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAMethod, WoT-Con:139, CloseAndUpdate ]
+          - [ UAMethod, WoT-Con:139, WoT-Con:CloseAndUpdate ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, WoT-Con:116, WoTFile ]
+        - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasTypeDefinition:
-      - [ UAObjectType, WoT-Con:110, WoTAssetFileType ]
+      - [ UAObjectType, WoT-Con:110, WoT-Con:WoTAssetFileType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, WoT-Con:115, WoTAssetType ]
-  - WoT-Con:142:
-    - [ UAVariable, WoT-Con:141, <WoTPropertyName> ]
-    - HasTypeDefinition:
-      - [ UAVariableType, 63, BaseDataVariableType ]
-    - HasModellingRule:
-      - [ UAObject, 11508, OptionalPlaceholder ]
-    - WoT-Con:142_reverse:
-      - [ UAObjectType, WoT-Con:115, WoTAssetType ]
+      - [ UAObjectType, WoT-Con:115, WoT-Con:WoTAssetType ]
   - HasInterface:
-    - [ UAObjectType, WoT-Con:42, IWoTAssetType ]
+    - [ UAObjectType, WoT-Con:42, WoT-Con:IWoTAssetType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  WoTAssetFileType:
-  - [ UAObjectType, WoT-Con:110, WoTAssetFileType ]
+  WoT-Con:WoTAssetFileType:
+  - [ UAObjectType, WoT-Con:110, WoT-Con:WoTAssetFileType ]
   - HasComponent:
-    - [ UAMethod, WoT-Con:111, CloseAndUpdate ]
+    - [ UAMethod, WoT-Con:111, WoT-Con:CloseAndUpdate ]
     - HasProperty:
-      - [ UAVariable, WoT-Con:112, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, WoT-Con:112, WoT-Con:InputArguments, Argument, 1, 0 ]
       - Arguments:
           FileHandle: [ UInt32, 0 ]
       - HasTypeDefinition:
@@ -470,10 +454,10 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAMethod, WoT-Con:111, CloseAndUpdate ]
+        - [ UAMethod, WoT-Con:111, WoT-Con:CloseAndUpdate ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, WoT-Con:110, WoTAssetFileType ]
+      - [ UAObjectType, WoT-Con:110, WoT-Con:WoTAssetFileType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11575, FileType ]

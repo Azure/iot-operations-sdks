@@ -179,7 +179,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PDRV:6038, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PDRV:6038, PDRV:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplicationTag: [ String, 0 ]
       - HasModellingRule:

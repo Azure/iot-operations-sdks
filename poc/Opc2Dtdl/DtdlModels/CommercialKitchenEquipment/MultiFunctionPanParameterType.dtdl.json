@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -112,30 +113,34 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "ActualCoreTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "degreeCelsius",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Pressure" ],
       "name": "ActualPressureAbsolute",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "millibar",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "ActualTemperatureBottom",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "degreeCelsius",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "ActualTemperatureCup",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "degreeCelsius",
       "schema": "float",
       "writable": false
     },
@@ -150,7 +155,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "" ],
           "name": "ActualZoneTemperature_NoSchema",
+          "unit": "",
           "schema": "float"
         }
       },
@@ -213,30 +220,34 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "SetCoreTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "degreeCelsius",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "SetProcessTimeProgram",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "second",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "SetProcessTimeStep",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "second",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "SetTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "degreeCelsius",
       "schema": "float",
       "writable": false
     },
@@ -251,7 +262,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "SetZoneTemperature_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "float"
         }
       },
@@ -265,16 +278,18 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "TimeRemainingProgram",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "second",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "TimeRemainingStep",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "second",
       "schema": "integer",
       "writable": false
     }

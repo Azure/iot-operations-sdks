@@ -83,7 +83,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MDIS:196, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:196, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Enable: [ Boolean, 0 ]
       - HasModellingRule:
@@ -229,7 +229,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MDIS:1156, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:1156, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Position: [ Float, 0 ]
           OverrideInterlocks: [ Boolean, 0 ]
@@ -257,7 +257,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MDIS:1285, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:1285, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Position: [ Float, 0 ]
       - HasModellingRule:
@@ -271,7 +271,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MDIS:1158, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:1158, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Direction: [ MDIS:ChokeCommandEnum, 0 ]
           Steps: [ UInt16, 0 ]
@@ -347,7 +347,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MDIS:15167, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:15167, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Initial: [ Float, 0 ]
       - HasModellingRule:
@@ -357,7 +357,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MDIS:15171, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:15171, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           FlowRate: [ Float, 0 ]
           SEM: [ MDIS:SEMEnum, 0 ]
@@ -369,7 +369,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MDIS:15175, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:15175, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Direction: [ MDIS:CIMVMoveEnum, 0 ]
           Delta: [ Float, 0 ]
@@ -382,7 +382,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MDIS:15169, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:15169, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Mode: [ MDIS:CIMVOperationModeEnum, 0 ]
           SEM: [ MDIS:SEMEnum, 0 ]
@@ -394,7 +394,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MDIS:15173, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:15173, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Position: [ Float, 0 ]
           SEM: [ MDIS:SEMEnum, 0 ]
@@ -442,7 +442,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MDIS:15029, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:15029, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ArbitrationMode: [ MDIS:ArbitrationModeEnum, 0 ]
       - HasModellingRule:
@@ -465,7 +465,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MDIS:1241, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:1241, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           State: [ Boolean, 0 ]
       - HasModellingRule:
@@ -493,7 +493,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MDIS:15546, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:15546, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ArbitrationMode: [ MDIS:ArbitrationModeEnum, 0 ]
       - HasModellingRule:
@@ -516,7 +516,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MDIS:1253, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:1253, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           State: [ UInt32, 0 ]
       - HasModellingRule:
@@ -551,7 +551,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MDIS:15093, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:15093, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Position: [ Float, 0 ]
           OverrideInterlocks: [ Boolean, 0 ]
@@ -609,7 +609,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MDIS:15075, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:15075, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ArbitrationMode: [ MDIS:ArbitrationModeEnum, 0 ]
       - HasModellingRule:
@@ -632,7 +632,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MDIS:1278, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:1278, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Value: [ Float, 0 ]
       - HasModellingRule:
@@ -671,7 +671,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MDIS:15210, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:15210, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Mode: [ MDIS:MotorOperationEnum, 0 ]
       - HasModellingRule:
@@ -681,7 +681,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MDIS:15206, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:15206, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           OverrideInterlocks: [ Boolean, 0 ]
       - HasModellingRule:
@@ -691,7 +691,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MDIS:15208, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:15208, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           OverrideInterlocks: [ Boolean, 0 ]
       - HasModellingRule:
@@ -722,7 +722,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MDIS:884, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:884, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Direction: [ MDIS:CommandEnum, 0 ]
           OverrideInterlock: [ Boolean, 0 ]
@@ -761,7 +761,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, MDIS:15101, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:15101, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Initial: [ Number, 0 ]
       - HasModellingRule:
@@ -797,7 +797,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, MDIS:1470, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, MDIS:1470, MDIS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           TargetTime: [ UtcTime, 0 ]
       - HasModellingRule:

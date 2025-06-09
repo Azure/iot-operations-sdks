@@ -125,7 +125,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PackML:403, PackML:RemoteCommand ]
     - HasProperty:
-      - [ UAVariable, PackML:350, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PackML:350, PackML:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RemoteInterface: [ PackML:PackMLRemoteInterfaceDataType, 1 ]
       - HasModellingRule:
@@ -135,7 +135,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PackML:404, PackML:SetInterlock ]
     - HasProperty:
-      - [ UAVariable, PackML:351, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PackML:351, PackML:InputArguments, Argument, 1, 0 ]
       - Arguments:
           InterlockId: [ Int32, 0 ]
           State: [ Boolean, 0 ]
@@ -146,7 +146,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PackML:400, PackML:SetMachSpeed ]
     - HasProperty:
-      - [ UAVariable, PackML:348, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PackML:348, PackML:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RequestedMachineSpeed: [ Float, 0 ]
       - HasModellingRule:
@@ -156,7 +156,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PackML:402, PackML:SetParameter ]
     - HasProperty:
-      - [ UAVariable, PackML:352, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PackML:352, PackML:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Parameter: [ PackML:PackMLDescriptorDataType, 1 ]
       - HasModellingRule:
@@ -166,7 +166,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PackML:401, PackML:SetProduct ]
     - HasProperty:
-      - [ UAVariable, PackML:349, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PackML:349, PackML:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Product: [ PackML:PackMLProductDataType, 1 ]
       - HasModellingRule:
@@ -176,7 +176,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PackML:362, PackML:SetUnitMode ]
     - HasProperty:
-      - [ UAVariable, PackML:118, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PackML:118, PackML:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RequestedMode: [ Int32, 0 ]
       - HasModellingRule:
@@ -270,11 +270,11 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAVariable, PackML:167, AvailableStates, NodeId, 1, 0 ]
+    - [ UAVariable, PackML:167, PackML:AvailableStates, NodeId, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PackML:158, AvailableTransitions, NodeId, 1, 0 ]
+    - [ UAVariable, PackML:158, PackML:AvailableTransitions, NodeId, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -303,11 +303,11 @@ DefinedTypes:
   PackML:PackMLExecuteStateMachineType:
   - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
   - HasComponent:
-    - [ UAVariable, PackML:125, AvailableStates, NodeId, 1, 0 ]
+    - [ UAVariable, PackML:125, PackML:AvailableStates, NodeId, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PackML:126, AvailableTransitions, NodeId, 1, 0 ]
+    - [ UAVariable, PackML:126, PackML:AvailableTransitions, NodeId, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -387,7 +387,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PackML:369, PackML:Start ]
     - HasProperty:
-      - [ UAVariable, PackML:342, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PackML:342, PackML:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Parameter: [ PackML:PackMLDescriptorDataType, 1 ]
       - HasModellingRule:
@@ -474,11 +474,11 @@ DefinedTypes:
   PackML:PackMLMachineStateMachineType:
   - [ UAObjectType, PackML:2, PackML:PackMLMachineStateMachineType ]
   - HasComponent:
-    - [ UAVariable, PackML:153, AvailableStates, NodeId, 1, 0 ]
+    - [ UAVariable, PackML:153, PackML:AvailableStates, NodeId, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PackML:154, AvailableTransitions, NodeId, 1, 0 ]
+    - [ UAVariable, PackML:154, PackML:AvailableTransitions, NodeId, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:

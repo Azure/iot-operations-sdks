@@ -334,7 +334,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, DI:6527, DI:TransferToDevice ]
     - HasProperty:
-      - [ UAVariable, DI:6528, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, DI:6528, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           TransferID: [ Int32, 0 ]
           InitTransferStatus: [ Int32, 0 ]
@@ -345,7 +345,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, DI:6529, DI:TransferFromDevice ]
     - HasProperty:
-      - [ UAVariable, DI:6530, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, DI:6530, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           TransferID: [ Int32, 0 ]
           InitTransferStatus: [ Int32, 0 ]
@@ -356,7 +356,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, DI:6531, DI:FetchTransferResultData ]
     - HasProperty:
-      - [ UAVariable, DI:6532, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, DI:6532, DI:InputArguments, Argument, 1, 0 ]
       - Arguments:
           TransferID: [ Int32, 0 ]
           SequenceNumber: [ Int32, 0 ]
@@ -365,7 +365,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, DI:6533, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, DI:6533, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FetchResultData: [ Structure, 0 ]
       - HasModellingRule:
@@ -380,13 +380,13 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, DI:6393, DI:InitLock ]
     - HasProperty:
-      - [ UAVariable, DI:6394, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, DI:6394, DI:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Context: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, DI:6395, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, DI:6395, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           InitLockStatus: [ Int32, 0 ]
       - HasModellingRule:
@@ -396,7 +396,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, DI:6396, DI:RenewLock ]
     - HasProperty:
-      - [ UAVariable, DI:6397, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, DI:6397, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           RenewLockStatus: [ Int32, 0 ]
       - HasModellingRule:
@@ -406,7 +406,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, DI:6398, DI:ExitLock ]
     - HasProperty:
-      - [ UAVariable, DI:6399, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, DI:6399, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ExitLockStatus: [ Int32, 0 ]
       - HasModellingRule:
@@ -416,7 +416,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, DI:6400, DI:BreakLock ]
     - HasProperty:
-      - [ UAVariable, DI:6401, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, DI:6401, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           BreakLockStatus: [ Int32, 0 ]
       - HasModellingRule:
@@ -531,7 +531,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, DI:189, DI:GetUpdateBehavior ]
     - HasProperty:
-      - [ UAVariable, DI:190, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, DI:190, DI:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ManufacturerUri: [ String, 0 ]
           SoftwareRevision: [ String, 0 ]
@@ -539,7 +539,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, DI:191, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, DI:191, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           UpdateBehavior: [ DI:UpdateBehavior, 0 ]
       - HasModellingRule:
@@ -552,7 +552,7 @@ DefinedTypes:
   DI:FileSystemLoadingType:
   - [ UAObjectType, DI:192, DI:FileSystemLoadingType ]
   - HasComponent:
-    - [ UAObject, DI:194, FileSystem ]
+    - [ UAObject, DI:194, DI:FileSystem ]
     - HasTypeDefinition:
       - [ UAObjectType, 13353, FileDirectoryType ]
     - HasModellingRule:
@@ -560,13 +560,13 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, DI:206, DI:GetUpdateBehavior ]
     - HasProperty:
-      - [ UAVariable, DI:207, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, DI:207, DI:InputArguments, Argument, 1, 0 ]
       - Arguments:
           NodeIds: [ NodeId, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, DI:208, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, DI:208, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           UpdateBehavior: [ DI:UpdateBehavior, 0 ]
       - HasModellingRule:
@@ -576,13 +576,13 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, DI:209, DI:ValidateFiles ]
     - HasProperty:
-      - [ UAVariable, DI:210, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, DI:210, DI:InputArguments, Argument, 1, 0 ]
       - Arguments:
           NodeIds: [ NodeId, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, DI:211, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, DI:211, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ErrorCode: [ Int32, 0 ]
           ErrorMessage: [ LocalizedText, 0 ]
@@ -668,7 +668,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, DI:265, DI:InstallSoftwarePackage ]
     - HasProperty:
-      - [ UAVariable, DI:266, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, DI:266, DI:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ManufacturerUri: [ String, 0 ]
           SoftwareRevision: [ String, 0 ]
@@ -681,7 +681,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, DI:268, DI:InstallFiles ]
     - HasProperty:
-      - [ UAVariable, DI:269, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, DI:269, DI:InputArguments, Argument, 1, 0 ]
       - Arguments:
           NodeIds: [ NodeId, 1 ]
       - HasModellingRule:

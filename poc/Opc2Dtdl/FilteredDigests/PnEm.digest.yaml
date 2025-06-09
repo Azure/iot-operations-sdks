@@ -103,6 +103,11 @@ DefinedTypes:
   - [ UAObjectType, PNEM:1011, PNEM:IEnergyProfileD0Type ]
   - HasComponent:
     - [ UAVariable, PNEM:6102, PNEM:DcCurrent, Float, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6105, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4279632
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -112,6 +117,11 @@ DefinedTypes:
   - [ UAObjectType, PNEM:1007, PNEM:IEnergyProfileE0Type ]
   - HasComponent:
     - [ UAVariable, PNEM:6060, PNEM:AcCurrent, PNEM:AcPeDataType, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6063, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4279632
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -121,6 +131,11 @@ DefinedTypes:
   - [ UAObjectType, PNEM:1008, PNEM:IEnergyProfileE1Type ]
   - HasComponent:
     - [ UAVariable, PNEM:6064, PNEM:AcActivePowerTotal, Float, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6067, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5723220
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -130,14 +145,29 @@ DefinedTypes:
   - [ UAObjectType, PNEM:1009, PNEM:IEnergyProfileE2Type ]
   - HasComponent:
     - [ UAVariable, PNEM:6076, PNEM:AcActiveEnergyTotalExportLp, Float, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6079, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5720146
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PNEM:6072, PNEM:AcActiveEnergyTotalImportLp, Float, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6075, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5720146
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PNEM:6068, PNEM:AcActivePowerTotal, Float, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6071, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5723220
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -147,18 +177,38 @@ DefinedTypes:
   - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
   - HasComponent:
     - [ UAVariable, PNEM:6086, PNEM:AcActiveEnergyTotalExportHp, Double, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6089, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5720146
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PNEM:6082, PNEM:AcActiveEnergyTotalImportHp, Double, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6085, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5720146
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PNEM:6080, PNEM:AcActivePower, PNEM:AcPeDataType, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6124, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5723220
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PNEM:6100, PNEM:AcCurrent, PNEM:AcPeDataType, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6127, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4279632
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -167,22 +217,47 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PNEM:6094, PNEM:AcReactiveEnergyTotalExportHp, Double, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6097, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 0
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PNEM:6090, PNEM:AcReactiveEnergyTotalImportHp, Double, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6093, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 0
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PNEM:6081, PNEM:AcReactivePower, PNEM:AcPeDataType, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6133, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4469812
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PNEM:6098, PNEM:AcVoltagePe, PNEM:AcPeDataType, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6136, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5655636
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PNEM:6099, PNEM:AcVoltagePp, PNEM:AcPpDataType, 0, 3 ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6139, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5655636
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -205,7 +280,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, PNEM:6110, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNEM:6110, PNEM:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ModeID: [ Byte, 0 ]
           CurrentTimeToDestination: [ Duration, 0 ]
@@ -223,6 +298,11 @@ DefinedTypes:
   - [ UAObjectType, PNEM:1006, PNEM:EnergyMeasurementType ]
   - HasComponent:
     - [ UAVariable, PNEM:6056, PNEM:<MeasurementValue>, Number, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6059, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
@@ -300,7 +380,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PNEM:6054, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNEM:6054, PNEM:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           CurrentTimeToOperate: [ Duration, 0 ]
           ReturnCode: [ Byte, 0 ]
@@ -337,7 +417,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNEM:7005, PNEM:StartPause ]
     - HasProperty:
-      - [ UAVariable, PNEM:6050, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNEM:6050, PNEM:InputArguments, Argument, 1, 0 ]
       - Arguments:
           PauseTime: [ Duration, 0 ]
       - HasModellingRule:
@@ -345,7 +425,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PNEM:6051, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNEM:6051, PNEM:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ModeID: [ Byte, 0 ]
           CurrentTimeToDestination: [ Duration, 0 ]
@@ -357,7 +437,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PNEM:7007, PNEM:SwitchToEnergySavingMode ]
     - HasProperty:
-      - [ UAVariable, PNEM:6052, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNEM:6052, PNEM:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ModeID: [ Byte, 0 ]
       - HasModellingRule:
@@ -365,7 +445,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PNEM:6053, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNEM:6053, PNEM:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           EffectiveModeID: [ Byte, 0 ]
           CurrentTimeToDestination: [ Duration, 0 ]

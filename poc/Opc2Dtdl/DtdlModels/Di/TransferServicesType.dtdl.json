@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -18,98 +19,17 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "TransferToDevice",
-      "namespace": "http://opcfoundation.org/UA/DI",
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "TransferID",
-              "schema": "integer"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "InitTransferStatus",
-              "schema": "integer"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "TransferFromDevice",
-      "namespace": "http://opcfoundation.org/UA/DI",
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "TransferID",
-              "schema": "integer"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "InitTransferStatus",
-              "schema": "integer"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "FetchTransferResultData",
-      "namespace": "http://opcfoundation.org/UA/DI",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "TransferID",
-              "schema": "integer"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "SequenceNumber",
-              "schema": "integer"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "MaxParameterResultsToReturn",
-              "schema": "integer"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "OmitGoodResults",
-              "schema": "boolean"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "FetchResultData",
-              "schema": "bytes"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/DI"
     }
   ]
 }

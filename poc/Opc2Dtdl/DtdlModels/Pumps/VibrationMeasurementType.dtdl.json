@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -16,37 +17,42 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Angle" ],
       "name": "X_1XPhase",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "degreeOfArc",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Length" ],
       "name": "X_1XRelativeShaftVibrationP_P",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "micrometre",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Angle" ],
       "name": "X_2XPhase",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "degreeOfArc",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Length" ],
       "name": "X_2XRelativeShaftVibrationP_P",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "micrometre",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Acceleration" ],
       "name": "BearingIndex",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "metrePerSecondSquared",
       "schema": "double",
       "writable": false
     },
@@ -65,37 +71,42 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Acceleration" ],
       "name": "BroadbandCavitationAccelerationRMS",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "metrePerSecondSquared",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Voltage" ],
       "name": "GapVoltage",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "volt",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Length" ],
       "name": "Not1XRelativeShaftVibrationP_P",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "micrometre",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Acceleration" ],
       "name": "OverallVibrationAcceleration0_P",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "metrePerSecondSquared",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Acceleration" ],
       "name": "OverallVibrationAccelerationP_P",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "metrePerSecondSquared",
       "schema": "double",
       "writable": false
     },
@@ -121,23 +132,26 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Acceleration" ],
       "name": "OverallVibrationAccelerationRMS",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "metrePerSecondSquared",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Length" ],
       "name": "OverallVibrationDisplacementP_P",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "micrometre",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Length" ],
       "name": "OverallVibrationDisplacementRMS",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "micrometre",
       "schema": "double",
       "writable": false
     },
@@ -170,16 +184,18 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Angle" ],
       "name": "RotationalPhase1X",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "degreeOfArc",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Angle" ],
       "name": "RotationalPhase2X",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "degreeOfArc",
       "schema": "double",
       "writable": false
     },
@@ -191,16 +207,18 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Length" ],
       "name": "ThrustPosition",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "millimetre",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Acceleration" ],
       "name": "VibrationAmplitudeAtTheBearingDefectFrequencies",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "metrePerSecondSquared",
       "schema": "double",
       "writable": false
     },
@@ -226,9 +244,10 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Acceleration" ],
       "name": "VibrationAmplitudeAtTheGearMeshingFrequency",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "metrePerSecondSquared",
       "schema": "double",
       "writable": false
     },
@@ -254,9 +273,10 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized", "Acceleration" ],
       "name": "VibrationAmplitudeAtTheSidebandsOfTheGearMeshingFrequency",
       "namespace": "http://opcfoundation.org/UA/Pumps",
+      "unit": "metrePerSecondSquared",
       "schema": "double",
       "writable": false
     },

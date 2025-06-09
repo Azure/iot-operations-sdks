@@ -330,14 +330,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1305, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1305, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ConnectionEndpoints: [ NodeId, 1 ]
           Remove: [ Boolean, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1306, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1306, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Results: [ StatusCode, 1 ]
       - HasModellingRule:
@@ -359,7 +359,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1303, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1303, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           CommandMask: [ FX.Data:FxCommandMask, 0 ]
           AssetVerifications: [ FX.Data:AssetVerificationDataType, 1 ]
@@ -369,7 +369,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1304, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1304, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           AssetVerificationResults: [ FX.Data:AssetVerificationResultDataType, 1 ]
           ConnectionEndpointConfigurationResults: [ FX.Data:ConnectionEndpointConfigurationResultDataType, 1 ]
@@ -426,14 +426,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1422, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1422, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           VerificationMode: [ FX.Data:AssetVerificationModeEnum, 1 ]
           ExpectedVerificationVariables: [ KeyValuePair, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1423, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1423, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           VerificationResult: [ FX.Data:AssetVerificationResultEnum, 0 ]
           VerificationVariablesErrors: [ StatusCode, 1 ]
@@ -507,13 +507,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1420, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1420, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ExpectedVerificationVariables: [ FX.Data:NodeIdValuePair, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1421, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1421, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           VerificationResult: [ FX.Data:FunctionalEntityVerificationResultEnum, 0 ]
           VerificationVariablesErrors: [ StatusCode, 1 ]
@@ -573,13 +573,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6093, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6093, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           LockContext: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6094, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6094, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           LockStatus: [ Int32, 0 ]
       - HasModellingRule:
@@ -607,13 +607,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6366, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6366, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           LockContext: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6367, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6367, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           LockStatus: [ Int32, 0 ]
       - HasModellingRule:
@@ -656,13 +656,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6398, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6398, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           VariablesToClear: [ NodeId, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6399, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6399, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Results: [ StatusCode, 1 ]
       - HasModellingRule:
@@ -672,7 +672,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6401, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6401, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           StoredVariables: [ FX.Data:NodeIdValuePair, 1 ]
       - HasModellingRule:
@@ -682,13 +682,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6396, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6396, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           VariablesToStore: [ NodeId, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FX.AC:6397, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:6397, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Results: [ StatusCode, 1 ]
       - HasModellingRule:
@@ -794,13 +794,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1358, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1358, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ExpectedVerificationVariables: [ FX.Data:NodeIdValuePair, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1359, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1359, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           VerificationResult: [ FX.Data:FunctionalEntityVerificationResultEnum, 0 ]
           VerificationVariablesErrors: [ StatusCode, 1 ]
@@ -832,7 +832,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1356, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1356, FX.AC:InputArguments, Argument, 1, 0 ]
       - Arguments:
           VerificationMode: [ FX.Data:AssetVerificationModeEnum, 0 ]
           ExpectedVerificationVariables: [ KeyValuePair, 1 ]
@@ -840,7 +840,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, FX.AC:1357, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, FX.AC:1357, FX.AC:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           VerificationResult: [ FX.Data:AssetVerificationResultEnum, 0 ]
           VerificationVariablesErrors: [ StatusCode, 1 ]

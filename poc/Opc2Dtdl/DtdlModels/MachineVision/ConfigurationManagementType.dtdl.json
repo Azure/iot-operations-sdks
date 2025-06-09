@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -84,263 +85,32 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ActivateConfiguration",
-      "namespace": "http://opcfoundation.org/UA/MachineVision",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "InternalId",
-              "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:BinaryIdBaseDataType;1"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Error",
-              "schema": "integer"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AddConfiguration",
-      "namespace": "http://opcfoundation.org/UA/MachineVision",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ExternalId",
-              "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:BinaryIdBaseDataType;1"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "InternalId",
-              "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:BinaryIdBaseDataType;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Configuration",
-              "schema": "string"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "TransferRequired",
-              "schema": "boolean"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Error",
-              "schema": "integer"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetConfigurationById",
-      "namespace": "http://opcfoundation.org/UA/MachineVision",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "InternalId",
-              "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:BinaryIdBaseDataType;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Timeout",
-              "schema": "integer"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ConfigurationHandle",
-              "schema": "unsignedInteger"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Configuration",
-              "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:ConfigurationDataType;1"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Error",
-              "schema": "integer"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetConfigurationList",
-      "namespace": "http://opcfoundation.org/UA/MachineVision",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "MaxResults",
-              "schema": "unsignedInteger"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "StartIndex",
-              "schema": "unsignedInteger"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Timeout",
-              "schema": "integer"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "IsComplete",
-              "schema": "boolean"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ResultCount",
-              "schema": "unsignedInteger"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ConfigurationHandle",
-              "schema": "unsignedInteger"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ConfigurationList",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:ConfigurationDataType;1"
-              }
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Error",
-              "schema": "integer"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ReleaseConfigurationHandle",
-      "namespace": "http://opcfoundation.org/UA/MachineVision",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ConfigurationHandle",
-              "schema": "unsignedInteger"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Error",
-              "schema": "integer"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RemoveConfiguration",
-      "namespace": "http://opcfoundation.org/UA/MachineVision",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "InternalId",
-              "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:BinaryIdBaseDataType;1"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Error",
-              "schema": "integer"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -22,9 +23,10 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Qualified", "Subject", "Required" ],
+            "@type": [ "Field", "Subject", "Qualified", "Required", "Current" ],
             "name": "DcCurrent",
             "namespace": "http://opcfoundation.org/UA/ECM",
+            "unit": "ampere",
             "schema": "float"
           },
           {

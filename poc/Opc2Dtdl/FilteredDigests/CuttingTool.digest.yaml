@@ -361,7 +361,7 @@ DefinedTypes:
   CuttingTool:ToolMeasuringMachineType:
   - [ UAObjectType, CuttingTool:1021, CuttingTool:ToolMeasuringMachineType ]
   - HasComponent:
-    - [ UAObject, CuttingTool:5001, FileSystem ]
+    - [ UAObject, CuttingTool:5001, CuttingTool:FileSystem ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -378,7 +378,7 @@ DefinedTypes:
   CuttingTool:ToolManufacturingMachineType:
   - [ UAObjectType, CuttingTool:1025, CuttingTool:ToolManufacturingMachineType ]
   - HasComponent:
-    - [ UAObject, CuttingTool:5017, FileSystem ]
+    - [ UAObject, CuttingTool:5017, CuttingTool:FileSystem ]
     - HasTypeDefinition:
       - [ UAObjectType, 13353, FileDirectoryType ]
     - HasModellingRule:

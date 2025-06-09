@@ -431,7 +431,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, TTD:6053, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, TTD:6053, TTD:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeId: [ String, 0 ]
       - HasModellingRule:
@@ -441,13 +441,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, TTD:6050, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, TTD:6050, TTD:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeId: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, TTD:6051, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, TTD:6051, TTD:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Recipe: [ TTD:RecipeDataType, 0 ]
       - HasModellingRule:
@@ -457,7 +457,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, TTD:6049, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, TTD:6049, TTD:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeIds: [ TTD:RecipeIdDataType, 1 ]
       - HasModellingRule:
@@ -467,7 +467,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, TTD:6054, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, TTD:6054, TTD:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Recipes: [ TTD:RecipeDataType, 1 ]
       - HasModellingRule:
@@ -477,7 +477,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, TTD:6052, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, TTD:6052, TTD:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Recipe: [ TTD:RecipeDataType, 0 ]
           Overwrite: [ Boolean, 0 ]
@@ -488,7 +488,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, TTD:6055, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, TTD:6055, TTD:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Recipes: [ TTD:RecipeDataType, 1 ]
           Overwrite: [ Boolean, 0 ]

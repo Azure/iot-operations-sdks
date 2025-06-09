@@ -1,5 +1,5 @@
 DataTypes:
-- UADataType: [ PNEM:3009, AccuracyClassEnumeration ]
+- UADataType: [ PNEM:3009, PNEM:AccuracyClassEnumeration ]
   Enums:
     ACCURACY_CLASS_0: 0
     ACCURACY_CLASS_1: 1
@@ -17,79 +17,79 @@ DataTypes:
     ACCURACY_CLASS_13: 13
     ACCURACY_CLASS_14: 14
     ACCURACY_CLASS_15: 15
-- UADataType: [ PNEM:3010, AccuracyDomainEnumeration ]
+- UADataType: [ PNEM:3010, PNEM:AccuracyDomainEnumeration ]
   Enums:
     ACCURACY_DOMAIN_RESERVED: 0
     ACCURACY_DOMAIN_PERCENT_FULL_SCALE: 1
     ACCURACY_DOMAIN_PERCENT_ACTUAL_READING: 2
     ACCURACY_DOMAIN_IEC: 3
     ACCURACY_DOMAIN_EN: 4
-- UADataType: [ PNEM:3007, PeClassEnumeration ]
+- UADataType: [ PNEM:3007, PNEM:PeClassEnumeration ]
   Enums:
     PE_CLASS1: 0
     PE_CLASS2: 1
     PE_CLASS3: 2
-- UADataType: [ PNEM:3008, PeSubclassEnumeration ]
+- UADataType: [ PNEM:3008, PNEM:PeSubclassEnumeration ]
   Enums:
     PE_SUBCLASS1: 0
     PE_SUBCLASS2: 1
-- UADataType: [ PNEM:3005, AcPeDataType ]
+- UADataType: [ PNEM:3005, PNEM:AcPeDataType ]
   Fields:
     A: [ Float, 0 ]
     B: [ Float, 0 ]
     C: [ Float, 0 ]
-- UADataType: [ PNEM:3006, AcPpDataType ]
+- UADataType: [ PNEM:3006, PNEM:AcPpDataType ]
   Fields:
     A_b: [ Float, 0 ]
     B_c: [ Float, 0 ]
     C_a: [ Float, 0 ]
-- UADataType: [ PNEM:3003, EnergyStateInformationDataType ]
+- UADataType: [ PNEM:3003, PNEM:EnergyStateInformationDataType ]
   Fields:
     IDSource: [ Byte, 0 ]
     IDDestination: [ Byte, 0 ]
     RegularTimeToOperate: [ Duration, 0 ]
     ModePowerConsumption: [ Float, 0 ]
-- UADataType: [ PNEM:3004, PeVersionDataType ]
+- UADataType: [ PNEM:3004, PNEM:PeVersionDataType ]
   Fields:
     MajorVersion: [ Byte, 0 ]
     MinorVersion: [ Byte, 0 ]
     Revision: [ Byte, 0 ]
-- UADataType: [ PNEM:3002, StandbyModeTransitionDataType ]
+- UADataType: [ PNEM:3002, PNEM:StandbyModeTransitionDataType ]
   Fields:
     IDDestination: [ Byte, 0 ]
     CurrentTimeToDestination: [ Duration, 0 ]
     CurrentTimeToOperate: [ Duration, 0 ]
     EnergyConsumptionToDestination: [ Float, 0 ]
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -99,28 +99,28 @@ DataTypes:
 
 DefinedTypes:
 
-  MeasurementValueType:
-  - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+  PNEM:MeasurementValueType:
+  - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
   - HasProperty:
-    - [ UAVariable, PNEM:6020, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+    - [ UAVariable, PNEM:6020, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
     - HasProperty_reverse:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
-    - [ UAVariable, PNEM:6019, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+    - [ UAVariable, PNEM:6019, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
     - HasProperty_reverse:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
-    - [ UAVariable, PNEM:6021, EngineeringUnits, EUInformation, 0, 0 ]
+    - [ UAVariable, PNEM:6021, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
     - HasProperty_reverse:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -128,48 +128,49 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAVariableType, 63, BaseDataVariableType ]
   - HasProperty:
-    - [ UAVariable, PNEM:6018, PeMeasurementID, UInt16, 0, 0 ]
+    - [ UAVariable, PNEM:6018, PNEM:PeMeasurementID, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
-    - [ UAVariable, PNEM:6022, ValueBeforeReset ]
+    - [ UAVariable, PNEM:6022, PNEM:ValueBeforeReset ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
 
-  IEnergyProfileD0Type:
-  - [ UAObjectType, PNEM:1011, IEnergyProfileD0Type ]
+  PNEM:IEnergyProfileD0Type:
+  - [ UAObjectType, PNEM:1011, PNEM:IEnergyProfileD0Type ]
   - HasComponent:
-    - [ UAVariable, PNEM:6102, DcCurrent, Float, 0, 3 ]
+    - [ UAVariable, PNEM:6102, PNEM:DcCurrent, Float, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, PNEM:6103, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6103, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6102, DcCurrent, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6102, PNEM:DcCurrent, Float, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6104, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6104, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6102, DcCurrent, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6102, PNEM:DcCurrent, Float, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1011, IEnergyProfileD0Type ]
+      - [ UAObjectType, PNEM:1011, PNEM:IEnergyProfileD0Type ]
     - HasProperty:
-      - [ UAVariable, PNEM:6105, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6105, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4279632
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6102, DcCurrent, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6102, PNEM:DcCurrent, Float, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -177,44 +178,45 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6168, PeMeasurementID, UInt16, 0, 0 ]
+      - [ UAVariable, PNEM:6168, PNEM:PeMeasurementID, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6102, DcCurrent, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6102, PNEM:DcCurrent, Float, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  IEnergyProfileE0Type:
-  - [ UAObjectType, PNEM:1007, IEnergyProfileE0Type ]
+  PNEM:IEnergyProfileE0Type:
+  - [ UAObjectType, PNEM:1007, PNEM:IEnergyProfileE0Type ]
   - HasComponent:
-    - [ UAVariable, PNEM:6060, AcCurrent, AcPeDataType, 0, 3 ]
+    - [ UAVariable, PNEM:6060, PNEM:AcCurrent, PNEM:AcPeDataType, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, PNEM:6061, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6061, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6060, AcCurrent, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6060, PNEM:AcCurrent, PNEM:AcPeDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6062, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6062, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6060, AcCurrent, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6060, PNEM:AcCurrent, PNEM:AcPeDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1007, IEnergyProfileE0Type ]
+      - [ UAObjectType, PNEM:1007, PNEM:IEnergyProfileE0Type ]
     - HasProperty:
-      - [ UAVariable, PNEM:6063, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6063, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4279632
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6060, AcCurrent, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6060, PNEM:AcCurrent, PNEM:AcPeDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -222,44 +224,45 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6153, PeMeasurementID, UInt16, 0, 0 ]
+      - [ UAVariable, PNEM:6153, PNEM:PeMeasurementID, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6060, AcCurrent, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6060, PNEM:AcCurrent, PNEM:AcPeDataType, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  IEnergyProfileE1Type:
-  - [ UAObjectType, PNEM:1008, IEnergyProfileE1Type ]
+  PNEM:IEnergyProfileE1Type:
+  - [ UAObjectType, PNEM:1008, PNEM:IEnergyProfileE1Type ]
   - HasComponent:
-    - [ UAVariable, PNEM:6064, AcActivePowerTotal, Float, 0, 3 ]
+    - [ UAVariable, PNEM:6064, PNEM:AcActivePowerTotal, Float, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1008, IEnergyProfileE1Type ]
+      - [ UAObjectType, PNEM:1008, PNEM:IEnergyProfileE1Type ]
     - HasProperty:
-      - [ UAVariable, PNEM:6065, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6065, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6064, AcActivePowerTotal, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6064, PNEM:AcActivePowerTotal, Float, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6066, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6066, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6064, AcActivePowerTotal, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6064, PNEM:AcActivePowerTotal, Float, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6067, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6067, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5723220
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6064, AcActivePowerTotal, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6064, PNEM:AcActivePowerTotal, Float, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -267,44 +270,45 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6154, PeMeasurementID, UInt16, 0, 0 ]
+      - [ UAVariable, PNEM:6154, PNEM:PeMeasurementID, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6064, AcActivePowerTotal, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6064, PNEM:AcActivePowerTotal, Float, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  IEnergyProfileE2Type:
-  - [ UAObjectType, PNEM:1009, IEnergyProfileE2Type ]
+  PNEM:IEnergyProfileE2Type:
+  - [ UAObjectType, PNEM:1009, PNEM:IEnergyProfileE2Type ]
   - HasComponent:
-    - [ UAVariable, PNEM:6076, AcActiveEnergyTotalExportLp, Float, 0, 3 ]
+    - [ UAVariable, PNEM:6076, PNEM:AcActiveEnergyTotalExportLp, Float, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1009, IEnergyProfileE2Type ]
+      - [ UAObjectType, PNEM:1009, PNEM:IEnergyProfileE2Type ]
     - HasProperty:
-      - [ UAVariable, PNEM:6077, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6077, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6076, AcActiveEnergyTotalExportLp, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6076, PNEM:AcActiveEnergyTotalExportLp, Float, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6078, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6078, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6076, AcActiveEnergyTotalExportLp, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6076, PNEM:AcActiveEnergyTotalExportLp, Float, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6079, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6079, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5720146
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6076, AcActiveEnergyTotalExportLp, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6076, PNEM:AcActiveEnergyTotalExportLp, Float, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -312,39 +316,40 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6157, PeMeasurementID, UInt16, 0, 0 ]
+      - [ UAVariable, PNEM:6157, PNEM:PeMeasurementID, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6076, AcActiveEnergyTotalExportLp, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6076, PNEM:AcActiveEnergyTotalExportLp, Float, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6072, AcActiveEnergyTotalImportLp, Float, 0, 3 ]
+    - [ UAVariable, PNEM:6072, PNEM:AcActiveEnergyTotalImportLp, Float, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1009, IEnergyProfileE2Type ]
+      - [ UAObjectType, PNEM:1009, PNEM:IEnergyProfileE2Type ]
     - HasProperty:
-      - [ UAVariable, PNEM:6073, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6073, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6072, AcActiveEnergyTotalImportLp, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6072, PNEM:AcActiveEnergyTotalImportLp, Float, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6074, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6074, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6072, AcActiveEnergyTotalImportLp, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6072, PNEM:AcActiveEnergyTotalImportLp, Float, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6075, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6075, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5720146
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6072, AcActiveEnergyTotalImportLp, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6072, PNEM:AcActiveEnergyTotalImportLp, Float, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -352,39 +357,40 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6156, PeMeasurementID, UInt16, 0, 0 ]
+      - [ UAVariable, PNEM:6156, PNEM:PeMeasurementID, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6072, AcActiveEnergyTotalImportLp, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6072, PNEM:AcActiveEnergyTotalImportLp, Float, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6068, AcActivePowerTotal, Float, 0, 3 ]
+    - [ UAVariable, PNEM:6068, PNEM:AcActivePowerTotal, Float, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1009, IEnergyProfileE2Type ]
+      - [ UAObjectType, PNEM:1009, PNEM:IEnergyProfileE2Type ]
     - HasProperty:
-      - [ UAVariable, PNEM:6069, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6069, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6068, AcActivePowerTotal, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6068, PNEM:AcActivePowerTotal, Float, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6070, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6070, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6068, AcActivePowerTotal, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6068, PNEM:AcActivePowerTotal, Float, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6071, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6071, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5723220
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6068, AcActivePowerTotal, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6068, PNEM:AcActivePowerTotal, Float, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -392,44 +398,45 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6155, PeMeasurementID, UInt16, 0, 0 ]
+      - [ UAVariable, PNEM:6155, PNEM:PeMeasurementID, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6068, AcActivePowerTotal, Float, 0, 3 ]
+        - [ UAVariable, PNEM:6068, PNEM:AcActivePowerTotal, Float, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  IEnergyProfileE3Type:
-  - [ UAObjectType, PNEM:1010, IEnergyProfileE3Type ]
+  PNEM:IEnergyProfileE3Type:
+  - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
   - HasComponent:
-    - [ UAVariable, PNEM:6086, AcActiveEnergyTotalExportHp, Double, 0, 3 ]
+    - [ UAVariable, PNEM:6086, PNEM:AcActiveEnergyTotalExportHp, Double, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
     - HasProperty:
-      - [ UAVariable, PNEM:6087, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6087, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6086, AcActiveEnergyTotalExportHp, Double, 0, 3 ]
+        - [ UAVariable, PNEM:6086, PNEM:AcActiveEnergyTotalExportHp, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6088, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6088, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6086, AcActiveEnergyTotalExportHp, Double, 0, 3 ]
+        - [ UAVariable, PNEM:6086, PNEM:AcActiveEnergyTotalExportHp, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6089, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6089, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5720146
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6086, AcActiveEnergyTotalExportHp, Double, 0, 3 ]
+        - [ UAVariable, PNEM:6086, PNEM:AcActiveEnergyTotalExportHp, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -437,39 +444,40 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6161, PeMeasurementID, UInt16, 0, 0 ]
+      - [ UAVariable, PNEM:6161, PNEM:PeMeasurementID, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6086, AcActiveEnergyTotalExportHp, Double, 0, 3 ]
+        - [ UAVariable, PNEM:6086, PNEM:AcActiveEnergyTotalExportHp, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6082, AcActiveEnergyTotalImportHp, Double, 0, 3 ]
+    - [ UAVariable, PNEM:6082, PNEM:AcActiveEnergyTotalImportHp, Double, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
     - HasProperty:
-      - [ UAVariable, PNEM:6083, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6083, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6082, AcActiveEnergyTotalImportHp, Double, 0, 3 ]
+        - [ UAVariable, PNEM:6082, PNEM:AcActiveEnergyTotalImportHp, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6084, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6084, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6082, AcActiveEnergyTotalImportHp, Double, 0, 3 ]
+        - [ UAVariable, PNEM:6082, PNEM:AcActiveEnergyTotalImportHp, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6085, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6085, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5720146
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6082, AcActiveEnergyTotalImportHp, Double, 0, 3 ]
+        - [ UAVariable, PNEM:6082, PNEM:AcActiveEnergyTotalImportHp, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -477,39 +485,40 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6160, PeMeasurementID, UInt16, 0, 0 ]
+      - [ UAVariable, PNEM:6160, PNEM:PeMeasurementID, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6082, AcActiveEnergyTotalImportHp, Double, 0, 3 ]
+        - [ UAVariable, PNEM:6082, PNEM:AcActiveEnergyTotalImportHp, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6080, AcActivePower, AcPeDataType, 0, 3 ]
+    - [ UAVariable, PNEM:6080, PNEM:AcActivePower, PNEM:AcPeDataType, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
     - HasProperty:
-      - [ UAVariable, PNEM:6122, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6122, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6080, AcActivePower, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6080, PNEM:AcActivePower, PNEM:AcPeDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6123, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6123, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6080, AcActivePower, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6080, PNEM:AcActivePower, PNEM:AcPeDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6124, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6124, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5723220
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6080, AcActivePower, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6080, PNEM:AcActivePower, PNEM:AcPeDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -517,39 +526,40 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6158, PeMeasurementID, UInt16, 0, 0 ]
+      - [ UAVariable, PNEM:6158, PNEM:PeMeasurementID, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6080, AcActivePower, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6080, PNEM:AcActivePower, PNEM:AcPeDataType, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6100, AcCurrent, AcPeDataType, 0, 3 ]
+    - [ UAVariable, PNEM:6100, PNEM:AcCurrent, PNEM:AcPeDataType, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, PNEM:6125, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6125, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6100, AcCurrent, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6100, PNEM:AcCurrent, PNEM:AcPeDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6126, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6126, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6100, AcCurrent, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6100, PNEM:AcCurrent, PNEM:AcPeDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
     - HasProperty:
-      - [ UAVariable, PNEM:6127, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6127, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4279632
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6100, AcCurrent, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6100, PNEM:AcCurrent, PNEM:AcPeDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -557,71 +567,72 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6166, PeMeasurementID, UInt16, 0, 0 ]
+      - [ UAVariable, PNEM:6166, PNEM:PeMeasurementID, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6100, AcCurrent, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6100, PNEM:AcCurrent, PNEM:AcPeDataType, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6101, AcPowerFactor, AcPeDataType, 0, 3 ]
+    - [ UAVariable, PNEM:6101, PNEM:AcPowerFactor, PNEM:AcPeDataType, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, PNEM:6128, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6128, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6101, AcPowerFactor, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6101, PNEM:AcPowerFactor, PNEM:AcPeDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6129, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6129, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6101, AcPowerFactor, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6101, PNEM:AcPowerFactor, PNEM:AcPeDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6167, PeMeasurementID, UInt16, 0, 0 ]
+      - [ UAVariable, PNEM:6167, PNEM:PeMeasurementID, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6101, AcPowerFactor, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6101, PNEM:AcPowerFactor, PNEM:AcPeDataType, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6094, AcReactiveEnergyTotalExportHp, Double, 0, 3 ]
+    - [ UAVariable, PNEM:6094, PNEM:AcReactiveEnergyTotalExportHp, Double, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, PNEM:6095, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6095, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6094, AcReactiveEnergyTotalExportHp, Double, 0, 3 ]
+        - [ UAVariable, PNEM:6094, PNEM:AcReactiveEnergyTotalExportHp, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6096, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6096, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6094, AcReactiveEnergyTotalExportHp, Double, 0, 3 ]
+        - [ UAVariable, PNEM:6094, PNEM:AcReactiveEnergyTotalExportHp, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
     - HasProperty:
-      - [ UAVariable, PNEM:6097, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6097, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 0
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6094, AcReactiveEnergyTotalExportHp, Double, 0, 3 ]
+        - [ UAVariable, PNEM:6094, PNEM:AcReactiveEnergyTotalExportHp, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -629,39 +640,40 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6163, PeMeasurementID, UInt16, 0, 0 ]
+      - [ UAVariable, PNEM:6163, PNEM:PeMeasurementID, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6094, AcReactiveEnergyTotalExportHp, Double, 0, 3 ]
+        - [ UAVariable, PNEM:6094, PNEM:AcReactiveEnergyTotalExportHp, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6090, AcReactiveEnergyTotalImportHp, Double, 0, 3 ]
+    - [ UAVariable, PNEM:6090, PNEM:AcReactiveEnergyTotalImportHp, Double, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, PNEM:6091, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6091, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6090, AcReactiveEnergyTotalImportHp, Double, 0, 3 ]
+        - [ UAVariable, PNEM:6090, PNEM:AcReactiveEnergyTotalImportHp, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6092, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6092, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6090, AcReactiveEnergyTotalImportHp, Double, 0, 3 ]
+        - [ UAVariable, PNEM:6090, PNEM:AcReactiveEnergyTotalImportHp, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
     - HasProperty:
-      - [ UAVariable, PNEM:6093, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6093, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 0
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6090, AcReactiveEnergyTotalImportHp, Double, 0, 3 ]
+        - [ UAVariable, PNEM:6090, PNEM:AcReactiveEnergyTotalImportHp, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -669,39 +681,40 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6162, PeMeasurementID, UInt16, 0, 0 ]
+      - [ UAVariable, PNEM:6162, PNEM:PeMeasurementID, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6090, AcReactiveEnergyTotalImportHp, Double, 0, 3 ]
+        - [ UAVariable, PNEM:6090, PNEM:AcReactiveEnergyTotalImportHp, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6081, AcReactivePower, AcPeDataType, 0, 3 ]
+    - [ UAVariable, PNEM:6081, PNEM:AcReactivePower, PNEM:AcPeDataType, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, PNEM:6131, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6131, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6081, AcReactivePower, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6081, PNEM:AcReactivePower, PNEM:AcPeDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6132, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6132, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6081, AcReactivePower, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6081, PNEM:AcReactivePower, PNEM:AcPeDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
     - HasProperty:
-      - [ UAVariable, PNEM:6133, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6133, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 4469812
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6081, AcReactivePower, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6081, PNEM:AcReactivePower, PNEM:AcPeDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -709,39 +722,40 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6159, PeMeasurementID, UInt16, 0, 0 ]
+      - [ UAVariable, PNEM:6159, PNEM:PeMeasurementID, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6081, AcReactivePower, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6081, PNEM:AcReactivePower, PNEM:AcPeDataType, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6098, AcVoltagePe, AcPeDataType, 0, 3 ]
+    - [ UAVariable, PNEM:6098, PNEM:AcVoltagePe, PNEM:AcPeDataType, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, PNEM:6134, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6134, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6098, AcVoltagePe, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6098, PNEM:AcVoltagePe, PNEM:AcPeDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6135, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6135, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6098, AcVoltagePe, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6098, PNEM:AcVoltagePe, PNEM:AcPeDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
     - HasProperty:
-      - [ UAVariable, PNEM:6136, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6136, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5655636
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6098, AcVoltagePe, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6098, PNEM:AcVoltagePe, PNEM:AcPeDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -749,39 +763,40 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6164, PeMeasurementID, UInt16, 0, 0 ]
+      - [ UAVariable, PNEM:6164, PNEM:PeMeasurementID, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6098, AcVoltagePe, AcPeDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6098, PNEM:AcVoltagePe, PNEM:AcPeDataType, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6099, AcVoltagePp, AcPpDataType, 0, 3 ]
+    - [ UAVariable, PNEM:6099, PNEM:AcVoltagePp, PNEM:AcPpDataType, 0, 3 ]
     - HasProperty:
-      - [ UAVariable, PNEM:6137, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6137, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6099, AcVoltagePp, AcPpDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6099, PNEM:AcVoltagePp, PNEM:AcPpDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6138, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6138, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6099, AcVoltagePp, AcPpDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6099, PNEM:AcVoltagePp, PNEM:AcPpDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
     - HasProperty:
-      - [ UAVariable, PNEM:6139, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6139, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: 5655636
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6099, AcVoltagePp, AcPpDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6099, PNEM:AcVoltagePp, PNEM:AcPpDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -789,44 +804,44 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6165, PeMeasurementID, UInt16, 0, 0 ]
+      - [ UAVariable, PNEM:6165, PNEM:PeMeasurementID, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6099, AcVoltagePp, AcPpDataType, 0, 3 ]
+        - [ UAVariable, PNEM:6099, PNEM:AcVoltagePp, PNEM:AcPpDataType, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  EnergyDevicePowerOffType:
-  - [ UAObjectType, PNEM:1012, EnergyDevicePowerOffType ]
+  PNEM:EnergyDevicePowerOffType:
+  - [ UAObjectType, PNEM:1012, PNEM:EnergyDevicePowerOffType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6108, ModePowerConsumption, UInt32, 0, 0 ]
+    - [ UAVariable, PNEM:6108, PNEM:ModePowerConsumption, UInt32, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1012, EnergyDevicePowerOffType ]
+      - [ UAObjectType, PNEM:1012, PNEM:EnergyDevicePowerOffType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6106, RegularTimeToOperate, Duration, 0, 0 ]
+    - [ UAVariable, PNEM:6106, PNEM:RegularTimeToOperate, Duration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1012, EnergyDevicePowerOffType ]
+      - [ UAObjectType, PNEM:1012, PNEM:EnergyDevicePowerOffType ]
   - HasComponent:
-    - [ UAMethod, PNEM:7009, SwitchOffWOL ]
+    - [ UAMethod, PNEM:7009, PNEM:SwitchOffWOL ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, PNEM:6110, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNEM:6110, PNEM:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ModeID: [ Byte, 0 ]
           CurrentTimeToDestination: [ Duration, 0 ]
@@ -838,52 +853,53 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, PNEM:7009, SwitchOffWOL ]
+        - [ UAMethod, PNEM:7009, PNEM:SwitchOffWOL ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1012, EnergyDevicePowerOffType ]
+      - [ UAObjectType, PNEM:1012, PNEM:EnergyDevicePowerOffType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6107, TimeMinPause, Duration, 0, 0 ]
+    - [ UAVariable, PNEM:6107, PNEM:TimeMinPause, Duration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1012, EnergyDevicePowerOffType ]
+      - [ UAObjectType, PNEM:1012, PNEM:EnergyDevicePowerOffType ]
   - HasProperty:
-    - [ UAVariable, PNEM:6109, WOLMagicPacket, ByteString, 0, 0 ]
+    - [ UAVariable, PNEM:6109, PNEM:WOLMagicPacket, ByteString, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PNEM:1012, EnergyDevicePowerOffType ]
+      - [ UAObjectType, PNEM:1012, PNEM:EnergyDevicePowerOffType ]
 
-  EnergyMeasurementType:
-  - [ UAObjectType, PNEM:1006, EnergyMeasurementType ]
+  PNEM:EnergyMeasurementType:
+  - [ UAObjectType, PNEM:1006, PNEM:EnergyMeasurementType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6056, <MeasurementValue>, Number, 0, 0 ]
+    - [ UAVariable, PNEM:6056, PNEM:<MeasurementValue>, Number, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1006, EnergyMeasurementType ]
+      - [ UAObjectType, PNEM:1006, PNEM:EnergyMeasurementType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6057, AccuracyClass, AccuracyClassEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6057, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6056, <MeasurementValue>, Number, 0, 0 ]
+        - [ UAVariable, PNEM:6056, PNEM:<MeasurementValue>, Number, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6058, AccuracyDomain, AccuracyDomainEnumeration, 0, 0 ]
+      - [ UAVariable, PNEM:6058, PNEM:AccuracyDomain, PNEM:AccuracyDomainEnumeration, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6056, <MeasurementValue>, Number, 0, 0 ]
+        - [ UAVariable, PNEM:6056, PNEM:<MeasurementValue>, Number, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6059, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6059, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6056, <MeasurementValue>, Number, 0, 0 ]
+        - [ UAVariable, PNEM:6056, PNEM:<MeasurementValue>, Number, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -891,56 +907,56 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
-      - [ UAVariableType, PNEM:2002, MeasurementValueType ]
+      - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6152, PeMeasurementID, UInt16, 0, 0 ]
+      - [ UAVariable, PNEM:6152, PNEM:PeMeasurementID, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6056, <MeasurementValue>, Number, 0, 0 ]
+        - [ UAVariable, PNEM:6056, PNEM:<MeasurementValue>, Number, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
-    - [ UAVariable, PNEM:6055, PeObjectNumber, UInt16, 0, 0 ]
+    - [ UAVariable, PNEM:6055, PNEM:PeObjectNumber, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PNEM:1006, EnergyMeasurementType ]
+      - [ UAObjectType, PNEM:1006, PNEM:EnergyMeasurementType ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAMethod, PNEM:7008, ResetEnergyCounter ]
+    - [ UAMethod, PNEM:7008, PNEM:ResetEnergyCounter ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1006, EnergyMeasurementType ]
+      - [ UAObjectType, PNEM:1006, PNEM:EnergyMeasurementType ]
 
-  EnergySavingModesContainerType:
-  - [ UAObjectType, PNEM:1004, EnergySavingModesContainerType ]
+  PNEM:EnergySavingModesContainerType:
+  - [ UAObjectType, PNEM:1004, PNEM:EnergySavingModesContainerType ]
   - HasComponent:
-    - [ UAObject, PNEM:5016, <EnergySavingModes> ]
+    - [ UAObject, PNEM:5016, PNEM:<EnergySavingModes> ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1004, EnergySavingModesContainerType ]
+      - [ UAObjectType, PNEM:1004, PNEM:EnergySavingModesContainerType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6140, DynamicData, Boolean, 0, 0 ]
+      - [ UAVariable, PNEM:6140, PNEM:DynamicData, Boolean, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAObject, PNEM:5016, <EnergySavingModes> ]
+        - [ UAObject, PNEM:5016, PNEM:<EnergySavingModes> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
-      - [ UAVariable, PNEM:6141, EnergyConsumptionToOperate, Float, 0, 0 ]
+      - [ UAVariable, PNEM:6141, PNEM:EnergyConsumptionToOperate, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasComponent_reverse:
-        - [ UAObject, PNEM:5016, <EnergySavingModes> ]
+        - [ UAObject, PNEM:5016, PNEM:<EnergySavingModes> ]
       - HasProperty:
-        - [ UAVariable, PNEM:6142, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PNEM:6142, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PNEM:6141, EnergyConsumptionToOperate, Float, 0, 0 ]
+          - [ UAVariable, PNEM:6141, PNEM:EnergyConsumptionToOperate, Float, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -948,15 +964,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PNEM:6143, EnergyConsumptionToPause, Float, 0, 0 ]
+      - [ UAVariable, PNEM:6143, PNEM:EnergyConsumptionToPause, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasComponent_reverse:
-        - [ UAObject, PNEM:5016, <EnergySavingModes> ]
+        - [ UAObject, PNEM:5016, PNEM:<EnergySavingModes> ]
       - HasProperty:
-        - [ UAVariable, PNEM:6144, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PNEM:6144, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PNEM:6143, EnergyConsumptionToPause, Float, 0, 0 ]
+          - [ UAVariable, PNEM:6143, PNEM:EnergyConsumptionToPause, Float, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -964,17 +980,17 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNEM:1003, EnergySavingModeType ]
+      - [ UAObjectType, PNEM:1003, PNEM:EnergySavingModeType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasComponent:
-      - [ UAVariable, PNEM:6145, ModePowerConsumption, Float, 0, 0 ]
+      - [ UAVariable, PNEM:6145, PNEM:ModePowerConsumption, Float, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
-        - [ UAVariable, PNEM:6146, EngineeringUnits, EUInformation, 0, 0 ]
+        - [ UAVariable, PNEM:6146, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
         - HasProperty_reverse:
-          - [ UAVariable, PNEM:6145, ModePowerConsumption, Float, 0, 0 ]
+          - [ UAVariable, PNEM:6145, PNEM:ModePowerConsumption, Float, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -982,91 +998,91 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, PNEM:5016, <EnergySavingModes> ]
+        - [ UAObject, PNEM:5016, PNEM:<EnergySavingModes> ]
     - HasComponent:
-      - [ UAVariable, PNEM:6147, RegularTimeToOperate, Duration, 0, 0 ]
+      - [ UAVariable, PNEM:6147, PNEM:RegularTimeToOperate, Duration, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, PNEM:5016, <EnergySavingModes> ]
+        - [ UAObject, PNEM:5016, PNEM:<EnergySavingModes> ]
     - HasComponent:
-      - [ UAVariable, PNEM:6148, TimeMaxLengthOfStay, Duration, 0, 0 ]
+      - [ UAVariable, PNEM:6148, PNEM:TimeMaxLengthOfStay, Duration, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, PNEM:5016, <EnergySavingModes> ]
+        - [ UAObject, PNEM:5016, PNEM:<EnergySavingModes> ]
     - HasComponent:
-      - [ UAVariable, PNEM:6149, TimeMinLengthOfStay, Duration, 0, 0 ]
+      - [ UAVariable, PNEM:6149, PNEM:TimeMinLengthOfStay, Duration, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, PNEM:5016, <EnergySavingModes> ]
+        - [ UAObject, PNEM:5016, PNEM:<EnergySavingModes> ]
     - HasComponent:
-      - [ UAVariable, PNEM:6150, TimeMinPause, Duration, 0, 0 ]
+      - [ UAVariable, PNEM:6150, PNEM:TimeMinPause, Duration, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, PNEM:5016, <EnergySavingModes> ]
+        - [ UAObject, PNEM:5016, PNEM:<EnergySavingModes> ]
     - HasComponent:
-      - [ UAVariable, PNEM:6151, TimeToPause, Duration, 0, 0 ]
+      - [ UAVariable, PNEM:6151, PNEM:TimeToPause, Duration, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, PNEM:5016, <EnergySavingModes> ]
+        - [ UAObject, PNEM:5016, PNEM:<EnergySavingModes> ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  EnergySavingModeStatusType:
-  - [ UAObjectType, PNEM:1002, EnergySavingModeStatusType ]
+  PNEM:EnergySavingModeStatusType:
+  - [ UAObjectType, PNEM:1002, PNEM:EnergySavingModeStatusType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6023, CurrentTransitionData, StandbyModeTransitionDataType, 0, 0 ]
+    - [ UAVariable, PNEM:6023, PNEM:CurrentTransitionData, PNEM:StandbyModeTransitionDataType, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1002, EnergySavingModeStatusType ]
+      - [ UAObjectType, PNEM:1002, PNEM:EnergySavingModeStatusType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6024, StateInformation, EnergyStateInformationDataType, 0, 0 ]
+    - [ UAVariable, PNEM:6024, PNEM:StateInformation, PNEM:EnergyStateInformationDataType, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1002, EnergySavingModeStatusType ]
+      - [ UAObjectType, PNEM:1002, PNEM:EnergySavingModeStatusType ]
 
-  EnergySavingModeType:
-  - [ UAObjectType, PNEM:1003, EnergySavingModeType ]
+  PNEM:EnergySavingModeType:
+  - [ UAObjectType, PNEM:1003, PNEM:EnergySavingModeType ]
   - HasProperty:
-    - [ UAVariable, PNEM:6026, DynamicData, Boolean, 0, 0 ]
+    - [ UAVariable, PNEM:6026, PNEM:DynamicData, Boolean, 0, 0 ]
     - HasProperty_reverse:
-      - [ UAObjectType, PNEM:1003, EnergySavingModeType ]
+      - [ UAObjectType, PNEM:1003, PNEM:EnergySavingModeType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6036, EnergyConsumptionToOperate, Float, 0, 0 ]
+    - [ UAVariable, PNEM:6036, PNEM:EnergyConsumptionToOperate, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1003, EnergySavingModeType ]
+      - [ UAObjectType, PNEM:1003, PNEM:EnergySavingModeType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6037, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6037, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6036, EnergyConsumptionToOperate, Float, 0, 0 ]
+        - [ UAVariable, PNEM:6036, PNEM:EnergyConsumptionToOperate, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1074,15 +1090,15 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNEM:6034, EnergyConsumptionToPause, Float, 0, 0 ]
+    - [ UAVariable, PNEM:6034, PNEM:EnergyConsumptionToPause, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1003, EnergySavingModeType ]
+      - [ UAObjectType, PNEM:1003, PNEM:EnergySavingModeType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6035, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6035, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6034, EnergyConsumptionToPause, Float, 0, 0 ]
+        - [ UAVariable, PNEM:6034, PNEM:EnergyConsumptionToPause, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1092,21 +1108,21 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
-    - [ UAVariable, PNEM:6025, ID, Byte, 0, 0 ]
+    - [ UAVariable, PNEM:6025, PNEM:ID, Byte, 0, 0 ]
     - HasProperty_reverse:
-      - [ UAObjectType, PNEM:1003, EnergySavingModeType ]
+      - [ UAObjectType, PNEM:1003, PNEM:EnergySavingModeType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6032, ModePowerConsumption, Float, 0, 0 ]
+    - [ UAVariable, PNEM:6032, PNEM:ModePowerConsumption, Float, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6033, EngineeringUnits, EUInformation, 0, 0 ]
+      - [ UAVariable, PNEM:6033, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6032, ModePowerConsumption, Float, 0, 0 ]
+        - [ UAVariable, PNEM:6032, PNEM:ModePowerConsumption, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1114,58 +1130,58 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1003, EnergySavingModeType ]
+      - [ UAObjectType, PNEM:1003, PNEM:EnergySavingModeType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6031, RegularTimeToOperate, Duration, 0, 0 ]
+    - [ UAVariable, PNEM:6031, PNEM:RegularTimeToOperate, Duration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1003, EnergySavingModeType ]
+      - [ UAObjectType, PNEM:1003, PNEM:EnergySavingModeType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6030, TimeMaxLengthOfStay, Duration, 0, 0 ]
+    - [ UAVariable, PNEM:6030, PNEM:TimeMaxLengthOfStay, Duration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1003, EnergySavingModeType ]
+      - [ UAObjectType, PNEM:1003, PNEM:EnergySavingModeType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6029, TimeMinLengthOfStay, Duration, 0, 0 ]
+    - [ UAVariable, PNEM:6029, PNEM:TimeMinLengthOfStay, Duration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1003, EnergySavingModeType ]
+      - [ UAObjectType, PNEM:1003, PNEM:EnergySavingModeType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6027, TimeMinPause, Duration, 0, 0 ]
+    - [ UAVariable, PNEM:6027, PNEM:TimeMinPause, Duration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1003, EnergySavingModeType ]
+      - [ UAObjectType, PNEM:1003, PNEM:EnergySavingModeType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6028, TimeToPause, Duration, 0, 0 ]
+    - [ UAVariable, PNEM:6028, PNEM:TimeToPause, Duration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1003, EnergySavingModeType ]
+      - [ UAObjectType, PNEM:1003, PNEM:EnergySavingModeType ]
 
-  EnergyStandbyManagementType:
-  - [ UAObjectType, PNEM:1005, EnergyStandbyManagementType ]
+  PNEM:EnergyStandbyManagementType:
+  - [ UAObjectType, PNEM:1005, PNEM:EnergyStandbyManagementType ]
   - HasComponent:
-    - [ UAMethod, PNEM:7006, EndPause ]
+    - [ UAMethod, PNEM:7006, PNEM:EndPause ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1005, EnergyStandbyManagementType ]
+      - [ UAObjectType, PNEM:1005, PNEM:EnergyStandbyManagementType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PNEM:6054, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNEM:6054, PNEM:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           CurrentTimeToOperate: [ Duration, 0 ]
           ReturnCode: [ Byte, 0 ]
@@ -1174,43 +1190,43 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, PNEM:7006, EndPause ]
+        - [ UAMethod, PNEM:7006, PNEM:EndPause ]
   - HasComponent:
-    - [ UAObject, PNEM:5018, EnergySavingModes ]
+    - [ UAObject, PNEM:5018, PNEM:EnergySavingModes ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1005, EnergyStandbyManagementType ]
+      - [ UAObjectType, PNEM:1005, PNEM:EnergyStandbyManagementType ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNEM:1004, EnergySavingModesContainerType ]
+      - [ UAObjectType, PNEM:1004, PNEM:EnergySavingModesContainerType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PNEM:5017, EnergySavingModeStatus ]
+    - [ UAObject, PNEM:5017, PNEM:EnergySavingModeStatus ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1005, EnergyStandbyManagementType ]
+      - [ UAObjectType, PNEM:1005, PNEM:EnergyStandbyManagementType ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNEM:1002, EnergySavingModeStatusType ]
+      - [ UAObjectType, PNEM:1002, PNEM:EnergySavingModeStatusType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PNEM:6039, StateInformation, EnergyStateInformationDataType, 0, 0 ]
+      - [ UAVariable, PNEM:6039, PNEM:StateInformation, PNEM:EnergyStateInformationDataType, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
-        - [ UAObject, PNEM:5017, EnergySavingModeStatus ]
+        - [ UAObject, PNEM:5017, PNEM:EnergySavingModeStatus ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, PNEM:5020, Lock ]
+    - [ UAObject, PNEM:5020, PNEM:Lock ]
     - HasComponent:
-      - [ UAMethod, PNEM:7001, BreakLock ]
+      - [ UAMethod, PNEM:7001, DI:BreakLock ]
       - HasComponent_reverse:
-        - [ UAObject, PNEM:5020, Lock ]
+        - [ UAObject, PNEM:5020, PNEM:Lock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, PNEM:6041, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, PNEM:6041, PNEM:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             BreakLockStatus: [ Int32, 0 ]
         - HasModellingRule:
@@ -1218,15 +1234,15 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, PNEM:7001, BreakLock ]
+          - [ UAMethod, PNEM:7001, DI:BreakLock ]
     - HasComponent:
-      - [ UAMethod, PNEM:7002, ExitLock ]
+      - [ UAMethod, PNEM:7002, DI:ExitLock ]
       - HasComponent_reverse:
-        - [ UAObject, PNEM:5020, Lock ]
+        - [ UAObject, PNEM:5020, PNEM:Lock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, PNEM:6042, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, PNEM:6042, PNEM:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             ExitLockStatus: [ Int32, 0 ]
         - HasModellingRule:
@@ -1234,13 +1250,13 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, PNEM:7002, ExitLock ]
+          - [ UAMethod, PNEM:7002, DI:ExitLock ]
     - HasComponent:
-      - [ UAMethod, PNEM:7003, InitLock ]
+      - [ UAMethod, PNEM:7003, DI:InitLock ]
       - HasComponent_reverse:
-        - [ UAObject, PNEM:5020, Lock ]
+        - [ UAObject, PNEM:5020, PNEM:Lock ]
       - HasProperty:
-        - [ UAVariable, PNEM:6043, InputArguments, Argument, 1, 0 ]
+        - [ UAVariable, PNEM:6043, PNEM:InputArguments, Argument, 1, 0 ]
         - Arguments:
             Context: [ String, 0 ]
         - HasModellingRule:
@@ -1248,11 +1264,11 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, PNEM:7003, InitLock ]
+          - [ UAMethod, PNEM:7003, DI:InitLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, PNEM:6044, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, PNEM:6044, PNEM:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             InitLockStatus: [ Int32, 0 ]
         - HasModellingRule:
@@ -1260,31 +1276,31 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, PNEM:7003, InitLock ]
+          - [ UAMethod, PNEM:7003, DI:InitLock ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1005, EnergyStandbyManagementType ]
+      - [ UAObjectType, PNEM:1005, PNEM:EnergyStandbyManagementType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6045, Locked, Boolean, 0, 0 ]
+      - [ UAVariable, PNEM:6045, DI:Locked, Boolean, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAObject, PNEM:5020, Lock ]
+        - [ UAObject, PNEM:5020, PNEM:Lock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6046, LockingClient, String, 0, 0 ]
+      - [ UAVariable, PNEM:6046, DI:LockingClient, String, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAObject, PNEM:5020, Lock ]
+        - [ UAObject, PNEM:5020, PNEM:Lock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:6388, LockingServicesType ]
+      - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasProperty:
-      - [ UAVariable, PNEM:6047, LockingUser, String, 0, 0 ]
+      - [ UAVariable, PNEM:6047, DI:LockingUser, String, 0, 0 ]
       - HasProperty_reverse:
-        - [ UAObject, PNEM:5020, Lock ]
+        - [ UAObject, PNEM:5020, PNEM:Lock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1292,19 +1308,19 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PNEM:6048, RemainingLockTime, Duration, 0, 0 ]
+      - [ UAVariable, PNEM:6048, DI:RemainingLockTime, Duration, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAObject, PNEM:5020, Lock ]
+        - [ UAObject, PNEM:5020, PNEM:Lock ]
     - HasComponent:
-      - [ UAMethod, PNEM:7004, RenewLock ]
+      - [ UAMethod, PNEM:7004, DI:RenewLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
-        - [ UAVariable, PNEM:6049, OutputArguments, Argument, 1, 0 ]
+        - [ UAVariable, PNEM:6049, PNEM:OutputArguments, Argument, 1, 0 ]
         - Arguments:
             RenewLockStatus: [ Int32, 0 ]
         - HasModellingRule:
@@ -1312,23 +1328,23 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasProperty_reverse:
-          - [ UAMethod, PNEM:7004, RenewLock ]
+          - [ UAMethod, PNEM:7004, DI:RenewLock ]
       - HasComponent_reverse:
-        - [ UAObject, PNEM:5020, Lock ]
+        - [ UAObject, PNEM:5020, PNEM:Lock ]
   - HasComponent:
-    - [ UAVariable, PNEM:6040, PauseTime, Duration, 0, 0 ]
+    - [ UAVariable, PNEM:6040, PNEM:PauseTime, Duration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1005, EnergyStandbyManagementType ]
+      - [ UAObjectType, PNEM:1005, PNEM:EnergyStandbyManagementType ]
   - HasComponent:
-    - [ UAVariable, PNEM:6016, StandbyManagementStatus, Byte, 0, 0 ]
+    - [ UAVariable, PNEM:6016, PNEM:StandbyManagementStatus, Byte, 0, 0 ]
     - HasProperty:
-      - [ UAVariable, PNEM:6038, EnumStrings, LocalizedText, 1, 0 ]
+      - [ UAVariable, PNEM:6038, PNEM:EnumStrings, LocalizedText, 1, 0 ]
       - HasProperty_reverse:
-        - [ UAVariable, PNEM:6016, StandbyManagementStatus, Byte, 0, 0 ]
+        - [ UAVariable, PNEM:6016, PNEM:StandbyManagementStatus, Byte, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1338,11 +1354,11 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2376, MultiStateDiscreteType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1005, EnergyStandbyManagementType ]
+      - [ UAObjectType, PNEM:1005, PNEM:EnergyStandbyManagementType ]
   - HasComponent:
-    - [ UAMethod, PNEM:7005, StartPause ]
+    - [ UAMethod, PNEM:7005, PNEM:StartPause ]
     - HasProperty:
-      - [ UAVariable, PNEM:6050, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNEM:6050, PNEM:InputArguments, Argument, 1, 0 ]
       - Arguments:
           PauseTime: [ Duration, 0 ]
       - HasModellingRule:
@@ -1350,11 +1366,11 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, PNEM:7005, StartPause ]
+        - [ UAMethod, PNEM:7005, PNEM:StartPause ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PNEM:6051, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNEM:6051, PNEM:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ModeID: [ Byte, 0 ]
           CurrentTimeToDestination: [ Duration, 0 ]
@@ -1366,13 +1382,13 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, PNEM:7005, StartPause ]
+        - [ UAMethod, PNEM:7005, PNEM:StartPause ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1005, EnergyStandbyManagementType ]
+      - [ UAObjectType, PNEM:1005, PNEM:EnergyStandbyManagementType ]
   - HasComponent:
-    - [ UAMethod, PNEM:7007, SwitchToEnergySavingMode ]
+    - [ UAMethod, PNEM:7007, PNEM:SwitchToEnergySavingMode ]
     - HasProperty:
-      - [ UAVariable, PNEM:6052, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNEM:6052, PNEM:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ModeID: [ Byte, 0 ]
       - HasModellingRule:
@@ -1380,11 +1396,11 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, PNEM:7007, SwitchToEnergySavingMode ]
+        - [ UAMethod, PNEM:7007, PNEM:SwitchToEnergySavingMode ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PNEM:6053, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PNEM:6053, PNEM:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           EffectiveModeID: [ Byte, 0 ]
           CurrentTimeToDestination: [ Duration, 0 ]
@@ -1396,35 +1412,35 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasProperty_reverse:
-        - [ UAMethod, PNEM:7007, SwitchToEnergySavingMode ]
+        - [ UAMethod, PNEM:7007, PNEM:SwitchToEnergySavingMode ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1005, EnergyStandbyManagementType ]
+      - [ UAObjectType, PNEM:1005, PNEM:EnergyStandbyManagementType ]
 
-  PeServiceAccessPointType:
-  - [ UAObjectType, PNEM:1013, PeServiceAccessPointType ]
+  PNEM:PeServiceAccessPointType:
+  - [ UAObjectType, PNEM:1013, PNEM:PeServiceAccessPointType ]
   - HasProperty:
-    - [ UAVariable, PNEM:6112, PeClass, PeClassEnumeration, 0, 3 ]
+    - [ UAVariable, PNEM:6112, PNEM:PeClass, PNEM:PeClassEnumeration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, PNEM:1013, PeServiceAccessPointType ]
+      - [ UAObjectType, PNEM:1013, PNEM:PeServiceAccessPointType ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
-    - [ UAVariable, PNEM:6113, PeSubclass, PeSubclassEnumeration, 0, 3 ]
+    - [ UAVariable, PNEM:6113, PNEM:PeSubclass, PNEM:PeSubclassEnumeration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, PNEM:1013, PeServiceAccessPointType ]
+      - [ UAObjectType, PNEM:1013, PNEM:PeServiceAccessPointType ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
-    - [ UAVariable, PNEM:6114, PeVersion, PeVersionDataType, 0, 3 ]
+    - [ UAVariable, PNEM:6114, PNEM:PeVersion, PNEM:PeVersionDataType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, PNEM:1013, PeServiceAccessPointType ]
+      - [ UAObjectType, PNEM:1013, PNEM:PeServiceAccessPointType ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]

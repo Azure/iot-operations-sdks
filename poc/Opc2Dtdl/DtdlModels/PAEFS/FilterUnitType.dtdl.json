@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -28,59 +29,17 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetAndActivateAirflowSetpoint",
-      "namespace": "http://opcfoundation.org/UA/PAEFS",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Value",
-              "schema": "double"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PAEFS"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetAndActivatePressureSetpoint",
-      "namespace": "http://opcfoundation.org/UA/PAEFS",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Value",
-              "schema": "double"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PAEFS"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetAndActivateRotationalSpeedSetpoint",
-      "namespace": "http://opcfoundation.org/UA/PAEFS",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Value",
-              "schema": "double"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PAEFS"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

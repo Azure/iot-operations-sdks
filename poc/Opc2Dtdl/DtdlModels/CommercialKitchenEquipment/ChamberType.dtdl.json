@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -110,7 +111,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "ActualBoilerTemperature_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "float"
         }
       },
@@ -127,7 +130,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "ActualBottomTemperature_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "float"
         }
       },
@@ -144,7 +149,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "ActualChamberTemperature_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "float"
         }
       },
@@ -161,7 +168,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "ActualCoreTemperature_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "float"
         }
       },
@@ -178,7 +187,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "" ],
           "name": "ActualFanSpeed_NoSchema",
+          "unit": "",
           "schema": "integer"
         }
       },
@@ -195,7 +206,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "" ],
           "name": "ActualHumidity_NoSchema",
+          "unit": "",
           "schema": "float"
         }
       },
@@ -212,7 +225,9 @@
           "schema": "string"
         },
         "mapValue": {
+          "@type": [ "MapValue", "Temperature" ],
           "name": "ActualTopTemperature_NoSchema",
+          "unit": "degreeCelsius",
           "schema": "float"
         }
       },
@@ -247,30 +262,34 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "SetBoilerTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "degreeCelsius",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "SetBottomTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "degreeCelsius",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "SetChamberTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "degreeCelsius",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "SetCoreTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "degreeCelsius",
       "schema": "float",
       "writable": false
     },
@@ -289,23 +308,26 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "SetProcessTimeProgram",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "second",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "Temperature" ],
       "name": "SetTopTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "degreeCelsius",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Property", "Qualified", "TimeSpan" ],
       "name": "TimeRemaining",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "unit": "second",
       "schema": "integer",
       "writable": false
     }

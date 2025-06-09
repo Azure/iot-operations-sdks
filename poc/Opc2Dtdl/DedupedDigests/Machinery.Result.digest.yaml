@@ -62,13 +62,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Machinery.Result:6054, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Machinery.Result:6054, Machinery.Result:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Timeout: [ Int32, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Machinery.Result:6055, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Machinery.Result:6055, Machinery.Result:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ResultHandle: [ Handle, 0 ]
           Result: [ Machinery.Result:ResultDataType, 0 ]
@@ -80,14 +80,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Machinery.Result:6048, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Machinery.Result:6048, Machinery.Result:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ResultId: [ TrimmedString, 0 ]
           Timeout: [ Int32, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Machinery.Result:6049, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Machinery.Result:6049, Machinery.Result:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ResultHandle: [ Handle, 0 ]
           Result: [ Machinery.Result:ResultDataType, 0 ]
@@ -99,7 +99,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Machinery.Result:6050, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Machinery.Result:6050, Machinery.Result:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Filter: [ ContentFilter, 0 ]
           OrderedBy: [ RelativePath, 1 ]
@@ -108,7 +108,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Machinery.Result:6051, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Machinery.Result:6051, Machinery.Result:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ResultHandle: [ Handle, 0 ]
           ResultIdList: [ TrimmedString, 1 ]
@@ -120,13 +120,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, Machinery.Result:6052, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Machinery.Result:6052, Machinery.Result:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ResultHandle: [ Handle, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Machinery.Result:6053, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Machinery.Result:6053, Machinery.Result:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Error: [ Int32, 0 ]
       - HasModellingRule:
@@ -149,17 +149,17 @@ DefinedTypes:
   Machinery.Result:ResultTransferType:
   - [ UAObjectType, Machinery.Result:1003, Machinery.Result:ResultTransferType ]
   - HasComponent:
-    - [ UAMethod, Machinery.Result:7001, GenerateFileForRead ]
+    - [ UAMethod, Machinery.Result:7001, Machinery.Result:GenerateFileForRead ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Machinery.Result:6035, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Machinery.Result:6035, Machinery.Result:InputArguments, Argument, 1, 0 ]
       - Arguments:
           GenerateOptions: [ Machinery.Result:BaseResultTransferOptionsDataType, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, Machinery.Result:6036, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, Machinery.Result:6036, Machinery.Result:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FileNodeId: [ NodeId, 0 ]
           FileHandle: [ UInt32, 0 ]

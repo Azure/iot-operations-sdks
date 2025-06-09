@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -242,83 +243,22 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetManualOutValue",
-      "namespace": "http://opcfoundation.org/UA/PNRIO",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "ManualOutValue",
-              "schema": "boolean"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PNRIO"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetMode",
-      "namespace": "http://opcfoundation.org/UA/PNRIO",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Mode",
-              "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioChannelModeEnumeration;1"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PNRIO"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetSimulation",
-      "namespace": "http://opcfoundation.org/UA/PNRIO",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "SimulationEnabled",
-              "schema": "boolean"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PNRIO"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetSimulationValue",
-      "namespace": "http://opcfoundation.org/UA/PNRIO",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Value",
-              "schema": "boolean"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Qualifier",
-              "schema": "unsignedByte"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PNRIO"
     }
   ]
 }

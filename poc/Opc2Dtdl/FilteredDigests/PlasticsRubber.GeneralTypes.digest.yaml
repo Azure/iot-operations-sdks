@@ -580,7 +580,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7025, PlasticsRubber.GeneralTypes:SetCyclicJobData ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6268, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6268, PlasticsRubber.GeneralTypes:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobName: [ String, 0 ]
           JobDescription: [ String, 0 ]
@@ -628,7 +628,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7040, PlasticsRubber.GeneralTypes:SendCyclicJobList ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6389, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6389, PlasticsRubber.GeneralTypes:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobList: [ PlasticsRubber.GeneralTypes:CyclicJobListElementType, 1 ]
       - HasModellingRule:
@@ -638,7 +638,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7036, PlasticsRubber.GeneralTypes:SendJobList ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6384, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6384, PlasticsRubber.GeneralTypes:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobList: [ PlasticsRubber.GeneralTypes:JobListElementType, 1 ]
       - HasModellingRule:
@@ -651,7 +651,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7017, PlasticsRubber.GeneralTypes:GetCurrentPage ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6191, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6191, PlasticsRubber.GeneralTypes:InputArguments, Argument, 1, 0 ]
       - Arguments:
           VisualisationUnit: [ UInt32, 0 ]
       - HasModellingRule:
@@ -659,7 +659,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6192, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6192, PlasticsRubber.GeneralTypes:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Page: [ Image, 0 ]
       - HasModellingRule:
@@ -667,7 +667,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7018, PlasticsRubber.GeneralTypes:GetPage ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6193, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6193, PlasticsRubber.GeneralTypes:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
       - HasModellingRule:
@@ -675,7 +675,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6194, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6194, PlasticsRubber.GeneralTypes:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Page: [ Image, 0 ]
       - HasModellingRule:
@@ -685,7 +685,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7019, PlasticsRubber.GeneralTypes:SetMachineTime ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6198, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6198, PlasticsRubber.GeneralTypes:InputArguments, Argument, 1, 0 ]
       - Arguments:
           DateTime: [ DateTime, 0 ]
           TimeZoneOffset: [ TimeZoneDataType, 0 ]
@@ -722,7 +722,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7039, PlasticsRubber.GeneralTypes:SetMESMessage ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6232, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6232, PlasticsRubber.GeneralTypes:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
           Message: [ String, 0 ]
@@ -783,7 +783,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7057, PlasticsRubber.GeneralTypes:AddMaterial ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6100, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6100, PlasticsRubber.GeneralTypes:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
           Name: [ LocalizedText, 0 ]
@@ -803,7 +803,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7058, PlasticsRubber.GeneralTypes:RemoveMaterialById ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6307, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6307, PlasticsRubber.GeneralTypes:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
       - HasModellingRule:
@@ -975,6 +975,11 @@ DefinedTypes:
   - [ UAObjectType, PlasticsRubber.GeneralTypes:1033, PlasticsRubber.GeneralTypes:PowerUnitType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.GeneralTypes:6034, PlasticsRubber.GeneralTypes:ActualTemperature, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6036, PlasticsRubber.GeneralTypes:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -989,6 +994,11 @@ DefinedTypes:
   - [ UAObjectType, PlasticsRubber.GeneralTypes:1035, PlasticsRubber.GeneralTypes:HydraulicUnitType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.GeneralTypes:6148, PlasticsRubber.GeneralTypes:ActualPressure, Double, 0, 0 ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6150, PlasticsRubber.GeneralTypes:EngineeringUnits, EUInformation, 0, 0 ]
+      - UnitId: -1
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1017,7 +1027,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7029, PlasticsRubber.GeneralTypes:SetWatchDogTime ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6222, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6222, PlasticsRubber.GeneralTypes:InputArguments, Argument, 1, 0 ]
       - Arguments:
           WatchDogTime: [ Int32, 0 ]
       - HasModellingRule:
@@ -1030,7 +1040,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7001, PlasticsRubber.GeneralTypes:GetProductionDatasetList ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6018, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6018, PlasticsRubber.GeneralTypes:InputArguments, Argument, 1, 0 ]
       - Arguments:
           NameFilter: [ String, 0 ]
           MouldId: [ String, 0 ]
@@ -1039,7 +1049,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6019, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6019, PlasticsRubber.GeneralTypes:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductionDatasetList: [ PlasticsRubber.GeneralTypes:ProductionDatasetInformationType, 1 ]
       - HasModellingRule:
@@ -1049,7 +1059,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7004, PlasticsRubber.GeneralTypes:SendProductionDatasetList ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6020, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6020, PlasticsRubber.GeneralTypes:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductionDatasetList: [ PlasticsRubber.GeneralTypes:ProductionDatasetInformationType, 1 ]
       - HasModellingRule:
@@ -1068,7 +1078,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7032, PlasticsRubber.GeneralTypes:GetProductionDatasetInformation ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6283, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6283, PlasticsRubber.GeneralTypes:InputArguments, Argument, 1, 0 ]
       - Arguments:
           fileHandle: [ UInt32, 0 ]
       - HasModellingRule:
@@ -1076,7 +1086,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6284, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6284, PlasticsRubber.GeneralTypes:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Information: [ PlasticsRubber.GeneralTypes:ProductionDatasetInformationType, 0 ]
       - HasModellingRule:
@@ -1104,7 +1114,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7045, PlasticsRubber.GeneralTypes:SendProductionDatasetInformation ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6285, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6285, PlasticsRubber.GeneralTypes:InputArguments, Argument, 1, 0 ]
       - Arguments:
           fileHandle: [ UInt32, 0 ]
           Information: [ PlasticsRubber.GeneralTypes:ProductionDatasetInformationType, 0 ]
@@ -1118,7 +1128,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7043, PlasticsRubber.GeneralTypes:Load ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6275, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6275, PlasticsRubber.GeneralTypes:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Name: [ String, 0 ]
           Components: [ UInt16, 1 ]
@@ -1131,7 +1141,7 @@ DefinedTypes:
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7016, PlasticsRubber.GeneralTypes:Save ]
     - HasProperty:
-      - [ UAVariable, PlasticsRubber.GeneralTypes:6187, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, PlasticsRubber.GeneralTypes:6187, PlasticsRubber.GeneralTypes:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Name: [ String, 0 ]
       - HasModellingRule:

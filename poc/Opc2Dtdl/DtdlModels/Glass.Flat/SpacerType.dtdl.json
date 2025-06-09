@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -23,7 +24,7 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Qualified", "Subject" ],
+            "@type": [ "Field", "Subject", "Qualified" ],
             "name": "Filling",
             "namespace": "http://opcfoundation.org/UA/Glass.Flat",
             "schema": "string"

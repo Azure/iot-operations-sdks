@@ -2,6 +2,7 @@
   "@context": [
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:quantitativeTypes;2",
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
@@ -29,55 +30,12 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetSimulation",
-      "namespace": "http://opcfoundation.org/UA/PNRIO",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "SimulationEnabled",
-              "schema": "boolean"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Index",
-              "schema": "short"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PNRIO"
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetSimulationValue",
-      "namespace": "http://opcfoundation.org/UA/PNRIO",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Value",
-              "schema": "boolean"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Qualifier",
-              "schema": "unsignedByte"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "Index",
-              "schema": "short"
-            }
-          ]
-        }
-      }
+      "namespace": "http://opcfoundation.org/UA/PNRIO"
     }
   ]
 }

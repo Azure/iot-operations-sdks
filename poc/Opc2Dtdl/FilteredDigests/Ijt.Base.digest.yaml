@@ -659,7 +659,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6368, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6368, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
@@ -667,7 +667,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6369, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6369, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -678,7 +678,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6360, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6360, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
@@ -686,7 +686,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6361, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6361, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -697,14 +697,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6127, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6127, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6140, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6140, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -715,13 +715,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6356, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6356, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6357, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6357, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -732,14 +732,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6448, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6448, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessId: [ TrimmedString, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6449, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6449, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           JoiningProcess: [ IJT.Base:JoiningProcessDataType, 0 ]
           SelectionName: [ TrimmedString, 0 ]
@@ -752,13 +752,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6348, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6348, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6349, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6349, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           JoiningProcessList: [ IJT.Base:JoiningProcessMetaDataType, 1 ]
           Status: [ Int64, 0 ]
@@ -770,14 +770,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6350, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6350, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessOriginId: [ TrimmedString, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6351, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6351, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           JoiningProcessList: [ IJT.Base:JoiningProcessMetaDataType, 1 ]
           Status: [ Int64, 0 ]
@@ -789,7 +789,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6358, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6358, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
@@ -797,7 +797,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6359, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6359, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -808,14 +808,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6366, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6366, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6367, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6367, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -826,14 +826,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6354, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6354, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6355, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6355, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -844,7 +844,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6340, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6340, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcess: [ IJT.Base:JoiningProcessDataType, 0 ]
@@ -852,7 +852,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6347, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6347, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -863,7 +863,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6362, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6362, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
@@ -871,7 +871,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6363, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6363, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -882,14 +882,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6352, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6352, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6353, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6353, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -900,7 +900,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6364, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6364, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
@@ -908,7 +908,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6365, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6365, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -919,7 +919,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6374, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6374, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
@@ -927,7 +927,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6375, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6375, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -938,14 +938,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6408, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6408, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           DeselectAfterJoining: [ Boolean, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6409, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6409, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -961,14 +961,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6047, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6047, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           Disconnect: [ Boolean, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6051, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6051, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -979,14 +979,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6043, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6043, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           Enable: [ Boolean, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6046, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6046, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -997,7 +997,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6086, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6086, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           OperationType: [ Int32, 0 ]
@@ -1006,7 +1006,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6087, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6087, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -1017,14 +1017,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6088, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6088, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           ErrorId: [ TrimmedString, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6102, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6102, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ErrorContent: [ BaseDataType, 0 ]
           Status: [ Int64, 0 ]
@@ -1036,13 +1036,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6061, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6061, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6062, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6062, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FeedbackFileList: [ String, 1 ]
           Status: [ Int64, 0 ]
@@ -1054,14 +1054,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6069, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6069, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           IdentifierNames: [ TrimmedString, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6070, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6070, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           EntityList: [ IJT.Base:EntityDataType, 1 ]
           Status: [ Int64, 0 ]
@@ -1073,14 +1073,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6067, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6067, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           SignalIdList: [ TrimmedString, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6068, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6068, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           SignalList: [ IJT.Base:SignalDataType, 1 ]
           Status: [ Int64, 0 ]
@@ -1092,13 +1092,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6053, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6053, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6055, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6055, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -1109,7 +1109,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6081, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6081, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           IdentifierList: [ TrimmedString, 1 ]
@@ -1118,7 +1118,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6085, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6085, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -1129,7 +1129,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6058, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6058, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           FeedbackType: [ Int16, 0 ]
@@ -1138,7 +1138,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6059, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6059, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -1149,14 +1149,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6072, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6072, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           EntityList: [ IJT.Base:EntityDataType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6078, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6078, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -1167,14 +1167,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6079, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6079, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           IdentifierList: [ TrimmedString, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6080, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6080, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -1185,14 +1185,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6040, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6040, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           CalibrationData: [ IJT.Base:CalibrationDataType, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6041, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6041, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -1203,14 +1203,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6063, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6063, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           SignalList: [ IJT.Base:SignalDataType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6064, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6064, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           SignalStatusList: [ Int32, 1 ]
           Status: [ Int64, 0 ]
@@ -1222,14 +1222,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6056, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6056, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           OfflineTimer: [ Duration, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6057, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6057, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -1240,14 +1240,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6406, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6406, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           InputTime: [ UtcTime, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6407, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6407, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -1280,7 +1280,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6141, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6141, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointId: [ TrimmedString, 0 ]
@@ -1288,7 +1288,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6151, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6151, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -1299,14 +1299,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6162, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6162, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointComponentId: [ TrimmedString, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6163, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6163, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -1317,14 +1317,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6153, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6153, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointDesignId: [ TrimmedString, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6161, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6161, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -1335,14 +1335,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6310, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6310, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointId: [ TrimmedString, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6311, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6311, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Joint: [ IJT.Base:JointDataType, 0 ]
           Status: [ Int64, 0 ]
@@ -1354,14 +1354,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6314, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6314, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointComponentId: [ TrimmedString, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6315, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6315, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           JointComponent: [ IJT.Base:JointComponentDataType, 0 ]
           Status: [ Int64, 0 ]
@@ -1373,13 +1373,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6306, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6306, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6307, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6307, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           JointComponentList: [ IJT.Base:JointComponentDataType, 1 ]
           Status: [ Int64, 0 ]
@@ -1391,14 +1391,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6312, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6312, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointDesignId: [ TrimmedString, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6313, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6313, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           JointDesign: [ IJT.Base:JointDesignDataType, 0 ]
           Status: [ Int64, 0 ]
@@ -1410,13 +1410,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6304, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6304, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6305, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6305, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           JointDesignList: [ IJT.Base:JointDesignDataType, 1 ]
           Status: [ Int64, 0 ]
@@ -1428,13 +1428,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6235, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6235, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6303, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6303, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           JointList: [ IJT.Base:JointDataType, 1 ]
           Status: [ Int64, 0 ]
@@ -1446,14 +1446,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6308, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6308, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointOriginId: [ TrimmedString, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6309, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6309, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           JointList: [ IJT.Base:JointDataType, 1 ]
           Status: [ Int64, 0 ]
@@ -1465,7 +1465,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6229, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6229, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointId: [ TrimmedString, 0 ]
@@ -1473,7 +1473,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6230, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6230, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -1484,14 +1484,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6183, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6183, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           Joint: [ IJT.Base:JointDataType, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6184, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6184, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -1502,14 +1502,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6192, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6192, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointComponent: [ IJT.Base:JointComponentDataType, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6228, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6228, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
@@ -1520,14 +1520,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6186, InputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6186, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointDesign: [ IJT.Base:JointDesignDataType, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
-      - [ UAVariable, IJT.Base:6191, OutputArguments, Argument, 1, 0 ]
+      - [ UAVariable, IJT.Base:6191, IJT.Base:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]

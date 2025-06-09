@@ -1,10 +1,10 @@
 DataTypes:
-- UADataType: [ IA:3003, LevelDisplayMode ]
+- UADataType: [ IA:3003, IA:LevelDisplayMode ]
   Enums:
     Dimmed: 0
     Blinking: 1
     Other: 2
-- UADataType: [ IA:3004, SignalColor ]
+- UADataType: [ IA:3004, IA:SignalColor ]
   Enums:
     Off: 0
     Red: 1
@@ -14,48 +14,48 @@ DataTypes:
     Purple: 5
     Cyan: 6
     White: 7
-- UADataType: [ IA:3005, SignalModeLight ]
+- UADataType: [ IA:3005, IA:SignalModeLight ]
   Enums:
     Continuous: 0
     Blinking: 1
     Flashing: 2
     Other: 3
-- UADataType: [ IA:3002, StacklightOperationMode ]
+- UADataType: [ IA:3002, IA:StacklightOperationMode ]
   Enums:
     Segmented: 0
     Levelmeter: 1
     Running_Light: 2
     Other: 3
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -65,686 +65,686 @@ DataTypes:
 
 DefinedTypes:
 
-  CalibrationValueType:
-  - [ UAVariableType, IA:2002, CalibrationValueType, Number, -2, 0 ]
+  IA:CalibrationValueType:
+  - [ UAVariableType, IA:2002, IA:CalibrationValueType, Number, -2, 0 ]
   - HasSubtype_reverse:
     - [ UAVariableType, 2365, DataItemType ]
   - HasProperty:
-    - [ UAVariable, IA:6057, EngineeringUnits, EUInformation, 0, 3 ]
+    - [ UAVariable, IA:6057, IA:EngineeringUnits, EUInformation, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAVariableType, IA:2002, CalibrationValueType, Number, -2, 0 ]
+      - [ UAVariableType, IA:2002, IA:CalibrationValueType, Number, -2, 0 ]
 
-  CapacityRangeType:
-  - [ UAVariableType, IA:2003, CapacityRangeType, Range, 0, 0 ]
+  IA:CapacityRangeType:
+  - [ UAVariableType, IA:2003, IA:CapacityRangeType, Range, 0, 0 ]
   - HasSubtype_reverse:
     - [ UAVariableType, 2365, DataItemType ]
   - HasProperty:
-    - [ UAVariable, IA:6058, EngineeringUnits, EUInformation, 0, 3 ]
+    - [ UAVariable, IA:6058, IA:EngineeringUnits, EUInformation, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAVariableType, IA:2003, CapacityRangeType, Range, 0, 0 ]
+      - [ UAVariableType, IA:2003, IA:CapacityRangeType, Range, 0, 0 ]
   - HasProperty:
-    - [ UAVariable, IA:6059, Resolution, Double, 0, 3 ]
+    - [ UAVariable, IA:6059, IA:Resolution, Double, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAVariableType, IA:2003, CapacityRangeType, Range, 0, 0 ]
+      - [ UAVariableType, IA:2003, IA:CapacityRangeType, Range, 0, 0 ]
 
-  AcousticSignalType:
-  - [ UAObjectType, IA:1009, AcousticSignalType ]
+  IA:AcousticSignalType:
+  - [ UAObjectType, IA:1009, IA:AcousticSignalType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, IA:6029, AudioSample, AudioDataType, 0, 3 ]
+    - [ UAVariable, IA:6029, IA:AudioSample, AudioDataType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1009, AcousticSignalType ]
+      - [ UAObjectType, IA:1009, IA:AcousticSignalType ]
   - HasInterface:
     - [ UAObjectType, 23513, IOrderedObjectType ]
   - HasProperty:
-    - [ UAVariable, IA:6028, NumberInList, UInteger, 0, 3 ]
+    - [ UAVariable, IA:6028, IA:NumberInList, UInteger, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1009, AcousticSignalType ]
+      - [ UAObjectType, IA:1009, IA:AcousticSignalType ]
 
-  BaseCalibrationTargetCategoryType:
-  - [ UAObjectType, IA:1014, BaseCalibrationTargetCategoryType ]
+  IA:BaseCalibrationTargetCategoryType:
+  - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  DynamicCalibrationTargetCategoryType:
-  - [ UAObjectType, IA:1018, DynamicCalibrationTargetCategoryType ]
+  IA:DynamicCalibrationTargetCategoryType:
+  - [ UAObjectType, IA:1018, IA:DynamicCalibrationTargetCategoryType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IA:1014, BaseCalibrationTargetCategoryType ]
+    - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType ]
 
-  OneTimeCalibrationTargetCategoryType:
-  - [ UAObjectType, IA:1017, OneTimeCalibrationTargetCategoryType ]
+  IA:OneTimeCalibrationTargetCategoryType:
+  - [ UAObjectType, IA:1017, IA:OneTimeCalibrationTargetCategoryType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IA:1014, BaseCalibrationTargetCategoryType ]
+    - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType ]
 
-  ReusableCalibrationTargetCategoryType:
-  - [ UAObjectType, IA:1015, ReusableCalibrationTargetCategoryType ]
+  IA:ReusableCalibrationTargetCategoryType:
+  - [ UAObjectType, IA:1015, IA:ReusableCalibrationTargetCategoryType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IA:1014, BaseCalibrationTargetCategoryType ]
+    - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType ]
 
-  ReusableDeviceCalibrationTargetCategoryType:
-  - [ UAObjectType, IA:1016, ReusableDeviceCalibrationTargetCategoryType ]
+  IA:ReusableDeviceCalibrationTargetCategoryType:
+  - [ UAObjectType, IA:1016, IA:ReusableDeviceCalibrationTargetCategoryType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IA:1015, ReusableCalibrationTargetCategoryType ]
+    - [ UAObjectType, IA:1015, IA:ReusableCalibrationTargetCategoryType ]
 
-  IStatisticsType:
-  - [ UAObjectType, IA:1011, IStatisticsType ]
+  IA:IStatisticsType:
+  - [ UAObjectType, IA:1011, IA:IStatisticsType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
-    - [ UAMethod, IA:7001, ResetStatistics ]
+    - [ UAMethod, IA:7001, IA:ResetStatistics ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1011, IStatisticsType ]
+      - [ UAObjectType, IA:1011, IA:IStatisticsType ]
   - HasProperty:
-    - [ UAVariable, IA:6046, StartTime, DateTime, 0, 3 ]
+    - [ UAVariable, IA:6046, IA:StartTime, DateTime, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1011, IStatisticsType ]
+      - [ UAObjectType, IA:1011, IA:IStatisticsType ]
 
-  IAggregateStatisticsType:
-  - [ UAObjectType, IA:1012, IAggregateStatisticsType ]
+  IA:IAggregateStatisticsType:
+  - [ UAObjectType, IA:1012, IA:IAggregateStatisticsType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IA:1011, IStatisticsType ]
+    - [ UAObjectType, IA:1011, IA:IStatisticsType ]
   - HasProperty:
-    - [ UAVariable, IA:6047, ResetCondition, String, 0, 3 ]
+    - [ UAVariable, IA:6047, IA:ResetCondition, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1012, IAggregateStatisticsType ]
+      - [ UAObjectType, IA:1012, IA:IAggregateStatisticsType ]
 
-  IRollingStatisticsType:
-  - [ UAObjectType, IA:1013, IRollingStatisticsType ]
+  IA:IRollingStatisticsType:
+  - [ UAObjectType, IA:1013, IA:IRollingStatisticsType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IA:1011, IStatisticsType ]
+    - [ UAObjectType, IA:1011, IA:IStatisticsType ]
   - HasProperty:
-    - [ UAVariable, IA:6048, WindowDuration, Duration, 0, 3 ]
+    - [ UAVariable, IA:6048, IA:WindowDuration, Duration, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1013, IRollingStatisticsType ]
+      - [ UAObjectType, IA:1013, IA:IRollingStatisticsType ]
   - HasProperty:
-    - [ UAVariable, IA:6049, WindowNumberOfValues, UInt32, 0, 3 ]
+    - [ UAVariable, IA:6049, IA:WindowNumberOfValues, UInt32, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1013, IRollingStatisticsType ]
+      - [ UAObjectType, IA:1013, IA:IRollingStatisticsType ]
 
-  CalibrationTargetType:
-  - [ UAObjectType, IA:1019, CalibrationTargetType ]
+  IA:CalibrationTargetType:
+  - [ UAObjectType, IA:1019, IA:CalibrationTargetType ]
   - HasComponent:
-    - [ UAObject, IA:5011, CalibrationTargetCategory ]
+    - [ UAObject, IA:5011, IA:CalibrationTargetCategory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, IA:1014, BaseCalibrationTargetCategoryType ]
+      - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1019, CalibrationTargetType ]
+      - [ UAObjectType, IA:1019, IA:CalibrationTargetType ]
   - HasComponent:
-    - [ UAObject, IA:5013, CalibrationTargetFeatures ]
+    - [ UAObject, IA:5013, IA:CalibrationTargetFeatures ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasComponent:
-      - [ UAVariable, IA:6064, <CalibrationValue>, Number, 0, 3 ]
+      - [ UAVariable, IA:6064, IA:<CalibrationValue>, Number, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 11508, OptionalPlaceholder ]
       - HasTypeDefinition:
-        - [ UAVariableType, IA:2002, CalibrationValueType, Number, -2, 0 ]
+        - [ UAVariableType, IA:2002, IA:CalibrationValueType, Number, -2, 0 ]
       - HasComponent_reverse:
-        - [ UAObject, IA:5013, CalibrationTargetFeatures ]
+        - [ UAObject, IA:5013, IA:CalibrationTargetFeatures ]
       - HasProperty:
-        - [ UAVariable, IA:6065, EngineeringUnits, EUInformation, 0, 3 ]
+        - [ UAVariable, IA:6065, IA:EngineeringUnits, EUInformation, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, IA:6064, <CalibrationValue>, Number, 0, 3 ]
+          - [ UAVariable, IA:6064, IA:<CalibrationValue>, Number, 0, 3 ]
     - HasComponent:
-      - [ UAVariable, IA:6066, <CapacityRange>, Range, 0, 3 ]
+      - [ UAVariable, IA:6066, IA:<CapacityRange>, Range, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 11508, OptionalPlaceholder ]
       - HasTypeDefinition:
-        - [ UAVariableType, IA:2003, CapacityRangeType, Range, 0, 0 ]
+        - [ UAVariableType, IA:2003, IA:CapacityRangeType, Range, 0, 0 ]
       - HasComponent_reverse:
-        - [ UAObject, IA:5013, CalibrationTargetFeatures ]
+        - [ UAObject, IA:5013, IA:CalibrationTargetFeatures ]
       - HasProperty:
-        - [ UAVariable, IA:6067, EngineeringUnits, EUInformation, 0, 3 ]
+        - [ UAVariable, IA:6067, IA:EngineeringUnits, EUInformation, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, IA:6066, <CapacityRange>, Range, 0, 3 ]
+          - [ UAVariable, IA:6066, IA:<CapacityRange>, Range, 0, 3 ]
       - HasProperty:
-        - [ UAVariable, IA:6068, Resolution, Double, 0, 3 ]
+        - [ UAVariable, IA:6068, IA:Resolution, Double, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, IA:6066, <CapacityRange>, Range, 0, 3 ]
+          - [ UAVariable, IA:6066, IA:<CapacityRange>, Range, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1019, CalibrationTargetType ]
+      - [ UAObjectType, IA:1019, IA:CalibrationTargetType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
-    - [ UAVariable, IA:6063, CertificateUri, String, 0, 3 ]
+    - [ UAVariable, IA:6063, IA:CertificateUri, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1019, CalibrationTargetType ]
+      - [ UAObjectType, IA:1019, IA:CalibrationTargetType ]
   - HasComponent:
-    - [ UAObject, IA:5010, Identification ]
+    - [ UAObject, IA:5010, DI:Identification ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasProperty:
-      - [ UAVariable, IA:6080, AssetId, String, 0, 3 ]
+      - [ UAVariable, IA:6080, DI:AssetId, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
-        - [ UAObject, IA:5010, Identification ]
+        - [ UAObject, IA:5010, DI:Identification ]
     - HasProperty:
-      - [ UAVariable, IA:6081, ComponentName, LocalizedText, 0, 3 ]
+      - [ UAVariable, IA:6081, DI:ComponentName, LocalizedText, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
-        - [ UAObject, IA:5010, Identification ]
+        - [ UAObject, IA:5010, DI:Identification ]
     - HasProperty:
-      - [ UAVariable, IA:6076, DeviceClass, String, 0, 3 ]
+      - [ UAVariable, IA:6076, DI:DeviceClass, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
-        - [ UAObject, IA:5010, Identification ]
+        - [ UAObject, IA:5010, DI:Identification ]
     - HasProperty:
-      - [ UAVariable, IA:6082, DeviceManual, String, 0, 3 ]
+      - [ UAVariable, IA:6082, DI:DeviceManual, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
-        - [ UAObject, IA:5010, Identification ]
+        - [ UAObject, IA:5010, DI:Identification ]
     - HasProperty:
-      - [ UAVariable, IA:6075, DeviceRevision, String, 0, 3 ]
+      - [ UAVariable, IA:6075, DI:DeviceRevision, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
-        - [ UAObject, IA:5010, Identification ]
+        - [ UAObject, IA:5010, DI:Identification ]
     - HasProperty:
-      - [ UAVariable, IA:6073, HardwareRevision, String, 0, 3 ]
+      - [ UAVariable, IA:6073, DI:HardwareRevision, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
-        - [ UAObject, IA:5010, Identification ]
+        - [ UAObject, IA:5010, DI:Identification ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1019, CalibrationTargetType ]
+      - [ UAObjectType, IA:1019, IA:CalibrationTargetType ]
     - HasInterface:
-      - [ UAObjectType, DI:15048, ITagNameplateType ]
+      - [ UAObjectType, DI:15048, DI:ITagNameplateType ]
     - HasInterface:
-      - [ UAObjectType, DI:15035, IVendorNameplateType ]
+      - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
     - HasProperty:
-      - [ UAVariable, IA:6069, Manufacturer, LocalizedText, 0, 3 ]
+      - [ UAVariable, IA:6069, DI:Manufacturer, LocalizedText, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
-        - [ UAObject, IA:5010, Identification ]
+        - [ UAObject, IA:5010, DI:Identification ]
     - HasProperty:
-      - [ UAVariable, IA:6070, ManufacturerUri, String, 0, 3 ]
+      - [ UAVariable, IA:6070, DI:ManufacturerUri, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
-        - [ UAObject, IA:5010, Identification ]
+        - [ UAObject, IA:5010, DI:Identification ]
     - HasProperty:
-      - [ UAVariable, IA:6071, Model, LocalizedText, 0, 3 ]
+      - [ UAVariable, IA:6071, DI:Model, LocalizedText, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
-        - [ UAObject, IA:5010, Identification ]
+        - [ UAObject, IA:5010, DI:Identification ]
     - HasProperty:
-      - [ UAVariable, IA:6072, ProductCode, String, 0, 3 ]
+      - [ UAVariable, IA:6072, DI:ProductCode, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
-        - [ UAObject, IA:5010, Identification ]
+        - [ UAObject, IA:5010, DI:Identification ]
     - HasProperty:
-      - [ UAVariable, IA:6078, ProductInstanceUri, String, 0, 3 ]
+      - [ UAVariable, IA:6078, DI:ProductInstanceUri, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
-        - [ UAObject, IA:5010, Identification ]
+        - [ UAObject, IA:5010, DI:Identification ]
     - HasProperty:
-      - [ UAVariable, IA:6079, RevisionCounter, Int32, 0, 3 ]
+      - [ UAVariable, IA:6079, DI:RevisionCounter, Int32, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
-        - [ UAObject, IA:5010, Identification ]
+        - [ UAObject, IA:5010, DI:Identification ]
     - HasProperty:
-      - [ UAVariable, IA:6077, SerialNumber, String, 0, 3 ]
+      - [ UAVariable, IA:6077, DI:SerialNumber, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
-        - [ UAObject, IA:5010, Identification ]
+        - [ UAObject, IA:5010, DI:Identification ]
     - HasProperty:
-      - [ UAVariable, IA:6074, SoftwareRevision, String, 0, 3 ]
+      - [ UAVariable, IA:6074, DI:SoftwareRevision, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
-        - [ UAObject, IA:5010, Identification ]
+        - [ UAObject, IA:5010, DI:Identification ]
   - HasProperty:
-    - [ UAVariable, IA:6060, LastValidationDate, UtcTime, 0, 3 ]
+    - [ UAVariable, IA:6060, IA:LastValidationDate, UtcTime, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1019, CalibrationTargetType ]
+      - [ UAObjectType, IA:1019, IA:CalibrationTargetType ]
   - HasProperty:
-    - [ UAVariable, IA:6061, NextValidationDate, UtcTime, 0, 3 ]
+    - [ UAVariable, IA:6061, IA:NextValidationDate, UtcTime, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1019, CalibrationTargetType ]
+      - [ UAObjectType, IA:1019, IA:CalibrationTargetType ]
   - HasComponent:
-    - [ UAObject, IA:5012, OperationalConditions ]
+    - [ UAObject, IA:5012, IA:OperationalConditions ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1019, CalibrationTargetType ]
+      - [ UAObjectType, IA:1019, IA:CalibrationTargetType ]
   - HasProperty:
-    - [ UAVariable, IA:6062, Quality, Byte, 0, 3 ]
+    - [ UAVariable, IA:6062, IA:Quality, Byte, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1019, CalibrationTargetType ]
+      - [ UAObjectType, IA:1019, IA:CalibrationTargetType ]
 
-  ControlChannelType:
-  - [ UAObjectType, IA:1008, ControlChannelType ]
+  IA:ControlChannelType:
+  - [ UAObjectType, IA:1008, IA:ControlChannelType ]
   - HasComponent:
-    - [ UAVariable, IA:6024, ChannelColor, SignalColor, 0, 3 ]
+    - [ UAVariable, IA:6024, IA:ChannelColor, IA:SignalColor, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1008, ControlChannelType ]
+      - [ UAObjectType, IA:1008, IA:ControlChannelType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, IA:6026, Intensity, Float, 0, 3 ]
+    - [ UAVariable, IA:6026, IA:Intensity, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
-      - [ UAVariable, IA:6027, EURange, Range, 0, 0 ]
+      - [ UAVariable, IA:6027, IA:EURange, Range, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, IA:6026, Intensity, Float, 0, 3 ]
+        - [ UAVariable, IA:6026, IA:Intensity, Float, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1008, ControlChannelType ]
+      - [ UAObjectType, IA:1008, IA:ControlChannelType ]
   - HasComponent:
-    - [ UAVariable, IA:6025, SignalMode, SignalModeLight, 0, 3 ]
+    - [ UAVariable, IA:6025, IA:SignalMode, IA:SignalModeLight, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1008, ControlChannelType ]
+      - [ UAObjectType, IA:1008, IA:ControlChannelType ]
   - HasProperty:
-    - [ UAVariable, IA:6023, SignalOn, Boolean, 0, 3 ]
+    - [ UAVariable, IA:6023, IA:SignalOn, Boolean, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1008, ControlChannelType ]
+      - [ UAObjectType, IA:1008, IA:ControlChannelType ]
 
-  BasicStacklightType:
-  - [ UAObjectType, IA:1002, BasicStacklightType ]
+  IA:BasicStacklightType:
+  - [ UAObjectType, IA:1002, IA:BasicStacklightType ]
   - HasOrderedComponent:
-    - [ UAObject, IA:5006, <OrderedObject> ]
+    - [ UAObject, IA:5006, IA:<OrderedObject> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, IA:1005, StackElementType ]
+      - [ UAObjectType, IA:1005, IA:StackElementType ]
     - HasOrderedComponent_reverse:
-      - [ UAObjectType, IA:1002, BasicStacklightType ]
+      - [ UAObjectType, IA:1002, IA:BasicStacklightType ]
     - HasProperty:
-      - [ UAVariable, IA:6037, NumberInList, UInteger, 0, 0 ]
+      - [ UAVariable, IA:6037, IA:NumberInList, UInteger, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, IA:5006, <OrderedObject> ]
+        - [ UAObject, IA:5006, IA:<OrderedObject> ]
   - HasSubtype_reverse:
     - [ UAObjectType, 23518, OrderedListType ]
   - HasComponent:
-    - [ UAObject, IA:5001, StackLevel ]
+    - [ UAObject, IA:5001, IA:StackLevel ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, IA:1003, StackLevelType ]
+      - [ UAObjectType, IA:1003, IA:StackLevelType ]
     - HasComponent:
-      - [ UAVariable, IA:6034, DisplayMode, LevelDisplayMode, 0, 3 ]
+      - [ UAVariable, IA:6034, IA:DisplayMode, IA:LevelDisplayMode, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasComponent_reverse:
-        - [ UAObject, IA:5001, StackLevel ]
+        - [ UAObject, IA:5001, IA:StackLevel ]
     - HasComponent:
-      - [ UAVariable, IA:6035, LevelPercent, Float, 0, 3 ]
+      - [ UAVariable, IA:6035, IA:LevelPercent, Float, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
-        - [ UAVariable, IA:6036, EURange, Range, 0, 0 ]
+        - [ UAVariable, IA:6036, IA:EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAVariable, IA:6035, LevelPercent, Float, 0, 3 ]
+          - [ UAVariable, IA:6035, IA:LevelPercent, Float, 0, 3 ]
       - HasComponent_reverse:
-        - [ UAObject, IA:5001, StackLevel ]
+        - [ UAObject, IA:5001, IA:StackLevel ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1002, BasicStacklightType ]
+      - [ UAObjectType, IA:1002, IA:BasicStacklightType ]
   - HasProperty:
-    - [ UAVariable, IA:6009, StacklightMode, StacklightOperationMode, 0, 3 ]
+    - [ UAVariable, IA:6009, IA:StacklightMode, IA:StacklightOperationMode, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1002, BasicStacklightType ]
+      - [ UAObjectType, IA:1002, IA:BasicStacklightType ]
   - HasComponent:
-    - [ UAObject, IA:5005, StackRunning ]
+    - [ UAObject, IA:5005, IA:StackRunning ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, IA:1004, StackRunningType ]
+      - [ UAObjectType, IA:1004, IA:StackRunningType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1002, BasicStacklightType ]
+      - [ UAObjectType, IA:1002, IA:BasicStacklightType ]
 
-  StacklightType:
-  - [ UAObjectType, IA:1010, StacklightType ]
+  IA:StacklightType:
+  - [ UAObjectType, IA:1010, IA:StacklightType ]
   - HasComponent:
-    - [ UAVariable, IA:6038, DeviceHealth, DeviceHealthEnumeration, 0, 3 ]
+    - [ UAVariable, IA:6038, DI:DeviceHealth, DI:DeviceHealthEnumeration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1010, StacklightType ]
+      - [ UAObjectType, IA:1010, IA:StacklightType ]
   - HasComponent:
-    - [ UAObject, IA:5007, DeviceHealthAlarms ]
+    - [ UAObject, IA:5007, DI:DeviceHealthAlarms ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1010, StacklightType ]
+      - [ UAObjectType, IA:1010, IA:StacklightType ]
   - HasInterface:
-    - [ UAObjectType, DI:15051, IDeviceHealthType ]
+    - [ UAObjectType, DI:15051, DI:IDeviceHealthType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IA:1002, BasicStacklightType ]
+    - [ UAObjectType, IA:1002, IA:BasicStacklightType ]
 
-  StackElementType:
-  - [ UAObjectType, IA:1005, StackElementType ]
+  IA:StackElementType:
+  - [ UAObjectType, IA:1005, IA:StackElementType ]
   - HasInterface:
     - [ UAObjectType, 23513, IOrderedObjectType ]
   - HasProperty:
-    - [ UAVariable, IA:6014, IsPartOfBase, Boolean, 0, 3 ]
+    - [ UAVariable, IA:6014, IA:IsPartOfBase, Boolean, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1005, StackElementType ]
+      - [ UAObjectType, IA:1005, IA:StackElementType ]
   - HasProperty:
-    - [ UAVariable, IA:6015, NumberInList, UInteger, 0, 0 ]
+    - [ UAVariable, IA:6015, IA:NumberInList, UInteger, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1005, StackElementType ]
+      - [ UAObjectType, IA:1005, IA:StackElementType ]
   - HasProperty:
-    - [ UAVariable, IA:6013, SignalOn, Boolean, 0, 3 ]
+    - [ UAVariable, IA:6013, IA:SignalOn, Boolean, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1005, StackElementType ]
+      - [ UAObjectType, IA:1005, IA:StackElementType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  StackElementAcousticType:
-  - [ UAObjectType, IA:1007, StackElementAcousticType ]
+  IA:StackElementAcousticType:
+  - [ UAObjectType, IA:1007, IA:StackElementAcousticType ]
   - HasComponent:
-    - [ UAObject, IA:5003, AcousticSignals ]
+    - [ UAObject, IA:5003, IA:AcousticSignals ]
     - HasTypeDefinition:
       - [ UAObjectType, 23518, OrderedListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasOrderedComponent:
-      - [ UAObject, IA:5004, <OrderedObject> ]
+      - [ UAObject, IA:5004, IA:<OrderedObject> ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
-        - [ UAObjectType, IA:1009, AcousticSignalType ]
+        - [ UAObjectType, IA:1009, IA:AcousticSignalType ]
       - HasOrderedComponent_reverse:
-        - [ UAObject, IA:5003, AcousticSignals ]
+        - [ UAObject, IA:5003, IA:AcousticSignals ]
       - HasProperty:
-        - [ UAVariable, IA:6030, NumberInList, UInteger, 0, 3 ]
+        - [ UAVariable, IA:6030, IA:NumberInList, UInteger, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
-          - [ UAObject, IA:5004, <OrderedObject> ]
+          - [ UAObject, IA:5004, IA:<OrderedObject> ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1007, StackElementAcousticType ]
+      - [ UAObjectType, IA:1007, IA:StackElementAcousticType ]
   - HasComponent:
-    - [ UAVariable, IA:6021, Intensity, Float, 0, 3 ]
+    - [ UAVariable, IA:6021, IA:Intensity, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
-      - [ UAVariable, IA:6022, EURange, Range, 0, 0 ]
+      - [ UAVariable, IA:6022, IA:EURange, Range, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, IA:6021, Intensity, Float, 0, 3 ]
+        - [ UAVariable, IA:6021, IA:Intensity, Float, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1007, StackElementAcousticType ]
+      - [ UAObjectType, IA:1007, IA:StackElementAcousticType ]
   - HasComponent:
-    - [ UAVariable, IA:6020, OperationMode, UInteger, 0, 3 ]
+    - [ UAVariable, IA:6020, IA:OperationMode, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1007, StackElementAcousticType ]
+      - [ UAObjectType, IA:1007, IA:StackElementAcousticType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IA:1005, StackElementType ]
+    - [ UAObjectType, IA:1005, IA:StackElementType ]
 
-  StackElementLightType:
-  - [ UAObjectType, IA:1006, StackElementLightType ]
+  IA:StackElementLightType:
+  - [ UAObjectType, IA:1006, IA:StackElementLightType ]
   - HasComponent:
-    - [ UAObject, IA:5002, <ControlChannel> ]
+    - [ UAObject, IA:5002, IA:<ControlChannel> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, IA:1008, ControlChannelType ]
+      - [ UAObjectType, IA:1008, IA:ControlChannelType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1006, StackElementLightType ]
+      - [ UAObjectType, IA:1006, IA:StackElementLightType ]
     - HasComponent:
-      - [ UAVariable, IA:6031, ChannelColor, SignalColor, 0, 3 ]
+      - [ UAVariable, IA:6031, IA:ChannelColor, IA:SignalColor, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasComponent_reverse:
-        - [ UAObject, IA:5002, <ControlChannel> ]
+        - [ UAObject, IA:5002, IA:<ControlChannel> ]
     - HasComponent:
-      - [ UAVariable, IA:6032, SignalMode, SignalModeLight, 0, 3 ]
+      - [ UAVariable, IA:6032, IA:SignalMode, IA:SignalModeLight, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasComponent_reverse:
-        - [ UAObject, IA:5002, <ControlChannel> ]
+        - [ UAObject, IA:5002, IA:<ControlChannel> ]
     - HasProperty:
-      - [ UAVariable, IA:6033, SignalOn, Boolean, 0, 3 ]
+      - [ UAVariable, IA:6033, IA:SignalOn, Boolean, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAObject, IA:5002, <ControlChannel> ]
+        - [ UAObject, IA:5002, IA:<ControlChannel> ]
   - HasComponent:
-    - [ UAVariable, IA:6018, Intensity, Float, 0, 3 ]
+    - [ UAVariable, IA:6018, IA:Intensity, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
-      - [ UAVariable, IA:6019, EURange, Range, 0, 0 ]
+      - [ UAVariable, IA:6019, IA:EURange, Range, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, IA:6018, Intensity, Float, 0, 3 ]
+        - [ UAVariable, IA:6018, IA:Intensity, Float, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1006, StackElementLightType ]
+      - [ UAObjectType, IA:1006, IA:StackElementLightType ]
   - HasComponent:
-    - [ UAVariable, IA:6016, SignalColor, SignalColor, 0, 3 ]
+    - [ UAVariable, IA:6016, IA:SignalColor, IA:SignalColor, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1006, StackElementLightType ]
+      - [ UAObjectType, IA:1006, IA:StackElementLightType ]
   - HasComponent:
-    - [ UAVariable, IA:6017, SignalMode, SignalModeLight, 0, 3 ]
+    - [ UAVariable, IA:6017, IA:SignalMode, IA:SignalModeLight, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1006, StackElementLightType ]
+      - [ UAObjectType, IA:1006, IA:StackElementLightType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IA:1005, StackElementType ]
+    - [ UAObjectType, IA:1005, IA:StackElementType ]
 
-  StackLevelType:
-  - [ UAObjectType, IA:1003, StackLevelType ]
+  IA:StackLevelType:
+  - [ UAObjectType, IA:1003, IA:StackLevelType ]
   - HasComponent:
-    - [ UAVariable, IA:6012, DisplayMode, LevelDisplayMode, 0, 3 ]
+    - [ UAVariable, IA:6012, IA:DisplayMode, IA:LevelDisplayMode, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1003, StackLevelType ]
+      - [ UAObjectType, IA:1003, IA:StackLevelType ]
   - HasComponent:
-    - [ UAVariable, IA:6010, LevelPercent, Float, 0, 3 ]
+    - [ UAVariable, IA:6010, IA:LevelPercent, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
-      - [ UAVariable, IA:6011, EURange, Range, 0, 0 ]
+      - [ UAVariable, IA:6011, IA:EURange, Range, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
-        - [ UAVariable, IA:6010, LevelPercent, Float, 0, 3 ]
+        - [ UAVariable, IA:6010, IA:LevelPercent, Float, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1003, StackLevelType ]
+      - [ UAObjectType, IA:1003, IA:StackLevelType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  StackRunningType:
-  - [ UAObjectType, IA:1004, StackRunningType ]
+  IA:StackRunningType:
+  - [ UAObjectType, IA:1004, IA:StackRunningType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

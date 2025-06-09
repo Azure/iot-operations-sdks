@@ -14,6 +14,7 @@ namespace OpcUaDigest
             AccessLevel = accessLevel;
             Contents = new List<OpcUaContent>();
             Arguments = new Dictionary<string, (string?, int)>();
+            UnitId = null;
         }
 
         public string NodeType { get; }
@@ -31,6 +32,8 @@ namespace OpcUaDigest
         public List<OpcUaContent> Contents { get; }
 
         public Dictionary<string, (string?, int)> Arguments { get; }
+
+        public string? UnitId { get; set; }
 
         public IEnumerable<TraversedType> Traverse() => Traverse(new List<EdgeMetadata>());
 
