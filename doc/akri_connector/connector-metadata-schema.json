@@ -28,11 +28,6 @@
       "description": "True if this connector is considered a preview version.",
       "default": "false"
     },
-    "supportAcsaVolumes": {
-      "type": "boolean",
-      "description": "If this connector supports Azure Container Storage enabled by Azure Arc.",
-      "default": "false"
-    },
     "maintainer": {
       "type": "string",
       "description": "A name and/or email of the maintainer of this connector."
@@ -103,6 +98,29 @@
           },
           "required": [
             "secretAlias"
+          ]
+        }
+      ]
+    },
+    "storageVolumes": {
+      "type": "array",
+      "description": "The array of storage volumes that are required for the connector application to work.",
+      "items": [
+        {
+          "type": "object",
+          "description": "A single storage volume is needed.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of this storage volume"
+            },
+            "description": {
+              "type": "string",
+              "description": "The description for this storage volume"
+            }
+          },
+          "required": [
+            "name"
           ]
         }
       ]
