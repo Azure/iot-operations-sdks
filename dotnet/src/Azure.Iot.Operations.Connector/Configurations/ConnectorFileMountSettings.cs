@@ -14,6 +14,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         public const string BrokerTrustBundleMountPathEnvVar = "BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH";
         public const string BrokerSatMountPathEnvVar = "BROKER_SAT_MOUNT_PATH";
         public const string ConnectorClientIdEnvVar = "CONNECTOR_ID";
+        public const string ConnectorNamespaceEnvVar = "CONNECTOR_NAMESPACE";
 
         public const string ConnectorMqttConfigFileName = "MQTT_CONNECTION_CONFIGURATION";
         public const string ConnectorAioMetadataFileName = "AIO_METADATA";
@@ -118,6 +119,11 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
             string connectorMqttConfigFileContents = File.ReadAllText(connectorConfigMountPath + "/" + ConnectorMqttConfigFileName) ?? throw new InvalidOperationException($"Missing {connectorConfigMountPath + "/" + ConnectorMqttConfigFileName} file");
             return JsonSerializer.Deserialize<ConnectorMqttConnectionConfiguration>(connectorMqttConfigFileContents) ?? throw new InvalidOperationException($"{connectorConfigMountPath + "/" + ConnectorMqttConfigFileName} file was empty");
+        }
+
+        public static string? GetConnectorNamespace()
+        {
+            return Environment.GetEnvironmentVariable(ConnectorNamespaceEnvVar);
         }
 
         private ConnectorFileMountSettings()
