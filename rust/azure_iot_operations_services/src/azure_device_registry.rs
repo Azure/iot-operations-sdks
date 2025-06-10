@@ -4,7 +4,6 @@
 //! Types for Azure Device Registry operations.
 
 use core::fmt::Debug;
-use std::collections::HashMap;
 
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError, rpc_command};
@@ -20,6 +19,7 @@ use crate::azure_device_registry::{
 use crate::common::dispatcher::{self, Receiver};
 
 /// Azure Device Registry base service generated code
+#[allow(clippy::doc_markdown)] // TODO: consider moving this to codegen
 mod adr_base_gen;
 /// Azure Device Registry device discovery generated code
 mod device_discovery_gen;
@@ -61,9 +61,6 @@ pub enum ErrorKind {
     /// A Device or an asset may only have one observation at a time.
     #[error("Device or asset may only be observed once at a time")]
     DuplicateObserve(#[from] dispatcher::RegisterError),
-    /// A Device or an asset had an error during observation or unobservation.
-    #[error("Observation/Unobservation not accepted by service")]
-    ObservationError,
     /// An error occurred while shutting down the Azure Device Registry Client.
     #[error("Shutdown error occurred with the following protocol errors: {0:?}")]
     ShutdownError(Vec<AIOProtocolError>),
@@ -111,12 +108,12 @@ impl AssetUpdateObservation {
 // ~~~~~~~~~~~~~~~~~~Status/ConfigError DTDL Equivalent Structs~~~~~~~~~~~~~
 #[derive(Clone, Debug, Default, PartialEq)]
 /// Represents the configuration status.
-pub struct StatusConfig {
+pub struct ConfigStatus {
     /// Error details for status.
     pub error: Option<ConfigError>,
-    /// The last time the configuration has been modified.
+    /// A timestamp indicating the last time the configuration has been modified from the perspective of the current actual (Edge) state of the CRD.
     pub last_transition_time: Option<DateTime<Utc>>,
-    /// The version of the Device or Asset configuration.
+    /// The version of the Device or Asset configuration that this Status pertains to.
     pub version: Option<u64>,
 }
 
@@ -125,26 +122,24 @@ pub struct StatusConfig {
 #[error("Configuration error")]
 /// Represents an error in the configuration of an asset or device.
 pub struct ConfigError {
-    /// Error code for classification of errors (ex: ''400'', ''404'', ''500'', etc.).
+    /// Error code for classification of errors (ex: '400', '404', '500', etc.).
     pub code: Option<String>,
-    /// Array of event statuses that describe the status of each event.
+    /// Array of error details that describe the status of each error.
     pub details: Option<Vec<Details>>,
-    /// The inner error, if any.
-    pub inner_error: Option<HashMap<String, String>>,
-    /// The message of the error.
+    /// Human readable helpful error message to provide additional context for error (ex: “capability Id ''foo'' does not exist”).
     pub message: Option<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Default)]
 /// Represents the details of an error.
 pub struct Details {
-    /// The multi part error code for root cause analysis.
+    /// Multi-part error code for classification and root causing of errors (ex: 400.200.100.432).
     pub code: Option<String>,
-    /// The correlation ID of the details.
+    /// Unique identifier for the transaction to aid in debugging.
     pub correlation_id: Option<String>,
-    /// Any helpful information associated with the details.
+    /// Human readable helpful detailed text context for debugging (ex: “The following mechanisms are supported...”).
     pub info: Option<String>,
-    /// The error message of the details.
+    /// Human readable helpful error message to provide additional context for error (ex: “Authentication method not supported”).
     pub message: Option<String>,
 }
 
@@ -154,36 +149,31 @@ pub struct Details {
 impl From<discovery_client_gen::AkriServiceError> for base_client_gen::AkriServiceError {
     fn from(value: discovery_client_gen::AkriServiceError) -> Self {
         base_client_gen::AkriServiceError {
-            code: value.code,
+            code: value.code.into(),
             message: value.message,
             timestamp: value.timestamp,
         }
     }
 }
 
-impl From<StatusConfig> for base_client_gen::DeviceStatusConfigSchema {
-    fn from(value: StatusConfig) -> Self {
-        base_client_gen::DeviceStatusConfigSchema {
-            version: value.version,
-            error: value.error.map(Into::into),
-            last_transition_time: value.last_transition_time,
+impl From<discovery_client_gen::CodeSchema> for base_client_gen::CodeSchema {
+    fn from(value: discovery_client_gen::CodeSchema) -> Self {
+        match value {
+            discovery_client_gen::CodeSchema::BadRequest => base_client_gen::CodeSchema::BadRequest,
+            discovery_client_gen::CodeSchema::InternalError => {
+                base_client_gen::CodeSchema::InternalError
+            }
+            discovery_client_gen::CodeSchema::KubeError => base_client_gen::CodeSchema::KubeError,
+            discovery_client_gen::CodeSchema::SerializationError => {
+                base_client_gen::CodeSchema::SerializationError
+            }
         }
     }
 }
 
-impl From<base_client_gen::DeviceStatusConfigSchema> for StatusConfig {
-    fn from(value: base_client_gen::DeviceStatusConfigSchema) -> Self {
-        StatusConfig {
-            version: value.version,
-            error: value.error.map(Into::into),
-            last_transition_time: value.last_transition_time,
-        }
-    }
-}
-
-impl From<StatusConfig> for base_client_gen::AssetConfigStatusSchema {
-    fn from(value: StatusConfig) -> Self {
-        base_client_gen::AssetConfigStatusSchema {
+impl From<ConfigStatus> for base_client_gen::ConfigStatus {
+    fn from(value: ConfigStatus) -> Self {
+        base_client_gen::ConfigStatus {
             error: value.error.map(Into::into),
             last_transition_time: value.last_transition_time,
             version: value.version,
@@ -191,9 +181,9 @@ impl From<StatusConfig> for base_client_gen::AssetConfigStatusSchema {
     }
 }
 
-impl From<base_client_gen::AssetConfigStatusSchema> for StatusConfig {
-    fn from(value: base_client_gen::AssetConfigStatusSchema) -> Self {
-        StatusConfig {
+impl From<base_client_gen::ConfigStatus> for ConfigStatus {
+    fn from(value: base_client_gen::ConfigStatus) -> Self {
+        ConfigStatus {
             error: value.error.map(Into::into),
             last_transition_time: value.last_transition_time,
             version: value.version,
@@ -207,7 +197,6 @@ impl From<ConfigError> for base_client_gen::ConfigError {
             code: value.code,
             message: value.message,
             details: value.details.option_vec_into(),
-            inner_error: value.inner_error,
         }
     }
 }
@@ -218,7 +207,6 @@ impl From<base_client_gen::ConfigError> for ConfigError {
             code: value.code,
             message: value.message,
             details: value.details.option_vec_into(),
-            inner_error: value.inner_error,
         }
     }
 }

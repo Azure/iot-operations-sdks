@@ -13,8 +13,7 @@ use derive_builder::Builder;
 use tokio::sync::Notify;
 
 use crate::azure_device_registry::models::{
-    Asset, AssetStatus, Device, DeviceStatus, DiscoveredAssetSpecification,
-    DiscoveredDeviceSpecification,
+    Asset, AssetStatus, Device, DeviceStatus, DiscoveredAsset, DiscoveredDevice,
 };
 use crate::azure_device_registry::{
     AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind,
@@ -53,6 +52,7 @@ where
     shutdown_notifier: Arc<Notify>,
     // device
     get_device_command_invoker: Arc<base_client_gen::GetDeviceCommandInvoker<C>>,
+    get_device_status_command_invoker: Arc<base_client_gen::GetDeviceStatusCommandInvoker<C>>,
     update_device_status_command_invoker: Arc<base_client_gen::UpdateDeviceStatusCommandInvoker<C>>,
     notify_on_device_update_command_invoker:
         Arc<base_client_gen::SetNotificationPreferenceForDeviceUpdatesCommandInvoker<C>>,
@@ -61,6 +61,7 @@ where
     device_update_notification_dispatcher: Arc<Dispatcher<(Device, Option<AckToken>)>>,
     // asset
     get_asset_command_invoker: Arc<base_client_gen::GetAssetCommandInvoker<C>>,
+    get_asset_status_command_invoker: Arc<base_client_gen::GetAssetStatusCommandInvoker<C>>,
     update_asset_status_command_invoker: Arc<base_client_gen::UpdateAssetStatusCommandInvoker<C>>,
     notify_on_asset_update_command_invoker:
         Arc<base_client_gen::SetNotificationPreferenceForAssetUpdatesCommandInvoker<C>>,
@@ -172,6 +173,13 @@ where
                 client.clone(),
                 &command_options_base,
             )),
+            get_device_status_command_invoker: Arc::new(
+                base_client_gen::GetDeviceStatusCommandInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &command_options_base,
+                ),
+            ),
             update_device_status_command_invoker: Arc::new(
                 base_client_gen::UpdateDeviceStatusCommandInvoker::new(
                     application_context.clone(),
@@ -199,6 +207,13 @@ where
                 client.clone(),
                 &command_options_base,
             )),
+            get_asset_status_command_invoker: Arc::new(
+                base_client_gen::GetAssetStatusCommandInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &command_options_base,
+                ),
+            ),
             update_asset_status_command_invoker: Arc::new(
                 base_client_gen::UpdateAssetStatusCommandInvoker::new(
                     application_context.clone(),
@@ -277,16 +292,20 @@ where
         // Shut down invokers
         let mut errors = Vec::new();
 
-        let (result1, result2, result3, result4, result5, result6) = tokio::join!(
+        let (result1, result2, result3, result4, result5, result6, result7, result8) = tokio::join!(
             self.get_device_command_invoker.shutdown(),
+            self.get_device_status_command_invoker.shutdown(),
             self.update_device_status_command_invoker.shutdown(),
             self.notify_on_device_update_command_invoker.shutdown(),
             self.get_asset_command_invoker.shutdown(),
+            self.get_asset_status_command_invoker.shutdown(),
             self.update_asset_status_command_invoker.shutdown(),
             self.notify_on_asset_update_command_invoker.shutdown()
         );
 
-        for result in [result1, result2, result3, result4, result5, result6] {
+        for result in [
+            result1, result2, result3, result4, result5, result6, result7, result8,
+        ] {
             if let Err(e) = result {
                 errors.push(e);
             }
@@ -443,7 +462,7 @@ where
                                 device_name,
                                 inbound_endpoint_name,
                             );
-                            match device_update_notification_dispatcher.dispatch(&receiver_id, (device_update_telemetry.payload.into(), ack_token)) {
+                            match device_update_notification_dispatcher.dispatch(&receiver_id, (device_update_telemetry.payload.device_update_event.device.into(), ack_token)) {
                                 Ok(()) => {
                                     log::debug!("Device Update Notification dispatched for device {device_name:?} and inbound endpoint {inbound_endpoint_name:?}");
                                 }
@@ -570,15 +589,14 @@ where
         Ok(response.payload.device.into())
     }
 
-    /// Updates a [`Device`]'s status in the Azure Device Registry service.
+    /// Retrieves a [`DeviceStatus`] from the Azure Device Registry service.
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
-    /// * `status` - A [`DeviceStatus`] containing all status information for the device.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the updated [`Device`] once updated.
+    /// Returns the [`DeviceStatus`] if the device was found.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
@@ -587,13 +605,60 @@ where
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    pub async fn get_device_status(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        timeout: Duration,
+    ) -> Result<DeviceStatus, Error> {
+        let get_device_status_request = base_client_gen::GetDeviceStatusRequestBuilder::default()
+            .topic_tokens(Self::get_base_service_topic_tokens(
+                device_name,
+                inbound_endpoint_name,
+            ))
+            .timeout(timeout)
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        let response = self
+            .get_device_status_command_invoker
+            .invoke(get_device_status_request)
+            .await
+            .map_err(ErrorKind::from)?
+            .map_err(ErrorKind::from)?;
+        Ok(response.payload.device_status.into())
+    }
+
+    /// Updates a Device's status in the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `status` - A [`DeviceStatus`] containing all status information for the device.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the updated [`DeviceStatus`] once updated.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
+    /// if timeout is 0 or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
+    /// - device or inbound endpoint names are invalid.
+    /// - there are any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
     pub async fn update_device_plus_endpoint_status(
         &self,
         device_name: String,
         inbound_endpoint_name: String,
         status: DeviceStatus,
         timeout: Duration,
-    ) -> Result<Device, Error> {
+    ) -> Result<DeviceStatus, Error> {
         let status_payload = base_client_gen::UpdateDeviceStatusRequestPayload {
             device_status_update: status.into(),
         };
@@ -612,8 +677,9 @@ where
             .update_device_status_command_invoker
             .invoke(update_device_status_request)
             .await
+            .map_err(ErrorKind::from)?
             .map_err(ErrorKind::from)?;
-        Ok(response.payload.updated_device.into())
+        Ok(response.payload.updated_device_status.into())
     }
 
     /// Starts observation of a [`Device`]'s updates from the Azure Device Registry service.
@@ -638,8 +704,8 @@ where
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
     ///
-    /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
-    /// if the observation was not accepted by the service.
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
     pub async fn observe_device_update_notifications(
         &self,
         device_name: String,
@@ -674,31 +740,8 @@ where
             .invoke(observe_request)
             .await
         {
-            Ok(response) => {
-                match response.payload.notification_preference_response {
-                    base_client_gen::NotificationPreferenceResponse::Accepted => {
-                        Ok(DeviceUpdateObservation(rx))
-                    }
-                    base_client_gen::NotificationPreferenceResponse::Failed => {
-                        // If the observe request wasn't successful, remove it from our dispatcher
-                        if self
-                            .device_update_notification_dispatcher
-                            .unregister_receiver(&receiver_id)
-                        {
-                            log::debug!(
-                                "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` removed from observed list"
-                            );
-                        } else {
-                            log::debug!(
-                                "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` not in observed list"
-                            );
-                        }
-                        Err(Error(ErrorKind::ObservationError))
-                    }
-                }
-            }
-            Err(e) => {
-                // If the observe request wasn't successful, remove it from our dispatcher
+            Ok(Ok(_)) => Ok(DeviceUpdateObservation(rx)),
+            error_branches => {
                 if self
                     .device_update_notification_dispatcher
                     .unregister_receiver(&receiver_id)
@@ -711,7 +754,12 @@ where
                         "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` not in observed list"
                     );
                 }
-                Err(Error(ErrorKind::from(e)))
+
+                match error_branches {
+                    Ok(Err(e)) => Err(Error(ErrorKind::from(e))),
+                    Err(e) => Err(Error(ErrorKind::from(e))),
+                    Ok(Ok(_)) => unreachable!(), // This case should not happen, as we already checked this in the first match branch
+                }
             }
         }
     }
@@ -733,8 +781,8 @@ where
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
     ///
-    /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
-    /// if the unobservation was not accepted by the service.
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
     pub async fn unobserve_device_update_notifications(
         &self,
         device_name: String,
@@ -757,33 +805,28 @@ where
                 .timeout(timeout)
                 .build()
                 .map_err(ErrorKind::from)?;
-        let response = self
+        let _ = self
             .notify_on_device_update_command_invoker
             .invoke(unobserve_request)
             .await
+            .map_err(ErrorKind::from)?
             .map_err(ErrorKind::from)?;
-        match response.payload.notification_preference_response {
-            base_client_gen::NotificationPreferenceResponse::Accepted => {
-                let receiver_id = Self::hash_device_endpoint(&device_name, &inbound_endpoint_name);
-                // Remove it from our dispatcher
-                if self
-                    .device_update_notification_dispatcher
-                    .unregister_receiver(&receiver_id)
-                {
-                    log::debug!(
-                        "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` removed from observed list"
-                    );
-                } else {
-                    log::debug!(
-                        "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` not in observed list"
-                    );
-                }
-                Ok(())
-            }
-            base_client_gen::NotificationPreferenceResponse::Failed => {
-                Err(Error(ErrorKind::ObservationError))
-            }
+
+        // unobserve was successful, remove this device from our dispatcher
+        let receiver_id = Self::hash_device_endpoint(&device_name, &inbound_endpoint_name);
+        if self
+            .device_update_notification_dispatcher
+            .unregister_receiver(&receiver_id)
+        {
+            log::debug!(
+                "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` removed from observed list"
+            );
+        } else {
+            log::debug!(
+                "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` not in observed list"
+            );
         }
+        Ok(())
     }
 
     /// Creates or updates a discovered device in the Azure Device Registry service.
@@ -793,7 +836,7 @@ where
     ///
     /// # Arguments
     /// * `device_name` - The name of the discovered device.
-    /// * `device_specification` - The specification of the discovered device.
+    /// * `device` - The specification of the discovered device.
     /// * `inbound_endpoint_type` - The type of the inbound endpoint.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
@@ -815,7 +858,7 @@ where
     pub async fn create_or_update_discovered_device(
         &self,
         device_name: String,
-        device_specification: DiscoveredDeviceSpecification,
+        device: DiscoveredDevice,
         inbound_endpoint_type: String,
         timeout: Duration,
     ) -> Result<(String, u64), Error> {
@@ -827,7 +870,7 @@ where
         let payload = discovery_client_gen::CreateOrUpdateDiscoveredDeviceRequestPayload {
             discovered_device_request:
                 discovery_client_gen::CreateOrUpdateDiscoveredDeviceRequestSchema {
-                    discovered_device: device_specification.into(),
+                    discovered_device: device.into(),
                     discovered_device_name: device_name,
                 },
         };
@@ -890,6 +933,9 @@ where
     ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
     /// if the asset name is empty.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
     pub async fn get_asset(
         &self,
         device_name: String,
@@ -918,21 +964,21 @@ where
             .get_asset_command_invoker
             .invoke(command_request)
             .await
+            .map_err(ErrorKind::from)?
             .map_err(ErrorKind::from)?;
 
         Ok(response.payload.asset.into())
     }
 
-    /// Updates the status of an [`Asset`] in the Azure Device Registry service.
+    /// Retrieves an [`AssetStatus`] from the Azure Device Registry service.
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the asset.
-    /// * `status` - An [`AssetStatus`] containing the status of an asset for the update.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the updated [`Asset`] once updated.
+    /// Returns an [`AssetStatus`] if the the asset was found.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
@@ -944,6 +990,68 @@ where
     ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
     /// if the asset name is empty.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    pub async fn get_asset_status(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        asset_name: String,
+        timeout: Duration,
+    ) -> Result<AssetStatus, Error> {
+        if asset_name.trim().is_empty() {
+            return Err(Error(ErrorKind::ValidationError(
+                "asset_name must not be empty".to_string(),
+            )));
+        }
+        let get_status_request_payload =
+            base_client_gen::GetAssetStatusRequestPayload { asset_name };
+        let get_status_request = base_client_gen::GetAssetStatusRequestBuilder::default()
+            .payload(get_status_request_payload)
+            .map_err(ErrorKind::from)?
+            .timeout(timeout)
+            .topic_tokens(Self::get_base_service_topic_tokens(
+                device_name,
+                inbound_endpoint_name,
+            ))
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        let response = self
+            .get_asset_status_command_invoker
+            .invoke(get_status_request)
+            .await
+            .map_err(ErrorKind::from)?
+            .map_err(ErrorKind::from)?;
+
+        Ok(response.payload.asset_status.into())
+    }
+
+    /// Updates the status of an Asset in the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset.
+    /// * `status` - An [`AssetStatus`] containing the status of an asset for the update.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the updated [`AssetStatus`] once updated.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
+    /// if timeout is 0 or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
+    /// - device or inbound endpoint names are invalid.
+    /// - there are any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if the asset name is empty.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
     pub async fn update_asset_status(
         &self,
         device_name: String,
@@ -951,7 +1059,7 @@ where
         asset_name: String,
         status: AssetStatus,
         timeout: Duration,
-    ) -> Result<Asset, Error> {
+    ) -> Result<AssetStatus, Error> {
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
                 "asset_name must not be empty".to_string(),
@@ -979,9 +1087,10 @@ where
             .update_asset_status_command_invoker
             .invoke(command_request)
             .await
+            .map_err(ErrorKind::from)?
             .map_err(ErrorKind::from)?;
 
-        Ok(response.payload.updated_asset.into())
+        Ok(response.payload.updated_asset_status.into())
     }
 
     /// Starts observation of an [`Asset`]'s updates from the Azure Device Registry service.
@@ -1007,11 +1116,11 @@ where
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
     ///
-    /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
-    /// if the observation was not accepted by the service.
-    ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
     /// if the asset name is empty.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
     pub async fn observe_asset_update_notifications(
         &self,
         device_name: String,
@@ -1060,29 +1169,8 @@ where
             .await;
 
         match result {
-            Ok(response) => {
-                if let base_client_gen::NotificationPreferenceResponse::Accepted =
-                    response.payload.notification_preference_response
-                {
-                    Ok(AssetUpdateObservation(rx))
-                } else {
-                    // If the observe request wasn't successful, remove it from our dispatcher
-                    if self
-                        .asset_update_notification_dispatcher
-                        .unregister_receiver(&receiver_id)
-                    {
-                        log::debug!(
-                            "Device, Endpoint and Asset combination removed from observed list: {receiver_id:?}"
-                        );
-                    } else {
-                        log::debug!(
-                            "Device, Endpoint and Asset combination not in observed list: {receiver_id:?}"
-                        );
-                    }
-                    Err(Error(ErrorKind::ObservationError))
-                }
-            }
-            Err(e) => {
+            Ok(Ok(_)) => Ok(AssetUpdateObservation(rx)),
+            error_branches => {
                 // If the observe request wasn't successful, remove it from our dispatcher
                 if self
                     .asset_update_notification_dispatcher
@@ -1096,7 +1184,11 @@ where
                         "Device, Endpoint and Asset combination not in observed list: {receiver_id:?}"
                     );
                 }
-                Err(Error(ErrorKind::from(e)))
+                match error_branches {
+                    Ok(Err(e)) => Err(Error(ErrorKind::from(e))),
+                    Err(e) => Err(Error(ErrorKind::from(e))),
+                    Ok(Ok(_)) => unreachable!(), // This case should not happen, as we already checked this in the first match branch
+                }
             }
         }
     }
@@ -1119,11 +1211,11 @@ where
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
     ///
-    /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
-    /// if the unobservation was not accepted by the service.
-    ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
     /// if the asset name is empty.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
     pub async fn unobserve_asset_update_notifications(
         &self,
         device_name: String,
@@ -1157,38 +1249,29 @@ where
                 .build()
                 .map_err(ErrorKind::from)?;
 
-        let response = self
+        let _ = self
             .notify_on_asset_update_command_invoker
             .invoke(command_request)
             .await
+            .map_err(ErrorKind::from)?
             .map_err(ErrorKind::from)?;
 
-        match response.payload.notification_preference_response {
-            base_client_gen::NotificationPreferenceResponse::Accepted => {
-                let receiver_id = Self::hash_device_endpoint_asset(
-                    &device_name,
-                    &inbound_endpoint_name,
-                    &asset_name,
-                );
-                // Remove it from our dispatcher
-                if self
-                    .asset_update_notification_dispatcher
-                    .unregister_receiver(&receiver_id)
-                {
-                    log::debug!(
-                        "Device, Endpoint and Asset combination removed from observed list: {receiver_id:?}"
-                    );
-                } else {
-                    log::debug!(
-                        "Device, Endpoint and Asset combination not in observed list: {receiver_id:?}"
-                    );
-                }
-                Ok(())
-            }
-            base_client_gen::NotificationPreferenceResponse::Failed => {
-                Err(Error(ErrorKind::ObservationError))
-            }
+        // unobserve was successful, remove this asset from our dispatcher
+        let receiver_id =
+            Self::hash_device_endpoint_asset(&device_name, &inbound_endpoint_name, &asset_name);
+        if self
+            .asset_update_notification_dispatcher
+            .unregister_receiver(&receiver_id)
+        {
+            log::debug!(
+                "Device, Endpoint and Asset combination removed from observed list: {receiver_id:?}"
+            );
+        } else {
+            log::debug!(
+                "Device, Endpoint and Asset combination not in observed list: {receiver_id:?}"
+            );
         }
+        Ok(())
     }
 
     /// Creates or updates a discovered asset in the Azure Device Registry service.
@@ -1200,7 +1283,7 @@ where
     /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the discovered asset.
-    /// * `asset_specification` - The specification of the discovered asset.
+    /// * `asset` - The specification of the discovered asset.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns a tuple containing the discovery ID and version of the discovered asset.
@@ -1223,10 +1306,10 @@ where
         device_name: String,
         inbound_endpoint_name: String,
         asset_name: String,
-        asset_specification: DiscoveredAssetSpecification,
+        asset: DiscoveredAsset,
         timeout: Duration,
     ) -> Result<(String, u64), Error> {
-        // TODO: do we need to take device_name at all as an argument? It's in the DeviceRef in the DiscoveredAssetSpecification
+        // TODO: do we need to take device_name at all as an argument? It's in the DeviceRef in the DiscoveredAsset
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
                 "asset_name must not be empty".to_string(),
@@ -1235,7 +1318,7 @@ where
 
         let payload = base_client_gen::CreateOrUpdateDiscoveredAssetRequestPayload {
             discovered_asset_request: base_client_gen::CreateOrUpdateDiscoveredAssetRequestSchema {
-                discovered_asset: asset_specification.into(),
+                discovered_asset: asset.into(),
                 discovered_asset_name: asset_name,
             },
         };
@@ -1330,8 +1413,8 @@ mod tests {
         .unwrap()
     }
 
-    fn create_dummy_discovered_device_specification() -> DiscoveredDeviceSpecification {
-        DiscoveredDeviceSpecification {
+    fn create_dummy_discovered_device() -> DiscoveredDevice {
+        DiscoveredDevice {
             attributes: HashMap::default(),
             endpoints: None,
             external_device_id: None,
@@ -1342,12 +1425,12 @@ mod tests {
         }
     }
 
-    fn create_dummy_discovered_asset_specification() -> DiscoveredAssetSpecification {
+    fn create_dummy_discovered_asset() -> DiscoveredAsset {
         let device_ref = DeviceRef {
             device_name: DEVICE_NAME.to_string(),
             endpoint_name: INBOUND_ENDPOINT_NAME.to_string(),
         };
-        DiscoveredAssetSpecification {
+        DiscoveredAsset {
             asset_type_refs: vec![],
             attributes: HashMap::default(),
             datasets: vec![],
@@ -1442,6 +1525,61 @@ mod tests {
         let adr_client = create_adr_client();
         let result = adr_client
             .get_asset(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                ASSET_NAME.to_string(),
+                Duration::from_secs(0),
+            )
+            .await;
+        assert!(matches!(
+            result.unwrap_err(),
+            Error(ErrorKind::InvalidRequestArgument(_))
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_get_asset_status_empty_asset_name() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .get_asset_status(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                String::new(),
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err(),
+            Error(ErrorKind::ValidationError(_))
+        ));
+    }
+
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
+    #[tokio::test]
+    async fn test_get_asset_status_invalid_topic_tokens(device_name: &str, endpoint_name: &str) {
+        let adr_client: Client<SessionManagedClient> = create_adr_client();
+        let result = adr_client
+            .get_asset_status(
+                device_name.to_string(),
+                endpoint_name.to_string(),
+                ASSET_NAME.to_string(),
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::AIOProtocolError(ref e) if matches!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_get_asset_status_zero_timeout() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .get_asset_status(
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
                 ASSET_NAME.to_string(),
@@ -1636,7 +1774,7 @@ mod tests {
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
                 String::new(),
-                create_dummy_discovered_asset_specification(),
+                create_dummy_discovered_asset(),
                 DURATION,
             )
             .await;
@@ -1660,7 +1798,7 @@ mod tests {
                 device_name.to_string(),
                 endpoint_name.to_string(),
                 ASSET_NAME.to_string(),
-                create_dummy_discovered_asset_specification(),
+                create_dummy_discovered_asset(),
                 DURATION,
             )
             .await;
@@ -1679,7 +1817,7 @@ mod tests {
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
                 ASSET_NAME.to_string(),
-                create_dummy_discovered_asset_specification(),
+                create_dummy_discovered_asset(),
                 Duration::from_secs(0),
             )
             .await;
@@ -1710,6 +1848,38 @@ mod tests {
         let adr_client = create_adr_client();
         let result = adr_client
             .get_device(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                Duration::from_secs(0),
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().kind(),
+            ErrorKind::InvalidRequestArgument(_)
+        ));
+    }
+
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
+    #[tokio::test]
+    async fn test_get_device_status_invalid_topic_tokens(device_name: &str, endpoint_name: &str) {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .get_device_status(device_name.to_string(), endpoint_name.to_string(), DURATION)
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::AIOProtocolError(ref e) if matches!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_get_device_status_zero_timeout() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .get_device_status(
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
                 Duration::from_secs(0),
@@ -1840,7 +2010,7 @@ mod tests {
         let result = adr_client
             .create_or_update_discovered_device(
                 DEVICE_NAME.to_string(),
-                create_dummy_discovered_device_specification(),
+                create_dummy_discovered_device(),
                 endpoint_type.to_string(),
                 DURATION,
             )
@@ -1858,7 +2028,7 @@ mod tests {
         let result = adr_client
             .create_or_update_discovered_device(
                 String::new(),
-                create_dummy_discovered_device_specification(),
+                create_dummy_discovered_device(),
                 INBOUNT_ENDPOINT_TYPE.to_string(),
                 DURATION,
             )
@@ -1876,7 +2046,7 @@ mod tests {
         let result = adr_client
             .create_or_update_discovered_device(
                 DEVICE_NAME.to_string(),
-                create_dummy_discovered_device_specification(),
+                create_dummy_discovered_device(),
                 INBOUNT_ENDPOINT_TYPE.to_string(),
                 Duration::from_secs(0),
             )

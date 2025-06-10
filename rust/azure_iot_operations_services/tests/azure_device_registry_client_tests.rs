@@ -17,7 +17,7 @@ use tokio::sync::Notify;
 use uuid::Uuid;
 
 use azure_iot_operations_services::azure_device_registry::models::{AssetStatus, DeviceStatus};
-use azure_iot_operations_services::azure_device_registry::{self, ConfigError, StatusConfig};
+use azure_iot_operations_services::azure_device_registry::{self, ConfigError, ConfigStatus};
 
 const DEVICE1: &str = "my-thermostat";
 const DEVICE2: &str = "test-thermostat";
@@ -27,6 +27,8 @@ const ENDPOINT2: &str = "my-coap-endpoint";
 const ENDPOINT3: &str = "unique-endpoint";
 const DEVICE3: &str = "unique-thermostat";
 const TIMEOUT: Duration = Duration::from_secs(10);
+
+// NOTE!: Must run `kubectl apply -f eng/test/test-adr-resources` before running these tests to have the necessary prerequisites
 
 // Test Scenarios:
 // get device
@@ -106,8 +108,7 @@ async fn get_device() {
                 .unwrap();
             log::info!("[{log_identifier}] Get Device: {response:?}");
 
-            assert_eq!(response.name, DEVICE1);
-            assert_eq!(response.specification.attributes["deviceId"], DEVICE1);
+            assert_eq!(response.attributes["deviceId"], DEVICE1);
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
@@ -125,6 +126,7 @@ async fn get_device() {
     );
 }
 
+// This test also tests get_device_status, since the setup would be the same as this test
 #[tokio::test]
 async fn update_device_plus_endpoint_status() {
     let log_identifier = "update_device_plus_endpoint_status_network_tests-rust";
@@ -139,18 +141,18 @@ async fn update_device_plus_endpoint_status() {
         Uuid::new_v4()
     );
     let updated_status = DeviceStatus {
-        config: Some(StatusConfig {
+        config: Some(ConfigStatus {
             error: Some(ConfigError {
                 message: Some(message),
-                ..ConfigError::default()
+                ..Default::default()
             }),
-            ..StatusConfig::default()
+            ..Default::default()
         }),
-        ..DeviceStatus::default()
+        ..Default::default()
     };
     let test_task = tokio::task::spawn({
         async move {
-            let updated_device = azure_device_registry_client
+            let device_status_response = azure_device_registry_client
                 .update_device_plus_endpoint_status(
                     DEVICE2.to_string(),
                     ENDPOINT2.to_string(),
@@ -159,11 +161,22 @@ async fn update_device_plus_endpoint_status() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Updated Response Device: {updated_device:?}");
+            log::info!(
+                "[{log_identifier}] Updated Response Device Status: {device_status_response:?}"
+            );
 
-            assert_eq!(updated_device.name, DEVICE2);
-            assert_eq!(updated_device.specification.attributes["deviceId"], DEVICE2);
-            assert_eq!(updated_device.status.unwrap(), updated_status);
+            // TODO: switch back to this full matching once service properly clears endpoint values
+            // assert_eq!(device_status_response, updated_status);
+            assert_eq!(device_status_response.config, updated_status.config);
+
+            // Test that get_device_status returns the same status as well
+            let recvd_device_status = azure_device_registry_client
+                .get_device_status(DEVICE2.to_string(), ENDPOINT2.to_string(), TIMEOUT)
+                .await
+                .unwrap();
+            log::info!("[{log_identifier}] Get Device Status: {recvd_device_status:?}");
+            assert_eq!(recvd_device_status.config, updated_status.config);
+
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
@@ -203,8 +216,7 @@ async fn get_asset() {
                 .unwrap();
             log::info!("[{log_identifier}] Response: {asset:?}");
 
-            assert_eq!(asset.name, asset_name);
-            assert_eq!(asset.specification.attributes["assetId"], asset_name);
+            assert_eq!(asset.attributes["assetId"], asset_name);
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
@@ -221,6 +233,7 @@ async fn get_asset() {
     );
 }
 
+// This test also tests get_asset_status, since the setup would be the same as this test
 #[tokio::test]
 async fn update_asset_status() {
     let log_identifier = "update_asset_status_network_tests-rust";
@@ -233,19 +246,19 @@ async fn update_asset_status() {
 
     let message = format!("Random test error for asset update {}", Uuid::new_v4());
     let updated_status = AssetStatus {
-        config: Some(StatusConfig {
+        config: Some(ConfigStatus {
             error: Some(ConfigError {
                 message: Some(message),
-                ..ConfigError::default()
+                ..Default::default()
             }),
-            ..StatusConfig::default()
+            ..Default::default()
         }),
-        ..AssetStatus::default()
+        ..Default::default()
     };
 
     let test_task = tokio::task::spawn({
         async move {
-            let updated_asset = azure_device_registry_client
+            let asset_status_response = azure_device_registry_client
                 .update_asset_status(
                     DEVICE2.to_string(),
                     ENDPOINT2.to_string(),
@@ -255,14 +268,24 @@ async fn update_asset_status() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Updated Response Asset: {updated_asset:?}");
-
-            assert_eq!(updated_asset.name, asset_name);
-            assert_eq!(
-                updated_asset.specification.attributes["assetId"],
-                asset_name
+            log::info!(
+                "[{log_identifier}] Updated Response Asset Status: {asset_status_response:?}"
             );
-            assert_eq!(updated_asset.status.unwrap(), updated_status);
+
+            assert_eq!(asset_status_response, updated_status);
+
+            // Test that get_asset_status returns the same status as well
+            let recvd_asset_status = azure_device_registry_client
+                .get_asset_status(
+                    DEVICE2.to_string(),
+                    ENDPOINT2.to_string(),
+                    asset_name.to_string(),
+                    TIMEOUT,
+                )
+                .await
+                .unwrap();
+            log::info!("[{log_identifier}] Get Asset Status: {recvd_asset_status:?}");
+            assert_eq!(recvd_asset_status, updated_status);
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
@@ -338,11 +361,7 @@ async fn observe_asset_update_notifications() {
                                 );
                                 // Signal that we got the first notification
                                 first_notification_notify.notify_one();
-                                assert_eq!(asset.name, asset_name);
-                                assert_eq!(
-                                    asset.specification.description.unwrap(),
-                                    description_for_task
-                                );
+                                assert_eq!(asset.description.unwrap(), description_for_task);
                             } else {
                                 log::error!(
                                     "[{log_identifier}] Asset Update notification unexpected: {asset:?}"
@@ -481,11 +500,7 @@ async fn observe_device_update_notifications() {
                                 );
                                 // Signal that we got the first notification
                                 first_notification_notify.notify_one();
-                                assert_eq!(device.name, DEVICE3);
-                                assert_eq!(
-                                    device.specification.manufacturer.unwrap(),
-                                    update_manu_for_task
-                                );
+                                assert_eq!(device.manufacturer.unwrap(), update_manu_for_task);
                             } else {
                                 log::error!(
                                     "[{log_identifier}] Device update notification unexpected: {device:?}"

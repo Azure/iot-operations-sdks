@@ -7,7 +7,7 @@ use std::collections::HashMap;
 use chrono::{DateTime, Utc};
 
 use crate::azure_device_registry::helper::{ConvertOptionMap, ConvertOptionVec};
-use crate::azure_device_registry::{ConfigError, StatusConfig};
+use crate::azure_device_registry::{ConfigError, ConfigStatus};
 use crate::azure_device_registry::{
     adr_base_gen::adr_base_service::client as base_client_gen,
     device_discovery_gen::device_discovery_service::client as discovery_client_gen,
@@ -17,49 +17,38 @@ use crate::azure_device_registry::{
 
 // ~~~~~~~~~~~~~~~~~~~Device Endpoint DTDL Equivalent Structs~~~~
 
-/// Represents a Device in the Azure Device Registry service.
-#[derive(Clone, Debug)]
-pub struct Device {
-    /// The 'name' Field.
-    pub name: String,
-    /// The 'specification' Field.
-    pub specification: DeviceSpecification,
-    /// The 'status' Field.S
-    pub status: Option<DeviceStatus>,
-}
-
+/// Represents a Device resource, modeled after the devices.namespaces.deviceregistry.microsoft.com CRD in Kubernetes.
 #[derive(Debug, Clone)]
-/// Represents the specification of a device in the Azure Device Registry service.
-pub struct DeviceSpecification {
-    /// The 'attributes' Field.
+pub struct Device {
+    /// A set of key-value pairs that contain custom attributes set by the customer.
     pub attributes: HashMap<String, String>, // if None in generated model, we can represent as empty hashmap
-    /// The 'discoveredDeviceRef' Field.
+    /// Reference to a device. Populated only if the device had been created from discovery flow. Discovered device name must be provided.
     pub discovered_device_ref: Option<String>,
-    /// The 'enabled' Field.
+    /// Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with Microsoft Entra ID.
     pub enabled: Option<bool>,
-    /// The 'endpoints' Field.
+    /// Connection endpoint url a device can use to connect to a service.
     pub endpoints: Option<DeviceEndpoints>,
-    /// The 'externalDeviceId' Field.
+    /// The Device ID provided by the customer.
     pub external_device_id: Option<String>,
-    /// The 'lastTransitionTime' Field.
+    /// A timestamp (in UTC) that is updated each time the resource is modified.
     pub last_transition_time: Option<DateTime<Utc>>,
-    /// The 'manufacturer' Field.
+    /// Device manufacturer.
     pub manufacturer: Option<String>,
-    /// The 'model' Field.
+    /// Device model.
     pub model: Option<String>,
-    /// The 'operatingSystem' Field.
+    /// Device operating system.
     pub operating_system: Option<String>,
-    /// The 'operatingSystemVersion' Field.
+    /// Device operating system version.
     pub operating_system_version: Option<String>,
-    /// The 'uuid' Field.
+    /// A unique identifier for this resource.
     pub uuid: Option<String>,
-    /// The 'version' Field.
+    /// An integer that is incremented each time the resource is modified.
     pub version: Option<u64>,
 }
 
 #[derive(Debug, Clone)]
-/// Represents a discovered device specification in the Azure Device Registry service.
-pub struct DiscoveredDeviceSpecification {
+/// Represents a discovered device in the Azure Device Registry service.
+pub struct DiscoveredDevice {
     /// The 'attributes' Field.
     pub attributes: HashMap<String, String>, // if empty hashmap, we can represent as None on generated model
     /// The 'endpoints' Field.
@@ -81,7 +70,7 @@ pub struct DiscoveredDeviceSpecification {
 pub struct DeviceEndpoints {
     /// The 'inbound' Field.
     pub inbound: HashMap<String, InboundEndpoint>, // if None on generated model, we can represent as empty hashmap. Might be able to change this to a single InboundEndpoint
-    /// The 'outbound' Field.
+    /// Set of endpoints for device to connect to.
     pub outbound: Option<OutboundEndpoints>,
 }
 
@@ -97,9 +86,9 @@ pub struct DiscoveredDeviceEndpoints {
 /// Represents the outbound endpoints of a device in the Azure Device Registry service.
 #[derive(Debug, Clone)]
 pub struct OutboundEndpoints {
-    /// The 'assigned' Field.
+    /// Device messaging endpoint model.
     pub assigned: HashMap<String, OutboundEndpoint>,
-    /// The 'unassigned' Field.
+    /// Device messaging endpoint model.
     pub unassigned: HashMap<String, OutboundEndpoint>,
 }
 
@@ -113,26 +102,26 @@ pub struct DiscoveredOutboundEndpoints {
 /// Represents an outbound endpoint of a device in the Azure Device Registry service.
 #[derive(Debug, Clone)]
 pub struct OutboundEndpoint {
-    /// The 'address' Field.
+    /// The endpoint address to connect to.
     pub address: String,
-    /// The 'endpointType' Field.
+    /// Type of connection used for the messaging endpoint.
     pub endpoint_type: Option<String>,
 }
 
 /// Represents an inbound endpoint of a device in the Azure Device Registry service.
 #[derive(Debug, Clone)]
 pub struct InboundEndpoint {
-    /// The 'additionalConfiguration' Field.
+    /// Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, ONVIF).
     pub additional_configuration: Option<String>,
-    /// The 'address' Field.
+    /// The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).
     pub address: String,
-    /// The 'authentication' Field.
+    /// Defines the client authentication mechanism to the server.
     pub authentication: Authentication,
-    /// The 'endpointType' Field.
+    /// Type of connection endpoint.
     pub endpoint_type: String,
-    /// The 'trustSettings' Field.
+    /// Defines server trust settings for the endpoint.
     pub trust_settings: Option<TrustSettings>,
-    /// The 'version' Field.
+    /// Version associated with device endpoint.
     pub version: Option<String>,
 }
 
@@ -145,6 +134,8 @@ pub struct DiscoveredInboundEndpoint {
     pub address: String,
     /// The 'endpointType' Field.
     pub endpoint_type: String,
+    /// The 'lastUpdatedOn' Field.
+    pub last_updated_on: Option<DateTime<Utc>>,
     /// The 'supportedAuthenticationMethods' Field.
     pub supported_authentication_methods: Vec<String>,
     /// The 'version' Field.
@@ -154,28 +145,26 @@ pub struct DiscoveredInboundEndpoint {
 #[derive(Debug, Clone)]
 /// Represents the trust settings for an endpoint.
 pub struct TrustSettings {
-    /// The 'issuerList' Field.
-    pub issuer_list: Option<String>,
-    /// The 'trustList' Field.
+    /// Secret reference to certificates list to trust.
     pub trust_list: Option<String>,
 }
 
 #[derive(Debug, Clone, Default)]
-/// Represents the authentication method for an endpoint.
+/// Defines the method to authenticate the user of the client at the server.
 pub enum Authentication {
     #[default]
     /// Represents anonymous authentication.
     Anonymous,
-    /// Represents authentication using a certificate.
+    /// Represents authentication using an x509 certificate.
     Certificate {
-        /// The 'certificateSecretName' Field.
+        /// The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).
         certificate_secret_name: String,
     },
     /// Represents authentication using a username and password.
     UsernamePassword {
-        /// The 'passwordSecretName' Field.
+        /// The name of the secret containing the password.
         password_secret_name: String,
-        /// The 'usernameSecretName' Field.
+        /// The name of the secret containing the username.
         username_secret_name: String,
     },
 }
@@ -184,26 +173,6 @@ pub enum Authentication {
 impl From<base_client_gen::Device> for Device {
     fn from(value: base_client_gen::Device) -> Self {
         Device {
-            name: value.name,
-            specification: value.specification.into(),
-            status: value.status.map(Into::into),
-        }
-    }
-}
-
-impl From<base_client_gen::DeviceUpdateEventTelemetry> for Device {
-    fn from(value: base_client_gen::DeviceUpdateEventTelemetry) -> Self {
-        Device {
-            name: value.device_update_event.device.name,
-            specification: value.device_update_event.device.specification.into(),
-            status: value.device_update_event.device.status.map(Into::into),
-        }
-    }
-}
-
-impl From<base_client_gen::DeviceSpecificationSchema> for DeviceSpecification {
-    fn from(value: base_client_gen::DeviceSpecificationSchema) -> Self {
-        DeviceSpecification {
             attributes: value.attributes.unwrap_or_default(),
             discovered_device_ref: value.discovered_device_ref,
             enabled: value.enabled,
@@ -220,8 +189,8 @@ impl From<base_client_gen::DeviceSpecificationSchema> for DeviceSpecification {
     }
 }
 
-impl From<DiscoveredDeviceSpecification> for discovery_client_gen::DiscoveredDevice {
-    fn from(value: DiscoveredDeviceSpecification) -> Self {
+impl From<DiscoveredDevice> for discovery_client_gen::DiscoveredDevice {
+    fn from(value: DiscoveredDevice) -> Self {
         discovery_client_gen::DiscoveredDevice {
             attributes: value.attributes.option_map_into(),
             endpoints: value.endpoints.map(Into::into),
@@ -243,9 +212,9 @@ impl From<base_client_gen::DeviceEndpointsSchema> for DeviceEndpoints {
     }
 }
 
-impl From<DiscoveredDeviceEndpoints> for discovery_client_gen::DiscoveredDeviceEndpoint {
+impl From<DiscoveredDeviceEndpoints> for discovery_client_gen::DiscoveredDeviceEndpoints {
     fn from(value: DiscoveredDeviceEndpoints) -> Self {
-        discovery_client_gen::DiscoveredDeviceEndpoint {
+        discovery_client_gen::DiscoveredDeviceEndpoints {
             inbound: value.inbound.option_map_into(),
             outbound: value.outbound.map(Into::into),
         }
@@ -318,6 +287,7 @@ impl From<DiscoveredInboundEndpoint>
             additional_configuration: value.additional_configuration,
             address: value.address,
             endpoint_type: value.endpoint_type,
+            last_updated_on: value.last_updated_on,
             supported_authentication_methods: value
                 .supported_authentication_methods
                 .option_vec_into(),
@@ -329,7 +299,6 @@ impl From<DiscoveredInboundEndpoint>
 impl From<base_client_gen::TrustSettingsSchema> for TrustSettings {
     fn from(value: base_client_gen::TrustSettingsSchema) -> Self {
         TrustSettings {
-            issuer_list: value.issuer_list,
             trust_list: value.trust_list,
         }
     }
@@ -376,7 +345,7 @@ impl From<base_client_gen::AuthenticationSchema> for Authentication {
 /// Represents the observed status of a Device in the ADR Service.
 pub struct DeviceStatus {
     ///  Defines the status config properties.
-    pub config: Option<StatusConfig>,
+    pub config: Option<ConfigStatus>,
     /// Defines the device status for inbound/outbound endpoints.
     pub endpoints: HashMap<String, Option<ConfigError>>,
 }
@@ -405,7 +374,7 @@ impl From<DeviceStatus> for base_client_gen::DeviceStatus {
             })
         };
         base_client_gen::DeviceStatus {
-            config: value.config.map(StatusConfig::into),
+            config: value.config.map(ConfigStatus::into),
             endpoints,
         }
     }
@@ -424,9 +393,7 @@ impl From<base_client_gen::DeviceStatus> for DeviceStatus {
             None => HashMap::new(),
         };
         DeviceStatus {
-            config: value
-                .config
-                .map(base_client_gen::DeviceStatusConfigSchema::into),
+            config: value.config.map(base_client_gen::ConfigStatus::into),
             endpoints,
         }
     }

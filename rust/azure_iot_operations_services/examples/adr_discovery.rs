@@ -84,6 +84,7 @@ async fn do_discovery(
             endpoint_type: "myEndpointType".to_string(),
             supported_authentication_methods: vec![],
             version: Some("1.0.0".to_string()),
+            last_updated_on: Some(chrono::Utc::now()),
             additional_configuration: None,
         },
     )]);
@@ -103,7 +104,7 @@ async fn do_discovery(
             },
         ),
     ]);
-    let device_spec = models::DiscoveredDeviceSpecification {
+    let device = models::DiscoveredDevice {
         attributes: HashMap::default(),
         endpoints: Some(models::DiscoveredDeviceEndpoints {
             inbound: discovered_inbound_endpoints,
@@ -121,7 +122,7 @@ async fn do_discovery(
     match client
         .create_or_update_discovered_device(
             device_name,
-            device_spec,
+            device,
             "myEndpointType".to_string(),
             Duration::from_secs(10),
         )
