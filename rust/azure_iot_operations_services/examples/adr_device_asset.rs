@@ -65,57 +65,55 @@ async fn azure_device_registry_operations(
     exit_handle: SessionExitHandle,
 ) {
     // observe for updates for our Device + Inbound Endpoint
-    // TODO: uncomment once service supports this
-    // match azure_device_registry_client
-    //     .observe_device_update_notifications(
-    //         DEVICE_NAME.to_string(),
-    //         INBOUND_ENDPOINT_NAME.to_string(),
-    //         TIMEOUT,
-    //     )
-    //     .await
-    // {
-    //     Ok(mut observation) => {
-    //         log::info!("Device observed successfully");
-    //         tokio::task::spawn({
-    //             async move {
-    //                 while let Some((notification, _)) = observation.recv_notification().await {
-    //                     log::info!("device updated: {notification:#?}");
-    //                 }
-    //                 log::info!("device notification receiver closed");
-    //             }
-    //         });
-    //     }
-    //     Err(e) => {
-    //         log::error!("Observing for device updates failed: {e}");
-    //     }
-    // };
+    match azure_device_registry_client
+        .observe_device_update_notifications(
+            DEVICE_NAME.to_string(),
+            INBOUND_ENDPOINT_NAME.to_string(),
+            TIMEOUT,
+        )
+        .await
+    {
+        Ok(mut observation) => {
+            log::info!("Device observed successfully");
+            tokio::task::spawn({
+                async move {
+                    while let Some((notification, _)) = observation.recv_notification().await {
+                        log::info!("device updated: {notification:?}");
+                    }
+                    log::info!("device notification receiver closed");
+                }
+            });
+        }
+        Err(e) => {
+            log::error!("Observing for device updates failed: {e}");
+        }
+    };
 
     // observe for updates for our Asset
-    // TODO: uncomment once service supports this
-    // match azure_device_registry_client
-    //     .observe_asset_update_notifications(
-    //         DEVICE_NAME.to_string(),
-    //         INBOUND_ENDPOINT_NAME.to_string(),
-    //         ASSET_NAME.to_string(),
-    //         TIMEOUT,
-    //     )
-    //     .await
-    // {
-    //     Ok(mut observation) => {
-    //         log::info!("Asset observed successfully");
-    //         tokio::task::spawn({
-    //             async move {
-    //                 while let Some((notification, _)) = observation.recv_notification().await {
-    //                     log::info!("asset updated: {notification:#?}");
-    //                 }
-    //                 log::info!("asset notification receiver closed");
-    //             }
-    //         });
-    //     }
-    //     Err(e) => {
-    //         log::error!("Observing for asset updates failed: {e}");
-    //     }
-    // };
+    match azure_device_registry_client
+        .observe_asset_update_notifications(
+            DEVICE_NAME.to_string(),
+            INBOUND_ENDPOINT_NAME.to_string(),
+            ASSET_NAME.to_string(),
+            TIMEOUT,
+        )
+        .await
+    {
+        Ok(mut observation) => {
+            log::info!("Asset observed successfully");
+            tokio::task::spawn({
+                async move {
+                    while let Some((notification, _)) = observation.recv_notification().await {
+                        log::info!("asset updated: {notification:?}");
+                    }
+                    log::info!("asset notification receiver closed");
+                }
+            });
+        }
+        Err(e) => {
+            log::error!("Observing for asset updates failed: {e}");
+        }
+    };
 
     // run device operations and log any errors
     match device_operations(&azure_device_registry_client).await {
@@ -138,41 +136,39 @@ async fn azure_device_registry_operations(
     };
 
     // Unobserve must be called on clean-up to prevent getting notifications for this in the future
-    // TODO: uncomment once service supports this
-    // match azure_device_registry_client
-    //     .unobserve_device_update_notifications(
-    //         DEVICE_NAME.to_string(),
-    //         INBOUND_ENDPOINT_NAME.to_string(),
-    //         TIMEOUT,
-    //     )
-    //     .await
-    // {
-    //     Ok(()) => {
-    //         log::info!("Device unobserved successfully");
-    //     }
-    //     Err(e) => {
-    //         log::error!("Unobserving for device updates failed: {e}");
-    //     }
-    // };
+    match azure_device_registry_client
+        .unobserve_device_update_notifications(
+            DEVICE_NAME.to_string(),
+            INBOUND_ENDPOINT_NAME.to_string(),
+            TIMEOUT,
+        )
+        .await
+    {
+        Ok(()) => {
+            log::info!("Device unobserved successfully");
+        }
+        Err(e) => {
+            log::error!("Unobserving for device updates failed: {e}");
+        }
+    };
 
     // Unobserve must be called on clean-up to prevent getting notifications for this in the future
-    // TODO: uncomment once service supports this
-    // match azure_device_registry_client
-    //     .unobserve_asset_update_notifications(
-    //         DEVICE_NAME.to_string(),
-    //         INBOUND_ENDPOINT_NAME.to_string(),
-    //         ASSET_NAME.to_string(),
-    //         TIMEOUT,
-    //     )
-    //     .await
-    // {
-    //     Ok(()) => {
-    //         log::info!("Asset unobserved successfully");
-    //     }
-    //     Err(e) => {
-    //         log::error!("Unobserving for Asset updates failed: {e}");
-    //     }
-    // };
+    match azure_device_registry_client
+        .unobserve_asset_update_notifications(
+            DEVICE_NAME.to_string(),
+            INBOUND_ENDPOINT_NAME.to_string(),
+            ASSET_NAME.to_string(),
+            TIMEOUT,
+        )
+        .await
+    {
+        Ok(()) => {
+            log::info!("Asset unobserved successfully");
+        }
+        Err(e) => {
+            log::error!("Unobserving for Asset updates failed: {e}");
+        }
+    };
 
     match azure_device_registry_client.shutdown().await {
         Ok(()) => {
@@ -258,16 +254,15 @@ async fn device_operations(
 
     // send the fully updated status to Azure Device Registry
     log::info!("Device status to send as update: {device_status:?}");
-    // TODO: uncomment once service supports this
-    // let updated_device_status = azure_device_registry_client
-    //     .update_device_plus_endpoint_status(
-    //         DEVICE_NAME.to_string(),
-    //         INBOUND_ENDPOINT_NAME.to_string(),
-    //         device_status,
-    //         TIMEOUT,
-    //     )
-    //     .await?;
-    // log::info!("Updated Device sttus: {updated_device_status:?}");
+    let updated_device_status = azure_device_registry_client
+        .update_device_plus_endpoint_status(
+            DEVICE_NAME.to_string(),
+            INBOUND_ENDPOINT_NAME.to_string(),
+            device_status,
+            TIMEOUT,
+        )
+        .await?;
+    log::info!("Updated Device status: {updated_device_status:?}");
 
     Ok(())
 }
@@ -320,17 +315,16 @@ async fn asset_operations(
     }
     asset_status.datasets = Some(dataset_statuses);
     log::info!("Asset status to send as update: {asset_status:?}");
-    // TODO: uncomment once service supports this
-    // let updated_asset_status = azure_device_registry_client
-    //     .update_asset_status(
-    //         DEVICE_NAME.to_string(),
-    //         INBOUND_ENDPOINT_NAME.to_string(),
-    //         ASSET_NAME.to_string(),
-    //         asset_status,
-    //         TIMEOUT,
-    //     )
-    //     .await?;
-    // log::info!("Updated Asset status: {updated_asset_status:?}");
+    let updated_asset_status = azure_device_registry_client
+        .update_asset_status(
+            DEVICE_NAME.to_string(),
+            INBOUND_ENDPOINT_NAME.to_string(),
+            ASSET_NAME.to_string(),
+            asset_status,
+            TIMEOUT,
+        )
+        .await?;
+    log::info!("Updated Asset status: {updated_asset_status:?}");
 
     Ok(())
 }
