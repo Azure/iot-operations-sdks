@@ -82,17 +82,59 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetOperation",
-      "namespace": "http://opcfoundation.org/UA/MDIS"
+      "namespace": "http://opcfoundation.org/UA/MDIS",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Mode",
+              "schema": "dtmi:opcua:MDIS:MDISMotorObjectType:dataType:MotorOperationEnum;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "Start",
-      "namespace": "http://opcfoundation.org/UA/MDIS"
+      "namespace": "http://opcfoundation.org/UA/MDIS",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "OverrideInterlocks",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "Stop",
-      "namespace": "http://opcfoundation.org/UA/MDIS"
+      "namespace": "http://opcfoundation.org/UA/MDIS",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "OverrideInterlocks",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
     }
   ]
 }

@@ -101,22 +101,138 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetActiveDiagnosis",
-      "namespace": "http://opcfoundation.org/UA/PNENC"
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ActiveDiagnosis",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:PNENC:LogbookType:dataType:LogEntryDataType;1"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetCurrentFaultSituation",
-      "namespace": "http://opcfoundation.org/UA/PNENC"
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "CurrentLogEntries",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:PNENC:LogbookType:dataType:LogEntryDataType;1"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetFilteredLogbookEntries",
-      "namespace": "http://opcfoundation.org/UA/PNENC"
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "LogbookFilterOptions",
+              "schema": "unsignedByte"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "FaultSituationNumber",
+              "schema": "unsignedByte"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "EventType",
+              "schema": "dtmi:opcua:PNENC:LogbookType:dataType:EventTypeEnumeration;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "EventCode",
+              "schema": "integer"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "EventAppearanceInterval",
+              "schema": "duration"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "FilteredLogEntries",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:PNENC:LogbookType:dataType:LogEntryDataType;1"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetHistoricFaultSituation",
-      "namespace": "http://opcfoundation.org/UA/PNENC"
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "FaultSituationNumber",
+              "schema": "unsignedByte"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "HistoricLogEntries",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:PNENC:LogbookType:dataType:LogEntryDataType;1"
+              }
+            }
+          ]
+        }
+      }
     }
   ]
 }

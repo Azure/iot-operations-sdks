@@ -15,42 +15,357 @@
   "commandTopic": "opcua/BACnet_V2/BACnetDeviceType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetAddressBinding;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103015",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "DeviceObjectIdentifier",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "DeviceAddress",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetAddress;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:KeyValuePair;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=14533",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Key",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Value",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetDeviceCommunicationEnabled;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3018",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Enable",
+          "enumValue": 0
+        },
+        {
+          "name": "Disable",
+          "enumValue": 1
+        },
+        {
+          "name": "DisableInitiation",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetReinitializedStateofDevice;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3049",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Coldstart",
+          "enumValue": 0
+        },
+        {
+          "name": "Warmstart",
+          "enumValue": 1
+        },
+        {
+          "name": "Startbackup",
+          "enumValue": 2
+        },
+        {
+          "name": "Endbackup",
+          "enumValue": 3
+        },
+        {
+          "name": "Startrestore",
+          "enumValue": 4
+        },
+        {
+          "name": "Endrestore",
+          "enumValue": 5
+        },
+        {
+          "name": "Abortrestore",
+          "enumValue": 6
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetMessageClass;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3052",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Unsigned",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "String",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetMessagePriority;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3057",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "normal",
+          "enumValue": 0
+        },
+        {
+          "name": "urgent",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetAddress;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3022",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "NetworkNumber",
+          "schema": "unsignedShort"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MacAddress",
+          "schema": "bytes"
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AddDeviceAddressBindings",
-      "namespace": "http://opcfoundation.org/UA/BACnet_V2"
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "AddressBindings",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetAddressBinding;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "FirstFailedElementNumber",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "CreateObject",
-      "namespace": "http://opcfoundation.org/UA/BACnet_V2"
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ObjectSpecifier",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ListOfInitialValues",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:KeyValuePair;1"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "DeleteObject",
-      "namespace": "http://opcfoundation.org/UA/BACnet_V2"
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ObjectIdentifier",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "DeviceCommunicationControl",
-      "namespace": "http://opcfoundation.org/UA/BACnet_V2"
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "TimeDurationInMinutes",
+              "schema": "unsignedShort"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "EnableDisable",
+              "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetDeviceCommunicationEnabled;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Password",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ReinitializeDevice",
-      "namespace": "http://opcfoundation.org/UA/BACnet_V2"
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ReinitializedStateofDevice",
+              "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetReinitializedStateofDevice;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Password",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RemoveDeviceAddressBindings",
-      "namespace": "http://opcfoundation.org/UA/BACnet_V2"
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "AddressBindings",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetAddressBinding;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "FirstFailedElementNumber",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "TextMessage",
-      "namespace": "http://opcfoundation.org/UA/BACnet_V2"
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SendUnconfirmed",
+              "schema": "boolean"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "TextMessageSourceDevice",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "MessageClass",
+              "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetMessageClass;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "MessagePriority",
+              "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetMessagePriority;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Message",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

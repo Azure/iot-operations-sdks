@@ -15,17 +15,112 @@
   "commandTopic": "opcua/DI/FileSystemLoadingType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:DI:FileSystemLoadingType:dataType:UpdateBehavior;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=333",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "KeepsParameters",
+          "enumValue": 0
+        },
+        {
+          "name": "WillDisconnect",
+          "enumValue": 1
+        },
+        {
+          "name": "RequiresPowerCycle",
+          "enumValue": 2
+        },
+        {
+          "name": "WillReboot",
+          "enumValue": 3
+        },
+        {
+          "name": "NeedsPreparation",
+          "enumValue": 4
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetUpdateBehavior",
-      "namespace": "http://opcfoundation.org/UA/DI"
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "NodeIds",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "UpdateBehavior",
+              "schema": "dtmi:opcua:DI:FileSystemLoadingType:dataType:UpdateBehavior;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ValidateFiles",
-      "namespace": "http://opcfoundation.org/UA/DI"
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "NodeIds",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ErrorCode",
+              "schema": "integer"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ErrorMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

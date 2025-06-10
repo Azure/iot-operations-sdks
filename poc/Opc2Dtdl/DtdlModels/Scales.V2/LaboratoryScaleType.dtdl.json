@@ -15,17 +15,69 @@
   "commandTopic": "opcua/Scales_V2/LaboratoryScaleType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:Scales_V2:LaboratoryScaleType:dataType:DraftShieldType;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=65",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Right_0",
+          "enumValue": 0
+        },
+        {
+          "name": "Left_1",
+          "enumValue": 1
+        },
+        {
+          "name": "Top_2",
+          "enumValue": 2
+        },
+        {
+          "name": "All_3",
+          "enumValue": 3
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "CloseDraftShields",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2"
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Shield",
+              "schema": "dtmi:opcua:Scales_V2:LaboratoryScaleType:dataType:DraftShieldType;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "OpenDraftShields",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2"
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Shield",
+              "schema": "dtmi:opcua:Scales_V2:LaboratoryScaleType:dataType:DraftShieldType;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

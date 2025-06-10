@@ -19,7 +19,21 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "CloseAndUpdate",
-      "namespace": "http://opcfoundation.org/UA/WoT-Con"
+      "namespace": "http://opcfoundation.org/UA/WoT-Con",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "FileHandle",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
     }
   ]
 }

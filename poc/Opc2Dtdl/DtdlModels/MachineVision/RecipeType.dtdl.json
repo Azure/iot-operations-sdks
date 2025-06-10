@@ -14,27 +14,133 @@
   "commandTopic": "opcua/MachineVision/RecipeType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:MachineVision:RecipeType:dataType:ProductIdDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "LinkProduct",
-      "namespace": "http://opcfoundation.org/UA/MachineVision"
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ProductId",
+              "schema": "dtmi:opcua:MachineVision:RecipeType:dataType:ProductIdDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "Prepare",
-      "namespace": "http://opcfoundation.org/UA/MachineVision"
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "IsCompleted",
+              "schema": "boolean"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "UnlinkProduct",
-      "namespace": "http://opcfoundation.org/UA/MachineVision"
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ProductId",
+              "schema": "dtmi:opcua:MachineVision:RecipeType:dataType:ProductIdDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "Unprepare",
-      "namespace": "http://opcfoundation.org/UA/MachineVision"
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

@@ -95,6 +95,43 @@
       ]
     },
     {
+      "@id": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MethodExecutionFeedbackType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3009",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Success",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Message",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MessageType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MessageType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3002",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LocalText",
+          "schema": "string"
+        }
+      ]
+    },
+    {
       "@id": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialLotType;1",
       "@type": [ "Object", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3012",
@@ -141,26 +178,6 @@
             "@type": "Array",
             "elementSchema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:DataDescriptionType;1"
           }
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialStockStatusEnumeration;1",
-      "@type": [ "Enum", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3039",
-      "valueSchema": "integer",
-      "enumValues": [
-        {
-          "name": "Unrestricted",
-          "enumValue": 0
-        },
-        {
-          "name": "QualityInspection",
-          "enumValue": 1
-        },
-        {
-          "name": "Blocked",
-          "enumValue": 2
         }
       ]
     },
@@ -216,6 +233,26 @@
             "@type": "Array",
             "elementSchema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:DataDescriptionType;1"
           }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialStockStatusEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3039",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Unrestricted",
+          "enumValue": 0
+        },
+        {
+          "name": "QualityInspection",
+          "enumValue": 1
+        },
+        {
+          "name": "Blocked",
+          "enumValue": 2
         }
       ]
     },
@@ -415,7 +452,35 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetPresentedMaterialValidationStatus",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2"
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ValidationResult",
+              "schema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialValidationStatusEnumeration;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
     }
   ]
 }

@@ -14,6 +14,58 @@
   "commandTopic": "opcua/FX_CM/ConnectionManagerType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:FX_CM:ConnectionManagerType:dataType:FxEditEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3001",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "StartEditing",
+          "enumValue": 0
+        },
+        {
+          "name": "CommitUpdates",
+          "enumValue": 1
+        },
+        {
+          "name": "DiscardUpdates",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:FX_CM:ConnectionManagerType:dataType:FxProcessEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3002",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ActionEstablishConnectionsEnabled",
+          "enumValue": 0
+        },
+        {
+          "name": "ActionEstablishConnectionsDisabled",
+          "enumValue": 1
+        },
+        {
+          "name": "ActionEstablishConnections",
+          "enumValue": 2
+        },
+        {
+          "name": "ActionRemoveConnections",
+          "enumValue": 3
+        },
+        {
+          "name": "ActionEnableConnections",
+          "enumValue": 4
+        },
+        {
+          "name": "ActionDisableConnections",
+          "enumValue": 5
+        }
+      ]
+    }
   ],
   "contents": [
     {
@@ -26,12 +78,90 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "EditConnectionConfigurationSets",
-      "namespace": "http://opcfoundation.org/UA/FX.CM"
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Action",
+              "schema": "dtmi:opcua:FX_CM:ConnectionManagerType:dataType:FxEditEnum;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ConnectionConfigurationSets",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Results",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "integer"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ProcessConnectionConfigurationSets",
-      "namespace": "http://opcfoundation.org/UA/FX.CM"
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Action",
+              "schema": "dtmi:opcua:FX_CM:ConnectionManagerType:dataType:FxProcessEnum;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ConnectionConfigurationSets",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Results",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "integer"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

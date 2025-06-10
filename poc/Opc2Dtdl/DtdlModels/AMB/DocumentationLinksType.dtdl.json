@@ -38,12 +38,69 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AddLink",
-      "namespace": "http://opcfoundation.org/UA/AMB"
+      "namespace": "http://opcfoundation.org/UA/AMB",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "LinkToExternalSource",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "BrowseName",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "DisplayName",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Description",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "LinkVariable",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RemoveLink",
-      "namespace": "http://opcfoundation.org/UA/AMB"
+      "namespace": "http://opcfoundation.org/UA/AMB",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "VariableToBeDeleted",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     }
   ]
 }

@@ -77,7 +77,21 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetArbitrationMode",
-      "namespace": "http://opcfoundation.org/UA/MDIS"
+      "namespace": "http://opcfoundation.org/UA/MDIS",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ArbitrationMode",
+              "schema": "dtmi:opcua:MDIS:MDISDigitalArbitrationObjectType:dataType:ArbitrationModeEnum;1"
+            }
+          ]
+        }
+      }
     }
   ]
 }

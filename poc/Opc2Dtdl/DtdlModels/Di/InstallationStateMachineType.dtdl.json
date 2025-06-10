@@ -33,12 +33,61 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "InstallSoftwarePackage",
-      "namespace": "http://opcfoundation.org/UA/DI"
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ManufacturerUri",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SoftwareRevision",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "PatchIdentifiers",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Hash",
+              "schema": "bytes"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "InstallFiles",
-      "namespace": "http://opcfoundation.org/UA/DI"
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "NodeIds",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

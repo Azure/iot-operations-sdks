@@ -14,37 +14,399 @@
   "commandTopic": "opcua/TMC_v2/MachineModuleConfigurationType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:ParameterDependencyEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3005",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Machine",
+          "enumValue": 0
+        },
+        {
+          "name": "Brand",
+          "enumValue": 1
+        },
+        {
+          "name": "Machine_and_Brand",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:DataSetDefinitionType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3021",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Definitions",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:DataDefinitionType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:DataDefinitionType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3003",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "DisplayFormat",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Dependency",
+          "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:ParameterDependencyEnumeration;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "DataType",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "UserSubset",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ControlRange",
+          "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:Range;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "AlarmRange",
+          "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:Range;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:Range;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Low",
+          "schema": "double"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "High",
+          "schema": "double"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3009",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Success",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Message",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MessageType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseGroupType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3030",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ParentID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseMessageType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3029",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "GroupID",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MessageType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3002",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LocalText",
+          "schema": "string"
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetDataSetList",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2"
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Dependency",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:ParameterDependencyEnumeration;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "UserSubset",
+              "schema": "boolean"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "CompleteSet",
+              "schema": "boolean"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "DataSetList",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:DataSetDefinitionType;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetRootCauseGroupList",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2"
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RootCauseGroupList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseGroupType;1"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetRootCauseList",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2"
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RootCauseList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseMessageType;1"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetStopReasonList",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2"
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "StopReasonList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MessageType;1"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetDataSetListMESID",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2"
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "IDs",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "MESIDs",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetRootCauseLists",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2"
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RootCauseList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseMessageType;1"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RootCauseGroupList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseGroupType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
     }
   ]
 }

@@ -19,12 +19,59 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AddRecipe",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2"
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RecipeId",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RecipeName",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RecipeNodeId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RemoveRecipe",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2"
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RecipeId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

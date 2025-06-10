@@ -68,7 +68,21 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetSetValueDensity",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Density",
+              "schema": "double"
+            }
+          ]
+        }
+      }
     }
   ]
 }

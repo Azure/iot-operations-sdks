@@ -14,12 +14,74 @@
   "commandTopic": "opcua/MachineVision/ResultTransferType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:MachineVision:ResultTransferType:dataType:ResultTransferOptions;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3022",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Id",
+          "schema": "dtmi:opcua:MachineVision:ResultTransferType:dataType:ResultIdDataType;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:ResultTransferType:dataType:ResultIdDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Id",
+          "schema": "string"
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GenerateFileForRead",
-      "namespace": "http://opcfoundation.org/UA/MachineVision"
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "GenerateOptions",
+              "schema": "dtmi:opcua:MachineVision:ResultTransferType:dataType:ResultTransferOptions;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "FileNodeId",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "FileHandle",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "CompletionStateMachine",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     }
   ]
 }

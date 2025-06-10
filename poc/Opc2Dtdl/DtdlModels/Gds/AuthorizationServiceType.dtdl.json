@@ -14,17 +14,145 @@
   "commandTopic": "opcua/GDS/AuthorizationServiceType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:GDS:AuthorizationServiceType:dataType:UserTokenPolicy;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=304",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "PolicyId",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "TokenType",
+          "schema": "dtmi:opcua:GDS:AuthorizationServiceType:dataType:UserTokenType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "IssuedTokenType",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "IssuerEndpointUrl",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "SecurityPolicyUri",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:GDS:AuthorizationServiceType:dataType:UserIdentityToken;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=316",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "PolicyId",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:GDS:AuthorizationServiceType:dataType:UserTokenType;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=303",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Anonymous",
+          "enumValue": 0
+        },
+        {
+          "name": "UserName",
+          "enumValue": 1
+        },
+        {
+          "name": "Certificate",
+          "enumValue": 2
+        },
+        {
+          "name": "IssuedToken",
+          "enumValue": 3
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetServiceDescription",
-      "namespace": "http://opcfoundation.org/UA/GDS"
+      "namespace": "http://opcfoundation.org/UA/GDS",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ServiceUri",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ServiceCertificate",
+              "schema": "bytes"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "UserTokenPolicies",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:GDS:AuthorizationServiceType:dataType:UserTokenPolicy;1"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RequestAccessToken",
-      "namespace": "http://opcfoundation.org/UA/GDS"
+      "namespace": "http://opcfoundation.org/UA/GDS",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "IdentityToken",
+              "schema": "dtmi:opcua:GDS:AuthorizationServiceType:dataType:UserIdentityToken;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ResourceId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "AccessToken",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     }
   ]
 }

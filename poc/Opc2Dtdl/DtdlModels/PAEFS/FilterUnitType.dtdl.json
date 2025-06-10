@@ -29,17 +29,59 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetAndActivateAirflowSetpoint",
-      "namespace": "http://opcfoundation.org/UA/PAEFS"
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Value",
+              "schema": "double"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetAndActivatePressureSetpoint",
-      "namespace": "http://opcfoundation.org/UA/PAEFS"
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Value",
+              "schema": "double"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetAndActivateRotationalSpeedSetpoint",
-      "namespace": "http://opcfoundation.org/UA/PAEFS"
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Value",
+              "schema": "double"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

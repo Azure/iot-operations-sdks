@@ -63,7 +63,21 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetVehicleInformation",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2"
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "VehicleId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

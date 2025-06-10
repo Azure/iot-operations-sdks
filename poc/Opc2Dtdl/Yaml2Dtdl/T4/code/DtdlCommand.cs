@@ -34,7 +34,7 @@ namespace Yaml2Dtdl
 
         private Dictionary<string, (string?, int)>? GetArguments(string browseName) => definedType.Contents.FirstOrDefault(
             c => c.Relationship == "HasProperty" &&
-            c.DefinedType.BrowseName == browseName &&
+            c.DefinedType.BrowseName.EndsWith(browseName) &&
             c.DefinedType.Arguments.Count > 0)?.DefinedType?.Arguments;
 
         private bool GetIsOptional(string browseName) => definedType.Contents.Any(

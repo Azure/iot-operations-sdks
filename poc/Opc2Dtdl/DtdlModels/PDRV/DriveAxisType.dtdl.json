@@ -19,7 +19,21 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetApplicationTag",
-      "namespace": "http://opcfoundation.org/UA/PDRV"
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ApplicationTag",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

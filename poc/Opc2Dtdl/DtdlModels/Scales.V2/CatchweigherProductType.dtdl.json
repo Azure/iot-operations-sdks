@@ -48,12 +48,69 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AddZone",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2"
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ZoneName",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "LowerLimit",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "UpperLimit",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "EngineeringUnits",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ZoneNodeId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RemoveZone",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2"
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ZoneNodeId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

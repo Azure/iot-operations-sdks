@@ -14,37 +14,223 @@
   "commandTopic": "opcua/TTD/RecipeManagementType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3018",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "RecipeId",
+          "schema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeIdDataType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "RecipeContent",
+          "schema": "bytes"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ContentEncoding",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeIdDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3003",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Type",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Comment",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ModifiedDate",
+          "schema": "time"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Version",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Validated",
+          "schema": "boolean"
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "DeleteRecipe",
-      "namespace": "http://opcfoundation.org/UA/TTD"
+      "namespace": "http://opcfoundation.org/UA/TTD",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RecipeId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetRecipe",
-      "namespace": "http://opcfoundation.org/UA/TTD"
+      "namespace": "http://opcfoundation.org/UA/TTD",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RecipeId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Recipe",
+              "schema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetRecipeIds",
-      "namespace": "http://opcfoundation.org/UA/TTD"
+      "namespace": "http://opcfoundation.org/UA/TTD",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RecipeIds",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeIdDataType;1"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetRecipes",
-      "namespace": "http://opcfoundation.org/UA/TTD"
+      "namespace": "http://opcfoundation.org/UA/TTD",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Recipes",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetRecipe",
-      "namespace": "http://opcfoundation.org/UA/TTD"
+      "namespace": "http://opcfoundation.org/UA/TTD",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Recipe",
+              "schema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Overwrite",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetRecipes",
-      "namespace": "http://opcfoundation.org/UA/TTD"
+      "namespace": "http://opcfoundation.org/UA/TTD",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Recipes",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Overwrite",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
     }
   ]
 }

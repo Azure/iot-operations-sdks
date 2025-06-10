@@ -19,7 +19,21 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetNameOfStation",
-      "namespace": "http://opcfoundation.org/UA/PROFINET"
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "NameOfStation",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

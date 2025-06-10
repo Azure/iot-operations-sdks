@@ -14,17 +14,248 @@
   "commandTopic": "opcua/OPENSCS_SER/OPENSCSAggregationManagerObjectType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSAggregationDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=3002",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ParentElement",
+          "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSLabelDataType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ParentElementCollection",
+          "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSKeyValueDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15010",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Key",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Value",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSReturnEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15001",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Undefined0",
+          "enumValue": 0
+        },
+        {
+          "name": "NoError1",
+          "enumValue": 1
+        },
+        {
+          "name": "InvalidSerialNumberCollection2",
+          "enumValue": 2
+        },
+        {
+          "name": "InsufficientSerialNumbers3",
+          "enumValue": 3
+        },
+        {
+          "name": "InvalidSerialNumbersFormat4",
+          "enumValue": 4
+        },
+        {
+          "name": "InvalidRequestToken5",
+          "enumValue": 5
+        },
+        {
+          "name": "InvalidSelectionCriteria6",
+          "enumValue": 6
+        },
+        {
+          "name": "UnableToAcceptSerialNumberEvents7",
+          "enumValue": 7
+        },
+        {
+          "name": "UnableToAcceptLabelEvents8",
+          "enumValue": 8
+        },
+        {
+          "name": "UnableToAcceptSIDEvents9",
+          "enumValue": 9
+        },
+        {
+          "name": "UnknownAggregationSID10",
+          "enumValue": 10
+        },
+        {
+          "name": "InsufficientPrivilegeToExecute11",
+          "enumValue": 11
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSLabelDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=3003",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LabelProperties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15006",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LabelCollection",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSLabelDataType;1"
+          }
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LabelCollectionProperties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+          }
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AggregationPackingEvent",
-      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER"
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "AggregationElement",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSAggregationDataType;1"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ParentSNFormat",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "PackedElementSNFormat",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "AggregationContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AggregationUnpackingEvent",
-      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER"
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "AggregationElement",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSAggregationDataType;1"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ParentSNFormat",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "PackedElementSNFormat",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "AggregationContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
     }
   ]
 }

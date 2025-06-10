@@ -84,27 +84,97 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AbortRecipe",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2"
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RecipeNodeId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ContinueRecipe",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2"
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RecipeNodeId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SkipCurrentRecipeElement",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2"
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RecipeNodeId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "StartRecipe",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2"
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RecipeNodeId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "StopRecipe",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2"
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RecipeNodeId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

@@ -40,7 +40,21 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "PresetControl",
-      "namespace": "http://opcfoundation.org/UA/PNENC"
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "PresetValue",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

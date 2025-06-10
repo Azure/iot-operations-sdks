@@ -14,17 +14,498 @@
   "commandTopic": "opcua/Scheduler/ScheduleType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:SpecialEventType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=70",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Period",
+          "schema": "dtmi:opcua:Scheduler:ScheduleType:dataType:SpecialEventPeriodType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ListOfTimeActions",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:Scheduler:ScheduleType:dataType:TimeActionsType;1"
+          }
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "EventPriority",
+          "schema": "unsignedByte"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:SpecialEventPeriodType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=71",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "CalendarEntry",
+          "schema": "dtmi:opcua:Scheduler:ScheduleType:dataType:CalendarEntryType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "CalendarReference",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:CalendarEntryType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=72",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Date",
+          "schema": "dtmi:opcua:Scheduler:ScheduleType:dataType:DateType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "DateRange",
+          "schema": "dtmi:opcua:Scheduler:ScheduleType:dataType:DateRangeType;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:DateType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=73",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Year",
+          "schema": "unsignedShort"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Month",
+          "schema": "dtmi:opcua:Scheduler:ScheduleType:dataType:Month;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "DayOfMonth",
+          "schema": "dtmi:opcua:Scheduler:ScheduleType:dataType:DayOfMonth;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "DayOfWeek",
+          "schema": "dtmi:opcua:Scheduler:ScheduleType:dataType:DayOfWeek;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:Month;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=74",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Unspecified",
+          "enumValue": 0
+        },
+        {
+          "name": "January",
+          "enumValue": 1
+        },
+        {
+          "name": "February",
+          "enumValue": 2
+        },
+        {
+          "name": "March",
+          "enumValue": 3
+        },
+        {
+          "name": "April",
+          "enumValue": 4
+        },
+        {
+          "name": "May",
+          "enumValue": 5
+        },
+        {
+          "name": "June",
+          "enumValue": 6
+        },
+        {
+          "name": "July",
+          "enumValue": 7
+        },
+        {
+          "name": "August",
+          "enumValue": 8
+        },
+        {
+          "name": "September",
+          "enumValue": 9
+        },
+        {
+          "name": "October",
+          "enumValue": 10
+        },
+        {
+          "name": "November",
+          "enumValue": 11
+        },
+        {
+          "name": "December",
+          "enumValue": 12
+        },
+        {
+          "name": "Odd",
+          "enumValue": 13
+        },
+        {
+          "name": "Even",
+          "enumValue": 14
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:TimeActionsType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=81",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Time",
+          "schema": "dtmi:opcua:Scheduler:ScheduleType:dataType:TimeType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Actions",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:Scheduler:ScheduleType:dataType:BaseActionType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:TimeType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=85",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Hour",
+          "schema": "unsignedByte"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Minute",
+          "schema": "unsignedByte"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Second",
+          "schema": "unsignedByte"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:BaseActionType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=82",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LastActionResult",
+          "schema": "integer"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:DateRangeType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=80",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "StartDate",
+          "schema": "dtmi:opcua:Scheduler:ScheduleType:dataType:DateType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "EndDate",
+          "schema": "dtmi:opcua:Scheduler:ScheduleType:dataType:DateType;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:DayOfMonth;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=76",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Unspecified",
+          "enumValue": 0
+        },
+        {
+          "name": "Day1",
+          "enumValue": 1
+        },
+        {
+          "name": "Day2",
+          "enumValue": 2
+        },
+        {
+          "name": "Day3",
+          "enumValue": 3
+        },
+        {
+          "name": "Day4",
+          "enumValue": 4
+        },
+        {
+          "name": "Day5",
+          "enumValue": 5
+        },
+        {
+          "name": "Day6",
+          "enumValue": 6
+        },
+        {
+          "name": "Day7",
+          "enumValue": 7
+        },
+        {
+          "name": "Day8",
+          "enumValue": 8
+        },
+        {
+          "name": "Day9",
+          "enumValue": 9
+        },
+        {
+          "name": "Day10",
+          "enumValue": 10
+        },
+        {
+          "name": "Day11",
+          "enumValue": 11
+        },
+        {
+          "name": "Day12",
+          "enumValue": 12
+        },
+        {
+          "name": "Day13",
+          "enumValue": 13
+        },
+        {
+          "name": "Day14",
+          "enumValue": 14
+        },
+        {
+          "name": "Day15",
+          "enumValue": 15
+        },
+        {
+          "name": "Day16",
+          "enumValue": 16
+        },
+        {
+          "name": "Day17",
+          "enumValue": 17
+        },
+        {
+          "name": "Day18",
+          "enumValue": 18
+        },
+        {
+          "name": "Day19",
+          "enumValue": 19
+        },
+        {
+          "name": "Day20",
+          "enumValue": 20
+        },
+        {
+          "name": "Day21",
+          "enumValue": 21
+        },
+        {
+          "name": "Day22",
+          "enumValue": 22
+        },
+        {
+          "name": "Day23",
+          "enumValue": 23
+        },
+        {
+          "name": "Day24",
+          "enumValue": 24
+        },
+        {
+          "name": "Day25",
+          "enumValue": 25
+        },
+        {
+          "name": "Day26",
+          "enumValue": 26
+        },
+        {
+          "name": "Day27",
+          "enumValue": 27
+        },
+        {
+          "name": "Day28",
+          "enumValue": 28
+        },
+        {
+          "name": "Day29",
+          "enumValue": 29
+        },
+        {
+          "name": "Day30",
+          "enumValue": 30
+        },
+        {
+          "name": "Day31",
+          "enumValue": 31
+        },
+        {
+          "name": "LastDayOfMonth",
+          "enumValue": 32
+        },
+        {
+          "name": "OddDayOfMonth",
+          "enumValue": 33
+        },
+        {
+          "name": "EvenDayOfMonth",
+          "enumValue": 34
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:DayOfWeek;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=78",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Unspecified",
+          "enumValue": 0
+        },
+        {
+          "name": "Monday",
+          "enumValue": 1
+        },
+        {
+          "name": "Tuesday",
+          "enumValue": 2
+        },
+        {
+          "name": "Wednesday",
+          "enumValue": 3
+        },
+        {
+          "name": "Thursday",
+          "enumValue": 4
+        },
+        {
+          "name": "Friday",
+          "enumValue": 5
+        },
+        {
+          "name": "Saturday",
+          "enumValue": 6
+        },
+        {
+          "name": "Sunday",
+          "enumValue": 7
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AddExceptionScheduleElements",
-      "namespace": "http://opcfoundation.org/UA/Scheduler"
+      "namespace": "http://opcfoundation.org/UA/Scheduler",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SpecialEvents",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Scheduler:ScheduleType:dataType:SpecialEventType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "EntryResults",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "integer"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RemoveExceptionScheduleElements",
-      "namespace": "http://opcfoundation.org/UA/Scheduler"
+      "namespace": "http://opcfoundation.org/UA/Scheduler",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SpecialEvents",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Scheduler:ScheduleType:dataType:SpecialEventType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "EntryResults",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "integer"
+              }
+            }
+          ]
+        }
+      }
     }
   ]
 }

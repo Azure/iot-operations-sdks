@@ -15,22 +15,144 @@
   "commandTopic": "opcua/FX_AC/ConfigurationDataFolderType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:FX_AC:ConfigurationDataFolderType:dataType:NodeIdValuePair;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1028",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Key",
+          "schema": "dtmi:opcua:FX_AC:ConfigurationDataFolderType:dataType:NodeIdArray;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Value",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:FX_AC:ConfigurationDataFolderType:dataType:NodeIdArray;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1034",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Node",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ArrayIndex",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "unsignedInteger"
+          }
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ClearStoredVariables",
-      "namespace": "http://opcfoundation.org/UA/FX.AC"
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "VariablesToClear",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Results",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "integer"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ListStoredVariables",
-      "namespace": "http://opcfoundation.org/UA/FX.AC"
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "StoredVariables",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:FX_AC:ConfigurationDataFolderType:dataType:NodeIdValuePair;1"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetStoredVariables",
-      "namespace": "http://opcfoundation.org/UA/FX.AC"
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "VariablesToStore",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Results",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "integer"
+              }
+            }
+          ]
+        }
+      }
     }
   ]
 }

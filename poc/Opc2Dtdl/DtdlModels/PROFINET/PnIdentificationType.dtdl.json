@@ -14,22 +14,94 @@
   "commandTopic": "opcua/PROFINET/PnIdentificationType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PROFINET:PnIdentificationType:dataType:IMTagSelectorEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3021",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "FUNCTION",
+          "enumValue": 0
+        },
+        {
+          "name": "LOCATION",
+          "enumValue": 1
+        },
+        {
+          "name": "BOTH",
+          "enumValue": 2
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetDate",
-      "namespace": "http://opcfoundation.org/UA/PROFINET"
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Date",
+              "schema": "dateTime"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetDescriptor",
-      "namespace": "http://opcfoundation.org/UA/PROFINET"
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Descriptor",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetTags",
-      "namespace": "http://opcfoundation.org/UA/PROFINET"
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Tag_Selector",
+              "schema": "dtmi:opcua:PROFINET:PnIdentificationType:dataType:IMTagSelectorEnumeration;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Tag_Function",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Tag_Location",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     }
   ]
 }

@@ -114,7 +114,21 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetApplicationTag",
-      "namespace": "http://opcfoundation.org/UA/PNGSDGM"
+      "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ApplicationTag",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

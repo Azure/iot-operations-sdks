@@ -19,17 +19,106 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "InitDirectAccess",
-      "namespace": "http://fdi-cooperation.com/OPCUA/FDI5"
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Context",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "InitDirectAccessError",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "Transfer",
-      "namespace": "http://fdi-cooperation.com/OPCUA/FDI5"
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SendData",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ReceiveData",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "TransferError",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "EndDirectAccess",
-      "namespace": "http://fdi-cooperation.com/OPCUA/FDI5"
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "InvalidateCache",
+              "schema": "boolean"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "EndDirectAccessError",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
     }
   ]
 }

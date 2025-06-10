@@ -39,7 +39,21 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetWatchDogTime",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "WatchDogTime",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
     }
   ]
 }

@@ -125,12 +125,40 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ClearArticleSpec",
-      "namespace": "http://opcfoundation.org/UA/WireHarness"
+      "namespace": "http://opcfoundation.org/UA/WireHarness",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ArticleSpec",
+              "schema": "dtmi:opcua:WireHarness:ArticleSpecManagementType:dataType:ISA95MaterialDataType;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "StoreArticleSpec",
-      "namespace": "http://opcfoundation.org/UA/WireHarness"
+      "namespace": "http://opcfoundation.org/UA/WireHarness",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ArticleSpec",
+              "schema": "dtmi:opcua:WireHarness:ArticleSpecManagementType:dataType:ISA95MaterialDataType;1"
+            }
+          ]
+        }
+      }
     }
   ]
 }

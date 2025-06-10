@@ -54,6 +54,42 @@
           "enumValue": 4
         }
       ]
+    },
+    {
+      "@id": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:SEMEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "SEM_A",
+          "enumValue": 1
+        },
+        {
+          "name": "SEM_B",
+          "enumValue": 2
+        },
+        {
+          "name": "Auto",
+          "enumValue": 4
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:ChokeCommandEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=701",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Close",
+          "enumValue": 1
+        },
+        {
+          "name": "Open",
+          "enumValue": 2
+        }
+      ]
     }
   ],
   "contents": [
@@ -128,17 +164,84 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "Move",
-      "namespace": "http://opcfoundation.org/UA/MDIS"
+      "namespace": "http://opcfoundation.org/UA/MDIS",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Position",
+              "schema": "float"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "OverrideInterlocks",
+              "schema": "boolean"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SEM",
+              "schema": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:SEMEnum;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetCalculatedPosition",
-      "namespace": "http://opcfoundation.org/UA/MDIS"
+      "namespace": "http://opcfoundation.org/UA/MDIS",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Position",
+              "schema": "float"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "Step",
-      "namespace": "http://opcfoundation.org/UA/MDIS"
+      "namespace": "http://opcfoundation.org/UA/MDIS",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Direction",
+              "schema": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:ChokeCommandEnum;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Steps",
+              "schema": "unsignedShort"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "OverrideInterlocks",
+              "schema": "boolean"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SEM",
+              "schema": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:SEMEnum;1"
+            }
+          ]
+        }
+      }
     }
   ]
 }

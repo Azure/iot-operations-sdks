@@ -15,6 +15,22 @@
   "commandTopic": "opcua/PADIM/ControlSignalType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PADIM:ControlSignalType:dataType:ExecutionModeEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1158",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Start",
+          "enumValue": 2
+        },
+        {
+          "name": "Abort",
+          "enumValue": 255
+        }
+      ]
+    }
   ],
   "contents": [
     {
@@ -55,7 +71,21 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AutoAdjustPositioner",
-      "namespace": "http://opcfoundation.org/UA/PADIM"
+      "namespace": "http://opcfoundation.org/UA/PADIM",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ExecutionMode",
+              "schema": "dtmi:opcua:PADIM:ControlSignalType:dataType:ExecutionModeEnum;1"
+            }
+          ]
+        }
+      }
     }
   ]
 }

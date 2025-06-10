@@ -19,7 +19,40 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "Sync",
-      "namespace": "http://opcfoundation.org/UA/MachineVision"
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Cause",
+              "schema": "integer"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "CauseDescription",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

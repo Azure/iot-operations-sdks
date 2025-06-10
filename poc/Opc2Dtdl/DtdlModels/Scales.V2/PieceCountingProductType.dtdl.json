@@ -154,12 +154,50 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetTargetItemCount",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2"
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "TargetItemCount",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetTargetPieceCount",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2"
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "TargetPieceCount",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "PlusTolerance",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "MinusTolerance",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
     }
   ]
 }

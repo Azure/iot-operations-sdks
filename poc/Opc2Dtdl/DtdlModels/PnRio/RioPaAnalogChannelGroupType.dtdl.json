@@ -15,6 +15,38 @@
   "commandTopic": "opcua/PNRIO/RioPaAnalogChannelGroupType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PNRIO:RioPaAnalogChannelGroupType:dataType:RioAnalogDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=3020",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Float_32",
+          "schema": "float"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Int_16",
+          "schema": "short"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Int_32",
+          "schema": "integer"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "UInt_16",
+          "schema": "unsignedShort"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "UInt_32",
+          "schema": "unsignedInteger"
+        }
+      ]
+    }
   ],
   "contents": [
     {
@@ -30,12 +62,55 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetSimulation",
-      "namespace": "http://opcfoundation.org/UA/PNRIO"
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SimulationEnabled",
+              "schema": "boolean"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Index",
+              "schema": "short"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetSimulationValue",
-      "namespace": "http://opcfoundation.org/UA/PNRIO"
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Value",
+              "schema": "dtmi:opcua:PNRIO:RioPaAnalogChannelGroupType:dataType:RioAnalogDataType;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Qualifier",
+              "schema": "unsignedByte"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Index",
+              "schema": "short"
+            }
+          ]
+        }
+      }
     }
   ]
 }

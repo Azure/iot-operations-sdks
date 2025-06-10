@@ -24,7 +24,31 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetMESMessage",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Id",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Message",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Severity",
+              "schema": "unsignedShort"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

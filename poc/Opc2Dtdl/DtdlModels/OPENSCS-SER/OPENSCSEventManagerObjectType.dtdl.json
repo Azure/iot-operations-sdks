@@ -14,57 +14,674 @@
   "commandTopic": "opcua/OPENSCS_SER/OPENSCSEventManagerObjectType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15006",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LabelCollection",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelDataType;1"
+          }
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LabelCollectionProperties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15010",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Key",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Value",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15001",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Undefined0",
+          "enumValue": 0
+        },
+        {
+          "name": "NoError1",
+          "enumValue": 1
+        },
+        {
+          "name": "InvalidSerialNumberCollection2",
+          "enumValue": 2
+        },
+        {
+          "name": "InsufficientSerialNumbers3",
+          "enumValue": 3
+        },
+        {
+          "name": "InvalidSerialNumbersFormat4",
+          "enumValue": 4
+        },
+        {
+          "name": "InvalidRequestToken5",
+          "enumValue": 5
+        },
+        {
+          "name": "InvalidSelectionCriteria6",
+          "enumValue": 6
+        },
+        {
+          "name": "UnableToAcceptSerialNumberEvents7",
+          "enumValue": 7
+        },
+        {
+          "name": "UnableToAcceptLabelEvents8",
+          "enumValue": 8
+        },
+        {
+          "name": "UnableToAcceptSIDEvents9",
+          "enumValue": 9
+        },
+        {
+          "name": "UnknownAggregationSID10",
+          "enumValue": 10
+        },
+        {
+          "name": "InsufficientPrivilegeToExecute11",
+          "enumValue": 11
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSCollectionDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15005",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "State",
+          "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSSerialNumberStateEnum;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "AssociatedPoolID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "SerialNumbers",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSSerialNumberStateEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15143",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Unassigned0",
+          "enumValue": 0
+        },
+        {
+          "name": "Unallocated1",
+          "enumValue": 1
+        },
+        {
+          "name": "Allocated2",
+          "enumValue": 2
+        },
+        {
+          "name": "SNInvalid3",
+          "enumValue": 3
+        },
+        {
+          "name": "Encoded4",
+          "enumValue": 4
+        },
+        {
+          "name": "LabelSampled5",
+          "enumValue": 5
+        },
+        {
+          "name": "LabelScrapped6",
+          "enumValue": 6
+        },
+        {
+          "name": "Commissioned7",
+          "enumValue": 7
+        },
+        {
+          "name": "Sampled8",
+          "enumValue": 8
+        },
+        {
+          "name": "Inactive9",
+          "enumValue": 9
+        },
+        {
+          "name": "Destroyed10",
+          "enumValue": 10
+        },
+        {
+          "name": "Released11",
+          "enumValue": 11
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=3003",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LabelProperties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+          }
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "LabelsEncodingEvent",
-      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER"
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "LabelsInspectingEvent",
-      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER"
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "LabelsSamplingEvent",
-      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER"
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "LabelsScrappingEvent",
-      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER"
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SIDCommissioningEvent",
-      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER"
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SIDDecommissioningEvent",
-      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER"
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SIDDestroyingEvent",
-      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER"
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SIDInspectingEvent",
-      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER"
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SIDShippingEvent",
-      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER"
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SNInvalidatingEvent",
-      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER"
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SNCollection",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSCollectionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

@@ -73,7 +73,26 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetPresetTare",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2"
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "PresetTare",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "EngineeringUnits",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

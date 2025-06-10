@@ -80,12 +80,40 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ResetErrorById",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner"
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Id",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetReactionOnDisconnect",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner"
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ReactionOnDisconnect",
+              "schema": "unsignedShort"
+            }
+          ]
+        }
+      }
     }
   ]
 }

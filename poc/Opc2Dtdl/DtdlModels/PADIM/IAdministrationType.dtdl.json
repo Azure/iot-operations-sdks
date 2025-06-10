@@ -14,6 +14,26 @@
   "commandTopic": "opcua/PADIM/IAdministrationType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PADIM:IAdministrationType:dataType:ResetModeEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1156",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Application",
+          "enumValue": 1
+        },
+        {
+          "name": "Communication",
+          "enumValue": 2712
+        },
+        {
+          "name": "Factory",
+          "enumValue": 2713
+        }
+      ]
+    }
   ],
   "contents": [
     {
@@ -33,7 +53,21 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "FactoryReset",
-      "namespace": "http://opcfoundation.org/UA/PADIM"
+      "namespace": "http://opcfoundation.org/UA/PADIM",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ResetMode",
+              "schema": "dtmi:opcua:PADIM:IAdministrationType:dataType:ResetModeEnum;1"
+            }
+          ]
+        }
+      }
     }
   ]
 }

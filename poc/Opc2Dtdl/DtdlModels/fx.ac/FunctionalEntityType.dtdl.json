@@ -37,6 +37,63 @@
           "enumValue": 19
         }
       ]
+    },
+    {
+      "@id": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:NodeIdValuePair;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1028",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Key",
+          "schema": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:NodeIdArray;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Value",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:NodeIdArray;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1034",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Node",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ArrayIndex",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "unsignedInteger"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:FunctionalEntityVerificationResultEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=3002",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NotSet",
+          "enumValue": 0
+        },
+        {
+          "name": "Match",
+          "enumValue": 1
+        },
+        {
+          "name": "Mismatch",
+          "enumValue": 2
+        }
+      ]
     }
   ],
   "contents": [
@@ -50,7 +107,46 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "Verify",
-      "namespace": "http://opcfoundation.org/UA/FX.AC"
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ExpectedVerificationVariables",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:NodeIdValuePair;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "VerificationResult",
+              "schema": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:FunctionalEntityVerificationResultEnum;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "VerificationVariablesErrors",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "integer"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

@@ -14,37 +14,240 @@
   "commandTopic": "opcua/PackML/PackMLBaseObjectType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLRemoteInterfaceDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=19",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Number",
+          "schema": "integer"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ControlCmdNumber",
+          "schema": "integer"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "CmdValue",
+          "schema": "integer"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Parameter",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLDescriptorDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLDescriptorDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=16",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "integer"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Unit",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Value",
+          "schema": "float"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLProductDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=18",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ProductID",
+          "schema": "integer"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ProcessVariables",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLDescriptorDataType;1"
+          }
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Ingredients",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLIngredientsDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLIngredientsDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=17",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "IngredientID",
+          "schema": "integer"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Parameter",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLDescriptorDataType;1"
+          }
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RemoteCommand",
-      "namespace": "http://opcfoundation.org/UA/PackML"
+      "namespace": "http://opcfoundation.org/UA/PackML",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RemoteInterface",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLRemoteInterfaceDataType;1"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetInterlock",
-      "namespace": "http://opcfoundation.org/UA/PackML"
+      "namespace": "http://opcfoundation.org/UA/PackML",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "InterlockId",
+              "schema": "integer"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "State",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetMachSpeed",
-      "namespace": "http://opcfoundation.org/UA/PackML"
+      "namespace": "http://opcfoundation.org/UA/PackML",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RequestedMachineSpeed",
+              "schema": "float"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetParameter",
-      "namespace": "http://opcfoundation.org/UA/PackML"
+      "namespace": "http://opcfoundation.org/UA/PackML",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Parameter",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLDescriptorDataType;1"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetProduct",
-      "namespace": "http://opcfoundation.org/UA/PackML"
+      "namespace": "http://opcfoundation.org/UA/PackML",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Product",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLProductDataType;1"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetUnitMode",
-      "namespace": "http://opcfoundation.org/UA/PackML"
+      "namespace": "http://opcfoundation.org/UA/PackML",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RequestedMode",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

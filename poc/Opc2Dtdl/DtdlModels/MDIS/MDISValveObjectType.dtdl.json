@@ -78,6 +78,26 @@
           "enumValue": 4
         }
       ]
+    },
+    {
+      "@id": "dtmi:opcua:MDIS:MDISValveObjectType:dataType:SEMEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "SEM_A",
+          "enumValue": 1
+        },
+        {
+          "name": "SEM_B",
+          "enumValue": 2
+        },
+        {
+          "name": "Auto",
+          "enumValue": 4
+        }
+      ]
     }
   ],
   "contents": [
@@ -140,7 +160,41 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "Move",
-      "namespace": "http://opcfoundation.org/UA/MDIS"
+      "namespace": "http://opcfoundation.org/UA/MDIS",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Direction",
+              "schema": "dtmi:opcua:MDIS:MDISValveObjectType:dataType:CommandEnum;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "OverrideInterlock",
+              "schema": "boolean"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SEM",
+              "schema": "dtmi:opcua:MDIS:MDISValveObjectType:dataType:SEMEnum;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Signature",
+              "schema": "boolean"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ShutdownRequest",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
     }
   ]
 }

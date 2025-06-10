@@ -155,17 +155,76 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ClearPart",
-      "namespace": "http://opcfoundation.org/UA/WireHarness"
+      "namespace": "http://opcfoundation.org/UA/WireHarness",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Part",
+              "schema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "FindPartsByType",
-      "namespace": "http://opcfoundation.org/UA/WireHarness"
+      "namespace": "http://opcfoundation.org/UA/WireHarness",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "TypeNodeId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Parts",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "StorePart",
-      "namespace": "http://opcfoundation.org/UA/WireHarness"
+      "namespace": "http://opcfoundation.org/UA/WireHarness",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Part",
+              "schema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
+            }
+          ]
+        }
+      }
     }
   ]
 }

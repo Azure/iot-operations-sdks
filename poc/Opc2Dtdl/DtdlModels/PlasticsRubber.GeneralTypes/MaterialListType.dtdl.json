@@ -19,12 +19,50 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AddMaterial",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Id",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Name",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Density",
+              "schema": "double"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RemoveMaterialById",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Id",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

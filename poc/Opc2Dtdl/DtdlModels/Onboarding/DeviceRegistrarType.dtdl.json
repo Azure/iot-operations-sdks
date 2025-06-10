@@ -14,32 +14,407 @@
   "commandTopic": "opcua/Onboarding/DeviceRegistrarType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:BaseTicketType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding;i=1165",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ManufacturerName",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ModelName",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ModelVersion",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "HardwareRevision",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "SoftwareRevision",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "SerialNumber",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ManufactureDate",
+          "schema": "dateTime"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Authorities",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:CertificateAuthorityType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:CertificateAuthorityType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding;i=1164",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "AuthorityCertificate",
+          "schema": "bytes"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "IssuerCertificates",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "bytes"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ManagerDescription;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding;i=1495",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "IsRequired",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "PurposeUri",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ProtocolUri",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "EndpointUrls",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ApplicationDescription;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=308",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ApplicationUri",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ProductUri",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ApplicationName",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ApplicationType",
+          "schema": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ApplicationType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "GatewayServerUri",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "DiscoveryProfileUri",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "DiscoveryUrls",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ApplicationType;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=307",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Server",
+          "enumValue": 0
+        },
+        {
+          "name": "Client",
+          "enumValue": 1
+        },
+        {
+          "name": "ClientAndServer",
+          "enumValue": 2
+        },
+        {
+          "name": "DiscoveryServer",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ApplicationRecordDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/GDS;i=1",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ApplicationId",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ApplicationUri",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ApplicationType",
+          "schema": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ApplicationType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ApplicationNames",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ProductUri",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "DiscoveryUrls",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ServerCapabilities",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ProvideIdentities",
-      "namespace": "http://opcfoundation.org/UA/Onboarding"
+      "namespace": "http://opcfoundation.org/UA/Onboarding",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Identities",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "bytes"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Issuers",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "bytes"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Tickets",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SelectedIdentity",
+              "schema": "bytes"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "MatchingTicket",
+              "schema": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:BaseTicketType;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ApplicationId",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SoftwareUpdateManager",
+              "schema": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ManagerDescription;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "UpdateSoftwareStatus",
-      "namespace": "http://opcfoundation.org/UA/Onboarding"
+      "namespace": "http://opcfoundation.org/UA/Onboarding",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Status",
+              "schema": "boolean"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SoftwareRevision",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RegisterDeviceEndpoint",
-      "namespace": "http://opcfoundation.org/UA/Onboarding"
+      "namespace": "http://opcfoundation.org/UA/Onboarding",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Application",
+              "schema": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ApplicationDescription;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetManagers",
-      "namespace": "http://opcfoundation.org/UA/Onboarding"
+      "namespace": "http://opcfoundation.org/UA/Onboarding",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Managers",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ManagerDescription;1"
+              }
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RegisterManagedApplication",
-      "namespace": "http://opcfoundation.org/UA/Onboarding"
+      "namespace": "http://opcfoundation.org/UA/Onboarding",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Application",
+              "schema": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ApplicationRecordDataType;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ProtocolUri",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ApplicationId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

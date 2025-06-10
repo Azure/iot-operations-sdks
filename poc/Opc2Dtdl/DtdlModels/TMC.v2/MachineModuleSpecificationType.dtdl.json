@@ -14,27 +14,401 @@
   "commandTopic": "opcua/TMC_v2/MachineModuleSpecificationType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MethodExecutionFeedbackType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3009",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Success",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Message",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MessageType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialPointType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3013",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MaterialCapability",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialDefinitionType;1"
+          }
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ConnectedMaterialPoint",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "PropagatesProductionOrder",
+          "schema": "boolean"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialDefinitionType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3010",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "BaseUnitOfMeasure",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "BatchManaged",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "GroupID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ParentGroupID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ShelfLife",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:DataDescriptionType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:DataDescriptionType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3019",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialStorageBufferDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3014",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "StoredMaterial",
+          "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialDefinitionType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "TotalStorageCapacity",
+          "schema": "double"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "StorageLogic",
+          "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:StorageLogicEnumeration;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MixingLogic",
+          "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:StorageMixingLogicEnumeration;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:StorageLogicEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3015",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Other",
+          "enumValue": 0
+        },
+        {
+          "name": "FIFO",
+          "enumValue": 1
+        },
+        {
+          "name": "LIFO",
+          "enumValue": 2
+        },
+        {
+          "name": "FEFO",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:StorageMixingLogicEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3035",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Mixing",
+          "enumValue": 0
+        },
+        {
+          "name": "NonMixingByProduct",
+          "enumValue": 1
+        },
+        {
+          "name": "NonMixingByBatch",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MessageType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3002",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LocalText",
+          "schema": "string"
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "DeleteSpecificationRecord",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2"
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SpecificationRecord",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "LoadMachineModuleDocumentation",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2"
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "DocumentToBeLoaded",
+              "schema": "bytes"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "DocumentName",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RemoveMachineModuleDocumentation",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2"
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "DocumentName",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetNewSpecification",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2"
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "NewMaterialLoadingPoints",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialPointType;1"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "NewMaterialStorageBuffers",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialStorageBufferDataType;1"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "NewMaterialOutputPoints",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialPointType;1"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "NewMaterialRejectionPoints",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialPointType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

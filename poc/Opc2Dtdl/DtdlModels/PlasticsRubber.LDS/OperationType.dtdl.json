@@ -192,12 +192,40 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ResetErrorById",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Id",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetCycleNumber",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "CycleNumber",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

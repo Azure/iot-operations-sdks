@@ -229,7 +229,21 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetApplicationTag",
-      "namespace": "http://opcfoundation.org/UA/PNENC"
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ApplicationTag",
+              "schema": "string"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

@@ -394,12 +394,84 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RequestJobResponseByJobOrderID",
-      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "JobOrderID",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "JobResponse",
+              "schema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95JobResponseDataType;1"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RequestJobResponseByJobOrderState",
-      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "JobOrderState",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95StateDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "JobResponses",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95JobResponseDataType;1"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
     }
   ]
 }

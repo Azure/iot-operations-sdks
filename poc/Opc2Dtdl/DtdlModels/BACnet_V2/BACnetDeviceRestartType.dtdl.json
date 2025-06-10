@@ -14,17 +14,113 @@
   "commandTopic": "opcua/BACnet_V2/BACnetDeviceRestartType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceRestartType:dataType:BACnetRecipient;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3054",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Device",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Address",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceRestartType:dataType:BACnetAddress;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceRestartType:dataType:BACnetAddress;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3022",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "NetworkNumber",
+          "schema": "unsignedShort"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MacAddress",
+          "schema": "bytes"
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AddRestartRecipients",
-      "namespace": "http://opcfoundation.org/UA/BACnet_V2"
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RestartNotificationRecipients",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:BACnet_V2:BACnetDeviceRestartType:dataType:BACnetRecipient;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "FirstFailedElementNumber",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "RemoveRestartRecipients",
-      "namespace": "http://opcfoundation.org/UA/BACnet_V2"
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "RestartNotificationRecipients",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:BACnet_V2:BACnetDeviceRestartType:dataType:BACnetRecipient;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "FirstFailedElementNumber",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
     }
   ]
 }

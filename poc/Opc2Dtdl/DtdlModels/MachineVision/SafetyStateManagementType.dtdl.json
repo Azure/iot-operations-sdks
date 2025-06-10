@@ -33,7 +33,40 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ReportSafetyState",
-      "namespace": "http://opcfoundation.org/UA/MachineVision"
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SafetyTriggered",
+              "schema": "boolean"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SafetyInformation",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
     }
   ]
 }

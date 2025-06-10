@@ -20,7 +20,95 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetCyclicJobData",
-      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "JobName",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "JobDescription",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "CustomerName",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ProductionDatasetName",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ProductionDatasetDescription",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Material",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ProductName",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ProductDescription",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ContinueAtJobEnd",
+              "schema": "boolean"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "NominalParts",
+              "schema": "unsignedLong"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "NominalBoxParts",
+              "schema": "unsignedLong"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ExpectedCycleTime",
+              "schema": "duration"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "MouldId",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "NumCavities",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
     }
   ]
 }

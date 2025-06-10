@@ -243,22 +243,83 @@
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetManualOutValue",
-      "namespace": "http://opcfoundation.org/UA/PNRIO"
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "ManualOutValue",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetMode",
-      "namespace": "http://opcfoundation.org/UA/PNRIO"
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Mode",
+              "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioChannelModeEnumeration;1"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetSimulation",
-      "namespace": "http://opcfoundation.org/UA/PNRIO"
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "SimulationEnabled",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetSimulationValue",
-      "namespace": "http://opcfoundation.org/UA/PNRIO"
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Value",
+              "schema": "boolean"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "Qualifier",
+              "schema": "unsignedByte"
+            }
+          ]
+        }
+      }
     }
   ]
 }
