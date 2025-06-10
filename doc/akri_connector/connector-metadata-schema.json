@@ -204,126 +204,118 @@
           "properties": {
             "endpointType": {
               "type": "string",
-              "description": "The type of this inbound endpoint including the version like 'Microsoft.Media:1.2.0'"
+              "description": "The type of this inbound endpoint like 'Microsoft.Media'."
             },
-            "asset": {
+            "assetconfigurationSchemas": {
               "type": "object",
-              "description": "The array of assets that reference this inbound endpoint",
+              "description": "The JSON schemas for the asset-level stringified JSON fields. A JSON schema must be provided for each field only if that field is used by this connector.",
               "properties": {
-                "configurationSchemas": {
-                  "type": "object",
-                  "description": "The JSON schemas for the asset-level stringified JSON fields. A JSON schema must be provided for each field only if that field is used by this connector.",
-                  "properties": {
-                    "datasetConfigurationSchema": {
-                      "$ref": "http://json-schema.org/draft-07/schema#"
-                    },
-                    "datasetDataPointConfigurationSchema": {
-                      "$ref": "http://json-schema.org/draft-07/schema#"
-                    },
-                    "eventConfigurationSchema": {
-                      "$ref": "http://json-schema.org/draft-07/schema#"
-                    },
-                    "eventDataPointConfigSchema": {
-                      "$ref": "http://json-schema.org/draft-07/schema#"
-                    },
-                    "streamConfigurationSchema": {
-                      "$ref": "http://json-schema.org/draft-07/schema#"
-                    },
-                    "managementGroupConfigurationSchema": {
-                      "$ref": "http://json-schema.org/draft-07/schema#"
-                    },
-                    "actionConfigurationSchema": {
-                      "$ref": "http://json-schema.org/draft-07/schema#"
-                    }
-                  }
+                "datasetConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
                 },
-                "supportedEventDestinations": {
-                  "type": "array",
-                  "description": "The array of destinations that this asset's events supports.",
-                  "items": {
-                    "type": "string",
-                    "enum": [
-                      "Mqtt",
-                      "BrokerStateStore",
-                      "Storage"
-                    ]
-                  }
+                "datasetDataPointConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
                 },
-                "defaultEventDestinations": {
-                  "type": "array",
-                  "description": "The array of destinations that this asset's events will go to by default unless event-specific destinations are specified.",
-                  "items": {
-                    "type": "string",
-                    "enum": [
-                      "Mqtt",
-                      "BrokerStateStore",
-                      "Storage"
-                    ]
-                  }
+                "eventConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
                 },
-                "supportedDatasetDestinations": {
-                  "type": "array",
-                  "description": "The array of destinations that this asset's datasets supports.",
-                  "items": {
-                    "type": "string",
-                    "enum": [
-                      "Mqtt",
-                      "BrokerStateStore",
-                      "Storage"
-                    ]
-                  }
+                "eventDataPointConfigSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
                 },
-                "defaultDatasetDestinations": {
-                  "type": "array",
-                  "description": "The array of destinations that this asset's datasets will go to by default unless dataset-specific destinations are specified.",
-                  "items": {
-                    "type": "string",
-                    "enum": [
-                      "Mqtt",
-                      "BrokerStateStore",
-                      "Storage"
-                    ]
-                  }
+                "streamConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
                 },
-                "supportedStreamDestinations": {
-                  "type": "array",
-                  "description": "The array of destinations that this asset's streams supports.",
-                  "items": {
-                    "type": "string",
-                    "enum": [
-                      "Mqtt",
-                      "BrokerStateStore",
-                      "Storage"
-                    ]
-                  }
+                "managementGroupConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
                 },
-                "defaultStreamDestinations": {
-                  "type": "array",
-                  "description": "The array of destinations that this asset's streams will go to by default unless stream-specific destinations are specified.",
-                  "items": {
-                    "type": "string",
-                    "enum": [
-                      "Mqtt",
-                      "BrokerStateStore",
-                      "Storage"
-                    ]
-                  }
+                "actionConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
                 }
+              }
+            },
+            "supportedAssetEventDestinations": {
+              "type": "array",
+              "description": "The array of destinations that this asset's events supports.",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Mqtt",
+                  "BrokerStateStore",
+                  "Storage"
+                ]
+              }
+            },
+            "defaultAssetEventDestinations": {
+              "type": "array",
+              "description": "The array of destinations that this asset's events will go to by default unless event-specific destinations are specified.",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Mqtt",
+                  "BrokerStateStore",
+                  "Storage"
+                ]
+              }
+            },
+            "supportedAssetDatasetDestinations": {
+              "type": "array",
+              "description": "The array of destinations that this asset's datasets supports.",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Mqtt",
+                  "BrokerStateStore",
+                  "Storage"
+                ]
+              }
+            },
+            "defaultAssetDatasetDestinations": {
+              "type": "array",
+              "description": "The array of destinations that this asset's datasets will go to by default unless dataset-specific destinations are specified.",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Mqtt",
+                  "BrokerStateStore",
+                  "Storage"
+                ]
+              }
+            },
+            "supportedAssetStreamDestinations": {
+              "type": "array",
+              "description": "The array of destinations that this asset's streams supports.",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Mqtt",
+                  "BrokerStateStore",
+                  "Storage"
+                ]
+              }
+            },
+            "defaultAssetStreamDestinations": {
+              "type": "array",
+              "description": "The array of destinations that this asset's streams will go to by default unless stream-specific destinations are specified.",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Mqtt",
+                  "BrokerStateStore",
+                  "Storage"
+                ]
               }
             },
             "version": {
               "type": "string",
               "description": "The version of the protocol of this inbound endpoint."
-            },
-            "isEndpointTlsEnabled": {
-              "type": "boolean",
-              "description": "True if this endpoint has TLS enabled and all connections to this endpoint must use TLS."
             }
           },
           "required": [
             "endpointType",
             "version",
-            "isEndpointTlsEnabled"
+            "supportedAssetEventDestinations",
+            "supportedAssetDatasetDestinations",
+            "supportedAssetStreamDestinations"
           ]
         }
       ]
