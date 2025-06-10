@@ -240,7 +240,6 @@
                 "type": "string",
                 "enum": [
                   "Mqtt",
-                  "BrokerStateStore",
                   "Storage"
                 ]
               }
@@ -252,7 +251,6 @@
                 "type": "string",
                 "enum": [
                   "Mqtt",
-                  "BrokerStateStore",
                   "Storage"
                 ]
               }
@@ -288,7 +286,6 @@
                 "type": "string",
                 "enum": [
                   "Mqtt",
-                  "BrokerStateStore",
                   "Storage"
                 ]
               }
@@ -300,7 +297,6 @@
                 "type": "string",
                 "enum": [
                   "Mqtt",
-                  "BrokerStateStore",
                   "Storage"
                 ]
               }
