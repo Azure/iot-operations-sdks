@@ -246,14 +246,11 @@
             },
             "defaultAssetEventDestinations": {
               "type": "array",
-              "description": "The array of destinations that this asset's events will go to by default unless event-specific destinations are specified.",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "Mqtt",
-                  "Storage"
-                ]
-              }
+              "description": "The default destination that this asset's events will go to by default unless event-specific destinations are specified.",
+              "enum": [
+                "Mqtt",
+                "Storage"
+              ]
             },
             "supportedAssetDatasetDestinations": {
               "type": "array",
@@ -269,15 +266,12 @@
             },
             "defaultAssetDatasetDestinations": {
               "type": "array",
-              "description": "The array of destinations that this asset's datasets will go to by default unless dataset-specific destinations are specified.",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "Mqtt",
-                  "BrokerStateStore",
-                  "Storage"
-                ]
-              }
+              "description": "The default destination that this asset's datasets will go to by default unless dataset-specific destinations are specified.",
+              "enum": [
+                "Mqtt",
+                "BrokerStateStore",
+                "Storage"
+              ]
             },
             "supportedAssetStreamDestinations": {
               "type": "array",
@@ -291,15 +285,12 @@
               }
             },
             "defaultAssetStreamDestinations": {
-              "type": "array",
-              "description": "The array of destinations that this asset's streams will go to by default unless stream-specific destinations are specified.",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "Mqtt",
-                  "Storage"
-                ]
-              }
+              "type": "string",
+              "description": "The default destination that this asset's streams will go to by default unless stream-specific destinations are specified.",
+              "enum": [
+                "Mqtt",
+                "Storage"
+              ]
             },
             "version": {
               "type": "string",
@@ -308,10 +299,7 @@
           },
           "required": [
             "endpointType",
-            "version",
-            "supportedAssetEventDestinations",
-            "supportedAssetDatasetDestinations",
-            "supportedAssetStreamDestinations"
+            "version"
           ]
         }
       ]
