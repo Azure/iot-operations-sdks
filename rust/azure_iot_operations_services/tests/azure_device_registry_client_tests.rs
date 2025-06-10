@@ -126,6 +126,7 @@ async fn get_device() {
     );
 }
 
+// This test also tests get_device_status, since the setup would be the same as this test
 #[tokio::test]
 async fn update_device_plus_endpoint_status() {
     let log_identifier = "update_device_plus_endpoint_status_network_tests-rust";
@@ -151,7 +152,7 @@ async fn update_device_plus_endpoint_status() {
     };
     let test_task = tokio::task::spawn({
         async move {
-            let updated_device_status = azure_device_registry_client
+            let device_status_response = azure_device_registry_client
                 .update_device_plus_endpoint_status(
                     DEVICE2.to_string(),
                     ENDPOINT2.to_string(),
@@ -161,12 +162,20 @@ async fn update_device_plus_endpoint_status() {
                 .await
                 .unwrap();
             log::info!(
-                "[{log_identifier}] Updated Response Device Status: {updated_device_status:?}"
+                "[{log_identifier}] Updated Response Device Status: {device_status_response:?}"
             );
 
             // TODO: switch back to this full matching once service properly clears endpoint values
-            // assert_eq!(updated_device_status, updated_status);
-            assert_eq!(updated_device_status.config, updated_status.config);
+            // assert_eq!(device_status_response, updated_status);
+            assert_eq!(device_status_response.config, updated_status.config);
+
+            // Test that get_device_status returns the same status as well
+            let recvd_device_status = azure_device_registry_client
+                .get_device_status(DEVICE2.to_string(), ENDPOINT2.to_string(), TIMEOUT)
+                .await
+                .unwrap();
+            log::info!("[{log_identifier}] Get Device Status: {recvd_device_status:?}");
+            assert_eq!(recvd_device_status.config, updated_status.config);
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
@@ -224,6 +233,7 @@ async fn get_asset() {
     );
 }
 
+// This test also tests get_asset_status, since the setup would be the same as this test
 #[tokio::test]
 async fn update_asset_status() {
     let log_identifier = "update_asset_status_network_tests-rust";
@@ -248,7 +258,7 @@ async fn update_asset_status() {
 
     let test_task = tokio::task::spawn({
         async move {
-            let updated_asset_status = azure_device_registry_client
+            let asset_status_response = azure_device_registry_client
                 .update_asset_status(
                     DEVICE2.to_string(),
                     ENDPOINT2.to_string(),
@@ -259,10 +269,23 @@ async fn update_asset_status() {
                 .await
                 .unwrap();
             log::info!(
-                "[{log_identifier}] Updated Response Asset Status: {updated_asset_status:?}"
+                "[{log_identifier}] Updated Response Asset Status: {asset_status_response:?}"
             );
 
-            assert_eq!(updated_asset_status, updated_status);
+            assert_eq!(asset_status_response, updated_status);
+
+            // Test that get_asset_status returns the same status as well
+            let recvd_asset_status = azure_device_registry_client
+                .get_asset_status(
+                    DEVICE2.to_string(),
+                    ENDPOINT2.to_string(),
+                    asset_name.to_string(),
+                    TIMEOUT,
+                )
+                .await
+                .unwrap();
+            log::info!("[{log_identifier}] Get Asset Status: {recvd_asset_status:?}");
+            assert_eq!(recvd_asset_status, updated_status);
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
