@@ -75,7 +75,7 @@ pub enum ErrorKind {
 pub struct DeviceUpdateObservation(Receiver<(Device, Option<AckToken>)>);
 
 impl DeviceUpdateObservation {
-    /// Receives an updated [`Device`] or [`None`] if there will be no more notifications.
+    /// Receives an updated [`Device`] or [`None`] if there will be no more notifications when the unobservation is complete.
     ///
     /// If there are notifications:
     /// - Returns Some([`Device`], [`Option<AckToken>`]) on success
@@ -93,7 +93,7 @@ impl DeviceUpdateObservation {
 pub struct AssetUpdateObservation(Receiver<(Asset, Option<AckToken>)>);
 
 impl AssetUpdateObservation {
-    /// Receives an updated [`Asset`] or [`None`] if there will be no more notifications.
+    /// Receives an updated [`Asset`] or [`None`] if there will be no more notifications when the unobservation is complete.
     ///
     /// If there are notifications:
     /// - Returns Some([`Asset`], [`Option<AckToken>`]) on success
