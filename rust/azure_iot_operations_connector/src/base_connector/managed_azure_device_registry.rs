@@ -1685,19 +1685,27 @@ impl DeviceEndpointStatus {
         // hasn't been reported yet, then include the existing endpoint status (if it hasn't been reported, maintain that state).
         // If the version doesn't match, then clear the endpoint status since it hasn't been reported for this version yet
 
-        // if the version doesn't match, then clear the endpoint status
-        if self.config.as_ref().and_then(|config| config.version) == current_version {
-            // if the version does match, or the status config hasn't been reported yet, maintain the existing endpoint status.
-            if let Some(current_inbound_endpoint_status) = &self.inbound_endpoint_status {
+        // if the endpoint status has been set, create a hashmap with it, otherwise represent it as a new hashmap
+        let current_endpoint_status = self.inbound_endpoint_status.clone().map_or(
+            HashMap::new(),
+            |current_inbound_endpoint_status| {
                 HashMap::from([(
                     inbound_endpoint_name.to_string(),
-                    current_inbound_endpoint_status.clone().err(),
+                    current_inbound_endpoint_status.err(),
                 )])
+            },
+        );
+        if let Some(config) = &self.config {
+            // version matches
+            if config.version == current_version {
+                current_endpoint_status
             } else {
+                // config out of date, clear everything
                 HashMap::new()
             }
         } else {
-            HashMap::new()
+            // config not reported, assume anything reported so far is for this version
+            current_endpoint_status
         }
     }
 }
@@ -1843,6 +1851,103 @@ fn adr_error_into_retry_error(
             // ValidationError shouldn't be possible since we should never have an empty asset name. It's not possible to be returned for device calls.
             // ObservationError, DuplicateObserve, and ShutdownError aren't possible for this fn to return
             unreachable!()
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use test_case::test_case;
+
+    use super::*;
+
+    /// test that a received device status can be converted to our
+    /// DeviceEndpointStatus and then used properly when reporting
+    /// a new device config status
+    #[test_case(&adr_models::DeviceStatus {
+        config: None,
+        endpoints: HashMap::from([(
+            "my_endpoint".to_string(),
+            Some(AdrConfigError { message: Some("test message".to_string()), ..Default::default()}),
+        )]),
+    }, "my_endpoint", Some(1), true; "no_config")]
+    #[test_case(&adr_models::DeviceStatus {
+        config: Some(azure_device_registry::ConfigStatus {
+            version: Some(1),
+            ..Default::default()
+        }),
+        endpoints: HashMap::from([(
+            "my_endpoint".to_string(),
+            Some(AdrConfigError { message: Some("test message".to_string()), ..Default::default()}),
+        )]),
+    }, "my_endpoint", Some(2), false; "version_mismatch")]
+    #[test_case(&adr_models::DeviceStatus {
+        config: Some(azure_device_registry::ConfigStatus {
+            version: Some(1),
+            ..Default::default()
+        }),
+        endpoints: HashMap::from([(
+            "my_endpoint".to_string(),
+            Some(AdrConfigError { message: Some("test message".to_string()), ..Default::default()}),
+        )]),
+    }, "my_endpoint", Some(1), true; "version_match")]
+    #[test_case(&adr_models::DeviceStatus {
+        config: Some(azure_device_registry::ConfigStatus {
+            version: Some(1),
+            ..Default::default()
+        }),
+        endpoints: HashMap::new(),
+    }, "my_endpoint", Some(1), true; "no_endpoint_statuses_reported")]
+    fn device_endpoint_status(
+        recvd_status: &adr_models::DeviceStatus,
+        inbound_endpoint_name: &str,
+        spec_version: Option<u64>,
+        expect_keep_received: bool,
+    ) {
+        let our_status = DeviceEndpointStatus::new(recvd_status.clone(), inbound_endpoint_name);
+        let adr_endpoints = our_status.adr_endpoints(spec_version, inbound_endpoint_name);
+        if expect_keep_received {
+            assert_eq!(recvd_status.endpoints, adr_endpoints);
+        } else {
+            assert!(
+                adr_endpoints.is_empty(),
+                "Expected endpoints to be cleared, but got: {adr_endpoints:?}"
+            );
+        }
+    }
+
+    #[test_case(None, Some(1), true; "no_config")]
+    #[test_case(Some(azure_device_registry::ConfigStatus {
+            version: Some(1),
+            ..Default::default()
+        }), Some(2), false; "version_mismatch")]
+    #[test_case(Some(azure_device_registry::ConfigStatus {
+            version: Some(1),
+            ..Default::default()
+        }), Some(1), true; "version_match")]
+    fn current_asset_status_to_modify(
+        current_config_status: Option<azure_device_registry::ConfigStatus>,
+        spec_version: Option<u64>,
+        expect_keep_received: bool,
+    ) {
+        // put some dataset status in just to make the input never the default AssetStatus
+        let current_status = adr_models::AssetStatus {
+            config: current_config_status,
+            datasets: Some(vec![adr_models::DatasetEventStreamStatus {
+                name: "test_dataset".to_string(),
+                message_schema_reference: None,
+                error: None,
+            }]),
+            ..Default::default()
+        };
+        let new_status_base = AssetClient::current_status_to_modify(
+            &Arc::new(RwLock::new(current_status.clone())),
+            spec_version,
+        );
+        if expect_keep_received {
+            assert_eq!(new_status_base, current_status);
+        } else {
+            assert_eq!(new_status_base, adr_models::AssetStatus::default());
         }
     }
 }
