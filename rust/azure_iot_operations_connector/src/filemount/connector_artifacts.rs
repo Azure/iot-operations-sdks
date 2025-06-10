@@ -51,6 +51,8 @@ enum DeploymentArtifactErrorRepr {
 pub struct ConnectorArtifacts {
     /// The connector ID
     pub connector_id: String,
+    /// The connector namespace
+    pub connector_namespace: String,
     /// The connector configuration
     pub connector_configuration: ConnectorConfiguration,
     /// Path to directory containing metadata for connector secrets
@@ -78,6 +80,11 @@ impl ConnectorArtifacts {
         // Connector ID
         let connector_id = string_from_environment("CONNECTOR_ID")?.ok_or(
             DeploymentArtifactErrorRepr::EnvVarMissing("CONNECTOR_ID".to_string()),
+        )?;
+
+        // Connector Namespace
+        let connector_namespace = string_from_environment("CONNECTOR_NAMESPACE")?.ok_or(
+            DeploymentArtifactErrorRepr::EnvVarMissing("CONNECTOR_NAMESPACE".to_string()),
         )?;
 
         // Connector Configuration
@@ -116,7 +123,7 @@ impl ConnectorArtifacts {
 
         // Device Endpoint TLS Trust Bundle CA cert mount path
         let device_endpoint_trust_bundle_mount =
-            string_from_environment("DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")?
+            string_from_environment("DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH")?
                 .map(valid_mount_pathbuf_from)
                 .transpose()?;
 
@@ -131,6 +138,7 @@ impl ConnectorArtifacts {
 
         Ok(ConnectorArtifacts {
             connector_id,
+            connector_namespace,
             connector_configuration,
             connector_secrets_metadata_mount,
             connector_trust_settings_mount,
@@ -354,7 +362,7 @@ impl ConnectorConfiguration {
     fn extract_additional_configuration(
         mount_path: &Path,
     ) -> Result<String, DeploymentArtifactErrorRepr> {
-        let additional_config_pathbuf = mount_path.join("ADDITIONAL_CONFIGURATION");
+        let additional_config_pathbuf = mount_path.join("ADDITIONAL_CONNECTOR_CONFIGURATION");
         if !additional_config_pathbuf.exists() {
             return Err(DeploymentArtifactErrorRepr::FilePathMissing(
                 additional_config_pathbuf.into_os_string(),
@@ -535,6 +543,8 @@ mod tests {
 
     const CONNECTOR_ID: &str = "connector_id";
 
+    const CONNECTOR_NAMESPACE: &str = "connector_namespace";
+
     const MQTT_CONNECTION_CONFIGURATION_JSON: &str = r#"
     {
         "host": "someHostName:1234",
@@ -554,7 +564,7 @@ mod tests {
         }
     }"#;
 
-    const ADDITIONAL_CONFIGURATION_JSON: &str = r#"
+    const ADDITIONAL_CONNECTOR_CONFIGURATION_JSON: &str = r#"
     {
         "arbitraryConnectorDeveloperConfiguration": "value"
     }"#;
@@ -577,6 +587,7 @@ mod tests {
         temp_env::with_vars(
             [
                 ("CONNECTOR_ID", Some(CONNECTOR_ID)),
+                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
                 (
                     "CONNECTOR_CONFIGURATION_MOUNT_PATH",
                     Some(connector_configuration_mount.path().to_str().unwrap()),
@@ -585,13 +596,14 @@ mod tests {
                 ("CONNECTOR_TRUST_SETTINGS_MOUNT_PATH", None),
                 ("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", None),
                 ("BROKER_SAT_MOUNT_PATH", None),
-                ("DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", None),
+                ("DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH", None),
                 ("DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH", None),
             ],
             || {
                 let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
                 // -- Validate the values directly in the artifacts --
                 assert_eq!(artifacts.connector_id, CONNECTOR_ID);
+                assert_eq!(artifacts.connector_namespace, CONNECTOR_NAMESPACE);
                 assert!(artifacts.connector_secrets_metadata_mount.is_none());
                 assert!(artifacts.connector_trust_settings_mount.is_none());
                 assert!(artifacts.broker_trust_bundle_mount.is_none());
@@ -640,8 +652,10 @@ mod tests {
             "PERSISTENT_VOLUME_MOUNT_PATH",
             &persistent_volume_manager.index_file_contents(),
         );
-        connector_configuration_mount
-            .add_file("ADDITIONAL_CONFIGURATION", ADDITIONAL_CONFIGURATION_JSON);
+        connector_configuration_mount.add_file(
+            "ADDITIONAL_CONNECTOR_CONFIGURATION",
+            ADDITIONAL_CONNECTOR_CONFIGURATION_JSON,
+        );
 
         let broker_sat_file_mount = NamedTempFile::with_prefix("broker-sat").unwrap();
 
@@ -657,7 +671,8 @@ mod tests {
 
         temp_env::with_vars(
             [
-                ("CONNECTOR_ID", Some("connector_id")),
+                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
+                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
                 (
                     "CONNECTOR_CONFIGURATION_MOUNT_PATH",
                     Some(connector_configuration_mount.path().to_str().unwrap()),
@@ -679,7 +694,7 @@ mod tests {
                     Some(broker_sat_file_mount.path().to_str().unwrap()),
                 ),
                 (
-                    "DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH",
+                    "DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH",
                     Some(device_endpoint_trust_bundle_mount.path().to_str().unwrap()),
                 ),
                 (
@@ -690,7 +705,8 @@ mod tests {
             || {
                 let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
                 // -- Validate the values directly in the artifacts --
-                assert_eq!(artifacts.connector_id, "connector_id");
+                assert_eq!(artifacts.connector_id, CONNECTOR_ID);
+                assert_eq!(artifacts.connector_namespace, CONNECTOR_NAMESPACE);
                 assert_eq!(
                     artifacts.connector_secrets_metadata_mount.unwrap(),
                     connector_secrets_metadata_mount.path()
@@ -736,13 +752,14 @@ mod tests {
                 );
                 assert_eq!(
                     artifacts.connector_configuration.additional_configuration,
-                    Some(ADDITIONAL_CONFIGURATION_JSON.to_string())
+                    Some(ADDITIONAL_CONNECTOR_CONFIGURATION_JSON.to_string())
                 );
             },
         );
     }
 
     #[test_case("CONNECTOR_ID")]
+    #[test_case("CONNECTOR_NAMESPACE")]
     #[test_case("CONNECTOR_CONFIGURATION_MOUNT_PATH")]
     fn missing_required_env_var(missing_env_var: &str) {
         let connector_configuration_mount = TempMount::new("connector_configuration");
@@ -753,7 +770,8 @@ mod tests {
 
         temp_env::with_vars(
             [
-                ("CONNECTOR_ID", Some("connector_id")),
+                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
+                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
                 (
                     "CONNECTOR_CONFIGURATION_MOUNT_PATH",
                     Some(connector_configuration_mount.path().to_str().unwrap()),
@@ -772,7 +790,7 @@ mod tests {
     #[test_case("CONNECTOR_TRUST_SETTINGS_MOUNT_PATH")]
     #[test_case("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")]
     #[test_case("BROKER_SAT_MOUNT_PATH")]
-    #[test_case("DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")]
+    #[test_case("DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH")]
     #[test_case("DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH")]
     fn nonexistent_mount_path(invalid_mount_env_var: &str) {
         let invalid_mount = PathBuf::from("nonexistent/mount/path");
@@ -786,7 +804,8 @@ mod tests {
 
         temp_env::with_vars(
             [
-                ("CONNECTOR_ID", Some("connector_id")),
+                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
+                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
                 (
                     "CONNECTOR_CONFIGURATION_MOUNT_PATH",
                     Some(connector_configuration_mount.path().to_str().unwrap()),
@@ -813,7 +832,8 @@ mod tests {
 
         temp_env::with_vars(
             [
-                ("CONNECTOR_ID", Some("connector_id")),
+                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
+                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
                 (
                     "CONNECTOR_CONFIGURATION_MOUNT_PATH",
                     Some(connector_configuration_mount.path().to_str().unwrap()),
@@ -843,7 +863,8 @@ mod tests {
 
         temp_env::with_vars(
             [
-                ("CONNECTOR_ID", Some("connector_id")),
+                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
+                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
                 (
                     "CONNECTOR_CONFIGURATION_MOUNT_PATH",
                     Some(connector_configuration_mount.path().to_str().unwrap()),
@@ -872,7 +893,8 @@ mod tests {
 
         temp_env::with_vars(
             [
-                ("CONNECTOR_ID", Some("connector_id")),
+                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
+                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
                 (
                     "CONNECTOR_CONFIGURATION_MOUNT_PATH",
                     Some(connector_configuration_mount.path().to_str().unwrap()),
@@ -888,6 +910,7 @@ mod tests {
     fn convert_to_mqtt_connection_settings_minimum() {
         let connector_artifacts = ConnectorArtifacts {
             connector_id: "connector_id".to_string(),
+            connector_namespace: "connector_namespace".to_string(),
             connector_configuration: ConnectorConfiguration {
                 mqtt_connection_configuration: MqttConnectionConfiguration {
                     host: "someHostName:1234".to_string(),
@@ -941,6 +964,7 @@ mod tests {
 
         let connector_artifacts = ConnectorArtifacts {
             connector_id: "connector_id".to_string(),
+            connector_namespace: "connector_namespace".to_string(),
             connector_configuration: ConnectorConfiguration {
                 mqtt_connection_configuration: MqttConnectionConfiguration {
                     host: "someHostName:1234".to_string(),
@@ -1004,6 +1028,7 @@ mod tests {
     fn convert_to_mqtt_connection_settings_malformed_host(host: &str) {
         let connector_artifacts = ConnectorArtifacts {
             connector_id: "connector_id".to_string(),
+            connector_namespace: "connector_namespace".to_string(),
             connector_configuration: ConnectorConfiguration {
                 mqtt_connection_configuration: MqttConnectionConfiguration {
                     host: host.to_string(),
@@ -1042,6 +1067,7 @@ mod tests {
 
         let connector_artifacts = ConnectorArtifacts {
             connector_id: "connector_id".to_string(),
+            connector_namespace: "connector_namespace".to_string(),
             connector_configuration: ConnectorConfiguration {
                 mqtt_connection_configuration: MqttConnectionConfiguration {
                     host: "someHostName:1234".to_string(),

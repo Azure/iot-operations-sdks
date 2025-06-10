@@ -93,8 +93,16 @@ fn transform_in_place_and_create_output_schema(
             return Err(TransformErrorRepr::DuplicateField(output_field.to_string()));
         }
     }
-    // Create the output JSON from the `BTreeMap`
-    let output_json = serde_json::to_value(&output_btm)?;
+
+    let output_json = if dataset.data_points.is_empty() {
+        // If there are no data points, we simply return the input JSON as the output
+        input_json
+    } else {
+        // Create the output JSON from the `BTreeMap`
+        // TODO: subject to change, this may be a point-in-time decision.
+        // Verify, and consider refactor if this design stays around.
+        serde_json::to_value(&output_btm)?
+    };
 
     // Derive the schema from the output JSON, removing the unnecessary examples metadata
     let mut output_root_schema = schemars::schema_for_value!(&output_json);
@@ -433,18 +441,36 @@ mod test {
         }"#;
         let input_json: Value = serde_json::from_str(input_json_str).unwrap();
 
-        let expected_output_json_str = r"{}";
-        let expected_output_json: Value = serde_json::from_str(expected_output_json_str).unwrap();
+        // TODO: determine which is the correct output JSON to return for this case
+        // let expected_output_json_str = r"{}";
+        // let expected_output_json: Value = serde_json::from_str(expected_output_json_str).unwrap();
+
+        let expected_output_json = input_json.clone();
 
         let dataset = create_dataset_from_transform!(
             // No datapoints in the dataset
         );
 
-        // No properties on output schema
+        // TODO: determine which is the correct schema to return for this case
+        // // No properties on output schema
+        // let expected_output_json_schema_str = r#"{
+        //     "$schema": "http://json-schema.org/draft-07/schema#",
+        //     "type": "object"
+        // }"#;
+
         let expected_output_json_schema_str = r#"{
             "$schema": "http://json-schema.org/draft-07/schema#",
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "factory": {
+                    "type": "string"
+                },
+                "temp": {
+                    "type": "integer"
+                }
+            }
         }"#;
+
         let expected_output_json_schema: Value =
             serde_json::from_str(expected_output_json_schema_str).unwrap();
 
