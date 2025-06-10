@@ -79,44 +79,6 @@
         }
       ]
     },
-    "helmConfigurationSettings": {
-      "type": "object",
-      "description": "The helm chart details for this connector image. Must provide either this or imageConfigurationSettings.",
-      "properties": {
-        "containerRegistryName": {
-          "type": "string",
-          "description": "The container registry name that holds the helm chart for the connector. For example: 'contoso-acr.io'"
-        },
-        "helmChartName": {
-          "type": "string",
-          "description": "The helm chart name for the connector. For example: 'helm/MyConnector'"
-        },
-        "tag": {
-          "type": "string",
-          "description": "The tag of the helm chart for this connector"
-        },
-        "digest": {
-          "type": "string",
-          "description": "The digest of the helm chart for this connector"
-        }
-      },
-      "oneOf": [
-        {
-          "required": [
-            "containerRegistryName",
-            "helmChartName",
-            "tag"
-          ]
-        },
-        {
-          "required": [
-            "containerRegistryName",
-            "helmChartName",
-            "digest"
-          ]
-        }
-      ]
-    },
     "secrets": {
       "type": "array",
       "description": "The array of secrets that are required for the connector application to work. The secret will be mounted onto all connector instances deployed for this connector application",
