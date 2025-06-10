@@ -347,24 +347,13 @@
           ]
         }
       ]
-    },
-    "required": [
-      "name",
-      "version",
-      "supportedArchitectures",
-      "inboundEndpoints"
-    ],
-    "oneOf": [
-      {
-        "required": [
-          "imageConfigurationSettings"
-        ]
-      },
-      {
-        "required": [
-          "helmConfigurationSettings"
-        ]
-      }
-    ]
-  }
+    }
+  },
+  "required": [
+    "name",
+    "version",
+    "supportedArchitectures",
+    "inboundEndpoints",
+    "imageConfigurationSettings"
+  ]
 }
