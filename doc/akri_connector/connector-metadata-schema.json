@@ -144,203 +144,227 @@
           ]
         }
       ]
-    }
-  },
-  "supportedArchitectures": {
-    "type": "array",
-    "description": "The CPU architectures that this connector image was built for. At least one must be specified.",
-    "items": [
-      {
-        "type": "string",
-        "description": "One of the CPU architectures this connector image was built for. For example: 'linux/amd64', 'linux/arm64', or 'windows/amd64'"
-      }
-    ],
-    "minItems": 1,
-    "uniqueItems": true
-  },
-  "sourceCode": {
-    "type": "object",
-    "description": "Details about the source code that compiled this connector",
-    "properties": {
-      "language": {
-        "type": "string",
-        "description": "The programming language used to write this connector"
-      },
-      "languageVersion": {
-        "type": "string",
-        "description": "The version of the programming language used to write this connector"
-      },
-      "sdks": {
-        "type": "object",
-        "description": "Details about the versions of the AIO SDKs used to write this connector (if they were used)",
-        "properties": {
-          "mqttPackageVersion": {
-            "type": "string",
-            "description": "The version of the Azure IoT Operations MQTT package"
-          },
-          "protocolPackageVersion": {
-            "type": "string",
-            "description": "The version of the Azure IoT Operations protocol package"
-          },
-          "servicesPackageVersion": {
-            "type": "string",
-            "description": "The version of the Azure IoT Operations services package"
-          },
-          "connectorPackageVersion": {
-            "type": "string",
-            "description": "The version of the Azure IoT Operations connector package"
+    },
+    "supportedArchitectures": {
+      "type": "array",
+      "description": "The CPU architectures that this connector image was built for. At least one must be specified.",
+      "items": [
+        {
+          "type": "string",
+          "description": "One of the CPU architectures this connector image was built for. For example: 'linux/amd64', 'linux/arm64', or 'windows/amd64'"
+        }
+      ],
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "sourceCode": {
+      "type": "object",
+      "description": "Details about the source code that compiled this connector",
+      "properties": {
+        "language": {
+          "type": "string",
+          "description": "The programming language used to write this connector"
+        },
+        "languageVersion": {
+          "type": "string",
+          "description": "The version of the programming language used to write this connector"
+        },
+        "sdks": {
+          "type": "object",
+          "description": "Details about the versions of the AIO SDKs used to write this connector (if they were used)",
+          "properties": {
+            "mqttPackageVersion": {
+              "type": "string",
+              "description": "The version of the Azure IoT Operations MQTT package"
+            },
+            "protocolPackageVersion": {
+              "type": "string",
+              "description": "The version of the Azure IoT Operations protocol package"
+            },
+            "servicesPackageVersion": {
+              "type": "string",
+              "description": "The version of the Azure IoT Operations services package"
+            },
+            "connectorPackageVersion": {
+              "type": "string",
+              "description": "The version of the Azure IoT Operations connector package"
+            }
           }
+        }
+      },
+      "required": [
+        "language",
+        "languageVersion"
+      ]
+    },
+    "aioMetadata": {
+      "type": "object",
+      "description": "The AIO requirements to run this connector",
+      "properties": {
+        "aioMinVersion": {
+          "type": "string",
+          "description": "The minimal (inclusive) version that can run this connector."
+        },
+        "aioMaxVersion": {
+          "type": "string",
+          "description": "The maximal (inclusive) version that can run this connector."
         }
       }
     },
-    "required": [
-      "language",
-      "languageVersion"
-    ]
-  },
-  "aioMetadata": {
-    "type": "object",
-    "description": "The AIO requirements to run this connector",
-    "properties": {
-      "aioMinVersion": {
-        "type": "string",
-        "description": "The minimal (inclusive) version that can run this connector."
-      },
-      "aioMaxVersion": {
-        "type": "string",
-        "description": "The maximal (inclusive) version that can run this connector."
-      }
-    }
-  },
-  "connectorConfigurationSchema": {
-    "description": "The connector-level JSON schemas for the 'additional configuration' field. A JSON schema must be only if that field is used by this connector.",
-    "$ref": "http://json-schema.org/draft-07/schema#"
-  },
-  "inboundEndpoints": {
-    "type": "array",
-    "description": "The array of inbound endpoints in a device that this connector will be deployed for.",
-    "items": [
-      {
-        "type": "object",
-        "properties": {
-          "endpointType": {
-            "type": "string",
-            "description": "The type of this inbound endpoint including the version like 'Microsoft.Media:1.2.0'"
-          },
-          "asset": {
-            "type": "object",
-            "description": "The array of assets that reference this inbound endpoint",
-            "properties": {
-              "configurationSchemas": {
-                "type": "object",
-                "description": "The JSON schemas for the asset-level stringified JSON fields. A JSON schema must be provided for each field only if that field is used by this connector.",
-                "properties": {
-                  "datasetConfigurationSchema": {
-                    "$ref": "http://json-schema.org/draft-07/schema#"
-                  },
-                  "datasetDataPointConfigurationSchema": {
-                    "$ref": "http://json-schema.org/draft-07/schema#"
-                  },
-                  "eventConfigurationSchema": {
-                    "$ref": "http://json-schema.org/draft-07/schema#"
-                  },
-                  "eventDataPointConfigSchema": {
-                    "$ref": "http://json-schema.org/draft-07/schema#"
-                  },
-                  "streamConfigurationSchema": {
-                    "$ref": "http://json-schema.org/draft-07/schema#"
-                  },
-                  "managementGroupConfigurationSchema": {
-                    "$ref": "http://json-schema.org/draft-07/schema#"
-                  },
-                  "actionConfigurationSchema": {
-                    "$ref": "http://json-schema.org/draft-07/schema#"
+    "connectorConfigurationSchema": {
+      "description": "The connector-level JSON schemas for the 'additional configuration' field. A JSON schema must be only if that field is used by this connector.",
+      "$ref": "http://json-schema.org/draft-07/schema#"
+    },
+    "inboundEndpoints": {
+      "type": "array",
+      "description": "The array of inbound endpoints in a device that this connector will be deployed for.",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "endpointType": {
+              "type": "string",
+              "description": "The type of this inbound endpoint including the version like 'Microsoft.Media:1.2.0'"
+            },
+            "asset": {
+              "type": "object",
+              "description": "The array of assets that reference this inbound endpoint",
+              "properties": {
+                "configurationSchemas": {
+                  "type": "object",
+                  "description": "The JSON schemas for the asset-level stringified JSON fields. A JSON schema must be provided for each field only if that field is used by this connector.",
+                  "properties": {
+                    "datasetConfigurationSchema": {
+                      "$ref": "http://json-schema.org/draft-07/schema#"
+                    },
+                    "datasetDataPointConfigurationSchema": {
+                      "$ref": "http://json-schema.org/draft-07/schema#"
+                    },
+                    "eventConfigurationSchema": {
+                      "$ref": "http://json-schema.org/draft-07/schema#"
+                    },
+                    "eventDataPointConfigSchema": {
+                      "$ref": "http://json-schema.org/draft-07/schema#"
+                    },
+                    "streamConfigurationSchema": {
+                      "$ref": "http://json-schema.org/draft-07/schema#"
+                    },
+                    "managementGroupConfigurationSchema": {
+                      "$ref": "http://json-schema.org/draft-07/schema#"
+                    },
+                    "actionConfigurationSchema": {
+                      "$ref": "http://json-schema.org/draft-07/schema#"
+                    }
+                  }
+                },
+                "supportedEventDestinations": {
+                  "type": "array",
+                  "description": "The array of destinations that this asset's events supports.",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "Mqtt",
+                      "BrokerStateStore",
+                      "Storage"
+                    ]
+                  }
+                },
+                "defaultEventDestinations": {
+                  "type": "array",
+                  "description": "The array of destinations that this asset's events will go to by default unless event-specific destinations are specified.",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "Mqtt",
+                      "BrokerStateStore",
+                      "Storage"
+                    ]
+                  }
+                },
+                "supportedDatasetDestinations": {
+                  "type": "array",
+                  "description": "The array of destinations that this asset's datasets supports.",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "Mqtt",
+                      "BrokerStateStore",
+                      "Storage"
+                    ]
+                  }
+                },
+                "defaultDatasetDestinations": {
+                  "type": "array",
+                  "description": "The array of destinations that this asset's datasets will go to by default unless dataset-specific destinations are specified.",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "Mqtt",
+                      "BrokerStateStore",
+                      "Storage"
+                    ]
+                  }
+                },
+                "supportedStreamDestinations": {
+                  "type": "array",
+                  "description": "The array of destinations that this asset's streams supports.",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "Mqtt",
+                      "BrokerStateStore",
+                      "Storage"
+                    ]
+                  }
+                },
+                "defaultStreamDestinations": {
+                  "type": "array",
+                  "description": "The array of destinations that this asset's streams will go to by default unless stream-specific destinations are specified.",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "Mqtt",
+                      "BrokerStateStore",
+                      "Storage"
+                    ]
                   }
                 }
-              },
-              "supportedEventDestinations": {
-                "type": "array",
-                "description": "The array of destinations that this asset's events supports.",
-                "items": {
-                  "type": "string",
-                  "enum": ["Mqtt", "BrokerStateStore", "Storage"]
-                }
-              },
-              "defaultEventDestinations": {
-                "type": "array",
-                "description": "The array of destinations that this asset's events will go to by default unless event-specific destinations are specified.",
-                "items": {
-                  "type": "string",
-                  "enum": ["Mqtt", "BrokerStateStore", "Storage"]
-                }
-              },
-              "supportedDatasetDestinations": {
-                "type": "array",
-                "description": "The array of destinations that this asset's datasets supports.",
-                "items": {
-                  "type": "string",
-                  "enum": ["Mqtt", "BrokerStateStore", "Storage"]
-                }
-              },
-              "defaultDatasetDestinations": {
-                "type": "array",
-                "description": "The array of destinations that this asset's datasets will go to by default unless dataset-specific destinations are specified.",
-                "items": {
-                  "type": "string",
-                  "enum": ["Mqtt", "BrokerStateStore", "Storage"]
-                }
-              },
-              "supportedStreamDestinations": {
-                "type": "array",
-                "description": "The array of destinations that this asset's streams supports.",
-                "items": {
-                  "type": "string",
-                  "enum": ["Mqtt", "BrokerStateStore", "Storage"]
-                }
-              },
-              "defaultStreamDestinations": {
-                "type": "array",
-                "description": "The array of destinations that this asset's streams will go to by default unless stream-specific destinations are specified.",
-                "items": {
-                  "type": "string",
-                  "enum": ["Mqtt", "BrokerStateStore", "Storage"]
-                }
               }
+            },
+            "version": {
+              "type": "string",
+              "description": "The version of the protocol of this inbound endpoint."
+            },
+            "isEndpointTlsEnabled": {
+              "type": "boolean",
+              "description": "True if this endpoint has TLS enabled and all connections to this endpoint must use TLS."
             }
           },
-          "version": {
-            "type": "string",
-            "description": "The version of the protocol of this inbound endpoint."
-          },
-          "isEndpointTlsEnabled": {
-            "type": "boolean",
-            "description": "True if this endpoint has TLS enabled and all connections to this endpoint must use TLS."
-          }
-        },
+          "required": [
+            "endpointType",
+            "version",
+            "isEndpointTlsEnabled"
+          ]
+        }
+      ]
+    },
+    "required": [
+      "name",
+      "version",
+      "supportedArchitectures",
+      "inboundEndpoints"
+    ],
+    "oneOf": [
+      {
         "required": [
-          "endpointType",
-          "version",
-          "isEndpointTlsEnabled"
+          "imageConfigurationSettings"
+        ]
+      },
+      {
+        "required": [
+          "helmConfigurationSettings"
         ]
       }
     ]
-  },
-  "required": [
-    "name",
-    "version",
-    "supportedArchitectures",
-    "inboundEndpoints"
-  ],
-  "oneOf": [
-    {
-      "required": [
-        "imageConfigurationSettings"
-      ]
-    },
-    {
-      "required": [
-        "helmConfigurationSettings"
-      ]
-    }
-  ]
+  }
 }
