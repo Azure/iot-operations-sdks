@@ -187,7 +187,7 @@
         },
         "aioMaxVersion": {
           "type": "string",
-          "description": "The maximal (inclusive) version that can run this connector. If there is no known exact version, wildcards can be used such as '1.*'. Alternatively, not specifying an aioMaxVersion signals no upper bound"
+          "description": "The maximal (inclusive) version that can run this connector. If there is no known exact version, wildcards can be used such as '1.*.*'. Alternatively, not specifying an aioMaxVersion signals no upper bound"
         }
       }
     },
