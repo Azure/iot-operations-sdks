@@ -112,7 +112,7 @@ sequenceDiagram
         Broker->>Receiver: Forward chunk
         Note over Receiver: First chunk starts timeout countdown
         Receiver->>Receiver: Store in buffer
-        Note left of Receiver: Index by:<br/>messageId + chunkIndex
+        Note over Receiver: Index by:<br/>messageId + chunkIndex
     end
 
     alt Success Path
