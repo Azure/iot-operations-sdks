@@ -15,65 +15,65 @@ use crate::azure_device_registry::{ConfigError, ConfigStatus};
 /// Represents an Asset in the Azure Device Registry service.
 #[derive(Clone, Debug, PartialEq)]
 pub struct Asset {
-    /// URI or type definition ids.
+    /// URIs or type definition IDs.
     pub asset_type_refs: Vec<String>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
-    /// A set of key-value pairs that contain custom attributes
+    /// A set of key-value pairs that contain custom attributes set by the customer.
     pub attributes: HashMap<String, String>, // if None on generated model, we can represent as empty hashmap
-    /// Array of datasets that are part of the asset.
+    /// Array of data sets that are part of the asset. Each data set describes the data points that make up the set.
     pub datasets: Vec<Dataset>, // if None on generated model, we can represent as empty vec
-    /// Default configuration for datasets.
+    /// Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here.
     pub default_datasets_configuration: Option<String>,
-    /// Default destinations for datasets.
+    /// Default destinations for a dataset.
     pub default_datasets_destinations: Vec<DatasetDestination>, // if None on generated model, we can represent as empty vec.  Can currently only be length of 1
-    /// Default configuration for events.
+    /// Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here.
     pub default_events_configuration: Option<String>,
-    /// Default destinations for events.
+    /// Default destinations for an event.
     pub default_events_destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec.  Can currently only be length of 1
-    /// Default configuration for management groups.
+    /// Stringified JSON that contains connector-specific default configuration for all management groups. Each management group can have its own configuration that overrides the default settings here.
     pub default_management_groups_configuration: Option<String>,
-    /// Default configuration for streams.
+    /// Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here.
     pub default_streams_configuration: Option<String>,
-    /// Default destinations for streams.
+    /// Default destinations for a stream.
     pub default_streams_destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
-    /// The description of the asset.
+    /// Human-readable description of the asset.
     pub description: Option<String>,
-    /// A reference to the Device and Endpoint within the device
+    /// Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use.
     pub device_ref: DeviceRef,
-    /// Reference to a list of discovered assets
+    /// Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow. Discovered asset names must be provided.
     pub discovered_asset_refs: Vec<String>, // if None on generated model, we can represent as empty vec
-    /// The display name of the asset.
+    /// Human-readable display name.
     pub display_name: Option<String>,
-    /// Reference to the documentation.
+    /// Asset documentation reference.
     pub documentation_uri: Option<String>,
     /// Enabled/Disabled status of the asset.
     pub enabled: Option<bool>, // TODO: just bool?
-    ///  Array of events that are part of the asset.
+    /// Array of events that are part of the asset. Each event can have per-event configuration.
     pub events: Vec<Event>, // if None on generated model, we can represent as empty vec
-    /// Asset id provided by the customer.
+    /// Asset ID provided by the customer.
     pub external_asset_id: Option<String>,
     /// Revision number of the hardware.
     pub hardware_revision: Option<String>,
-    /// The last time the asset has been modified.
+    /// A timestamp (in UTC) that is updated each time the resource is modified.
     pub last_transition_time: Option<DateTime<Utc>>,
     /// Array of management groups that are part of the asset.
     pub management_groups: Vec<ManagementGroup>, // if None on generated model, we can represent as empty vec
-    /// The name of the manufacturer.
+    /// Asset manufacturer.
     pub manufacturer: Option<String>,
-    /// The URI of the manufacturer.
+    /// Asset manufacturer URI.
     pub manufacturer_uri: Option<String>,
-    /// The model of the asset.
+    /// Asset model.
     pub model: Option<String>,
-    /// The product code of the asset.
+    /// Asset product code.
     pub product_code: Option<String>,
-    /// The revision number of the software.
+    /// Asset serial number.
     pub serial_number: Option<String>,
-    /// The revision number of the software.
+    /// Asset software revision number.
     pub software_revision: Option<String>,
-    /// Array of streams that are part of the asset.
+    /// Array of streams that are part of the asset. Each stream can have per-stream configuration.
     pub streams: Vec<Stream>, // if None on generated model, we can represent as empty vec
-    ///  Globally unique, immutable, non-reusable id.
+    /// Globally unique, immutable, non-reusable id.
     pub uuid: Option<String>,
-    /// The version of the asset.
+    /// An integer that is incremented each time the resource is modified in the cloud.
     pub version: Option<u64>,
 }
 
@@ -129,17 +129,17 @@ pub struct DiscoveredAsset {
 /// Represents a dataset.
 #[derive(Clone, Debug, PartialEq)]
 pub struct Dataset {
-    /// Configuration for the dataset.
+    /// Stringified JSON that contains connector-specific JSON string that describes configuration for the specific dataset.
     pub dataset_configuration: Option<String>,
     /// Array of data points that are part of the dataset.
     pub data_points: Vec<DatasetDataPoint>, // if None on generated model, we can represent as empty vec
-    /// The address of the source of the data in the dataset
+    /// Name of the data source within a dataset.
     pub data_source: Option<String>,
     /// Destinations for a dataset.
     pub destinations: Vec<DatasetDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
-    /// The name of the dataset.
+    /// Name of the dataset.
     pub name: String,
-    /// Type definition id or URI of the dataset
+    /// URI or type definition ID.
     pub type_ref: Option<String>,
 }
 
@@ -165,13 +165,13 @@ pub struct DiscoveredDataset {
 /// Represents a data point in a dataset.
 #[derive(Clone, Debug, PartialEq)]
 pub struct DatasetDataPoint {
-    /// Configuration for the data point
+    /// Stringified JSON that contains connector-specific configuration for the data point.
     pub data_point_configuration: Option<String>,
-    /// The data source for the data point
+    /// The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset.
     pub data_source: String,
-    /// The name of the data point
+    /// The name of the data point.
     pub name: String,
-    /// URI or type definition id
+    /// URI or type definition ID.
     pub type_ref: Option<String>,
 }
 
@@ -193,9 +193,9 @@ pub struct DiscoveredDatasetDataPoint {
 /// Represents the destination for a dataset.
 #[derive(Clone, Debug, PartialEq)]
 pub struct DatasetDestination {
-    /// The configuration for the destination
+    /// The destination configuration.
     pub configuration: DestinationConfiguration,
-    /// The target for the destination
+    /// The target destination.
     pub target: DatasetTarget,
 }
 // TODO: switch to this  rust enum
@@ -211,9 +211,9 @@ pub struct DatasetDestination {
 /// Represents the destination for an event or stream.
 #[derive(Clone, Debug, PartialEq)]
 pub struct EventStreamDestination {
-    /// The configuration for the destination
+    /// The destination configuration.
     pub configuration: DestinationConfiguration,
-    /// The target for the destination
+    /// The target destination.
     pub target: EventStreamTarget,
 }
 
@@ -226,29 +226,29 @@ pub struct EventStreamDestination {
 //     Storage {path: String},
 // }
 
-/// A reference to the Device and Endpoint within the device
+/// A reference to the Device and Endpoint within the device (connection information) used by brokers to connect that provides data points for this asset.
 #[derive(Clone, Debug, PartialEq)]
 pub struct DeviceRef {
-    /// The name of the device
+    /// Name of the device resource.
     pub device_name: String,
-    /// The endpoint name of the device
+    /// The name of endpoint to use.
     pub endpoint_name: String,
 }
 
 /// Represents an event in an asset.
 #[derive(Clone, Debug, PartialEq)]
 pub struct Event {
-    /// Array of data points that are part of the event.
+    /// Array of data points that are part of the event. Each data point can have per-data-point configuration.
     pub data_points: Vec<EventDataPoint>, // if None on generated model, we can represent as empty vec
-    /// The destination for the event.
+    /// Destinations for an event.
     pub destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
-    /// The configuration for the event.
+    /// Stringified JSON that contains connector-specific configuration for the specific event.
     pub event_configuration: Option<String>,
-    /// The address of the notifier of the event
+    /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.
     pub event_notifier: String,
     /// The name of the event.
     pub name: String,
-    /// URI or type definition id of the event
+    /// URI or type definition ID.
     pub type_ref: Option<String>,
 }
 
@@ -274,17 +274,17 @@ pub struct DiscoveredEvent {
 /// Represents a management group
 #[derive(Clone, Debug, PartialEq)]
 pub struct ManagementGroup {
-    /// Actions for this management group
+    /// Array of actions that are part of the management group. Each action can have an individual configuration.
     pub actions: Vec<ManagementGroupAction>, // if None on generated model, we can represent as empty vec
-    /// Default timeout in seconds for this management group
+    /// Default response timeout for all actions that are part of the management group.
     pub default_time_out_in_seconds: Option<u32>,
-    /// The default MQTT topic for the management group.
+    /// Default MQTT topic path on which a client will receive the request for all actions that are part of the management group.
     pub default_topic: Option<String>,
-    /// Configuration for the management group.
+    /// Stringified JSON that contains connector-specific configuration for the management group.
     pub management_group_configuration: Option<String>,
-    /// The name of the management group.
+    /// Name of the management group.
     pub name: String,
-    /// URI or type definition id of the management group
+    /// URI or type definition ID.
     pub type_ref: Option<String>,
 }
 
@@ -312,17 +312,17 @@ pub struct DiscoveredManagementGroup {
 pub struct ManagementGroupAction {
     /// Configuration for the action.
     pub action_configuration: Option<String>,
-    /// Type of action.
+    /// Type of the action.
     pub action_type: ActionType,
-    /// The name of the action.
+    /// Name of the action.
     pub name: String,
-    /// The target URI for the action.
+    /// The target URI on which a client can invoke the specific action.
     pub target_uri: String,
-    /// The timeout for the action.
+    /// Response timeout for the action.
     pub time_out_in_seconds: Option<u32>,
-    /// The MQTT topic for the action.
+    /// The MQTT topic path on which a client will receive the request for the action.
     pub topic: Option<String>,
-    /// URI or type definition id of the management group action
+    /// URI or type definition ID.
     pub type_ref: Option<String>,
 }
 
@@ -350,13 +350,13 @@ pub struct DiscoveredManagementGroupAction {
 /// Represents a stream for an asset.
 #[derive(Clone, Debug, PartialEq)]
 pub struct Stream {
-    /// Destinations for a stream.
+    /// Destinations for a Stream.
     pub destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
-    /// The name of the stream.
+    /// Name of the stream definition.
     pub name: String,
-    /// The configuration for the stream.
+    /// Stringified JSON that contains connector-specific JSON string that describes configuration for the specific stream.
     pub stream_configuration: Option<String>,
-    /// URI or type definition id of the stream
+    /// URI or type definition ID.
     pub type_ref: Option<String>,
 }
 
@@ -378,11 +378,11 @@ pub struct DiscoveredStream {
 /// A data point in an event.
 #[derive(Clone, Debug, PartialEq)]
 pub struct EventDataPoint {
-    /// The configuration for the data point in the event.
+    /// Stringified JSON that contains connector-specific configuration for the data point.
     pub data_point_configuration: Option<String>,
-    /// The data source for the data point in the event.
+    /// The address of the source of the data in the event (e.g. URL) so that a client can access the data source on the asset.
     pub data_source: String,
-    /// The name of the data point in the event.
+    /// The name of the data point.
     pub name: String,
 }
 
@@ -403,17 +403,17 @@ pub struct DiscoveredEventDataPoint {
 /// The configuration for the destination
 #[derive(Clone, Debug, PartialEq)]
 pub struct DestinationConfiguration {
-    /// The key of the destination configuration.
+    /// The Broker State Store destination configuration key.
     pub key: Option<String>,
-    /// The description of the destination configuration.
+    /// The Storage destination configuration path.
     pub path: Option<String>,
-    /// The MQTT `QoS` setting for the destination configuration.
+    /// The MQTT `QoS` setting.
     pub qos: Option<QoS>,
-    /// The MQTT retain setting for the destination configuration.
+    /// When set to 'Keep', messages published to an MQTT broker will have the retain flag set.
     pub retain: Option<Retain>,
-    /// The MQTT topic for the destination configuration.
+    /// The MQTT topic.
     pub topic: Option<String>,
-    /// The MQTT TTL setting for the destination configuration.
+    /// The MQTT TTL setting.
     pub ttl: Option<u64>,
 }
 
@@ -421,15 +421,15 @@ pub struct DestinationConfiguration {
 #[derive(Clone, Debug, Default, PartialEq)]
 /// Represents the observed status of an asset.
 pub struct AssetStatus {
-    /// The configuration of the asset.
+    /// Defines the asset status config properties.
     pub config: Option<ConfigStatus>,
-    /// A collection of datasets associated with the asset.
+    /// Array of dataset statuses that describe the status of each dataset.
     pub datasets: Option<Vec<DatasetEventStreamStatus>>,
-    /// A collection of events associated with the asset.
+    /// Array of event statuses that describe the status of each event.
     pub events: Option<Vec<DatasetEventStreamStatus>>,
-    /// A collection of management groups associated with the asset.
+    /// Array of management group statuses that describe the status of each management group.
     pub management_groups: Option<Vec<ManagementGroupStatus>>,
-    /// A collection of schema references for streams associated with the asset.
+    /// Array of stream statuses that describe the status of each stream.
     pub streams: Option<Vec<DatasetEventStreamStatus>>,
 }
 
@@ -438,9 +438,9 @@ pub struct AssetStatus {
 pub struct DatasetEventStreamStatus {
     /// The name of the dataset, event, or stream.
     pub name: String,
-    /// The message schema associated with the dataset, event, or stream.
+    /// The message schema reference.
     pub message_schema_reference: Option<MessageSchemaReference>,
-    /// An error associated with the dataset, event, or stream.
+    /// The configuration error
     pub error: Option<ConfigError>,
 }
 
@@ -449,7 +449,7 @@ pub struct DatasetEventStreamStatus {
 pub struct ManagementGroupStatus {
     /// A collection of actions associated with the management group.
     pub actions: Option<Vec<ActionStatus>>,
-    /// The name of the management group.
+    /// The name of the managementgroup. Must be unique within the status.managementGroup array. This name is used to correlate between the spec and status management group information.
     pub name: String,
 }
 
@@ -458,22 +458,22 @@ pub struct ManagementGroupStatus {
 pub struct ActionStatus {
     /// The configuration error of the management group action.
     pub error: Option<ConfigError>,
-    /// The name of the management group action.
+    /// The name of the action. Must be unique within the status.managementGroup[i].actions array. This name is used to correlate between the spec and status management group action information.
     pub name: String,
-    /// The request message schema reference for the management group action.
+    /// The request message schema reference.
     pub request_message_schema_reference: Option<MessageSchemaReference>,
-    /// The response message schema reference for the management group action.
+    /// The response message schema reference.
     pub response_message_schema_reference: Option<MessageSchemaReference>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
 /// Represents a reference to a schema, including its name, version, and namespace.
 pub struct MessageSchemaReference {
-    /// The name of the message schema.
+    /// The message schema name.
     pub name: String,
-    /// The version of the message schema.
+    /// The message schema version.
     pub version: String,
-    /// The namespace of the message schema.
+    /// The message schema registry namespace.
     pub registry_namespace: String,
 }
 

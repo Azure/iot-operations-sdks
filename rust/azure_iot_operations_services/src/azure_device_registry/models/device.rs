@@ -17,32 +17,32 @@ use crate::azure_device_registry::{
 
 // ~~~~~~~~~~~~~~~~~~~Device Endpoint DTDL Equivalent Structs~~~~
 
-/// Represents a Device in the Azure Device Registry service.
+/// Represents a Device resource, modeled after the devices.namespaces.deviceregistry.microsoft.com CRD in Kubernetes.
 #[derive(Debug, Clone)]
 pub struct Device {
-    /// The 'attributes' Field.
+    /// A set of key-value pairs that contain custom attributes set by the customer.
     pub attributes: HashMap<String, String>, // if None in generated model, we can represent as empty hashmap
-    /// The 'discoveredDeviceRef' Field.
+    /// Reference to a device. Populated only if the device had been created from discovery flow. Discovered device name must be provided.
     pub discovered_device_ref: Option<String>,
-    /// The 'enabled' Field.
+    /// Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with Microsoft Entra ID.
     pub enabled: Option<bool>,
-    /// The 'endpoints' Field.
+    /// Connection endpoint url a device can use to connect to a service.
     pub endpoints: Option<DeviceEndpoints>,
-    /// The 'externalDeviceId' Field.
+    /// The Device ID provided by the customer.
     pub external_device_id: Option<String>,
-    /// The 'lastTransitionTime' Field.
+    /// A timestamp (in UTC) that is updated each time the resource is modified.
     pub last_transition_time: Option<DateTime<Utc>>,
-    /// The 'manufacturer' Field.
+    /// Device manufacturer.
     pub manufacturer: Option<String>,
-    /// The 'model' Field.
+    /// Device model.
     pub model: Option<String>,
-    /// The 'operatingSystem' Field.
+    /// Device operating system.
     pub operating_system: Option<String>,
-    /// The 'operatingSystemVersion' Field.
+    /// Device operating system version.
     pub operating_system_version: Option<String>,
-    /// The 'uuid' Field.
+    /// A unique identifier for this resource.
     pub uuid: Option<String>,
-    /// The 'version' Field.
+    /// An integer that is incremented each time the resource is modified.
     pub version: Option<u64>,
 }
 
@@ -70,7 +70,7 @@ pub struct DiscoveredDevice {
 pub struct DeviceEndpoints {
     /// The 'inbound' Field.
     pub inbound: HashMap<String, InboundEndpoint>, // if None on generated model, we can represent as empty hashmap. Might be able to change this to a single InboundEndpoint
-    /// The 'outbound' Field.
+    /// Set of endpoints for device to connect to.
     pub outbound: Option<OutboundEndpoints>,
 }
 
@@ -86,9 +86,9 @@ pub struct DiscoveredDeviceEndpoints {
 /// Represents the outbound endpoints of a device in the Azure Device Registry service.
 #[derive(Debug, Clone)]
 pub struct OutboundEndpoints {
-    /// The 'assigned' Field.
+    /// Device messaging endpoint model.
     pub assigned: HashMap<String, OutboundEndpoint>,
-    /// The 'unassigned' Field.
+    /// Device messaging endpoint model.
     pub unassigned: HashMap<String, OutboundEndpoint>,
 }
 
@@ -102,26 +102,26 @@ pub struct DiscoveredOutboundEndpoints {
 /// Represents an outbound endpoint of a device in the Azure Device Registry service.
 #[derive(Debug, Clone)]
 pub struct OutboundEndpoint {
-    /// The 'address' Field.
+    /// The endpoint address to connect to.
     pub address: String,
-    /// The 'endpointType' Field.
+    /// Type of connection used for the messaging endpoint.
     pub endpoint_type: Option<String>,
 }
 
 /// Represents an inbound endpoint of a device in the Azure Device Registry service.
 #[derive(Debug, Clone)]
 pub struct InboundEndpoint {
-    /// The 'additionalConfiguration' Field.
+    /// Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, ONVIF).
     pub additional_configuration: Option<String>,
-    /// The 'address' Field.
+    /// The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).
     pub address: String,
-    /// The 'authentication' Field.
+    /// Defines the client authentication mechanism to the server.
     pub authentication: Authentication,
-    /// The 'endpointType' Field.
+    /// Type of connection endpoint.
     pub endpoint_type: String,
-    /// The 'trustSettings' Field.
+    /// Defines server trust settings for the endpoint.
     pub trust_settings: Option<TrustSettings>,
-    /// The 'version' Field.
+    /// Version associated with device endpoint.
     pub version: Option<String>,
 }
 
@@ -145,26 +145,26 @@ pub struct DiscoveredInboundEndpoint {
 #[derive(Debug, Clone)]
 /// Represents the trust settings for an endpoint.
 pub struct TrustSettings {
-    /// The 'trustList' Field.
+    /// Secret reference to certificates list to trust.
     pub trust_list: Option<String>,
 }
 
 #[derive(Debug, Clone, Default)]
-/// Represents the authentication method for an endpoint.
+/// Defines the method to authenticate the user of the client at the server.
 pub enum Authentication {
     #[default]
     /// Represents anonymous authentication.
     Anonymous,
-    /// Represents authentication using a certificate.
+    /// Represents authentication using an x509 certificate.
     Certificate {
-        /// The 'certificateSecretName' Field.
+        /// The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).
         certificate_secret_name: String,
     },
     /// Represents authentication using a username and password.
     UsernamePassword {
-        /// The 'passwordSecretName' Field.
+        /// The name of the secret containing the password.
         password_secret_name: String,
-        /// The 'usernameSecretName' Field.
+        /// The name of the secret containing the username.
         username_secret_name: String,
     },
 }

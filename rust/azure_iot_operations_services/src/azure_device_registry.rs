@@ -19,6 +19,7 @@ use crate::azure_device_registry::{
 use crate::common::dispatcher::{self, Receiver};
 
 /// Azure Device Registry base service generated code
+#[allow(clippy::doc_markdown)] // TODO: consider moving this to codegen
 mod adr_base_gen;
 /// Azure Device Registry device discovery generated code
 mod device_discovery_gen;
@@ -74,7 +75,7 @@ pub enum ErrorKind {
 pub struct DeviceUpdateObservation(Receiver<(Device, Option<AckToken>)>);
 
 impl DeviceUpdateObservation {
-    /// Receives an updated [`Device`] or [`None`] if there will be no more notifications.
+    /// Receives an updated [`Device`] or [`None`] if there will be no more notifications when the unobservation is complete.
     ///
     /// If there are notifications:
     /// - Returns Some([`Device`], [`Option<AckToken>`]) on success
@@ -92,7 +93,7 @@ impl DeviceUpdateObservation {
 pub struct AssetUpdateObservation(Receiver<(Asset, Option<AckToken>)>);
 
 impl AssetUpdateObservation {
-    /// Receives an updated [`Asset`] or [`None`] if there will be no more notifications.
+    /// Receives an updated [`Asset`] or [`None`] if there will be no more notifications when the unobservation is complete.
     ///
     /// If there are notifications:
     /// - Returns Some([`Asset`], [`Option<AckToken>`]) on success
@@ -110,9 +111,9 @@ impl AssetUpdateObservation {
 pub struct ConfigStatus {
     /// Error details for status.
     pub error: Option<ConfigError>,
-    /// The last time the configuration has been modified.
+    /// A timestamp indicating the last time the configuration has been modified from the perspective of the current actual (Edge) state of the CRD.
     pub last_transition_time: Option<DateTime<Utc>>,
-    /// The version of the Device or Asset configuration.
+    /// The version of the Device or Asset configuration that this Status pertains to.
     pub version: Option<u64>,
 }
 
@@ -121,24 +122,24 @@ pub struct ConfigStatus {
 #[error("Configuration error")]
 /// Represents an error in the configuration of an asset or device.
 pub struct ConfigError {
-    /// Error code for classification of errors (ex: ''400'', ''404'', ''500'', etc.).
+    /// Error code for classification of errors (ex: '400', '404', '500', etc.).
     pub code: Option<String>,
-    /// Array of event statuses that describe the status of each event.
+    /// Array of error details that describe the status of each error.
     pub details: Option<Vec<Details>>,
-    /// The message of the error.
+    /// Human readable helpful error message to provide additional context for error (ex: “capability Id ''foo'' does not exist”).
     pub message: Option<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Default)]
 /// Represents the details of an error.
 pub struct Details {
-    /// The multi part error code for root cause analysis.
+    /// Multi-part error code for classification and root causing of errors (ex: 400.200.100.432).
     pub code: Option<String>,
-    /// The correlation ID of the details.
+    /// Unique identifier for the transaction to aid in debugging.
     pub correlation_id: Option<String>,
-    /// Any helpful information associated with the details.
+    /// Human readable helpful detailed text context for debugging (ex: “The following mechanisms are supported...”).
     pub info: Option<String>,
-    /// The error message of the details.
+    /// Human readable helpful error message to provide additional context for error (ex: “Authentication method not supported”).
     pub message: Option<String>,
 }
 
