@@ -34,6 +34,7 @@ fn local_connector_artifacts_tls() {
     temp_env::with_vars(
         [
             ("CONNECTOR_ID", Some("connector_id")),
+            ("CONNECTOR_NAMESPACE", Some("connector_namespace")),
             (
                 "CONNECTOR_CONFIGURATION_MOUNT_PATH",
                 Some(cc_mount_path.to_str().unwrap()),
@@ -48,6 +49,7 @@ fn local_connector_artifacts_tls() {
             // -- Validate the ConnectorArtifacts --
             // NOTE: This value was set directly above in the environment variables
             assert_eq!(artifacts.connector_id, "connector_id");
+            assert_eq!(artifacts.connector_namespace, "connector_namespace");
             // NOTE: These values are paths specified in the environment variable
             assert_eq!(
                 artifacts.broker_trust_bundle_mount,
@@ -104,6 +106,7 @@ fn local_connector_artifacts_no_tls() {
     temp_env::with_vars(
         [
             ("CONNECTOR_ID", Some("connector_id")),
+            ("CONNECTOR_NAMESPACE", Some("connector_namespace")),
             (
                 "CONNECTOR_CONFIGURATION_MOUNT_PATH",
                 Some(cc_mount_path.to_str().unwrap()),
@@ -115,6 +118,7 @@ fn local_connector_artifacts_no_tls() {
             // -- Validate the ConnectorArtifacts --
             // NOTE: This value was set directly above in the environment variables
             assert_eq!(artifacts.connector_id, "connector_id");
+            assert_eq!(artifacts.connector_namespace, "connector_namespace");
             // NOTE: These values are paths specified in the environment variable
             assert_eq!(artifacts.broker_trust_bundle_mount, None);
 

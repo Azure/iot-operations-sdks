@@ -10,10 +10,4 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
-    <ProjectReference Include="..\..\src\Azure.Iot.Operations.Services\Azure.Iot.Operations.Services.csproj" />
-    <ProjectReference Include="..\..\src\Azure.Iot.Operations.Connector\Azure.Iot.Operations.Connector.csproj" />
-  </ItemGroup>
 </Project>

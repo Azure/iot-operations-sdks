@@ -149,7 +149,7 @@ async fn run_program(
                                     inbound_endpoint_name,
                                     Some(azure_device_registry::ConfigError {
                                         message: Some("endpoint type is not supported".to_string()),
-                                        ..azure_device_registry::ConfigError::default()
+                                        ..Default::default()
                                     }),
                                 );
                             }
@@ -157,7 +157,7 @@ async fn run_program(
                         let status = azure_device_registry::models::DeviceStatus {
                             config: Some(azure_device_registry::StatusConfig {
                                 version: device.specification.version,
-                                ..azure_device_registry::StatusConfig::default()
+                                ..Default::default()
                             }),
                             endpoints: endpoint_statuses,
                         };
@@ -249,14 +249,19 @@ async fn run_program(
                                                     name: dataset.name,
                                                 });
                                                 }
-                                                let updated_status = azure_device_registry::models::AssetStatus {
-                                                config: Some(azure_device_registry::StatusConfig {
-                                                    version: asset.specification.version,
-                                                    ..azure_device_registry::StatusConfig::default()
-                                                }),
-                                                datasets: Some(dataset_statuses),
-                                                ..azure_device_registry::models::AssetStatus::default()
-                                            };
+                                                let updated_status =
+                                                    azure_device_registry::models::AssetStatus {
+                                                        config: Some(
+                                                            azure_device_registry::StatusConfig {
+                                                                version: asset
+                                                                    .specification
+                                                                    .version,
+                                                                ..Default::default()
+                                                            },
+                                                        ),
+                                                        datasets: Some(dataset_statuses),
+                                                        ..Default::default()
+                                                    };
                                                 match azure_device_registry_client_clone
                                                     .update_asset_status(
                                                         asset_ref.device_name.clone(),
