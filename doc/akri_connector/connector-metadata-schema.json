@@ -43,7 +43,7 @@
     },
     "imageConfigurationSettings": {
       "type": "object",
-      "description": "The container image details for this connector image. Must provide either this or helmConfigurationSettings.",
+      "description": "The container image details for this connector image.",
       "properties": {
         "containerRegistryName": {
           "type": "string",
