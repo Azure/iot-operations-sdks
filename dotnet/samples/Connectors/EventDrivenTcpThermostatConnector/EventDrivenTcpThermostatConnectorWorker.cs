@@ -14,6 +14,8 @@ namespace EventDrivenTcpThermostatConnector
         private readonly ConnectorWorker _connector;
         private CancellationTokenSource? _tcpConnectionCancellationToken;
 
+        // TODO user wants access to leader election client used by this connector so that they can check their leader status.
+        // Alternatively, they are fine with the connector doing this for them.
         public EventDrivenTcpThermostatConnectorWorker(ApplicationContext applicationContext, ILogger<EventDrivenTcpThermostatConnectorWorker> logger, ILogger<ConnectorWorker> connectorLogger, IMqttClient mqttClient, IMessageSchemaProvider datasetSamplerFactory, IAdrClientWrapper assetMonitor, IConnectorLeaderElectionConfigurationProvider leaderElectionConfigurationProvider)
         {
             _logger = logger;
@@ -22,6 +24,8 @@ namespace EventDrivenTcpThermostatConnector
             _connector.OnAssetUnavailable += OnAssetUnavailableAsync;
         }
 
+        //TODO customer feedback wants for this method to return a task instead and to have the connector worker run that task until the asset is unavailable (using cancellation token)
+        // This spares the user from saving their tasks locally and cancelling them once the asset is unavailable or the connector shuts down
         private async void OnAssetAvailableAsync(object? sender, AssetAvailableEventArgs args)
         {
             _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);

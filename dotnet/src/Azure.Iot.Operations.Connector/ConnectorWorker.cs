@@ -137,6 +137,8 @@ namespace Azure.Iot.Operations.Connector
                             }
                         };
 
+                        //TODO manually check who the leader is periodically on top of listening to events?
+
                         _leaderElectionClient.LeadershipChangeEventReceivedAsync += (sender, args) =>
                         {
                             isLeader = args.NewLeader != null && args.NewLeader.GetString().Equals(mqttConnectionSettings.ClientId);
