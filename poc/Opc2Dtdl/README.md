@@ -53,7 +53,7 @@ Assuming a clone of the [OPCFoundation/UA-Nodeset](https://github.com/OPCFoundat
 Opc2Yaml/bin/Debug/net8.0/Opc2Yaml ../../../UA-Nodeset ./YamlDigests
 ```
 
-Then, the following sequence of commands will filter, digest, and convert the YAML files into DTDL models.
+Then, the following sequence of commands will filter, dedup, and convert the YAML files into DTDL models.
 The last command in the sequence will also use the [DTDLParser](https://github.com/digitaltwinconsortium/DTDLParser) to validate the generated DTDL.
 
 ```dotnetcli
