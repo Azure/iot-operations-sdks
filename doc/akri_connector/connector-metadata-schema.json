@@ -40,10 +40,6 @@
       "type": "object",
       "description": "The container image details for this connector image.",
       "properties": {
-        "containerRegistryName": {
-          "type": "string",
-          "description": "The container registry that holds the image for the connector. For example: 'contoso-acr.io'"
-        },
         "imageName": {
           "type": "string",
           "description": "The container image name for the connector. For example: 'myconnector'"
@@ -60,14 +56,12 @@
       "oneOf": [
         {
           "required": [
-            "containerRegistryName",
             "imageName",
             "tag"
           ]
         },
         {
           "required": [
-            "containerRegistryName",
             "imageName",
             "digest"
           ]
@@ -110,17 +104,17 @@
           "type": "object",
           "description": "A single storage volume is needed.",
           "properties": {
-            "name": {
-              "type": "string",
-              "description": "The name of this storage volume"
-            },
             "description": {
               "type": "string",
               "description": "The description for this storage volume"
+            },
+            "mountPath": {
+              "type": "string",
+              "description": "The mount path for this storage volume"
             }
           },
           "required": [
-            "name"
+            "mountPath"
           ]
         }
       ]
@@ -249,7 +243,7 @@
               }
             },
             "defaultAssetEventDestinations": {
-              "type": "array",
+              "type": "string",
               "description": "The default destination that this asset's events will go to by default unless event-specific destinations are specified.",
               "enum": [
                 "Mqtt",
@@ -269,7 +263,7 @@
               }
             },
             "defaultAssetDatasetDestinations": {
-              "type": "array",
+              "type": "string",
               "description": "The default destination that this asset's datasets will go to by default unless dataset-specific destinations are specified.",
               "enum": [
                 "Mqtt",
