@@ -1,0 +1,1952 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=22",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Order;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=25",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Direction",
+        "namespace": "http://opcfoundation.org/UA/AMLLibs",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:PortConnector;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=28",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:InterlockingConnector;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=31",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:PPRConnector;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=34",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:ExternalDataConnector;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=37",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "refURI",
+        "namespace": "http://opcfoundation.org/UA/AMLLibs",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Communication;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=179",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:AttachmentInterface;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=43",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:COLLADAInterface;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ExternalDataConnector;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=52",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:PLCopenXMLInterface;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ExternalDataConnector;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=55",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:LogicInterface;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:PLCopenXMLInterface;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=58",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:VariableInterface;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:PLCopenXMLInterface;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=61",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:InterlockingVariableInterface;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:VariableInterface;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=64",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SafeConditionEquals",
+        "namespace": "http://opcfoundation.org/UA/AMLLibs",
+        "schema": "boolean"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:SignalInterface;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Communication;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=71",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=74",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Group;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=77",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AssociatedFacet",
+        "namespace": "http://opcfoundation.org/UA/AMLLibs",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Facet;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=80",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Port;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=83",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Direction",
+        "namespace": "http://opcfoundation.org/UA/AMLLibs",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Cardinality",
+        "namespace": "http://opcfoundation.org/UA/AMLLibs",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "Cardinality",
+              "namespace": "http://opcfoundation.org/UA/AMLLibs",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "MinOccur",
+              "namespace": "http://opcfoundation.org/UA/AMLLibs",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "MaxOccur",
+              "namespace": "http://opcfoundation.org/UA/AMLLibs",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Category",
+        "namespace": "http://opcfoundation.org/UA/AMLLibs",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ConnectionPoint",
+        "namespace": "http://opcfoundation.org/UA/AMLLibs",
+        "target": "dtmi:opcua:AMLLibs:PortConnector"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Resource;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=86",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Product;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=89",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Process;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=92",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Structure;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=95",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:PropertySet;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=98",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Frame;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=101",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:SignalGroup;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Group;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=107",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:ComponentGroup;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Group;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=110",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:ProductStructure;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Structure;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=131",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:ProcessStructure;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Structure;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=134",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:ResourceStructure;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Structure;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=137",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:BatchManufacturingEquipment;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=140",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:ContManufacturingEquipment;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=143",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Resource;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=146",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Transport;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=149",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Storage;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=152",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Fixture;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=155",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Gate;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=158",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Robot;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=161",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Tool;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=164",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Carrier;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=167",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Machine;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=170",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:StaticObject;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=173",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:ControlEquipment;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Resource;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=176",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:ControlHardware;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=182",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Sensor;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=185",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Actuator;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=188",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Controller;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=191",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:PC;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=194",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:IPC;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=197",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:EmbeddedDevice;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=200",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Handheld;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=203",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:PLC;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Controller;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=206",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:NC;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Controller;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=209",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:RC;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Controller;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=212",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:PAC;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Controller;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=215",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:PLCFacet;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Facet;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=218",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:HMIFacet;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Facet;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=221",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Enterprise;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=224",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Site;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=227",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Area;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=230",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:ProductionLine;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=233",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:WorkCell;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=236",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:ProcessCell;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=239",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Unit;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=242",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:ProductionUnit;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=245",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:StorageZone;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=248",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:StorageUnit;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=251",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Turntable;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Transport;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=254",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Conveyor;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Transport;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=257",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:LiftingTable;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Transport;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=260",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:AGV;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Transport;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=263",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Transposer;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Transport;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=266",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:CarrierHandlingSystem;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Transport;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=269",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:BodyStore;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Storage;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=272",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Lift;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Transport;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=275",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Rollerbed;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Transport;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=278",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:StationaryTool;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Tool;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=281",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:MovableTool;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Tool;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=284",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:ControlCabinet;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=287",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:IODevice;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=290",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:HMI;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=293",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:ActuatingDrive;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Actuator;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=296",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:MotionController;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=299",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Panel;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=302",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:MeasuringEquipment;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Resource;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=305",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Clamp;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Fixture;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=308",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:ProcessController;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Controller;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=311",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Loader;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Storage;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=314",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:Unloader;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Storage;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=317",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:BeltConveyor;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=320",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:RollConveyor;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=323",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:ChainConveyor;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=326",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:PalletConveyor;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=329",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:OverheadConveyor;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=332",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:AMLLibs:WarningEquipment;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:AMLLibs:HMI;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=335",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  }
+]

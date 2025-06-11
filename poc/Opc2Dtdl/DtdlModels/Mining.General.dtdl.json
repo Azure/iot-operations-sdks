@@ -1,0 +1,62 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Mining_General:MiningEquipmentIdentificationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Mining.General;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DeviceTypeImage",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Documentation",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ImageSet",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProtocolSupport",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Mining_General:MiningEquipmentType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:TopologyElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Mining.General;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  }
+]

@@ -1,0 +1,40 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Machinery_Jobs:JobManagementType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Jobs;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DefaultInstanceBrowseName",
+        "namespace": "http://opcfoundation.org/UA/Machinery.Jobs",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "JobOrderControl",
+        "namespace": "http://opcfoundation.org/UA/Machinery.Jobs",
+        "target": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "JobOrderResults",
+        "namespace": "http://opcfoundation.org/UA/Machinery.Jobs",
+        "target": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType"
+      }
+    ]
+  }
+]

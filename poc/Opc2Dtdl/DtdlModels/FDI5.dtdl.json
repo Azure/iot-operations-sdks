@@ -1,0 +1,660 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:FDI5:ActionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5;i=11",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:FDI5:ActionServiceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5;i=21",
+    "commandTopic": "opcua/FDI5/ActionServiceType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "InvokeAction",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ActionName",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "MethodArguments",
+                "schema": "string"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ActionNodeId",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "InvokeActionError",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "RespondAction",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ActionNodeId",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Response",
+                "schema": "string"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "RespondActionError",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "AbortAction",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ActionNodeId",
+                "schema": "string"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "AbortActionError",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ActionIdentifier",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "target": "dtmi:opcua:FDI5:ActionType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:FDI5:EditContextType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5;i=54",
+    "commandTopic": "opcua/FDI5/EditContextType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:FDI5:EditContextType:dataType:WindowModeType;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5;i=194",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "ModalWindow",
+            "enumValue": 1
+          },
+          {
+            "name": "NonModalWindow",
+            "enumValue": 2
+          },
+          {
+            "name": "UIP",
+            "enumValue": 3
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:FDI5:EditContextType:dataType:RegistrationParameters;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5;i=37",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Path",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SelectionFlags",
+            "schema": "unsignedInteger"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:FDI5:EditContextType:dataType:RegisterNodesResult;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5;i=39",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Status",
+            "schema": "integer"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "RegisteredNodes",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "dtmi:opcua:FDI5:EditContextType:dataType:RegisteredNode;1"
+            }
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:FDI5:EditContextType:dataType:RegisteredNode;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5;i=38",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "NodeStatus",
+            "schema": "integer"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "OnlineContextNodeId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "OnlineDeviceNodeId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "OfflineContextNodeId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "OfflineDeviceNodeId",
+            "schema": "string"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:FDI5:EditContextType:dataType:ApplyResult;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5;i=44",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Status",
+            "schema": "integer"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TransferIncidents",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "dtmi:opcua:FDI5:EditContextType:dataType:TransferIncident;1"
+            }
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:FDI5:EditContextType:dataType:TransferIncident;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5;i=43",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ContextNodeId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "StatusCode",
+            "schema": "integer"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Diagnostics",
+            "schema": "bytes"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "GetEditContext",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ParentId",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "TargetWindowMode",
+                "schema": "dtmi:opcua:FDI5:EditContextType:dataType:WindowModeType;1"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "EditContextId",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "GetEditContextStatus",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "RegisterNodesById",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "EditContextId",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "NodesToRegister",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "dtmi:opcua:FDI5:EditContextType:dataType:RegistrationParameters;1"
+                }
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "RegisterNodesStatus",
+                "schema": "dtmi:opcua:FDI5:EditContextType:dataType:RegisterNodesResult;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "RegisterNodesByRelativePath",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "EditContextId",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "NodesToRegister",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "dtmi:opcua:FDI5:EditContextType:dataType:RegistrationParameters;1"
+                }
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "RegisterNodesStatus",
+                "schema": "dtmi:opcua:FDI5:EditContextType:dataType:RegisterNodesResult;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Apply",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "EditContextId",
+                "schema": "string"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ApplyStatus",
+                "schema": "dtmi:opcua:FDI5:EditContextType:dataType:ApplyResult;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Reset",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "EditContextId",
+                "schema": "string"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ResetStatus",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Discard",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "EditContextId",
+                "schema": "string"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "DiscardStatus",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:FDI5:DirectDeviceAccessType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5;i=82",
+    "commandTopic": "opcua/FDI5/DirectDeviceAccessType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "InitDirectAccess",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Context",
+                "schema": "string"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "InitDirectAccessError",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Transfer",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "SendData",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ReceiveData",
+                "schema": "string"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "TransferError",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "EndDirectAccess",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "InvalidateCache",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "EndDirectAccessError",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+]

@@ -25,54 +25,54 @@ namespace Yaml2Dtdl
         public virtual string TransformText()
         {
  int ix;
-            this.Write("    {\r\n      \"@type\": [ \"Command\", \"Qualified\" ],\r\n      \"name\": \"");
+            this.Write("      {\r\n        \"@type\": [ \"Command\", \"Qualified\" ],\r\n        \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.Dequalify(definedType.BrowseName)));
-            this.Write("\",\r\n      \"namespace\": \"");
+            this.Write("\",\r\n        \"namespace\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));
             this.Write("\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.InputArgs != null || this.OutputArgs != null ? "," : ""));
             this.Write("\r\n");
  if (this.InputArgs != null) { 
-            this.Write("      \"request\": {\r\n        \"@type\": [ \"CommandRequest\", \"Transparent\" ],\r\n      " +
-                    "  \"name\": \"input\",\r\n");
+            this.Write("        \"request\": {\r\n          \"@type\": [ \"CommandRequest\", \"Transparent\" ],\r\n  " +
+                    "        \"name\": \"input\",\r\n");
  if (this.InputIsOptional) { 
-            this.Write("        \"nullable\": true,\r\n");
+            this.Write("          \"nullable\": true,\r\n");
  } 
-            this.Write("        \"schema\": {\r\n          \"@type\": \"Object\",\r\n          \"fields\": [\r\n");
+            this.Write("          \"schema\": {\r\n            \"@type\": \"Object\",\r\n            \"fields\": [\r\n");
  ix = 1; foreach (KeyValuePair<string, (string, int)> inputArg in this.InputArgs) { 
-            this.Write("            {\r\n              \"@type\": [ \"Field\", \"Required\" ],\r\n              \"na" +
-                    "me\": \"");
+            this.Write("              {\r\n                \"@type\": [ \"Field\", \"Required\" ],\r\n             " +
+                    "   \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(inputArg.Key));
-            this.Write("\",\r\n              \"schema\": ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, inputArg.Value.Item1, inputArg.Value.Item2, 14)));
-            this.Write("\r\n            }");
+            this.Write("\",\r\n                \"schema\": ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, inputArg.Value.Item1, inputArg.Value.Item2, 16)));
+            this.Write("\r\n              }");
             this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.InputArgs.Count ? "," : ""));
             this.Write("\r\n");
  ix++; } 
-            this.Write("          ]\r\n        }\r\n      }");
+            this.Write("            ]\r\n          }\r\n        }");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.OutputArgs != null ? "," : ""));
             this.Write("\r\n");
  } 
  if (this.OutputArgs != null) { 
-            this.Write("      \"response\": {\r\n        \"@type\": [ \"CommandResponse\", \"Transparent\" ],\r\n    " +
-                    "    \"name\": \"output\",\r\n");
+            this.Write("        \"response\": {\r\n          \"@type\": [ \"CommandResponse\", \"Transparent\" ],\r\n" +
+                    "          \"name\": \"output\",\r\n");
  if (this.OutputIsOptional) { 
-            this.Write("        \"nullable\": true,\r\n");
+            this.Write("          \"nullable\": true,\r\n");
  } 
-            this.Write("        \"schema\": {\r\n          \"@type\": \"Object\",\r\n          \"fields\": [\r\n");
+            this.Write("          \"schema\": {\r\n            \"@type\": \"Object\",\r\n            \"fields\": [\r\n");
  ix = 1; foreach (KeyValuePair<string, (string, int)> outputArg in this.OutputArgs) { 
-            this.Write("            {\r\n              \"@type\": [ \"Field\", \"Required\" ],\r\n              \"na" +
-                    "me\": \"");
+            this.Write("              {\r\n                \"@type\": [ \"Field\", \"Required\" ],\r\n             " +
+                    "   \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(outputArg.Key));
-            this.Write("\",\r\n              \"schema\": ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, outputArg.Value.Item1, outputArg.Value.Item2, 14)));
-            this.Write("\r\n            }");
+            this.Write("\",\r\n                \"schema\": ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, outputArg.Value.Item1, outputArg.Value.Item2, 16)));
+            this.Write("\r\n              }");
             this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.OutputArgs.Count ? "," : ""));
             this.Write("\r\n");
  ix++; } 
-            this.Write("          ]\r\n        }\r\n      }\r\n");
+            this.Write("            ]\r\n          }\r\n        }\r\n");
  } 
-            this.Write("    }");
+            this.Write("      }");
             return this.GenerationEnvironment.ToString();
         }
     }

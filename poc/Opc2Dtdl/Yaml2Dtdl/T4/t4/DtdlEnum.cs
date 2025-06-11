@@ -23,21 +23,21 @@ namespace Yaml2Dtdl
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("    {\r\n      \"@id\": \"");
+            this.Write("      {\r\n        \"@id\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetDataTypeDtmiFromBrowseName(this.modelId, this.enumType.BrowseName)));
-            this.Write("\",\r\n      \"@type\": [ \"Enum\", \"Congruence\" ],\r\n      \"typeRef\": \"");
+            this.Write("\",\r\n        \"@type\": [ \"Enum\", \"Congruence\" ],\r\n        \"typeRef\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetTypeRefFromNodeId(this.enumType.NodeId)));
-            this.Write("\",\r\n      \"valueSchema\": \"integer\",\r\n      \"enumValues\": [\r\n");
+            this.Write("\",\r\n        \"valueSchema\": \"integer\",\r\n        \"enumValues\": [\r\n");
  int ix = 1; foreach (KeyValuePair<string, int> intEnum in this.enumType.Enums) { 
-            this.Write("        {\r\n          \"name\": \"");
+            this.Write("          {\r\n            \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(intEnum.Key)));
-            this.Write("\",\r\n          \"enumValue\": ");
+            this.Write("\",\r\n            \"enumValue\": ");
             this.Write(this.ToStringHelper.ToStringWithCulture(intEnum.Value));
-            this.Write("\r\n        }");
+            this.Write("\r\n          }");
             this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.enumType.Enums.Count ? "," : ""));
             this.Write("\r\n");
  ix++; } 
-            this.Write("      ]\r\n    }");
+            this.Write("        ]\r\n      }");
             return this.GenerationEnvironment.ToString();
         }
     }

@@ -1,0 +1,1137 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ECM:AccuracyDomainType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1014",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:ECM:AccuracyDomainType:dataType:EnumValueType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA;i=7594",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Value",
+            "schema": "long"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "DisplayName",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Description",
+            "schema": "string"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "EnumValues",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:ECM:AccuracyDomainType:dataType:EnumValueType;1"
+        },
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ECM:IEnergyProfileD0Type;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1011",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DcCurrent",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required", "Current" ],
+              "name": "DcCurrent",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "unit": "ampere",
+              "schema": "float"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "AccuracyClass",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "Resource",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ECM:IEnergyProfileD1Type;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1015",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DcActivePower",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required", "Power" ],
+              "name": "DcActivePower",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "unit": "watt",
+              "schema": "float"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "AccuracyClass",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "Resource",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DcCurrent",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required", "Current" ],
+              "name": "DcCurrent",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "unit": "ampere",
+              "schema": "float"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "AccuracyClass",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "Resource",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DcVoltage",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required", "Voltage" ],
+              "name": "DcVoltage",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "unit": "volt",
+              "schema": "float"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "AccuracyClass",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "Resource",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ECM:IEnergyProfileE0Type;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:ECM:IEnergyProfileE0Type:dataType:AcPeDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=3005",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "L1",
+            "schema": "float"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "L2",
+            "schema": "float"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "L3",
+            "schema": "float"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AcCurrentPe",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "AcCurrentPe",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "dtmi:opcua:ECM:IEnergyProfileE0Type:dataType:AcPeDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "AccuracyClass",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "Resource",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ECM:IEnergyProfileE1Type;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AcActivePowerTotal",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required", "Power" ],
+              "name": "AcActivePowerTotal",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "unit": "watt",
+              "schema": "float"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "AccuracyClass",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "Resource",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ECM:IEnergyProfileE2Type;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AcActivePowerTotal",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required", "Power" ],
+              "name": "AcActivePowerTotal",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "unit": "watt",
+              "schema": "float"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "AccuracyClass",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "Resource",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ECM:IEnergyProfileE3Type;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1010",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=3005",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "L1",
+            "schema": "float"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "L2",
+            "schema": "float"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "L3",
+            "schema": "float"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPpDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=3006",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "L1L2",
+            "schema": "float"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "L2L3",
+            "schema": "float"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "L3L1",
+            "schema": "float"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AcActivePowerPe",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "AcActivePowerPe",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "AccuracyClass",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "Resource",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AcCurrentPe",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "AcCurrentPe",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "AccuracyClass",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "Resource",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AcPowerFactorPe",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "AcPowerFactorPe",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "AccuracyClass",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "Resource",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AcReactivePowerPe",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "AcReactivePowerPe",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "AccuracyClass",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "Resource",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AcVoltagePe",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "AcVoltagePe",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "AccuracyClass",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "Resource",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AcVoltagePp",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "AcVoltagePp",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPpDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "AccuracyClass",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "Resource",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ECM:EnergyDevicePowerOffType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1012",
+    "commandTopic": "opcua/ECM/EnergyDevicePowerOffType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "WOLMagicPacket",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "bytes",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ModePowerConsumption",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RegularTimeToOperate",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "duration"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TimeMinPause",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "duration"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SwitchOffWOL",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ModeID",
+                "schema": "unsignedByte"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "CurrentTimeToDestination",
+                "schema": "duration"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "RegularTimeToOperate",
+                "schema": "duration"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "TimeMinLengthOfStay",
+                "schema": "duration"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ReturnCode",
+                "schema": "unsignedByte"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ECM:EnergyMeasurementType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1006",
+    "commandTopic": "opcua/ECM/EnergyMeasurementType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ApplicationTag",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StartTime",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "dateTime",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MeasurementValue",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "MeasurementValue",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": {
+                "@type": "Map",
+                "mapKey": {
+                  "name": "MeasurementValue",
+                  "schema": "string"
+                },
+                "mapValue": {
+                  "@type": [ "MapValue", "" ],
+                  "name": "MeasurementValueSchema",
+                  "unit": "",
+                  "schema": "string"
+                }
+              }
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "AccuracyClass",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "Resource",
+              "namespace": "http://opcfoundation.org/UA/ECM",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetStatistics",
+        "namespace": "http://opcfoundation.org/UA/IA"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ECM:EnergySavingModesContainerType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EnergySavingModes",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "target": "dtmi:opcua:ECM:EnergySavingModeType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ECM:EnergySavingModeStatusType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:ECM:EnergySavingModeStatusType:dataType:StandbyModeTransitionDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=3002",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "IDDestination",
+            "schema": "unsignedByte"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "CurrentTimeToDestination",
+            "schema": "duration"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "CurrentTimeToOperate",
+            "schema": "duration"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "EnergyConsumptionToDestination",
+            "schema": "float"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:ECM:EnergySavingModeStatusType:dataType:EnergyStateInformationDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=3003",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "IDSource",
+            "schema": "unsignedByte"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "IDDestination",
+            "schema": "unsignedByte"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "RegularTimeToOperate",
+            "schema": "duration"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ModePowerConsumption",
+            "schema": "float"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CurrentTransitionData",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "dtmi:opcua:ECM:EnergySavingModeStatusType:dataType:StandbyModeTransitionDataType;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "StateInformation",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "dtmi:opcua:ECM:EnergySavingModeStatusType:dataType:EnergyStateInformationDataType;1"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ECM:EnergySavingModeType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DynamicData",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ID",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "unsignedByte",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EnergyConsumptionToOperate",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EnergyConsumptionToPause",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ModePowerConsumption",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RegularTimeToOperate",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "duration"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TimeMaxLengthOfStay",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "duration"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TimeMinLengthOfStay",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "duration"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TimeMinPause",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "duration"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TimeToPause",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "duration"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ECM:EnergyStandbyManagementType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1005",
+    "commandTopic": "opcua/ECM/EnergyStandbyManagementType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PauseTime",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "duration"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "StandbyManagementStatus",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "schema": "unsignedByte"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "EndPause",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "CurrentTimeToOperate",
+                "schema": "duration"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ReturnCode",
+                "schema": "unsignedByte"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "StartPause",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "PauseTime",
+                "schema": "duration"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ModeID",
+                "schema": "unsignedByte"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "CurrentTimeToDestination",
+                "schema": "duration"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "RegularTimeToOperate",
+                "schema": "duration"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "TimeMinLengthOfStay",
+                "schema": "duration"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ReturnCode",
+                "schema": "unsignedByte"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SwitchToEnergySavingMode",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ModeID",
+                "schema": "unsignedByte"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "EffectiveModeID",
+                "schema": "unsignedByte"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "CurrentTimeToDestination",
+                "schema": "duration"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "RegularTimeToOperate",
+                "schema": "duration"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "TimeMinLengthOfStay",
+                "schema": "duration"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ReturnCode",
+                "schema": "unsignedByte"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EnergySavingModes",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "target": "dtmi:opcua:ECM:EnergySavingModesContainerType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EnergySavingModeStatus",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "target": "dtmi:opcua:ECM:EnergySavingModeStatusType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Lock",
+        "namespace": "http://opcfoundation.org/UA/ECM",
+        "target": "dtmi:opcua:DI:LockingServicesType"
+      }
+    ]
+  }
+]

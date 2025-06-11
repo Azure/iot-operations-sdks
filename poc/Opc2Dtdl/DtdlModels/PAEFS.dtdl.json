@@ -1,0 +1,1815 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:AirConnectionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1007",
+    "commandTopic": "opcua/PAEFS/AirConnectionType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PAEFS:AirConnectionType:dataType:AirConnectionOpenEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=3005",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Open",
+            "enumValue": 0
+          },
+          {
+            "name": "Closed",
+            "enumValue": 1
+          },
+          {
+            "name": "Opening",
+            "enumValue": 2
+          },
+          {
+            "name": "Closing",
+            "enumValue": 3
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ConnectionOpen",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "dtmi:opcua:PAEFS:AirConnectionType:dataType:AirConnectionOpenEnum;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Malfunction",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Close",
+        "namespace": "http://opcfoundation.org/UA/PAEFS"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Open",
+        "namespace": "http://opcfoundation.org/UA/PAEFS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Airflow",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "GasQuality",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Humidity",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Pressure",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Temperature",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:CompressedAirSupplyInterruptedAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1032",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:EndOfFilterRollAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1026",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:MalfunctionAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1025",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:SafetySystemTriggeredAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1041",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:WashingAgentDrainMalfunctionAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1030",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:WashingAgentInflowMalfunctionAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1029",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:CleaningRecommendedConditionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1037",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Recommended",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:MaintenanceRequestedConditionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1023",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Requested",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:AirConnectionStatusChangedConditionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1040",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PAEFS:AirConnectionStatusChangedConditionType:dataType:AirConnectionOpenEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=3005",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Open",
+            "enumValue": 0
+          },
+          {
+            "name": "Closed",
+            "enumValue": 1
+          },
+          {
+            "name": "Opening",
+            "enumValue": 2
+          },
+          {
+            "name": "Closing",
+            "enumValue": 3
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "dtmi:opcua:PAEFS:AirConnectionStatusChangedConditionType:dataType:AirConnectionOpenEnum;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:CleaningUnitActiveConditionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1036",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Active",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:ContainerOpenConditionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1024",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Open",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:DischargeContainerInstalledConditionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1038",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Installed",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:FilterAidDeviceStatusChangedConditionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1033",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PAEFS:FilterAidDeviceStatusChangedConditionType:dataType:FilterAidDeviceStatusEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=3006",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "DeviceActive",
+            "enumValue": 0
+          },
+          {
+            "name": "DeviceInactive",
+            "enumValue": 1
+          },
+          {
+            "name": "FillingActive",
+            "enumValue": 2
+          },
+          {
+            "name": "DischargeActive",
+            "enumValue": 3
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "dtmi:opcua:PAEFS:FilterAidDeviceStatusChangedConditionType:dataType:FilterAidDeviceStatusEnum;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:MaintenanceSwitchConditionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1039",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SwitchOn",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:WashingAgentDrainOpenConditionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1028",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Open",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:WashingAgentInflowOpenConditionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1027",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Open",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:HighVoltageUnitSupplyActiveEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1031",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Active",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:CleaningUnitType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1005",
+    "commandTopic": "opcua/PAEFS/CleaningUnitType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AutomaticCleaningEnabled",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CleaningActive",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CleaningRecommended",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Malfunction",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "TotalCleaningCycles",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "RequestCleaning",
+        "namespace": "http://opcfoundation.org/UA/PAEFS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Valve",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:CleaningUnitValveType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AirConsumption",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:ConsumptionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CleaningInterval",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FilterCleaningEffect",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineryBuildingBlocks",
+        "namespace": "http://opcfoundation.org/UA/Machinery"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ReservoirPressure",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:CleaningUnitValveType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1016",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Malfunction",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Open",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:CollectorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1020",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CollectorOutput",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:ConsumptionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1011",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LifetimeConsumption",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CurrentConsumption",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:DischargeSystemType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DischargeContainerInstalled",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DischargeSystemEnabled",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MaintenanceSwitchOn",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Malfunction",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AirConsumption",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:ConsumptionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FillingLevel",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineryBuildingBlocks",
+        "namespace": "http://opcfoundation.org/UA/Machinery"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:FanType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MaintenanceSwitchOn",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Malfunction",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineryBuildingBlocks",
+        "namespace": "http://opcfoundation.org/UA/Machinery"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PowerConsumption",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:ConsumptionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "RotationalSpeed",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:FilterAidDeviceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1004",
+    "commandTopic": "opcua/PAEFS/FilterAidDeviceType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PAEFS:FilterAidDeviceType:dataType:FilterAidDeviceStatusEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=3006",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "DeviceActive",
+            "enumValue": 0
+          },
+          {
+            "name": "DeviceInactive",
+            "enumValue": 1
+          },
+          {
+            "name": "FillingActive",
+            "enumValue": 2
+          },
+          {
+            "name": "DischargeActive",
+            "enumValue": 3
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AutomaticDosingEnabled",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CompressedAirSupplyInterrupted",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ContainerOpen",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DosingRequested",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "FilterAidDeviceStatus",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "dtmi:opcua:PAEFS:FilterAidDeviceType:dataType:FilterAidDeviceStatusEnum;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Malfunction",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetFillingLevel",
+        "namespace": "http://opcfoundation.org/UA/PAEFS"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "TriggerDosing",
+        "namespace": "http://opcfoundation.org/UA/PAEFS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AirConsumption",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:ConsumptionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DosageAmount",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FillingLevel",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineryBuildingBlocks",
+        "namespace": "http://opcfoundation.org/UA/Machinery"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PowerConsumption",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:ConsumptionType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:FilterSystemType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1002",
+    "commandTopic": "opcua/PAEFS/FilterSystemType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PAEFS:FilterSystemType:dataType:ControlModeEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=3003",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Automatic",
+            "enumValue": 0
+          },
+          {
+            "name": "Manual",
+            "enumValue": 1
+          },
+          {
+            "name": "Other",
+            "enumValue": 2
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ControlMode",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "dtmi:opcua:PAEFS:FilterSystemType:dataType:ControlModeEnum;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MaintenanceRequested",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Malfunction",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OperationCycleCounter",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OperationDuration",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PowerOnDuration",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "OperationOff",
+        "namespace": "http://opcfoundation.org/UA/PAEFS"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "OperationOn",
+        "namespace": "http://opcfoundation.org/UA/PAEFS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Fan",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:FanType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FilterAidDevice",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:FilterAidDeviceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FilterUnit",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:FilterUnitType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SafetySystem",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SafetySystemType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "TemperatureRegulator",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:TemperatureRegulatorType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AirConsumption",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:ConsumptionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AirIntakeConnection",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:AirConnectionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AirOutletConnection",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:AirConnectionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineryBuildingBlocks",
+        "namespace": "http://opcfoundation.org/UA/Machinery"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PowerConsumption",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:ConsumptionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PressureLoss",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:FilterUnitType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1012",
+    "commandTopic": "opcua/PAEFS/FilterUnitType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MaintenanceRequested",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Malfunction",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OperationCycleCounter",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OperationDuration",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PowerOnDuration",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "OperationOff",
+        "namespace": "http://opcfoundation.org/UA/PAEFS"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "OperationOn",
+        "namespace": "http://opcfoundation.org/UA/PAEFS"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetAndActivateAirflowSetpoint",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Value",
+                "schema": "double"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetAndActivatePressureSetpoint",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Value",
+                "schema": "double"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetAndActivateRotationalSpeedSetpoint",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Value",
+                "schema": "double"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CleaningUnit",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:CleaningUnitType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DischargeSystem",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:DischargeSystemType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Separator",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SeparatorType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AirConsumption",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:ConsumptionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Airflow",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorSetpointReadType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AirIntakeConnection",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:AirConnectionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AirOutletConnection",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:AirConnectionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineryBuildingBlocks",
+        "namespace": "http://opcfoundation.org/UA/Machinery"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PowerConsumption",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:ConsumptionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Pressure",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorSetpointReadType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PressureLoss",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "RotationalSpeed",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorSetpointReadType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:FilterMachineIdentificationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1022",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ExIdentification",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NominalAirflow",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RatedPower",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:HighVoltageUnitType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1015",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MaintenanceRequested",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Malfunction",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OperationCycleCounter",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OperationDuration",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PowerOnDuration",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SupplyActive",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CurrentOutput",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Collector",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:CollectorType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Ionizer",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:IonizerType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:IonizerType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1019",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "IonizerOutput",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:SafetySystemType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Malfunction",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Triggered",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineryBuildingBlocks",
+        "namespace": "http://opcfoundation.org/UA/Machinery"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:SensorMonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1010",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PAEFS:SensorMonitoringType:dataType:AnalogDigitalEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=3002",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Analog",
+            "enumValue": 0
+          },
+          {
+            "name": "Digital",
+            "enumValue": 1
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SignalForm",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "dtmi:opcua:PAEFS:SensorMonitoringType:dataType:AnalogDigitalEnum;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineryBuildingBlocks",
+        "namespace": "http://opcfoundation.org/UA/Machinery"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Signal",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:SensorSetpointReadType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PAEFS:SensorMonitoringType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1034",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsActiveSetpoint",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:SensorSetpointWriteType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PAEFS:SensorSetpointReadType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1035",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:SeparatorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "FilterMediumOperatingHours",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FilterMediumState",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Humidity",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineryBuildingBlocks",
+        "namespace": "http://opcfoundation.org/UA/Machinery"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Temperature",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:AutomaticRollFilterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PAEFS:SeparatorType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1021",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "EndOfFilterRoll",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:CartridgeFilterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PAEFS:SeparatorType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1013",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:ElectrostaticPrecipitatorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PAEFS:SeparatorType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1018",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "HighVoltageUnit",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:HighVoltageUnitType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:WetSeparatorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PAEFS:SeparatorType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1014",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "WashingAgentDrainMalfunction",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "WashingAgentDrainOpen",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "WashingAgentInflowMalfunction",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "WashingAgentInflowOpen",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PAEFS:TemperatureRegulatorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1017",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Malfunction",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineryBuildingBlocks",
+        "namespace": "http://opcfoundation.org/UA/Machinery"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PowerConsumption",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:ConsumptionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Temperature",
+        "namespace": "http://opcfoundation.org/UA/PAEFS",
+        "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
+      }
+    ]
+  }
+]

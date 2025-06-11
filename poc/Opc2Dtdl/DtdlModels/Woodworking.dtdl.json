@@ -1,0 +1,1070 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Woodworking:WwBaseEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=13",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Woodworking:WwBaseEventType:dataType:WwMessageArgumentDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3003",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Value",
+            "schema": "dtmi:opcua:Woodworking:WwBaseEventType:dataType:WwMessageArgumentValueDataType;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Woodworking:WwBaseEventType:dataType:WwEventCategoryEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3004",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "DIAGNOSTIC",
+            "enumValue": 1
+          },
+          {
+            "name": "INFORMATION",
+            "enumValue": 2
+          },
+          {
+            "name": "WARNING",
+            "enumValue": 3
+          },
+          {
+            "name": "ALARM",
+            "enumValue": 4
+          },
+          {
+            "name": "ERROR",
+            "enumValue": 5
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Woodworking:WwBaseEventType:dataType:WwMessageArgumentValueDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3002",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Array",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "dtmi:opcua:Woodworking:WwBaseEventType:dataType:WwMessageArgumentValueDataType;1"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Boolean",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Int16",
+            "schema": "short"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Int32",
+            "schema": "integer"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Int64",
+            "schema": "long"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SByte",
+            "schema": "byte"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "UInt16",
+            "schema": "unsignedShort"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "UInt32",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "UInt64",
+            "schema": "unsignedLong"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Byte",
+            "schema": "unsignedByte"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "DateTime",
+            "schema": "dateTime"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Guid",
+            "schema": "uuid"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LocalizedText",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Double",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Float",
+            "schema": "float"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "String",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Other",
+            "schema": "string"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Arguments",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:Woodworking:WwBaseEventType:dataType:WwMessageArgumentDataType;1"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "EventCategory",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "dtmi:opcua:Woodworking:WwBaseEventType:dataType:WwEventCategoryEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Group",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LocalizedMessages",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MessageId",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MessageName",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PathParts",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Woodworking:IWwBaseStateType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=6",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Flags",
+        "namespace": "http://opcfoundation.org/UA/Woodworking"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Overview",
+        "namespace": "http://opcfoundation.org/UA/Woodworking"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Values",
+        "namespace": "http://opcfoundation.org/UA/Woodworking"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Woodworking:IWwEventMessageType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Woodworking:IWwEventMessageType:dataType:WwMessageArgumentDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3003",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Value",
+            "schema": "dtmi:opcua:Woodworking:IWwEventMessageType:dataType:WwMessageArgumentValueDataType;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Woodworking:IWwEventMessageType:dataType:WwEventCategoryEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3004",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "DIAGNOSTIC",
+            "enumValue": 1
+          },
+          {
+            "name": "INFORMATION",
+            "enumValue": 2
+          },
+          {
+            "name": "WARNING",
+            "enumValue": 3
+          },
+          {
+            "name": "ALARM",
+            "enumValue": 4
+          },
+          {
+            "name": "ERROR",
+            "enumValue": 5
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Woodworking:IWwEventMessageType:dataType:WwMessageArgumentValueDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3002",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Array",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "dtmi:opcua:Woodworking:IWwEventMessageType:dataType:WwMessageArgumentValueDataType;1"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Boolean",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Int16",
+            "schema": "short"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Int32",
+            "schema": "integer"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Int64",
+            "schema": "long"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SByte",
+            "schema": "byte"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "UInt16",
+            "schema": "unsignedShort"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "UInt32",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "UInt64",
+            "schema": "unsignedLong"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Byte",
+            "schema": "unsignedByte"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "DateTime",
+            "schema": "dateTime"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Guid",
+            "schema": "uuid"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LocalizedText",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Double",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Float",
+            "schema": "float"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "String",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Other",
+            "schema": "string"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Arguments",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:Woodworking:IWwEventMessageType:dataType:WwMessageArgumentDataType;1"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "EventCategory",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "dtmi:opcua:Woodworking:IWwEventMessageType:dataType:WwEventCategoryEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Group",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LocalizedMessages",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MessageId",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MessageName",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PathParts",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Woodworking:IWwStateType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=8",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Machine",
+        "namespace": "http://opcfoundation.org/UA/Woodworking"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SubUnits",
+        "namespace": "http://opcfoundation.org/UA/Woodworking"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Woodworking:IWwSubUnitsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=7",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SubUnit",
+        "namespace": "http://opcfoundation.org/UA/Woodworking"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Woodworking:IWwUnitFlagsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=4",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AirPresent",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Alarm",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Calibrated",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DustChipSuction",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Emergency",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EnergySaving",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Error",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ExternalEmergency",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FeedRuns",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Hold",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LoadingEnabled",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MachineInitialized",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MachineOn",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MaintenanceRequired",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ManualActivityRequired",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Moving",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PowerPresent",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RecipeInHold",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RecipeInRun",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RecipeInSetup",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Remote",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Safety",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "WaitLoad",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "WaitUnload",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Warning",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "WorkpiecePresent",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "boolean"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Woodworking:IWwUnitOverviewType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=5",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitModeEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=20",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "AUTOMATIC",
+            "enumValue": 1
+          },
+          {
+            "name": "SEMIAUTOMATIC",
+            "enumValue": 2
+          },
+          {
+            "name": "MANUAL",
+            "enumValue": 3
+          },
+          {
+            "name": "SETUP",
+            "enumValue": 4
+          },
+          {
+            "name": "SLEEP",
+            "enumValue": 5
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitStateEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=21",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OFFLINE",
+            "enumValue": 0
+          },
+          {
+            "name": "STANDBY",
+            "enumValue": 1
+          },
+          {
+            "name": "READY",
+            "enumValue": 2
+          },
+          {
+            "name": "WORKING",
+            "enumValue": 3
+          },
+          {
+            "name": "ERROR",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CurrentMode",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitModeEnumeration;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CurrentState",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitStateEnumeration;1"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Woodworking:IWwUnitValuesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AbsoluteErrorTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AbsoluteLength",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AbsoluteMachineOffTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AbsoluteMachineOnTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AbsolutePiecesIn",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AbsolutePiecesOut",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AbsolutePowerPresentTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AbsoluteProductionTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AbsoluteProductionWaitWorkpieceTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AbsoluteProductionWithoutWorkpieceTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AbsoluteReadyTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AbsoluteRunsAborted",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AbsoluteRunsGood",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AbsoluteRunsTotal",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AbsoluteStandbyTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AbsoluteWorkingTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualCycle",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AxisOverride",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FeedSpeed",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativeErrorTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativeLength",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativeMachineOnTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativePiecesIn",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativePiecesOut",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativePowerPresentTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativeProductionTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativeProductionWaitWorkpieceTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativeProductionWithoutWorkpieceTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativeReadyTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativeRunsAborted",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativeRunsGood",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativeRunsTotal",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativeStandbyTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativeWorkingTime",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SpindleOverride",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "schema": "unsignedInteger"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Woodworking:WwEventsDispatcherType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=15",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Woodworking:WwMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=2",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Events",
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "target": "dtmi:opcua:Woodworking:WwEventsDispatcherType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ManufacturerSpecific",
+        "namespace": "http://opcfoundation.org/UA/Woodworking"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "State",
+        "namespace": "http://opcfoundation.org/UA/Woodworking"
+      }
+    ]
+  }
+]

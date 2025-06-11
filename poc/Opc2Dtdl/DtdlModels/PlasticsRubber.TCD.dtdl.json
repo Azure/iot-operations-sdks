@@ -1,0 +1,805 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_TCD:TCDHelpOffNormalAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DeviceMappingNumber",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "unsignedInteger",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_TCD:DeviceZoneType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified", "Power" ],
+        "name": "ActualProcessPower",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "unit": "kilowatt",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Power" ],
+        "name": "ActualPumpPower",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "unit": "kilowatt",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualPumpSpeedRPM",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualRegulationRatio",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
+        "name": "DelayTimeAfterCooling",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "unit": "minute",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InternalMeasuringPoint",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PressureMainLine",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PressureReturnLine",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PumpControlMode",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "StandbyTemperature",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SwitchingOffTemperature",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TemperatureLimitation",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TemperatureMainLine",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TemperatureReturnLine",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ExternalChannels",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_TCD:ExternalChannelsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ExternalSensor",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_TCD:ExternalSensorType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FlowRate",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LeakStopper",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_TCD:LeakStopperType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MaintenanceInformation",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_TCD:MaintenanceInformationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MouldEvacuation",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_TCD:MouldEvacuationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PressureDifference",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PumpSpeed",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Temperature",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "TemperatureDifference",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_TCD:ExternalChannelsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ExternalChannel_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_TCD:ExternalChannelType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_TCD:ExternalChannelType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1002",
+    "commandTopic": "opcua/PlasticsRubber_TCD/ExternalChannelType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SwitchedOn",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ControlMode",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PressureMainLine",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PressureReturnLine",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TemperatureMainLine",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TemperatureReturnLine",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SwitchOff",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SwitchOn",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FlowRate",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PressureDifference",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Temperature",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "TemperatureDifference",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_TCD:ExternalSensorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1007",
+    "commandTopic": "opcua/PlasticsRubber_TCD/ExternalSensorType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AutomaticModeSwitch",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Used",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualValue",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CommunicationProtocolType",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ThermocoupleType",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ExternalSensorModeOff",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ExternalSensorModeOn",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ClosedLoopControl",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ClosedLoopControlType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_TCD:LeakStopperType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1006",
+    "commandTopic": "opcua/PlasticsRubber_TCD/LeakStopperType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Off",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "On",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_TCD:MaintenanceInformationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Cooling",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Fluid",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Heating",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Pump",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_TCD:MouldEvacuationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1005",
+    "commandTopic": "opcua/PlasticsRubber_TCD/MouldEvacuationType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Mode",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Sink",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TemperatureLimit",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
+        "name": "Time",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "unit": "second",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Off",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "On",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_TCD:OperationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1010",
+    "commandTopic": "opcua/PlasticsRubber_TCD/OperationType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_TCD:OperationType:dataType:OperatingModeEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=3002",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "READY_TO_OPERATE",
+            "enumValue": 1
+          },
+          {
+            "name": "NORMAL_OPERATION",
+            "enumValue": 2
+          },
+          {
+            "name": "LEAK_STOPPER",
+            "enumValue": 3
+          },
+          {
+            "name": "MOULD_EVACUATION",
+            "enumValue": 4
+          },
+          {
+            "name": "PRESSURE_RELIEF",
+            "enumValue": 5
+          },
+          {
+            "name": "COOLING",
+            "enumValue": 6
+          },
+          {
+            "name": "SAFETY_COOLING",
+            "enumValue": 7
+          },
+          {
+            "name": "ECO",
+            "enumValue": 8
+          },
+          {
+            "name": "BOOST",
+            "enumValue": 9
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_TCD:OperationType:dataType:ActiveErrorDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3028",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Id",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Severity",
+            "schema": "unsignedShort"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Message",
+            "schema": "string"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DeviceMappingNumber",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "unsignedInteger",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "HighestActiveAlarmSeverity",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OperatingMode",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "dtmi:opcua:PlasticsRubber_TCD:OperationType:dataType:OperatingModeEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActiveErrors",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:PlasticsRubber_TCD:OperationType:dataType:ActiveErrorDataType;1"
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
+        "name": "HoursOfOperation",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "unit": "hour",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "IdentifyDevice",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ReduceToStandByOff",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ReduceToStandByOn",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetAllErrors",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetErrorById",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SwitchOff",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SwitchOn",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_TCD:TCD_InterfaceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1012",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DisplayLanguage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DeviceZone",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_TCD:DeviceZoneType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Identification",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:IdentificationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineConfiguration",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Operation",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_TCD:OperationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "TCDSpecification",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "target": "dtmi:opcua:PlasticsRubber_TCD:TCDSpecificationType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_TCD:TCDSpecificationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1011",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DeviceZoneId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Power" ],
+        "name": "ConnectedLoad",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "unit": "kilowatt",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Power" ],
+        "name": "CoolingCapacity",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "unit": "kilowatt",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MaxTemperature",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NominalFlowRate",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Power" ],
+        "name": "PowerValue",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "unit": "kilowatt",
+        "schema": "double"
+      }
+    ]
+  }
+]

@@ -1,0 +1,519 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionDeviceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionDeviceType:dataType:ComponentStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=3003",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OFFLINE",
+            "enumValue": 0
+          },
+          {
+            "name": "IDLE",
+            "enumValue": 1
+          },
+          {
+            "name": "PREPARING",
+            "enumValue": 2
+          },
+          {
+            "name": "READY_TO_RUN",
+            "enumValue": 3
+          },
+          {
+            "name": "MANUAL_RUN",
+            "enumValue": 4
+          },
+          {
+            "name": "CONTROLLED_RUN",
+            "enumValue": 5
+          },
+          {
+            "name": "MALFUNCTION",
+            "enumValue": 6
+          },
+          {
+            "name": "MAINTENANCE",
+            "enumValue": 7
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsPresent",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LineId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionDeviceType:dataType:ComponentStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Strand",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Target",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AdditionalMeasuringDevices",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ElectricalEnergy",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FluidEnergy",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineConfiguration",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineInformation",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineInformationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Maintenance",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PressureAir",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProductionDatasetManagement",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "StartDevice",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZonesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1017",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Maintenance",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "StartTempering",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "TemperatureZone_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZoneType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:GapsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Gap_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:GapType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:GapType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Id",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "RollId1",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "RollId2",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StockingGuideIsPresent",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "IsClosed",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ContactForce",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DistanceLeft",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DistanceRight",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZoneType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1016",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ControllerOutput",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NominalCoolingPower",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NominalHeatingPower",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ElectricalCurrent",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollBendingType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ReferencePoint_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollPeripheralDevicesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CleaningSystem_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InfraredHeatingSystem_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Roll_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1005",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Id",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MasterRollId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CrossAxisLeft",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CrossAxisRight",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Drive",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PeripheralDevices",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollPeripheralDevicesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "RollBending",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollBendingType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Temperature",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZoneType"
+      }
+    ]
+  }
+]

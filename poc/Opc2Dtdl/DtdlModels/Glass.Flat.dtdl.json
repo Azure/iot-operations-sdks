@@ -1,0 +1,1691 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:GlassEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1030",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Identifier",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JobdIdentifier",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Location",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MaterialIdentifier",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:CommunicationErrorEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:GlassEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1040",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:GlassMaterialEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:GlassEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1031",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:MaterialExitEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:GlassMaterialEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1025",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:MaterialMissingEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:GlassMaterialEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1027",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:MaterialReceivedEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:GlassMaterialEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1026",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:IntermediateStepEvent;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:GlassEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1029",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProcessStep",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:GlassEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1032",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProcessName",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:EmergencyButtonPressedEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1038",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:MotorTemperatureTooHighEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1039",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:OpenSecurityFenceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1033",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:OutOfJobEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1036",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:ProcessParameterOutOfRangeType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1034",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:ToolMissingEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1035",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:JobMovedEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:GlassEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1037",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NewPosition",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "integer",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Description",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Identifier",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Location",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MaterialIdentifier",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Weight",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "X",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Y",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Z",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:AssemblyType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:FoilType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1019",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:GasMixType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1010",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "GasFilling",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MixingRatio",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Gas_1",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:BaseMaterialType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Gas_2",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:BaseMaterialType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:GlassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1011",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Glass_Flat:GlassType:dataType:CoatingClassEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=3009",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "HardCoating",
+            "enumValue": 0
+          },
+          {
+            "name": "SoftCoating",
+            "enumValue": 1
+          },
+          {
+            "name": "CoatedWithFoilProtection",
+            "enumValue": 2
+          },
+          {
+            "name": "UserDefined",
+            "enumValue": 3
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Glass_Flat:GlassType:dataType:SignificantSideEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=3003",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Indifferent",
+            "enumValue": 0
+          },
+          {
+            "name": "Top",
+            "enumValue": 1
+          },
+          {
+            "name": "Down",
+            "enumValue": 2
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Glass_Flat:GlassType:dataType:StructureAlignmentEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=3004",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Indifferent",
+            "enumValue": 0
+          },
+          {
+            "name": "Longitudinal",
+            "enumValue": 1
+          },
+          {
+            "name": "Transverse",
+            "enumValue": 2
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CoatingClass",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "dtmi:opcua:Glass_Flat:GlassType:dataType:CoatingClassEnumeration;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CoatingSubClass",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Orientation",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "integer",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SignificantSide",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "dtmi:opcua:Glass_Flat:GlassType:dataType:SignificantSideEnumeration;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StructureAlignment",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "dtmi:opcua:Glass_Flat:GlassType:dataType:StructureAlignmentEnumeration;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StructureClass",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Absorption",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CoatingEmessivity",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ElectricalConductivity",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Reflection",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Transmission",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "integer"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:PackagingType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1017",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CornerProtection",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PerimeterProtection",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Spacer",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:SealingMaterialType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1018",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AddOnMaterial",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MixingRatio",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Hardener",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:BaseMaterialType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Resin",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:BaseMaterialType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:SpacerType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1016",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Glass_Flat:SpacerType:dataType:SpacerMaterialClass;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=3005",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Other",
+            "enumValue": 0
+          },
+          {
+            "name": "Metalic",
+            "enumValue": 1
+          },
+          {
+            "name": "TPS",
+            "enumValue": 2
+          },
+          {
+            "name": "Plastic",
+            "enumValue": 3
+          },
+          {
+            "name": "Elastic",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SpacerMaterialClass",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "dtmi:opcua:Glass_Flat:SpacerType:dataType:SpacerMaterialClass;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SpacerMaterialSubClass",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Filling",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified" ],
+              "name": "Filling",
+              "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "FillLevel",
+              "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SealantDepth",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:ConfigurationRulesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1063",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Glass_Flat:ConfigurationRulesType:dataType:FileFormatType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=3007",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Name",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "FileExtension",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Version",
+            "schema": "string"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Glass_Flat:ConfigurationRulesType:dataType:CoordinateSystemEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=3008",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Unknown",
+            "enumValue": 0
+          },
+          {
+            "name": "System1",
+            "enumValue": 1
+          },
+          {
+            "name": "System2",
+            "enumValue": 2
+          },
+          {
+            "name": "System3",
+            "enumValue": 3
+          },
+          {
+            "name": "System4",
+            "enumValue": 4
+          },
+          {
+            "name": "System5",
+            "enumValue": 5
+          },
+          {
+            "name": "System6",
+            "enumValue": 6
+          },
+          {
+            "name": "System7",
+            "enumValue": 7
+          },
+          {
+            "name": "System8",
+            "enumValue": 8
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AllowedEngineeringUnits",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AllowedFileFormats",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:Glass_Flat:ConfigurationRulesType:dataType:FileFormatType;1"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MachineProcessingCoordinateSystem",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "dtmi:opcua:Glass_Flat:ConfigurationRulesType:dataType:CoordinateSystemEnumeration;1",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:GlassMachineIdentificationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1020",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Glass_Flat:GlassMachineIdentificationType:dataType:UserProfileType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=3006",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Name",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LoginTime",
+            "schema": "dateTime"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Language",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "MeasurementFormat",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "AccessLevel",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "OpcUaUser",
+            "schema": "boolean"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LoggedInProfiles",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:Glass_Flat:GlassMachineIdentificationType:dataType:UserProfileType;1"
+        },
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:ManualFolderType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1041",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ExternalManuals",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LocalManuals",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:GlassMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1015",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ConfigurationRules",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:ConfigurationRulesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MaintenanceManuals",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:ManualFolderType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "OperationManuals",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:ManualFolderType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Production",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:ProductionType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:InstructionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Glass_Flat:InstructionType:dataType:FileFormatType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=3007",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Name",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "FileExtension",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Version",
+            "schema": "string"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PlanFileFormat",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "dtmi:opcua:Glass_Flat:InstructionType:dataType:FileFormatType;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Plan",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:ProductionPlanType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1023",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:ProductionJobType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1004",
+    "commandTopic": "opcua/Glass_Flat/ProductionJobType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Identifier",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JobGroup",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberInList",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "unsignedShort",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EndTime",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "dateTime"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "StartTime",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "dateTime"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "AbortJob",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "QueueJob",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ReleaseJob",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SuspendJob",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InputMaterials",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Instruction",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:InstructionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Lock",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:DI:LockingServicesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "OutputMaterials",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "State",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:ProductionStateMachineType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:AssemblyJobType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:ProductionJobType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InputMaterial",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:BaseMaterialType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "OutputMaterial",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:AssemblyType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:CuttingJobType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:ProductionJobType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InputMaterial",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:BaseMaterialType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "OutputMaterial",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:GlassType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:ProcessingJobType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Glass_Flat:ProductionJobType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InputMaterial",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:BaseMaterialType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "OutputMaterial",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:BaseMaterialType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:ProductionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1021",
+    "commandTopic": "opcua/Glass_Flat/ProductionType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CurrentCountOfJobs",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "unsignedInteger",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JobListIsRecommendation",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MaxCountOfJobs",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "unsignedInteger",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SupportedMaterialTypes",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": true
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ChangePositionInList",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Target",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Source",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Before",
+                "schema": "boolean"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "DeleteJob",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Identifier",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "InsertJob",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Identifier",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Name",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "InputMaterial",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "string"
+                }
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "OutputMaterial",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "string"
+                }
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "JobNodeId",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProductionPlan",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:ProductionPlanType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:InitializingSubStateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1024",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Idle",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "IdleToQueued",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Queued",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "QueuedToIdle",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "QueuedToReleased",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Released",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ReleasedToQueued",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat:ProductionStateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1005",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CurrentState",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Aborted",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AbortedToInitializing",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Ended",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EndedToInitializing",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Initializing",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InitializingState",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:Glass_Flat:InitializingSubStateMachineType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InitializingToAborted",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InitializingToRunning",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Interrupted",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InterruptedToAborted",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InterruptedToRunning",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Running",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "RunningToAborted",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "RunningToEnded",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "RunningToInterrupted",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "RunningToRunning",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+      }
+    ]
+  }
+]

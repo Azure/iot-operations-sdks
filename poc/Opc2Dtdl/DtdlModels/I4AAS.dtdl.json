@@ -1,0 +1,1713 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASAdministrativeInformationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1030",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Revision",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Version",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASAssetAdministrationShellType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ConceptDictionary",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASConceptDictionaryType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DataSpecification",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Submodel",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASSubmodelType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SubmodelReference",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "View",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASViewType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Asset",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASAssetType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DerivedFrom",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASAssetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1005",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:I4AAS:AASAssetType:dataType:AASAssetKindDataType;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3003",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Type",
+            "enumValue": 0
+          },
+          {
+            "name": "Instance",
+            "enumValue": 1
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AssetKind",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "dtmi:opcua:I4AAS:AASAssetType:dataType:AASAssetKindDataType;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DataSpecification",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AssetIdentificationModel",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "BillOfMaterial",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASConceptDictionaryType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASDataSpecificationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1027",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASDataSpecificationIEC61360Type;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:I4AAS:AASDataSpecificationType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1028",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:I4AAS:AASDataSpecificationIEC61360Type:dataType:AASCategoryDataType;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3007",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "CONSTANT",
+            "enumValue": 0
+          },
+          {
+            "name": "PARAMETER",
+            "enumValue": 1
+          },
+          {
+            "name": "VARIABLE",
+            "enumValue": 2
+          },
+          {
+            "name": "RELATIONSHIP",
+            "enumValue": 3
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:I4AAS:AASDataSpecificationIEC61360Type:dataType:AASDataTypeIEC61360DataType;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3008",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "BOOLEAN",
+            "enumValue": 0
+          },
+          {
+            "name": "DATE",
+            "enumValue": 1
+          },
+          {
+            "name": "RATIONAL",
+            "enumValue": 2
+          },
+          {
+            "name": "RATIONAL_MEASURE",
+            "enumValue": 3
+          },
+          {
+            "name": "REAL_COUNT",
+            "enumValue": 4
+          },
+          {
+            "name": "REAL_CURRENCY",
+            "enumValue": 5
+          },
+          {
+            "name": "REAL_MEASURE",
+            "enumValue": 6
+          },
+          {
+            "name": "STRING",
+            "enumValue": 7
+          },
+          {
+            "name": "STRING_TRANSLATABLE",
+            "enumValue": 8
+          },
+          {
+            "name": "TIME",
+            "enumValue": 9
+          },
+          {
+            "name": "TIME_STAMP",
+            "enumValue": 10
+          },
+          {
+            "name": "URL",
+            "enumValue": 11
+          },
+          {
+            "name": "INTEGER",
+            "enumValue": 12
+          },
+          {
+            "name": "INTEGER_COUNT",
+            "enumValue": 13
+          },
+          {
+            "name": "INTEGER_CURRENCY",
+            "enumValue": 14
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:I4AAS:AASDataSpecificationIEC61360Type:dataType:AASLevelTypeDataType;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3009",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Min",
+            "enumValue": 0
+          },
+          {
+            "name": "Max",
+            "enumValue": 1
+          },
+          {
+            "name": "Num",
+            "enumValue": 2
+          },
+          {
+            "name": "Type",
+            "enumValue": 3
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Category",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "dtmi:opcua:I4AAS:AASDataSpecificationIEC61360Type:dataType:AASCategoryDataType;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DataType",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "dtmi:opcua:I4AAS:AASDataSpecificationIEC61360Type:dataType:AASDataTypeIEC61360DataType;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DefaultInstanceBrowseName",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Definition",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LevelType",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "dtmi:opcua:I4AAS:AASDataSpecificationIEC61360Type:dataType:AASLevelTypeDataType;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PreferredName",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ShortName",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SourceOfDefinition",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Symbol",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Unit",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Value",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ValueFormat",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Administration",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASAdministrativeInformationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Identification",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASIdentifierType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "UnitId",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ValueId",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ValueList",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:ValueListType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASIdentifierType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1029",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:I4AAS:AASIdentifierType:dataType:AASIdentifierTypeDataType;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3010",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "IRDI",
+            "enumValue": 0
+          },
+          {
+            "name": "IRI",
+            "enumValue": 1
+          },
+          {
+            "name": "Custom",
+            "enumValue": 2
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Id",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IdType",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "dtmi:opcua:I4AAS:AASIdentifierType:dataType:AASIdentifierTypeDataType;1",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASQualifierType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1032",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:I4AAS:AASQualifierType:dataType:AASValueTypeDataType;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3004",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Boolean",
+            "enumValue": 0
+          },
+          {
+            "name": "SByte",
+            "enumValue": 1
+          },
+          {
+            "name": "Byte",
+            "enumValue": 2
+          },
+          {
+            "name": "Int16",
+            "enumValue": 3
+          },
+          {
+            "name": "UInt16",
+            "enumValue": 4
+          },
+          {
+            "name": "Int32",
+            "enumValue": 5
+          },
+          {
+            "name": "UInt32",
+            "enumValue": 6
+          },
+          {
+            "name": "Int64",
+            "enumValue": 7
+          },
+          {
+            "name": "UInt64",
+            "enumValue": 8
+          },
+          {
+            "name": "Float",
+            "enumValue": 9
+          },
+          {
+            "name": "Double",
+            "enumValue": 10
+          },
+          {
+            "name": "String",
+            "enumValue": 11
+          },
+          {
+            "name": "DateTime",
+            "enumValue": 12
+          },
+          {
+            "name": "ByteString",
+            "enumValue": 13
+          },
+          {
+            "name": "LocalizedText",
+            "enumValue": 14
+          },
+          {
+            "name": "UtcTime",
+            "enumValue": 15
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Type",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Value",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ValueType",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "dtmi:opcua:I4AAS:AASQualifierType:dataType:AASValueTypeDataType;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ValueId",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASReferenceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:I4AAS:AASReferenceType:dataType:AASKeyDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3011",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Type",
+            "schema": "dtmi:opcua:I4AAS:AASReferenceType:dataType:AASKeyElementsDataType;1"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Local",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Value",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "IdType",
+            "schema": "dtmi:opcua:I4AAS:AASReferenceType:dataType:AASKeyTypeDataType;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:I4AAS:AASReferenceType:dataType:AASKeyElementsDataType;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3012",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "AccessPermissionRule",
+            "enumValue": 0
+          },
+          {
+            "name": "AnnotatedRelationshipElement",
+            "enumValue": 1
+          },
+          {
+            "name": "Asset",
+            "enumValue": 2
+          },
+          {
+            "name": "AssetAdministrationShell",
+            "enumValue": 3
+          },
+          {
+            "name": "Blob",
+            "enumValue": 4
+          },
+          {
+            "name": "Capability",
+            "enumValue": 5
+          },
+          {
+            "name": "ConceptDescription",
+            "enumValue": 6
+          },
+          {
+            "name": "ConceptDictionary",
+            "enumValue": 7
+          },
+          {
+            "name": "DataElement",
+            "enumValue": 8
+          },
+          {
+            "name": "Entity",
+            "enumValue": 9
+          },
+          {
+            "name": "Event",
+            "enumValue": 10
+          },
+          {
+            "name": "File",
+            "enumValue": 11
+          },
+          {
+            "name": "FragmentReference",
+            "enumValue": 12
+          },
+          {
+            "name": "GlobalReference",
+            "enumValue": 13
+          },
+          {
+            "name": "MultiLanguageProperty",
+            "enumValue": 14
+          },
+          {
+            "name": "Operation",
+            "enumValue": 15
+          },
+          {
+            "name": "Property",
+            "enumValue": 16
+          },
+          {
+            "name": "Range",
+            "enumValue": 17
+          },
+          {
+            "name": "ReferenceElement",
+            "enumValue": 18
+          },
+          {
+            "name": "RelationshipElement",
+            "enumValue": 19
+          },
+          {
+            "name": "Submodel",
+            "enumValue": 20
+          },
+          {
+            "name": "SubmodelElement",
+            "enumValue": 21
+          },
+          {
+            "name": "SubmodelElementCollection",
+            "enumValue": 22
+          },
+          {
+            "name": "View",
+            "enumValue": 23
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:I4AAS:AASReferenceType:dataType:AASKeyTypeDataType;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3002",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "IdShort",
+            "enumValue": 0
+          },
+          {
+            "name": "FragmentId",
+            "enumValue": 1
+          },
+          {
+            "name": "Custom",
+            "enumValue": 2
+          },
+          {
+            "name": "IRDI",
+            "enumValue": 3
+          },
+          {
+            "name": "IRI",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Keys",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:I4AAS:AASReferenceType:dataType:AASKeyDataType;1"
+        },
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Referable",
+        "namespace": "http://opcfoundation.org/UA/I4AAS"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:I4AAS:AASSubmodelElementType:dataType:AASModelingKindDataType;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3015",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Template",
+            "enumValue": 0
+          },
+          {
+            "name": "Instance",
+            "enumValue": 1
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Category",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ModelingKind",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "dtmi:opcua:I4AAS:AASSubmodelElementType:dataType:AASModelingKindDataType;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DataSpecification",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Qualifier",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASQualifierType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASBlobType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1016",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "File",
+        "namespace": "http://opcfoundation.org/UA/I4AAS"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASCapabilityType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1014",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASEntityType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1022",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:I4AAS:AASEntityType:dataType:AASEntityTypeDataType;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3006",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "CoManagedEntity",
+            "enumValue": 0
+          },
+          {
+            "name": "SelfManagedEntity",
+            "enumValue": 1
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "EntityType",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "dtmi:opcua:I4AAS:AASEntityType:dataType:AASEntityTypeDataType;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SubmodelElement",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASSubmodelElementType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Asset",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1021",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASFileType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1017",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MimeType",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Value",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "File",
+        "namespace": "http://opcfoundation.org/UA/I4AAS"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASMultiLanguagePropertyType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1012",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Value",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ValueId",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASOperationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1015",
+    "commandTopic": "opcua/I4AAS/AASOperationType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Operation",
+        "namespace": "http://opcfoundation.org/UA/I4AAS"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASPropertyType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1013",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:I4AAS:AASPropertyType:dataType:AASValueTypeDataType;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3004",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Boolean",
+            "enumValue": 0
+          },
+          {
+            "name": "SByte",
+            "enumValue": 1
+          },
+          {
+            "name": "Byte",
+            "enumValue": 2
+          },
+          {
+            "name": "Int16",
+            "enumValue": 3
+          },
+          {
+            "name": "UInt16",
+            "enumValue": 4
+          },
+          {
+            "name": "Int32",
+            "enumValue": 5
+          },
+          {
+            "name": "UInt32",
+            "enumValue": 6
+          },
+          {
+            "name": "Int64",
+            "enumValue": 7
+          },
+          {
+            "name": "UInt64",
+            "enumValue": 8
+          },
+          {
+            "name": "Float",
+            "enumValue": 9
+          },
+          {
+            "name": "Double",
+            "enumValue": 10
+          },
+          {
+            "name": "String",
+            "enumValue": 11
+          },
+          {
+            "name": "DateTime",
+            "enumValue": 12
+          },
+          {
+            "name": "ByteString",
+            "enumValue": 13
+          },
+          {
+            "name": "LocalizedText",
+            "enumValue": 14
+          },
+          {
+            "name": "UtcTime",
+            "enumValue": 15
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Value",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ValueType",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "dtmi:opcua:I4AAS:AASPropertyType:dataType:AASValueTypeDataType;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ValueId",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASRangeType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1023",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:I4AAS:AASRangeType:dataType:AASValueTypeDataType;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3004",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Boolean",
+            "enumValue": 0
+          },
+          {
+            "name": "SByte",
+            "enumValue": 1
+          },
+          {
+            "name": "Byte",
+            "enumValue": 2
+          },
+          {
+            "name": "Int16",
+            "enumValue": 3
+          },
+          {
+            "name": "UInt16",
+            "enumValue": 4
+          },
+          {
+            "name": "Int32",
+            "enumValue": 5
+          },
+          {
+            "name": "UInt32",
+            "enumValue": 6
+          },
+          {
+            "name": "Int64",
+            "enumValue": 7
+          },
+          {
+            "name": "UInt64",
+            "enumValue": 8
+          },
+          {
+            "name": "Float",
+            "enumValue": 9
+          },
+          {
+            "name": "Double",
+            "enumValue": 10
+          },
+          {
+            "name": "String",
+            "enumValue": 11
+          },
+          {
+            "name": "DateTime",
+            "enumValue": 12
+          },
+          {
+            "name": "ByteString",
+            "enumValue": 13
+          },
+          {
+            "name": "LocalizedText",
+            "enumValue": 14
+          },
+          {
+            "name": "UtcTime",
+            "enumValue": 15
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Max",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Min",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ValueType",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "dtmi:opcua:I4AAS:AASRangeType:dataType:AASValueTypeDataType;1",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASReferenceElementType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1020",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Value",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASRelationshipElementType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1018",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "First",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Second",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASAnnotatedRelationshipElementType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:I4AAS:AASRelationshipElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1019",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DataElement",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASSubmodelElementType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASSubmodelElementCollectionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1010",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AllowDuplicates",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SubmodelElement",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASSubmodelElementType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASOrderedSubmodelElementCollectionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:I4AAS:AASSubmodelElementCollectionType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1011",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASSubmodelType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:I4AAS:AASSubmodelType:dataType:AASModelingKindDataType;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3015",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Template",
+            "enumValue": 0
+          },
+          {
+            "name": "Instance",
+            "enumValue": 1
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ModelingKind",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "dtmi:opcua:I4AAS:AASSubmodelType:dataType:AASModelingKindDataType;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DataSpecification",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Qualifier",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASQualifierType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SubmodelElement",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASSubmodelElementType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:IAASReferableType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1033",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Category",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "schema": "string",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:IAASIdentifiableType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:I4AAS:IAASReferableType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1034",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Administration",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASAdministrativeInformationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Identification",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASIdentifierType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASCustomConceptDescriptionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1026",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ConceptDescription",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DataSpecification",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASIrdiConceptDescriptionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1024",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DataSpecification",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ConceptDescription",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASIriConceptDescriptionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1025",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ConceptDescription",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DataSpecification",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:AASViewType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DataSpecification",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Referable",
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:I4AAS:AASReferenceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:I4AAS:ValueListType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1031",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  }
+]

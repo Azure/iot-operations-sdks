@@ -1,0 +1,145 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Pelletizer:DiePlateType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ActiveTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Pelletizer:Pelletizer_InterfaceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionDeviceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PelletizerClosed",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "WaterFlowActive",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CutGap",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DiePlate_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Pelletizer:DiePlateType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Drive",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "KnifePackage_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Pelletizer:KnifePackageType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PressureZones",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "TemperatureZones",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionTemperatureZonesType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Pelletizer:KnifePackageType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ActiveTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Amount",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  }
+]

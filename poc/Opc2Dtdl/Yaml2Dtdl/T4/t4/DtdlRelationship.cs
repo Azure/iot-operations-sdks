@@ -23,19 +23,19 @@ namespace Yaml2Dtdl
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("    {\r\n      \"@type\": [ \"Relationship\", \"Qualified\" ],\r\n      \"name\": \"");
+            this.Write("      {\r\n        \"@type\": [ \"Relationship\", \"Qualified\" ],\r\n        \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName))));
-            this.Write("\",\r\n      \"namespace\": \"");
+            this.Write("\",\r\n        \"namespace\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));
             this.Write("\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Target != null ? "," : ""));
             this.Write("\r\n");
  if (this.Target != null) { 
-            this.Write("      \"target\": \"");
+            this.Write("        \"target\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Target));
             this.Write("\"\r\n");
  } 
-            this.Write("    }");
+            this.Write("      }");
             return this.GenerationEnvironment.ToString();
         }
     }

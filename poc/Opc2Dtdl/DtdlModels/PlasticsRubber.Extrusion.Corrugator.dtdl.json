@@ -1,0 +1,35 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Corrugator:Corrugator_InterfaceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_Extrusion_HaulOff:HaulOff_InterfaceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Corrugator;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MouldId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Corrugator",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ExtruderEnabled",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Corrugator",
+        "schema": "boolean"
+      }
+    ]
+  }
+]

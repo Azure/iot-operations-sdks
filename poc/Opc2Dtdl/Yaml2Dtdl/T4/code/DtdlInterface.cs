@@ -17,8 +17,9 @@ namespace Yaml2Dtdl
         private List<DtdlRelationship> dtdlRelationships;
         private List<DtdlDataType> dtdlDataTypes;
         private int contentCount;
+        private bool appendComma;
 
-        public DtdlInterface(string modelId, OpcUaDefinedType definedType, List<OpcUaDataType> dataTypes, List<OpcUaDataType> coreDataTypes, Dictionary<int, (string, string)> unitTypesDict)
+        public DtdlInterface(string modelId, OpcUaDefinedType definedType, List<OpcUaDataType> dataTypes, List<OpcUaDataType> coreDataTypes, Dictionary<int, (string, string)> unitTypesDict, bool appendComma)
         {
             this.modelId = modelId;
             this.topicBase = modelId.Substring("dtmi:".Length).Replace(':', '/');
@@ -31,6 +32,8 @@ namespace Yaml2Dtdl
             this.dtdlCommands = definedType.Contents.Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAMethod").Select(c => new DtdlCommand(modelId, c.DefinedType, this.typeConverter)).ToList();
             this.dtdlRelationships = definedType.Contents.Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAObject").Select(c => new DtdlRelationship(c.DefinedType)).ToList();
             this.contentCount = dtdlProperties.Count + dtdlTelemetries.Count + dtdlCommands.Count + dtdlRelationships.Count;
+
+            this.appendComma = appendComma;
 
             HashSet<string> pendingTypeStrings = new();
             AddPropertyReferences(pendingTypeStrings);

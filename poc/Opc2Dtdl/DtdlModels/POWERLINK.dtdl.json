@@ -1,0 +1,190 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:POWERLINK:PowerlinkProtocolType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:ProtocolType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK;i=6",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:POWERLINK:PowerlinkConnectionPointType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:ConnectionPointType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK;i=3",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProfileId",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:POWERLINK:PowerlinkProtocolType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Configuration",
+        "namespace": "http://opcfoundation.org/UA/POWERLINK",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Control",
+        "namespace": "http://opcfoundation.org/UA/POWERLINK",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Diagnostics",
+        "namespace": "http://opcfoundation.org/UA/POWERLINK",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SdoServices",
+        "namespace": "http://opcfoundation.org/UA/POWERLINK",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/POWERLINK",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:POWERLINK:PowerlinkCnConnectionPointType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:POWERLINK:PowerlinkConnectionPointType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK;i=4",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DeviceProfileIdentifier",
+        "namespace": "http://opcfoundation.org/UA/POWERLINK",
+        "target": "dtmi:opcua:POWERLINK:PowerlinkDeviceProfileType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:POWERLINK:PowerlinkMnConnectionPointType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:POWERLINK:PowerlinkConnectionPointType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK;i=5",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:POWERLINK:PowerlinkDeviceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:DeviceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK;i=2",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CNIdentifier",
+        "namespace": "http://opcfoundation.org/UA/POWERLINK",
+        "target": "dtmi:opcua:POWERLINK:PowerlinkCnConnectionPointType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MNIdentifier",
+        "namespace": "http://opcfoundation.org/UA/POWERLINK",
+        "target": "dtmi:opcua:POWERLINK:PowerlinkMnConnectionPointType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:POWERLINK:PowerlinkDeviceProfileType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:TopologyElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK;i=1",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IndexRangeSize",
+        "namespace": "http://opcfoundation.org/UA/POWERLINK",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IndexRangeStart",
+        "namespace": "http://opcfoundation.org/UA/POWERLINK",
+        "schema": "unsignedShort",
+        "writable": false
+      }
+    ]
+  }
+]

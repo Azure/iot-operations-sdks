@@ -1,0 +1,1993 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:PADIMType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:ComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1009",
+    "commandTopic": "opcua/PADIM/PADIMType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PADIM:PADIMType:dataType:DeviceHealthEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6244",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "NORMAL",
+            "enumValue": 0
+          },
+          {
+            "name": "FAILURE",
+            "enumValue": 1
+          },
+          {
+            "name": "CHECK_FUNCTION",
+            "enumValue": 2
+          },
+          {
+            "name": "OFF_SPEC",
+            "enumValue": 3
+          },
+          {
+            "name": "MAINTENANCE_REQUIRED",
+            "enumValue": 4
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PADIM:PADIMType:dataType:ResetModeEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1156",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Application",
+            "enumValue": 1
+          },
+          {
+            "name": "Communication",
+            "enumValue": 2712
+          },
+          {
+            "name": "Factory",
+            "enumValue": 2713
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DefaultInstanceBrowseName",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DeviceHealth",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "dtmi:opcua:PADIM:PADIMType:dataType:DeviceHealthEnumeration;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DateOfLastChange",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "dateTime"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DisplayLanguage",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "FactoryReset",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ResetMode",
+                "schema": "dtmi:opcua:PADIM:PADIMType:dataType:ResetModeEnum;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SignalSet",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "target": "dtmi:opcua:PADIM:SignalSetType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DeviceHealthAlarms",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SubDevices",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "target": "dtmi:opcua:DI:ConfigurableObjectType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DeviceConditionSet",
+        "namespace": "http://opcfoundation.org/UA/PADIM"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:SignalSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1021",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SignalIdentifier",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "target": "dtmi:opcua:PADIM:SignalType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:IAdministrationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1050",
+    "commandTopic": "opcua/PADIM/IAdministrationType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PADIM:IAdministrationType:dataType:ResetModeEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1156",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Application",
+            "enumValue": 1
+          },
+          {
+            "name": "Communication",
+            "enumValue": 2712
+          },
+          {
+            "name": "Factory",
+            "enumValue": 2713
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DisplayLanguage",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DateOfLastChange",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "dateTime"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "FactoryReset",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ResetMode",
+                "schema": "dtmi:opcua:PADIM:IAdministrationType:dataType:ResetModeEnum;1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:ISignalSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1052",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SignalSet",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "target": "dtmi:opcua:PADIM:SignalSetType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:SignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SignalTag",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "string",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:AnalogSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:SignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1022",
+    "commandTopic": "opcua/PADIM/AnalogSignalType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AnalogSignal",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ZeroPointAdjustment",
+        "namespace": "http://opcfoundation.org/UA/PADIM"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SignalCalibrationIdentifier",
+        "namespace": "http://opcfoundation.org/UA/PADIM"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SignalConditionSet",
+        "namespace": "http://opcfoundation.org/UA/PADIM"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:ControlSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:SignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1023",
+    "commandTopic": "opcua/PADIM/ControlSignalType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PADIM:ControlSignalType:dataType:ExecutionModeEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1158",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Start",
+            "enumValue": 2
+          },
+          {
+            "name": "Abort",
+            "enumValue": 255
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ControlSignal",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "ControlSignal",
+              "namespace": "http://opcfoundation.org/UA/PADIM",
+              "schema": "float"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "ActuatorType",
+              "namespace": "http://opcfoundation.org/UA/PADIM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "OperatingDirection",
+              "namespace": "http://opcfoundation.org/UA/PADIM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "Setpoint",
+              "namespace": "http://opcfoundation.org/UA/PADIM",
+              "schema": "float"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "AutoAdjustPositioner",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ExecutionMode",
+                "schema": "dtmi:opcua:PADIM:ControlSignalType:dataType:ExecutionModeEnum;1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:DiscreteSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:SignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1036",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DiscreteSignal",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:TwoStateDiscreteSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:SignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1037",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TwoStateDiscreteSignal",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "boolean"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:MultiStateDiscreteSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:SignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1038",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MultiStateDiscreteSignal",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "unsignedInteger"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:TwoStateDiscreteControlSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:SignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1223",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ControlSignal",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "ControlSignal",
+              "namespace": "http://opcfoundation.org/UA/PADIM",
+              "schema": "boolean"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "OperatingDirection",
+              "namespace": "http://opcfoundation.org/UA/PADIM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "Setpoint",
+              "namespace": "http://opcfoundation.org/UA/PADIM",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:MultiStateDiscreteControlSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:SignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1239",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ControlSignal",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "ControlSignal",
+              "namespace": "http://opcfoundation.org/UA/PADIM",
+              "schema": "unsignedInteger"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "Setpoint",
+              "namespace": "http://opcfoundation.org/UA/PADIM",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:CalibrationPointType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1042",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CalibrationActualValue",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CalibrationSetpoint",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:CalibrationPointSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1043",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CalibrationPointIdentifier",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "target": "dtmi:opcua:PADIM:CalibrationPointType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:GeneralDeviceConditionSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1051",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ResidualLife",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OperationCycleCounter",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OperationDuration",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PowerOnDuration",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Temperature" ],
+        "name": "InternalTemperature",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "degreeCelsius",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:IGeneralDeviceConditionSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1044",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "GeneralDeviceConditions",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "target": "dtmi:opcua:PADIM:GeneralDeviceConditionSetType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DeviceComponentConditions",
+        "namespace": "http://opcfoundation.org/UA/PADIM"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:ICalibrationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1045",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CalibrationTimestamp",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "dateTime",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TypeOfCalibration",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CalibrationPointSet",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "target": "dtmi:opcua:PADIM:CalibrationPointSetType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:IPhCalibrationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1046",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SensorT90",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Voltage" ],
+        "name": "SensorAsymmetryPotential",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "millivolt",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Voltage" ],
+        "name": "SensorSlope",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "millivolt",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:IConductivityCalibrationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1047",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ConductivityCellConstant",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:IAmperometricCalibrationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1048",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SensorT90",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AmperometricSensorSlope",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AmperometricSensorZeroPoint",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Pressure" ],
+        "name": "AbsoluteAirPressure",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "hectopascal",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:IOpticalFluorescenseQuenchingCalibrationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1049",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SensorT90",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Pressure" ],
+        "name": "AbsoluteAirPressure",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "hectopascal",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OpticalFluorescenseQuenchingSensorSlope",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
+        "name": "OpticalFluorescenseQuenchingSensorZeroPoint",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "microsecond",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:ITocDeviceConditionSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1053",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified", "Volume" ],
+        "name": "ActualInjectedVolume",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "millilitre",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Pressure" ],
+        "name": "CarrierGasGaugePressure",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "millibar",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "VolumeFlowRate" ],
+        "name": "CarrierGasVolumeFlow",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "litrePerHour",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Temperature" ],
+        "name": "CoolerTemperature",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "degreeCelsius",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Temperature" ],
+        "name": "ReactorTemperature",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "degreeCelsius",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Volume" ],
+        "name": "ReferenceInjectionVolume",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "millilitre",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "VolumeFlowRate" ],
+        "name": "SampleWaterVolumeFlow",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "millilitrePerMinute",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:IFlameIonisationDeviceConditionSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1054",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified", "Temperature" ],
+        "name": "BlockTemperature",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "degreeCelsius",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Temperature" ],
+        "name": "CatalystTemperature",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "degreeCelsius",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Pressure" ],
+        "name": "CombustionAirPressure",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "millibar",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Pressure" ],
+        "name": "FuelGasPressure",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "millibar",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:INonDispersiveInfraredSignalConditionSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1055",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SourceResidualLife",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Pressure" ],
+        "name": "AbsoluteSampleGasPressure",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "millibar",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ChopperFrequencyDeviation",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Temperature" ],
+        "name": "SampleCellTemperature",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "degreeCelsius",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:ITocSignalConditionSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1056",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SourceResidualLife",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Pressure" ],
+        "name": "AbsoluteSampleGasPressure",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "millibar",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ChopperFrequencyDeviation",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Temperature" ],
+        "name": "SampleCellTemperature",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "degreeCelsius",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DetectorZeroSignal",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativeReagentLevel",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "VolumeFlowRate" ],
+        "name": "SampleGasVolumeFlow",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "litrePerHour",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:IParamagneticSignalConditionSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1057",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified", "Temperature" ],
+        "name": "SampleTemperature",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "degreeCelsius",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Temperature" ],
+        "name": "SensingElementTemperature",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "degreeCelsius",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:IThermalConductivitySignalConditionSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1058",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified", "Temperature" ],
+        "name": "SampleTemperature",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "degreeCelsius",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:ITunableDiodeLaserSignalConditionSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1059",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified", "Pressure" ],
+        "name": "AbsoluteSampleGasPressure",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "millibar",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Temperature" ],
+        "name": "LaserTemperature",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "degreeCelsius",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Temperature" ],
+        "name": "SampleTemperature",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "degreeCelsius",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SignalFitQuality",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SignalNoiseRatio",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TransmissionRatio",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:IZirconiumDioxideSignalConditionSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1060",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativeHeatOutput",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "VolumeFlowRate" ],
+        "name": "SampleGasVolumeFlow",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "litrePerHour",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Temperature" ],
+        "name": "SensingElementTemperature",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "degreeCelsius",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:IPhSignalConditionSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1061",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SensorCleaningsCounter",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SensorSterilisationsCounter",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PhMeasuringMethod",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Resistance" ],
+        "name": "SensingElementImpedance",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "ohm",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
+        "name": "SensorNextCalibration",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "day",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Resistance" ],
+        "name": "SensorReferenceImpedance",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "ohm",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Temperature" ],
+        "name": "SensingElementTemperature",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "degreeCelsius",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:IConductivitySignalConditionSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1062",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SensorCleaningsCounter",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SensorSterilisationsCounter",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ConductivityMeasuringMethod",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Temperature" ],
+        "name": "SensingElementTemperature",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "degreeCelsius",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TemperatureCompensationStyle",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "unsignedInteger"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:IOpticalFluorescenseQuenchingSignalConditionSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1063",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SensorCleaningsCounter",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SensorSterilisationsCounter",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
+        "name": "SensorNextCalibration",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "day",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Temperature" ],
+        "name": "SensingElementTemperature",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "degreeCelsius",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:IAmperometricSignalConditionSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1064",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SensorCleaningsCounter",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SensorSterilisationsCounter",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
+        "name": "SensorNextCalibration",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "day",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Temperature" ],
+        "name": "SensingElementTemperature",
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "degreeCelsius",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:AnalogSignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1065",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:AmperometricSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1066",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:ConductivitySignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1067",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:FlameIonisationSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1069",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:NonDispersiveInfraredSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1071",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:OpticalFluorescenseQuenchingSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1073",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:ParamagneticSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1075",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:PhSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1076",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:ThermalConductivitySignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1077",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:TocSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1078",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:TunableDiodeLaserSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1079",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:ZirconiumDioxideSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1081",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:PADIMType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1082",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:AmperometricAnalyserType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1083",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:ConductivityMeterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1084",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:FlameIonisationDetectorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1085",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:NonDispersiveInfraredGasAnalyserType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1086",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:OpticalFluorescenseQuenchingSensorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1087",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:ParamagneticGasAnalyserType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1088",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:PhMeterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1089",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:ThermalConductivityGasAnalyserType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1090",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:TocAnalyserType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1091",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:TunableDiodeLaserSpectrometerType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1092",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PADIM:ZirconiumDioxideAnalyserType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1093",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  }
+]

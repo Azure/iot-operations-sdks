@@ -1,0 +1,410 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1023",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MetalForming:AllowableTiltingExceededConditionClassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1011",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MetalForming:BreakthroughTonnageExceededConditionClassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1014",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MetalForming:CorrectionValueOutOfRangeConditionClassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1020",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MetalForming:EccentricLoadExceededConditionClassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MetalForming:OverloadTriggeredConditionClassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1005",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MetalForming:PositionOutOfRangeConditionClassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1017",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MetalForming:ProcessForceExceededConditionClassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MetalForming:CyclicEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1016",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CycleCount",
+        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PartId",
+        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CurrentProcessValue",
+        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "target": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MetalForming:FormingToolType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:BaseToolType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1010",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MetalForming:FormingMultiToolType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:MultiToolType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1012",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FormingTool",
+        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "target": "dtmi:opcua:MetalForming:FormingToolType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MetalForming:ProcessWorkingUnitType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CyclicProcessValue",
+        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProcessValue",
+        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "target": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineryItemState",
+        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "target": "dtmi:opcua:Machinery:MachineryItemState_StateMachineType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MetalForming:FormingProcessWorkingUnitType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MetalForming:ProcessWorkingUnitType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FormingPositions",
+        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "target": "dtmi:opcua:MetalForming:FormingPositionsType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MetalForming:FormingPositionsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "BDC",
+        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Retract",
+        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Start",
+        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "TDC",
+        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Touch",
+        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MetalForming:CyclicProcessValueType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:MetalForming:CyclicProcessValueType:dataType:CyclicProcessValueDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=3003",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "AnalogSignal",
+            "schema": "integer"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Setpoint",
+            "schema": "integer"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "CycleCount",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "IsActive",
+            "schema": "boolean"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CyclicProcessValue",
+        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "schema": "dtmi:opcua:MetalForming:CyclicProcessValueType:dataType:CyclicProcessValueDataType;1"
+      }
+    ]
+  }
+]

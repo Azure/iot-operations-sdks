@@ -1,0 +1,793 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PDRV:DriveAxisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1000",
+    "commandTopic": "opcua/PDRV/DriveAxisType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ApplicationTag",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AxisType",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "unsignedByte",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetApplicationTag",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ApplicationTag",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Monitoring",
+        "namespace": "http://opcfoundation.org/UA/PDRV"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Lock",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:DI:LockingServicesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PNSignals",
+        "namespace": "http://opcfoundation.org/UA/PDRV"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Maintenance",
+        "namespace": "http://opcfoundation.org/UA/PDRV"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LimitSupervision",
+        "namespace": "http://opcfoundation.org/UA/PDRV"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Logbook",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:PNENC:LogbookType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CharacteristicsConverter",
+        "namespace": "http://opcfoundation.org/UA/PDRV"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Safety",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:PDRV:SafetyType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CharacteristicsMotorAndControl",
+        "namespace": "http://opcfoundation.org/UA/PDRV"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "VelocityProfile",
+        "namespace": "http://opcfoundation.org/UA/PDRV"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PDRV:VelocityDriveAxisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PDRV:DriveAxisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PDRV:FrequencyDriveAxisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PDRV:DriveAxisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1005",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PDRV:PositioningDriveAxisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PDRV:DriveAxisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CharacteristicsMechanics",
+        "namespace": "http://opcfoundation.org/UA/PDRV"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MotionProgram",
+        "namespace": "http://opcfoundation.org/UA/PDRV"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Homing",
+        "namespace": "http://opcfoundation.org/UA/PDRV"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PDRV:TraversingTaskType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TraversingTaskNumber",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TargetPosition",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Velocity",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Acceleration",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Deceleration",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PositioningMode",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PDRV:VelocityServoDriveAxisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PDRV:DriveAxisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EncoderChannelMotor",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:PNENC:EncoderChannelType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Homing",
+        "namespace": "http://opcfoundation.org/UA/PDRV"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EncoderChannelMechanic",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:PNENC:EncoderChannelType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EncoderChannelAuxiliary",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:PNENC:EncoderChannelType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PDRV:PositionServoDriveAxisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PDRV:DriveAxisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EncoderChannelAuxiliary",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:PNENC:EncoderChannelType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EncoderChannelMechanic",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:PNENC:EncoderChannelType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EncoderChannelMotor",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:PNENC:EncoderChannelType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Homing",
+        "namespace": "http://opcfoundation.org/UA/PDRV"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PDRV:DiagnosisAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1012",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PDRV:DiagnosisAlarmType:dataType:LogEntryDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3013",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "FaultSituationNumber",
+            "schema": "unsignedByte"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "EventNumber",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "EventType",
+            "schema": "dtmi:opcua:PDRV:DiagnosisAlarmType:dataType:EventTypeEnumeration;1"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "EventCode",
+            "schema": "integer"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "EventText",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "EventComing",
+            "schema": "time"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "EventGoing",
+            "schema": "time"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "EventAcknowledged",
+            "schema": "time"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PDRV:DiagnosisAlarmType:dataType:EventTypeEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3003",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "FAULT",
+            "enumValue": 0
+          },
+          {
+            "name": "WARNING",
+            "enumValue": 1
+          },
+          {
+            "name": "UNSPECIFIED",
+            "enumValue": 255
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LogEntry",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "dtmi:opcua:PDRV:DiagnosisAlarmType:dataType:LogEntryDataType;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PDRV:AxisSwOvertravelEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PDRV:AxisEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1013",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsUpperSwLimit",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PDRV:AxisHwOvertravelEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PDRV:AxisEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1014",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsUpperHwLimit",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PDRV:SafetyType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1015",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "STO",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:PDRV:SafetyFunctionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SS1",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:PDRV:SafetyFunctionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SS2",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:PDRV:SafetyFunctionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SOS",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:PDRV:SafetyFunctionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SLS",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:PDRV:SafetyFunctionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SDI",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:PDRV:SafetyFunctionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SLA",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:PDRV:SafetyFunctionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SLP",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:PDRV:SafetyFunctionType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PDRV:TorqueLimitEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PDRV:AxisEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1016",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "TorqueLimit",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PDRV:MotorCurrentLimitEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PDRV:AxisEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1017",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MotorCurrentLimitHigh",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PDRV:SafetyFunctionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1018",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Limit",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SelectionState",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActivationState",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PDRV:ForceLimitEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PDRV:AxisEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1019",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ForceLimit",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PDRV:AxisEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1001",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AxisState",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ControlPriority",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OutputCurrent",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Torque",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Force",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Power",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MotorTemperature",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ConverterTemperature",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DeviceTemperature",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DcBusVoltage",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PositionFollowingError",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "VelocityFollowingError",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ControlMode",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "FeedbackSensor13Temperature",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "FeedbackSensor13Temperature",
+            "schema": "string"
+          },
+          "mapValue": {
+            "@type": [ "MapValue", "" ],
+            "name": "FeedbackSensor13TemperatureSchema",
+            "unit": "",
+            "schema": "float"
+          }
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BrakeResistorTemperature",
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "schema": "float",
+        "writable": false
+      }
+    ]
+  }
+]

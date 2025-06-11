@@ -1,0 +1,669 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PNGSDGM:GsdGenAlarmEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PNGSDGM:GsdGenAlarmEventType:dataType:GsdGenChannelAccumulativeEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3004",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "SINGLE",
+            "enumValue": 0
+          },
+          {
+            "name": "ACCUMULATIVE",
+            "enumValue": 256
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PNGSDGM:GsdGenAlarmEventType:dataType:GsdGenChannelDirectionEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3007",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "MANUFACTURER_SPECIFIC",
+            "enumValue": 0
+          },
+          {
+            "name": "INPUT_CHANNEL",
+            "enumValue": 8192
+          },
+          {
+            "name": "OUTPUT_CHANNEL",
+            "enumValue": 16384
+          },
+          {
+            "name": "BIDIRECTIONAL_CHANNEL",
+            "enumValue": 24576
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PNGSDGM:GsdGenAlarmEventType:dataType:GsdGenChannelMaintenanceEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3005",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "FAULT",
+            "enumValue": 0
+          },
+          {
+            "name": "MAINTENANCE_REQUIRED",
+            "enumValue": 512
+          },
+          {
+            "name": "MAINTENANCE_DEMANDED",
+            "enumValue": 1024
+          },
+          {
+            "name": "USE_QUALIFIED_CHANNEL_QUALIFIER",
+            "enumValue": 1536
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PNGSDGM:GsdGenAlarmEventType:dataType:GsdGenChannelSpecifierEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3006",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "ALL_DISAPPEARS",
+            "enumValue": 0
+          },
+          {
+            "name": "APPEARS",
+            "enumValue": 2048
+          },
+          {
+            "name": "DISAPPEARS",
+            "enumValue": 4096
+          },
+          {
+            "name": "DISAPPEARS_OTHER_REMAIN",
+            "enumValue": 6144
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Accumulative",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "dtmi:opcua:PNGSDGM:GsdGenAlarmEventType:dataType:GsdGenChannelAccumulativeEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "API",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ChannelErrorType",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ChannelNumber",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Direction",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "dtmi:opcua:PNGSDGM:GsdGenAlarmEventType:dataType:GsdGenChannelDirectionEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ExtChannelAddValue",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ExtChannelErrorType",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "HelpText",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Maintenance",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "dtmi:opcua:PNGSDGM:GsdGenAlarmEventType:dataType:GsdGenChannelMaintenanceEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ManufacturerData",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "bytes",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "QualifiedChannelQualifier",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Slot",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Specifier",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "dtmi:opcua:PNGSDGM:GsdGenAlarmEventType:dataType:GsdGenChannelSpecifierEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Subslot",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "UserStructureIdentifier",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "unsignedShort",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PNGSDGM:GsdGenIoChannelDataType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BitLength",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BitOffset",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "unsignedShort",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PNGSDGM:GsdGenIoChannelQualityType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PNGSDGM:GsdGenIoChannelQualityType:dataType:GsdGenIoQualityFormatEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3003",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "QUALIFIER",
+            "enumValue": 0
+          },
+          {
+            "name": "EMBEDDED_STATUS",
+            "enumValue": 1
+          },
+          {
+            "name": "STATUS",
+            "enumValue": 2
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BitOffset",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Format",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "dtmi:opcua:PNGSDGM:GsdGenIoChannelQualityType:dataType:GsdGenIoQualityFormatEnumeration;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PNGSDGM:GsdGenIoChannelType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1005",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Number",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Data",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelDataType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Quality",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelQualityType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PNGSDGM:GsdGenIoDataType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PNGSDGM:GsdGenIoDataType:dataType:GsdGenIoConsistencyEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3002",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "ITEM_CONSISTENCY",
+            "enumValue": 0
+          },
+          {
+            "name": "ALL_ITEMS_CONSISTENCY",
+            "enumValue": 1
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Consistency",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "dtmi:opcua:PNGSDGM:GsdGenIoDataType:dataType:GsdGenIoConsistencyEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DataItemx",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "DataItemx",
+            "schema": "string"
+          },
+          "mapValue": {
+            "@type": [ "MapValue", "" ],
+            "name": "DataItemxSchema",
+            "unit": "",
+            "schema": "string"
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InputChannelx",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "OutputChannelx",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PNGSDGM:GsdGenSubmoduleApplicationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1007",
+    "commandTopic": "opcua/PNGSDGM/GsdGenSubmoduleApplicationType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PNGSDGM:GsdGenSubmoduleApplicationType:dataType:GsdGenIoCommunicationStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3012",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "INDATA",
+            "enumValue": 0
+          },
+          {
+            "name": "OFFLINE",
+            "enumValue": 1
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PNGSDGM:GsdGenSubmoduleApplicationType:dataType:GsdGenIoConfigurationStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3015",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OK",
+            "enumValue": 0
+          },
+          {
+            "name": "SUBSTITUTE",
+            "enumValue": 1
+          },
+          {
+            "name": "WRONG",
+            "enumValue": 2
+          },
+          {
+            "name": "UNKNOWN",
+            "enumValue": 3
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ValueProperty",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "ValueProperty",
+            "schema": "string"
+          },
+          "mapValue": {
+            "@type": [ "MapValue", "" ],
+            "name": "ValuePropertySchema",
+            "unit": "",
+            "schema": "string"
+          }
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ApplicationTag",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ARIdentifier",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "uuid",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CommunicationStatus",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "dtmi:opcua:PNGSDGM:GsdGenSubmoduleApplicationType:dataType:GsdGenIoCommunicationStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ConfigurationStatus",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "dtmi:opcua:PNGSDGM:GsdGenSubmoduleApplicationType:dataType:GsdGenIoConfigurationStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ControllerName",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EnumerationVariable",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "EnumerationVariable",
+            "schema": "string"
+          },
+          "mapValue": {
+            "@type": [ "MapValue", "" ],
+            "name": "EnumerationVariableSchema",
+            "unit": "",
+            "schema": "string"
+          }
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OptionSetVariable",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "OptionSetVariable",
+            "schema": "string"
+          },
+          "mapValue": {
+            "@type": [ "MapValue", "" ],
+            "name": "OptionSetVariableSchema",
+            "unit": "",
+            "schema": "string"
+          }
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "UnitRangeVariable",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "UnitRangeVariable",
+            "schema": "string"
+          },
+          "mapValue": {
+            "@type": [ "MapValue", "" ],
+            "name": "UnitRangeVariableSchema",
+            "unit": "",
+            "schema": "integer"
+          }
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "UnitVariable",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "UnitVariable",
+            "schema": "string"
+          },
+          "mapValue": {
+            "@type": [ "MapValue", "" ],
+            "name": "UnitVariableSchema",
+            "unit": "",
+            "schema": "integer"
+          }
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ValueVariable",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "ValueVariable",
+            "schema": "string"
+          },
+          "mapValue": {
+            "@type": [ "MapValue", "" ],
+            "name": "ValueVariableSchema",
+            "unit": "",
+            "schema": "string"
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetApplicationTag",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ApplicationTag",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ArrayFolder",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FolderName",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Configuration",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Input",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "target": "dtmi:opcua:PNGSDGM:GsdGenIoDataType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Lock",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "target": "dtmi:opcua:DI:LockingServicesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Output",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "target": "dtmi:opcua:PNGSDGM:GsdGenIoDataType"
+      }
+    ]
+  }
+]

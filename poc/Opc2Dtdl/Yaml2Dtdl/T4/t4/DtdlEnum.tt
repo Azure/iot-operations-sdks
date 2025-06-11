@@ -1,16 +1,16 @@
 ﻿<#@ template language="C#" linePragmas="false" #>
 <#@ import namespace="System.Collections.Generic" #>
-    {
-      "@id": "<#=TypeConverter.GetDataTypeDtmiFromBrowseName(this.modelId, this.enumType.BrowseName)#>",
-      "@type": [ "Enum", "Congruence" ],
-      "typeRef": "<#=TypeConverter.GetTypeRefFromNodeId(this.enumType.NodeId)#>",
-      "valueSchema": "integer",
-      "enumValues": [
+      {
+        "@id": "<#=TypeConverter.GetDataTypeDtmiFromBrowseName(this.modelId, this.enumType.BrowseName)#>",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "<#=TypeConverter.GetTypeRefFromNodeId(this.enumType.NodeId)#>",
+        "valueSchema": "integer",
+        "enumValues": [
 <# int ix = 1; foreach (KeyValuePair<string, int> intEnum in this.enumType.Enums) { #>
-        {
-          "name": "<#=TypeConverter.LegalizeName(intEnum.Key)#>",
-          "enumValue": <#=intEnum.Value#>
-        }<#=ix < this.enumType.Enums.Count ? "," : ""#>
+          {
+            "name": "<#=TypeConverter.LegalizeName(intEnum.Key)#>",
+            "enumValue": <#=intEnum.Value#>
+          }<#=ix < this.enumType.Enums.Count ? "," : ""#>
 <# ix++; } #>
-      ]
-    }
+        ]
+      }

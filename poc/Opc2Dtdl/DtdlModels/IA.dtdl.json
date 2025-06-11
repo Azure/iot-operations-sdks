@@ -1,0 +1,779 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:AcousticSignalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberInList",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "unsignedInteger",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AudioSample",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "bytes"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:BaseCalibrationTargetCategoryType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1014",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:DynamicCalibrationTargetCategoryType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:IA:BaseCalibrationTargetCategoryType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1018",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:OneTimeCalibrationTargetCategoryType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:IA:BaseCalibrationTargetCategoryType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1017",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:ReusableCalibrationTargetCategoryType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:IA:BaseCalibrationTargetCategoryType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1015",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:ReusableDeviceCalibrationTargetCategoryType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:IA:ReusableCalibrationTargetCategoryType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1016",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:IStatisticsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1011",
+    "commandTopic": "opcua/IA/IStatisticsType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StartTime",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "dateTime",
+        "writable": true
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetStatistics",
+        "namespace": "http://opcfoundation.org/UA/IA"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:IAggregateStatisticsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:IA:IStatisticsType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1012",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ResetCondition",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "string",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:IRollingStatisticsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:IA:IStatisticsType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1013",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "WindowDuration",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "duration",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "WindowNumberOfValues",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "unsignedInteger",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:CalibrationTargetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1019",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CertificateUri",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LastValidationDate",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "time",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NextValidationDate",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "time",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Quality",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "unsignedByte",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CalibrationTargetCategory",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "target": "dtmi:opcua:IA:BaseCalibrationTargetCategoryType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CalibrationTargetFeatures",
+        "namespace": "http://opcfoundation.org/UA/IA"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Identification",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "OperationalConditions",
+        "namespace": "http://opcfoundation.org/UA/IA"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:ControlChannelType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IA:ControlChannelType:dataType:SignalColor;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=3004",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Off",
+            "enumValue": 0
+          },
+          {
+            "name": "Red",
+            "enumValue": 1
+          },
+          {
+            "name": "Green",
+            "enumValue": 2
+          },
+          {
+            "name": "Blue",
+            "enumValue": 3
+          },
+          {
+            "name": "Yellow",
+            "enumValue": 4
+          },
+          {
+            "name": "Purple",
+            "enumValue": 5
+          },
+          {
+            "name": "Cyan",
+            "enumValue": 6
+          },
+          {
+            "name": "White",
+            "enumValue": 7
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IA:ControlChannelType:dataType:SignalModeLight;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=3005",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Continuous",
+            "enumValue": 0
+          },
+          {
+            "name": "Blinking",
+            "enumValue": 1
+          },
+          {
+            "name": "Flashing",
+            "enumValue": 2
+          },
+          {
+            "name": "Other",
+            "enumValue": 3
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SignalOn",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ChannelColor",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "dtmi:opcua:IA:ControlChannelType:dataType:SignalColor;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Intensity",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SignalMode",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "dtmi:opcua:IA:ControlChannelType:dataType:SignalModeLight;1"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:BasicStacklightType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IA:BasicStacklightType:dataType:StacklightOperationMode;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=3002",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Segmented",
+            "enumValue": 0
+          },
+          {
+            "name": "Levelmeter",
+            "enumValue": 1
+          },
+          {
+            "name": "Running_Light",
+            "enumValue": 2
+          },
+          {
+            "name": "Other",
+            "enumValue": 3
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StacklightMode",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "dtmi:opcua:IA:BasicStacklightType:dataType:StacklightOperationMode;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "StackLevel",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "target": "dtmi:opcua:IA:StackLevelType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "StackRunning",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "target": "dtmi:opcua:IA:StackRunningType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:StacklightType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:IA:BasicStacklightType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1010",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IA:StacklightType:dataType:DeviceHealthEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6244",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "NORMAL",
+            "enumValue": 0
+          },
+          {
+            "name": "FAILURE",
+            "enumValue": 1
+          },
+          {
+            "name": "CHECK_FUNCTION",
+            "enumValue": 2
+          },
+          {
+            "name": "OFF_SPEC",
+            "enumValue": 3
+          },
+          {
+            "name": "MAINTENANCE_REQUIRED",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DeviceHealth",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "dtmi:opcua:IA:StacklightType:dataType:DeviceHealthEnumeration;1"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DeviceHealthAlarms",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:StackElementType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1005",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsPartOfBase",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberInList",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SignalOn",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "boolean",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:StackElementAcousticType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:IA:StackElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Intensity",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OperationMode",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AcousticSignals",
+        "namespace": "http://opcfoundation.org/UA/IA"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:StackElementLightType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:IA:StackElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IA:StackElementLightType:dataType:SignalColor;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=3004",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Off",
+            "enumValue": 0
+          },
+          {
+            "name": "Red",
+            "enumValue": 1
+          },
+          {
+            "name": "Green",
+            "enumValue": 2
+          },
+          {
+            "name": "Blue",
+            "enumValue": 3
+          },
+          {
+            "name": "Yellow",
+            "enumValue": 4
+          },
+          {
+            "name": "Purple",
+            "enumValue": 5
+          },
+          {
+            "name": "Cyan",
+            "enumValue": 6
+          },
+          {
+            "name": "White",
+            "enumValue": 7
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IA:StackElementLightType:dataType:SignalModeLight;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=3005",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Continuous",
+            "enumValue": 0
+          },
+          {
+            "name": "Blinking",
+            "enumValue": 1
+          },
+          {
+            "name": "Flashing",
+            "enumValue": 2
+          },
+          {
+            "name": "Other",
+            "enumValue": 3
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Intensity",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SignalColor",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "dtmi:opcua:IA:StackElementLightType:dataType:SignalColor;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SignalMode",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "dtmi:opcua:IA:StackElementLightType:dataType:SignalModeLight;1"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ControlChannel",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "target": "dtmi:opcua:IA:ControlChannelType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:StackLevelType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IA:StackLevelType:dataType:LevelDisplayMode;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=3003",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Dimmed",
+            "enumValue": 0
+          },
+          {
+            "name": "Blinking",
+            "enumValue": 1
+          },
+          {
+            "name": "Other",
+            "enumValue": 2
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DisplayMode",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "dtmi:opcua:IA:StackLevelType:dataType:LevelDisplayMode;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LevelPercent",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:IA:StackRunningType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  }
+]

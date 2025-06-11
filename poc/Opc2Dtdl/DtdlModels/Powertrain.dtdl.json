@@ -1,0 +1,4199 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:IPtTagNameplateType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Machinery:IMachineTagNameplateType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15898",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Comment",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ContactInformation",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Function",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16337",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DefaultInstanceBrowseName",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtBleedAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ResistanceValue",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "ResistanceValue",
+            "schema": "string"
+          },
+          "mapValue": {
+            "@type": [ "MapValue", "" ],
+            "name": "ResistanceValueSchema",
+            "unit": "",
+            "schema": "float"
+          }
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PowerRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtBrakeAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16609",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BrakeCoolingMethod",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BrakeDutyType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BrakeEmergencySwitchOffCount",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "short",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BrakeInsulationClass",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BrakeProtectionMechanicalImpact",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BrakeRectifierType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BrakeVibrationClass",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BrakeVoltageType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BrakeWireTerminalCount",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "short",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BrakingFrequencyOperation",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "integer",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SafetyPropertySupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "B10dValue",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BrakeAccelerationVoltage",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BrakeCurrentRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BrakeDesignType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BrakeHoldingVoltage",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BrakeInertia",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BrakePowerRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BrakeSurroundingAirTemperature",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BrakeTorqueHolding",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BrakeTorqueRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BrakeTurnOffDelayAC",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BrakeTurnOffDelayDC",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BrakeTurnOffType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BrakeTurnOnDelay",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BrakeType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BrakeVoltageRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BrakeWearMaximum",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BrakingEnergySingleEngagementMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtCapacitanceAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Capacitance",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16873",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAmbientAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16875",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AltitudeMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "HumidityMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "HumidityMin",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PressureMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PressureMin",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TemperatureMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TemperatureMin",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16907",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType:dataType:Range;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Low",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "High",
+            "schema": "double"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "GalvanicIsolationSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberOfChannels",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Resolution",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "integer",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AnalogInputElectricalType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InputCurrentRange",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType:dataType:Range;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InputVoltageRange",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType:dataType:Range;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InternalResistance",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAnalogOutputElectricalAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16913",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Powertrain:PtAnalogOutputElectricalAttributesType:dataType:Range;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Low",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "High",
+            "schema": "double"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberOfChannels",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AnalogOutputElectricalType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FrequencyRange",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "dtmi:opcua:Powertrain:PtAnalogOutputElectricalAttributesType:dataType:Range;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LoadResistance",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAuxiliarySupplyAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16928",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CurrentMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FuseProtectionCurrentMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PowerConsumptionMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SupplyVoltageAc",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SupplyVoltageDc",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtCertificateAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16960",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Certificates",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtCommunicationInterfaceAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16963",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CommunicationSpeed",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberOfPorts",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ProfileTypes",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "unsignedShort"
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ProtocolTypes",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "unsignedShort"
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SafetyProtocolTypes",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "unsignedShort"
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtCoolingAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16970",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CoolingMethod",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtDigitalInputElectricalAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17000",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberOfChannels",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SafetyPropertySupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DigitalInputElectricalType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtDigitalOutputElectricalAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberOfChannels",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SafetyPropertySupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DigitalOutputElectricalType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OutputCurrentMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtFunctionalSafetyAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17144",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SafetyAssessor",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SafetyTransportProtocols",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtFuseAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17024",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "FuseIdentificationType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BreakingCapacity",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CurrentRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FuseElementSpeedMarking",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "VoltageRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtHardwareAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16973",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "FrameSizeCoding",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "HeatDissipationPower",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Height",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Length",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NoiseLevel",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Weight",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Width",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17046",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType:dataType:Range;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Low",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "High",
+            "schema": "double"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberOfInputPhases",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedByte",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InputCurrentMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InputCurrentRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InputFrequencyMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InputFrequencyRangeRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType:dataType:Range;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InputPowerMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InputPowerRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InputVoltageMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InputVoltageRange",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType:dataType:Range;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InputVoltageRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtMechanicalStrengthAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17136",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Shock",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Vibration",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtOutputInterfaceAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17085",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Powertrain:PtOutputInterfaceAttributesType:dataType:Range;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Low",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "High",
+            "schema": "double"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberOfOutputPhases",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedByte",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InputCurrentRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InputVoltageRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OutputCurrentMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OutputCurrentRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OutputFrequencyMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OutputFrequencyRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OutputPowerMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OutputPowerRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OutputVoltageMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OutputVoltageRange",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "dtmi:opcua:Powertrain:PtOutputInterfaceAttributesType:dataType:Range;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OutputVoltageRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtProtectionClassAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17140",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ExClass",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "IpClass",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtSafetyFunctionsAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17149",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SafetyStandards",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FunctionalSafetyCategory",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FunctionalSafetyPerformanceLevel",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FunctionalSafetySilLevel",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SafetyFunctions",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtStandardAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17156",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Standards",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtContactorAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16847",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Powertrain:PtContactorAttributesType:dataType:Range;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Low",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "High",
+            "schema": "double"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ControlVoltageAC50HzRangeRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "dtmi:opcua:Powertrain:PtContactorAttributesType:dataType:Range;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberofAuxiliaryContactsNC",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberofAuxiliaryContactsNO",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberofMainContactsNO",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OperationalCurrentAC3At400VRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtDcBusAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16798",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Powertrain:PtDcBusAttributesType:dataType:Range;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Low",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "High",
+            "schema": "double"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DcBusVoltageRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "DcBusVoltageRated",
+            "schema": "string"
+          },
+          "mapValue": {
+            "@type": [ "MapValue", "" ],
+            "name": "DcBusVoltageRatedSchema",
+            "unit": "",
+            "schema": "float"
+          }
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DcBusVoltageRange",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "dtmi:opcua:Powertrain:PtDcBusAttributesType:dataType:Range;1"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtElectronicOverloadRelayAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1014",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Powertrain:PtElectronicOverloadRelayAttributesType:dataType:Range;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Low",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "High",
+            "schema": "double"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "GroundEarthFaultDetectionSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JamDetectionSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberofAuxiliaryContactsNC",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OverloadCurrentSettingRange",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "dtmi:opcua:Powertrain:PtElectronicOverloadRelayAttributesType:dataType:Range;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PhaseLossSensitiveSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StallDetectionSuported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "VoltageRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TripClass",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtEncoderAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16553",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EncoderTechnology",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EncoderType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtEncoderLinearAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtEncoderAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1024",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "EncoderMounting",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ResolutionLinearIncremental",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EncoderReadingDistance",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EncoderSpeedLinearMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RangeLinear",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ResolutionLinearAbsolute",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtEncoderRotaryAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtEncoderAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1021",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "FeedbackResolverPolePairNumber",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "FeedbackResolverRatio",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EncoderFlangeSize",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EncoderFlangeType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EncoderRotarySpeedMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EncoderShaftSize",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EncoderShaftType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FeedbackResolverExcitationFrequency",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FeedbackResolverExcitationVoltage",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ResolutionMultiturnAbsolute",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ResolutionRotaryIncremental",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ResolutionSingleturnAbsolute",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedInteger"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtEncoderInterfaceAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EncoderSignal",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtEncoderInterfaceProtocolAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16605",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EncoderProtocol",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtGearAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16503",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LubricantInterval",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Efficiency",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "Efficiency",
+            "schema": "string"
+          },
+          "mapValue": {
+            "@type": [ "MapValue", "" ],
+            "name": "EfficiencySchema",
+            "unit": "",
+            "schema": "float"
+          }
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "GearRatio",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "GearRatio",
+            "schema": "string"
+          },
+          "mapValue": {
+            "@type": [ "MapValue", "" ],
+            "name": "GearRatioSchema",
+            "unit": "",
+            "schema": "float"
+          }
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AxialForceMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Backlash",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "GearInertia",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "GearType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LubricantType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SpeedRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TorqueRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TorsionalRigidity",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtInputConverterAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16806",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "RegenerativeFeedbackSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PwmSwitchingFrequency",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "PwmSwitchingFrequency",
+            "schema": "string"
+          },
+          "mapValue": {
+            "@type": [ "MapValue", "" ],
+            "name": "PwmSwitchingFrequencySchema",
+            "unit": "",
+            "schema": "float"
+          }
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EfficiencyClass",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InputConverterType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PowerFactorCorrection",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RegenerativePowerRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtInputFilterAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16827",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LineFilterEmcCategory",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LineFilterEmcClass",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LineFilterEmcGroup",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LineFilterPowerLoss",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtMotorAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16383",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtMotorLinearAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtMotorAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1012",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ForcerWeight",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorBackEMF",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorPolePairPitch",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtMotorRotaryAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtMotorAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MotorPolePairs",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorBackEMF",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorInertia",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtMotorDutyAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16499",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LoadProfile",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DutyType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtMotorManagementDeviceAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1023",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Powertrain:PtMotorManagementDeviceAttributesType:dataType:Range;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Low",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "High",
+            "schema": "double"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ControlVoltageAC50HzRangeRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "dtmi:opcua:Powertrain:PtMotorManagementDeviceAttributesType:dataType:Range;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CosPhiVariationDetectionSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CurrentImbalanceDetectionSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "GroundEarthFaultDetectionSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "HMIPortSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JamDetectionSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LoadSheddingSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberOfAnalogInputs",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberOfDigitalInputs",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberOfDigitalOutputs",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberOfPtcThermistorInputs",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OverloadCurrentSettingRange",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "dtmi:opcua:Powertrain:PtMotorManagementDeviceAttributesType:dataType:Range;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OverUnderCurrentDetectionSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OverUnderVoltageDetectionSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PhaseLossSensitiveSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PhaseReversalDetectionSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StallDetectionSuported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "UnderPowerDetectionSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "VoltageMonitoringSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TripClass",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtMotorRatedAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16399",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsCooled",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorCurrentContinuousStall",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorEfficiencyClass",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorPowerFactor",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorPowerRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorWindingType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PtInputInterfaceAttributes",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "target": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PtMotorDutyAttributes",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "target": "dtmi:opcua:Powertrain:PtMotorDutyAttributesType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtMotorLinearRatedAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtMotorRatedAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1018",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorForceConstant",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorForceContinuousStall",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorForceMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorForceRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorSpeedMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorSpeedRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtMotorRotaryRatedAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtMotorRatedAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1015",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorSpeedMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorSpeedRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorTorqueConstant",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorTorqueContinuousStall",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorTorqueMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MotorTorqueRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtMotorStarterAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16854",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Powertrain:PtMotorStarterAttributesType:dataType:Range;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Low",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "High",
+            "schema": "double"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ControlVoltageAC50HzRangeRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "dtmi:opcua:Powertrain:PtMotorStarterAttributesType:dataType:Range;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberofAuxiliaryContactsNC",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberofAuxiliaryContactsNO",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberofMainContactsNO",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OperationalCurrentAC3At400VRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OverloadCurrentSettingRange",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "dtmi:opcua:Powertrain:PtMotorStarterAttributesType:dataType:Range;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TripClass",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtOutputConverterAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16818",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PwmSwitchingFrequency",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "PwmSwitchingFrequency",
+            "schema": "string"
+          },
+          "mapValue": {
+            "@type": [ "MapValue", "" ],
+            "name": "PwmSwitchingFrequencySchema",
+            "unit": "",
+            "schema": "float"
+          }
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EfficiencyClass",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtOutputFilterAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16838",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OutputFilterPowerLoss",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OutputFilterType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtPrechargeAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1010",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PreChargeCycleTimeLimit",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PreChargeMaximumCapacitance",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PrechargeThreshold",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PreChargeTime",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PreChargeTimeout",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PreChargeType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtReactorAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Inductance",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtSoftStarterAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1019",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Powertrain:PtSoftStarterAttributesType:dataType:Range;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Low",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "High",
+            "schema": "double"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IntegratedByPassSupported",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MotorOverloadProtectionIntegrated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OperationalCurrent40CRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OperationalVoltageRangeRated",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "dtmi:opcua:Powertrain:PtSoftStarterAttributesType:dataType:Range;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtTemperatureSensorAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16708",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "TemperatureSensorType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Accuracy",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TemperatureMax",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TemperatureMin",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TemperatureSensorTechnology",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtVibrationSensorAttributesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16747",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Powertrain:PtVibrationSensorAttributesType:dataType:Range;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Low",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "High",
+            "schema": "double"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Accuracy",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AnalogInputElectricalType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AnalogOutputElectricalType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DigitalInputElectricalType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DigitalOutputElectricalType",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FrequencyRange",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "dtmi:opcua:Powertrain:PtVibrationSensorAttributesType:dataType:Range;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Linearity",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MeasuringRange",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "dtmi:opcua:Powertrain:PtVibrationSensorAttributesType:dataType:Range;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OperatingVoltage",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OutputFunction",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Resolution",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15912",
+    "commandTopic": "opcua/Powertrain/PtAssetType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Powertrain:PtAssetType:dataType:DeviceHealthEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6244",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "NORMAL",
+            "enumValue": 0
+          },
+          {
+            "name": "FAILURE",
+            "enumValue": 1
+          },
+          {
+            "name": "CHECK_FUNCTION",
+            "enumValue": 2
+          },
+          {
+            "name": "OFF_SPEC",
+            "enumValue": 3
+          },
+          {
+            "name": "MAINTENANCE_REQUIRED",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AssetId",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BuildAssetNumber",
+        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "schema": "unsignedShort",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Comment",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ComponentName",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ContactInformation",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DefaultInstanceBrowseName",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DeviceClass",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DeviceManual",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DeviceRevision",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Function",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "HardwareRevision",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "InitialOperationDate",
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "schema": "dateTime",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Location",
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MajorAssetVersion",
+        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "schema": "unsignedShort",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Manufacturer",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ManufacturerUri",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MinorAssetVersion",
+        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "schema": "unsignedShort",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Model",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MonthOfConstruction",
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "schema": "unsignedByte",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PatchIdentifiers",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProductCode",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProductInstanceUri",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "RevisionCounter",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "integer",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SerialNumber",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SoftwareReleaseDate",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "dateTime",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SoftwareRevision",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SubBuildAssetNumber",
+        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "schema": "unsignedShort",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "YearOfConstruction",
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DeviceHealth",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "dtmi:opcua:Powertrain:PtAssetType:dataType:DeviceHealthEnumeration;1"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "VerifyAsset",
+        "namespace": "http://opcfoundation.org/UA/FX.AC"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PtAnalogInputElectricalAttributes",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "target": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PtAnalogOutputElectricalAttributes",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "target": "dtmi:opcua:Powertrain:PtAnalogOutputElectricalAttributesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PtDigitalInputElectricalAttributes",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "target": "dtmi:opcua:Powertrain:PtDigitalInputElectricalAttributesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PtDigitalOutputElectricalAttributes",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "target": "dtmi:opcua:Powertrain:PtDigitalOutputElectricalAttributesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PtStandardAttributes",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "target": "dtmi:opcua:Powertrain:PtStandardAttributesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DeviceHealthAlarms",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DeviceTypeImage",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Documentation",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DocumentationFiles",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ImageSet",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProtocolSupport",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PtAmbientAttributes",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "target": "dtmi:opcua:Powertrain:PtAmbientAttributesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PtAuxiliarySupplyAttributes",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "target": "dtmi:opcua:Powertrain:PtAuxiliarySupplyAttributesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PtCertificateAttributes",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "target": "dtmi:opcua:Powertrain:PtCertificateAttributesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PtHardwareAttributes",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "target": "dtmi:opcua:Powertrain:PtHardwareAttributesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PtMechanicalStrengthAttributes",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "target": "dtmi:opcua:Powertrain:PtMechanicalStrengthAttributesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PtProtectionClassAttributes",
+        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "target": "dtmi:opcua:Powertrain:PtProtectionClassAttributesType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetBleedType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1013",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetBrakeType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15116",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetCommunicationModuleType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15430",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetContactorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15549",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetControlModuleType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15447",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetCoolingType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15541",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetDcBusModuleType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1005",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetDriveType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1035",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetFrequencyConverterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetDriveType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1016",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetServoDriveType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetDriveType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1020",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetVariableSpeedDriveType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetDriveType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1028",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetElectricalBrakingModuleType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15148",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetElectricOverloadRelayType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1026",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetEncoderInterfaceModuleType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1045",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetEncoderType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15108",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetEncoderLinearType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetEncoderType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1042",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetEncoderRotaryType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetEncoderType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1039",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetGearType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15122",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetInputConverterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15168",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetInputFilterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15196",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetInputOutputConverterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1022",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetInputReactorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15241",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetIoModuleType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15468",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetMotorManagementDeviceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1040",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetMotorStarterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15561",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetMotorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15083",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetMotorLinearType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetMotorType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1030",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedMotorLinearType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetMotorLinearType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1017",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedGearMotorLinearType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedMotorLinearType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1036",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetGearMotorLinearType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetMotorLinearType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1029",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetMotorRotaryType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetMotorType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1027",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedMotorRotaryType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetMotorRotaryType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1011",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedGearMotorRotaryType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedMotorRotaryType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1033",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetGearMotorRotaryType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetMotorRotaryType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1025",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetOutputConverterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15182",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetOutputFilterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15303",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetOutputReactorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15368",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetPrechargeType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1031",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetReactorFilterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetSafetyModuleType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15527",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetSoftStarterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1034",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetTemperatureSensorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15130",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Powertrain:PtAssetVibrationSensorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15136",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  }
+]

@@ -1,0 +1,806 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_LDS:AdditiveType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_LDS:AdditiveType:dataType:AdditiveStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=3002",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "GOOD",
+            "enumValue": 0
+          },
+          {
+            "name": "WARNING",
+            "enumValue": 1
+          },
+          {
+            "name": "ADVANCE_WARNING_ADDITIVE_CHANGE",
+            "enumValue": 2
+          },
+          {
+            "name": "ERROR_EMPTY",
+            "enumValue": 3
+          },
+          {
+            "name": "ERROR",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ActivateAdditive",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ActivateClosedLoopControl",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AdditiveActivated",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ClosedLoopControlActivated",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsPresent",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "dtmi:opcua:PlasticsRubber_LDS:AdditiveType:dataType:AdditiveStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AdditiveFraction",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AdditiveStrokeVolume",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_LDS:AdditiveAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_LDS:ComponentAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_LDS:LDSCycleParametersEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CycleNumber",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "unsignedLong",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DosingTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AdditivesPressure",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "double"
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AdditivesRatioActual",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "double"
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AdditivesRatioTarget",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "double"
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FilterPressurePrimary",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FilterPressureSecondary",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MixingPointPressureA",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MixingPointPressureB",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MixingPointPressureBlender",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MixingRatioActual",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MixingRatioTarget",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ResidualAmountA",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ResidualAmountB",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "VolumeA",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "VolumeAB",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "VolumeAdditives",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "double"
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "VolumeB",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "VolumeTotal",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_LDS:ComponentType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1005",
+    "commandTopic": "opcua/PlasticsRubber_LDS/ComponentType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_LDS:ComponentType:dataType:ComponentStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=3003",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "GOOD",
+            "enumValue": 0
+          },
+          {
+            "name": "WARNING",
+            "enumValue": 1
+          },
+          {
+            "name": "WARNING_PRESSURE_TOO_HIGH",
+            "enumValue": 2
+          },
+          {
+            "name": "WARNING_PRESSURE_TOO_LOW",
+            "enumValue": 3
+          },
+          {
+            "name": "ADVANCE_WARNING_DRUM_CHANGE",
+            "enumValue": 4
+          },
+          {
+            "name": "ERROR_DRUM_EMPTY",
+            "enumValue": 5
+          },
+          {
+            "name": "ERROR",
+            "enumValue": 6
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AllowsCycles",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "dtmi:opcua:PlasticsRubber_LDS:ComponentType:dataType:ComponentStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualFollowerPlatePressure",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualPressure",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DrumCapacity",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RemainingMaterialTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "duration"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ResidualAmount",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SetFollowerPlatePressure",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SetValueDensity",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetSetValueDensity",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Density",
+                "schema": "double"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_LDS:LDS_InterfaceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DeviceEnabled",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DisplayLanguage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Identification",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:IdentificationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineConfiguration",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Operation",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "target": "dtmi:opcua:PlasticsRubber_LDS:OperationType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_LDS:OperationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1006",
+    "commandTopic": "opcua/PlasticsRubber_LDS/OperationType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_LDS:OperationType:dataType:MaterialBalanceSystemTypeEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=3005",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "NOT_AVAILABLE",
+            "enumValue": 0
+          },
+          {
+            "name": "ALWAYS_ACTIVE",
+            "enumValue": 1
+          },
+          {
+            "name": "SELECTABLE",
+            "enumValue": 2
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_LDS:OperationType:dataType:PurgeStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=3004",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OFF",
+            "enumValue": 0
+          },
+          {
+            "name": "COMPONENT_A",
+            "enumValue": 1
+          },
+          {
+            "name": "COMPONENT_B",
+            "enumValue": 2
+          },
+          {
+            "name": "COMPONENT_A_AND_B",
+            "enumValue": 3
+          },
+          {
+            "name": "COMPONENT_A_AND_B_CYCLIC",
+            "enumValue": 4
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_LDS:OperationType:dataType:ClassifiedActiveErrorDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3003",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SourceNodes",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "string"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Classification",
+            "schema": "unsignedShort"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ActivateMaterialBalanceSystem",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DeviceMappingNumber",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "unsignedInteger",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "HighestActiveAlarmSeverity",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MaterialBalanceSystemType",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "dtmi:opcua:PlasticsRubber_LDS:OperationType:dataType:MaterialBalanceSystemTypeEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PurgeStatus",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "dtmi:opcua:PlasticsRubber_LDS:OperationType:dataType:PurgeStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActivateRemoteControl",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActiveErrors",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:PlasticsRubber_LDS:OperationType:dataType:ClassifiedActiveErrorDataType;1"
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualDeviationMixingRatio",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualShotWeight",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DeliveryPressureMeasuringPoint",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DeliveryType",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DosingActive",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MaxDeviationMixingRatio",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MixingRatioTarget",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PurgeCyclicActive",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PurgeCyclicIdleTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "duration"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PurgeCyclicQuantity",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PurgeMode",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PurgeQuantity",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PurgeTimeout",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "duration"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RemainingMaterialTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "duration"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RemoteControlActivated",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SetShotWeight",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SetValueCompositeDensity",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TargetDeviationMixingRatio",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "IdentifyDevice",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetAllErrors",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetErrorById",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetCycleNumber",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "CycleNumber",
+                "schema": "unsignedLong"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "StartDosing",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "StopDosing",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Additive_Y",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "target": "dtmi:opcua:PlasticsRubber_LDS:AdditiveType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Component_A",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "target": "dtmi:opcua:PlasticsRubber_LDS:ComponentType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Component_B",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "target": "dtmi:opcua:PlasticsRubber_LDS:ComponentType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DeliveryFlowrate",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DeliveryPressure",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
+      }
+    ]
+  }
+]

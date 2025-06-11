@@ -1,0 +1,844 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:LaserSystems:ActivityDataMonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberInList",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ParameterIdentifier",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CurrentValue",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Description",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PreviousValue",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "integer"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:LaserSystems:ConditionDataMonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ConditionParameterIdentifier",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Description",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LowerErrorLevel",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LowerWarningLevel",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "UpperErrorLevel",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "UpperWarningLevel",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Value",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "integer"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:LaserSystems:ConsumptionDataMonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ConsumableIdentifier",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Description",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Value",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "integer"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:LaserSystems:LaserSystemOperationCounterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Machinery:MachineryOperationCounterType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1010",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:LaserSystems:LaserSystemMonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ActivityData",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ConditionData",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ConsumptionData",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LaserSystemStatus",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "target": "dtmi:opcua:LaserSystems:LaserSystemStatusType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Stacklight",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "target": "dtmi:opcua:IA:BasicStacklightType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:LaserSystems:LaserSystemProductionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "RecipeSettingsAndOverviews",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:LaserSystems:LaserSystemStatusType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1012",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LaserSystemState",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "target": "dtmi:opcua:LaserSystems:LaserSystemState_StateMachineType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineToolsLaserStatus",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "target": "dtmi:opcua:MachineTool:LaserMonitoringType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:LaserSystems:LaserSystemType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1005",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineryBuildingBlocks",
+        "namespace": "http://opcfoundation.org/UA/Machinery"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Monitoring",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "target": "dtmi:opcua:LaserSystems:LaserSystemMonitoringType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Notification",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:NotificationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Production",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "target": "dtmi:opcua:LaserSystems:LaserSystemProductionType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:LaserSystems:LaserSystemMaintenancePrognosisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:MaintenancePrognosisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1013",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Code",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Description",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:LaserSystems:LaserSystemUtilityChangePrognosisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:UtilityChangePrognosisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1014",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Code",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Description",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:LaserSystems:RecipeSettingsAndOverviewType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CreationDate",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "time",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LastModification",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "time",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LastUsage",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "time",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "RecipeIdentifier",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "RecipeName",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "RecipeRevision",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Description",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RunsCompleted",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "unsignedLong"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:LaserSystems:LaserSystemState_StateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DefaultInstanceBrowseName",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EnergySaving",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Error",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromEnergySavingToEnergySaving",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromEnergySavingToError",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromEnergySavingToIdle",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromEnergySavingToLaserOn",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromEnergySavingToLaserReady",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromEnergySavingToMaintenance",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromEnergySavingToOff",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromEnergySavingToSetUp",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromErrorToEnergySaving",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromErrorToError",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromErrorToIdle",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromErrorToLaserOn",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromErrorToLaserReady",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromErrorToMaintenance",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromErrorToOff",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromErrorToSetUp",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromIdleToEnergySaving",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromIdleToError",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromIdleToIdle",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromIdleToLaserOn",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromIdleToLaserReady",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromIdleToMaintenance",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromIdleToOff",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromIdleToSetUp",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromLaserOnToEnergySaving",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromLaserOnToError",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromLaserOnToIdle",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromLaserOnToLaserOn",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromLaserOnToLaserReady",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromLaserOnToMaintenance",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromLaserOnToOff",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromLaserOnToSetUp",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromLaserReadyToEnergySaving",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromLaserReadyToError",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromLaserReadyToIdle",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromLaserReadyToLaserOn",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromLaserReadyToLaserReady",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromLaserReadyToMaintenance",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromLaserReadyToOff",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromLaserReadyToSetUp",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromMaintenanceToEnergySaving",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromMaintenanceToError",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromMaintenanceToIdle",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromMaintenanceToLaserOn",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromMaintenanceToLaserReady",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromMaintenanceToMaintenance",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromMaintenanceToOff",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromMaintenanceToSetUp",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromOffToEnergySaving",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromOffToError",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromOffToIdle",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromOffToLaserOn",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromOffToLaserReady",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromOffToMaintenance",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromOffToOff",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromOffToSetUp",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromSetUpToEnergySaving",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromSetUpToError",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromSetUpToIdle",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromSetUpToLaserOn",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromSetUpToLaserReady",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromSetUpToMaintenance",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromSetUpToOff",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FromSetUpToSetUp",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Idle",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LaserOn",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LaserReady",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Maintenance",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Off",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SetUp",
+        "namespace": "http://opcfoundation.org/UA/LaserSystems"
+      }
+    ]
+  }
+]

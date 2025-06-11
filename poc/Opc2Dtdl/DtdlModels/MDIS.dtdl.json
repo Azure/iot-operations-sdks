@@ -1,0 +1,1929 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=194",
+    "commandTopic": "opcua/MDIS/MDISBaseObjectType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "TagId",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Enabled",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Fault",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FaultCode",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Warning",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "WarningCode",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "EnableDisable",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Enable",
+                "schema": "boolean"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISAggregateObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1315",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ChokePlaceholder",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISChokeObjectType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CIMVPlaceholder",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISCIMVObjectType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CounterPlaceholder",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISCounterObjectType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DigitalArbitrationPlaceholder",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISDigitalArbitrationObjectType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DigitalOutPlaceholder",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISDigitalOutObjectType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DigitalPlaceholder",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISDigitalInstrumentObjectType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DiscreteArbitrationPlaceholder",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISDiscreteArbitrationObjectType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DiscreteOutPlaceholder",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISDiscreteOutObjectType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DiscretePlaceholder",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISDiscreteInstrumentObjectType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ElectricChokePlaceholder",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISElectricChokeObjectType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InstrumentArbitrationPlaceholder",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISInstrumentArbitrationObjectType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InstrumentOutPlaceholder",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISInstrumentOutObjectType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InstrumentPlaceholder",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISInstrumentObjectType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MotorPlaceholder",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISMotorObjectType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ValvePlaceholder",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISValveObjectType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISChokeObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1066",
+    "commandTopic": "opcua/MDIS/MDISChokeObjectType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:ChokeMoveEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=602",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Moving",
+            "enumValue": 1
+          },
+          {
+            "name": "Stopped",
+            "enumValue": 2
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:SetCalculatedPositionEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1287",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Initial",
+            "enumValue": 0
+          },
+          {
+            "name": "Inprogress",
+            "enumValue": 1
+          },
+          {
+            "name": "Complete",
+            "enumValue": 2
+          },
+          {
+            "name": "Fault",
+            "enumValue": 4
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:SEMEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "SEM_A",
+            "enumValue": 1
+          },
+          {
+            "name": "SEM_B",
+            "enumValue": 2
+          },
+          {
+            "name": "Auto",
+            "enumValue": 4
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:ChokeCommandEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=701",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Close",
+            "enumValue": 1
+          },
+          {
+            "name": "Open",
+            "enumValue": 2
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StepDurationClose",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StepDurationOpen",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "TotalSteps",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CalculatedPosition",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CommandRejected",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DefeatableCloseInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DefeatableOpenInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Moving",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:ChokeMoveEnum;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NonDefeatableCloseInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NonDefeatableOpenInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PositionInSteps",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "short"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SetCalculatedPositionStatus",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:SetCalculatedPositionEnum;1"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Abort",
+        "namespace": "http://opcfoundation.org/UA/MDIS"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Move",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Position",
+                "schema": "float"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "OverrideInterlocks",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "SEM",
+                "schema": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:SEMEnum;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetCalculatedPosition",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Position",
+                "schema": "float"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Step",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Direction",
+                "schema": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:ChokeCommandEnum;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Steps",
+                "schema": "unsignedShort"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "OverrideInterlocks",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "SEM",
+                "schema": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:SEMEnum;1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISCIMVObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15114",
+    "commandTopic": "opcua/MDIS/MDISCIMVObjectType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVMoveEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15007",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "MoveClose",
+            "enumValue": 1
+          },
+          {
+            "name": "MoveOpen",
+            "enumValue": 2
+          },
+          {
+            "name": "Stop",
+            "enumValue": 4
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVOperationModeEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15102",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Position",
+            "enumValue": 1
+          },
+          {
+            "name": "Flow",
+            "enumValue": 2
+          },
+          {
+            "name": "Manual",
+            "enumValue": 4
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "SEM_A",
+            "enumValue": 1
+          },
+          {
+            "name": "SEM_B",
+            "enumValue": 2
+          },
+          {
+            "name": "Auto",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CommandRejected",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DeviceCurrent",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FlowRate",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InletPressure",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InternalPressure",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Moving",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVMoveEnum;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NonDefeatableCloseInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NonDefeatableCommandInProgressInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NonDefeatableOpenInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OperationMode",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVOperationModeEnum;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OutletPressure",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Position",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TargetFlowRate",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TargetPosition",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TotalFlow",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Abort",
+        "namespace": "http://opcfoundation.org/UA/MDIS"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetTotalFlow",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Initial",
+                "schema": "float"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetFlowRate",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "FlowRate",
+                "schema": "float"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "SEM",
+                "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ShutdownRequest",
+                "schema": "boolean"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetManual",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Direction",
+                "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVMoveEnum;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Delta",
+                "schema": "float"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "SEM",
+                "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ShutdownRequest",
+                "schema": "boolean"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetOperationMode",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Mode",
+                "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVOperationModeEnum;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "SEM",
+                "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ShutdownRequest",
+                "schema": "boolean"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetPosition",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Position",
+                "schema": "float"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "SEM",
+                "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ShutdownRequest",
+                "schema": "boolean"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MotorOperationsCount",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISCounterObjectType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "TotalMotorRuntime",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISCounterObjectType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISDigitalInstrumentObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=889",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "State",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISDigitalArbitrationObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MDIS:MDISDigitalInstrumentObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15015",
+    "commandTopic": "opcua/MDIS/MDISDigitalArbitrationObjectType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:MDIS:MDISDigitalArbitrationObjectType:dataType:ArbitrationModeEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Average",
+            "enumValue": 1
+          },
+          {
+            "name": "DefaultA",
+            "enumValue": 2
+          },
+          {
+            "name": "DefaultB",
+            "enumValue": 4
+          },
+          {
+            "name": "ForceA",
+            "enumValue": 8
+          },
+          {
+            "name": "ForceB",
+            "enumValue": 16
+          },
+          {
+            "name": "High",
+            "enumValue": 32
+          },
+          {
+            "name": "Low",
+            "enumValue": 64
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ArbitrationMode",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "dtmi:opcua:MDIS:MDISDigitalArbitrationObjectType:dataType:ArbitrationModeEnum;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SourceA",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SourceB",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetArbitrationMode",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ArbitrationMode",
+                "schema": "dtmi:opcua:MDIS:MDISDigitalArbitrationObjectType:dataType:ArbitrationModeEnum;1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISDigitalOutObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MDIS:MDISDigitalInstrumentObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1230",
+    "commandTopic": "opcua/MDIS/MDISDigitalOutObjectType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "WriteState",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "State",
+                "schema": "boolean"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISDiscreteInstrumentObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1214",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "State",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "unsignedInteger"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISDiscreteArbitrationObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MDIS:MDISDiscreteInstrumentObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15032",
+    "commandTopic": "opcua/MDIS/MDISDiscreteArbitrationObjectType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:MDIS:MDISDiscreteArbitrationObjectType:dataType:ArbitrationModeEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Average",
+            "enumValue": 1
+          },
+          {
+            "name": "DefaultA",
+            "enumValue": 2
+          },
+          {
+            "name": "DefaultB",
+            "enumValue": 4
+          },
+          {
+            "name": "ForceA",
+            "enumValue": 8
+          },
+          {
+            "name": "ForceB",
+            "enumValue": 16
+          },
+          {
+            "name": "High",
+            "enumValue": 32
+          },
+          {
+            "name": "Low",
+            "enumValue": 64
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ArbitrationMode",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "dtmi:opcua:MDIS:MDISDiscreteArbitrationObjectType:dataType:ArbitrationModeEnum;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SourceA",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SourceB",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetArbitrationMode",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ArbitrationMode",
+                "schema": "dtmi:opcua:MDIS:MDISDiscreteArbitrationObjectType:dataType:ArbitrationModeEnum;1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISDiscreteOutObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MDIS:MDISDiscreteInstrumentObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1242",
+    "commandTopic": "opcua/MDIS/MDISDiscreteOutObjectType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "WriteValue",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "State",
+                "schema": "unsignedInteger"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISElectricChokeObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15076",
+    "commandTopic": "opcua/MDIS/MDISElectricChokeObjectType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:MDIS:MDISElectricChokeObjectType:dataType:ChokeMoveEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=602",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Moving",
+            "enumValue": 1
+          },
+          {
+            "name": "Stopped",
+            "enumValue": 2
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:MDIS:MDISElectricChokeObjectType:dataType:SEMEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "SEM_A",
+            "enumValue": 1
+          },
+          {
+            "name": "SEM_B",
+            "enumValue": 2
+          },
+          {
+            "name": "Auto",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualPosition",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CommandRejected",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DefeatableCloseInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DefeatableOpenInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Moving",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "dtmi:opcua:MDIS:MDISElectricChokeObjectType:dataType:ChokeMoveEnum;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NonDefeatableCloseInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NonDefeatableOpenInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Abort",
+        "namespace": "http://opcfoundation.org/UA/MDIS"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Move",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Position",
+                "schema": "float"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "OverrideInterlocks",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "SEM",
+                "schema": "dtmi:opcua:MDIS:MDISElectricChokeObjectType:dataType:SEMEnum;1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISInstrumentObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=971",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "HHSetPoint",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "HSetPoint",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LLSetPoint",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LSetPoint",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "HHlimit",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Hlimit",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Llimit",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LLlimit",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ProcessVariable",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISInstrumentArbitrationObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MDIS:MDISInstrumentObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15547",
+    "commandTopic": "opcua/MDIS/MDISInstrumentArbitrationObjectType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:MDIS:MDISInstrumentArbitrationObjectType:dataType:ArbitrationModeEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Average",
+            "enumValue": 1
+          },
+          {
+            "name": "DefaultA",
+            "enumValue": 2
+          },
+          {
+            "name": "DefaultB",
+            "enumValue": 4
+          },
+          {
+            "name": "ForceA",
+            "enumValue": 8
+          },
+          {
+            "name": "ForceB",
+            "enumValue": 16
+          },
+          {
+            "name": "High",
+            "enumValue": 32
+          },
+          {
+            "name": "Low",
+            "enumValue": 64
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DiscrepancySetPoint",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ArbitrationMode",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "dtmi:opcua:MDIS:MDISInstrumentArbitrationObjectType:dataType:ArbitrationModeEnum;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SourceA",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SourceB",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "float"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetArbitrationMode",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ArbitrationMode",
+                "schema": "dtmi:opcua:MDIS:MDISInstrumentArbitrationObjectType:dataType:ArbitrationModeEnum;1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISInstrumentOutObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MDIS:MDISInstrumentObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1254",
+    "commandTopic": "opcua/MDIS/MDISInstrumentOutObjectType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "WriteValue",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Value",
+                "schema": "float"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISMotorObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15190",
+    "commandTopic": "opcua/MDIS/MDISMotorObjectType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:MDIS:MDISMotorObjectType:dataType:MotorOperationEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15013",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Off",
+            "enumValue": 1
+          },
+          {
+            "name": "Auto",
+            "enumValue": 2
+          },
+          {
+            "name": "Manual",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DefeatableStartInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DefeatableStopInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NonDefeatableStartInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NonDefeatableStopInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Operation",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "dtmi:opcua:MDIS:MDISMotorObjectType:dataType:MotorOperationEnum;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Running",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetOperation",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Mode",
+                "schema": "dtmi:opcua:MDIS:MDISMotorObjectType:dataType:MotorOperationEnum;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Start",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "OverrideInterlocks",
+                "schema": "boolean"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Stop",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "OverrideInterlocks",
+                "schema": "boolean"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISValveObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=794",
+    "commandTopic": "opcua/MDIS/MDISValveObjectType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:MDIS:MDISValveObjectType:dataType:CommandEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=3",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Close",
+            "enumValue": 1
+          },
+          {
+            "name": "Open",
+            "enumValue": 2
+          },
+          {
+            "name": "None",
+            "enumValue": 4
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:MDIS:MDISValveObjectType:dataType:ValvePositionEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=703",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Closed",
+            "enumValue": 1
+          },
+          {
+            "name": "Open",
+            "enumValue": 2
+          },
+          {
+            "name": "Moving",
+            "enumValue": 4
+          },
+          {
+            "name": "Unknown",
+            "enumValue": 8
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:MDIS:MDISValveObjectType:dataType:SignatureStatusEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=699",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "NotAvailable",
+            "enumValue": 1
+          },
+          {
+            "name": "Completed",
+            "enumValue": 2
+          },
+          {
+            "name": "Failed",
+            "enumValue": 4
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:MDIS:MDISValveObjectType:dataType:SEMEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "SEM_A",
+            "enumValue": 1
+          },
+          {
+            "name": "SEM_B",
+            "enumValue": 2
+          },
+          {
+            "name": "Auto",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CloseTimeDuration",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OpenTimeDuration",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CommandRejected",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DefeatableCloseInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DefeatableOpenInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LastCommand",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "dtmi:opcua:MDIS:MDISValveObjectType:dataType:CommandEnum;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NonDefeatableCloseInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NonDefeatableOpenInterlock",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Position",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "dtmi:opcua:MDIS:MDISValveObjectType:dataType:ValvePositionEnum;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SignatureRequestStatus",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "dtmi:opcua:MDIS:MDISValveObjectType:dataType:SignatureStatusEnum;1"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Move",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Direction",
+                "schema": "dtmi:opcua:MDIS:MDISValveObjectType:dataType:CommandEnum;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "OverrideInterlock",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "SEM",
+                "schema": "dtmi:opcua:MDIS:MDISValveObjectType:dataType:SEMEnum;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Signature",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ShutdownRequest",
+                "schema": "boolean"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISCounterObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15098",
+    "commandTopic": "opcua/MDIS/MDISCounterObjectType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Count",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetCount",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Initial",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISInformationObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1471",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:MDIS:MDISInformationObjectType:dataType:MDISVersionDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1289",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "MajorVersion",
+            "schema": "unsignedByte"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "MinorVersion",
+            "schema": "unsignedByte"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Build",
+            "schema": "unsignedByte"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MDISVersion",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "schema": "dtmi:opcua:MDIS:MDISInformationObjectType:dataType:MDISVersionDataType;1"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Signatures",
+        "namespace": "http://opcfoundation.org/UA/MDIS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "TimeSynchronization",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:MDIS:MDISTimeSyncObjectType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MDIS:MDISTimeSyncObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1468",
+    "commandTopic": "opcua/MDIS/MDISTimeSyncObjectType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetTime",
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "TargetTime",
+                "schema": "time"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+]

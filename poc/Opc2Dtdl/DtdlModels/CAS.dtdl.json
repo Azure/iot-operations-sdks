@@ -1,0 +1,2223 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:AnalysisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1004",
+    "commandTopic": "opcua/CAS/AnalysisType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Trigger",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "OutputFile",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:CASType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1035",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Airnets",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:AirnetsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Components",
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:CAS:ComponentsGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Identification",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:CAS:CASIdentificationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MCS",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:MCSType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:CommunicationSettingsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1048",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:CAS:CommunicationSettingsType:dataType:IpVersionEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=3016",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "IPv4",
+            "enumValue": 0
+          },
+          {
+            "name": "IPv6",
+            "enumValue": 1
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DefaultGateway",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DnsServer",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DomainName",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Hostname",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IpAddress",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IpVersion",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "dtmi:opcua:CAS:CommunicationSettingsType:dataType:IpVersionEnum;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SubnetMask",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Dhcp",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MacAddress",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:ElectricalCircuitType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1014",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Other",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:ElectricalQuantitiesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Delta",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:ElectricalQuantitiesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Input",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:ElectricalQuantitiesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Output",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:ElectricalQuantitiesType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:ElectricalQuantitiesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1011",
+    "commandTopic": "opcua/CAS/ElectricalQuantitiesType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StartTime",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "dateTime",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ApparentPower",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Current",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Energy",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Power",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Voltage",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetStatistics",
+        "namespace": "http://opcfoundation.org/UA/IA"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:FluidCircuitType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1013",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:CAS:FluidCircuitType:dataType:FluidTypeEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=3006",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Air",
+            "enumValue": 0
+          },
+          {
+            "name": "Condensate",
+            "enumValue": 1
+          },
+          {
+            "name": "Oil",
+            "enumValue": 2
+          },
+          {
+            "name": "Water",
+            "enumValue": 3
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FluidType",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "dtmi:opcua:CAS:FluidCircuitType:dataType:FluidTypeEnum;1"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Other",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:FluidQuantitiesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Delta",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:FluidQuantitiesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Inlet",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:FluidQuantitiesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Outlet",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:FluidQuantitiesType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:FluidQuantitiesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1012",
+    "commandTopic": "opcua/CAS/FluidQuantitiesType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StartTime",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "dateTime",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Quantity",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "Quantity",
+            "schema": "string"
+          },
+          "mapValue": {
+            "@type": [ "MapValue", "" ],
+            "name": "QuantitySchema",
+            "unit": "",
+            "schema": "integer"
+          }
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AbsolutePressure",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AccumulatedVolume",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DewPoint",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "GaugePressure",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MassFlowRate",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OilConcentration",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RelativeHumidity",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Temperature",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Volume",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "VolumeFlowRate",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetStatistics",
+        "namespace": "http://opcfoundation.org/UA/IA"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ParticlesPerSizeRange",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:ParticleType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:AirnetComponentsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1050",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ComponentsGroup",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ChargingSystems",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Compressors",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CondensateDrains",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CondensateSeparators",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Converters",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CoolingSystems",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Dryers",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Filters",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "HeatRecoverySystems",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Receivers",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Sensors",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Valves",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:AnalysesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1049",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Analysis",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:AnalysisType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PrefabAnalysis",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EnergyReportISO50001",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:AnalysisType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:CalibrationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1054",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LastCalibrationDate",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "dateTime"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NextCalibrationDate",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "dateTime"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:CASIdentificationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1051",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AssetId",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ComponentName",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "string",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:ConfigurationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1037",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:AirnetConfigurationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:ConfigurationType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1016",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OperatingModes",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OperatingProfiles",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:MCSConfigurationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:ConfigurationType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1019",
+    "commandTopic": "opcua/CAS/MCSConfigurationType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "LoadConfigurationFile",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SaveConfigurationFile",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CommunicationSettings",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:CommunicationSettingsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ConfigurationFile",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:DesignType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1044",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ComponentClass",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:CompressorDesignType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:DesignType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:CAS:CompressorDesignType:dataType:DisplacementTypeEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=3020",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "PositiveDisplacement",
+            "enumValue": 0
+          },
+          {
+            "name": "DynamicDisplacement",
+            "enumValue": 1
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:CAS:CompressorDesignType:dataType:LubricationTypeEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=3019",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "NoLubrication",
+            "enumValue": 0
+          },
+          {
+            "name": "OilLubricated",
+            "enumValue": 1
+          },
+          {
+            "name": "WaterLubricated",
+            "enumValue": 2
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DisplacementType",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "dtmi:opcua:CAS:CompressorDesignType:dataType:DisplacementTypeEnum;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LubricationType",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "dtmi:opcua:CAS:CompressorDesignType:dataType:LubricationTypeEnum;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NumberOfStages",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "VariableFlow",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "boolean"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:ConverterDesignType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:DesignType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1041",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:DrainDesignType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:DesignType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1036",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:DryerDesignType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:DesignType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1033",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LowestAmbientTemperature",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:FilterDesignType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:DesignType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterClassDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=3007",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "A",
+            "schema": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterClassEnum;1"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "B",
+            "schema": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterClassEnum;1"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "C",
+            "schema": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterClassEnum;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterClassEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=3008",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "X_0",
+            "enumValue": 0
+          },
+          {
+            "name": "X_1",
+            "enumValue": 1
+          },
+          {
+            "name": "X_2",
+            "enumValue": 2
+          },
+          {
+            "name": "X_3",
+            "enumValue": 3
+          },
+          {
+            "name": "X_4",
+            "enumValue": 4
+          },
+          {
+            "name": "X_5",
+            "enumValue": 5
+          },
+          {
+            "name": "X_6",
+            "enumValue": 6
+          },
+          {
+            "name": "X_7",
+            "enumValue": 7
+          },
+          {
+            "name": "X_8",
+            "enumValue": 8
+          },
+          {
+            "name": "X_9",
+            "enumValue": 9
+          },
+          {
+            "name": "X",
+            "enumValue": 10
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FilterClass",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterClassDataType;1"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:ReceiverDesignType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:DesignType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1023",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Volume",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:SensorDesignType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:DesignType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1031",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:CAS:SensorDesignType:dataType:SensorTechnologyOptionSet;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=3010",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "CapacitiveSensor",
+            "enumValue": 0
+          },
+          {
+            "name": "ElectronTube",
+            "enumValue": 1
+          },
+          {
+            "name": "InductiveSensor",
+            "enumValue": 2
+          },
+          {
+            "name": "IonizationSensor",
+            "enumValue": 3
+          },
+          {
+            "name": "Magnetometer",
+            "enumValue": 4
+          },
+          {
+            "name": "OpticalSensor",
+            "enumValue": 5
+          },
+          {
+            "name": "PiezoelectricSensor",
+            "enumValue": 6
+          },
+          {
+            "name": "ResistiveSensor",
+            "enumValue": 7
+          },
+          {
+            "name": "ResonantSensor",
+            "enumValue": 8
+          },
+          {
+            "name": "TemperatureSensor",
+            "enumValue": 9
+          },
+          {
+            "name": "ThermalSensor",
+            "enumValue": 10
+          },
+          {
+            "name": "UltrasoundSensor",
+            "enumValue": 11
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SensorTechnology",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "dtmi:opcua:CAS:SensorDesignType:dataType:SensorTechnologyOptionSet;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SoftSensor",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "boolean"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:SeparatorDesignType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:DesignType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1040",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:ValveDesignType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:DesignType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1032",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NumberOfPorts",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:EventsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1020",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Event",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EmergencyStop",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Service",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Shutdown",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Warning",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:MaintenanceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1028",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RealTimeSinceLastService",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RealTimeToNextService",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:OperationalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "HealthState",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "IntegratedState",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OnOff",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OperatingState",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:AirnetOperationalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:OperationalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AirDeliveryRate",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CompressorsIntegrated",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CompressorsIsolated",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CompressorsNotAvailable",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ControlPressure",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SpecificEnergy",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SpecificEnergyCost",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "VolumeFlowRateAvailable",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "VolumeFlowRateUnavailable",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:CompressorOperationalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:OperationalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1045",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActivePressureBand",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FlowRateRatio",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "IsentropicEfficiency",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SpecificEnergyRequirement",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:ConverterOperationalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:OperationalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1046",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CatalyticMaterialTemperature",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:DrainOperationalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:OperationalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1003",
+    "commandTopic": "opcua/CAS/DrainOperationalType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "DrainTest",
+        "namespace": "http://opcfoundation.org/UA/CAS"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:DryerOperationalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:OperationalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1052",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PressureDewPoint",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:ValveOperationalType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:OperationalType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1053",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ContinuousPosition",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PortUsed",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:StatisticsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1018",
+    "commandTopic": "opcua/CAS/StatisticsType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ResetCondition",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StartTime",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "dateTime",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RealTime",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RealTimeToNextService",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RunningTime",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RunningTimeToNextService",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetStatistics",
+        "namespace": "http://opcfoundation.org/UA/IA"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:CompressorStatisticsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:StatisticsType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1027",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LoadedTime",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "UnloadedTime",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:AirnetsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Machinery:MachineComponentsType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1038",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:ComponentsGroupType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Machinery:MachineComponentsType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1047",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ComponentsGroup",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:Machinery:MachineComponentsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ChargingSystems",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:Machinery:MachineComponentsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Compressors",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:Machinery:MachineComponentsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CondensateDrains",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:Machinery:MachineComponentsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CondensateSeparators",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:Machinery:MachineComponentsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Converters",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:Machinery:MachineComponentsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CoolingSystems",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:Machinery:MachineComponentsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Dryers",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:Machinery:MachineComponentsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Filters",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:Machinery:MachineComponentsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "HeatRecoverySystems",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:Machinery:MachineComponentsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Receivers",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:Machinery:MachineComponentsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Sensors",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:Machinery:MachineComponentsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Valves",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:Machinery:MachineComponentsType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:ParticleType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1043",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Fine",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Large",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Medium",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "unsignedLong"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:AirnetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:TopologyElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Ambient",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:FluidQuantitiesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Components",
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:CAS:AirnetComponentsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Configuration",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:CAS:AirnetConfigurationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ElectricalCircuit",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:ElectricalCircuitType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Operational",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:CAS:AirnetOperationalType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProcessFluidCircuit",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:FluidCircuitType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:CASComponentType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:TopologyElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1021",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ActiveAirnet",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Ambient",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:FluidQuantitiesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Configuration",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:CAS:ConfigurationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CoolantCircuit",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:FluidCircuitType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Design",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:DesignType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ElectricalCircuit",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:ElectricalCircuitType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Events",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:EventsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Operational",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:CAS:OperationalType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProcessFluidCircuit",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:FluidCircuitType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Statistics",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:CAS:StatisticsType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:ChargingSystemType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:CASComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1005",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:CompressorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:CASComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1039",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:ConverterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:CASComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1029",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:CoolingSystemType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:CASComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1001",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:DrainType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:CASComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1025",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:DryerType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:CASComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1030",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:FilterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:CASComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1034",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:HeatRecoverySystemType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:CASComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1042",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:ReceiverType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:CASComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1022",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:SensorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:CASComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1015",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Calibration",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:CalibrationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Maintenance",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:CAS:MaintenanceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:SeparatorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:CASComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1026",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:ValveType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:CAS:CASComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1024",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:CAS:MCSType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:TopologyElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1017",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Analyses",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:AnalysesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Configuration",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:CAS:MCSConfigurationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ElectricalCircuit",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:ElectricalCircuitType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Events",
+        "namespace": "http://opcfoundation.org/UA/CAS",
+        "target": "dtmi:opcua:CAS:EventsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Operational",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:CAS:OperationalType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Statistics",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:CAS:StatisticsType"
+      }
+    ]
+  }
+]

@@ -1,0 +1,1436 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupStatusChangedEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1012",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupStatusChangedEventType:dataType:JobStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3017",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "TRANSFERRED_ASSIGNED",
+            "enumValue": 1
+          },
+          {
+            "name": "SET_UP_ACTIVE",
+            "enumValue": 2
+          },
+          {
+            "name": "SET_UP_INTERRUPTED",
+            "enumValue": 3
+          },
+          {
+            "name": "SET_UP_FINISHED",
+            "enumValue": 4
+          },
+          {
+            "name": "START_UP_ACTIVE",
+            "enumValue": 5
+          },
+          {
+            "name": "JOB_IN_PRODUCTION",
+            "enumValue": 6
+          },
+          {
+            "name": "JOB_INTERRUPTED",
+            "enumValue": 7
+          },
+          {
+            "name": "JOB_FINISHED",
+            "enumValue": 8
+          },
+          {
+            "name": "TEAR_DOWN_ACTIVE",
+            "enumValue": 9
+          },
+          {
+            "name": "TEAR_DOWN_INTERRUPTED",
+            "enumValue": 10
+          },
+          {
+            "name": "TEAR_DOWN_FINISHED",
+            "enumValue": 11
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ActiveStatus",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupStatusChangedEventType:dataType:JobStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Id",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LastStatus",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupStatusChangedEventType:dataType:JobStatusEnumeration;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobStatusChangedEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobStatusChangedEventType:dataType:JobStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3017",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "TRANSFERRED_ASSIGNED",
+            "enumValue": 1
+          },
+          {
+            "name": "SET_UP_ACTIVE",
+            "enumValue": 2
+          },
+          {
+            "name": "SET_UP_INTERRUPTED",
+            "enumValue": 3
+          },
+          {
+            "name": "SET_UP_FINISHED",
+            "enumValue": 4
+          },
+          {
+            "name": "START_UP_ACTIVE",
+            "enumValue": 5
+          },
+          {
+            "name": "JOB_IN_PRODUCTION",
+            "enumValue": 6
+          },
+          {
+            "name": "JOB_INTERRUPTED",
+            "enumValue": 7
+          },
+          {
+            "name": "JOB_FINISHED",
+            "enumValue": 8
+          },
+          {
+            "name": "TEAR_DOWN_ACTIVE",
+            "enumValue": 9
+          },
+          {
+            "name": "TEAR_DOWN_INTERRUPTED",
+            "enumValue": 10
+          },
+          {
+            "name": "TEAR_DOWN_FINISHED",
+            "enumValue": 11
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ActiveStatus",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobStatusChangedEventType:dataType:JobStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JobGroupId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JobId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LastStatus",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobStatusChangedEventType:dataType:JobStatusEnumeration;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:LotFinishedEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1010",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JobGroupId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JobId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Lot",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "unsignedInteger",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:RequestAddMaterialEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Id",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:UnitFinishedEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "GoodProduct",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JobGroupId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JobId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Unit",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "unsignedInteger",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:ExtrusionLine_InterfaceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1003",
+    "commandTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/ExtrusionLine_InterfaceType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:ExtrusionLine_InterfaceType:dataType:ConfigurationParameterType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3024",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Id",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Description",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "DefaultValue",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Unit",
+            "schema": "string"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:ExtrusionLine_InterfaceType:dataType:ProductionStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3016",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "NO_PRODUCTION",
+            "enumValue": 1
+          },
+          {
+            "name": "START_UP",
+            "enumValue": 2
+          },
+          {
+            "name": "READY_FOR_PRODUCTION",
+            "enumValue": 3
+          },
+          {
+            "name": "PRODUCTION",
+            "enumValue": 4
+          },
+          {
+            "name": "DRY_RUN",
+            "enumValue": 5
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ConfigurationParameters",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:ExtrusionLine_InterfaceType:dataType:ConfigurationParameterType;1"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LineId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LineStatus",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:ExtrusionLine_InterfaceType:dataType:ProductionStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ClearMESMessage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetMESMessage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Message",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Message2",
+                "schema": "unsignedShort"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "JobGroups",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineConfiguration",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineInformation",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineInformationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineMESConfiguration",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineMESConfigurationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MaterialList",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaterialListType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MESMessage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MESMessageType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProductionDatasetManagement",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProductionParameters",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:ProductionParametersType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Users",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:UsersType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1013",
+    "commandTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/JobGroupsType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupsType:dataType:MaterialMappingType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=3003",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "MaterialId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "MaterialLot",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "HopperId",
+            "schema": "string"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "AddJobGroup",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Description",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "EquipmentDescription",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ProductionDatasetName",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "MaterialMapping",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupsType:dataType:MaterialMappingType;1"
+                }
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Priority",
+                "schema": "unsignedInteger"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "PlannedStart",
+                "schema": "time"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "PlannedProductionTime",
+                "schema": "duration"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "PlannedSetUpTime",
+                "schema": "duration"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "LatestEnd",
+                "schema": "time"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "JobGroupNodeId",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "FinishJobGroupById",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "InterruptJobGroupById",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "RemoveJobGroupById",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "StartJobGroupById",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "JobGroup_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1011",
+    "commandTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/JobGroupType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupType:dataType:ConfigurationParameterType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3024",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Id",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Description",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "DefaultValue",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Unit",
+            "schema": "string"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupType:dataType:MaterialMappingType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=3003",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "MaterialId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "MaterialLot",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "HopperId",
+            "schema": "string"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupType:dataType:JobStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3017",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "TRANSFERRED_ASSIGNED",
+            "enumValue": 1
+          },
+          {
+            "name": "SET_UP_ACTIVE",
+            "enumValue": 2
+          },
+          {
+            "name": "SET_UP_INTERRUPTED",
+            "enumValue": 3
+          },
+          {
+            "name": "SET_UP_FINISHED",
+            "enumValue": 4
+          },
+          {
+            "name": "START_UP_ACTIVE",
+            "enumValue": 5
+          },
+          {
+            "name": "JOB_IN_PRODUCTION",
+            "enumValue": 6
+          },
+          {
+            "name": "JOB_INTERRUPTED",
+            "enumValue": 7
+          },
+          {
+            "name": "JOB_FINISHED",
+            "enumValue": 8
+          },
+          {
+            "name": "TEAR_DOWN_ACTIVE",
+            "enumValue": 9
+          },
+          {
+            "name": "TEAR_DOWN_INTERRUPTED",
+            "enumValue": 10
+          },
+          {
+            "name": "TEAR_DOWN_FINISHED",
+            "enumValue": 11
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupType:dataType:ParameterSettingType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3026",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Id",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Value",
+            "schema": "string"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ConfigurationParameters",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupType:dataType:ConfigurationParameterType;1"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Description",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "EquipmentDescription",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Id",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LatestEnd",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "time",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MaterialMapping",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupType:dataType:MaterialMappingType;1"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PlannedProductionTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PlannedSetUpTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PlannedStart",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "time",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Priority",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProductionDatasetName",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupType:dataType:JobStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ElectricalEnergyConsumption",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FluidEnergyConsumption",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PressureAirConsumption",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "AddJob",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Description",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "CustomerName",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ProductName",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ProductDescription",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Strand",
+                "schema": "unsignedInteger"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Sequence",
+                "schema": "unsignedInteger"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ParameterSetting",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupType:dataType:ParameterSettingType;1"
+                }
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "SetOutput",
+                "schema": "double"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "LotSize",
+                "schema": "double"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "JobNodeId",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "FinishJobById",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "InterruptJobById",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "RemoveJobById",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "StartJobById",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Job_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobType:dataType:ParameterSettingType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3026",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Id",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Value",
+            "schema": "string"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobType:dataType:JobStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3017",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "TRANSFERRED_ASSIGNED",
+            "enumValue": 1
+          },
+          {
+            "name": "SET_UP_ACTIVE",
+            "enumValue": 2
+          },
+          {
+            "name": "SET_UP_INTERRUPTED",
+            "enumValue": 3
+          },
+          {
+            "name": "SET_UP_FINISHED",
+            "enumValue": 4
+          },
+          {
+            "name": "START_UP_ACTIVE",
+            "enumValue": 5
+          },
+          {
+            "name": "JOB_IN_PRODUCTION",
+            "enumValue": 6
+          },
+          {
+            "name": "JOB_INTERRUPTED",
+            "enumValue": 7
+          },
+          {
+            "name": "JOB_FINISHED",
+            "enumValue": 8
+          },
+          {
+            "name": "TEAR_DOWN_ACTIVE",
+            "enumValue": 9
+          },
+          {
+            "name": "TEAR_DOWN_INTERRUPTED",
+            "enumValue": 10
+          },
+          {
+            "name": "TEAR_DOWN_FINISHED",
+            "enumValue": 11
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CustomerName",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Description",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Id",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LotSize",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "double",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ParameterSetting",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobType:dataType:ParameterSettingType;1"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProductDescription",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProductId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Sequence",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SetOutput",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "double",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobType:dataType:JobStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Strand",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualBadOutput",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualGoodOutput",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualLot",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualLotName",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualOutput",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualOutputRate",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualSampleOutput",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "GoodProduct",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LineSpeed",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ProductWeight",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Throughput",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:ProductionParametersType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "GoodProduct",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LineSpeed",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ProductWeight",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Throughput",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ElectricalEnergy",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FluidEnergy",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PressureAir",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
+      }
+    ]
+  }
+]

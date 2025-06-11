@@ -1,0 +1,456 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat_v2:GlassEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2;i=1030",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Identifier",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JobdIdentifier",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Location",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MaterialIdentifier",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat_v2:ConfigurationRulesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2;i=1063",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Glass_Flat_v2:ConfigurationRulesType:dataType:FileFormatDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2;i=3007",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Name",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "FileExtension",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Version",
+            "schema": "string"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Glass_Flat_v2:ConfigurationRulesType:dataType:CoordinateSystemEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2;i=3008",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Unknown",
+            "enumValue": 0
+          },
+          {
+            "name": "System1",
+            "enumValue": 1
+          },
+          {
+            "name": "System2",
+            "enumValue": 2
+          },
+          {
+            "name": "System3",
+            "enumValue": 3
+          },
+          {
+            "name": "System4",
+            "enumValue": 4
+          },
+          {
+            "name": "System5",
+            "enumValue": 5
+          },
+          {
+            "name": "System6",
+            "enumValue": 6
+          },
+          {
+            "name": "System7",
+            "enumValue": 7
+          },
+          {
+            "name": "System8",
+            "enumValue": 8
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AllowedEngineeringUnits",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AllowedFileFormats",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:Glass_Flat_v2:ConfigurationRulesType:dataType:FileFormatDataType;1"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MachineProcessingCoordinateSystem",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "schema": "dtmi:opcua:Glass_Flat_v2:ConfigurationRulesType:dataType:CoordinateSystemEnumeration;1",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2;i=1020",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:UserProfileDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2;i=3006",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Name",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LoginTime",
+            "schema": "dateTime"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Language",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "MeasurementFormat",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "AccessLevel",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "OpcUaUser",
+            "schema": "boolean"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:ProcessingCategoryDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2;i=3014",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ID",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Description",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SupportedParameter",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:ProcessingParameterDataType;1"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SupportedAssignment",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "string"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SupportedVariable",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:ProcessingParameterDataType;1"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SupportsTransformation",
+            "schema": "integer"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SupportsSubProcessing",
+            "schema": "integer"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:ProcessingParameterDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2;i=3011",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Name",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Description",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ValueType",
+            "schema": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:ValueDataType;1"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TypicalValue",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Mandatory",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "EClass",
+            "schema": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:EClassTermDataType;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:ValueDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2;i=3020",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Name",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Description",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "BaseUnit",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "PossibleValue",
+            "schema": "string"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:EClassTermDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2;i=3017",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ID",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Description",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "EClass",
+            "schema": "string"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LoggedInProfiles",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:UserProfileDataType;1"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProcessingCategories",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:ProcessingCategoryDataType;1"
+        },
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat_v2:ManualFolderType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2;i=1041",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ExternalManuals",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LocalManuals",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Glass_Flat_v2:GlassMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2;i=1015",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ConfigurationRules",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "target": "dtmi:opcua:Glass_Flat_v2:ConfigurationRulesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FileSystem",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineryBuildingBlocks",
+        "namespace": "http://opcfoundation.org/UA/Machinery"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MaintenanceManuals",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "target": "dtmi:opcua:Glass_Flat_v2:ManualFolderType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "OperationManuals",
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "target": "dtmi:opcua:Glass_Flat_v2:ManualFolderType"
+      }
+    ]
+  }
+]

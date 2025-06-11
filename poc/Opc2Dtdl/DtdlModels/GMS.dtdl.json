@@ -1,0 +1,931 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:SensorWarningAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1010",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ErrorCode",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "string",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:IntermediateResultEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Machinery_Result:ResultReadyEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1001",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProgramName",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Characteristics",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "target": "dtmi:opcua:GMS:CharacteristicType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:MultiSensorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:MultiToolType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1012",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:GMS:MultiSensorType:dataType:ToolAlignmentState;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=3004",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Fixed",
+            "enumValue": 0
+          },
+          {
+            "name": "Indexed",
+            "enumValue": 1
+          },
+          {
+            "name": "Continuous",
+            "enumValue": 2
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Alignment",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "dtmi:opcua:GMS:MultiSensorType:dataType:ToolAlignmentState;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Axes",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:SensorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:ToolType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:GMS:SensorType:dataType:ToolAlignmentState;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=3004",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Fixed",
+            "enumValue": 0
+          },
+          {
+            "name": "Indexed",
+            "enumValue": 1
+          },
+          {
+            "name": "Continuous",
+            "enumValue": 2
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:GMS:SensorType:dataType:ToolIsQualifiedStatus;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=3002",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Qualified",
+            "enumValue": 0
+          },
+          {
+            "name": "Imprecise",
+            "enumValue": 1
+          },
+          {
+            "name": "NotQualified",
+            "enumValue": 2
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AbsoluteProbe",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Alignment",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "dtmi:opcua:GMS:SensorType:dataType:ToolAlignmentState;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Axes",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "EngineeringUnit",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsQualifiedStatus",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "dtmi:opcua:GMS:SensorType:dataType:ToolIsQualifiedStatus;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MeasuringRange",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "double",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Resolution",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "double",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "WorkingRange",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "double",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Capabilities",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "unsignedInteger"
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Class",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "unsignedInteger"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:CharacteristicType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:GMS:CharacteristicType:dataType:ResultEvaluationEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=3002",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Undefined",
+            "enumValue": 0
+          },
+          {
+            "name": "OK",
+            "enumValue": 1
+          },
+          {
+            "name": "NotOK",
+            "enumValue": 2
+          },
+          {
+            "name": "NotDecidable",
+            "enumValue": 3
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CharacteristicIdentifier",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CharacteristicsClass",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "unsignedByte",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Formula",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsValid",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ResultEvaluation",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "dtmi:opcua:GMS:CharacteristicType:dataType:ResultEvaluationEnum;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LowerToleranceLimit",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Nominal",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ResultValue",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "UpperToleranceLimit",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:CorrectionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1005",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CharacteristicIdentifier",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Description",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Identifier",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProgramName",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CorrectionValueAbsolute",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CorrectionValueRelative",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LowerControlLimit",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "UpperControlLimit",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:LoadingMonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1014",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "IsInLoadingPosition",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LoadStatus",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "unsignedInteger"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:ToolMonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ActiveTool",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:GMSEquipmentType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:EquipmentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Accessories",
+        "namespace": "http://opcfoundation.org/UA/GMS"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AdditionalSensor",
+        "namespace": "http://opcfoundation.org/UA/GMS"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:GMSIdentificationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:MachineToolIdentificationType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1011",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SubDeviceClass",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Workspace",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "bytes",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:GMSType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:MachineToolType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ResultManagement",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "target": "dtmi:opcua:GMS:GMSResultManagementType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:GMSMonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:MonitoringType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LoadingMonitoring",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "target": "dtmi:opcua:GMS:LoadingMonitoringType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ToolMonitoring",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "target": "dtmi:opcua:GMS:ToolMonitoringType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:GMSJobType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:ProductionJobType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1016",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:GMS:GMSJobType:dataType:MeasurementReasonEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=3009",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "ContinuousMeasurements",
+            "enumValue": 0
+          },
+          {
+            "name": "SpecialMeasurement",
+            "enumValue": 1
+          },
+          {
+            "name": "AuditMeasurement",
+            "enumValue": 2
+          },
+          {
+            "name": "MinMastering",
+            "enumValue": 3
+          },
+          {
+            "name": "MedMastering",
+            "enumValue": 4
+          },
+          {
+            "name": "MaxMastering",
+            "enumValue": 5
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BatchIdentifier",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Duration",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "duration",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MeasurementReason",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "dtmi:opcua:GMS:GMSJobType:dataType:MeasurementReasonEnum;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "RemainingTime",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "duration",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:GMSPartType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:ProductionPartType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1017",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PartAmendmentStatus",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PartDescription",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProductionNumber",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NestIdentifier",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Operator",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PartCarrierIdentifier",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ProcessingMachineIdentifier",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ProcessParameter",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "integer"
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:CalibrationPrognosisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1019",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Calibrated",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CalibrationCertificate",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CalibrationInterval",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "duration",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CalibrationPreptime",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "duration",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DateOfCalibration",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "time",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:GMSResultManagementType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Machinery_Result:ResultManagementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CorrectionsFolder",
+        "namespace": "http://opcfoundation.org/UA/GMS"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:RotaryTableType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1018",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsIntegrated",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberOfAxes",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "unsignedByte",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:SensorExchangeRackType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1015",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsAvailable",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "boolean",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:GMS:TipExchangeRackType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1022",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsAvailable",
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "schema": "boolean",
+        "writable": true
+      }
+    ]
+  }
+]

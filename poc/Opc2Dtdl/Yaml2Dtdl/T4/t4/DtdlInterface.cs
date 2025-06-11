@@ -23,39 +23,39 @@ namespace Yaml2Dtdl
         public virtual string TransformText()
         {
  int ix; 
-            this.Write(@"{
-  ""@context"": [
-    ""dtmi:dtdl:context;4#limitless"",
-    ""dtmi:dtdl:limits:onvif;1"",
-    ""dtmi:dtdl:extension:quantitativeTypes;2"",
-    ""dtmi:dtdl:extension:mqtt;4"",
-    ""dtmi:dtdl:extension:opcua;1"",
-    ""dtmi:dtdl:extension:historization;2"",
-    ""dtmi:dtdl:extension:requirement;1""
-  ],
-  ""@id"": """);
+            this.Write(@"  {
+    ""@context"": [
+      ""dtmi:dtdl:context;4#limitless"",
+      ""dtmi:dtdl:limits:onvif;1"",
+      ""dtmi:dtdl:extension:quantitativeTypes;2"",
+      ""dtmi:dtdl:extension:mqtt;4"",
+      ""dtmi:dtdl:extension:opcua;1"",
+      ""dtmi:dtdl:extension:historization;2"",
+      ""dtmi:dtdl:extension:requirement;1""
+    ],
+    ""@id"": """);
             this.Write(this.ToStringHelper.ToStringWithCulture(this.modelId));
-            this.Write(";1\",\r\n  \"@type\": [ \"Interface\", \"Mqtt\", \"Congruence\" ],\r\n");
+            this.Write(";1\",\r\n    \"@type\": [ \"Interface\", \"Mqtt\", \"Congruence\" ],\r\n");
  foreach (string supertypeId in this.supertypeIds) { 
-            this.Write("  \"extends\": \"");
+            this.Write("    \"extends\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(supertypeId));
             this.Write(";1\",\r\n");
  } 
-            this.Write("  \"typeRef\": \"");
+            this.Write("    \"typeRef\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetTypeRefFromNodeId(this.definedType.NodeId)));
             this.Write("\",\r\n");
  if (this.dtdlCommands.Count > 0) { 
-            this.Write("  \"commandTopic\": \"");
+            this.Write("    \"commandTopic\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.topicBase));
             this.Write("/{commandName}\",\r\n");
  } 
-            this.Write("  \"payloadFormat\": \"Json/ecma/404\",\r\n  \"schemas\": [\r\n");
+            this.Write("    \"payloadFormat\": \"Json/ecma/404\",\r\n    \"schemas\": [\r\n");
  ix = 1; foreach (DtdlDataType dtdlDataType in this.dtdlDataTypes) { 
             this.Write(this.ToStringHelper.ToStringWithCulture(dtdlDataType.TransformText()));
             this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.dtdlDataTypes.Count ? "," : ""));
             this.Write("\r\n");
  ix++; } 
-            this.Write("  ],\r\n  \"contents\": [\r\n");
+            this.Write("    ],\r\n    \"contents\": [\r\n");
  ix = 1; 
  foreach (DtdlProperty dtdlProperty in this.dtdlProperties) { 
             this.Write(this.ToStringHelper.ToStringWithCulture(dtdlProperty.TransformText()));
@@ -77,7 +77,9 @@ namespace Yaml2Dtdl
             this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.contentCount ? "," : ""));
             this.Write("\r\n");
  ix++; } 
-            this.Write("  ]\r\n}\r\n");
+            this.Write("    ]\r\n  }");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.appendComma ? "," : ""));
+            this.Write("\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }

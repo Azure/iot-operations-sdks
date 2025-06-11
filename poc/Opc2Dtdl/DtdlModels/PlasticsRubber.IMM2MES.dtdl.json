@@ -1,0 +1,415 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_IMM2MES:IMM_MES_InterfaceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.IMM2MES;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InjectionUnits",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "target": "dtmi:opcua:PlasticsRubber_IMM2MES:InjectionUnitsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Jobs",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineConfiguration",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineInformation",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineInformationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineMESConfiguration",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineMESConfigurationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineMESStatus",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineMESStatusType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineStatus",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineStatusType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Moulds",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MouldsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PowerUnits",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:PowerUnitsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProductionDatasetManagement",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_IMM2MES:InjectionUnitCycleParametersType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.IMM2MES;i=1039",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Index",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BackPressure",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CavityPressureMaximum",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CushionStroke",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CushionVolume",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DecompressionVolumeAfterPlastification",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DecompressionVolumeBeforePlastification",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DosingTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "duration"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FlowIndex",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "HoldHydraulicPressureAverage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "HoldHydraulicPressureMaximum",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "HoldSpecificPressureAverage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "HoldSpecificPressureMaximum",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "HydraulicPressureMaximum",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InjectionSpeedAverage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InjectionSpeedMaximum",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InjectionStartPosition",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InjectionTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "duration"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PlastificationCircumferentialSpeedAverage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PlastificationCircumferentialSpeedMaximum",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PlastificationHydraulicPressureAverage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PlastificationHydraulicPressureMaximum",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PlastificationRotationalSpeedAverage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PlastificationRotationalSpeedMaximum",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PlastificationSpecificPressureAverage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PlastificationSpecificPressureMaximum",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PlastificationVolume",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SpecificPressureMaximum",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TransferCavityPressure",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TransferHydraulicPressure",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TransferSpecificPressure",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TransferStroke",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TransferVolume",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "VPChangeOverPosition",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_IMM2MES:InjectionUnitsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.IMM2MES;i=1016",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InjectionUnit_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "target": "dtmi:opcua:PlasticsRubber_IMM2MES:InjectionUnitType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_IMM2MES:InjectionUnitType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.IMM2MES;i=1028",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BarrelId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Index",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "InProduction",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsPresent",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ScrewId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MaxScrewStroke",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ScrewDiameter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ScrewVolume",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "TemperatureZones",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZonesType"
+      }
+    ]
+  }
+]

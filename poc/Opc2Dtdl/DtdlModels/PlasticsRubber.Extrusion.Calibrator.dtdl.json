@@ -1,0 +1,196 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Calibrator:CalibrationZonesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CalibrationZone_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_Calibrator:CalibrationZoneType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaterFlowIn",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaterFlowOut",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaterTemperatureIn",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaterTemperatureOut",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Calibrator:CalibrationZoneType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsPresent",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Position",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AdditionalMeasuringDevices",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AirShowerPressure",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Vacuum",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "VacuumPumps",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DrivesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaterFlow",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaterLevel",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaterPumps",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DrivesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaterTemperature",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Calibrator:Calibrator_InterfaceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionDeviceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CalibrationZones",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_Calibrator:CalibrationZonesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PositionsPipeSupport",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PositionsX",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PositionsY",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PositionZ",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+      }
+    ]
+  }
+]

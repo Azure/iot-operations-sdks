@@ -1,0 +1,1670 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:AnalyserDeviceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:DeviceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1001",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Configuration",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FactorySettings",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AnalyserStateMachine",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:ADI:AnalyserDeviceStateMachineType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ChannelIdentifier",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:ADI:AnalyserChannelType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AccessorySlotIdentifier",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:ADI:AccessorySlotType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:AnalyserDeviceStateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Powerup",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Operating",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Local",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Maintenance",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Shutdown",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PowerupToOperatingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "OperatingToLocalTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "OperatingToMaintenanceTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LocalToOperatingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LocalToMaintenanceTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MaintenanceToOperatingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MaintenanceToLocalTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "OperatingToShutdownTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LocalToShutdownTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MaintenanceToShutdownTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:AnalyserChannelType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:TopologyElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Configuration",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ChannelStateMachine",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:ADI:AnalyserChannelStateMachineType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "StreamIdentifier",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:ADI:StreamType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AccessorySlotIdentifier",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:ADI:AccessorySlotType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:AnalyserChannelOperatingStateType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:AnalyserChannelLocalStateType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1005",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:AnalyserChannelMaintenanceStateType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:AnalyserChannelStateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "OperatingSubStateMachine",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:ADI:AnalyserChannel_OperatingModeSubStateMachineType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LocalSubStateMachine",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MaintenanceSubStateMachine",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SlaveMode",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Operating",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:ADI:AnalyserChannelOperatingStateType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Local",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:ADI:AnalyserChannelLocalStateType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Maintenance",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:ADI:AnalyserChannelMaintenanceStateType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SlaveModeToOperatingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "OperatingToLocalTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "OperatingToMaintenanceTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LocalToOperatingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LocalToMaintenanceTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MaintenanceToOperatingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MaintenanceToLocalTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "OperatingToSlaveModeTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LocalToSlaveModeTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MaintenanceToSlaveModeTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:AnalyserChannelOperatingExecuteStateType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=8964",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:AnalyserChannel_OperatingModeSubStateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "OperatingExecuteSubStateMachine",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:ADI:AnalyserChannel_OperatingModeExecuteSubStateMachineType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Stopped",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Resetting",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Idle",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Starting",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Execute",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:ADI:AnalyserChannelOperatingExecuteStateType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Completing",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Complete",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Suspending",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Suspended",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Unsuspending",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Holding",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Held",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Unholding",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Stopping",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Aborting",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Aborted",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Clearing",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "StoppedToResettingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ResettingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ResettingToIdleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "IdleToStartingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "StartingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "StartingToExecuteTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ExecuteToCompletingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CompletingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CompletingToCompleteTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CompleteToStoppedTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ExecuteToHoldingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "HoldingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "HoldingToHeldTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "HeldToUnholdingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "UnholdingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "UnholdingToHoldingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "UnholdingToExecuteTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ExecuteToSuspendingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SuspendingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SuspendingToSuspendedTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SuspendedToUnsuspendingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "UnsuspendingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "UnsuspendingToSuspendingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "UnsuspendingToExecuteTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "StoppingToStoppedTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AbortingToAbortedTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AbortedToClearingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ClearingToStoppedTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ResettingToStoppingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "IdleToStoppingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "StartingToStoppingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ExecuteToStoppingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CompletingToStoppingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CompleteToStoppingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SuspendingToStoppingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SuspendedToStoppingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "UnsuspendingToStoppingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "HoldingToStoppingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "HeldToStoppingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "UnholdingToStoppingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "StoppedToAbortingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ResettingToAbortingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "IdleToAbortingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "StartingToAbortingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ExecuteToAbortingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CompletingToAbortingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CompleteToAbortingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SuspendingToAbortingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SuspendedToAbortingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "UnsuspendingToAbortingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "HoldingToAbortingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "HeldToAbortingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "UnholdingToAbortingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "StoppingToAbortingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:AnalyserChannel_OperatingModeExecuteSubStateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SelectExecutionCycle",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaitForCalibrationTrigger",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ExtractCalibrationSample",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PrepareCalibrationSample",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AnalyseCalibrationSample",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaitForValidationTrigger",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ExtractValidationSample",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PrepareValidationSample",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AnalyseValidationSample",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaitForSampleTrigger",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ExtractSample",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PrepareSample",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AnalyseSample",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaitForDiagnosticTrigger",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Diagnostic",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaitForCleaningTrigger",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Cleaning",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PublishResults",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EjectGrabSample",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CleanupSamplingSystem",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SelectExecutionCycleToWaitForCalibrationTriggerTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaitForCalibrationTriggerToExtractCalibrationSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ExtractCalibrationSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ExtractCalibrationSampleToPrepareCalibrationSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PrepareCalibrationSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PrepareCalibrationSampleToAnalyseCalibrationSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AnalyseCalibrationSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AnalyseCalibrationSampleToPublishResultsTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SelectExecutionCycleToWaitForValidationTriggerTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaitForValidationTriggerToExtractValidationSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ExtractValidationSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ExtractValidationSampleToPrepareValidationSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PrepareValidationSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PrepareValidationSampleToAnalyseValidationSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AnalyseValidationSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AnalyseValidationSampleToPublishResultsTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SelectExecutionCycleToWaitForSampleTriggerTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaitForSampleTriggerToExtractSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ExtractSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ExtractSampleToPrepareSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PrepareSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PrepareSampleToAnalyseSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AnalyseSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AnalyseSampleToPublishResultsTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SelectExecutionCycleToWaitForDiagnosticTriggerTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaitForDiagnosticTriggerToDiagnosticTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DiagnosticTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DiagnosticToPublishResultsTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SelectExecutionCycleToWaitForCleaningTriggerTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaitForCleaningTriggerToCleaningTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CleaningTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CleaningToPublishResultsTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PublishResultsToCleanupSamplingSystemTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PublishResultsToEjectGrabSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EjectGrabSampleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EjectGrabSampleToCleanupSamplingSystemTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CleanupSamplingSystemTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CleanupSamplingSystemToSelectExecutionCycleTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:StreamType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:TopologyElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1010",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Configuration",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AcquisitionSettings",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AcquisitionStatus",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AcquisitionData",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ChemometricModelSettings",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Context",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:SpectrometerDeviceStreamType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:ADI:StreamType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1030",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FactorySettings",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:MassSpectrometerDeviceStreamType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:ADI:StreamType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1031",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:ParticleSizeMonitorDeviceStreamType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:ADI:StreamType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1032",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:AcousticSpectrometerDeviceStreamType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:ADI:StreamType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1033",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:ChromatographDeviceStreamType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:ADI:StreamType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1034",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:MNRDeviceStreamType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:ADI:StreamType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1035",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:SpectrometerDeviceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1011",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:ParticleSizeMonitorDeviceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1012",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:ChromatographDeviceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1013",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:MassSpectrometerDeviceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1014",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:AcousticSpectrometerDeviceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1015",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:NMRDeviceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1016",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:AccessorySlotType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:ConfigurableObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1017",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsHotSwappable",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsEnabled",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AccessorySlotStateMachine",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:ADI:AccessorySlotStateMachineType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AccessoryIdentifier",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:ADI:AccessoryType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:AccessorySlotStateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1018",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Powerup",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Empty",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Inserting",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Installed",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Removing",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Shutdown",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PowerupToEmptyTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EmptyToInsertingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InsertingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InsertingToRemovingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InsertingToInstalledTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InstalledToRemovingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "RemovingTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "RemovingToEmptyTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EmptyToShutdownTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InsertingToShutdownTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InstalledToShutdownTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "RemovingToShutdownTransition",
+        "namespace": "http://opcfoundation.org/UA/ADI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:AccessoryType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:TopologyElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1019",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsHotSwappable",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsReady",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Configuration",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FactorySettings",
+        "namespace": "http://opcfoundation.org/UA/ADI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:DetectorType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:ADI:AccessoryType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=9350",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:SmartSamplingSystemType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:ADI:AccessoryType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=9359",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:SourceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:ADI:AccessoryType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=9368",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:ADI:GcOvenType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:ADI:AccessoryType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1020",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  }
+]

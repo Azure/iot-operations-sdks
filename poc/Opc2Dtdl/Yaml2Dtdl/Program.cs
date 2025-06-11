@@ -72,6 +72,11 @@
             string coreYamlFileText = File.ReadAllText(coreYamlFilePath);
             OpcUaDigest coreOpcUaDigest = deserializer.Deserialize<OpcUaDigest>(coreYamlFileText);
 
+            if (!Directory.Exists(destRoot))
+            {
+                Directory.CreateDirectory(destRoot);
+            }
+
             foreach (string yamlFilePath in Directory.GetFiles(sourceRoot, $"*{sourceFileSuffix}"))
             {
                 if (Path.GetFileName(yamlFilePath) == coreYamlFileName)
@@ -93,12 +98,9 @@
             Console.WriteLine();
             Console.WriteLine("Parsing models to validate correctness....");
 
-            foreach (string modelFolderPath in Directory.GetDirectories(destRoot))
+            foreach (string modelFilePath in Directory.GetFiles(destRoot, $"*{destFileSuffix}"))
             {
-                foreach (string modelFilePath in Directory.GetFiles(modelFolderPath, $"*{destFileSuffix}"))
-                {
-                    CheckDtdl(modelFilePath, invalidModels, unrecognizedTypes, undefinedIdentifiers, modelParser, maxErrors);
-                }
+                CheckDtdl(modelFilePath, invalidModels, unrecognizedTypes, undefinedIdentifiers, modelParser, maxErrors);
             }
 
             if (invalidModels.Count > 0)
@@ -151,29 +153,29 @@
             string yamlFileText = File.ReadAllText(yamlFilePath);
             OpcUaDigest opcUaDigest = deserializer.Deserialize<OpcUaDigest>(yamlFileText);
 
-            string outFolderPath = Path.Combine(destRoot, specName);
-            if (!Directory.Exists(outFolderPath))
-            {
-                Directory.CreateDirectory(outFolderPath);
-            }
-
             if (opcUaDigest.DefinedTypes != null)
             {
-                foreach (KeyValuePair<string, OpcUaDefinedType> definedType in opcUaDigest.DefinedTypes)
+                string outFilePath = Path.Combine(destRoot, $"{specName}{destFileSuffix}");
+                Console.WriteLine($"  Writing file {outFilePath}");
+
+                using (StreamWriter outputFile = new StreamWriter(outFilePath))
                 {
-                    string modelId = TypeConverter.GetModelId(definedType.Value);
-                    string outFileName = $"{TypeConverter.Dequalify(definedType.Key)}{destFileSuffix}";
-                    string outFilePath = Path.Combine(outFolderPath, outFileName);
+                    outputFile.WriteLine("[");
 
-                    DtdlInterface dtdlInterface = new DtdlInterface(modelId, definedType.Value, opcUaDigest.DataTypes, coreOpcUaDigest.DataTypes, unitTypesDict);
-                    string jsonText = dtdlInterface.TransformText();
-
-                    Console.WriteLine($"  Writing file {outFilePath}");
-
-                    using (StreamWriter outputFile = new StreamWriter(outFilePath))
+                    int ix = 1;
+                    foreach (KeyValuePair<string, OpcUaDefinedType> definedType in opcUaDigest.DefinedTypes)
                     {
+                        string modelId = TypeConverter.GetModelId(definedType.Value);
+                        bool appendComma = ix < opcUaDigest.DefinedTypes.Count;
+                        DtdlInterface dtdlInterface = new DtdlInterface(modelId, definedType.Value, opcUaDigest.DataTypes, coreOpcUaDigest.DataTypes, unitTypesDict, appendComma);
+                        string jsonText = dtdlInterface.TransformText();
+
                         outputFile.Write(jsonText);
+
+                        ix++;
                     }
+
+                    outputFile.WriteLine("]");
                 }
             }
         }

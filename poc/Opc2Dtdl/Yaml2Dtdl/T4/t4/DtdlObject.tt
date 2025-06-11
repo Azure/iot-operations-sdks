@@ -1,16 +1,16 @@
 ﻿<#@ template language="C#" linePragmas="false" #>
 <#@ import namespace="System.Collections.Generic" #>
-    {
-      "@id": "<#=TypeConverter.GetDataTypeDtmiFromBrowseName(this.modelId, this.objType.BrowseName)#>",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "<#=TypeConverter.GetTypeRefFromNodeId(this.objType.NodeId)#>",
-      "fields": [
+      {
+        "@id": "<#=TypeConverter.GetDataTypeDtmiFromBrowseName(this.modelId, this.objType.BrowseName)#>",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "<#=TypeConverter.GetTypeRefFromNodeId(this.objType.NodeId)#>",
+        "fields": [
 <# int ix = 1; foreach (KeyValuePair<string, (string, int)> field in this.objType.Fields) { #>
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "<#=TypeConverter.LegalizeName(field.Key)#>",
-          "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, field.Value.Item1, field.Value.Item2, 10)#>
-        }<#=ix < this.objType.Fields.Count ? "," : ""#>
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "<#=TypeConverter.LegalizeName(field.Key)#>",
+            "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, field.Value.Item1, field.Value.Item2, 12)#>
+          }<#=ix < this.objType.Fields.Count ? "," : ""#>
 <# ix++; } #>
-      ]
-    }
+        ]
+      }

@@ -61,6 +61,7 @@ namespace Yaml2Dtdl
         public IEnumerable<string> Resolve(IReadOnlyCollection<Dtmi> dtmis)
         {
             var refJsonTexts = new List<string>();
+            HashSet<string> modelFilePaths = new ();
 
             foreach (Dtmi dtmi in dtmis)
             {
@@ -95,10 +96,11 @@ namespace Yaml2Dtdl
                         modelFilePath = Path.Combine(modelFolderPath, modelFileName);
                     }
 
-                    if (File.Exists(modelFilePath))
+                    if (File.Exists(modelFilePath) && !modelFilePaths.Contains(modelFilePath))
                     {
                         string jsonText = File.ReadAllText(modelFilePath);
                         refJsonTexts.Add(jsonText);
+                        modelFilePaths.Add(modelFilePath);
                     }
                 }
             }

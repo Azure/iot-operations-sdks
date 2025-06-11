@@ -3,43 +3,43 @@
 <#@ import namespace="OpcUaDigest" #>
 <#@ import namespace="SpecMapper" #>
 <# (string, string) unitInfo; #>
-    {
-      "@type": [ "<#=this.classType#>", <#=this.GetCotypes(null)#> ],
-      "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))#>",
-      "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>",
+      {
+        "@type": [ "<#=this.classType#>", <#=this.GetCotypes(null)#> ],
+        "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))#>",
+        "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>",
 <# if (this.SubVars.Count == 0) { #>
 <# if (this.TryGetUnitInfo(null, out unitInfo) && !this.definedType.BrowseName.Contains('<')) { #>
-      "unit": "<#=unitInfo.Item2#>",
+        "unit": "<#=unitInfo.Item2#>",
 <# } #>
-      "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.definedType.Datatype, this.definedType.ValueRank, definedType.BrowseName, unitInfo, 6)#><#=this.isWritable != null ? "," : ""#>
+        "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.definedType.Datatype, this.definedType.ValueRank, definedType.BrowseName, unitInfo, 8)#><#=this.isWritable != null ? "," : ""#>
 <# } else { #>
-      "schema": {
-        "@type": [ "Object", "Detail" ],
-        "fields": [
-          {
-            "@type": [ "Field", "Subject", <#=this.GetCotypes(this.definedType)#> ],
-            "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))#>",
-            "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", <#=this.GetCotypes(this.definedType)#> ],
+              "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))#>",
+              "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>",
 <# if (this.TryGetUnitInfo(this.definedType, out unitInfo) && !this.definedType.BrowseName.Contains('<')) { #>
-            "unit": "<#=unitInfo.Item2#>",
+              "unit": "<#=unitInfo.Item2#>",
 <# } #>
-            "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.definedType.Datatype, this.definedType.ValueRank, definedType.BrowseName, unitInfo, 12)#>
-          },
+              "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.definedType.Datatype, this.definedType.ValueRank, definedType.BrowseName, unitInfo, 14)#>
+            },
 <# int ix = 1; foreach (OpcUaDefinedType subVar in this.SubVars) { #>
-          {
-            "@type": [ "Field", <#=this.GetCotypes(subVar)#> ],
-            "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(subVar.BrowseName)))#>",
-            "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(subVar))#>",
+            {
+              "@type": [ "Field", <#=this.GetCotypes(subVar)#> ],
+              "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(subVar.BrowseName)))#>",
+              "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(subVar))#>",
 <# if (this.TryGetUnitInfo(subVar, out unitInfo)) { #>
-            "unit": "<#=unitInfo.Item2#>",
+              "unit": "<#=unitInfo.Item2#>",
 <# } #>
-            "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, subVar.Datatype, subVar.ValueRank, 12)#>
-          }<#=ix < this.SubVars.Count ? "," : ""#>
+              "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, subVar.Datatype, subVar.ValueRank, 14)#>
+            }<#=ix < this.SubVars.Count ? "," : ""#>
 <# ix++; } #>
-        ]
-      }<#=this.isWritable != null ? "," : ""#>
+          ]
+        }<#=this.isWritable != null ? "," : ""#>
 <# } #>
 <# if (this.isWritable != null) { #>
-      "writable": <#=(bool)this.isWritable ? "true" : "false"#>
+        "writable": <#=(bool)this.isWritable ? "true" : "false"#>
 <# } #>
-    }
+      }

@@ -1,0 +1,2394 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:OperatorConditionClassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=47",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ClampingConditionClassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=48",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ManualProcessStepConditionClassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=52",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:MeasurementConditionClassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=53",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:PartMissingConditionClassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=54",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProcessIrregularityConditionClassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=55",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ToolBreakageConditionClassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=57",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ToolChangeConditionClassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=58",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:UtilityConditionClassType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=60",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:AlertType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=39",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ErrorCode",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:InterruptionConditionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=19",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsAutomated",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:NotificationEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=35",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Identifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProductionJobTransitionEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=31",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CustomerOrderIdentifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Identifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OrderIdentifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RunsCompleted",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RunsPlanned",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "unsignedInteger"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=27",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType:dataType:PartQuality;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=63",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "CapabilityUnavailable",
+            "enumValue": 0
+          },
+          {
+            "name": "Good",
+            "enumValue": 1
+          },
+          {
+            "name": "Bad",
+            "enumValue": 2
+          },
+          {
+            "name": "NotYetMeasured",
+            "enumValue": 3
+          },
+          {
+            "name": "WillNotBeMeasured",
+            "enumValue": 4
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType:dataType:ProcessIrregularity;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=62",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "CapabilityUnavailable",
+            "enumValue": 0
+          },
+          {
+            "name": "Detected",
+            "enumValue": 1
+          },
+          {
+            "name": "NotDetected",
+            "enumValue": 2
+          },
+          {
+            "name": "NotYetDetermined",
+            "enumValue": 3
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CustomerOrderIdentifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Identifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JobIdentifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PartQuality",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType:dataType:PartQuality;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ProcessIrregularity",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType:dataType:ProcessIrregularity;1"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProductionProgramTransitionEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=17",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JobIdentifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:BaseToolType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=49",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Identifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Location",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:MultiToolType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:BaseToolType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=51",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Tool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:ToolType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ToolType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:BaseToolType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=50",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:MachineTool:ToolType:dataType:ToolManagement;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=69",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "NumberBased",
+            "enumValue": 0
+          },
+          {
+            "name": "GroupBased",
+            "enumValue": 1
+          },
+          {
+            "name": "Other",
+            "enumValue": 2
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ControlIdentifier1",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ControlIdentifier2",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ControlIdentifierInterpretation",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "dtmi:opcua:MachineTool:ToolType:dataType:ToolManagement;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LastUsage",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "time"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Locked",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PlannedForOperating",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ToolLife",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ChannelModifierType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=33",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BlockSkip",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DryRun",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OptionalStop",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SingleStep",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TestMode",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "boolean"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=23",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ChannelMonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=16",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:MachineTool:ChannelMonitoringType:dataType:ChannelMode;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=67",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Automatic",
+            "enumValue": 0
+          },
+          {
+            "name": "MdaMdi",
+            "enumValue": 1
+          },
+          {
+            "name": "JogManual",
+            "enumValue": 2
+          },
+          {
+            "name": "JogIncrement",
+            "enumValue": 3
+          },
+          {
+            "name": "TeachingHandle",
+            "enumValue": 4
+          },
+          {
+            "name": "Remote",
+            "enumValue": 5
+          },
+          {
+            "name": "Reference",
+            "enumValue": 6
+          },
+          {
+            "name": "Other",
+            "enumValue": 7
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:MachineTool:ChannelMonitoringType:dataType:ChannelState;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=64",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Active",
+            "enumValue": 0
+          },
+          {
+            "name": "Interrupted",
+            "enumValue": 1
+          },
+          {
+            "name": "Reset",
+            "enumValue": 2
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ChannelMode",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "dtmi:opcua:MachineTool:ChannelMonitoringType:dataType:ChannelMode;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ChannelState",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "dtmi:opcua:MachineTool:ChannelMonitoringType:dataType:ChannelState;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FeedOverride",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RapidOverride",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ChannelModifiers",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:ChannelModifierType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:CombinedChannelMonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:ChannelMonitoringType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=46",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=41",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:EDMGeneratorMonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=42",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:MachineTool:EDMGeneratorMonitoringType:dataType:EDMGeneratorState;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=71",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Undefined",
+            "enumValue": 0
+          },
+          {
+            "name": "Ready",
+            "enumValue": 1
+          },
+          {
+            "name": "Active_Low_Voltage",
+            "enumValue": 2
+          },
+          {
+            "name": "Active_High_Voltage",
+            "enumValue": 3
+          },
+          {
+            "name": "Error",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EDMGeneratorState",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "dtmi:opcua:MachineTool:EDMGeneratorMonitoringType:dataType:EDMGeneratorState;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "IsOn",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "boolean"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:LaserMonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=36",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:MachineTool:LaserMonitoringType:dataType:LaserState;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=70",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Undefined",
+            "enumValue": 0
+          },
+          {
+            "name": "Ready",
+            "enumValue": 1
+          },
+          {
+            "name": "Active",
+            "enumValue": 2
+          },
+          {
+            "name": "Error",
+            "enumValue": 3
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ControllerIsOn",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LaserState",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "dtmi:opcua:MachineTool:LaserMonitoringType:dataType:LaserState;1"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:SpindleMonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=22",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "IsRotating",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "IsUsedAsAxis",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Override",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:EquipmentType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=12",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Tools",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:ToolListType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:MachineToolIdentificationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=11",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SoftwareIdentification",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:MachineOperationMonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=26",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:MachineTool:MachineOperationMonitoringType:dataType:MachineOperationMode;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=65",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Manual",
+            "enumValue": 0
+          },
+          {
+            "name": "Automatic",
+            "enumValue": 1
+          },
+          {
+            "name": "Setup",
+            "enumValue": 2
+          },
+          {
+            "name": "AutoWithManualIntervention",
+            "enumValue": 3
+          },
+          {
+            "name": "Service",
+            "enumValue": 4
+          },
+          {
+            "name": "Other",
+            "enumValue": 5
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FeedOverride",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "IsWarmUp",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OperationMode",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "dtmi:opcua:MachineTool:MachineOperationMonitoringType:dataType:MachineOperationMode;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PowerOnDuration",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Obligation",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:ObligationType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:MachineToolType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=13",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Equipment",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:EquipmentType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FileSystem",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineryBuildingBlocks",
+        "namespace": "http://opcfoundation.org/UA/Machinery"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Monitoring",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:MonitoringType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Notification",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:NotificationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Production",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:ProductionType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:MessagesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=38",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:MonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=14",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MonitoredElement",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:ElementMonitoringType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:MachineOperationMonitoringType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Stacklight",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:IA:BasicStacklightType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:NotificationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=7",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Messages",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:MessagesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Prognoses",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:PrognosisListType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ObligationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EndUserObligated",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MachineBuilderObligated",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "boolean"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProductionJobListType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=30",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProductionJobType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=29",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CustomerOrderIdentifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Identifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberInList",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OrderIdentifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PartsCompleted",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PartsGood",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RunsCompleted",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RunsPlanned",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PartSets",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProductionPrograms",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "State",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:ProductionJobStateMachineType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProductionPartSetType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=34",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ContainsMixedParts",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PartsCompletedPerRun",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PartsPlannedPerRun",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PartsPerRun",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProductionPartType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=56",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:MachineTool:ProductionPartType:dataType:PartQuality;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=63",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "CapabilityUnavailable",
+            "enumValue": 0
+          },
+          {
+            "name": "Good",
+            "enumValue": 1
+          },
+          {
+            "name": "Bad",
+            "enumValue": 2
+          },
+          {
+            "name": "NotYetMeasured",
+            "enumValue": 3
+          },
+          {
+            "name": "WillNotBeMeasured",
+            "enumValue": 4
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:MachineTool:ProductionPartType:dataType:ProcessIrregularity;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=62",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "CapabilityUnavailable",
+            "enumValue": 0
+          },
+          {
+            "name": "Detected",
+            "enumValue": 1
+          },
+          {
+            "name": "NotDetected",
+            "enumValue": 2
+          },
+          {
+            "name": "NotYetDetermined",
+            "enumValue": 3
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CustomerOrderIdentifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Identifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PartQuality",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "dtmi:opcua:MachineTool:ProductionPartType:dataType:PartQuality;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ProcessIrregularity",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "dtmi:opcua:MachineTool:ProductionPartType:dataType:ProcessIrregularity;1"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "State",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:ProductionPartStateMachineType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProductionProgramType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=59",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumberInList",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "State",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:ProductionProgramStateMachineType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProductionActiveProgramType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:ProductionProgramType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=32",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "JobIdentifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "JobNodeId",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProductionStatisticsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=20",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PartsProducedInLifetime",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "unsignedInteger"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProductionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=21",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ActiveProgram",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:ProductionActiveProgramType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProductionPlan",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:ProductionJobListType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Statistics",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:ProductionStatisticsType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:PrognosisListType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=2",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Prognosis",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:PrognosisType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:PrognosisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=3",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PredictedTime",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "time",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:MaintenancePrognosisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=9",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Activity",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ManualActivityPrognosisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=10",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Activity",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:PartLoadPrognosisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=1",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Location",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PartIdentifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PartName",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PartNodeId",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:PartUnloadPrognosisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=5",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Location",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PartIdentifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PartName",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PartNodeId",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProcessChangeoverPrognosisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=8",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Activity",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Location",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProductionJobEndPrognosisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=37",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "JobNodeId",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SourceIdentifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ToolChangePrognosisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=45",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Location",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ToolIdentifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ToolName",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ToolNodeId",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ToolLoadPrognosisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=4",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Location",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ToolIdentifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ToolName",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ToolUnloadPrognosisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=18",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Location",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ToolIdentifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ToolName",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ToolNodeId",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:UtilityChangePrognosisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=6",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "UtilityName",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:SoftwareIdentificationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=43",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Identifier",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Manufacturer",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SoftwareRevision",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:MachineOperationModeStateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Machinery:MachineryOperationModeStateMachineType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MaintenanceMode",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:MaintenanceModeStateMachineType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:MaintenanceModeStateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Inspection",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Other",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Repair",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Service",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Upgrade",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProductionStateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=24",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CurrentState",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LastTransition",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Aborted",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AbortedToInitializing",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Ended",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "EndedToInitializing",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Initializing",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InitializingToAborted",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InitializingToRunning",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Interrupted",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InterruptedToAborted",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InterruptedToRunning",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Running",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "RunningToAborted",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "RunningToEnded",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "RunningToInterrupted",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "RunningToRunning",
+        "namespace": "http://opcfoundation.org/UA/MachineTool"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProductionJobStateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:ProductionStateMachineType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=28",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProductionPartStateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:ProductionStateMachineType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=40",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ProductionProgramStateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:ProductionStateMachineType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=15",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:MachineTool:ToolListType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=44",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Tool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:BaseToolType"
+      }
+    ]
+  }
+]

@@ -1,0 +1,575 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:TTD:TTDResultReadyEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Machinery_Result:ResultReadyEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:TTD:JobStatisticsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "EndTime",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "schema": "time",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StartTime",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "schema": "time",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "TotalInitializingTime",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "TotalInterruptedTime",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "TotalRunningTime",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "schema": "duration",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:TTD:MachineStatisticsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1012",
+    "commandTopic": "opcua/TTD/MachineStatisticsType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StartTime",
+        "namespace": "http://opcfoundation.org/UA/IA",
+        "schema": "dateTime",
+        "writable": true
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetStatistics",
+        "namespace": "http://opcfoundation.org/UA/IA"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:TTD:RecurrentPrognosisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Interval",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "schema": "time",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LastExecutionTime",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "schema": "time",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Activity",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:TTD:RecipeManagementType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1003",
+    "commandTopic": "opcua/TTD/RecipeManagementType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeIdDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3003",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Name",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Id",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Type",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Description",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Comment",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ModifiedDate",
+            "schema": "time"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Version",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Validated",
+            "schema": "boolean"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3018",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "RecipeId",
+            "schema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeIdDataType;1"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "RecipeContent",
+            "schema": "bytes"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ContentEncoding",
+            "schema": "string"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "RecipeIds",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeIdDataType;1"
+        },
+        "writable": true
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "DeleteRecipe",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "RecipeId",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "GetRecipe",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "RecipeId",
+                "schema": "string"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Recipe",
+                "schema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "GetRecipeIds",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "RecipeIds",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeIdDataType;1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "GetRecipes",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Recipes",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetRecipe",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Recipe",
+                "schema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Overwrite",
+                "schema": "boolean"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetRecipes",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Recipes",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1"
+                }
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Overwrite",
+                "schema": "boolean"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:TTD:TTDResultManagementType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:Machinery_Result:ResultManagementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:TTD:TextileTestingDeviceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1010",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:TTD:TextileTestingDeviceType:dataType:ExchangeablePartDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3006",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "PartType",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Mounted",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Traceable",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "PartId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "MachineReadable",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LastCalibrationDate",
+            "schema": "time"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:TTD:TextileTestingDeviceType:dataType:OptionalModuleDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3009",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ModuleName",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ModuleType",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "IsInstalled",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Version",
+            "schema": "string"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:TTD:TextileTestingDeviceType:dataType:TestProcedureIdDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3034",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TestProcedureId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Description",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ProcedureReferences",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "string"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "IsProcedureLicensed",
+            "schema": "boolean"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AvailableExchangeableParts",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:TTD:TextileTestingDeviceType:dataType:ExchangeablePartDataType;1"
+        },
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "InstalledTesterModules",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:TTD:TextileTestingDeviceType:dataType:OptionalModuleDataType;1"
+        },
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "TestProcedureIds",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:TTD:TextileTestingDeviceType:dataType:TestProcedureIdDataType;1"
+        },
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineStatistics",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "target": "dtmi:opcua:TTD:MachineStatisticsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Notification",
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:MachineTool:NotificationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "RecipeManagement",
+        "namespace": "http://opcfoundation.org/UA/TTD",
+        "target": "dtmi:opcua:TTD:RecipeManagementType"
+      }
+    ]
+  }
+]

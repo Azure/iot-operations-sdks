@@ -1,0 +1,134 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Calender:CouplingProductForcesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CouplingProductForce_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Calender:CouplingProductTensionsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CouplingProductTension_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Calender:Calender_InterfaceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionDeviceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CouplingProductForces",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Calender:CouplingProductForcesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CouplingProductTensions",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Calender:CouplingProductTensionsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Gaps",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:GapsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "HorizontalPosition",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProductForce",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProductTension",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Rolls",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",
+        "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:RollsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "VerticalPosition",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      }
+    ]
+  }
+]

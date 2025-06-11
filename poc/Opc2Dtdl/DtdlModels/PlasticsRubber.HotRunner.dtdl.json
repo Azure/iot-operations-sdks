@@ -1,0 +1,709 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_HotRunner:ZoneAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_HotRunner:ControllerType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1005",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_HotRunner:ControllerType:dataType:ControllerTypeEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=3002",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "CLOSED_LOOP_CONTROL",
+            "enumValue": 0
+          },
+          {
+            "name": "MANUAL",
+            "enumValue": 1
+          },
+          {
+            "name": "SYNCHRONOUS_ZONE",
+            "enumValue": 2
+          },
+          {
+            "name": "CASCADE",
+            "enumValue": 3
+          },
+          {
+            "name": "COOL_ZONE",
+            "enumValue": 4
+          },
+          {
+            "name": "MEASURING_ZONE",
+            "enumValue": 5
+          },
+          {
+            "name": "NOT_USED",
+            "enumValue": 6
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ActualType",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "dtmi:opcua:PlasticsRubber_HotRunner:ControllerType:dataType:ControllerTypeEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ActualValueActive",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AutomaticReferenceZoneSelection",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OutputTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "duration",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ReferenceZone",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "unsignedInteger",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SetValueActive",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualOutput",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AverageControllerOutput",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LowerOutput",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SetValueManualOutput",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SetValueType",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "UpperOutput",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "UpperSetValueCascade",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LoadCurrent",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "LoadPower",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_HotRunner:HeatUpType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "EvenHeatUpEnabled",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ManualOutputLimitActive",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "RelayHeatingGroup",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "unsignedByte",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "RelayHeatingTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "duration",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SetValueManualOutputLimit",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SetValueTemperature",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_HotRunner:HRD_InterfaceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1010",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DisplayLanguage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Diagnostics",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosticsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Identification",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:IdentificationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MachineConfiguration",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MaintenanceInformation",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "target": "dtmi:opcua:PlasticsRubber_HotRunner:MaintenanceInformationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Operation",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "target": "dtmi:opcua:PlasticsRubber_HotRunner:OperationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Zones",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "target": "dtmi:opcua:PlasticsRubber_HotRunner:ZonesType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_HotRunner:MaintenanceInformationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CoolingFan",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Heating",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SafetyTest",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_HotRunner:HRDTemperatureType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1011",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_HotRunner:HRDTemperatureType:dataType:TimeMethodPIDParametersDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=3005",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Xp",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Tn",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Tv",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Ts",
+            "schema": "double"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BoostTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "duration",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "TimeMethodPIDParameters",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:PlasticsRubber_HotRunner:HRDTemperatureType:dataType:TimeMethodPIDParametersDataType;1"
+        },
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActiveSetValue",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BoostSetValue",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SecondSetValue",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "StandbySetValue",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_HotRunner:OperationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1009",
+    "commandTopic": "opcua/PlasticsRubber_HotRunner/OperationType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_HotRunner:OperationType:dataType:ClassifiedActiveErrorDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3003",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SourceNodes",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "string"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Classification",
+            "schema": "unsignedShort"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DeviceMappingNumber",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "unsignedInteger",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "EnablePower",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "HighestActiveAlarmSeverity",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SessionNameForReactionOnDisconnect",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActiveErrors",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:PlasticsRubber_HotRunner:OperationType:dataType:ClassifiedActiveErrorDataType;1"
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActiveSetValues",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EvenHeatUpMaxTemperatureDifference",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ReactionOnDisconnect",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "IdentifyDevice",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetAllErrors",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetErrorById",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetReactionOnDisconnect",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ReactionOnDisconnect",
+                "schema": "unsignedShort"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_HotRunner:TemperatureRiseMonitoringType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ErrorDetected",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SetValueActive",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SupervisionTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "duration",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SetValueTemperatureChange",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_HotRunner:ZonesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Zone_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "target": "dtmi:opcua:PlasticsRubber_HotRunner:ZoneType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_HotRunner:ZoneType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "HighestActiveAlarmSeverity",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "unsignedShort",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CommunicationProtocolType",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ThermocoupleType",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Controller",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "target": "dtmi:opcua:PlasticsRubber_HotRunner:ControllerType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "HeatUp",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "target": "dtmi:opcua:PlasticsRubber_HotRunner:HeatUpType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Temperature",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "target": "dtmi:opcua:PlasticsRubber_HotRunner:HRDTemperatureType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "TemperatureRiseMonitoring",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+        "target": "dtmi:opcua:PlasticsRubber_HotRunner:TemperatureRiseMonitoringType"
+      }
+    ]
+  }
+]

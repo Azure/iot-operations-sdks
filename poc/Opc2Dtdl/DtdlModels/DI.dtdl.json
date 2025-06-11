@@ -1,0 +1,2091 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:TopologyElementType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=1001",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ParameterSet",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MethodSet",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "GroupIdentifier",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Identification",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Lock",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:LockingServicesType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:IVendorNameplateType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15035",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Manufacturer",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ManufacturerUri",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Model",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "HardwareRevision",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SoftwareRevision",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DeviceRevision",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProductCode",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DeviceManual",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DeviceClass",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SerialNumber",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProductInstanceUri",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "RevisionCounter",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "integer",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SoftwareReleaseDate",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "dateTime",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PatchIdentifiers",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:ITagNameplateType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15048",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AssetId",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ComponentName",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:IDeviceHealthType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15051",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:DI:IDeviceHealthType:dataType:DeviceHealthEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6244",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "NORMAL",
+            "enumValue": 0
+          },
+          {
+            "name": "FAILURE",
+            "enumValue": 1
+          },
+          {
+            "name": "CHECK_FUNCTION",
+            "enumValue": 2
+          },
+          {
+            "name": "OFF_SPEC",
+            "enumValue": 3
+          },
+          {
+            "name": "MAINTENANCE_REQUIRED",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DeviceHealth",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "dtmi:opcua:DI:IDeviceHealthType:dataType:DeviceHealthEnumeration;1"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DeviceHealthAlarms",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:ISupportInfoType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15054",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DeviceTypeImage",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Documentation",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DocumentationFiles",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProtocolSupport",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ImageSet",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:ComponentType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:TopologyElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15063",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Manufacturer",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ManufacturerUri",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Model",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "HardwareRevision",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SoftwareRevision",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DeviceRevision",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProductCode",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DeviceManual",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DeviceClass",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SerialNumber",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProductInstanceUri",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "RevisionCounter",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "integer",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AssetId",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ComponentName",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:DeviceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:ComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:DI:DeviceType:dataType:DeviceHealthEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6244",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "NORMAL",
+            "enumValue": 0
+          },
+          {
+            "name": "FAILURE",
+            "enumValue": 1
+          },
+          {
+            "name": "CHECK_FUNCTION",
+            "enumValue": 2
+          },
+          {
+            "name": "OFF_SPEC",
+            "enumValue": 3
+          },
+          {
+            "name": "MAINTENANCE_REQUIRED",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DeviceHealth",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "dtmi:opcua:DI:DeviceType:dataType:DeviceHealthEnumeration;1"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CPIdentifier",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:ConnectionPointType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DeviceHealthAlarms",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "DeviceTypeImage",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Documentation",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProtocolSupport",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ImageSet",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:SoftwareType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:ComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15106",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:BlockType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:TopologyElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=1003",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "RevisionCounter",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "integer",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ActualMode",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PermittedMode",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NormalMode",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "TargetMode",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:DeviceHealthDiagnosticAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15143",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:FailureAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:DeviceHealthDiagnosticAlarmType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15292",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:CheckFunctionAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:DeviceHealthDiagnosticAlarmType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15441",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:OffSpecAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:DeviceHealthDiagnosticAlarmType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15590",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:MaintenanceRequiredAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:DeviceHealthDiagnosticAlarmType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15739",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:ConfigurableObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "SupportedTypes",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ObjectIdentifier",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:BaseLifetimeIndicationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=473",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:TimeIndicationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:BaseLifetimeIndicationType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=474",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:NumberOfPartsIndicationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:BaseLifetimeIndicationType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=475",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:NumberOfUsagesIndicationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:BaseLifetimeIndicationType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=476",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:LengthIndicationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:BaseLifetimeIndicationType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=477",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:DiameterIndicationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:BaseLifetimeIndicationType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=478",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:SubstanceVolumeIndicationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:BaseLifetimeIndicationType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=479",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:FunctionalGroupType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=1005",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "UIElement",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "GroupIdentifier",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:ProtocolType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:IOperationCounterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=480",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PowerOnDuration",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OperationDuration",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OperationCycleCounter",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "unsignedInteger",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:NetworkType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6247",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProfileIdentifier",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:ProtocolType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Lock",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:LockingServicesType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:ConnectionPointType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:TopologyElementType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6308",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "NetworkAddress",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:FunctionalGroupType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProfileIdentifier",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:ProtocolType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:TransferServicesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6526",
+    "commandTopic": "opcua/DI/TransferServicesType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "TransferToDevice",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "TransferID",
+                "schema": "integer"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "InitTransferStatus",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "TransferFromDevice",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "TransferID",
+                "schema": "integer"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "InitTransferStatus",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "FetchTransferResultData",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "TransferID",
+                "schema": "integer"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "SequenceNumber",
+                "schema": "integer"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "MaxParameterResultsToReturn",
+                "schema": "integer"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "OmitGoodResults",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "FetchResultData",
+                "schema": "bytes"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:LockingServicesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6388",
+    "commandTopic": "opcua/DI/LockingServicesType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DefaultInstanceBrowseName",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Locked",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LockingClient",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LockingUser",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "RemainingLockTime",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "InitLock",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Context",
+                "schema": "string"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "InitLockStatus",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "RenewLock",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "RenewLockStatus",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ExitLock",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ExitLockStatus",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "BreakLock",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "BreakLockStatus",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:SoftwareUpdateType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=1",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DefaultInstanceBrowseName",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "UpdateStatus",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "VendorErrorCode",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Loading",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:SoftwareLoadingType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PrepareForUpdate",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:PrepareForUpdateStateMachineType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Installation",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:InstallationStateMachineType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PowerCycle",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:PowerCycleStateMachineType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Confirmation",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:ConfirmationStateMachineType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Parameters",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:SoftwareLoadingType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=135",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "UpdateKey",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:PackageLoadingType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:SoftwareLoadingType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=137",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "WriteBlockSize",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ErrorMessage",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "CurrentVersion",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:SoftwareVersionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FileTransfer",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:DirectLoadingType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:PackageLoadingType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=153",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:DI:DirectLoadingType:dataType:UpdateBehavior;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=333",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "KeepsParameters",
+            "enumValue": 0
+          },
+          {
+            "name": "WillDisconnect",
+            "enumValue": 1
+          },
+          {
+            "name": "RequiresPowerCycle",
+            "enumValue": 2
+          },
+          {
+            "name": "WillReboot",
+            "enumValue": 3
+          },
+          {
+            "name": "NeedsPreparation",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "WriteTimeout",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "UpdateBehavior",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "dtmi:opcua:DI:DirectLoadingType:dataType:UpdateBehavior;1"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:CachedLoadingType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:PackageLoadingType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=171",
+    "commandTopic": "opcua/DI/CachedLoadingType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:DI:CachedLoadingType:dataType:UpdateBehavior;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=333",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "KeepsParameters",
+            "enumValue": 0
+          },
+          {
+            "name": "WillDisconnect",
+            "enumValue": 1
+          },
+          {
+            "name": "RequiresPowerCycle",
+            "enumValue": 2
+          },
+          {
+            "name": "WillReboot",
+            "enumValue": 3
+          },
+          {
+            "name": "NeedsPreparation",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "GetUpdateBehavior",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ManufacturerUri",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "SoftwareRevision",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "PatchIdentifiers",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "string"
+                }
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "UpdateBehavior",
+                "schema": "dtmi:opcua:DI:CachedLoadingType:dataType:UpdateBehavior;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PendingVersion",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:SoftwareVersionType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FallbackVersion",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:DI:SoftwareVersionType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:FileSystemLoadingType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:SoftwareLoadingType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=192",
+    "commandTopic": "opcua/DI/FileSystemLoadingType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:DI:FileSystemLoadingType:dataType:UpdateBehavior;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=333",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "KeepsParameters",
+            "enumValue": 0
+          },
+          {
+            "name": "WillDisconnect",
+            "enumValue": 1
+          },
+          {
+            "name": "RequiresPowerCycle",
+            "enumValue": 2
+          },
+          {
+            "name": "WillReboot",
+            "enumValue": 3
+          },
+          {
+            "name": "NeedsPreparation",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "GetUpdateBehavior",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "NodeIds",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "string"
+                }
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "UpdateBehavior",
+                "schema": "dtmi:opcua:DI:FileSystemLoadingType:dataType:UpdateBehavior;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ValidateFiles",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "NodeIds",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "string"
+                }
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ErrorCode",
+                "schema": "integer"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ErrorMessage",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "FileSystem",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:SoftwareVersionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=212",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Manufacturer",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ManufacturerUri",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SoftwareRevision",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PatchIdentifiers",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ReleaseDate",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "dateTime",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ChangeLogReference",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Hash",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "bytes",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:PrepareForUpdateStateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=213",
+    "commandTopic": "opcua/DI/PrepareForUpdateStateMachineType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PercentComplete",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "unsignedByte"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Prepare",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Abort",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Resume",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Idle",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Preparing",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PreparedForUpdate",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Resuming",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "IdleToPreparing",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PreparingToIdle",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PreparingToPreparedForUpdate",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PreparedForUpdateToResuming",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ResumingToIdle",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:InstallationStateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=249",
+    "commandTopic": "opcua/DI/InstallationStateMachineType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PercentComplete",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "unsignedByte"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "InstallationDelay",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "duration"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "InstallSoftwarePackage",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ManufacturerUri",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "SoftwareRevision",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "PatchIdentifiers",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "string"
+                }
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Hash",
+                "schema": "bytes"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "InstallFiles",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "NodeIds",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "string"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Resume",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Idle",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Installing",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Error",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "IdleToInstalling",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InstallingToIdle",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "InstallingToError",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ErrorToIdle",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:PowerCycleStateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=285",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "NotWaitingForPowerCycle",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaitingForPowerCycle",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "NotWaitingForPowerCycleToWaitingForPowerCycle",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaitingForPowerCycleToNotWaitingForPowerCycle",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:DI:ConfirmationStateMachineType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=307",
+    "commandTopic": "opcua/DI/ConfirmationStateMachineType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ConfirmationTimeout",
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "schema": "duration"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Confirm",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "NotWaitingForConfirm",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaitingForConfirm",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "NotWaitingForConfirmToWaitingForConfirm",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "WaitingForConfirmToNotWaitingForConfirm",
+        "namespace": "http://opcfoundation.org/UA/DI"
+      }
+    ]
+  }
+]

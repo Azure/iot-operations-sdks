@@ -1,0 +1,811 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Machinery_Result:ResultReadyEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Machinery_Result:ResultReadyEventType:dataType:ResultDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=3008",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ResultMetaData",
+            "schema": "dtmi:opcua:Machinery_Result:ResultReadyEventType:dataType:ResultMetaDataType;1"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ResultContent",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "string"
+            }
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Machinery_Result:ResultReadyEventType:dataType:ResultMetaDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=3007",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ResultId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "HasTransferableDataOnFile",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "IsPartial",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "IsSimulated",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ResultState",
+            "schema": "integer"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "StepId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "PartId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ExternalRecipeId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "InternalRecipeId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ProductId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ExternalConfigurationId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "InternalConfigurationId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "JobId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "CreationTime",
+            "schema": "time"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ProcessingTimes",
+            "schema": "dtmi:opcua:Machinery_Result:ResultReadyEventType:dataType:ProcessingTimesDataType;1"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ResultUri",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "string"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ResultEvaluation",
+            "schema": "dtmi:opcua:Machinery_Result:ResultReadyEventType:dataType:ResultEvaluationEnum;1"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ResultEvaluationCode",
+            "schema": "long"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ResultEvaluationDetails",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "FileFormat",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "string"
+            }
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Machinery_Result:ResultReadyEventType:dataType:ProcessingTimesDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=3006",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "StartTime",
+            "schema": "time"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "EndTime",
+            "schema": "time"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "AcquisitionDuration",
+            "schema": "duration"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ProcessingDuration",
+            "schema": "duration"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Machinery_Result:ResultReadyEventType:dataType:ResultEvaluationEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=3002",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Undefined",
+            "enumValue": 0
+          },
+          {
+            "name": "OK",
+            "enumValue": 1
+          },
+          {
+            "name": "NotOK",
+            "enumValue": 2
+          },
+          {
+            "name": "NotDecidable",
+            "enumValue": 3
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Result",
+        "namespace": "http://opcfoundation.org/UA/Machinery.Result",
+        "schema": "dtmi:opcua:Machinery_Result:ResultReadyEventType:dataType:ResultDataType;1"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Machinery_Result:ResultManagementType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=1004",
+    "commandTopic": "opcua/Machinery_Result/ResultManagementType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=3008",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ResultMetaData",
+            "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultMetaDataType;1"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ResultContent",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "string"
+            }
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultMetaDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=3007",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ResultId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "HasTransferableDataOnFile",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "IsPartial",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "IsSimulated",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ResultState",
+            "schema": "integer"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "StepId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "PartId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ExternalRecipeId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "InternalRecipeId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ProductId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ExternalConfigurationId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "InternalConfigurationId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "JobId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "CreationTime",
+            "schema": "time"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ProcessingTimes",
+            "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ProcessingTimesDataType;1"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ResultUri",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "string"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ResultEvaluation",
+            "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultEvaluationEnum;1"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ResultEvaluationCode",
+            "schema": "long"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ResultEvaluationDetails",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "FileFormat",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "string"
+            }
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ProcessingTimesDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=3006",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "StartTime",
+            "schema": "time"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "EndTime",
+            "schema": "time"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "AcquisitionDuration",
+            "schema": "duration"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ProcessingDuration",
+            "schema": "duration"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ContentFilter;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA;i=586",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Elements",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ContentFilterElement;1"
+            }
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ContentFilterElement;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA;i=583",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "FilterOperator",
+            "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:FilterOperator;1"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "FilterOperands",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "bytes"
+            }
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:FilterOperator;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA;i=576",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Equals",
+            "enumValue": 0
+          },
+          {
+            "name": "IsNull",
+            "enumValue": 1
+          },
+          {
+            "name": "GreaterThan",
+            "enumValue": 2
+          },
+          {
+            "name": "LessThan",
+            "enumValue": 3
+          },
+          {
+            "name": "GreaterThanOrEqual",
+            "enumValue": 4
+          },
+          {
+            "name": "LessThanOrEqual",
+            "enumValue": 5
+          },
+          {
+            "name": "Like",
+            "enumValue": 6
+          },
+          {
+            "name": "Not",
+            "enumValue": 7
+          },
+          {
+            "name": "Between",
+            "enumValue": 8
+          },
+          {
+            "name": "InList",
+            "enumValue": 9
+          },
+          {
+            "name": "And",
+            "enumValue": 10
+          },
+          {
+            "name": "Or",
+            "enumValue": 11
+          },
+          {
+            "name": "Cast",
+            "enumValue": 12
+          },
+          {
+            "name": "InView",
+            "enumValue": 13
+          },
+          {
+            "name": "OfType",
+            "enumValue": 14
+          },
+          {
+            "name": "RelatedTo",
+            "enumValue": 15
+          },
+          {
+            "name": "BitwiseAnd",
+            "enumValue": 16
+          },
+          {
+            "name": "BitwiseOr",
+            "enumValue": 17
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultEvaluationEnum;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=3002",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Undefined",
+            "enumValue": 0
+          },
+          {
+            "name": "OK",
+            "enumValue": 1
+          },
+          {
+            "name": "NotOK",
+            "enumValue": 2
+          },
+          {
+            "name": "NotDecidable",
+            "enumValue": 3
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DefaultInstanceBrowseName",
+        "namespace": "http://opcfoundation.org/UA/Machinery.Result",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "GetLatestResult",
+        "namespace": "http://opcfoundation.org/UA/Machinery.Result",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Timeout",
+                "schema": "integer"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ResultHandle",
+                "schema": "unsignedInteger"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Result",
+                "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultDataType;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Error",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "GetResultById",
+        "namespace": "http://opcfoundation.org/UA/Machinery.Result",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ResultId",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Timeout",
+                "schema": "integer"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ResultHandle",
+                "schema": "unsignedInteger"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Result",
+                "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultDataType;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Error",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "GetResultIdListFiltered",
+        "namespace": "http://opcfoundation.org/UA/Machinery.Result",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Filter",
+                "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ContentFilter;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "OrderedBy",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "string"
+                }
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "MaxResults",
+                "schema": "unsignedInteger"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Timeout",
+                "schema": "integer"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ResultHandle",
+                "schema": "unsignedInteger"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ResultIdList",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "string"
+                }
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Error",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ReleaseResultHandle",
+        "namespace": "http://opcfoundation.org/UA/Machinery.Result",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ResultHandle",
+                "schema": "unsignedInteger"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Error",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Results",
+        "namespace": "http://opcfoundation.org/UA/Machinery.Result"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ResultTransfer",
+        "namespace": "http://opcfoundation.org/UA/Machinery.Result",
+        "target": "dtmi:opcua:Machinery_Result:ResultTransferType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:Machinery_Result:ResultTransferType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=1003",
+    "commandTopic": "opcua/Machinery_Result/ResultTransferType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:Machinery_Result:ResultTransferType:dataType:BaseResultTransferOptionsDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=3005",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ResultId",
+            "schema": "string"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "GenerateFileForRead",
+        "namespace": "http://opcfoundation.org/UA/Machinery.Result",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "GenerateOptions",
+                "schema": "dtmi:opcua:Machinery_Result:ResultTransferType:dataType:BaseResultTransferOptionsDataType;1"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "FileNodeId",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "FileHandle",
+                "schema": "unsignedInteger"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "CompletionStateMachine",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+]

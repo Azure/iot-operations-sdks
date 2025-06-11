@@ -1,10 +1,10 @@
 ﻿<#@ template language="C#" linePragmas="false" #>
 <#@ import namespace="SpecMapper" #>
-    {
-      "@type": [ "Relationship", "Qualified" ],
-      "name": "<#=TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName))#>",
-      "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>"<#=this.Target != null ? "," : ""#>
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "<#=TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName))#>",
+        "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>"<#=this.Target != null ? "," : ""#>
 <# if (this.Target != null) { #>
-      "target": "<#=this.Target#>"
+        "target": "<#=this.Target#>"
 <# } #>
-    }
+      }

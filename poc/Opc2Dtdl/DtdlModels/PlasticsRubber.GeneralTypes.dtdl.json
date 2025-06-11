@@ -1,0 +1,4746 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ActiveJobValuesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1021",
+    "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ActiveJobValuesType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ActiveJobValuesType:dataType:JobStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3017",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "TRANSFERRED_ASSIGNED",
+            "enumValue": 1
+          },
+          {
+            "name": "SET_UP_ACTIVE",
+            "enumValue": 2
+          },
+          {
+            "name": "SET_UP_INTERRUPTED",
+            "enumValue": 3
+          },
+          {
+            "name": "SET_UP_FINISHED",
+            "enumValue": 4
+          },
+          {
+            "name": "START_UP_ACTIVE",
+            "enumValue": 5
+          },
+          {
+            "name": "JOB_IN_PRODUCTION",
+            "enumValue": 6
+          },
+          {
+            "name": "JOB_INTERRUPTED",
+            "enumValue": 7
+          },
+          {
+            "name": "JOB_FINISHED",
+            "enumValue": 8
+          },
+          {
+            "name": "TEAR_DOWN_ACTIVE",
+            "enumValue": 9
+          },
+          {
+            "name": "TEAR_DOWN_INTERRUPTED",
+            "enumValue": 10
+          },
+          {
+            "name": "TEAR_DOWN_FINISHED",
+            "enumValue": 11
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "BoxId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CurrentLotName",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JobStatus",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ActiveJobValuesType:dataType:JobStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "FinishJob",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "InterruptJob",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "StartJob",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ActiveCyclicJobValuesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:ActiveJobValuesType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1031",
+    "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ActiveCyclicJobValuesType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AverageCycleTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "duration"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BoxBadPartsCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BoxCycleCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BoxGoodPartsCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BoxPartsCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BoxTestSamplesCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "JobBadPartsCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "JobCycleCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "JobGoodPartsCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "JobPartsCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "JobTestSamplesCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LastCycleTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "duration"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LastPartId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MachineCycleCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetAverageCycleTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetBoxCounters",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetJobCounters",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "StopAtCycleEnd",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1052",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "HelpText",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterAlarmType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1070",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedShort"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MessageConditionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1004",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Classification",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Id",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsStandstillMessage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:CycleParametersEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1038",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:CycleParametersEventType:dataType:CavityCycleQualityEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3020",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "NO_PART",
+            "enumValue": 0
+          },
+          {
+            "name": "GOOD_PART",
+            "enumValue": 1
+          },
+          {
+            "name": "BAD_PART",
+            "enumValue": 2
+          },
+          {
+            "name": "REWORK",
+            "enumValue": 3
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:CycleParametersEventType:dataType:CycleQualityEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3019",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "GOOD_CYCLE",
+            "enumValue": 0
+          },
+          {
+            "name": "BAD_CYCLE",
+            "enumValue": 1
+          },
+          {
+            "name": "TEST_SAMPLE_CYCLE",
+            "enumValue": 2
+          },
+          {
+            "name": "FAILED_CYCLE",
+            "enumValue": 3
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:CycleParametersEventType:dataType:JobStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3017",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "TRANSFERRED_ASSIGNED",
+            "enumValue": 1
+          },
+          {
+            "name": "SET_UP_ACTIVE",
+            "enumValue": 2
+          },
+          {
+            "name": "SET_UP_INTERRUPTED",
+            "enumValue": 3
+          },
+          {
+            "name": "SET_UP_FINISHED",
+            "enumValue": 4
+          },
+          {
+            "name": "START_UP_ACTIVE",
+            "enumValue": 5
+          },
+          {
+            "name": "JOB_IN_PRODUCTION",
+            "enumValue": 6
+          },
+          {
+            "name": "JOB_INTERRUPTED",
+            "enumValue": 7
+          },
+          {
+            "name": "JOB_FINISHED",
+            "enumValue": 8
+          },
+          {
+            "name": "TEAR_DOWN_ACTIVE",
+            "enumValue": 9
+          },
+          {
+            "name": "TEAR_DOWN_INTERRUPTED",
+            "enumValue": 10
+          },
+          {
+            "name": "TEAR_DOWN_FINISHED",
+            "enumValue": 11
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "AverageCycleTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "BoxBadPartsCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "BoxCycleCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "BoxGoodPartsCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "BoxId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "BoxPartsCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "BoxTestSamplesCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "CavityCycleQuality",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:PlasticsRubber_GeneralTypes:CycleParametersEventType:dataType:CavityCycleQualityEnumeration;1"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "CurrentLotName",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "CycleQuality",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:CycleParametersEventType:dataType:CycleQualityEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "CycleTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "duration",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "JobBadPartsCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "JobCycleCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "JobGoodPartsCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "JobName",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "JobPartsCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "JobStatus",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:CycleParametersEventType:dataType:JobStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "JobTestSamplesCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "MachineCycleCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "PartId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosisEndEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1060",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosisEndEventType:dataType:DiagnosticsStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3027",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OFF",
+            "enumValue": 0
+          },
+          {
+            "name": "ACTIVE_OK",
+            "enumValue": 1
+          },
+          {
+            "name": "ACTIVE_ERROR_DETECTED",
+            "enumValue": 2
+          },
+          {
+            "name": "COMPLETE",
+            "enumValue": 3
+          },
+          {
+            "name": "COMPLETE_ERROR_DETECTED",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosisEndEventType:dataType:DiagnosticsStatusEnumeration;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosisStepEndEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1062",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "InputNode",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Result",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1011",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType:dataType:EventOriginatorEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3018",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "MACHINE",
+            "enumValue": 1
+          },
+          {
+            "name": "OPERATOR",
+            "enumValue": 2
+          },
+          {
+            "name": "MES",
+            "enumValue": 3
+          },
+          {
+            "name": "PERIPHERAL_DEVICE",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "EventOriginator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType:dataType:EventOriginatorEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JobCycleCounter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "User",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:UserType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineModeChangeLogType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1014",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineModeChangeLogType:dataType:MachineModeEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3011",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "AUTOMATIC",
+            "enumValue": 1
+          },
+          {
+            "name": "SEMI_AUTOMATIC",
+            "enumValue": 2
+          },
+          {
+            "name": "MANUAL",
+            "enumValue": 3
+          },
+          {
+            "name": "SETUP",
+            "enumValue": 4
+          },
+          {
+            "name": "SLEEP",
+            "enumValue": 5
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NewMachineMode",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineModeChangeLogType:dataType:MachineModeEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OldMachineMode",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineModeChangeLogType:dataType:MachineModeEnumeration;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MessageLogType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1042",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Classification",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Id",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsStandstillMessage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ParameterChangeLogType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1010",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NewValue",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NewValueUnit",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OldValue",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OldValueUnit",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ParameterId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetChangeLogType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1012",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NewProductionDatasetName",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OldProductionDatasetName",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetFrozenLogType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1041",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NewValue",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OldValue",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionStatusChangeLogType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1044",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionStatusChangeLogType:dataType:ProductionStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3016",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "NO_PRODUCTION",
+            "enumValue": 1
+          },
+          {
+            "name": "START_UP",
+            "enumValue": 2
+          },
+          {
+            "name": "READY_FOR_PRODUCTION",
+            "enumValue": 3
+          },
+          {
+            "name": "PRODUCTION",
+            "enumValue": 4
+          },
+          {
+            "name": "DRY_RUN",
+            "enumValue": 5
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NewProductionStatus",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionStatusChangeLogType:dataType:ProductionStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "OldProductionStatus",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionStatusChangeLogType:dataType:ProductionStatusEnumeration;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RemoteAccessLogType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1022",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RemoteAccessLogType:dataType:UserChangeEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3010",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "LOG_ON",
+            "enumValue": 0
+          },
+          {
+            "name": "LOG_OFF",
+            "enumValue": 1
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Origin",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "RemoteUserName",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "UserChange",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:RemoteAccessLogType:dataType:UserChangeEnumeration;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:SequenceChangeLogType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1043",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:SequenceChangeLogType:dataType:SequenceChangeEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3012",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "UPDATE",
+            "enumValue": 0
+          },
+          {
+            "name": "ADD",
+            "enumValue": 1
+          },
+          {
+            "name": "MODIFY",
+            "enumValue": 2
+          },
+          {
+            "name": "MOVE",
+            "enumValue": 3
+          },
+          {
+            "name": "DELETE",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SequenceChange",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:SequenceChangeLogType:dataType:SequenceChangeEnumeration;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:StandstillReasonLogType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1013",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StandstillReasonId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:UserFeedbackLogType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1046",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Classification",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:UserLogType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1015",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:UserLogType:dataType:UserChangeEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3010",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "LOG_ON",
+            "enumValue": 0
+          },
+          {
+            "name": "LOG_OFF",
+            "enumValue": 1
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "UserChange",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:UserLogType:dataType:UserChangeEnumeration;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestAddMaterialEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1061",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Id",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestCyclicJobListEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1028",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestCyclicJobWriteEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1025",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JobName",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestJobListEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1027",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestProductionDatasetListEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1040",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MouldId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NameFilter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestProductionDatasetReadEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1006",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestProductionDatasetReadEventType:dataType:StorageEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3005",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "PRODUCTION",
+            "enumValue": 1
+          },
+          {
+            "name": "PREPARATION",
+            "enumValue": 2
+          },
+          {
+            "name": "FILE_SYSTEM",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Storage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestProductionDatasetReadEventType:dataType:StorageEnumeration;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestProductionDatasetWriteEventType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1007",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestProductionDatasetWriteEventType:dataType:StorageEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3005",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "PRODUCTION",
+            "enumValue": 1
+          },
+          {
+            "name": "PREPARATION",
+            "enumValue": 2
+          },
+          {
+            "name": "FILE_SYSTEM",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Components",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "unsignedShort"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Storage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestProductionDatasetWriteEventType:dataType:StorageEnumeration;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ClosedLoopControlType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1054",
+    "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ClosedLoopControlType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ClosedLoopControlType:dataType:PIDParametersDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3023",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "P",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "I",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "D",
+            "schema": "double"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AutomaticControllerMode",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AutoTuningActive",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PIDParameters",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ClosedLoopControlType:dataType:PIDParametersDataType;1"
+        },
+        "writable": true
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "AutoTuningOff",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "AutoTuningOn",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosticsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1066",
+    "commandTopic": "opcua/PlasticsRubber_GeneralTypes/DiagnosticsType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosticsType:dataType:DiagnosticsStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3027",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OFF",
+            "enumValue": 0
+          },
+          {
+            "name": "ACTIVE_OK",
+            "enumValue": 1
+          },
+          {
+            "name": "ACTIVE_ERROR_DETECTED",
+            "enumValue": 2
+          },
+          {
+            "name": "COMPLETE",
+            "enumValue": 3
+          },
+          {
+            "name": "COMPLETE_ERROR_DETECTED",
+            "enumValue": 4
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosticsType:dataType:DiagnosticsStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "RunDiagnostics",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "StopDiagnostics",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:DrivesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1069",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Name_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1068",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Position",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "AdditionalMeasuringDevices",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Energy",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Maintenance",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Speed",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "StartDrive",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Torque",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1063",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualPower",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualSpecificEnergy",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PowerConsumption",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PowerFactor",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobInformationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1037",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ContinueAtJobEnd",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CustomerName",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JobDescription",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "JobName",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Material",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProductDescription",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProductionDatasetDescription",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProductionDatasetName",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProductName",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:CyclicJobInformationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobInformationType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1024",
+    "commandTopic": "opcua/PlasticsRubber_GeneralTypes/CyclicJobInformationType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ExpectedCycleTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "duration",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MouldId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NominalBoxParts",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NominalParts",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedLong",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NumCavities",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetCyclicJobData",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "JobName",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "JobDescription",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "CustomerName",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ProductionDatasetName",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ProductionDatasetDescription",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Material",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "string"
+                }
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ProductName",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "string"
+                }
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ProductDescription",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "string"
+                }
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ContinueAtJobEnd",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "NominalParts",
+                "schema": "unsignedLong"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "NominalBoxParts",
+                "schema": "unsignedLong"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ExpectedCycleTime",
+                "schema": "duration"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "MouldId",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "NumCavities",
+                "schema": "unsignedInteger"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1032",
+    "commandTopic": "opcua/PlasticsRubber_GeneralTypes/JobsType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobsType:dataType:CyclicJobListElementType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3022",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "NominalParts",
+            "schema": "unsignedLong"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "NominalBoxParts",
+            "schema": "unsignedLong"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ExpectedCycleTime",
+            "schema": "duration"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "MouldId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "NumCavities",
+            "schema": "unsignedInteger"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobsType:dataType:JobListElementType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3021",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "JobName",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "JobDescription",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "JobClassification",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "CustomerName",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ProductionDatasetName",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ProductionDatasetDescription",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Material",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "string"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ProductName",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "string"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ProductDescription",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "string"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "JobPriority",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "PlannedStart",
+            "schema": "dateTime"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "PlannedProductionTime",
+            "schema": "duration"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LatestEnd",
+            "schema": "dateTime"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SendCyclicJobList",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "JobList",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobsType:dataType:CyclicJobListElementType;1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SendJobList",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "JobList",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobsType:dataType:JobListElementType;1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ActiveJob",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobInformationType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ActiveJobValues",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ActiveJobValuesType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "JobInPreparation",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobInformationType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1016",
+    "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MachineConfigurationType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType:dataType:PageEntryDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3014",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Id",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Title",
+            "schema": "string"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType:dataType:TimeZoneDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA;i=8912",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Offset",
+            "schema": "short"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "DaylightSavingInOffset",
+            "schema": "boolean"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "LocationName",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PageDirectory",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType:dataType:PageEntryDataType;1"
+        },
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "TimeZoneOffset",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType:dataType:TimeZoneDataType;1",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "UserMachineName",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "GetCurrentPage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "VisualisationUnit",
+                "schema": "unsignedInteger"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Page",
+                "schema": "bytes"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "GetPage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Page",
+                "schema": "bytes"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetMachineTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "DateTime",
+                "schema": "dateTime"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "TimeZoneOffset",
+                "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType:dataType:TimeZoneDataType;1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineMESConfigurationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1018",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineMESConfigurationType:dataType:StandstillReasonType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3015",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Id",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Text",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LockedByMES",
+            "schema": "boolean"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MESUrl",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StandstillReasons",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineMESConfigurationType:dataType:StandstillReasonType;1"
+        },
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StandstillReasonsLockedByMES",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineMESStatusType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1020",
+    "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MachineMESStatusType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StandstillReasonId",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ClearMESMessage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetMESMessage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Message",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Severity",
+                "schema": "unsignedShort"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "MESMessage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MESMessageType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProductionControl",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionControlType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "StandstillMessage",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StandstillMessageType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineStatusType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1019",
+    "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MachineStatusType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineStatusType:dataType:MachineModeEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3011",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "AUTOMATIC",
+            "enumValue": 1
+          },
+          {
+            "name": "SEMI_AUTOMATIC",
+            "enumValue": 2
+          },
+          {
+            "name": "MANUAL",
+            "enumValue": 3
+          },
+          {
+            "name": "SETUP",
+            "enumValue": 4
+          },
+          {
+            "name": "SLEEP",
+            "enumValue": 5
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsPresent",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MachineMode",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineStatusType:dataType:MachineModeEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ActivateSleepMode",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "DeactivateSleepMode",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Users",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:UsersType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1053",
+    "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MaintenanceType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType:dataType:MaintenanceStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3013",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "NOT_DUE",
+            "enumValue": 0
+          },
+          {
+            "name": "WARNING",
+            "enumValue": 1
+          },
+          {
+            "name": "DUE",
+            "enumValue": 2
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AdditionalInformation",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType:dataType:MaintenanceStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Interval",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "RemainingInterval",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "TotalOperation",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Reset",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaterialListType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1059",
+    "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MaterialListType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "DensityUnit",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "AddMaterial",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Name",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Density",
+                "schema": "double"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "RemoveMaterialById",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Id",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Material_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaterialType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaterialType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1002",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Id",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Density",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1065",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Name_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MESMessageType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1051",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Id",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Message",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Severity",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedShort",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1056",
+    "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MonitoredParameterType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AutomaticMonitoring",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualValue",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AlarmSuppression",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LowerTolerance",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LowerTolerance2",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MaxValue",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MinValue",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "MonitoringSensitivity",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SetRampDown",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SetRampUp",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "SetValue",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedShort"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "UpperTolerance",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "UpperTolerance2",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetMonitoring",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1057",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ClosedLoopControl",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ClosedLoopControlType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1064",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType:dataType:ControlModeEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3001",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "OFF",
+            "enumValue": 1
+          },
+          {
+            "name": "AUTOMATIC",
+            "enumValue": 2
+          },
+          {
+            "name": "TUNING",
+            "enumValue": 3
+          },
+          {
+            "name": "STANDBY",
+            "enumValue": 4
+          },
+          {
+            "name": "OPEN_LOOP",
+            "enumValue": 5
+          },
+          {
+            "name": "ONLY_MEASUREMENT",
+            "enumValue": 6
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ControlMode",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType:dataType:ControlModeEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Id",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsPresent",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Position",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Maintenance",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "StartDevice",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MouldCycleParametersType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1005",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "Index",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedInteger",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MouldsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1050",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "Mould_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MouldType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MouldType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1029",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MouldType:dataType:MouldStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3008",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "MOULD_NOT_INSTALLED",
+            "enumValue": 1
+          },
+          {
+            "name": "MOULD_CHANGE",
+            "enumValue": 2
+          },
+          {
+            "name": "MOULD_INSTALLED",
+            "enumValue": 3
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Description",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Id",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Index",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsPresent",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "MouldStatus",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MouldType:dataType:MouldStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "TemperatureZones",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZonesType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:PowerUnitsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1049",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "PowerUnit_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:PowerUnitType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:PowerUnitType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1033",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Id",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Index",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsPresent",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "PowerOn",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualTemperature",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ElectricDriveType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:PowerUnitType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1036",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:HydraulicUnitType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:PowerUnitType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1035",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualPressure",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionControlType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1017",
+    "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionControlType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionControlType:dataType:ProductionStatusEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3016",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "NO_PRODUCTION",
+            "enumValue": 1
+          },
+          {
+            "name": "START_UP",
+            "enumValue": 2
+          },
+          {
+            "name": "READY_FOR_PRODUCTION",
+            "enumValue": 3
+          },
+          {
+            "name": "PRODUCTION",
+            "enumValue": 4
+          },
+          {
+            "name": "DRY_RUN",
+            "enumValue": 5
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AutomaticRunEnabled",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProductionOnlyWithMES",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProductionReleasedByMES",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ProductionStatus",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionControlType:dataType:ProductionStatusEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "DisableAutomaticRun",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "EnableAutomaticRun",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "RequestTestSample",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "ResetWatchDog",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SetWatchDogTime",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "WatchDogTime",
+                "schema": "integer"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetListsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1003",
+    "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionDatasetListsType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetListsType:dataType:ProductionDatasetInformationType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3006",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Name",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Description",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "MESId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "CreationTimestamp",
+            "schema": "dateTime"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LastModificationTimestamp",
+            "schema": "dateTime"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LastSaveTimestamp",
+            "schema": "dateTime"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "UserName",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Components",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "unsignedShort"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Manufacturer",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SerialNumber",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Model",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ControllerName",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "UserMachineName",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LocationName",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ProductName",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "string"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "MouldId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "NumCavities",
+            "schema": "unsignedInteger"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "GetProductionDatasetList",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "NameFilter",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "MouldId",
+                "schema": "string"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ProductionDatasetList",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetListsType:dataType:ProductionDatasetInformationType;1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SendProductionDatasetList",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ProductionDatasetList",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetListsType:dataType:ProductionDatasetInformationType;1"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1008",
+    "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionDatasetManagementType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType:dataType:ProductionDatasetInformationType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3006",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Name",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Description",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "MESId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "CreationTimestamp",
+            "schema": "dateTime"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LastModificationTimestamp",
+            "schema": "dateTime"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LastSaveTimestamp",
+            "schema": "dateTime"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "UserName",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Components",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "unsignedShort"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Manufacturer",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SerialNumber",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Model",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ControllerName",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "UserMachineName",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LocationName",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ProductName",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "string"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "MouldId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "NumCavities",
+            "schema": "unsignedInteger"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "GetProductionDatasetInformation",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "fileHandle",
+                "schema": "unsignedInteger"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Information",
+                "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType:dataType:ProductionDatasetInformationType;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SendProductionDatasetInformation",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "fileHandle",
+                "schema": "unsignedInteger"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Information",
+                "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType:dataType:ProductionDatasetInformationType;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ActiveProductionDatasetStatus",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetStatusType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProductionDatasetInPreparationStatus",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetStatusType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProductionDatasetLists",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetListsType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "ProductionDatasetTransfer",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetStatusType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1039",
+    "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionDatasetStatusType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetStatusType:dataType:ProductionDatasetInformationType;1",
+        "@type": [ "Object", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3006",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Name",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Description",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "MESId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "CreationTimestamp",
+            "schema": "dateTime"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LastModificationTimestamp",
+            "schema": "dateTime"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LastSaveTimestamp",
+            "schema": "dateTime"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "UserName",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Components",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "unsignedShort"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Manufacturer",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SerialNumber",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "Model",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ControllerName",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "UserMachineName",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LocationName",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ProductName",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "string"
+            }
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "MouldId",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "NumCavities",
+            "schema": "unsignedInteger"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Frozen",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Information",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetStatusType:dataType:ProductionDatasetInformationType;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Modified",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Load",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Name",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Components",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "unsignedShort"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Save",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "Name",
+                "schema": "string"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:StandstillMessageType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1026",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Classification",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Id",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Message",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Severity",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedShort",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1023",
+    "commandTopic": "opcua/PlasticsRubber_GeneralTypes/StartDeviceType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType:dataType:StartEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3025",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "NOT_READY_TO_START",
+            "enumValue": 0
+          },
+          {
+            "name": "START_BLOCKED_BY_CLIENT",
+            "enumValue": 1
+          },
+          {
+            "name": "READY_TO_START",
+            "enumValue": 2
+          },
+          {
+            "name": "START_REQUESTED",
+            "enumValue": 3
+          },
+          {
+            "name": "STARTED",
+            "enumValue": 4
+          },
+          {
+            "name": "STOP_REQUESTED",
+            "enumValue": 5
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "StartBlockedByClient",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Status",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType:dataType:StartEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "StartRequest",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "StopRequest",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneCycleParametersType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1047",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneCycleParametersType:dataType:TemperatureZoneClassificationEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3029",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "HEATING",
+            "enumValue": 1
+          },
+          {
+            "name": "COOLING",
+            "enumValue": 2
+          },
+          {
+            "name": "TEMPERATURE_CONTROL",
+            "enumValue": 3
+          },
+          {
+            "name": "HOT_RUNNER",
+            "enumValue": 4
+          },
+          {
+            "name": "MEASURING",
+            "enumValue": 5
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "Classification",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneCycleParametersType:dataType:TemperatureZoneClassificationEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "Index",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Historized" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Historized" ],
+        "name": "ActualTemperature",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZonesType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1055",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "TemperatureZone_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1030",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneType:dataType:TemperatureZoneClassificationEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3029",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "HEATING",
+            "enumValue": 1
+          },
+          {
+            "name": "COOLING",
+            "enumValue": 2
+          },
+          {
+            "name": "TEMPERATURE_CONTROL",
+            "enumValue": 3
+          },
+          {
+            "name": "HOT_RUNNER",
+            "enumValue": 4
+          },
+          {
+            "name": "MEASURING",
+            "enumValue": 5
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneType:dataType:ControlModeEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3001",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "OTHER",
+            "enumValue": 0
+          },
+          {
+            "name": "OFF",
+            "enumValue": 1
+          },
+          {
+            "name": "AUTOMATIC",
+            "enumValue": 2
+          },
+          {
+            "name": "TUNING",
+            "enumValue": 3
+          },
+          {
+            "name": "STANDBY",
+            "enumValue": 4
+          },
+          {
+            "name": "OPEN_LOOP",
+            "enumValue": 5
+          },
+          {
+            "name": "ONLY_MEASUREMENT",
+            "enumValue": 6
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Classification",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneType:dataType:TemperatureZoneClassificationEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ControlMode",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneType:dataType:ControlModeEnumeration;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Index",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedInteger",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsPresent",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualTemperature",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "HighDeviationTemperature1",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "HighDeviationTemperature2",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LowDeviationTemperature1",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "LowDeviationTemperature2",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NominalTemperature",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "StandbyTemperature",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:BarrelTemperatureZoneType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1001",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Position",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedInteger",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MouldTemperatureZoneType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1034",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:IdentificationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:ComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1058",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "YearOfConstruction",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "unsignedShort",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineInformationType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:DI:ComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineInformationType:dataType:LogbookEventsEnumeration;1",
+        "@type": [ "Enum", "Congruence" ],
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3009",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "PARAMETER_CHANGE",
+            "enumValue": 0
+          },
+          {
+            "name": "USER",
+            "enumValue": 1
+          },
+          {
+            "name": "REMOTE_ACCESS",
+            "enumValue": 2
+          },
+          {
+            "name": "SEQUENCE_CHANGE",
+            "enumValue": 3
+          },
+          {
+            "name": "MACHINE_MODE_CHANGE",
+            "enumValue": 4
+          },
+          {
+            "name": "PRODUCTION_STATUS_CHANGE",
+            "enumValue": 5
+          },
+          {
+            "name": "PRODUCTION_DATASET_CHANGE",
+            "enumValue": 6
+          },
+          {
+            "name": "PRODUCTION_DATASET_FROZEN",
+            "enumValue": 7
+          },
+          {
+            "name": "STANDSTILL_REASON",
+            "enumValue": 8
+          },
+          {
+            "name": "MESSAGE",
+            "enumValue": 9
+          },
+          {
+            "name": "USER_FEEDBACK",
+            "enumValue": 10
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "ControllerName",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "SupportedLogbookEvents",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineInformationType:dataType:LogbookEventsEnumeration;1"
+        },
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:UsersType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1048",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "NodeVersion",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "name": "User_Nr",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:UserType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:UserType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1045",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CardUid",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Id",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "IsPresent",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "boolean",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Language",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Name",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "UserLevel",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "UserRole",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  }
+]

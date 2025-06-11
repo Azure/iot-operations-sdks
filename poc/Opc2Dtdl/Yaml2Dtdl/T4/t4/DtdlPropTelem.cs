@@ -26,71 +26,71 @@ namespace Yaml2Dtdl
         public virtual string TransformText()
         {
  (string, string) unitInfo; 
-            this.Write("    {\r\n      \"@type\": [ \"");
+            this.Write("      {\r\n        \"@type\": [ \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.classType));
             this.Write("\", ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.GetCotypes(null)));
-            this.Write(" ],\r\n      \"name\": \"");
+            this.Write(" ],\r\n        \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))));
-            this.Write("\",\r\n      \"namespace\": \"");
+            this.Write("\",\r\n        \"namespace\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));
             this.Write("\",\r\n");
  if (this.SubVars.Count == 0) { 
  if (this.TryGetUnitInfo(null, out unitInfo) && !this.definedType.BrowseName.Contains('<')) { 
-            this.Write("      \"unit\": \"");
+            this.Write("        \"unit\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(unitInfo.Item2));
             this.Write("\",\r\n");
  } 
-            this.Write("      \"schema\": ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.definedType.Datatype, this.definedType.ValueRank, definedType.BrowseName, unitInfo, 6)));
+            this.Write("        \"schema\": ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.definedType.Datatype, this.definedType.ValueRank, definedType.BrowseName, unitInfo, 8)));
             this.Write(this.ToStringHelper.ToStringWithCulture(this.isWritable != null ? "," : ""));
             this.Write("\r\n");
  } else { 
-            this.Write("      \"schema\": {\r\n        \"@type\": [ \"Object\", \"Detail\" ],\r\n        \"fields\": [\r" +
-                    "\n          {\r\n            \"@type\": [ \"Field\", \"Subject\", ");
+            this.Write("        \"schema\": {\r\n          \"@type\": [ \"Object\", \"Detail\" ],\r\n          \"field" +
+                    "s\": [\r\n            {\r\n              \"@type\": [ \"Field\", \"Subject\", ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.GetCotypes(this.definedType)));
-            this.Write(" ],\r\n            \"name\": \"");
+            this.Write(" ],\r\n              \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))));
-            this.Write("\",\r\n            \"namespace\": \"");
+            this.Write("\",\r\n              \"namespace\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));
             this.Write("\",\r\n");
  if (this.TryGetUnitInfo(this.definedType, out unitInfo) && !this.definedType.BrowseName.Contains('<')) { 
-            this.Write("            \"unit\": \"");
+            this.Write("              \"unit\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(unitInfo.Item2));
             this.Write("\",\r\n");
  } 
-            this.Write("            \"schema\": ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.definedType.Datatype, this.definedType.ValueRank, definedType.BrowseName, unitInfo, 12)));
-            this.Write("\r\n          },\r\n");
+            this.Write("              \"schema\": ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.definedType.Datatype, this.definedType.ValueRank, definedType.BrowseName, unitInfo, 14)));
+            this.Write("\r\n            },\r\n");
  int ix = 1; foreach (OpcUaDefinedType subVar in this.SubVars) { 
-            this.Write("          {\r\n            \"@type\": [ \"Field\", ");
+            this.Write("            {\r\n              \"@type\": [ \"Field\", ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.GetCotypes(subVar)));
-            this.Write(" ],\r\n            \"name\": \"");
+            this.Write(" ],\r\n              \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(subVar.BrowseName)))));
-            this.Write("\",\r\n            \"namespace\": \"");
+            this.Write("\",\r\n              \"namespace\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(subVar))));
             this.Write("\",\r\n");
  if (this.TryGetUnitInfo(subVar, out unitInfo)) { 
-            this.Write("            \"unit\": \"");
+            this.Write("              \"unit\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(unitInfo.Item2));
             this.Write("\",\r\n");
  } 
-            this.Write("            \"schema\": ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, subVar.Datatype, subVar.ValueRank, 12)));
-            this.Write("\r\n          }");
+            this.Write("              \"schema\": ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, subVar.Datatype, subVar.ValueRank, 14)));
+            this.Write("\r\n            }");
             this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.SubVars.Count ? "," : ""));
             this.Write("\r\n");
  ix++; } 
-            this.Write("        ]\r\n      }");
+            this.Write("          ]\r\n        }");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.isWritable != null ? "," : ""));
             this.Write("\r\n");
  } 
  if (this.isWritable != null) { 
-            this.Write("      \"writable\": ");
+            this.Write("        \"writable\": ");
             this.Write(this.ToStringHelper.ToStringWithCulture((bool)this.isWritable ? "true" : "false"));
             this.Write("\r\n");
  } 
-            this.Write("    }");
+            this.Write("      }");
             return this.GenerationEnvironment.ToString();
         }
     }
