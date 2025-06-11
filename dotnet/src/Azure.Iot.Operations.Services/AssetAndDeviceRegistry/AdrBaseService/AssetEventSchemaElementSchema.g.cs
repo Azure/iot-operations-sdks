@@ -13,28 +13,28 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class AssetEventSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'dataPoints' Field.
+        /// Array of data points that are part of the event. Each data point can have per-data-point configuration.
         /// </summary>
         [JsonPropertyName("dataPoints")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<AssetEventDataPointSchemaElementSchema>? DataPoints { get; set; } = default;
 
         /// <summary>
-        /// The 'destinations' Field.
+        /// Destinations for an event.
         /// </summary>
         [JsonPropertyName("destinations")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<EventStreamDestination>? Destinations { get; set; } = default;
 
         /// <summary>
-        /// The 'eventConfiguration' Field.
+        /// Stringified JSON that contains connector-specific configuration for the specific event.
         /// </summary>
         [JsonPropertyName("eventConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? EventConfiguration { get; set; } = default;
 
         /// <summary>
-        /// The 'eventNotifier' Field.
+        /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.
         /// </summary>
         [JsonPropertyName("eventNotifier")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -42,7 +42,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string EventNotifier { get; set; } = default!;
 
         /// <summary>
-        /// The 'name' Field.
+        /// The name of the event.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -50,7 +50,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string Name { get; set; } = default!;
 
         /// <summary>
-        /// The 'typeRef' Field.
+        /// URI or type definition ID.
         /// </summary>
         [JsonPropertyName("typeRef")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

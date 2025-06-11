@@ -16,7 +16,7 @@ internal class AdrBaseServiceClientStub(ApplicationContext applicationContext, I
 
     public override async Task ReceiveTelemetry(string senderId, DeviceUpdateEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
-        string deviceName = telemetry.DeviceUpdateEvent.Device.Name ?? string.Empty;
+        string deviceName = telemetry.DeviceUpdateEvent.DeviceName;
         Models.Device device = telemetry.DeviceUpdateEvent.Device.ToModel();
 
         if (OnReceiveDeviceUpdateEventTelemetry != null)

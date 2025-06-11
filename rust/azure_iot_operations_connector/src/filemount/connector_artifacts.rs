@@ -393,9 +393,9 @@ pub struct MqttConnectionConfiguration {
 
 /// Enum representing the type of MQTT connection
 #[derive(Debug, Deserialize, Clone, PartialEq)]
-#[serde(rename_all = "lowercase")]
 pub enum Protocol {
     /// Regular MQTT
+    #[serde(alias = "mqtt")]
     Mqtt,
 }
 

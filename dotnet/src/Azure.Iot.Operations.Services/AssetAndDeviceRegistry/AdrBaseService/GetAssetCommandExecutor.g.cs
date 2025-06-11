@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// <summary>
         /// Specializes a <c>CommandExecutor</c> class for Command 'getAsset'.
         /// </summary>
-        public class GetAssetCommandExecutor : CommandExecutor<GetAssetRequestPayload, GetAssetResponsePayload>
+        public class GetAssetCommandExecutor : CommandExecutor<GetAssetRequestPayload, GetAssetResponseSchema>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetAssetCommandExecutor"/> class.

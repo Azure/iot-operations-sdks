@@ -129,9 +129,7 @@ async fn run_program(
                         // now we should update the status of the device
                         let mut endpoint_statuses = HashMap::new();
                         let mut any_errors = false;
-                        for (inbound_endpoint_name, endpoint) in
-                            device.specification.endpoints.unwrap().inbound
-                        {
+                        for (inbound_endpoint_name, endpoint) in device.endpoints.unwrap().inbound {
                             if endpoint.endpoint_type == "rest-thermostat"
                                 || endpoint.endpoint_type == "coap-thermostat"
                             {
@@ -155,8 +153,8 @@ async fn run_program(
                             }
                         }
                         let status = azure_device_registry::models::DeviceStatus {
-                            config: Some(azure_device_registry::StatusConfig {
-                                version: device.specification.version,
+                            config: Some(azure_device_registry::ConfigStatus {
+                                version: device.version,
                                 ..Default::default()
                             }),
                             endpoints: endpoint_statuses,
@@ -242,7 +240,7 @@ async fn run_program(
                                                 log::info!("Asset details: {asset:?}");
                                                 // now we should update the status of the asset
                                                 let mut dataset_statuses = Vec::new();
-                                                for dataset in asset.specification.datasets {
+                                                for dataset in asset.datasets {
                                                     dataset_statuses.push(azure_device_registry::models::DatasetEventStreamStatus {
                                                     error: None,
                                                     message_schema_reference: None,
@@ -252,10 +250,8 @@ async fn run_program(
                                                 let updated_status =
                                                     azure_device_registry::models::AssetStatus {
                                                         config: Some(
-                                                            azure_device_registry::StatusConfig {
-                                                                version: asset
-                                                                    .specification
-                                                                    .version,
+                                                            azure_device_registry::ConfigStatus {
+                                                                version: asset.version,
                                                                 ..Default::default()
                                                             },
                                                         ),

@@ -15,31 +15,31 @@ use super::trust_settings_schema::TrustSettingsSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct InboundSchemaMapValueSchema {
-    /// The 'additionalConfiguration' Field.
+    /// Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, ONVIF).
     #[serde(rename = "additionalConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub additional_configuration: Option<String>,
 
-    /// The 'address' Field.
+    /// The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).
     pub address: String,
 
-    /// The 'authentication' Field.
+    /// Defines the client authentication mechanism to the server.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub authentication: Option<AuthenticationSchema>,
 
-    /// The 'endpointType' Field.
+    /// Type of connection endpoint.
     #[serde(rename = "endpointType")]
     pub endpoint_type: String,
 
-    /// The 'trustSettings' Field.
+    /// Defines server trust settings for the endpoint.
     #[serde(rename = "trustSettings")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub trust_settings: Option<TrustSettingsSchema>,
 
-    /// The 'version' Field.
+    /// Version associated with device endpoint.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub version: Option<String>,

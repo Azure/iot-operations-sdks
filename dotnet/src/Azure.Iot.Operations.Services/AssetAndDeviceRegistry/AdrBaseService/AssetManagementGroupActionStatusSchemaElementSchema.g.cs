@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public ConfigError? Error { get; set; } = default;
 
         /// <summary>
-        /// The 'name' Field.
+        /// The name of the action. Must be unique within the status.managementGroup[i].actions array. This name is used to correlate between the spec and status management group action information.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -28,14 +28,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string Name { get; set; } = default!;
 
         /// <summary>
-        /// The 'requestMessageSchemaReference' Field.
+        /// The request message schema reference object.
         /// </summary>
         [JsonPropertyName("requestMessageSchemaReference")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public MessageSchemaReference? RequestMessageSchemaReference { get; set; } = default;
 
         /// <summary>
-        /// The 'responseMessageSchemaReference' Field.
+        /// The response message schema reference object.
         /// </summary>
         [JsonPropertyName("responseMessageSchemaReference")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

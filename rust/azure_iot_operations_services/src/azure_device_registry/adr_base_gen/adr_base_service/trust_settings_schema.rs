@@ -13,13 +13,7 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct TrustSettingsSchema {
-    /// The 'issuerList' Field.
-    #[serde(rename = "issuerList")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub issuer_list: Option<String>,
-
-    /// The 'trustList' Field.
+    /// Secret reference to certificates list to trust.
     #[serde(rename = "trustList")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

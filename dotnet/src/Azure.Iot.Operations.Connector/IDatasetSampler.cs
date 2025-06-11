@@ -20,8 +20,8 @@ namespace Azure.Iot.Operations.Connector
         /// This method will be invoked by the <see cref="PollingTelemetryConnectorWorker"/> each time that a dataset needs to be sampled. The worker service
         /// will then forward the returned serialized payload to the MQTT broker.
         /// </remarks>
-        Task<byte[]> SampleDatasetAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default);
+        Task<byte[]> SampleDatasetAsync(AssetDataset dataset, CancellationToken cancellationToken = default);
 
-        Task<TimeSpan> GetSamplingIntervalAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default);
+        Task<TimeSpan> GetSamplingIntervalAsync(AssetDataset dataset, CancellationToken cancellationToken = default);
     }
 }

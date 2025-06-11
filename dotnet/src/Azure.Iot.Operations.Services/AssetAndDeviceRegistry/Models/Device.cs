@@ -5,12 +5,27 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record Device
 {
-    public string Name { get; set; } = default!;
+        public Dictionary<string, string>? Attributes { get; set; }
 
-    public DeviceSpecification Specification { get; set; } = default!;
+        public string? DiscoveredDeviceRef { get; set; }
 
-    /// <summary>
-    /// The 'status' Field.
-    /// </summary>
-    public DeviceStatus? Status { get; set; }
+        public bool? Enabled { get; set; }
+
+        public DeviceEndpoints? Endpoints { get; set; }
+
+        public string? ExternalDeviceId { get; set; }
+
+        public DateTime? LastTransitionTime { get; set; }
+
+        public string? Manufacturer { get; set; }
+
+        public string? Model { get; set; }
+
+        public string? OperatingSystem { get; set; }
+
+        public string? OperatingSystemVersion { get; set; }
+
+        public string? Uuid { get; set; }
+
+        public ulong? Version { get; set; }
 }

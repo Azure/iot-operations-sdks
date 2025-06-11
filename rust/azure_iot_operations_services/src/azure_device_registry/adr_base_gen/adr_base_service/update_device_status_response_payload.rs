@@ -10,11 +10,11 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::device::Device;
+use super::device_status::DeviceStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct UpdateDeviceStatusResponsePayload {
     /// The Command response argument.
-    #[serde(rename = "updatedDevice")]
-    pub updated_device: Device,
+    #[serde(rename = "updatedDeviceStatus")]
+    pub updated_device_status: DeviceStatus,
 }

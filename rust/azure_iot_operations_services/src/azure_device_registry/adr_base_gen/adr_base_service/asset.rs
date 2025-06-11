@@ -10,19 +10,181 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::asset_specification_schema::AssetSpecificationSchema;
-use super::asset_status::AssetStatus;
+use super::asset_dataset_schema_element_schema::AssetDatasetSchemaElementSchema;
+use super::asset_device_ref::AssetDeviceRef;
+use super::asset_event_schema_element_schema::AssetEventSchemaElementSchema;
+use super::asset_management_group_schema_element_schema::AssetManagementGroupSchemaElementSchema;
+use super::asset_stream_schema_element_schema::AssetStreamSchemaElementSchema;
+use super::dataset_destination::DatasetDestination;
+use super::event_stream_destination::EventStreamDestination;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct Asset {
-    /// The 'name' Field.
-    pub name: String,
-
-    /// The 'specification' Field.
-    pub specification: AssetSpecificationSchema,
-
-    /// The 'status' Field.
+    /// URIs or type definition IDs.
+    #[serde(rename = "assetTypeRefs")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub status: Option<AssetStatus>,
+    pub asset_type_refs: Option<Vec<String>>,
+
+    /// A set of key-value pairs that contain custom attributes set by the customer.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub attributes: Option<HashMap<String, String>>,
+
+    /// Array of data sets that are part of the asset. Each data set describes the data points that make up the set.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub datasets: Option<Vec<AssetDatasetSchemaElementSchema>>,
+
+    /// Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here.
+    #[serde(rename = "defaultDatasetsConfiguration")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub default_datasets_configuration: Option<String>,
+
+    /// Default destinations for a dataset.
+    #[serde(rename = "defaultDatasetsDestinations")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub default_datasets_destinations: Option<Vec<DatasetDestination>>,
+
+    /// Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here.
+    #[serde(rename = "defaultEventsConfiguration")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub default_events_configuration: Option<String>,
+
+    /// Default destinations for an event.
+    #[serde(rename = "defaultEventsDestinations")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub default_events_destinations: Option<Vec<EventStreamDestination>>,
+
+    /// Stringified JSON that contains connector-specific default configuration for all management groups. Each management group can have its own configuration that overrides the default settings here.
+    #[serde(rename = "defaultManagementGroupsConfiguration")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub default_management_groups_configuration: Option<String>,
+
+    /// Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here.
+    #[serde(rename = "defaultStreamsConfiguration")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub default_streams_configuration: Option<String>,
+
+    /// Default destinations for a stream.
+    #[serde(rename = "defaultStreamsDestinations")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub default_streams_destinations: Option<Vec<EventStreamDestination>>,
+
+    /// Human-readable description of the asset.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub description: Option<String>,
+
+    /// Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use.
+    #[serde(rename = "deviceRef")]
+    pub device_ref: AssetDeviceRef,
+
+    /// Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow. Discovered asset names must be provided.
+    #[serde(rename = "discoveredAssetRefs")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub discovered_asset_refs: Option<Vec<String>>,
+
+    /// Human-readable display name.
+    #[serde(rename = "displayName")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub display_name: Option<String>,
+
+    /// Asset documentation reference.
+    #[serde(rename = "documentationUri")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub documentation_uri: Option<String>,
+
+    /// Enabled/Disabled status of the asset.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub enabled: Option<bool>,
+
+    /// Array of events that are part of the asset. Each event can have per-event configuration.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub events: Option<Vec<AssetEventSchemaElementSchema>>,
+
+    /// Asset ID provided by the customer.
+    #[serde(rename = "externalAssetId")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub external_asset_id: Option<String>,
+
+    /// Asset hardware revision number.
+    #[serde(rename = "hardwareRevision")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub hardware_revision: Option<String>,
+
+    /// A timestamp (in UTC) that is updated each time the resource is modified.
+    #[serde(rename = "lastTransitionTime")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub last_transition_time: Option<DateTime<Utc>>,
+
+    /// Array of management groups that are part of the asset.
+    #[serde(rename = "managementGroups")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub management_groups: Option<Vec<AssetManagementGroupSchemaElementSchema>>,
+
+    /// Asset manufacturer.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub manufacturer: Option<String>,
+
+    /// Asset manufacturer URI.
+    #[serde(rename = "manufacturerUri")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub manufacturer_uri: Option<String>,
+
+    /// Asset model.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub model: Option<String>,
+
+    /// Asset product code.
+    #[serde(rename = "productCode")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub product_code: Option<String>,
+
+    /// Asset serial number.
+    #[serde(rename = "serialNumber")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub serial_number: Option<String>,
+
+    /// Asset software revision number.
+    #[serde(rename = "softwareRevision")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub software_revision: Option<String>,
+
+    /// Array of streams that are part of the asset. Each stream can have per-stream configuration.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub streams: Option<Vec<AssetStreamSchemaElementSchema>>,
+
+    /// Globally unique, immutable, non-reusable id.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub uuid: Option<String>,
+
+    /// A read-only integer that is incremented each time the resource is modified the cloud.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub version: Option<u64>,
 }

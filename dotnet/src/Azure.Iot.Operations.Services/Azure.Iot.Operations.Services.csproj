@@ -6,7 +6,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <Authors>Microsoft</Authors>
-    <VersionPrefix>0.10.4-akri</VersionPrefix>
+    <VersionPrefix>0.10.5-akri</VersionPrefix>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
@@ -34,5 +34,10 @@
     <Content Include="..\..\..\eng\dtdl\device-discovery-service.json">
       <Link>AssetAndDeviceRegistry\device-discovery-service.json</Link>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="AssetAndDeviceRegistry\AdrBaseService\AssetSpecificationSchema.g.cs" />
+    <Compile Remove="AssetAndDeviceRegistry\AdrBaseService\DeviceSpecificationSchema.g.cs" />
   </ItemGroup>
 </Project>

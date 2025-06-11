@@ -13,14 +13,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class AssetDatasetEventStreamStatus : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'error' Field.
+        /// The configuration error
         /// </summary>
         [JsonPropertyName("error")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ConfigError? Error { get; set; } = default;
 
         /// <summary>
-        /// The 'messageSchemaReference' Field.
+        /// The message schema reference object.
         /// </summary>
         [JsonPropertyName("messageSchemaReference")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

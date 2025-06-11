@@ -2,6 +2,7 @@
 
 mod akri_service_error;
 mod akri_service_error_error;
+mod code_schema;
 mod create_or_update_discovered_device_command_invoker;
 mod create_or_update_discovered_device_request_payload;
 mod create_or_update_discovered_device_request_payload_serialization;
@@ -12,7 +13,7 @@ mod create_or_update_discovered_device_response_schema;
 mod create_or_update_discovered_device_response_schema_serialization;
 mod device_outbound_endpoint;
 mod discovered_device;
-mod discovered_device_endpoint;
+mod discovered_device_endpoints;
 mod discovered_device_inbound_endpoint_schema;
 mod discovered_device_outbound_endpoints_schema;
 mod discovered_device_response_schema;
@@ -28,6 +29,7 @@ pub const REQUEST_TOPIC_PATTERN: &str =
 pub mod client {
     pub use super::akri_service_error::*;
     pub use super::akri_service_error_error::*;
+    pub use super::code_schema::*;
     pub use super::create_or_update_discovered_device_command_invoker::*;
     pub use super::create_or_update_discovered_device_request_payload::*;
     pub use super::create_or_update_discovered_device_request_schema::*;
@@ -35,7 +37,7 @@ pub mod client {
     pub use super::create_or_update_discovered_device_response_schema::*;
     pub use super::device_outbound_endpoint::*;
     pub use super::discovered_device::*;
-    pub use super::discovered_device_endpoint::*;
+    pub use super::discovered_device_endpoints::*;
     pub use super::discovered_device_inbound_endpoint_schema::*;
     pub use super::discovered_device_outbound_endpoints_schema::*;
     pub use super::discovered_device_response_schema::*;

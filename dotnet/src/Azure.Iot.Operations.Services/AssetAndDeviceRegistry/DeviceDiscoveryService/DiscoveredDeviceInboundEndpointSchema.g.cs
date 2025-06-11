@@ -36,6 +36,13 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
         public string EndpointType { get; set; } = default!;
 
         /// <summary>
+        /// The 'lastUpdatedOn' Field.
+        /// </summary>
+        [JsonPropertyName("lastUpdatedOn")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public DateTime? LastUpdatedOn { get; set; } = default;
+
+        /// <summary>
         /// The 'supportedAuthenticationMethods' Field.
         /// </summary>
         [JsonPropertyName("supportedAuthenticationMethods")]

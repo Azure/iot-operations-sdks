@@ -13,14 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class TrustSettingsSchema
     {
         /// <summary>
-        /// The 'issuerList' Field.
-        /// </summary>
-        [JsonPropertyName("issuerList")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? IssuerList { get; set; } = default;
-
-        /// <summary>
-        /// The 'trustList' Field.
+        /// Secret reference to certificates list to trust.
         /// </summary>
         [JsonPropertyName("trustList")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

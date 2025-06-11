@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// <summary>
         /// Specializes the <c>CommandInvoker</c> class for Command 'setNotificationPreferenceForAssetUpdates'.
         /// </summary>
-        public class SetNotificationPreferenceForAssetUpdatesCommandInvoker : CommandInvoker<SetNotificationPreferenceForAssetUpdatesRequestPayload, SetNotificationPreferenceForAssetUpdatesResponsePayload>
+        public class SetNotificationPreferenceForAssetUpdatesCommandInvoker : CommandInvoker<SetNotificationPreferenceForAssetUpdatesRequestPayload, SetNotificationPreferenceForAssetUpdatesResponseSchema>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="SetNotificationPreferenceForAssetUpdatesCommandInvoker"/> class.

@@ -5,7 +5,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record DeviceStatus
 {
-    public DeviceStatusConfig? Config { get; set; }
+    public ConfigStatus? Config { get; set; }
 
     public DeviceStatusEndpoint? Endpoints { get; set; }
 }

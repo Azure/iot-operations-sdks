@@ -13,35 +13,35 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class AssetManagementGroupSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'actions' Field.
+        /// Array of actions that are part of the management group. Each action can have an individual configuration.
         /// </summary>
         [JsonPropertyName("actions")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<AssetManagementGroupActionSchemaElementSchema>? Actions { get; set; } = default;
 
         /// <summary>
-        /// The 'defaultTimeOutInSeconds' Field.
+        /// Default response timeout for all actions that are part of the management group.
         /// </summary>
         [JsonPropertyName("defaultTimeOutInSeconds")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public uint? DefaultTimeOutInSeconds { get; set; } = default;
 
         /// <summary>
-        /// The 'defaultTopic' Field.
+        /// Default MQTT topic path on which a client will receive the request for all actions that are part of the management group.
         /// </summary>
         [JsonPropertyName("defaultTopic")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? DefaultTopic { get; set; } = default;
 
         /// <summary>
-        /// The 'managementGroupConfiguration' Field.
+        /// Stringified JSON that contains connector-specific configuration for the management group.
         /// </summary>
         [JsonPropertyName("managementGroupConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? ManagementGroupConfiguration { get; set; } = default;
 
         /// <summary>
-        /// The 'name' Field.
+        /// Name of the management group.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -49,7 +49,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string Name { get; set; } = default!;
 
         /// <summary>
-        /// The 'typeRef' Field.
+        /// URI or type definition ID.
         /// </summary>
         [JsonPropertyName("typeRef")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

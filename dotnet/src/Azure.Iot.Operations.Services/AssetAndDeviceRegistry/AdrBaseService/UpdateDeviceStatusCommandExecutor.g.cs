@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// <summary>
         /// Specializes a <c>CommandExecutor</c> class for Command 'updateDeviceStatus'.
         /// </summary>
-        public class UpdateDeviceStatusCommandExecutor : CommandExecutor<UpdateDeviceStatusRequestPayload, UpdateDeviceStatusResponsePayload>
+        public class UpdateDeviceStatusCommandExecutor : CommandExecutor<UpdateDeviceStatusRequestPayload, UpdateDeviceStatusResponseSchema>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="UpdateDeviceStatusCommandExecutor"/> class.
