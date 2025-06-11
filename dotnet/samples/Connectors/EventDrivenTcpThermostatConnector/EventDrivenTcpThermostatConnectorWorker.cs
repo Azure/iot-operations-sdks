@@ -49,43 +49,46 @@ namespace EventDrivenTcpThermostatConnector
         private async Task OpenTcpConnectionAsync(AssetAvailableEventArgs args, AssetEvent assetEvent, int port)
         {
             _tcpConnectionCancellationToken = new();
-            try
+            while (true)
             {
-                //tcp-service.azure-iot-operations.svc.cluster.local:80
-                if (args.Device.Endpoints == null
-                    || args.Device.Endpoints.Inbound == null)
-                {
-                    _logger.LogError("Missing TCP server address configuration");
-                    return;
-                }
-
-                string host = args.Device.Endpoints.Inbound["my-tcp-endpoint"].Address.Split(":")[0];
-                _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", host, port);
-                using TcpClient client = new();
-                await client.ConnectAsync(host, port, _tcpConnectionCancellationToken.Token);
-                await using NetworkStream stream = client.GetStream();
-
                 try
                 {
-                    while (true)
+                    //tcp-service.azure-iot-operations.svc.cluster.local:80
+                    if (args.Device.Endpoints == null
+                        || args.Device.Endpoints.Inbound == null)
                     {
-                        byte[] buffer = new byte[1024];
-                        int bytesRead = await stream.ReadAsync(buffer.AsMemory(0, 1024), _tcpConnectionCancellationToken.Token);
-                        Array.Resize(ref buffer, bytesRead);
+                        _logger.LogError("Missing TCP server address configuration");
+                        return;
+                    }
 
-                        _logger.LogInformation("Received data from event with name {0} on asset with name {1}. Forwarding this data to the MQTT broker.", assetEvent.Name, args.AssetName);
-                        await _connector.ForwardReceivedEventAsync(args.Asset, assetEvent, buffer, _tcpConnectionCancellationToken.Token);
+                    string host = args.Device.Endpoints.Inbound["my-tcp-endpoint"].Address.Split(":")[0];
+                    _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", host, port);
+                    using TcpClient client = new();
+                    await client.ConnectAsync(host, port, _tcpConnectionCancellationToken.Token);
+                    await using NetworkStream stream = client.GetStream();
+
+                    try
+                    {
+                        while (true)
+                        {
+                            byte[] buffer = new byte[1024];
+                            int bytesRead = await stream.ReadAsync(buffer.AsMemory(0, 1024), _tcpConnectionCancellationToken.Token);
+                            Array.Resize(ref buffer, bytesRead);
+
+                            _logger.LogInformation("Received data from event with name {0} on asset with name {1}. Forwarding this data to the MQTT broker.", assetEvent.Name, args.AssetName);
+                            await _connector.ForwardReceivedEventAsync(args.Asset, assetEvent, buffer, _tcpConnectionCancellationToken.Token);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Failed to listen on TCP connection");
+                        await Task.Delay(TimeSpan.FromSeconds(10));
                     }
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(e, "Failed to listen on TCP connection");
-                    await Task.Delay(TimeSpan.FromSeconds(10));
+                    _logger.LogError(e, "Failed to open TCP connection to asset");
                 }
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Failed to open TCP connection to asset");
             }
         }
 
