@@ -191,12 +191,9 @@
         }
       }
     },
-    "connectorConfigurationKeys": {
-      "type": "array",
-      "description": "The array of keys in the connector configuration",
-      "items": {
-        "type": "string"
-      }
+    "connectorConfigurationSchema": {
+      "description": "The connector-level JSON schemas for the 'additional configuration' field. A JSON schema must be only if that field is used by this connector.",
+      "$ref": "http://json-schema.org/draft-07/schema#"
     },
     "inboundEndpoints": {
       "type": "array",
