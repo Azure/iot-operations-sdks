@@ -188,9 +188,24 @@
     "connectorConfigurationKeys": {
       "type": "array",
       "description": "The array of keys in the connector configuration",
-      "items": {
-        "type": "string"
-      }
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "key": {
+              "description": "A key in the connector configuration key/value map.",
+              "type": "string"
+            },
+            "description": {
+              "description": "The description of this key.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "key"
+          ]
+        }
+      ]
     },
     "inboundEndpoints": {
       "type": "array",
