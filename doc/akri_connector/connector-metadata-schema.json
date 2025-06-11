@@ -212,7 +212,7 @@
             "additionalConfigurationSchema": {
               "$ref": "http://json-schema.org/draft-07/schema#"
             },
-            "assetconfigurationSchemas": {
+            "assetConfigurationSchemas": {
               "type": "object",
               "description": "The JSON schemas for the asset-level stringified JSON fields. A JSON schema must be provided for each field only if that field is used by this connector.",
               "properties": {
