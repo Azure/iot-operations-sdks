@@ -38,11 +38,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MDISVersion",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "dtmi:opcua:MDIS:MDISInformationObjectType:dataType:MDISVersionDataType;1",
-      "writable": false
+      "schema": "dtmi:opcua:MDIS:MDISInformationObjectType:dataType:MDISVersionDataType;1"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

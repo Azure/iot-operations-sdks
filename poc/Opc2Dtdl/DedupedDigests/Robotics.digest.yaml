@@ -91,6 +91,10 @@ DefinedTypes:
 
   Robotics:MotionDeviceType:
   - [ UAObjectType, Robotics:1004, Robotics:MotionDeviceType ]
+  - HasProperty:
+    - [ UAVariable, Robotics:16362, Robotics:MotionDeviceCategory, Robotics:MotionDeviceCategoryEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Robotics:15305, Robotics:Axes ]
     - HasTypeDefinition:
@@ -120,6 +124,10 @@ DefinedTypes:
 
   Robotics:AxisType:
   - [ UAObjectType, Robotics:16601, Robotics:AxisType ]
+  - HasProperty:
+    - [ UAVariable, Robotics:16637, Robotics:MotionProfile, Robotics:AxisMotionProfileEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Robotics:16638, Robotics:AdditionalLoad ]
     - HasTypeDefinition:
@@ -191,6 +199,10 @@ DefinedTypes:
 
   Robotics:EmergencyStopFunctionType:
   - [ UAObjectType, Robotics:17230, Robotics:EmergencyStopFunctionType ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17231, Robotics:Name, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Robotics:17232, Robotics:Active, Boolean, 0, 0 ]
     - HasModellingRule:
@@ -200,6 +212,10 @@ DefinedTypes:
 
   Robotics:ProtectiveStopFunctionType:
   - [ UAObjectType, Robotics:17233, Robotics:ProtectiveStopFunctionType ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17234, Robotics:Name, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Robotics:17235, Robotics:Enabled, Boolean, 0, 0 ]
     - HasModellingRule:
@@ -318,5 +334,13 @@ DefinedTypes:
 
   Robotics:UserType:
   - [ UAObjectType, Robotics:18175, Robotics:UserType ]
+  - HasProperty:
+    - [ UAVariable, Robotics:18176, Robotics:Level, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:18177, Robotics:Name, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

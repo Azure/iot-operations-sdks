@@ -105,108 +105,121 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "DefaultInstanceBrowseName",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LTPPMissEnd",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LTPPMisstart",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LTPPMtramEnd",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPMaction",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMaction;1",
-      "writable": true
+      "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMaction;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPMarea",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPMisSeq",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "unsignedLong",
-      "writable": true
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPMopID",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPMpayld",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPMptFromID",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPMptFromN",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPMptFromType",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMptFromType;1",
-      "writable": true
+      "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMptFromType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPMptToID",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPMptToN",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPMptToType",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMptToType;1",
-      "writable": true
+      "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMptToType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPMtimeAct",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "dateTime",
-      "writable": true
+      "schema": "dateTime"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPMtramDist",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPMwaitgen",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "dateTime",
-      "writable": true
+      "schema": "dateTime"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPMwaitPoint",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "dateTime",
-      "writable": true
+      "schema": "dateTime"
     }
   ]
 }

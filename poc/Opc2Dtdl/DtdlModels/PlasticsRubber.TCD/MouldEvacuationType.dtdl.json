@@ -17,33 +17,29 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Mode",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "unsignedShort",
-      "writable": true
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Sink",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "unsignedShort",
-      "writable": true
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TemperatureLimit",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "Time",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "unit": "second",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
       "@type": [ "Command", "Qualified" ],

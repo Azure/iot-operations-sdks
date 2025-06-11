@@ -17,32 +17,28 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Diameter",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LengthToMountingFlange",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MaterialOfConstructionCodeAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RotorTypeAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     }
   ]
 }

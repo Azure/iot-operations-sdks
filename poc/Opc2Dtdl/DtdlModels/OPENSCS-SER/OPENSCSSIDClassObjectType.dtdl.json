@@ -13,7 +13,111 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15102",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSSIDClassObjectType:dataType:OPENSCSSIDClassPropertyDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15009",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "PropertyID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "PropertyDescription",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "PropertyValue",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LabelProperty",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSSIDClassObjectType:dataType:OPENSCSLabelPropertyDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSSIDClassObjectType:dataType:OPENSCSLabelPropertyDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15007",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "PropertyID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "PropertyDescription",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "PropertyValue",
+          "schema": "string"
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AllowedCharacterSet",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IntendedUse",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SIDClassDescription",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SIDClassID",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SIDClassOwner",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SIDClassProperty",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSSIDClassObjectType:dataType:OPENSCSSIDClassPropertyDataType;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SyntaxSpecification",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }

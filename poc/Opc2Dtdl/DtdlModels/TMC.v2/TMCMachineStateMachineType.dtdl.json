@@ -17,39 +17,34 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ClearingToStoppedGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LastTransition",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RunningToStoppingGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "StoppedToRunningGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "StoppingToStoppedGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

@@ -237,14 +237,34 @@ DefinedTypes:
   - [ UAObjectType, AutoID:1010, AutoID:AutoIdDiagnosticsEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6090, AutoID:DeviceName, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   AutoID:AutoIdAccessEventType:
   - [ UAObjectType, AutoID:1015, AutoID:AutoIdAccessEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6091, AutoID:AccessResult, AutoID:AccessResult, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, AutoID:1010, AutoID:AutoIdDiagnosticsEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6092, AutoID:Client, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6093, AutoID:Command, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   AutoID:RfidAccessEventType:
   - [ UAObjectType, AutoID:1016, AutoID:RfidAccessEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6094, AutoID:AccessResult, AutoID:RfidAccessResult, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, AutoID:1015, AutoID:AutoIdAccessEventType ]
 
@@ -257,45 +277,93 @@ DefinedTypes:
   - [ UAObjectType, AutoID:1018, AutoID:AutoIdPresenceEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, AutoID:1010, AutoID:AutoIdDiagnosticsEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6095, AutoID:Presence, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   AutoID:AutoIdScanEventType:
   - [ UAObjectType, AutoID:1004, AutoID:AutoIdScanEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6049, AutoID:DeviceName, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6024, AutoID:ScanResult, AutoID:ScanResult, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   AutoID:OcrScanEventType:
   - [ UAObjectType, AutoID:1005, AutoID:OcrScanEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, AutoID:1004, AutoID:AutoIdScanEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6041, AutoID:ScanResult, AutoID:OcrScanResult, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   AutoID:OpticalScanEventType:
   - [ UAObjectType, AutoID:1009, AutoID:OpticalScanEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, AutoID:1004, AutoID:AutoIdScanEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6147, AutoID:ScanResult, AutoID:OpticalScanResult, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   AutoID:OpticalVerifierScanEventType:
   - [ UAObjectType, AutoID:1013, AutoID:OpticalVerifierScanEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, AutoID:1009, AutoID:OpticalScanEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6227, AutoID:ScanResult, AutoID:OpticalVerifierScanResult, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   AutoID:RfidScanEventType:
   - [ UAObjectType, AutoID:1006, AutoID:RfidScanEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, AutoID:1004, AutoID:AutoIdScanEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6042, AutoID:ScanResult, AutoID:RfidScanResult, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   AutoID:RtlsLocationEventType:
   - [ UAObjectType, AutoID:1014, AutoID:RtlsLocationEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, AutoID:1004, AutoID:AutoIdScanEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6228, AutoID:ScanResult, AutoID:RtlsLocationResult, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   AutoID:AutoIdDeviceType:
   - [ UAObjectType, AutoID:1001, AutoID:AutoIdDeviceType ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1002, DI:DeviceType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6193, AutoID:AutoIdModelVersion, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6026, AutoID:DeviceInfo, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, AutoID:6128, AutoID:DeviceLocation, AutoID:Location, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6127, AutoID:DeviceLocationName, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6124, AutoID:DeviceName, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, AutoID:6030, AutoID:DeviceStatus, AutoID:DeviceStatusEnumeration, 0, 0 ]
     - HasModellingRule:
@@ -476,6 +544,10 @@ DefinedTypes:
 
   AutoID:RfidReaderDeviceType:
   - [ UAObjectType, AutoID:1003, AutoID:RfidReaderDeviceType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6048, AutoID:AntennaNames, AutoID:AntennaNameIdPair, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, AutoID:5038, AutoID:Diagnostics ]
     - HasTypeDefinition:
@@ -642,6 +714,10 @@ DefinedTypes:
 
   AutoID:RtlsDeviceType:
   - [ UAObjectType, AutoID:1012, AutoID:RtlsDeviceType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6214, AutoID:GeographicalUnit, EUInformation, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, AutoID:7056, AutoID:GetLocation ]
     - HasProperty:
@@ -674,6 +750,14 @@ DefinedTypes:
     - [ UAMethod, AutoID:7057, AutoID:GetUnits ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6217, AutoID:LengthUnit, EUInformation, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6216, AutoID:RotationalUnit, EUInformation, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, AutoID:1001, AutoID:AutoIdDeviceType ]
   - HasComponent:
@@ -693,3 +777,7 @@ DefinedTypes:
           Status: [ AutoID:AutoIdOperationStatusEnumeration, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6215, AutoID:SpeedUnit, EUInformation, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]

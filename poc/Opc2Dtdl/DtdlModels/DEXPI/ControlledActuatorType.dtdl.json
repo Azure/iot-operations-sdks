@@ -37,32 +37,28 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SubTagNameAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DeviceTypeNameAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FailActionRepresentationAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FailActionSpecialization",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "dtmi:opcua:DEXPI:ControlledActuatorType:dataType:FailActionClassification;1",
-      "writable": true
+      "schema": "dtmi:opcua:DEXPI:ControlledActuatorType:dataType:FailActionClassification;1"
     }
   ]
 }

@@ -15,5 +15,33 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Identifier",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "JobdIdentifier",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Location",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaterialIdentifier",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }

@@ -15,5 +15,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Id",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+      "schema": "string",
+      "writable": true
+    }
   ]
 }

@@ -16,6 +16,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NodeVersion",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Extruder",
+      "schema": "string",
+      "writable": false
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "Feeder_Nr",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Extruder",

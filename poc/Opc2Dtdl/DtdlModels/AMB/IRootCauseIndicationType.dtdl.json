@@ -13,7 +13,34 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1002",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:AMB:IRootCauseIndicationType:dataType:RootCauseDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=3002",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "RootCauseId",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "RootCause",
+          "schema": "string"
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PotentialRootCauses",
+      "namespace": "http://opcfoundation.org/UA/AMB",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:AMB:IRootCauseIndicationType:dataType:RootCauseDataType;1"
+      },
+      "writable": true
+    }
   ]
 }

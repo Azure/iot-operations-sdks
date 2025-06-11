@@ -16,5 +16,39 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MAC",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "unsignedByte"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IPv4",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "unsignedByte"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DNSNAME",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "VALID",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
+      "schema": "boolean",
+      "writable": false
+    }
   ]
 }

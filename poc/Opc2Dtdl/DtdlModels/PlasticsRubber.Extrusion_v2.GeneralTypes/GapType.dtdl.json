@@ -17,10 +17,37 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "IsClosed",
+      "name": "Id",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RollId1",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RollId2",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "StockingGuideIsPresent",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "schema": "boolean",
       "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "IsClosed",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
+      "schema": "boolean"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

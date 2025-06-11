@@ -18,38 +18,61 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "HHlimit",
-      "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "boolean",
-      "writable": false
-    },
-    {
-      "@type": [ "Property", "Qualified" ],
-      "name": "Hlimit",
-      "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "boolean",
-      "writable": false
-    },
-    {
-      "@type": [ "Property", "Qualified" ],
-      "name": "Llimit",
-      "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "boolean",
-      "writable": false
-    },
-    {
-      "@type": [ "Property", "Qualified" ],
-      "name": "LLlimit",
-      "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "boolean",
-      "writable": false
-    },
-    {
-      "@type": [ "Property", "Qualified" ],
-      "name": "ProcessVariable",
+      "name": "HHSetPoint",
       "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "float",
-      "writable": false
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "HSetPoint",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LLSetPoint",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LSetPoint",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "HHlimit",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
+      "schema": "boolean"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "Hlimit",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
+      "schema": "boolean"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "Llimit",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
+      "schema": "boolean"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "LLlimit",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
+      "schema": "boolean"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "ProcessVariable",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
+      "schema": "float"
     }
   ]
 }

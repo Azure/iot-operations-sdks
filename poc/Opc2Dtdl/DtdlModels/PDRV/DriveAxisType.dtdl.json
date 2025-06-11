@@ -17,6 +17,20 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ApplicationTag",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AxisType",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "unsignedByte",
+      "writable": false
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "SetApplicationTag",
       "namespace": "http://opcfoundation.org/UA/PDRV",

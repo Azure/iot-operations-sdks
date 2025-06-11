@@ -16,5 +16,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "StandstillReasonId",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }

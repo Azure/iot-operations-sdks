@@ -15,5 +15,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SignalTag",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
+      "schema": "string",
+      "writable": true
+    }
   ]
 }

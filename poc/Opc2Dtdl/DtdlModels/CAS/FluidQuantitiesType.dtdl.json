@@ -18,6 +18,13 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "StartTime",
+      "namespace": "http://opcfoundation.org/UA/IA",
+      "schema": "dateTime",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Quantity",
       "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": {
@@ -32,78 +39,67 @@
           "unit": "",
           "schema": "integer"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AbsolutePressure",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AccumulatedVolume",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DewPoint",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "GaugePressure",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MassFlowRate",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OilConcentration",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelativeHumidity",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Temperature",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Volume",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "VolumeFlowRate",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
       "@type": [ "Command", "Qualified" ],

@@ -15,6 +15,23 @@
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
+      "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType:dataType:PageEntryDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3014",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Title",
+          "schema": "string"
+        }
+      ]
+    },
+    {
       "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType:dataType:TimeZoneDataType;1",
       "@type": [ "Object", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA;i=8912",
@@ -33,6 +50,37 @@
     }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LocationName",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PageDirectory",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType:dataType:PageEntryDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "TimeZoneOffset",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType:dataType:TimeZoneDataType;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "UserMachineName",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": "string",
+      "writable": true
+    },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetCurrentPage",

@@ -17,18 +17,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DisplayText",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InstructionId",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     }
   ]
 }

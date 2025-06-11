@@ -18,31 +18,41 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "EncoderReadingDistance",
+      "name": "EncoderMounting",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     },
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "EncoderSpeedLinearMax",
-      "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
-    },
-    {
-      "@type": [ "Property", "Qualified" ],
-      "name": "RangeLinear",
+      "name": "ResolutionLinearIncremental",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "EncoderReadingDistance",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "float"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "EncoderSpeedLinearMax",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "float"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "RangeLinear",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "unsignedInteger"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ResolutionLinearAbsolute",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     }
   ]
 }

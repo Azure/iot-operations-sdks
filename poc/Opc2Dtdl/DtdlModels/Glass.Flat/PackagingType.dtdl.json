@@ -17,25 +17,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CornerProtection",
       "namespace": "http://opcfoundation.org/UA/Glass.Flat",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PerimeterProtection",
       "namespace": "http://opcfoundation.org/UA/Glass.Flat",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Spacer",
       "namespace": "http://opcfoundation.org/UA/Glass.Flat",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     }
   ]
 }

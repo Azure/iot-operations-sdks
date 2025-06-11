@@ -76,18 +76,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CurrentMode",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitModeEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitModeEnumeration;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CurrentState",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitStateEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitStateEnumeration;1"
     }
   ]
 }

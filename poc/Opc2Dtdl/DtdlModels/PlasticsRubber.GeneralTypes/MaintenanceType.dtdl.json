@@ -14,28 +14,59 @@
   "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MaintenanceType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType:dataType:MaintenanceStatusEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3013",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NOT_DUE",
+          "enumValue": 0
+        },
+        {
+          "name": "WARNING",
+          "enumValue": 1
+        },
+        {
+          "name": "DUE",
+          "enumValue": 2
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "AdditionalInformation",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Status",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType:dataType:MaintenanceStatusEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Interval",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RemainingInterval",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TotalOperation",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
       "@type": [ "Command", "Qualified" ],

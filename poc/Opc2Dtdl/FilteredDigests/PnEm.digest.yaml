@@ -293,6 +293,10 @@ DefinedTypes:
     - [ UAVariable, PNEM:6107, PNEM:TimeMinPause, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PNEM:6109, PNEM:WOLMagicPacket, ByteString, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PNEM:EnergyMeasurementType:
   - [ UAObjectType, PNEM:1006, PNEM:EnergyMeasurementType ]
@@ -307,6 +311,10 @@ DefinedTypes:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PNEM:6055, PNEM:PeObjectNumber, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PNEM:7008, PNEM:ResetEnergyCounter ]
     - HasModellingRule:
@@ -338,6 +346,10 @@ DefinedTypes:
 
   PNEM:EnergySavingModeType:
   - [ UAObjectType, PNEM:1003, PNEM:EnergySavingModeType ]
+  - HasProperty:
+    - [ UAVariable, PNEM:6026, PNEM:DynamicData, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PNEM:6036, PNEM:EnergyConsumptionToOperate, Float, 0, 0 ]
     - HasModellingRule:
@@ -348,6 +360,10 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PNEM:6025, PNEM:ID, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PNEM:6032, PNEM:ModePowerConsumption, Float, 0, 0 ]
     - HasModellingRule:
@@ -457,5 +473,17 @@ DefinedTypes:
 
   PNEM:PeServiceAccessPointType:
   - [ UAObjectType, PNEM:1013, PNEM:PeServiceAccessPointType ]
+  - HasProperty:
+    - [ UAVariable, PNEM:6112, PNEM:PeClass, PNEM:PeClassEnumeration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PNEM:6113, PNEM:PeSubclass, PNEM:PeSubclassEnumeration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNEM:6114, PNEM:PeVersion, PNEM:PeVersionDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]

@@ -120,6 +120,10 @@ DefinedTypes:
     - [ UAVariable, Scheduler:38, Scheduler:PresentValue, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Scheduler:39, Scheduler:DateList, Scheduler:CalendarEntryType, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scheduler:40, Scheduler:AddDateListElements ]
     - HasProperty:
@@ -157,6 +161,10 @@ DefinedTypes:
 
   Scheduler:ScheduleType:
   - [ UAObjectType, Scheduler:52, Scheduler:ScheduleType ]
+  - HasProperty:
+    - [ UAVariable, Scheduler:53, Scheduler:ExceptionSchedule, Scheduler:SpecialEventType, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scheduler:54, Scheduler:AddExceptionScheduleElements ]
     - HasProperty:
@@ -189,5 +197,21 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Scheduler:60, Scheduler:WeeklySchedule, Scheduler:DailyScheduleType, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Scheduler:61, Scheduler:LocalTime, TimeZoneDataType, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Scheduler:62, Scheduler:EffectivePeriod, Scheduler:DateRangeType, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Scheduler:63, Scheduler:ApplyLastAfterStart, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

@@ -17,6 +17,20 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DensityUnit",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NodeVersion",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": "string",
+      "writable": false
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "AddMaterial",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",

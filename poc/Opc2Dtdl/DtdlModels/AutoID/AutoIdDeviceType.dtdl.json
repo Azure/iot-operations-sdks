@@ -387,38 +387,61 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "DeviceLocation",
-      "namespace": "http://opcfoundation.org/UA/AutoID",
-      "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:Location;1",
-      "writable": true
-    },
-    {
-      "@type": [ "Property", "Qualified" ],
-      "name": "DeviceStatus",
-      "namespace": "http://opcfoundation.org/UA/AutoID",
-      "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:DeviceStatusEnumeration;1",
-      "writable": false
-    },
-    {
-      "@type": [ "Property", "Qualified" ],
-      "name": "LastScanData",
+      "name": "AutoIdModelVersion",
       "namespace": "http://opcfoundation.org/UA/AutoID",
       "schema": "string",
-      "writable": false
+      "writable": true
     },
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "DeviceInfo",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceLocationName",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceName",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "DeviceLocation",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
+      "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:Location;1"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "DeviceStatus",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
+      "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:DeviceStatusEnumeration;1"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "LastScanData",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
+      "schema": "string"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LastScanTimestamp",
       "namespace": "http://opcfoundation.org/UA/AutoID",
-      "schema": "time",
-      "writable": true
+      "schema": "time"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ScanActive",
       "namespace": "http://opcfoundation.org/UA/AutoID",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
       "@type": [ "Command", "Qualified" ],

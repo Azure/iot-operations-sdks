@@ -17,59 +17,65 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "DynamicData",
+      "namespace": "http://opcfoundation.org/UA/ECM",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ID",
+      "namespace": "http://opcfoundation.org/UA/ECM",
+      "schema": "unsignedByte",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "EnergyConsumptionToOperate",
       "namespace": "http://opcfoundation.org/UA/ECM",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "EnergyConsumptionToPause",
       "namespace": "http://opcfoundation.org/UA/ECM",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ModePowerConsumption",
       "namespace": "http://opcfoundation.org/UA/ECM",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RegularTimeToOperate",
       "namespace": "http://opcfoundation.org/UA/ECM",
-      "schema": "duration",
-      "writable": false
+      "schema": "duration"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TimeMaxLengthOfStay",
       "namespace": "http://opcfoundation.org/UA/ECM",
-      "schema": "duration",
-      "writable": false
+      "schema": "duration"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TimeMinLengthOfStay",
       "namespace": "http://opcfoundation.org/UA/ECM",
-      "schema": "duration",
-      "writable": false
+      "schema": "duration"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TimeMinPause",
       "namespace": "http://opcfoundation.org/UA/ECM",
-      "schema": "duration",
-      "writable": false
+      "schema": "duration"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TimeToPause",
       "namespace": "http://opcfoundation.org/UA/ECM",
-      "schema": "duration",
-      "writable": false
+      "schema": "duration"
     }
   ]
 }

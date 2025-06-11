@@ -444,6 +444,18 @@ DefinedTypes:
 
   FX.CM:ConnectionConfigurationSetEventType:
   - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType ]
+  - HasProperty:
+    - [ UAVariable, FX.CM:6354, FX.CM:Action, FX.CM:FxProcessEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, FX.CM:6352, FX.CM:ConnectionConfigurationSetNode, NodeId, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, FX.CM:6353, FX.CM:Name, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
@@ -555,6 +567,10 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, FX.CM:1018, FX.CM:ConnectionConfigurationSetStateMachineType ]
+  - HasProperty:
+    - [ UAVariable, FX.CM:6487, FX.CM:Edit, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, FX.CM:5095, DI:Lock ]
     - HasModellingRule:
@@ -565,6 +581,10 @@ DefinedTypes:
     - [ UAVariable, FX.CM:6209, FX.CM:PubSubKeyPushTargets, PubSubKeyPushTargetDataType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.CM:1272, FX.CM:RollbackOnError, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, FX.CM:6208, FX.CM:SecurityGroups, SecurityGroupDataType, 1, 3 ]
     - HasModellingRule:

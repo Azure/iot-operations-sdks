@@ -16,60 +16,53 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Volume" ],
+      "@type": [ "Telemetry", "Qualified", "Volume" ],
       "name": "ActualInjectedVolume",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "millilitre",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Pressure" ],
+      "@type": [ "Telemetry", "Qualified", "Pressure" ],
       "name": "CarrierGasGaugePressure",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "millibar",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "VolumeFlowRate" ],
+      "@type": [ "Telemetry", "Qualified", "VolumeFlowRate" ],
       "name": "CarrierGasVolumeFlow",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "litrePerHour",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "CoolerTemperature",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "ReactorTemperature",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Volume" ],
+      "@type": [ "Telemetry", "Qualified", "Volume" ],
       "name": "ReferenceInjectionVolume",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "millilitre",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "VolumeFlowRate" ],
+      "@type": [ "Telemetry", "Qualified", "VolumeFlowRate" ],
       "name": "SampleWaterVolumeFlow",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "millilitrePerMinute",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     }
   ]
 }

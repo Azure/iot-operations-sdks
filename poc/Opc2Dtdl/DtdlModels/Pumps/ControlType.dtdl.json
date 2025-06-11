@@ -17,96 +17,83 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CommandVariable",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ControlDifferenceVariable",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ControlledVariable",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ControllerOutputVariable",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "DeadTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "second",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DerivativeActionCoefficient",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FeedbackVariable",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FinalControlledVariable",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "IntegralActionCoefficient",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ManipulatedVariable",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OperatingMode",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProportionalActionCoefficient",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ReferenceVariable",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     }
   ]
 }

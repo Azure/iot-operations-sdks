@@ -14,7 +14,52 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1040",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetCommandFailureNotificationType:dataType:BACnetStatusFlags;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3065",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "InAlarm",
+          "enumValue": 0
+        },
+        {
+          "name": "Fault",
+          "enumValue": 1
+        },
+        {
+          "name": "Overriden",
+          "enumValue": 2
+        },
+        {
+          "name": "OutOfService",
+          "enumValue": 3
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CommandValue",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "FeedbackValue",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "StatusFlags",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetCommandFailureNotificationType:dataType:BACnetStatusFlags;1",
+      "writable": true
+    }
   ]
 }

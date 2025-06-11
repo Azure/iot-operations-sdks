@@ -16,6 +16,20 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceEnabled",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DisplayLanguage",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+      "schema": "string",
+      "writable": true
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "Identification",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",

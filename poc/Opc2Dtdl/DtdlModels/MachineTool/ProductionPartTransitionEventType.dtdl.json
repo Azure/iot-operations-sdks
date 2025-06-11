@@ -69,17 +69,43 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "PartQuality",
+      "name": "CustomerOrderIdentifier",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType:dataType:PartQuality;1",
+      "schema": "string",
       "writable": false
     },
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "Identifier",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "JobIdentifier",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "PartQuality",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
+      "schema": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType:dataType:PartQuality;1"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProcessIrregularity",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType:dataType:ProcessIrregularity;1",
-      "writable": false
+      "schema": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType:dataType:ProcessIrregularity;1"
     }
   ]
 }

@@ -39,6 +39,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NodeVersion",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
+      "schema": "string",
+      "writable": false
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "AddJobGroup",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",

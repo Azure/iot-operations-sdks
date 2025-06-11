@@ -14,7 +14,75 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1015",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetBinaryValueType:dataType:BACnetPriorityValue;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3053",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Real",
+          "schema": "float"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Enumerated",
+          "schema": "integer"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Unsigned",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Boolean",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Signed",
+          "schema": "integer"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Double",
+          "schema": "double"
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Minimum_Off_Time",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Minimum_On_Time",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Priority_Array",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:BACnet_V2:BACnetBinaryValueType:dataType:BACnetPriorityValue;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Relinquish_Default",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "boolean",
+      "writable": true
+    }
   ]
 }

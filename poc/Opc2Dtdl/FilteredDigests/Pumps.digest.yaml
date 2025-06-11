@@ -281,8 +281,48 @@ DefinedTypes:
 
   Pumps:IPumpVendorNameplateType:
   - [ UAObjectType, Pumps:1004, Pumps:IPumpVendorNameplateType ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6063, Pumps:ArticleNumber, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6080, Pumps:CountryOfOrigin, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6064, Pumps:DayOfConstruction, Int32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6065, Pumps:FabricationNumber, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6066, Pumps:GTINCode, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1010, Machinery:IMachineVendorNameplateType ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6067, Pumps:NationalStockNumber, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6068, Pumps:OrderProductCode, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Pumps:9940, Pumps:PhysicalAddress, Pumps:PhysicalAddressDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6069, Pumps:Supplier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6070, Pumps:TypeOfProduct, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   Pumps:DiscreteObjectType:
   - [ UAObjectType, Pumps:1029, Pumps:DiscreteObjectType ]
@@ -2538,14 +2578,58 @@ DefinedTypes:
 
   Pumps:PumpIdentificationType:
   - [ UAObjectType, Pumps:1005, Pumps:PumpIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6071, Pumps:ArticleNumber, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6079, Pumps:CountryOfOrigin, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6072, Pumps:DayOfConstruction, Int32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Pumps:12928, DI:DeviceClass, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6073, Pumps:FabricationNumber, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6074, Pumps:GTINCode, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Pumps:5022, Pumps:Markings ]
     - HasTypeDefinition:
       - [ UAObjectType, Pumps:1002, Pumps:MarkingsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6075, Pumps:NationalStockNumber, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6076, Pumps:OrderProductCode, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6081, Pumps:PhysicalAddress, Pumps:PhysicalAddressDataType, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6077, Pumps:Supplier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Pumps:6078, Pumps:TypeOfProduct, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   Pumps:MaintenanceGroupType:
   - [ UAObjectType, Pumps:1011, Pumps:MaintenanceGroupType ]

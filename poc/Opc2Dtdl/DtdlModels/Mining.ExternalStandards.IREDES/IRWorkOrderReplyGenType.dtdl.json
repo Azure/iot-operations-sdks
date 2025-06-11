@@ -41,44 +41,46 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "Answer",
-      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRWorkOrderReplyGenType:dataType:Answer;1",
-      "writable": true
-    },
-    {
-      "@type": [ "Property", "Qualified" ],
-      "name": "Condition",
+      "name": "DefaultInstanceBrowseName",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": [ "Property", "Qualified" ],
-      "name": "Duration",
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "Answer",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "duration",
-      "writable": true
+      "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRWorkOrderReplyGenType:dataType:Answer;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "Condition",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
+      "schema": "string"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "Duration",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
+      "schema": "duration"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Extra",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Reason",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
-      },
-      "writable": true
+      }
     }
   ]
 }

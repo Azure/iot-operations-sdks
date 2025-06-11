@@ -17,14 +17,13 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Direction",
       "namespace": "http://opcfoundation.org/UA/AMLLibs",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Cardinality",
       "namespace": "http://opcfoundation.org/UA/AMLLibs",
       "schema": {
@@ -49,15 +48,13 @@
             "schema": "unsignedInteger"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Category",
       "namespace": "http://opcfoundation.org/UA/AMLLibs",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

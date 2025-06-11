@@ -16,11 +16,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProcessingResult",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

@@ -35,66 +35,64 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "NumberOfInputPhases",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "unsignedByte",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InputCurrentMax",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InputCurrentRated",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InputFrequencyMax",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InputFrequencyRangeRated",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType:dataType:Range;1",
-      "writable": false
+      "schema": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType:dataType:Range;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InputPowerMax",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InputPowerRated",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InputVoltageMax",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InputVoltageRange",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType:dataType:Range;1",
-      "writable": false
+      "schema": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType:dataType:Range;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InputVoltageRated",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     }
   ]
 }

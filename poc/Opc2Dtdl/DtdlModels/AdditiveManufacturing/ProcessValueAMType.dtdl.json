@@ -14,7 +14,57 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=1002",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:AdditiveManufacturing:ProcessValueAMType:dataType:SensorCategory;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=3003",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "MachineHealth",
+          "enumValue": 0
+        },
+        {
+          "name": "MaintenanceTracking",
+          "enumValue": 1
+        },
+        {
+          "name": "ProcessMonitoring",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:AdditiveManufacturing:ProcessValueAMType:dataType:SensorSeverity;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=3002",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Info",
+          "enumValue": 0
+        },
+        {
+          "name": "Critical",
+          "enumValue": 1
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Category",
+      "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
+      "schema": "dtmi:opcua:AdditiveManufacturing:ProcessValueAMType:dataType:SensorCategory;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Severity",
+      "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
+      "schema": "dtmi:opcua:AdditiveManufacturing:ProcessValueAMType:dataType:SensorSeverity;1",
+      "writable": true
+    }
   ]
 }

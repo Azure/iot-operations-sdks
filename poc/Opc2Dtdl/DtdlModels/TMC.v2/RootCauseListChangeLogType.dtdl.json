@@ -14,7 +14,39 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1014",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:TMC_v2:RootCauseListChangeLogType:dataType:RootCauseMessageType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3029",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "GroupID",
+          "schema": "string"
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NewRootCauseMessages",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:TMC_v2:RootCauseListChangeLogType:dataType:RootCauseMessageType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OldRootCauseMessages",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:TMC_v2:RootCauseListChangeLogType:dataType:RootCauseMessageType;1"
+      },
+      "writable": false
+    }
   ]
 }

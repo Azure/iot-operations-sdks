@@ -81,24 +81,28 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "SignalOn",
+      "namespace": "http://opcfoundation.org/UA/IA",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ChannelColor",
       "namespace": "http://opcfoundation.org/UA/IA",
-      "schema": "dtmi:opcua:IA:ControlChannelType:dataType:SignalColor;1",
-      "writable": true
+      "schema": "dtmi:opcua:IA:ControlChannelType:dataType:SignalColor;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Intensity",
       "namespace": "http://opcfoundation.org/UA/IA",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SignalMode",
       "namespace": "http://opcfoundation.org/UA/IA",
-      "schema": "dtmi:opcua:IA:ControlChannelType:dataType:SignalModeLight;1",
-      "writable": true
+      "schema": "dtmi:opcua:IA:ControlChannelType:dataType:SignalModeLight;1"
     }
   ]
 }

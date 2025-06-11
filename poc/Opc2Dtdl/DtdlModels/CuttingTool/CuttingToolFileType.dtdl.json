@@ -13,7 +13,36 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool;i=1003",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:CuttingTool:CuttingToolFileType:dataType:FileFormatDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool;i=3003",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "FileExtension",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Version",
+          "schema": "string"
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "FileFormat",
+      "namespace": "http://opcfoundation.org/UA/CuttingTool",
+      "schema": "dtmi:opcua:CuttingTool:CuttingToolFileType:dataType:FileFormatDataType;1",
+      "writable": true
+    }
   ]
 }

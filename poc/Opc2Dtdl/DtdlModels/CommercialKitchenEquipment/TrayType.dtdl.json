@@ -97,50 +97,51 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Property", "Qualified" ],
+      "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "ActiveSince",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "second",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "ActualTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "OperatingCounter",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "second",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProgramMode",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "dtmi:opcua:CommercialKitchenEquipment:TrayType:dataType:TrayModeEnumeration;1",
-      "writable": true
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:TrayType:dataType:TrayModeEnumeration;1"
     },
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "SetTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Type",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "dtmi:opcua:CommercialKitchenEquipment:TrayType:dataType:TrayTypeEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:TrayType:dataType:TrayTypeEnumeration;1"
     }
   ]
 }

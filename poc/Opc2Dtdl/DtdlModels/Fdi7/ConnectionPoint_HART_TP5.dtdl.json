@@ -16,5 +16,50 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DevAddr",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "unsignedByte"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DevMfg",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DevType",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DevRev",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DevTag",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DevPollAddr",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
+      "schema": "unsignedByte",
+      "writable": false
+    }
   ]
 }

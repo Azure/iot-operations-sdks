@@ -15,5 +15,122 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AxisState",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ControlPriority",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OutputCurrent",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Torque",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Force",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Power",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MotorTemperature",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ConverterTemperature",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceTemperature",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DcBusVoltage",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PositionFollowingError",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "VelocityFollowingError",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ControlMode",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "FeedbackSensor13Temperature",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "FeedbackSensor13Temperature",
+          "schema": "string"
+        },
+        "mapValue": {
+          "@type": [ "MapValue", "" ],
+          "name": "FeedbackSensor13TemperatureSchema",
+          "unit": "",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "BrakeResistorTemperature",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "float",
+      "writable": false
+    }
   ]
 }

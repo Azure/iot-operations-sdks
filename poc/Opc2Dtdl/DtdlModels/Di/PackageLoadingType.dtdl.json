@@ -18,10 +18,16 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "WriteBlockSize",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ErrorMessage",
       "namespace": "http://opcfoundation.org/UA/DI",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

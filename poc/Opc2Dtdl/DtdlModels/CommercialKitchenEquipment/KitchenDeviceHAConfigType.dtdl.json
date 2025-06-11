@@ -15,5 +15,19 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "HistoryDuration",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SamplingInterval",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "schema": "duration",
+      "writable": true
+    }
   ]
 }

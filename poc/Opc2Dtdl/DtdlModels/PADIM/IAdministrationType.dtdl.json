@@ -37,18 +37,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DisplayLanguage",
       "namespace": "http://opcfoundation.org/UA/PADIM",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DateOfLastChange",
       "namespace": "http://opcfoundation.org/UA/PADIM",
-      "schema": "dateTime",
-      "writable": false
+      "schema": "dateTime"
     },
     {
       "@type": [ "Command", "Qualified" ],

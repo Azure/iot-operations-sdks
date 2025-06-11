@@ -36,25 +36,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Category",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Direction",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "dtmi:opcua:Pumps:PortType:dataType:PortDirectionEnum;1",
-      "writable": true
+      "schema": "dtmi:opcua:Pumps:PortType:dataType:PortDirectionEnum;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "IdCarrier",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     }
   ]
 }

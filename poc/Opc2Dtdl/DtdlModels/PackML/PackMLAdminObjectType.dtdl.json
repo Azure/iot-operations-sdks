@@ -75,95 +75,85 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AccTimeSinceReset",
       "namespace": "http://opcfoundation.org/UA/PackML",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AlarmExtent",
       "namespace": "http://opcfoundation.org/UA/PackML",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AlarmHistoryExtent",
       "namespace": "http://opcfoundation.org/UA/PackML",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MachDesignSpeed",
       "namespace": "http://opcfoundation.org/UA/PackML",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ModeCumulativeTime",
       "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": {
         "@type": "Array",
         "elementSchema": "integer"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ModeCurrentTime",
       "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": {
         "@type": "Array",
         "elementSchema": "integer"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Parameter",
       "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:PackML:PackMLAdminObjectType:dataType:PackMLDescriptorDataType;1"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProdConsumedCount",
       "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:PackML:PackMLAdminObjectType:dataType:PackMLCountDataType;1"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProdDefectiveCount",
       "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:PackML:PackMLAdminObjectType:dataType:PackMLCountDataType;1"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProdProcessedCount",
       "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:PackML:PackMLAdminObjectType:dataType:PackMLCountDataType;1"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "StateCumulativeTime",
       "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": {
@@ -172,11 +162,10 @@
           "@type": "Array",
           "elementSchema": "integer"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "StateCurrentTime",
       "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": {
@@ -185,22 +174,19 @@
           "@type": "Array",
           "elementSchema": "integer"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "StopReasonExtent",
       "namespace": "http://opcfoundation.org/UA/PackML",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "WarningExtent",
       "namespace": "http://opcfoundation.org/UA/PackML",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     }
   ]
 }

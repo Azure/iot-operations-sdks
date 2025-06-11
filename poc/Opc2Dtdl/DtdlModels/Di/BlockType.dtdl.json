@@ -16,5 +16,49 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RevisionCounter",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ActualMode",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PermittedMode",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NormalMode",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "TargetMode",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    }
   ]
 }

@@ -16,6 +16,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DisplayLanguage",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+      "schema": "string",
+      "writable": true
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "DeviceZone",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",

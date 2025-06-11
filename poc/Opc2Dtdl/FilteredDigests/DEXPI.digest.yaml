@@ -240,6 +240,14 @@ DefinedTypes:
 
   DEXPI:DEXPISupplementaryDataType:
   - [ UAObjectType, DEXPI:1061, DEXPI:DEXPISupplementaryDataType ]
+  - HasProperty:
+    - [ UAVariable, DEXPI:1062, DEXPI:ProteusXMLExternalLink, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, DEXPI:1063, DEXPI:DEXPIXMIExternalLink, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DEXPI:1064, DEXPI:DEXPIXMIFile ]
     - HasTypeDefinition:
@@ -250,6 +258,14 @@ DefinedTypes:
     - [ UAObject, DEXPI:1065, DEXPI:ProteusXMLFile ]
     - HasTypeDefinition:
       - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, DEXPI:1066, DEXPI:DEXPISpecificationVersion, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, DEXPI:1067, DEXPI:ProteusSchemaVersion, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:

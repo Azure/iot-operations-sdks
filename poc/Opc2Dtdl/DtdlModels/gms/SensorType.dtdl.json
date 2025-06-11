@@ -14,24 +14,121 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1007",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:GMS:SensorType:dataType:ToolAlignmentState;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=3004",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Fixed",
+          "enumValue": 0
+        },
+        {
+          "name": "Indexed",
+          "enumValue": 1
+        },
+        {
+          "name": "Continuous",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:GMS:SensorType:dataType:ToolIsQualifiedStatus;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=3002",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Qualified",
+          "enumValue": 0
+        },
+        {
+          "name": "Imprecise",
+          "enumValue": 1
+        },
+        {
+          "name": "NotQualified",
+          "enumValue": 2
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "Capabilities",
+      "name": "AbsoluteProbe",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Alignment",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "dtmi:opcua:GMS:SensorType:dataType:ToolAlignmentState;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Axes",
       "namespace": "http://opcfoundation.org/UA/GMS",
       "schema": {
         "@type": "Array",
-        "elementSchema": "unsignedInteger"
+        "elementSchema": "string"
       },
       "writable": true
     },
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "EngineeringUnit",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IsQualifiedStatus",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "dtmi:opcua:GMS:SensorType:dataType:ToolIsQualifiedStatus;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MeasuringRange",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Resolution",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "WorkingRange",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "Capabilities",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "unsignedInteger"
+      }
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Class",
       "namespace": "http://opcfoundation.org/UA/GMS",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     }
   ]
 }

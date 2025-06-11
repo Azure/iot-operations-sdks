@@ -15,5 +15,19 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Object_Identifier",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Profile_Name",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "string",
+      "writable": true
+    }
   ]
 }

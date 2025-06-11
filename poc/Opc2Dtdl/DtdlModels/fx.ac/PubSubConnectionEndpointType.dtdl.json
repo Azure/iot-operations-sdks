@@ -37,11 +37,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Mode",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
-      "schema": "dtmi:opcua:FX_AC:PubSubConnectionEndpointType:dataType:PubSubConnectionEndpointModeEnum;1",
-      "writable": true
+      "schema": "dtmi:opcua:FX_AC:PubSubConnectionEndpointType:dataType:PubSubConnectionEndpointModeEnum;1"
     }
   ]
 }

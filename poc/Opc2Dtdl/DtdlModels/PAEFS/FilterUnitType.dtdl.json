@@ -17,6 +17,41 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaintenanceRequested",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Malfunction",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OperationCycleCounter",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OperationDuration",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "duration",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PowerOnDuration",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "duration",
+      "writable": false
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "OperationOff",
       "namespace": "http://opcfoundation.org/UA/PAEFS"

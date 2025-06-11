@@ -399,10 +399,19 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "Date_List",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetCalendarEntry;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Present_Value",
       "namespace": "http://opcfoundation.org/UA/BACnet_V2",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
       "@type": [ "Command", "Qualified" ],

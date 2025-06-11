@@ -16,5 +16,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Position",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": "unsignedInteger",
+      "writable": false
+    }
   ]
 }

@@ -18,39 +18,34 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SampleCuttingLength",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SideClampClosed",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TotalWasteLength",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "WasteCuttingLength",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "WasteIndicator",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
       "@type": [ "Command", "Qualified" ],

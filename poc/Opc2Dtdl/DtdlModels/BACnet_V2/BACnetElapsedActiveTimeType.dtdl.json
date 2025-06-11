@@ -17,6 +17,20 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Elapsed_Active_Time",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Time_Of_Active_Time_Reset",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "Reset",
       "namespace": "http://opcfoundation.org/UA/BACnet_V2"

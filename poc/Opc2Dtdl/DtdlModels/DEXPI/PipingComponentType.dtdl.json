@@ -49,46 +49,40 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "BasfLineClassAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FluidCodeAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NominalDiametersRepresentationAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OnHoldSpecialization",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "dtmi:opcua:DEXPI:PipingComponentType:dataType:OnHoldClassification;1",
-      "writable": true
+      "schema": "dtmi:opcua:DEXPI:PipingComponentType:dataType:OnHoldClassification;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PipingClassArtefactSpecialization",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "dtmi:opcua:DEXPI:PipingComponentType:dataType:PipingClassArtefactClassification;1",
-      "writable": true
+      "schema": "dtmi:opcua:DEXPI:PipingComponentType:dataType:PipingClassArtefactClassification;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PressureTestCircuitNumberAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

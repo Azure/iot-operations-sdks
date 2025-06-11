@@ -17,25 +17,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ForcerWeight",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MotorBackEMF",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MotorPolePairPitch",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     }
   ]
 }

@@ -15,6 +15,38 @@
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
+      "@id": "dtmi:opcua:PNENC:EncoderSensorConfigType:dataType:EncoderConfigTypeEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3011",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "STATIC",
+          "enumValue": 0
+        },
+        {
+          "name": "DYNAMIC",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PNENC:EncoderSensorConfigType:dataType:EncoderSensorAbsoluteTypeEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3008",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "SINGLETURN",
+          "enumValue": 0
+        },
+        {
+          "name": "MULTITURN",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
       "@id": "dtmi:opcua:PNENC:EncoderSensorConfigType:dataType:KeyValuePair;1",
       "@type": [ "Object", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA;i=14533",
@@ -33,6 +65,62 @@
     }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AbsolutePosDeterminableRevolutions",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AbsolutePosLinSupported",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ConfigType",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "dtmi:opcua:PNENC:EncoderSensorConfigType:dataType:EncoderConfigTypeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SensorAbsoluteType",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "dtmi:opcua:PNENC:EncoderSensorConfigType:dataType:EncoderSensorAbsoluteTypeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SensorResolutionIncPerRotation",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SensorResolutionNanometerPerIncrement",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ShiftFactorXIST1",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ShiftFactorXIST2",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "integer",
+      "writable": false
+    },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetSensorConfig",

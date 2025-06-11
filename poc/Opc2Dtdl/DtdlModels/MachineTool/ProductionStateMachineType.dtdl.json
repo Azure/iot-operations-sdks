@@ -16,18 +16,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CurrentState",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LastTransition",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

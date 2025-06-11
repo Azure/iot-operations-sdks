@@ -96,6 +96,10 @@ DefinedTypes:
     - [ UAVariable, MDIS:1165, MDIS:FaultCode, UInt32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MDIS:197, MDIS:TagId, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, MDIS:497, MDIS:Warning, Boolean, 0, 0 ]
     - HasModellingRule:
@@ -279,6 +283,18 @@ DefinedTypes:
           SEM: [ MDIS:SEMEnum, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MDIS:1163, MDIS:StepDurationClose, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MDIS:1162, MDIS:StepDurationOpen, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MDIS:1164, MDIS:TotalSteps, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   MDIS:MDISCIMVObjectType:
   - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
@@ -579,8 +595,16 @@ DefinedTypes:
     - [ UAVariable, MDIS:1058, MDIS:HHlimit, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MDIS:1062, MDIS:HHSetPoint, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, MDIS:1059, MDIS:Hlimit, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MDIS:1063, MDIS:HSetPoint, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -589,6 +613,14 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, MDIS:1061, MDIS:LLlimit, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MDIS:1065, MDIS:LLSetPoint, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MDIS:1064, MDIS:LSetPoint, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -604,6 +636,10 @@ DefinedTypes:
     - [ UAVariable, MDIS:15072, MDIS:ArbitrationMode, MDIS:ArbitrationModeEnum, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MDIS:15073, MDIS:DiscrepancySetPoint, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, MDIS:15074, MDIS:SetArbitrationMode ]
     - HasModellingRule:
@@ -701,6 +737,10 @@ DefinedTypes:
   - [ UAObjectType, MDIS:794, MDIS:MDISValveObjectType ]
   - HasSubtype_reverse:
     - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, MDIS:888, MDIS:CloseTimeDuration, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, MDIS:876, MDIS:CommandRejected, Boolean, 0, 0 ]
     - HasModellingRule:
@@ -737,6 +777,10 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, MDIS:879, MDIS:NonDefeatableOpenInterlock, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MDIS:887, MDIS:OpenTimeDuration, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:

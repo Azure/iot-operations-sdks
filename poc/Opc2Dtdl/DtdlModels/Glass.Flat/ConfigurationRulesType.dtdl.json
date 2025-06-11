@@ -13,7 +13,100 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1063",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:Glass_Flat:ConfigurationRulesType:dataType:FileFormatType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=3007",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "FileExtension",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Version",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Glass_Flat:ConfigurationRulesType:dataType:CoordinateSystemEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=3008",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Unknown",
+          "enumValue": 0
+        },
+        {
+          "name": "System1",
+          "enumValue": 1
+        },
+        {
+          "name": "System2",
+          "enumValue": 2
+        },
+        {
+          "name": "System3",
+          "enumValue": 3
+        },
+        {
+          "name": "System4",
+          "enumValue": 4
+        },
+        {
+          "name": "System5",
+          "enumValue": 5
+        },
+        {
+          "name": "System6",
+          "enumValue": 6
+        },
+        {
+          "name": "System7",
+          "enumValue": 7
+        },
+        {
+          "name": "System8",
+          "enumValue": 8
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AllowedEngineeringUnits",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AllowedFileFormats",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:Glass_Flat:ConfigurationRulesType:dataType:FileFormatType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MachineProcessingCoordinateSystem",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": "dtmi:opcua:Glass_Flat:ConfigurationRulesType:dataType:CoordinateSystemEnumeration;1",
+      "writable": true
+    }
   ]
 }

@@ -85,6 +85,34 @@ DefinedTypes:
 
   Woodworking:WwBaseEventType:
   - [ UAObjectType, Woodworking:13, Woodworking:WwBaseEventType ]
+  - HasProperty:
+    - [ UAVariable, Woodworking:6232, Woodworking:Arguments, Woodworking:WwMessageArgumentDataType, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Woodworking:6056, Woodworking:EventCategory, Woodworking:WwEventCategoryEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Woodworking:259, Woodworking:Group, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Woodworking:260, Woodworking:LocalizedMessages, LocalizedText, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Woodworking:256, Woodworking:MessageId, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Woodworking:257, Woodworking:MessageName, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Woodworking:258, Woodworking:PathParts, String, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
@@ -113,8 +141,36 @@ DefinedTypes:
 
   Woodworking:IWwEventMessageType:
   - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType ]
+  - HasProperty:
+    - [ UAVariable, Woodworking:6222, Woodworking:Arguments, Woodworking:WwMessageArgumentDataType, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Woodworking:6169, Woodworking:EventCategory, Woodworking:WwEventCategoryEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Woodworking:6220, Woodworking:Group, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasProperty:
+    - [ UAVariable, Woodworking:6221, Woodworking:LocalizedMessages, LocalizedText, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Woodworking:6217, Woodworking:MessageId, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Woodworking:6218, Woodworking:MessageName, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Woodworking:6219, Woodworking:PathParts, String, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   Woodworking:IWwStateType:
   - [ UAObjectType, Woodworking:8, Woodworking:IWwStateType ]

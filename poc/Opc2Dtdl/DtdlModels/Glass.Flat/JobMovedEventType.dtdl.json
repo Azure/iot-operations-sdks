@@ -16,5 +16,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NewPosition",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": "integer",
+      "writable": true
+    }
   ]
 }

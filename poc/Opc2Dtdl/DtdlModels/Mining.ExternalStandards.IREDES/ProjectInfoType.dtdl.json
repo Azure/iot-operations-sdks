@@ -17,17 +17,22 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "Comment",
+      "name": "DefaultInstanceBrowseName",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "Comment",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
+      "schema": "string"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Signature",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     }
   ]
 }

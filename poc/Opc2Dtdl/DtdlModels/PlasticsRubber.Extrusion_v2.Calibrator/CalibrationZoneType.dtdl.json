@@ -16,6 +16,27 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IsPresent",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Position",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+      "schema": "string",
+      "writable": false
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "AdditionalMeasuringDevices",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",

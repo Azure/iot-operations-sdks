@@ -13,8 +13,111 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2660",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:MTConnect_v2:MTConditionType:dataType:MTCategoryType;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2634",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "EVENT",
+          "enumValue": 0
+        },
+        {
+          "name": "CONDITION",
+          "enumValue": 1
+        },
+        {
+          "name": "SAMPLE",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MTConnect_v2:MTConditionType:dataType:MTRepresentationType;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2633",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "DISCRETE",
+          "enumValue": 0
+        },
+        {
+          "name": "TIME_SERIES",
+          "enumValue": 1
+        },
+        {
+          "name": "VALUE",
+          "enumValue": 2
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Category",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "dtmi:opcua:MTConnect_v2:MTConditionType:dataType:MTCategoryType;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MTSubTypeName",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MTTypeName",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PeriodFilter",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Representation",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "dtmi:opcua:MTConnect_v2:MTConditionType:dataType:MTRepresentationType;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SampleRate",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SourceData",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "XmlId",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "string",
+      "writable": false
+    },
     {
       "@type": [ "Relationship", "Qualified" ],
       "name": "Constraints",

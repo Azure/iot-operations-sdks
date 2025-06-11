@@ -17,36 +17,32 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Length" ],
+      "@type": [ "Telemetry", "Qualified", "Length" ],
       "name": "HeightOfTheInletConnection",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "metre",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "Velocity" ],
+      "@type": [ "Telemetry", "Qualified", "Velocity" ],
       "name": "MeanRatedVelocityAtInlet",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "metrePerSecond",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "Pressure" ],
+      "@type": [ "Telemetry", "Qualified", "Pressure" ],
       "name": "RatedInletPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "pascal",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "Length" ],
+      "@type": [ "Telemetry", "Qualified", "Length" ],
       "name": "TotalHeadAtInletAreaOfThePump",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "metre",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     }
   ]
 }

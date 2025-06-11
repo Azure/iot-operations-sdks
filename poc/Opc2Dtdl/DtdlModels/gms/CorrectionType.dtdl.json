@@ -17,31 +17,55 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "CharacteristicIdentifier",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Description",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Identifier",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProgramName",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CorrectionValueAbsolute",
       "namespace": "http://opcfoundation.org/UA/GMS",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CorrectionValueRelative",
       "namespace": "http://opcfoundation.org/UA/GMS",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LowerControlLimit",
       "namespace": "http://opcfoundation.org/UA/GMS",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "UpperControlLimit",
       "namespace": "http://opcfoundation.org/UA/GMS",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     }
   ]
 }

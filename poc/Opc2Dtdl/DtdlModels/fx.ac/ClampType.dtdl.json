@@ -17,11 +17,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Kind",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
-      "schema": "unsignedShort",
-      "writable": true
+      "schema": "unsignedShort"
     }
   ]
 }

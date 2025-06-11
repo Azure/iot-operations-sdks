@@ -14,7 +14,51 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1024",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetNotificationClassType:dataType:BACnetEventTransitionBits;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3061",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "to_offnormal",
+          "enumValue": 0
+        },
+        {
+          "name": "to_fault",
+          "enumValue": 1
+        },
+        {
+          "name": "to_normal",
+          "enumValue": 2
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Ack_Required",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetNotificationClassType:dataType:BACnetEventTransitionBits;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Notification_Class",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Priority",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "unsignedByte"
+      },
+      "writable": true
+    }
   ]
 }

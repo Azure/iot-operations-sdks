@@ -15,5 +15,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Steps",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
+      "schema": "integer",
+      "writable": true
+    }
   ]
 }

@@ -45,60 +45,52 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PipingComponentNumberAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LowerLimitHeatTracingTemperature",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "HeatTracingTypeAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "HeatTracingTypeSpecialization",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "dtmi:opcua:DEXPI:PipeFittingType:dataType:HeatTracingTypeClassification;1",
-      "writable": true
+      "schema": "dtmi:opcua:DEXPI:PipeFittingType:dataType:HeatTracingTypeClassification;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InsulationThickness",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InsulationTypeAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PipingClassCodeAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PipingComponentNameAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     }
   ]
 }

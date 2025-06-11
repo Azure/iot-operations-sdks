@@ -17,17 +17,22 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "SelectionState",
+      "name": "Limit",
       "namespace": "http://opcfoundation.org/UA/PDRV",
-      "schema": "unsignedShort",
+      "schema": "float",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "SelectionState",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "unsignedShort"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActivationState",
       "namespace": "http://opcfoundation.org/UA/PDRV",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     }
   ]
 }

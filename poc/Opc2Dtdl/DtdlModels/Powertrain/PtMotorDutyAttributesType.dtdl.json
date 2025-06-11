@@ -18,10 +18,19 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "LoadProfile",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DutyType",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     }
   ]
 }

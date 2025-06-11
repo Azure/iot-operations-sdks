@@ -16,6 +16,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NodeVersion",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
+      "schema": "string",
+      "writable": false
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "Prognosis",
       "namespace": "http://opcfoundation.org/UA/MachineTool",

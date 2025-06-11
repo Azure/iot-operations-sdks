@@ -17,18 +17,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LastCalibrationDate",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "dateTime",
-      "writable": false
+      "schema": "dateTime"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NextCalibrationDate",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "dateTime",
-      "writable": false
+      "schema": "dateTime"
     }
   ]
 }

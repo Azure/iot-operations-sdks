@@ -18,45 +18,49 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "FrameSizeCoding",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "HeatDissipationPower",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Height",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Length",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NoiseLevel",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Weight",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Width",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     }
   ]
 }

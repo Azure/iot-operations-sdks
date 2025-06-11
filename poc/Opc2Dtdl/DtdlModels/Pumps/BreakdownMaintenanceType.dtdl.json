@@ -17,40 +17,35 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "CorrectiveMaintenanceTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "hour",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Criticality",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Failure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NumberOfFailures",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Severity",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     }
   ]
 }

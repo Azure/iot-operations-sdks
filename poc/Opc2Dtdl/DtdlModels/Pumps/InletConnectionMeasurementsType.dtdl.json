@@ -17,20 +17,18 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "InletTemperatureOfThePump",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "kelvin",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "Velocity" ],
+      "@type": [ "Telemetry", "Qualified", "Velocity" ],
       "name": "MeanVelocityAtInlet",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "metrePerSecond",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     }
   ]
 }

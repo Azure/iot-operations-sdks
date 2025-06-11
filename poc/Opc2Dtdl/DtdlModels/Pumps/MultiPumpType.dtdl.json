@@ -105,91 +105,80 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DistributionPriority",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DistributionType",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "dtmi:opcua:Pumps:MultiPumpType:dataType:DistributionTypeEnum;1",
-      "writable": true
+      "schema": "dtmi:opcua:Pumps:MultiPumpType:dataType:DistributionTypeEnum;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ExchangeMode",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "dtmi:opcua:Pumps:MultiPumpType:dataType:ExchangeModeEnum;1",
-      "writable": true
+      "schema": "dtmi:opcua:Pumps:MultiPumpType:dataType:ExchangeModeEnum;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ExchangeTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "dateTime",
-      "writable": true
+      "schema": "dateTime"
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "ExchangeTimeDifference",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "second",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MaximumNumberOfPumpsInOperation",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MultiPumpOperationMode",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "dtmi:opcua:Pumps:MultiPumpType:dataType:MultiPumpOperationModeEnum;1",
-      "writable": true
+      "schema": "dtmi:opcua:Pumps:MultiPumpType:dataType:MultiPumpOperationModeEnum;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NumberOfPumps",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PumpCollectiveIDs",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PumpRole",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "dtmi:opcua:Pumps:MultiPumpType:dataType:PumpRoleEnum;1",
-      "writable": true
+      "schema": "dtmi:opcua:Pumps:MultiPumpType:dataType:PumpRoleEnum;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RedundantPumpIDs",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
-      },
-      "writable": true
+      }
     }
   ]
 }

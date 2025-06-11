@@ -403,6 +403,26 @@ DefinedTypes:
 
   TTD:JobStatisticsType:
   - [ UAObjectType, TTD:1009, TTD:JobStatisticsType ]
+  - HasProperty:
+    - [ UAVariable, TTD:6056, TTD:EndTime, UtcTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, TTD:6057, TTD:StartTime, UtcTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, TTD:6058, TTD:TotalInitializingTime, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, TTD:6059, TTD:TotalInterruptedTime, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, TTD:6060, TTD:TotalRunningTime, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
@@ -412,6 +432,10 @@ DefinedTypes:
     - [ UAMethod, TTD:7007, IA:ResetStatistics ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, TTD:6065, IA:StartTime, DateTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
@@ -419,6 +443,14 @@ DefinedTypes:
   - [ UAObjectType, TTD:1004, TTD:RecurrentPrognosisType ]
   - HasComponent:
     - [ UAVariable, TTD:6066, TTD:Activity, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, TTD:6067, TTD:Interval, UtcTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, TTD:6068, TTD:LastExecutionTime, UtcTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -472,6 +504,10 @@ DefinedTypes:
           Recipes: [ TTD:RecipeDataType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, TTD:6016, TTD:RecipeIds, TTD:RecipeIdDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, TTD:7003, TTD:SetRecipe ]
     - HasModellingRule:
@@ -504,6 +540,14 @@ DefinedTypes:
 
   TTD:TextileTestingDeviceType:
   - [ UAObjectType, TTD:1010, TTD:TextileTestingDeviceType ]
+  - HasProperty:
+    - [ UAVariable, TTD:6131, TTD:AvailableExchangeableParts, TTD:ExchangeablePartDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, TTD:6135, TTD:InstalledTesterModules, TTD:OptionalModuleDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, TTD:5049, TTD:MachineStatistics ]
     - HasModellingRule:
@@ -522,5 +566,9 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, TTD:1003, TTD:RecipeManagementType ]
+  - HasProperty:
+    - [ UAVariable, TTD:6146, TTD:TestProcedureIds, TTD:TestProcedureIdDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

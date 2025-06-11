@@ -15,5 +15,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IsAvailable",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "boolean",
+      "writable": true
+    }
   ]
 }

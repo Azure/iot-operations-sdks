@@ -45,11 +45,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DeviceHealth",
       "namespace": "http://opcfoundation.org/UA/DI",
-      "schema": "dtmi:opcua:DI:DeviceType:dataType:DeviceHealthEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:DI:DeviceType:dataType:DeviceHealthEnumeration;1"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

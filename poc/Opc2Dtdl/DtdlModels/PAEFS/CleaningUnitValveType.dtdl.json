@@ -15,5 +15,19 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Malfunction",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Open",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": false
+    }
   ]
 }

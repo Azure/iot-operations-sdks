@@ -33,24 +33,28 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "DefaultInstanceBrowseName",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AckFlag",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DispFlag",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:DisplayToOperatorType:dataType:DispFlag;1",
-      "writable": true
+      "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:DisplayToOperatorType:dataType:DispFlag;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DispText",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     }
   ]
 }

@@ -13,7 +13,89 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101021",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetMstpMasterType:dataType:BACnetAddressBinding;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103015",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "DeviceObjectIdentifier",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "DeviceAddress",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetMstpMasterType:dataType:BACnetAddress;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetMstpMasterType:dataType:BACnetAddress;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3022",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "NetworkNumber",
+          "schema": "unsignedShort"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MacAddress",
+          "schema": "bytes"
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Auto_Slave_Discovery",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Manual_Slave_Address_Binding",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:BACnet_V2:BACnetMstpMasterType:dataType:BACnetAddressBinding;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Max_Info_Frames",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Max_Master",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedByte",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Slave_Address_Binding",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:BACnet_V2:BACnetMstpMasterType:dataType:BACnetAddressBinding;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Slave_Proxy_Enable",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "boolean",
+      "writable": true
+    }
   ]
 }

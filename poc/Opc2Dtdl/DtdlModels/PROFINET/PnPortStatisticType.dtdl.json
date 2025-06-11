@@ -16,46 +16,40 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InDiscards",
       "namespace": "http://opcfoundation.org/UA/PROFINET",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InErrors",
       "namespace": "http://opcfoundation.org/UA/PROFINET",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InOctets",
       "namespace": "http://opcfoundation.org/UA/PROFINET",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OutDiscards",
       "namespace": "http://opcfoundation.org/UA/PROFINET",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OutErrors",
       "namespace": "http://opcfoundation.org/UA/PROFINET",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OutOctets",
       "namespace": "http://opcfoundation.org/UA/PROFINET",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     }
   ]
 }

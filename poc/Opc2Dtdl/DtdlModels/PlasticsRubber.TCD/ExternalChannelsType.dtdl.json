@@ -16,6 +16,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NodeVersion",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+      "schema": "string",
+      "writable": false
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "ExternalChannel_Nr",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",

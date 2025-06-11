@@ -113,44 +113,40 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Seals",
       "namespace": "http://opcfoundation.org/UA/WireHarness",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Sleeves",
       "namespace": "http://opcfoundation.org/UA/WireHarness",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Terminals",
       "namespace": "http://opcfoundation.org/UA/WireHarness",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Wires",
       "namespace": "http://opcfoundation.org/UA/WireHarness",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
-      },
-      "writable": true
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

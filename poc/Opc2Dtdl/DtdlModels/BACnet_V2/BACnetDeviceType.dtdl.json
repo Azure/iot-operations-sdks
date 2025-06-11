@@ -16,6 +16,38 @@
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetCOVSubscription;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103017",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Recipient",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetRecipientProcess;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MonitoredPropertyReference",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetDeviceObjectPropertyReference;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "IssueConfirmedNotifications",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "TimeRemaining",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "CovIncrement",
+          "schema": "float"
+        }
+      ]
+    },
+    {
       "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetAddressBinding;1",
       "@type": [ "Object", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103015",
@@ -29,6 +61,475 @@
           "@type": [ "Field", "Required" ],
           "name": "DeviceAddress",
           "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetAddress;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetAddress;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3022",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "NetworkNumber",
+          "schema": "unsignedShort"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MacAddress",
+          "schema": "bytes"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetObjectTypeSupportedBits;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3063",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "analog_input",
+          "enumValue": 0
+        },
+        {
+          "name": "analog_output",
+          "enumValue": 1
+        },
+        {
+          "name": "analog_value",
+          "enumValue": 2
+        },
+        {
+          "name": "binary_input",
+          "enumValue": 3
+        },
+        {
+          "name": "binary_output",
+          "enumValue": 4
+        },
+        {
+          "name": "binary_value",
+          "enumValue": 5
+        },
+        {
+          "name": "calendar",
+          "enumValue": 6
+        },
+        {
+          "name": "command",
+          "enumValue": 7
+        },
+        {
+          "name": "device",
+          "enumValue": 8
+        },
+        {
+          "name": "event_enrollment",
+          "enumValue": 9
+        },
+        {
+          "name": "file",
+          "enumValue": 10
+        },
+        {
+          "name": "group",
+          "enumValue": 11
+        },
+        {
+          "name": "loop",
+          "enumValue": 12
+        },
+        {
+          "name": "multi_state_input",
+          "enumValue": 13
+        },
+        {
+          "name": "multi_state_output",
+          "enumValue": 14
+        },
+        {
+          "name": "notification_class",
+          "enumValue": 15
+        },
+        {
+          "name": "program",
+          "enumValue": 16
+        },
+        {
+          "name": "schedule",
+          "enumValue": 17
+        },
+        {
+          "name": "averaging",
+          "enumValue": 18
+        },
+        {
+          "name": "multi_state_value",
+          "enumValue": 19
+        },
+        {
+          "name": "trend_log",
+          "enumValue": 20
+        },
+        {
+          "name": "life_safety_point",
+          "enumValue": 21
+        },
+        {
+          "name": "life_safety_zone",
+          "enumValue": 22
+        },
+        {
+          "name": "accumulator",
+          "enumValue": 23
+        },
+        {
+          "name": "pulse_converter",
+          "enumValue": 24
+        },
+        {
+          "name": "event_log",
+          "enumValue": 25
+        },
+        {
+          "name": "global_group",
+          "enumValue": 26
+        },
+        {
+          "name": "trend_log_multiple",
+          "enumValue": 27
+        },
+        {
+          "name": "load_control",
+          "enumValue": 28
+        },
+        {
+          "name": "structured_view",
+          "enumValue": 29
+        },
+        {
+          "name": "access_door",
+          "enumValue": 30
+        },
+        {
+          "name": "UNASSIGNED_31",
+          "enumValue": 31
+        },
+        {
+          "name": "access_credential",
+          "enumValue": 32
+        },
+        {
+          "name": "access_point",
+          "enumValue": 33
+        },
+        {
+          "name": "access_rights",
+          "enumValue": 34
+        },
+        {
+          "name": "access_user",
+          "enumValue": 35
+        },
+        {
+          "name": "access_zone",
+          "enumValue": 36
+        },
+        {
+          "name": "credential_data_input",
+          "enumValue": 37
+        },
+        {
+          "name": "network_security",
+          "enumValue": 38
+        },
+        {
+          "name": "bitstring_value",
+          "enumValue": 39
+        },
+        {
+          "name": "characterstring_value",
+          "enumValue": 40
+        },
+        {
+          "name": "date_pattern_value",
+          "enumValue": 41
+        },
+        {
+          "name": "date_value",
+          "enumValue": 42
+        },
+        {
+          "name": "datetime_pattern_value",
+          "enumValue": 43
+        },
+        {
+          "name": "datetime_value",
+          "enumValue": 44
+        },
+        {
+          "name": "integer_value",
+          "enumValue": 45
+        },
+        {
+          "name": "large_analog_value",
+          "enumValue": 46
+        },
+        {
+          "name": "octetstring_value",
+          "enumValue": 47
+        },
+        {
+          "name": "positive_integer_value",
+          "enumValue": 48
+        },
+        {
+          "name": "time_pattern_value",
+          "enumValue": 49
+        },
+        {
+          "name": "time_value",
+          "enumValue": 50
+        },
+        {
+          "name": "notification_forwarder",
+          "enumValue": 51
+        },
+        {
+          "name": "alert_enrollment",
+          "enumValue": 52
+        },
+        {
+          "name": "channel",
+          "enumValue": 53
+        },
+        {
+          "name": "lighting_output",
+          "enumValue": 54
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetServicesSupportedBits;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3064",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "acknowledgeAlarm",
+          "enumValue": 0
+        },
+        {
+          "name": "confirmedCOVNotification",
+          "enumValue": 1
+        },
+        {
+          "name": "confirmedEventNotification",
+          "enumValue": 2
+        },
+        {
+          "name": "getAlarmSummary",
+          "enumValue": 3
+        },
+        {
+          "name": "getEnrollmentSummary",
+          "enumValue": 4
+        },
+        {
+          "name": "subscribeCOV",
+          "enumValue": 5
+        },
+        {
+          "name": "atomicReadFile",
+          "enumValue": 6
+        },
+        {
+          "name": "atomicWriteFile",
+          "enumValue": 7
+        },
+        {
+          "name": "addListElement",
+          "enumValue": 8
+        },
+        {
+          "name": "removeListElement",
+          "enumValue": 9
+        },
+        {
+          "name": "createObject",
+          "enumValue": 10
+        },
+        {
+          "name": "deleteObject",
+          "enumValue": 11
+        },
+        {
+          "name": "readProperty",
+          "enumValue": 12
+        },
+        {
+          "name": "UNASSIGNED_13",
+          "enumValue": 13
+        },
+        {
+          "name": "readPropertyMultiple",
+          "enumValue": 14
+        },
+        {
+          "name": "writeProperty",
+          "enumValue": 15
+        },
+        {
+          "name": "writePropertyMultiple",
+          "enumValue": 16
+        },
+        {
+          "name": "deviceCommunicationControl",
+          "enumValue": 17
+        },
+        {
+          "name": "confirmedPrivateTransfer",
+          "enumValue": 18
+        },
+        {
+          "name": "reinitializeDevice",
+          "enumValue": 19
+        },
+        {
+          "name": "vtOpen",
+          "enumValue": 20
+        },
+        {
+          "name": "vtClose",
+          "enumValue": 21
+        },
+        {
+          "name": "vtData",
+          "enumValue": 22
+        },
+        {
+          "name": "UNASSIGNED_24",
+          "enumValue": 23
+        },
+        {
+          "name": "UNASSIGNED_25",
+          "enumValue": 24
+        },
+        {
+          "name": "i_Am",
+          "enumValue": 25
+        },
+        {
+          "name": "i_Have",
+          "enumValue": 26
+        },
+        {
+          "name": "unconfirmedCOVNotification",
+          "enumValue": 27
+        },
+        {
+          "name": "unconfirmedEventNotification",
+          "enumValue": 28
+        },
+        {
+          "name": "unconfirmedPrivateTransfer",
+          "enumValue": 29
+        },
+        {
+          "name": "unconfirmedTextMessage",
+          "enumValue": 30
+        },
+        {
+          "name": "timeSynchronization",
+          "enumValue": 31
+        },
+        {
+          "name": "who_Has",
+          "enumValue": 32
+        },
+        {
+          "name": "who_Is",
+          "enumValue": 33
+        },
+        {
+          "name": "readRange",
+          "enumValue": 34
+        },
+        {
+          "name": "utcTimeSynchronization",
+          "enumValue": 35
+        },
+        {
+          "name": "lifeSafetyOperation",
+          "enumValue": 36
+        },
+        {
+          "name": "subscribeCOVProperty",
+          "enumValue": 37
+        },
+        {
+          "name": "getEventInformation",
+          "enumValue": 38
+        },
+        {
+          "name": "writeGroup",
+          "enumValue": 39
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetSegmentation;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103011",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "segmented_both",
+          "enumValue": 0
+        },
+        {
+          "name": "segmented_transmit",
+          "enumValue": 1
+        },
+        {
+          "name": "segmented_receive",
+          "enumValue": 2
+        },
+        {
+          "name": "no_segmentation",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetDeviceStatus;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3033",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Operational",
+          "enumValue": 0
+        },
+        {
+          "name": "OperationalReadOnly",
+          "enumValue": 1
+        },
+        {
+          "name": "DownloadRequired",
+          "enumValue": 2
+        },
+        {
+          "name": "DownloadInProgress",
+          "enumValue": 3
+        },
+        {
+          "name": "NonOperational",
+          "enumValue": 4
+        },
+        {
+          "name": "BackupInProgress",
+          "enumValue": 5
         }
       ]
     },
@@ -139,24 +640,1777 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetAddress;1",
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetRecipientProcess;1",
       "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3022",
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103018",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
-          "name": "NetworkNumber",
-          "schema": "unsignedShort"
+          "name": "Recipient",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetRecipient;1"
         },
         {
           "@type": [ "Field", "Required" ],
-          "name": "MacAddress",
-          "schema": "bytes"
+          "name": "ProcessIdentifier",
+          "schema": "unsignedInteger"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetRecipient;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3054",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Device",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Address",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetAddress;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetDeviceObjectPropertyReference;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103002",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ObjectIdentifier",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "PropertyIdentifier",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetPropertyIdentifier;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "PropertyArrayIndex",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "DeviceIdentifier",
+          "schema": "unsignedInteger"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetPropertyIdentifier;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3046",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "AckedTransitions",
+          "enumValue": 0
+        },
+        {
+          "name": "AckRequired",
+          "enumValue": 1
+        },
+        {
+          "name": "Action",
+          "enumValue": 2
+        },
+        {
+          "name": "ActionText",
+          "enumValue": 3
+        },
+        {
+          "name": "ActiveText",
+          "enumValue": 4
+        },
+        {
+          "name": "ActiveVtSessions",
+          "enumValue": 5
+        },
+        {
+          "name": "AlarmValue",
+          "enumValue": 6
+        },
+        {
+          "name": "AlarmValues",
+          "enumValue": 7
+        },
+        {
+          "name": "All",
+          "enumValue": 8
+        },
+        {
+          "name": "AllWritesSuccessful",
+          "enumValue": 9
+        },
+        {
+          "name": "ApduSegmentTimeout",
+          "enumValue": 10
+        },
+        {
+          "name": "ApduTimeout",
+          "enumValue": 11
+        },
+        {
+          "name": "ApplicationSoftwareVersion",
+          "enumValue": 12
+        },
+        {
+          "name": "Archive",
+          "enumValue": 13
+        },
+        {
+          "name": "Bias",
+          "enumValue": 14
+        },
+        {
+          "name": "ChangeOfStateCount",
+          "enumValue": 15
+        },
+        {
+          "name": "ChangeOfStateTime",
+          "enumValue": 16
+        },
+        {
+          "name": "NotificationClass",
+          "enumValue": 17
+        },
+        {
+          "name": "this_property_deleted",
+          "enumValue": 18
+        },
+        {
+          "name": "ControlledVariableReference",
+          "enumValue": 19
+        },
+        {
+          "name": "ControlledVariableUnits",
+          "enumValue": 20
+        },
+        {
+          "name": "ControlledVariableValue",
+          "enumValue": 21
+        },
+        {
+          "name": "CovIncrement",
+          "enumValue": 22
+        },
+        {
+          "name": "DateList",
+          "enumValue": 23
+        },
+        {
+          "name": "DaylightSavingsStatus",
+          "enumValue": 24
+        },
+        {
+          "name": "Deadband",
+          "enumValue": 25
+        },
+        {
+          "name": "DerivativeConstant",
+          "enumValue": 26
+        },
+        {
+          "name": "DerivativeConstantUnits",
+          "enumValue": 27
+        },
+        {
+          "name": "Description",
+          "enumValue": 28
+        },
+        {
+          "name": "DescriptionOfHalt",
+          "enumValue": 29
+        },
+        {
+          "name": "DeviceAddressBinding",
+          "enumValue": 30
+        },
+        {
+          "name": "DeviceType",
+          "enumValue": 31
+        },
+        {
+          "name": "EffectivePeriod",
+          "enumValue": 32
+        },
+        {
+          "name": "ElapsedActiveTime",
+          "enumValue": 33
+        },
+        {
+          "name": "ErrorLimit",
+          "enumValue": 34
+        },
+        {
+          "name": "EventEnable",
+          "enumValue": 35
+        },
+        {
+          "name": "EventState",
+          "enumValue": 36
+        },
+        {
+          "name": "EventType",
+          "enumValue": 37
+        },
+        {
+          "name": "ExceptionSchedule",
+          "enumValue": 38
+        },
+        {
+          "name": "FaultValues",
+          "enumValue": 39
+        },
+        {
+          "name": "FeedbackValue",
+          "enumValue": 40
+        },
+        {
+          "name": "FileAccessMethod",
+          "enumValue": 41
+        },
+        {
+          "name": "FileSize",
+          "enumValue": 42
+        },
+        {
+          "name": "FileType",
+          "enumValue": 43
+        },
+        {
+          "name": "FirmwareRevision",
+          "enumValue": 44
+        },
+        {
+          "name": "HighLimit",
+          "enumValue": 45
+        },
+        {
+          "name": "InactiveText",
+          "enumValue": 46
+        },
+        {
+          "name": "InProcess",
+          "enumValue": 47
+        },
+        {
+          "name": "InstanceOf",
+          "enumValue": 48
+        },
+        {
+          "name": "IntegralConstant",
+          "enumValue": 49
+        },
+        {
+          "name": "IntegralConstantUnits",
+          "enumValue": 50
+        },
+        {
+          "name": "Removed_In_Version_1_Revision_4_51",
+          "enumValue": 51
+        },
+        {
+          "name": "LimitEnable",
+          "enumValue": 52
+        },
+        {
+          "name": "ListOfGroupMembers",
+          "enumValue": 53
+        },
+        {
+          "name": "ListOfObjectPropertyReferences",
+          "enumValue": 54
+        },
+        {
+          "name": "Unassigned_55",
+          "enumValue": 55
+        },
+        {
+          "name": "LocalDate",
+          "enumValue": 56
+        },
+        {
+          "name": "LocalTime",
+          "enumValue": 57
+        },
+        {
+          "name": "Location",
+          "enumValue": 58
+        },
+        {
+          "name": "LowLimit",
+          "enumValue": 59
+        },
+        {
+          "name": "ManipulatedVariableReference",
+          "enumValue": 60
+        },
+        {
+          "name": "MaximumOutput",
+          "enumValue": 61
+        },
+        {
+          "name": "MaxApduLengthAccepted",
+          "enumValue": 62
+        },
+        {
+          "name": "MaxInfoFrames",
+          "enumValue": 63
+        },
+        {
+          "name": "MaxMaster",
+          "enumValue": 64
+        },
+        {
+          "name": "MaxPresValue",
+          "enumValue": 65
+        },
+        {
+          "name": "MinimumOffTime",
+          "enumValue": 66
+        },
+        {
+          "name": "MinimumOnTime",
+          "enumValue": 67
+        },
+        {
+          "name": "MinimumOutput",
+          "enumValue": 68
+        },
+        {
+          "name": "MinPresValue",
+          "enumValue": 69
+        },
+        {
+          "name": "ModelName",
+          "enumValue": 70
+        },
+        {
+          "name": "ModificationDate",
+          "enumValue": 71
+        },
+        {
+          "name": "NotifyType",
+          "enumValue": 72
+        },
+        {
+          "name": "NumberOfApduRetries",
+          "enumValue": 73
+        },
+        {
+          "name": "NumberOfStates",
+          "enumValue": 74
+        },
+        {
+          "name": "ObjectIdentifier",
+          "enumValue": 75
+        },
+        {
+          "name": "ObjectList",
+          "enumValue": 76
+        },
+        {
+          "name": "ObjectName",
+          "enumValue": 77
+        },
+        {
+          "name": "ObjectPropertyReference",
+          "enumValue": 78
+        },
+        {
+          "name": "ObjectType",
+          "enumValue": 79
+        },
+        {
+          "name": "Optional",
+          "enumValue": 80
+        },
+        {
+          "name": "OutOfService",
+          "enumValue": 81
+        },
+        {
+          "name": "OutputUnits",
+          "enumValue": 82
+        },
+        {
+          "name": "EventParameters",
+          "enumValue": 83
+        },
+        {
+          "name": "Polarity",
+          "enumValue": 84
+        },
+        {
+          "name": "PresentValue",
+          "enumValue": 85
+        },
+        {
+          "name": "Priority",
+          "enumValue": 86
+        },
+        {
+          "name": "PriorityArray",
+          "enumValue": 87
+        },
+        {
+          "name": "PriorityForWriting",
+          "enumValue": 88
+        },
+        {
+          "name": "ProcessIdentifier",
+          "enumValue": 89
+        },
+        {
+          "name": "ProgramChange",
+          "enumValue": 90
+        },
+        {
+          "name": "ProgramLocation",
+          "enumValue": 91
+        },
+        {
+          "name": "ProgramState",
+          "enumValue": 92
+        },
+        {
+          "name": "ProportionalConstant",
+          "enumValue": 93
+        },
+        {
+          "name": "ProportionalConstantUnits",
+          "enumValue": 94
+        },
+        {
+          "name": "Removed_In_Version_1_Revision_2_95",
+          "enumValue": 95
+        },
+        {
+          "name": "ProtocolObjectTypesSupported",
+          "enumValue": 96
+        },
+        {
+          "name": "ProtocolServicesSupported",
+          "enumValue": 97
+        },
+        {
+          "name": "ProtocolVersion",
+          "enumValue": 98
+        },
+        {
+          "name": "ReadOnly",
+          "enumValue": 99
+        },
+        {
+          "name": "ReasonForHalt",
+          "enumValue": 100
+        },
+        {
+          "name": "Removed_In_Version_1_Revision_4_101",
+          "enumValue": 101
+        },
+        {
+          "name": "RecipientList",
+          "enumValue": 102
+        },
+        {
+          "name": "Reliability",
+          "enumValue": 103
+        },
+        {
+          "name": "RelinquishDefault",
+          "enumValue": 104
+        },
+        {
+          "name": "Required",
+          "enumValue": 105
+        },
+        {
+          "name": "Resolution",
+          "enumValue": 106
+        },
+        {
+          "name": "SegmentationSupported",
+          "enumValue": 107
+        },
+        {
+          "name": "Setpoint",
+          "enumValue": 108
+        },
+        {
+          "name": "SetpointReference",
+          "enumValue": 109
+        },
+        {
+          "name": "StateText",
+          "enumValue": 110
+        },
+        {
+          "name": "StatusFlags",
+          "enumValue": 111
+        },
+        {
+          "name": "SystemStatus",
+          "enumValue": 112
+        },
+        {
+          "name": "TimeDelay",
+          "enumValue": 113
+        },
+        {
+          "name": "TimeOfActiveTimeReset",
+          "enumValue": 114
+        },
+        {
+          "name": "TimeOfStateCountReset",
+          "enumValue": 115
+        },
+        {
+          "name": "TimeSynchronizationRecipients",
+          "enumValue": 116
+        },
+        {
+          "name": "Units",
+          "enumValue": 117
+        },
+        {
+          "name": "UpdateInterval",
+          "enumValue": 118
+        },
+        {
+          "name": "UtcOffset",
+          "enumValue": 119
+        },
+        {
+          "name": "VendorIdentifier",
+          "enumValue": 120
+        },
+        {
+          "name": "VendorName",
+          "enumValue": 121
+        },
+        {
+          "name": "VtClassesSupported",
+          "enumValue": 122
+        },
+        {
+          "name": "WeeklySchedule",
+          "enumValue": 123
+        },
+        {
+          "name": "AttemptedSamples",
+          "enumValue": 124
+        },
+        {
+          "name": "AverageValue",
+          "enumValue": 125
+        },
+        {
+          "name": "BufferSize",
+          "enumValue": 126
+        },
+        {
+          "name": "ClientCovIncrement",
+          "enumValue": 127
+        },
+        {
+          "name": "CovResubscriptionInterval",
+          "enumValue": 128
+        },
+        {
+          "name": "Removed_In_Version_1_Revision_3_129",
+          "enumValue": 129
+        },
+        {
+          "name": "EventTimeStamps",
+          "enumValue": 130
+        },
+        {
+          "name": "LogBuffer",
+          "enumValue": 131
+        },
+        {
+          "name": "LogDeviceObjectProperty",
+          "enumValue": 132
+        },
+        {
+          "name": "Enable",
+          "enumValue": 133
+        },
+        {
+          "name": "LogInterval",
+          "enumValue": 134
+        },
+        {
+          "name": "MaximumValue",
+          "enumValue": 135
+        },
+        {
+          "name": "MinimumValue",
+          "enumValue": 136
+        },
+        {
+          "name": "NotificationThreshold",
+          "enumValue": 137
+        },
+        {
+          "name": "Removed_In_Version_1_Revision_3_138",
+          "enumValue": 138
+        },
+        {
+          "name": "ProtocolRevision",
+          "enumValue": 139
+        },
+        {
+          "name": "RecordsSinceNotification",
+          "enumValue": 140
+        },
+        {
+          "name": "RecordCount",
+          "enumValue": 141
+        },
+        {
+          "name": "StartTime",
+          "enumValue": 142
+        },
+        {
+          "name": "StopTime",
+          "enumValue": 143
+        },
+        {
+          "name": "StopWhenFull",
+          "enumValue": 144
+        },
+        {
+          "name": "TotalRecordCount",
+          "enumValue": 145
+        },
+        {
+          "name": "ValidSamples",
+          "enumValue": 146
+        },
+        {
+          "name": "WindowInterval",
+          "enumValue": 147
+        },
+        {
+          "name": "WindowSamples",
+          "enumValue": 148
+        },
+        {
+          "name": "MaximumValueTimestamp",
+          "enumValue": 149
+        },
+        {
+          "name": "MinimumValueTimestamp",
+          "enumValue": 150
+        },
+        {
+          "name": "VarianceValue",
+          "enumValue": 151
+        },
+        {
+          "name": "ActiveCovSubscriptions",
+          "enumValue": 152
+        },
+        {
+          "name": "BackupFailureTimeout",
+          "enumValue": 153
+        },
+        {
+          "name": "ConfigurationFiles",
+          "enumValue": 154
+        },
+        {
+          "name": "DatabaseRevision",
+          "enumValue": 155
+        },
+        {
+          "name": "DirectReading",
+          "enumValue": 156
+        },
+        {
+          "name": "LastRestoreTime",
+          "enumValue": 157
+        },
+        {
+          "name": "MaintenanceRequired",
+          "enumValue": 158
+        },
+        {
+          "name": "MemberOf",
+          "enumValue": 159
+        },
+        {
+          "name": "Mode",
+          "enumValue": 160
+        },
+        {
+          "name": "OperationExpected",
+          "enumValue": 161
+        },
+        {
+          "name": "Setting",
+          "enumValue": 162
+        },
+        {
+          "name": "Silenced",
+          "enumValue": 163
+        },
+        {
+          "name": "TrackingValue",
+          "enumValue": 164
+        },
+        {
+          "name": "ZoneMembers",
+          "enumValue": 165
+        },
+        {
+          "name": "LifeSafetyAlarmValues",
+          "enumValue": 166
+        },
+        {
+          "name": "MaxSegmentsAccepted",
+          "enumValue": 167
+        },
+        {
+          "name": "ProfileName",
+          "enumValue": 168
+        },
+        {
+          "name": "AutoSlaveDiscovery",
+          "enumValue": 169
+        },
+        {
+          "name": "ManualSlaveAddressBinding",
+          "enumValue": 170
+        },
+        {
+          "name": "SlaveAddressBinding",
+          "enumValue": 171
+        },
+        {
+          "name": "SlaveProxyEnable",
+          "enumValue": 172
+        },
+        {
+          "name": "LastNotifyRecord",
+          "enumValue": 173
+        },
+        {
+          "name": "ScheduleDefault",
+          "enumValue": 174
+        },
+        {
+          "name": "AcceptedModes",
+          "enumValue": 175
+        },
+        {
+          "name": "AdjustValue",
+          "enumValue": 176
+        },
+        {
+          "name": "Count",
+          "enumValue": 177
+        },
+        {
+          "name": "CountBeforeChange",
+          "enumValue": 178
+        },
+        {
+          "name": "CountChangeTime",
+          "enumValue": 179
+        },
+        {
+          "name": "CovPeriod",
+          "enumValue": 180
+        },
+        {
+          "name": "InputReference",
+          "enumValue": 181
+        },
+        {
+          "name": "LimitMonitoringInterval",
+          "enumValue": 182
+        },
+        {
+          "name": "LoggingObject",
+          "enumValue": 183
+        },
+        {
+          "name": "LoggingRecord",
+          "enumValue": 184
+        },
+        {
+          "name": "Prescale",
+          "enumValue": 185
+        },
+        {
+          "name": "PulseRate",
+          "enumValue": 186
+        },
+        {
+          "name": "Scale",
+          "enumValue": 187
+        },
+        {
+          "name": "ScaleFactor",
+          "enumValue": 188
+        },
+        {
+          "name": "UpdateTime",
+          "enumValue": 189
+        },
+        {
+          "name": "ValueBeforeChange",
+          "enumValue": 190
+        },
+        {
+          "name": "ValueSet",
+          "enumValue": 191
+        },
+        {
+          "name": "ValueChangeTime",
+          "enumValue": 192
+        },
+        {
+          "name": "AlignIntervals",
+          "enumValue": 193
+        },
+        {
+          "name": "Unassigned_194",
+          "enumValue": 194
+        },
+        {
+          "name": "IntervalOffset",
+          "enumValue": 195
+        },
+        {
+          "name": "LastRestartReason",
+          "enumValue": 196
+        },
+        {
+          "name": "LoggingType",
+          "enumValue": 197
+        },
+        {
+          "name": "Unassigned_198",
+          "enumValue": 198
+        },
+        {
+          "name": "Unassigned_199",
+          "enumValue": 199
+        },
+        {
+          "name": "Unassigned_200",
+          "enumValue": 200
+        },
+        {
+          "name": "Unassigned_201",
+          "enumValue": 201
+        },
+        {
+          "name": "RestartNotificationRecipients",
+          "enumValue": 202
+        },
+        {
+          "name": "TimeOfDeviceRestart",
+          "enumValue": 203
+        },
+        {
+          "name": "TimeSynchronizationInterval",
+          "enumValue": 204
+        },
+        {
+          "name": "Trigger",
+          "enumValue": 205
+        },
+        {
+          "name": "UtcTimeSynchronizationRecipients",
+          "enumValue": 206
+        },
+        {
+          "name": "NodeSubtype",
+          "enumValue": 207
+        },
+        {
+          "name": "NodeType",
+          "enumValue": 208
+        },
+        {
+          "name": "StructuredObjectList",
+          "enumValue": 209
+        },
+        {
+          "name": "SubordinateAnnotations",
+          "enumValue": 210
+        },
+        {
+          "name": "SubordinateList",
+          "enumValue": 211
+        },
+        {
+          "name": "ActualShedLevel",
+          "enumValue": 212
+        },
+        {
+          "name": "DutyWindow",
+          "enumValue": 213
+        },
+        {
+          "name": "ExpectedShedLevel",
+          "enumValue": 214
+        },
+        {
+          "name": "FullDutyBaseline",
+          "enumValue": 215
+        },
+        {
+          "name": "Unassigned_216",
+          "enumValue": 216
+        },
+        {
+          "name": "Unassigned_217",
+          "enumValue": 217
+        },
+        {
+          "name": "RequestedShedLevel",
+          "enumValue": 218
+        },
+        {
+          "name": "ShedDuration",
+          "enumValue": 219
+        },
+        {
+          "name": "ShedLevelDescriptions",
+          "enumValue": 220
+        },
+        {
+          "name": "ShedLevels",
+          "enumValue": 221
+        },
+        {
+          "name": "StateDescription",
+          "enumValue": 222
+        },
+        {
+          "name": "Unassigned_223",
+          "enumValue": 223
+        },
+        {
+          "name": "Unassigned_224",
+          "enumValue": 224
+        },
+        {
+          "name": "Unassigned_225",
+          "enumValue": 225
+        },
+        {
+          "name": "DoorAlarmState",
+          "enumValue": 226
+        },
+        {
+          "name": "DoorExtendedPulseTime",
+          "enumValue": 227
+        },
+        {
+          "name": "DoorMembers",
+          "enumValue": 228
+        },
+        {
+          "name": "DoorOpenTooLongTime",
+          "enumValue": 229
+        },
+        {
+          "name": "DoorPulseTime",
+          "enumValue": 230
+        },
+        {
+          "name": "DoorStatus",
+          "enumValue": 231
+        },
+        {
+          "name": "DoorUnlockDelayTime",
+          "enumValue": 232
+        },
+        {
+          "name": "LockStatus",
+          "enumValue": 233
+        },
+        {
+          "name": "MaskedAlarmValues",
+          "enumValue": 234
+        },
+        {
+          "name": "SecuredStatus",
+          "enumValue": 235
+        },
+        {
+          "name": "Unassigned_236",
+          "enumValue": 236
+        },
+        {
+          "name": "Unassigned_237",
+          "enumValue": 237
+        },
+        {
+          "name": "Unassigned_238",
+          "enumValue": 238
+        },
+        {
+          "name": "Unassigned_239",
+          "enumValue": 239
+        },
+        {
+          "name": "Unassigned_240",
+          "enumValue": 240
+        },
+        {
+          "name": "Unassigned_241",
+          "enumValue": 241
+        },
+        {
+          "name": "Unassigned_242",
+          "enumValue": 242
+        },
+        {
+          "name": "Unassigned_243",
+          "enumValue": 243
+        },
+        {
+          "name": "AbsenteeLimit",
+          "enumValue": 244
+        },
+        {
+          "name": "AccessAlarmEvents",
+          "enumValue": 245
+        },
+        {
+          "name": "AccessDoors",
+          "enumValue": 246
+        },
+        {
+          "name": "AccessEvent",
+          "enumValue": 247
+        },
+        {
+          "name": "AccessEventAuthenticationFactor",
+          "enumValue": 248
+        },
+        {
+          "name": "AccessEventCredential",
+          "enumValue": 249
+        },
+        {
+          "name": "AccessEventTime",
+          "enumValue": 250
+        },
+        {
+          "name": "AccessTransactionEvents",
+          "enumValue": 251
+        },
+        {
+          "name": "Accompaniment",
+          "enumValue": 252
+        },
+        {
+          "name": "AccompanimentTime",
+          "enumValue": 253
+        },
+        {
+          "name": "ActivationTime",
+          "enumValue": 254
+        },
+        {
+          "name": "ActiveAuthenticationPolicy",
+          "enumValue": 255
+        },
+        {
+          "name": "AssignedAccessRights",
+          "enumValue": 256
+        },
+        {
+          "name": "AuthenticationFactors",
+          "enumValue": 257
+        },
+        {
+          "name": "AuthenticationPolicyList",
+          "enumValue": 258
+        },
+        {
+          "name": "AuthenticationPolicyNames",
+          "enumValue": 259
+        },
+        {
+          "name": "AuthenticationStatus",
+          "enumValue": 260
+        },
+        {
+          "name": "AuthorizationMode",
+          "enumValue": 261
+        },
+        {
+          "name": "BelongsTo",
+          "enumValue": 262
+        },
+        {
+          "name": "CredentialDisable",
+          "enumValue": 263
+        },
+        {
+          "name": "CredentialStatus",
+          "enumValue": 264
+        },
+        {
+          "name": "Credentials",
+          "enumValue": 265
+        },
+        {
+          "name": "CredentialsInZone",
+          "enumValue": 266
+        },
+        {
+          "name": "DaysRemaining",
+          "enumValue": 267
+        },
+        {
+          "name": "EntryPoints",
+          "enumValue": 268
+        },
+        {
+          "name": "ExitPoints",
+          "enumValue": 269
+        },
+        {
+          "name": "ExpiryTime",
+          "enumValue": 270
+        },
+        {
+          "name": "ExtendedTimeEnable",
+          "enumValue": 271
+        },
+        {
+          "name": "FailedAttemptEvents",
+          "enumValue": 272
+        },
+        {
+          "name": "FailedAttempts",
+          "enumValue": 273
+        },
+        {
+          "name": "FailedAttemptsTime",
+          "enumValue": 274
+        },
+        {
+          "name": "LastAccessEvent",
+          "enumValue": 275
+        },
+        {
+          "name": "LastAccessPoint",
+          "enumValue": 276
+        },
+        {
+          "name": "LastCredentialAdded",
+          "enumValue": 277
+        },
+        {
+          "name": "LastCredentialAddedTime",
+          "enumValue": 278
+        },
+        {
+          "name": "LastCredentialRemoved",
+          "enumValue": 279
+        },
+        {
+          "name": "LastCredentialRemovedTime",
+          "enumValue": 280
+        },
+        {
+          "name": "LastUseTime",
+          "enumValue": 281
+        },
+        {
+          "name": "Lockout",
+          "enumValue": 282
+        },
+        {
+          "name": "LockoutRelinquishTime",
+          "enumValue": 283
+        },
+        {
+          "name": "Removed_In_Version_1_Revision_13_284",
+          "enumValue": 284
+        },
+        {
+          "name": "MaxFailedAttempts",
+          "enumValue": 285
+        },
+        {
+          "name": "Members",
+          "enumValue": 286
+        },
+        {
+          "name": "MusterPoint",
+          "enumValue": 287
+        },
+        {
+          "name": "NegativeAccessRules",
+          "enumValue": 288
+        },
+        {
+          "name": "NumberOfAuthenticationPolicies",
+          "enumValue": 289
+        },
+        {
+          "name": "OccupancyCount",
+          "enumValue": 290
+        },
+        {
+          "name": "OccupancyCountAdjust",
+          "enumValue": 291
+        },
+        {
+          "name": "OccupancyCountEnable",
+          "enumValue": 292
+        },
+        {
+          "name": "Removed_In_Version_1_Revision_13_293",
+          "enumValue": 293
+        },
+        {
+          "name": "OccupancyLowerLimit",
+          "enumValue": 294
+        },
+        {
+          "name": "OccupancyLowerLimitEnforced",
+          "enumValue": 295
+        },
+        {
+          "name": "OccupancyState",
+          "enumValue": 296
+        },
+        {
+          "name": "OccupancyUpperLimit",
+          "enumValue": 297
+        },
+        {
+          "name": "OccupancyUpperLimitEnforced",
+          "enumValue": 298
+        },
+        {
+          "name": "Removed_In_Version_1_Revision_13_299",
+          "enumValue": 299
+        },
+        {
+          "name": "PassbackMode",
+          "enumValue": 300
+        },
+        {
+          "name": "PassbackTimeout",
+          "enumValue": 301
+        },
+        {
+          "name": "PositiveAccessRules",
+          "enumValue": 302
+        },
+        {
+          "name": "ReasonForDisable",
+          "enumValue": 303
+        },
+        {
+          "name": "SupportedFormats",
+          "enumValue": 304
+        },
+        {
+          "name": "SupportedFormatClasses",
+          "enumValue": 305
+        },
+        {
+          "name": "ThreatAuthority",
+          "enumValue": 306
+        },
+        {
+          "name": "ThreatLevel",
+          "enumValue": 307
+        },
+        {
+          "name": "TraceFlag",
+          "enumValue": 308
+        },
+        {
+          "name": "TransactionNotificationClass",
+          "enumValue": 309
+        },
+        {
+          "name": "UserExternalIdentifier",
+          "enumValue": 310
+        },
+        {
+          "name": "UserInformationReference",
+          "enumValue": 311
+        },
+        {
+          "name": "Unassigned_312",
+          "enumValue": 312
+        },
+        {
+          "name": "Unassigned_313",
+          "enumValue": 313
+        },
+        {
+          "name": "Unassigned_314",
+          "enumValue": 314
+        },
+        {
+          "name": "Unassigned_315",
+          "enumValue": 315
+        },
+        {
+          "name": "Unassigned_316",
+          "enumValue": 316
+        },
+        {
+          "name": "UserName",
+          "enumValue": 317
+        },
+        {
+          "name": "UserType",
+          "enumValue": 318
+        },
+        {
+          "name": "UsesRemaining",
+          "enumValue": 319
+        },
+        {
+          "name": "ZoneFrom",
+          "enumValue": 320
+        },
+        {
+          "name": "ZoneTo",
+          "enumValue": 321
+        },
+        {
+          "name": "AccessEventTag",
+          "enumValue": 322
+        },
+        {
+          "name": "GlobalIdentifier",
+          "enumValue": 323
+        },
+        {
+          "name": "Unassigned_324",
+          "enumValue": 324
+        },
+        {
+          "name": "Unassigned_325",
+          "enumValue": 325
+        },
+        {
+          "name": "VerificationTime",
+          "enumValue": 326
+        },
+        {
+          "name": "BaseDeviceSecurityPolicy",
+          "enumValue": 327
+        },
+        {
+          "name": "DistributionKeyRevision",
+          "enumValue": 328
+        },
+        {
+          "name": "DoNotHide",
+          "enumValue": 329
+        },
+        {
+          "name": "KeySets",
+          "enumValue": 330
+        },
+        {
+          "name": "LastKeyServer",
+          "enumValue": 331
+        },
+        {
+          "name": "NetworkAccessSecurityPolicies",
+          "enumValue": 332
+        },
+        {
+          "name": "PacketReorderTime",
+          "enumValue": 333
+        },
+        {
+          "name": "SecurityPduTimeout",
+          "enumValue": 334
+        },
+        {
+          "name": "SecurityTimeWindow",
+          "enumValue": 335
+        },
+        {
+          "name": "SupportedSecurityAlgorithms",
+          "enumValue": 336
+        },
+        {
+          "name": "UpdateKeySetTimeout",
+          "enumValue": 337
+        },
+        {
+          "name": "BackupAndRestoreState",
+          "enumValue": 338
+        },
+        {
+          "name": "BackupPreparationTime",
+          "enumValue": 339
+        },
+        {
+          "name": "RestoreCompletionTime",
+          "enumValue": 340
+        },
+        {
+          "name": "RestorePreparationTime",
+          "enumValue": 341
+        },
+        {
+          "name": "BitMask",
+          "enumValue": 342
+        },
+        {
+          "name": "BitText",
+          "enumValue": 343
+        },
+        {
+          "name": "IsUtc",
+          "enumValue": 344
+        },
+        {
+          "name": "GroupMembers",
+          "enumValue": 345
+        },
+        {
+          "name": "GroupMemberNames",
+          "enumValue": 346
+        },
+        {
+          "name": "MemberStatusFlags",
+          "enumValue": 347
+        },
+        {
+          "name": "RequestedUpdateInterval",
+          "enumValue": 348
+        },
+        {
+          "name": "CovuPeriod",
+          "enumValue": 349
+        },
+        {
+          "name": "CovuRecipients",
+          "enumValue": 350
+        },
+        {
+          "name": "EventMessageTexts",
+          "enumValue": 351
+        },
+        {
+          "name": "EventMessageTextsConfig",
+          "enumValue": 352
+        },
+        {
+          "name": "EventDetectionEnable",
+          "enumValue": 353
+        },
+        {
+          "name": "EventAlgorithmInhibit",
+          "enumValue": 354
+        },
+        {
+          "name": "EventAlgorithmInhibitRef",
+          "enumValue": 355
+        },
+        {
+          "name": "TimeDelayNormal",
+          "enumValue": 356
+        },
+        {
+          "name": "ReliabilityEvaluationInhibit",
+          "enumValue": 357
+        },
+        {
+          "name": "FaultParameters",
+          "enumValue": 358
+        },
+        {
+          "name": "FaultType",
+          "enumValue": 359
+        },
+        {
+          "name": "LocalForwardingOnly",
+          "enumValue": 360
+        },
+        {
+          "name": "ProcessIdentifierFilter",
+          "enumValue": 361
+        },
+        {
+          "name": "SubscribedRecipients",
+          "enumValue": 362
+        },
+        {
+          "name": "PortFilter",
+          "enumValue": 363
+        },
+        {
+          "name": "AuthorizationExemptions",
+          "enumValue": 364
+        },
+        {
+          "name": "AllowGroupDelayInhibit",
+          "enumValue": 365
+        },
+        {
+          "name": "ChannelNumber",
+          "enumValue": 366
+        },
+        {
+          "name": "ControlGroups",
+          "enumValue": 367
+        },
+        {
+          "name": "ExecutionDelay",
+          "enumValue": 368
+        },
+        {
+          "name": "LastPriority",
+          "enumValue": 369
+        },
+        {
+          "name": "WriteStatus",
+          "enumValue": 370
+        },
+        {
+          "name": "PropertyList",
+          "enumValue": 371
+        },
+        {
+          "name": "SerialNumber",
+          "enumValue": 372
+        },
+        {
+          "name": "BlinkWarnEnable",
+          "enumValue": 373
+        },
+        {
+          "name": "DefaultFadeTime",
+          "enumValue": 374
+        },
+        {
+          "name": "DefaultRampRate",
+          "enumValue": 375
+        },
+        {
+          "name": "DefaultStepIncrement",
+          "enumValue": 376
+        },
+        {
+          "name": "EgressTime",
+          "enumValue": 377
+        },
+        {
+          "name": "InProgress",
+          "enumValue": 378
+        },
+        {
+          "name": "InstantaneousPower",
+          "enumValue": 379
+        },
+        {
+          "name": "LightingCommand",
+          "enumValue": 380
+        },
+        {
+          "name": "LightingCommandDefaultPriority",
+          "enumValue": 381
+        },
+        {
+          "name": "MaxActualValue",
+          "enumValue": 382
+        },
+        {
+          "name": "MinActualValue",
+          "enumValue": 383
+        },
+        {
+          "name": "Power",
+          "enumValue": 384
+        },
+        {
+          "name": "Transition",
+          "enumValue": 385
+        },
+        {
+          "name": "EgressActive",
+          "enumValue": 386
         }
       ]
     }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Active_COV_Subscriptions",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetCOVSubscription;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "APDU_Segment_Timeout",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "APDU_Timeout",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Application_Software_Version",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Database_Revision",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Device_Address_Binding",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetAddressBinding;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Firmware_Revision",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Location",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Max_APDU_Length_Accepted",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Max_Segments_Accepted",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Model_Name",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Number_Of_APDU_Retries",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Protocol_Object_Types_Supported",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetObjectTypeSupportedBits;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Protocol_Revision",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Protocol_Services_Supported",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetServicesSupportedBits;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Protocol_Version",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Segmentation_Supported",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetSegmentation;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Serial_Number",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "System_Status",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetDeviceStatus;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Vendor_Identifier",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Vendor_Name",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "string",
+      "writable": true
+    },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AddDeviceAddressBindings",

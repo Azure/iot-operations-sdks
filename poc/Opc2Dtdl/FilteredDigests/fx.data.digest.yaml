@@ -144,5 +144,13 @@ DefinedTypes:
 
   FX.Data:AuditUpdateMethodResultEventType:
   - [ UAObjectType, FX.Data:1025, FX.Data:AuditUpdateMethodResultEventType ]
+  - HasProperty:
+    - [ UAVariable, FX.Data:6325, FX.Data:OutputArguments, Argument, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, FX.Data:6324, FX.Data:StatusCodeId, StatusCode, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2127, AuditUpdateMethodEventType ]

@@ -16,6 +16,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Number",
+      "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "Data",
       "namespace": "http://opcfoundation.org/UA/PNGSDGM",

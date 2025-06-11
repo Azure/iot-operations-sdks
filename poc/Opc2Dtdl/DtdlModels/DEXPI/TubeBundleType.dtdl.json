@@ -285,53 +285,46 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NumberOfTubes",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "long",
-      "writable": true
+      "schema": "long"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TubeLength",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TubeMaterialOfConstructionCodeAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TubeNominalDiameterNumericalValueRepresentationAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TubeNominalDiameterRepresentationAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TubeNominalDiameterStandardSpecialization",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "dtmi:opcua:DEXPI:TubeBundleType:dataType:NominalDiameterStandardClassification;1",
-      "writable": true
+      "schema": "dtmi:opcua:DEXPI:TubeBundleType:dataType:NominalDiameterStandardClassification;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TubeNominalDiameterTypeRepresentationAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     }
   ]
 }

@@ -200,11 +200,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Result",
       "namespace": "http://opcfoundation.org/UA/Machinery.Result",
-      "schema": "dtmi:opcua:Machinery_Result:ResultReadyEventType:dataType:ResultDataType;1",
-      "writable": true
+      "schema": "dtmi:opcua:Machinery_Result:ResultReadyEventType:dataType:ResultDataType;1"
     }
   ]
 }

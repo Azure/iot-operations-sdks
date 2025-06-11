@@ -17,68 +17,60 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Pressure" ],
+      "@type": [ "Telemetry", "Qualified", "Pressure" ],
       "name": "CriticalBackingPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "pascal",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "Area" ],
+      "@type": [ "Telemetry", "Qualified", "Area" ],
       "name": "InletAreaOfThePump",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "squareMetre",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "Pressure" ],
+      "@type": [ "Telemetry", "Qualified", "Pressure" ],
       "name": "MaximumAllowableInletPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "pascal",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "Pressure" ],
+      "@type": [ "Telemetry", "Qualified", "Pressure" ],
       "name": "MaximumTolerableWaterVaporInletPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "pascal",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "Pressure" ],
+      "@type": [ "Telemetry", "Qualified", "Pressure" ],
       "name": "MaximumWorkingPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "pascal",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "Pressure" ],
+      "@type": [ "Telemetry", "Qualified", "Pressure" ],
       "name": "MinimumAllowableInletPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "pascal",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "Pressure" ],
+      "@type": [ "Telemetry", "Qualified", "Pressure" ],
       "name": "NetPositiveInletPressureRequired",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "pascal",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "MassFlowRate" ],
+      "@type": [ "Telemetry", "Qualified", "MassFlowRate" ],
       "name": "WaterVaporCapacity",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "gramPerHour",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     }
   ]
 }

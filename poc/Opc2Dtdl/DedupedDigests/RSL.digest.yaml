@@ -4,6 +4,14 @@ DefinedTypes:
 
   RSL:SpatialObjectsListType:
   - [ UAObjectType, RSL:1003, RSL:SpatialObjectsListType ]
+  - HasProperty:
+    - [ UAVariable, RSL:6024, RSL:Identifier, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, RSL:6027, RSL:NodeVersion, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
@@ -27,6 +35,12 @@ DefinedTypes:
     - [ UAObject, RSL:5002, RSL:AttachPoints ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, RSL:6017, RSL:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+  - HasProperty:
+    - [ UAVariable, RSL:6016, RSL:Identifier, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:

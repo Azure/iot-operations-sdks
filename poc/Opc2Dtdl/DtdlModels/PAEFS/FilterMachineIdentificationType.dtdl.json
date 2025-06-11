@@ -18,17 +18,22 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "NominalAirflow",
+      "name": "ExIdentification",
       "namespace": "http://opcfoundation.org/UA/PAEFS",
-      "schema": "double",
+      "schema": "string",
       "writable": true
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "NominalAirflow",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "double"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RatedPower",
       "namespace": "http://opcfoundation.org/UA/PAEFS",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     }
   ]
 }

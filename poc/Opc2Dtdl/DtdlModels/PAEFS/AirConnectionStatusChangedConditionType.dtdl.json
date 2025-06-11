@@ -13,7 +13,38 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1040",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PAEFS:AirConnectionStatusChangedConditionType:dataType:AirConnectionOpenEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=3005",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Open",
+          "enumValue": 0
+        },
+        {
+          "name": "Closed",
+          "enumValue": 1
+        },
+        {
+          "name": "Opening",
+          "enumValue": 2
+        },
+        {
+          "name": "Closing",
+          "enumValue": 3
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Status",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "dtmi:opcua:PAEFS:AirConnectionStatusChangedConditionType:dataType:AirConnectionOpenEnum;1",
+      "writable": false
+    }
   ]
 }

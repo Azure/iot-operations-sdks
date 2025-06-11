@@ -81,53 +81,46 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Address",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "dtmi:opcua:FX_CM:PubSubCommunicationFlowConfigurationType:dataType:NetworkAddressDataType;1",
-      "writable": true
+      "schema": "dtmi:opcua:FX_CM:PubSubCommunicationFlowConfigurationType:dataType:NetworkAddressDataType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "HeaderLayoutUri",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PublishingInterval",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "duration",
-      "writable": true
+      "schema": "duration"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Qos",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "dtmi:opcua:FX_CM:PubSubCommunicationFlowConfigurationType:dataType:CommunicationFlowQosDataType;1",
-      "writable": true
+      "schema": "dtmi:opcua:FX_CM:PubSubCommunicationFlowConfigurationType:dataType:CommunicationFlowQosDataType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SecurityGroupId",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SecurityMode",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "dtmi:opcua:FX_CM:PubSubCommunicationFlowConfigurationType:dataType:MessageSecurityMode;1",
-      "writable": true
+      "schema": "dtmi:opcua:FX_CM:PubSubCommunicationFlowConfigurationType:dataType:MessageSecurityMode;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TransportProfileUri",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

@@ -13,7 +13,99 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=4326",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:MTConnect_v2:MTConditionEventType:dataType:MTSeverityDataType;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2669",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "FAULT",
+          "enumValue": 0
+        },
+        {
+          "name": "NORMAL",
+          "enumValue": 1
+        },
+        {
+          "name": "WARNING",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MTConnect_v2:MTConditionEventType:dataType:QualifierDataType;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2668",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "HIGH",
+          "enumValue": 0
+        },
+        {
+          "name": "LOW",
+          "enumValue": 1
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ActiveState",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DataItemId",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MTSeverity",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "dtmi:opcua:MTConnect_v2:MTConditionEventType:dataType:MTSeverityDataType;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MTSubTypeName",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MTTypeName",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NativeCode",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NativeSeverity",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Qualifier",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "dtmi:opcua:MTConnect_v2:MTConditionEventType:dataType:QualifierDataType;1",
+      "writable": false
+    }
   ]
 }

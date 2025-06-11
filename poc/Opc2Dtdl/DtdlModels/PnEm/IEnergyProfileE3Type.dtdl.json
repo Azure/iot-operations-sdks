@@ -60,76 +60,66 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Energy" ],
+      "@type": [ "Telemetry", "Qualified", "Energy" ],
       "name": "AcActiveEnergyTotalExportHp",
       "namespace": "http://opcfoundation.org/UA/PNEM",
       "unit": "wattHour",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "Energy" ],
+      "@type": [ "Telemetry", "Qualified", "Energy" ],
       "name": "AcActiveEnergyTotalImportHp",
       "namespace": "http://opcfoundation.org/UA/PNEM",
       "unit": "wattHour",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AcActivePower",
       "namespace": "http://opcfoundation.org/UA/PNEM",
-      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1",
-      "writable": true
+      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AcCurrent",
       "namespace": "http://opcfoundation.org/UA/PNEM",
-      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1",
-      "writable": true
+      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AcPowerFactor",
       "namespace": "http://opcfoundation.org/UA/PNEM",
-      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1",
-      "writable": true
+      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AcReactiveEnergyTotalExportHp",
       "namespace": "http://opcfoundation.org/UA/PNEM",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AcReactiveEnergyTotalImportHp",
       "namespace": "http://opcfoundation.org/UA/PNEM",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AcReactivePower",
       "namespace": "http://opcfoundation.org/UA/PNEM",
-      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1",
-      "writable": true
+      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AcVoltagePe",
       "namespace": "http://opcfoundation.org/UA/PNEM",
-      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1",
-      "writable": true
+      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AcVoltagePp",
       "namespace": "http://opcfoundation.org/UA/PNEM",
-      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPpDataType;1",
-      "writable": true
+      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPpDataType;1"
     }
   ]
 }

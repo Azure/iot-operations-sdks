@@ -54,53 +54,46 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualPosition",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CommandRejected",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DefeatableCloseInterlock",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DefeatableOpenInterlock",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Moving",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "dtmi:opcua:MDIS:MDISElectricChokeObjectType:dataType:ChokeMoveEnum;1",
-      "writable": false
+      "schema": "dtmi:opcua:MDIS:MDISElectricChokeObjectType:dataType:ChokeMoveEnum;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NonDefeatableCloseInterlock",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NonDefeatableOpenInterlock",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
       "@type": [ "Command", "Qualified" ],

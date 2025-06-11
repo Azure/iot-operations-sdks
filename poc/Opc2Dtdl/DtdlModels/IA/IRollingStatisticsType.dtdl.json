@@ -16,5 +16,19 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "WindowDuration",
+      "namespace": "http://opcfoundation.org/UA/IA",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "WindowNumberOfValues",
+      "namespace": "http://opcfoundation.org/UA/IA",
+      "schema": "unsignedInteger",
+      "writable": true
+    }
   ]
 }

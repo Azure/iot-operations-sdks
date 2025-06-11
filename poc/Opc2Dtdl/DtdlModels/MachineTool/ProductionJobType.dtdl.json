@@ -17,31 +17,55 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "CustomerOrderIdentifier",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Identifier",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NumberInList",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OrderIdentifier",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PartsCompleted",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PartsGood",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RunsCompleted",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RunsPlanned",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

@@ -17,10 +17,30 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PackageSetup",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SerialNr",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Area",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     }
   ]
 }

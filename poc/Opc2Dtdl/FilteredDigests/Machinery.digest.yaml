@@ -40,11 +40,35 @@ DefinedTypes:
 
   Machinery:IMachineTagNameplateType:
   - [ UAObjectType, Machinery:1011, Machinery:IMachineTagNameplateType ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6028, Machinery:Location, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:15048, DI:ITagNameplateType ]
 
   Machinery:IMachineryItemVendorNameplateType:
   - [ UAObjectType, Machinery:1003, Machinery:IMachineryItemVendorNameplateType ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6027, Machinery:InitialOperationDate, DateTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6022, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6026, Machinery:MonthOfConstruction, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6024, DI:SerialNumber, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6025, Machinery:YearOfConstruction, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
 
@@ -52,26 +76,118 @@ DefinedTypes:
   - [ UAObjectType, Machinery:1010, Machinery:IMachineVendorNameplateType ]
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1003, Machinery:IMachineryItemVendorNameplateType ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6023, DI:ProductInstanceUri, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   Machinery:MachineryItemIdentificationType:
   - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6013, DI:AssetId, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6014, DI:ComponentName, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6088, Machinery:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6012, DI:DeviceClass, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6010, DI:HardwareRevision, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6006, Machinery:InitialOperationDate, DateTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6002, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6007, DI:ManufacturerUri, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6008, DI:Model, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6005, Machinery:MonthOfConstruction, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6009, DI:ProductCode, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6001, DI:ProductInstanceUri, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6003, DI:SerialNumber, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6011, DI:SoftwareRevision, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6004, Machinery:YearOfConstruction, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
 
   Machinery:MachineIdentificationType:
   - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6030, Machinery:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6029, Machinery:Location, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6015, DI:ProductInstanceUri, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   Machinery:MachineryComponentIdentificationType:
   - [ UAObjectType, Machinery:1005, Machinery:MachineryComponentIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6016, Machinery:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6017, DI:DeviceRevision, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
 
   Machinery:MachineryOperationCounterType:
   - [ UAObjectType, Machinery:1009, Machinery:MachineryOperationCounterType ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6082, Machinery:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6081, DI:OperationCycleCounter, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6080, DI:OperationDuration, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6079, DI:PowerOnDuration, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   Machinery:MachineryLifetimeCounterType:
   - [ UAObjectType, Machinery:1015, Machinery:MachineryLifetimeCounterType ]
@@ -79,6 +195,8 @@ DefinedTypes:
     - [ UAVariable, Machinery:6083, Machinery:<LifetimeVariable>, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6087, Machinery:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
@@ -90,11 +208,15 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6018, Machinery:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   Machinery:MachineryItemState_StateMachineType:
   - [ UAObjectType, Machinery:1002, Machinery:MachineryItemState_StateMachineType ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6021, Machinery:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
   - HasComponent:
     - [ UAObject, Machinery:5006, Machinery:Executing ]
     - HasTypeDefinition:
@@ -180,6 +302,8 @@ DefinedTypes:
 
   Machinery:MachineryOperationModeStateMachineType:
   - [ UAObjectType, Machinery:1008, Machinery:MachineryOperationModeStateMachineType ]
+  - HasProperty:
+    - [ UAVariable, Machinery:6058, Machinery:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
   - HasComponent:
     - [ UAObject, Machinery:5035, Machinery:FromMaintenanceToMaintenance ]
     - HasTypeDefinition:

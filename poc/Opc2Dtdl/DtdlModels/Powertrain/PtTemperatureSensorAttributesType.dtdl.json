@@ -18,31 +18,34 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "TemperatureSensorType",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Accuracy",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TemperatureMax",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TemperatureMin",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TemperatureSensorTechnology",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     }
   ]
 }

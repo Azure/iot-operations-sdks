@@ -16,28 +16,25 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DesignType",
       "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
-      "schema": "unsignedByte",
-      "writable": false
+      "schema": "unsignedByte"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DriveMethod",
       "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
-      "schema": "unsignedByte",
-      "writable": false
+      "schema": "unsignedByte"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DriveType",
       "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
-      "schema": "unsignedByte",
-      "writable": false
+      "schema": "unsignedByte"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MaxSpeed",
       "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
       "schema": {
@@ -56,11 +53,10 @@
             "schema": "unsignedByte"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MaxTorque",
       "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
       "schema": {
@@ -79,11 +75,10 @@
             "schema": "unsignedByte"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MinTorque",
       "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
       "schema": {
@@ -102,22 +97,19 @@
             "schema": "unsignedByte"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MotorType",
       "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ShutOffMethod",
       "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
-      "schema": "unsignedByte",
-      "writable": false
+      "schema": "unsignedByte"
     }
   ]
 }

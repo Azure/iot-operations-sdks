@@ -15,5 +15,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ZeroPointAdjustmentResult",
+      "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
+      "schema": "integer",
+      "writable": true
+    }
   ]
 }

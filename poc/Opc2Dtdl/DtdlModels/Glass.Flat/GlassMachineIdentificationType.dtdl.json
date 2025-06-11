@@ -14,7 +14,54 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1020",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:Glass_Flat:GlassMachineIdentificationType:dataType:UserProfileType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=3006",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LoginTime",
+          "schema": "dateTime"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Language",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MeasurementFormat",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "AccessLevel",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "OpcUaUser",
+          "schema": "boolean"
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LoggedInProfiles",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:Glass_Flat:GlassMachineIdentificationType:dataType:UserProfileType;1"
+      },
+      "writable": false
+    }
   ]
 }

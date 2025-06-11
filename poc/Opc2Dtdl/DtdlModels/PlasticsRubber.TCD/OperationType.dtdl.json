@@ -15,6 +15,54 @@
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
+      "@id": "dtmi:opcua:PlasticsRubber_TCD:OperationType:dataType:OperatingModeEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=3002",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "OTHER",
+          "enumValue": 0
+        },
+        {
+          "name": "READY_TO_OPERATE",
+          "enumValue": 1
+        },
+        {
+          "name": "NORMAL_OPERATION",
+          "enumValue": 2
+        },
+        {
+          "name": "LEAK_STOPPER",
+          "enumValue": 3
+        },
+        {
+          "name": "MOULD_EVACUATION",
+          "enumValue": 4
+        },
+        {
+          "name": "PRESSURE_RELIEF",
+          "enumValue": 5
+        },
+        {
+          "name": "COOLING",
+          "enumValue": 6
+        },
+        {
+          "name": "SAFETY_COOLING",
+          "enumValue": 7
+        },
+        {
+          "name": "ECO",
+          "enumValue": 8
+        },
+        {
+          "name": "BOOST",
+          "enumValue": 9
+        }
+      ]
+    },
+    {
       "@id": "dtmi:opcua:PlasticsRubber_TCD:OperationType:dataType:ActiveErrorDataType;1",
       "@type": [ "Object", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3028",
@@ -40,21 +88,40 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "DeviceMappingNumber",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "HighestActiveAlarmSeverity",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OperatingMode",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+      "schema": "dtmi:opcua:PlasticsRubber_TCD:OperationType:dataType:OperatingModeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActiveErrors",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:PlasticsRubber_TCD:OperationType:dataType:ActiveErrorDataType;1"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "HoursOfOperation",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "unit": "hour",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
       "@type": [ "Command", "Qualified" ],

@@ -332,26 +332,38 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "Edit",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RollbackOnError",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PubSubKeyPushTargets",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:PubSubKeyPushTargetDataType;1"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SecurityGroups",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:SecurityGroupDataType;1"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SecurityKeyServer",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": {
@@ -388,15 +400,13 @@
             "schema": "boolean"
           }
         ]
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Version",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

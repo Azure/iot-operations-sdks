@@ -34,7 +34,7 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DcBusVoltageRated",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": {
@@ -49,15 +49,13 @@
           "unit": "",
           "schema": "float"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DcBusVoltageRange",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "dtmi:opcua:Powertrain:PtDcBusAttributesType:dataType:Range;1",
-      "writable": false
+      "schema": "dtmi:opcua:Powertrain:PtDcBusAttributesType:dataType:Range;1"
     }
   ]
 }

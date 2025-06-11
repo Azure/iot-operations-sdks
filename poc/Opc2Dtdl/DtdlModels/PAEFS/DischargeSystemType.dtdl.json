@@ -16,6 +16,34 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DischargeContainerInstalled",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DischargeSystemEnabled",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaintenanceSwitchOn",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Malfunction",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "AirConsumption",
       "namespace": "http://opcfoundation.org/UA/PAEFS",

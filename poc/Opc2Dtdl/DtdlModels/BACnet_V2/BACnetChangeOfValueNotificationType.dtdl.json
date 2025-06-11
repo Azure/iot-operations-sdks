@@ -14,7 +14,62 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1053",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfValueNotificationType:dataType:OptionSet;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=12755",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Value",
+          "schema": "bytes"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ValidBits",
+          "schema": "bytes"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfValueNotificationType:dataType:BACnetStatusFlags;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3065",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "InAlarm",
+          "enumValue": 0
+        },
+        {
+          "name": "Fault",
+          "enumValue": 1
+        },
+        {
+          "name": "Overriden",
+          "enumValue": 2
+        },
+        {
+          "name": "OutOfService",
+          "enumValue": 3
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NewValue",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfValueNotificationType:dataType:OptionSet;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "StatusFlags",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfValueNotificationType:dataType:BACnetStatusFlags;1",
+      "writable": true
+    }
   ]
 }

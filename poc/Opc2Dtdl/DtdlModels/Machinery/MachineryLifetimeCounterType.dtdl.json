@@ -17,6 +17,13 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "DefaultInstanceBrowseName",
+      "namespace": "http://opcfoundation.org/UA/Machinery",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LifetimeVariable",
       "namespace": "http://opcfoundation.org/UA/Machinery",
       "schema": {
@@ -31,8 +38,7 @@
           "unit": "",
           "schema": "integer"
         }
-      },
-      "writable": true
+      }
     }
   ]
 }

@@ -17,25 +17,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NumberOfPlates",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "long",
-      "writable": true
+      "schema": "long"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PlateHeight",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PlateWidth",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     }
   ]
 }

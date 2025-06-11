@@ -16,5 +16,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Presence",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
+      "schema": "unsignedShort",
+      "writable": false
+    }
   ]
 }

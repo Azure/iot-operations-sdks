@@ -18,10 +18,23 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "TargetValueId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "TargetValueNodeId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TargetValue",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     }
   ]
 }

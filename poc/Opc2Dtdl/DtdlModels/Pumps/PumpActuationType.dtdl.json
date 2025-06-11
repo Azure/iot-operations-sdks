@@ -125,60 +125,52 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualControlMode",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "dtmi:opcua:Pumps:PumpActuationType:dataType:ControlModeEnum;1",
-      "writable": false
+      "schema": "dtmi:opcua:Pumps:PumpActuationType:dataType:ControlModeEnum;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualOperationMode",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "dtmi:opcua:Pumps:PumpActuationType:dataType:OperationModeEnum;1",
-      "writable": false
+      "schema": "dtmi:opcua:Pumps:PumpActuationType:dataType:OperationModeEnum;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ControlInversion",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Enable",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ExternalSignal",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ReverseRotatingDirection",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SetControlMode",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "dtmi:opcua:Pumps:PumpActuationType:dataType:ControlModeEnum;1",
-      "writable": true
+      "schema": "dtmi:opcua:Pumps:PumpActuationType:dataType:ControlModeEnum;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SetOperationMode",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "dtmi:opcua:Pumps:PumpActuationType:dataType:OperationModeEnum;1",
-      "writable": true
+      "schema": "dtmi:opcua:Pumps:PumpActuationType:dataType:OperationModeEnum;1"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

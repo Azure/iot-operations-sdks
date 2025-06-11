@@ -431,73 +431,73 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "MaxDownloadableJobOrders",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "EquipmentID",
       "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "JobOrderList",
       "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderAndStateDataType;1"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MaterialClassID",
       "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MaterialDefinitionID",
       "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PersonnelID",
       "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PhysicalAssetID",
       "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "WorkMaster",
       "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95WorkMasterDataType;1"
-      },
-      "writable": false
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

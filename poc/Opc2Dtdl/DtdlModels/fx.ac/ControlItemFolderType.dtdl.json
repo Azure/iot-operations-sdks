@@ -17,6 +17,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaxInactiveLockTime",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": "duration",
+      "writable": true
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "Lock",
       "namespace": "http://opcfoundation.org/UA/FX.AC",

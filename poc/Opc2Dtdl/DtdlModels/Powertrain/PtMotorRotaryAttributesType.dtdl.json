@@ -18,17 +18,22 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "MotorBackEMF",
+      "name": "MotorPolePairs",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
+      "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "MotorBackEMF",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "float"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MotorInertia",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     }
   ]
 }

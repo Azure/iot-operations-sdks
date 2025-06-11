@@ -15,5 +15,57 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "EndTime",
+      "namespace": "http://opcfoundation.org/UA/WireHarness",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "GoodQuantity",
+      "namespace": "http://opcfoundation.org/UA/WireHarness",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "JobOrderID",
+      "namespace": "http://opcfoundation.org/UA/WireHarness",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProducedQuantity",
+      "namespace": "http://opcfoundation.org/UA/WireHarness",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProductIDs",
+      "namespace": "http://opcfoundation.org/UA/WireHarness",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Run",
+      "namespace": "http://opcfoundation.org/UA/WireHarness",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "StartTime",
+      "namespace": "http://opcfoundation.org/UA/WireHarness",
+      "schema": "dateTime",
+      "writable": true
+    }
   ]
 }

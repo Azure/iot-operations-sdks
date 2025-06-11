@@ -35,24 +35,28 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "AnalogOutputElectricalType",
+      "name": "NumberOfChannels",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
-      "name": "FrequencyRange",
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "AnalogOutputElectricalType",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "dtmi:opcua:Powertrain:PtAnalogOutputElectricalAttributesType:dataType:Range;1",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "FrequencyRange",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "dtmi:opcua:Powertrain:PtAnalogOutputElectricalAttributesType:dataType:Range;1"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LoadResistance",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     }
   ]
 }

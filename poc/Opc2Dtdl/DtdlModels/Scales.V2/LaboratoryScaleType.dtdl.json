@@ -42,6 +42,55 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CalibrationNeeded",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CalibrationRunning",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DraftShieldLeftClosed",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DraftShieldRightClosed",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DraftShieldTopClosed",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IonisatorRunning",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LevelingRunning",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "CloseDraftShields",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",

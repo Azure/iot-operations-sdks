@@ -15,5 +15,47 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CalibrationDate",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "time",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CalibrationInitials",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MTDescription",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NextCalibrationDate",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "time",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Number",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "integer",
+      "writable": false
+    }
   ]
 }

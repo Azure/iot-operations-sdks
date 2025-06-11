@@ -16,5 +16,33 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "WashingAgentDrainMalfunction",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "WashingAgentDrainOpen",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "WashingAgentInflowMalfunction",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "WashingAgentInflowOpen",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": false
+    }
   ]
 }

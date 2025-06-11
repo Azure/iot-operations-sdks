@@ -17,42 +17,51 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "PhMeasuringMethod",
+      "name": "SensorCleaningsCounter",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Resistance" ],
+      "@type": [ "Property", "Qualified" ],
+      "name": "SensorSterilisationsCounter",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "PhMeasuringMethod",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
+      "schema": "unsignedInteger"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified", "Resistance" ],
       "name": "SensingElementImpedance",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "ohm",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "SensorNextCalibration",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "day",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified", "Resistance" ],
+      "@type": [ "Telemetry", "Qualified", "Resistance" ],
       "name": "SensorReferenceImpedance",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "ohm",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "SensingElementTemperature",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     }
   ]
 }

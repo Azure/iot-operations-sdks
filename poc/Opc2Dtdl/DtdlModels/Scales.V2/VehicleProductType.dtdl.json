@@ -41,24 +41,126 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "CarrierDisplayName",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CarrierId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Customer",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Destination",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DriverDisplayName",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DriverId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "InboundScale",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OutboundScale",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ScaleOperatorId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Supplier",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Tare",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "TareExpirationDate",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "TotalWeight",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "TotalWeightResetDate",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "VehicleId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DeltaWeight",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1",
-      "writable": true
+      "schema": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InboundWeight",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1",
-      "writable": true
+      "schema": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OutboundWeight",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1",
-      "writable": true
+      "schema": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1"
     },
     {
       "@type": [ "Command", "Qualified" ],

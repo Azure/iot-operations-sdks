@@ -16,20 +16,18 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "SampleTemperature",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "SensingElementTemperature",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     }
   ]
 }

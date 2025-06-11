@@ -15,5 +15,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NativeCode",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }

@@ -17,11 +17,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualPressure",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     }
   ]
 }

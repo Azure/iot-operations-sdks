@@ -85,13 +85,19 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "LogbookSize",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LogEntries",
       "namespace": "http://opcfoundation.org/UA/PNENC",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:PNENC:LogbookType:dataType:LogEntryDataType;1"
-      },
-      "writable": false
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

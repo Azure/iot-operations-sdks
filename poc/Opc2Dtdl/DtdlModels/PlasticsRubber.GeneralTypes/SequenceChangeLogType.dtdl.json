@@ -14,7 +14,42 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1043",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:SequenceChangeLogType:dataType:SequenceChangeEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3012",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "UPDATE",
+          "enumValue": 0
+        },
+        {
+          "name": "ADD",
+          "enumValue": 1
+        },
+        {
+          "name": "MODIFY",
+          "enumValue": 2
+        },
+        {
+          "name": "MOVE",
+          "enumValue": 3
+        },
+        {
+          "name": "DELETE",
+          "enumValue": 4
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SequenceChange",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:SequenceChangeLogType:dataType:SequenceChangeEnumeration;1",
+      "writable": false
+    }
   ]
 }

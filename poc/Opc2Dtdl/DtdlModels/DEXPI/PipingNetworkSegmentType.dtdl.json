@@ -409,165 +409,142 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SegmentNumberAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "BasfLineClassAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ColorCodeAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FlowDirectionSpecialization",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:PipingNetworkSegmentFlowClassification;1",
-      "writable": true
+      "schema": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:PipingNetworkSegmentFlowClassification;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FluidCodeAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "HeatTracingTypeAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "HeatTracingTypeSpecialization",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:HeatTracingTypeClassification;1",
-      "writable": true
+      "schema": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:HeatTracingTypeClassification;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Inclination",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InsulationThickness",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InsulationTypeAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "JacketedPipeSpecialization",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:JacketedPipeClassification;1",
-      "writable": true
+      "schema": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:JacketedPipeClassification;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LowerLimitHeatTracingTemperature",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NominalDiameterNumericalValueRepresentationAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NominalDiameterRepresentationAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NominalDiameterStandardSpecialization",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:NominalDiameterStandardClassification;1",
-      "writable": true
+      "schema": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:NominalDiameterStandardClassification;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NominalDiameterTypeRepresentationAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OnHoldSpecialization",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:OnHoldClassification;1",
-      "writable": true
+      "schema": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:OnHoldClassification;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OperatingTemperature",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PipingClassCodeAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PressureTestCircuitNumberAssignmentClass",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PrimarySecondaryPipingNetworkSegmentSpecialization",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:PrimarySecondaryPipingNetworkSegmentClassification;1",
-      "writable": true
+      "schema": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:PrimarySecondaryPipingNetworkSegmentClassification;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SiphonSpecialization",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:SiphonClassification;1",
-      "writable": true
+      "schema": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:SiphonClassification;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SlopeSpecialization",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:PipingNetworkSegmentSlopeClassification;1",
-      "writable": true
+      "schema": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:PipingNetworkSegmentSlopeClassification;1"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

@@ -17,25 +17,36 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "ConductivityMeasuringMethod",
+      "name": "SensorCleaningsCounter",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "unsignedInteger",
-      "writable": false
-    },
-    {
-      "@type": [ "Property", "Qualified", "Temperature" ],
-      "name": "SensingElementTemperature",
-      "namespace": "http://opcfoundation.org/UA/PADIM",
-      "unit": "degreeCelsius",
-      "schema": "float",
       "writable": false
     },
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "TemperatureCompensationStyle",
+      "name": "SensorSterilisationsCounter",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "unsignedInteger",
       "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "ConductivityMeasuringMethod",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
+      "schema": "unsignedInteger"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
+      "name": "SensingElementTemperature",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
+      "unit": "degreeCelsius",
+      "schema": "float"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "TemperatureCompensationStyle",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
+      "schema": "unsignedInteger"
     }
   ]
 }

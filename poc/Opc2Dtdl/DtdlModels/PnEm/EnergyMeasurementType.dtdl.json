@@ -18,6 +18,13 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "PeObjectNumber",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MeasurementValue",
       "namespace": "http://opcfoundation.org/UA/PNEM",
       "schema": {
@@ -32,8 +39,7 @@
           "unit": "",
           "schema": "integer"
         }
-      },
-      "writable": false
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

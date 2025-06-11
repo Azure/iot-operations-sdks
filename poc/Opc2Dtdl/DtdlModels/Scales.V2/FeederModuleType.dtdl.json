@@ -19,31 +19,34 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "FeederRunning",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FeederLoad",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FeederSpeed",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MaximumFeederSpeed",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MinimalFeederSpeed",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
       "@type": [ "Command", "Qualified" ],

@@ -14,14 +14,65 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1004",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetAnalogType:dataType:BACnetStatusFlags;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3065",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "InAlarm",
+          "enumValue": 0
+        },
+        {
+          "name": "Fault",
+          "enumValue": 1
+        },
+        {
+          "name": "Overriden",
+          "enumValue": 2
+        },
+        {
+          "name": "OutOfService",
+          "enumValue": 3
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "Present_Value",
+      "name": "COV_Increment",
       "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "schema": "float",
       "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Out_Of_Service",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Resolution",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Status_Flags",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetAnalogType:dataType:BACnetStatusFlags;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "Present_Value",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "float"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

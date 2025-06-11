@@ -44,11 +44,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CyclicProcessValue",
       "namespace": "http://opcfoundation.org/UA/MetalForming",
-      "schema": "dtmi:opcua:MetalForming:CyclicProcessValueType:dataType:CyclicProcessValueDataType;1",
-      "writable": true
+      "schema": "dtmi:opcua:MetalForming:CyclicProcessValueType:dataType:CyclicProcessValueDataType;1"
     }
   ]
 }

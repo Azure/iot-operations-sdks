@@ -45,11 +45,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "State",
       "namespace": "http://opcfoundation.org/UA/PROFINET",
-      "schema": "dtmi:opcua:PROFINET:IPnExpectedModuleType:dataType:PnModuleStateEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:PROFINET:IPnExpectedModuleType:dataType:PnModuleStateEnumeration;1"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

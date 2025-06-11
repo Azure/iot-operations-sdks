@@ -13,7 +13,79 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1006",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PNENC:EncoderDiagnosisEventType:dataType:EventTypeEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3003",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "FAULT",
+          "enumValue": 0
+        },
+        {
+          "name": "WARNING",
+          "enumValue": 1
+        },
+        {
+          "name": "UNSPECIFIED",
+          "enumValue": 255
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PNENC:EncoderDiagnosisEventType:dataType:EncoderDiagnosisReasonEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3012",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ALL_DISAPPEARS",
+          "enumValue": 0
+        },
+        {
+          "name": "APPEARS",
+          "enumValue": 1
+        },
+        {
+          "name": "DISAPPEARS",
+          "enumValue": 2
+        },
+        {
+          "name": "DISAPPEARS_OTHER_REMAIN",
+          "enumValue": 3
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DiagnosisType",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "dtmi:opcua:PNENC:EncoderDiagnosisEventType:dataType:EventTypeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "EventCode",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "EventText",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Reason",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "dtmi:opcua:PNENC:EncoderDiagnosisEventType:dataType:EncoderDiagnosisReasonEnumeration;1",
+      "writable": false
+    }
   ]
 }

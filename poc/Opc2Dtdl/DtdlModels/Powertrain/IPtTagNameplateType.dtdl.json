@@ -16,5 +16,26 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Comment",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ContactInformation",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Function",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "string",
+      "writable": true
+    }
   ]
 }

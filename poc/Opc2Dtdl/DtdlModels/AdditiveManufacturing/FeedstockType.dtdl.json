@@ -41,31 +41,55 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "ExternalIdentifier",
+      "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Identifier",
+      "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Manufacturer",
+      "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Cycle",
       "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Function",
       "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
-      "schema": "dtmi:opcua:AdditiveManufacturing:FeedstockType:dataType:FeedstockFunction;1",
-      "writable": true
+      "schema": "dtmi:opcua:AdditiveManufacturing:FeedstockType:dataType:FeedstockFunction;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ReadyForProduction",
       "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RemainingQuantity",
       "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     }
   ]
 }

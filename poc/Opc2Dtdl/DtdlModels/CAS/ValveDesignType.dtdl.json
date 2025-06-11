@@ -17,11 +17,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NumberOfPorts",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     }
   ]
 }

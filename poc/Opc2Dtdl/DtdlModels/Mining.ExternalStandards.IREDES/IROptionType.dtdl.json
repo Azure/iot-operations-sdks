@@ -17,10 +17,16 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "OptionSchema",
+      "name": "DefaultInstanceBrowseName",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": "string",
       "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "OptionSchema",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
+      "schema": "string"
     }
   ]
 }

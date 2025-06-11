@@ -14,8 +14,54 @@
   "commandTopic": "opcua/PlasticsRubber_GeneralTypes/StartDeviceType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType:dataType:StartEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3025",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NOT_READY_TO_START",
+          "enumValue": 0
+        },
+        {
+          "name": "START_BLOCKED_BY_CLIENT",
+          "enumValue": 1
+        },
+        {
+          "name": "READY_TO_START",
+          "enumValue": 2
+        },
+        {
+          "name": "START_REQUESTED",
+          "enumValue": 3
+        },
+        {
+          "name": "STARTED",
+          "enumValue": 4
+        },
+        {
+          "name": "STOP_REQUESTED",
+          "enumValue": 5
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "StartBlockedByClient",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Status",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType:dataType:StartEnumeration;1",
+      "writable": false
+    },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "StartRequest",

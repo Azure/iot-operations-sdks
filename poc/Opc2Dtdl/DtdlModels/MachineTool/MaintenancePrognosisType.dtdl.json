@@ -17,11 +17,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Activity",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     }
   ]
 }

@@ -13,8 +13,31 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1010",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PAEFS:SensorMonitoringType:dataType:AnalogDigitalEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=3002",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Analog",
+          "enumValue": 0
+        },
+        {
+          "name": "Digital",
+          "enumValue": 1
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SignalForm",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "dtmi:opcua:PAEFS:SensorMonitoringType:dataType:AnalogDigitalEnum;1",
+      "writable": false
+    },
     {
       "@type": [ "Relationship", "Qualified" ],
       "name": "MachineryBuildingBlocks",

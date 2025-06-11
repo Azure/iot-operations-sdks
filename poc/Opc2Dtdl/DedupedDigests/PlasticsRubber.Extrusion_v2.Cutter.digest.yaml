@@ -281,8 +281,20 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion_v2.Cutter:CutEventType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1002, PlasticsRubber.Extrusion_v2.Cutter:CutEventType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6002, PlasticsRubber.Extrusion_v2.Cutter:ActualOutput, UInt64, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6001, PlasticsRubber.Extrusion_v2.Cutter:CuttingProductId, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6003, PlasticsRubber.Extrusion_v2.Cutter:TotalOutput, UInt64, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.Extrusion_v2.Cutter:CuttingProductsType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1004, PlasticsRubber.Extrusion_v2.Cutter:CuttingProductsType ]
@@ -307,6 +319,10 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6009, PlasticsRubber.Extrusion_v2.Cutter:Id, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6010, PlasticsRubber.Extrusion_v2.Cutter:Length, Double, 0, 3 ]
     - HasModellingRule:
@@ -329,6 +345,10 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6016, PlasticsRubber.Extrusion_v2.Cutter:WallThickeningLength, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6019, PlasticsRubber.Extrusion_v2.Cutter:WallThickeningPosition, PlasticsRubber.Extrusion_v2.Cutter:WallThickeningEnumeration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 

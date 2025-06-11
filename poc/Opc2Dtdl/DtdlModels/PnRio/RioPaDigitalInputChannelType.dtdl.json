@@ -173,53 +173,46 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Config",
       "namespace": "http://opcfoundation.org/UA/PNRIO",
-      "schema": "dtmi:opcua:PNRIO:RioPaDigitalInputChannelType:dataType:RioPaDigitalInputConfigDataType;1",
-      "writable": false
+      "schema": "dtmi:opcua:PNRIO:RioPaDigitalInputChannelType:dataType:RioPaDigitalInputConfigDataType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ManualProcessValue",
       "namespace": "http://opcfoundation.org/UA/PNRIO",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Mode",
       "namespace": "http://opcfoundation.org/UA/PNRIO",
-      "schema": "dtmi:opcua:PNRIO:RioPaDigitalInputChannelType:dataType:RioChannelModeEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:PNRIO:RioPaDigitalInputChannelType:dataType:RioChannelModeEnumeration;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProcessValue",
       "namespace": "http://opcfoundation.org/UA/PNRIO",
-      "schema": "dtmi:opcua:PNRIO:RioPaDigitalInputChannelType:dataType:RioPaDigitalProcessValueDataType;1",
-      "writable": false
+      "schema": "dtmi:opcua:PNRIO:RioPaDigitalInputChannelType:dataType:RioPaDigitalProcessValueDataType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SignalValue",
       "namespace": "http://opcfoundation.org/UA/PNRIO",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SimulationEnabled",
       "namespace": "http://opcfoundation.org/UA/PNRIO",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SimulationValue",
       "namespace": "http://opcfoundation.org/UA/PNRIO",
-      "schema": "dtmi:opcua:PNRIO:RioPaDigitalInputChannelType:dataType:RioPaDigitalValueDataType;1",
-      "writable": false
+      "schema": "dtmi:opcua:PNRIO:RioPaDigitalInputChannelType:dataType:RioPaDigitalValueDataType;1"
     },
     {
       "@type": [ "Command", "Qualified" ],

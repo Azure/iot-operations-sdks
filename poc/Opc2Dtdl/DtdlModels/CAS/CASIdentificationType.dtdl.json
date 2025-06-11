@@ -16,5 +16,19 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AssetId",
+      "namespace": "http://opcfoundation.org/UA/CAS",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ComponentName",
+      "namespace": "http://opcfoundation.org/UA/CAS",
+      "schema": "string",
+      "writable": true
+    }
   ]
 }

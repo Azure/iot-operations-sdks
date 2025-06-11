@@ -17,10 +17,16 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "CalibrationTimestamp",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TypeOfCalibration",
       "namespace": "http://opcfoundation.org/UA/PADIM",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

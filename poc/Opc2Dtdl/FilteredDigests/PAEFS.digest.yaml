@@ -92,6 +92,10 @@ DefinedTypes:
     - [ UAMethod, PAEFS:7009, PAEFS:Close ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6426, PAEFS:ConnectionOpen, PAEFS:AirConnectionOpenEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5064, PAEFS:GasQuality ]
     - HasModellingRule:
@@ -104,6 +108,10 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, PAEFS:SensorMonitoringType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6428, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PAEFS:7008, PAEFS:Open ]
     - HasModellingRule:
@@ -155,19 +163,35 @@ DefinedTypes:
   - [ UAObjectType, PAEFS:1037, PAEFS:CleaningRecommendedConditionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2881, AcknowledgeableConditionType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6048, PAEFS:Recommended, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PAEFS:MaintenanceRequestedConditionType:
   - [ UAObjectType, PAEFS:1023, PAEFS:MaintenanceRequestedConditionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2881, AcknowledgeableConditionType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6047, PAEFS:Requested, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PAEFS:AirConnectionStatusChangedConditionType:
   - [ UAObjectType, PAEFS:1040, PAEFS:AirConnectionStatusChangedConditionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2782, ConditionType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:8427, PAEFS:Status, PAEFS:AirConnectionOpenEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PAEFS:CleaningUnitActiveConditionType:
   - [ UAObjectType, PAEFS:1036, PAEFS:CleaningUnitActiveConditionType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:8424, PAEFS:Active, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2782, ConditionType ]
 
@@ -175,34 +199,62 @@ DefinedTypes:
   - [ UAObjectType, PAEFS:1024, PAEFS:ContainerOpenConditionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2782, ConditionType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6050, PAEFS:Open, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PAEFS:DischargeContainerInstalledConditionType:
   - [ UAObjectType, PAEFS:1038, PAEFS:DischargeContainerInstalledConditionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2782, ConditionType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:8425, PAEFS:Installed, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PAEFS:FilterAidDeviceStatusChangedConditionType:
   - [ UAObjectType, PAEFS:1033, PAEFS:FilterAidDeviceStatusChangedConditionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2782, ConditionType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:8421, PAEFS:Status, PAEFS:FilterAidDeviceStatusEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PAEFS:MaintenanceSwitchConditionType:
   - [ UAObjectType, PAEFS:1039, PAEFS:MaintenanceSwitchConditionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2782, ConditionType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6046, PAEFS:SwitchOn, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PAEFS:WashingAgentDrainOpenConditionType:
   - [ UAObjectType, PAEFS:1028, PAEFS:WashingAgentDrainOpenConditionType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:8420, PAEFS:Open, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2782, ConditionType ]
 
   PAEFS:WashingAgentInflowOpenConditionType:
   - [ UAObjectType, PAEFS:1027, PAEFS:WashingAgentInflowOpenConditionType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:8419, PAEFS:Open, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2782, ConditionType ]
 
   PAEFS:HighVoltageUnitSupplyActiveEventType:
   - [ UAObjectType, PAEFS:1031, PAEFS:HighVoltageUnitSupplyActiveEventType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6049, PAEFS:Active, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
@@ -220,12 +272,24 @@ DefinedTypes:
       - [ UAObjectType, PAEFS:1011, PAEFS:ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6082, PAEFS:AutomaticCleaningEnabled, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6161, PAEFS:CleaningActive, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PAEFS:5077, PAEFS:CleaningInterval ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1035, PAEFS:SensorSetpointWriteType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6187, PAEFS:CleaningRecommended, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
@@ -240,6 +304,10 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6406, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PAEFS:7007, PAEFS:RequestCleaning ]
     - HasModellingRule:
@@ -250,11 +318,23 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1035, PAEFS:SensorSetpointWriteType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6186, PAEFS:TotalCleaningCycles, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PAEFS:CleaningUnitValveType:
   - [ UAObjectType, PAEFS:1016, PAEFS:CleaningUnitValveType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6359, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6418, PAEFS:Open, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PAEFS:CollectorType:
   - [ UAObjectType, PAEFS:1020, PAEFS:CollectorType ]
@@ -290,6 +370,14 @@ DefinedTypes:
       - [ UAObjectType, PAEFS:1011, PAEFS:ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6140, PAEFS:DischargeContainerInstalled, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6230, PAEFS:DischargeSystemEnabled, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
@@ -304,6 +392,14 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6139, PAEFS:MaintenanceSwitchOn, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6420, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PAEFS:FanType:
   - [ UAObjectType, PAEFS:1009, PAEFS:FanType ]
@@ -315,6 +411,14 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6208, PAEFS:MaintenanceSwitchOn, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6395, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5065, PAEFS:PowerConsumption ]
     - HasTypeDefinition:
@@ -336,18 +440,38 @@ DefinedTypes:
       - [ UAObjectType, PAEFS:1011, PAEFS:ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6204, PAEFS:AutomaticDosingEnabled, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6146, PAEFS:CompressedAirSupplyInterrupted, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6142, PAEFS:ContainerOpen, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5031, PAEFS:DosageAmount ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1035, PAEFS:SensorSetpointWriteType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6144, PAEFS:DosingRequested, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5009, PAEFS:FillingLevel ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, PAEFS:SensorMonitoringType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6143, PAEFS:FilterAidDeviceStatus, PAEFS:FilterAidDeviceStatusEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
@@ -356,6 +480,10 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6145, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PAEFS:5035, PAEFS:PowerConsumption ]
     - HasTypeDefinition:
@@ -421,6 +549,10 @@ DefinedTypes:
       - [ UAObjectType, PAEFS:1007, PAEFS:AirConnectionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6021, PAEFS:ControlMode, PAEFS:ControlModeEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
@@ -429,6 +561,22 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6238, PAEFS:MaintenanceRequested, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6058, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6181, PAEFS:OperationCycleCounter, UInteger, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6180, PAEFS:OperationDuration, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PAEFS:7005, PAEFS:OperationOff ]
     - HasModellingRule:
@@ -441,6 +589,10 @@ DefinedTypes:
     - [ UAObject, PAEFS:5017, PAEFS:PowerConsumption ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1011, PAEFS:ConsumptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6054, PAEFS:PowerOnDuration, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -500,8 +652,24 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6141, PAEFS:MaintenanceRequested, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6036, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6251, PAEFS:OperationCycleCounter, UInteger, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6250, PAEFS:OperationDuration, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PAEFS:7002, PAEFS:OperationOff ]
     - HasModellingRule:
@@ -514,6 +682,10 @@ DefinedTypes:
     - [ UAObject, PAEFS:5029, PAEFS:PowerConsumption ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1011, PAEFS:ConsumptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6182, PAEFS:PowerOnDuration, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -567,6 +739,10 @@ DefinedTypes:
 
   PAEFS:FilterMachineIdentificationType:
   - [ UAObjectType, PAEFS:1022, PAEFS:FilterMachineIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6440, PAEFS:ExIdentification, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
   - HasComponent:
@@ -596,8 +772,32 @@ DefinedTypes:
     - [ UAVariable, PAEFS:6088, PAEFS:CurrentOutput, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6093, PAEFS:MaintenanceRequested, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6091, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6098, PAEFS:OperationCycleCounter, UInteger, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6092, PAEFS:OperationDuration, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6039, PAEFS:PowerOnDuration, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6087, PAEFS:SupplyActive, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PAEFS:IonizerType:
   - [ UAObjectType, PAEFS:1019, PAEFS:IonizerType ]
@@ -618,8 +818,16 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6430, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6219, PAEFS:Triggered, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PAEFS:SensorMonitoringType:
   - [ UAObjectType, PAEFS:1010, PAEFS:SensorMonitoringType ]
@@ -637,9 +845,17 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6007, PAEFS:SignalForm, PAEFS:AnalogDigitalEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PAEFS:SensorSetpointReadType:
   - [ UAObjectType, PAEFS:1034, PAEFS:SensorSetpointReadType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6176, PAEFS:IsActiveSetpoint, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, PAEFS:1010, PAEFS:SensorMonitoringType ]
   - HasComponent:
@@ -662,6 +878,10 @@ DefinedTypes:
 
   PAEFS:SeparatorType:
   - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6081, PAEFS:FilterMediumOperatingHours, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5001, PAEFS:FilterMediumState ]
     - HasModellingRule:
@@ -693,6 +913,10 @@ DefinedTypes:
   - [ UAObjectType, PAEFS:1021, PAEFS:AutomaticRollFilterType ]
   - HasSubtype_reverse:
     - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6389, PAEFS:EndOfFilterRoll, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PAEFS:CartridgeFilterType:
   - [ UAObjectType, PAEFS:1013, PAEFS:CartridgeFilterType ]
@@ -712,6 +936,22 @@ DefinedTypes:
 
   PAEFS:WetSeparatorType:
   - [ UAObjectType, PAEFS:1014, PAEFS:WetSeparatorType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6062, PAEFS:WashingAgentDrainMalfunction, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6061, PAEFS:WashingAgentDrainOpen, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6060, PAEFS:WashingAgentInflowMalfunction, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6059, PAEFS:WashingAgentInflowOpen, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
 
@@ -723,6 +963,10 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+  - HasProperty:
+    - [ UAVariable, PAEFS:6233, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5054, PAEFS:PowerConsumption ]
     - HasTypeDefinition:

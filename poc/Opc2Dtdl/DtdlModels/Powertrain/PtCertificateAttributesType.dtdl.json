@@ -16,5 +16,15 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Certificates",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    }
   ]
 }

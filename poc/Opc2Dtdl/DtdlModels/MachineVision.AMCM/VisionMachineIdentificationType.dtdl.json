@@ -16,5 +16,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ConfigurationCode",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
+      "schema": "string",
+      "writable": true
+    }
   ]
 }

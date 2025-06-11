@@ -4,14 +4,14 @@
 <#@ import namespace="SpecMapper" #>
 <# (string, string) unitInfo; #>
     {
-      "@type": [ "Property", <#=this.GetCotypes(null)#> ],
+      "@type": [ "<#=this.classType#>", <#=this.GetCotypes(null)#> ],
       "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))#>",
       "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>",
 <# if (this.SubVars.Count == 0) { #>
 <# if (this.TryGetUnitInfo(null, out unitInfo) && !this.definedType.BrowseName.Contains('<')) { #>
       "unit": "<#=unitInfo.Item2#>",
 <# } #>
-      "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.definedType.Datatype, this.definedType.ValueRank, definedType.BrowseName, unitInfo, 6)#>,
+      "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.definedType.Datatype, this.definedType.ValueRank, definedType.BrowseName, unitInfo, 6)#><#=this.isWritable != null ? "," : ""#>
 <# } else { #>
       "schema": {
         "@type": [ "Object", "Detail" ],
@@ -37,7 +37,9 @@
           }<#=ix < this.SubVars.Count ? "," : ""#>
 <# ix++; } #>
         ]
-      },
+      }<#=this.isWritable != null ? "," : ""#>
 <# } #>
-      "writable": <#=this.isWritable ? "true" : "false"#>
+<# if (this.isWritable != null) { #>
+      "writable": <#=(bool)this.isWritable ? "true" : "false"#>
+<# } #>
     }

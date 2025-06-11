@@ -60,7 +60,7 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AcActivePowerPe",
       "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
@@ -85,11 +85,10 @@
             "schema": "unsignedInteger"
           }
         ]
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AcCurrentPe",
       "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
@@ -114,11 +113,10 @@
             "schema": "unsignedInteger"
           }
         ]
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AcPowerFactorPe",
       "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
@@ -143,11 +141,10 @@
             "schema": "unsignedInteger"
           }
         ]
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AcReactivePowerPe",
       "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
@@ -172,11 +169,10 @@
             "schema": "unsignedInteger"
           }
         ]
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AcVoltagePe",
       "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
@@ -201,11 +197,10 @@
             "schema": "unsignedInteger"
           }
         ]
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AcVoltagePp",
       "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
@@ -230,8 +225,7 @@
             "schema": "unsignedInteger"
           }
         ]
-      },
-      "writable": true
+      }
     }
   ]
 }

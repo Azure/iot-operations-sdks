@@ -17,6 +17,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceLocationName",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "schema": "string",
+      "writable": false
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "BatchInformation",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",

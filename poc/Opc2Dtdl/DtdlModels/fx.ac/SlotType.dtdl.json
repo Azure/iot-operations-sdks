@@ -16,5 +16,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LogicalId",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": "unsignedShort",
+      "writable": true
+    }
   ]
 }

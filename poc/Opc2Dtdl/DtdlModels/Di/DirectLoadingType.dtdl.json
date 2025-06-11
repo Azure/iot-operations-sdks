@@ -46,10 +46,16 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "WriteTimeout",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "duration",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "UpdateBehavior",
       "namespace": "http://opcfoundation.org/UA/DI",
-      "schema": "dtmi:opcua:DI:DirectLoadingType:dataType:UpdateBehavior;1",
-      "writable": false
+      "schema": "dtmi:opcua:DI:DirectLoadingType:dataType:UpdateBehavior;1"
     }
   ]
 }

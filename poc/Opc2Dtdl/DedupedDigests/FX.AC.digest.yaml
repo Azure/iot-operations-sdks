@@ -259,11 +259,27 @@ DefinedTypes:
       - [ UAObjectType, 11575, FileType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:6335, FX.AC:DescriptorIdentifier, UriString, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:6336, FX.AC:DescriptorVersion, FX.AC:FxVersion, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   FX.AC:AssetConnectorType:
   - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:114, FX.AC:Id, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:116, FX.AC:Name, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
@@ -275,6 +291,10 @@ DefinedTypes:
       - [ UAObjectType, FX.AC:10, FX.AC:ClampType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:218, FX.AC:BlockSize, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
   - HasComponent:
@@ -293,6 +313,10 @@ DefinedTypes:
 
   FX.AC:SlotType:
   - [ UAObjectType, FX.AC:6, FX.AC:SlotType ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:159, FX.AC:LogicalId, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
 
@@ -348,6 +372,10 @@ DefinedTypes:
       - [ UAObjectType, FX.AC:1001, FX.AC:AutomationComponentCapabilitiesType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:210, FX.AC:ConformanceName, UriString, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, FX.AC:5073, FX.AC:Descriptors ]
     - HasTypeDefinition:
@@ -407,6 +435,14 @@ DefinedTypes:
   - [ UAObjectType, FX.AC:1040, FX.AC:AuditConnectionCleanupEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, FX.AC:1030, FX.AC:AuditUaFxEventType ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:6351, FX.AC:RelatedEndpoint, FX.Data:RelatedEndpointDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:6350, FX.AC:RemovedEndpoint, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   FX.AC:IAssetExtensionsType:
   - [ UAObjectType, FX.AC:1009, FX.AC:IAssetExtensionsType ]
@@ -421,6 +457,22 @@ DefinedTypes:
 
   FX.AC:IAssetRevisionType:
   - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:119, FX.AC:BuildAssetNumber, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:117, FX.AC:MajorAssetVersion, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:118, FX.AC:MinorAssetVersion, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:120, FX.AC:SubBuildAssetNumber, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, FX.AC:1476, FX.AC:VerifyAsset ]
     - HasModellingRule:
@@ -444,6 +496,22 @@ DefinedTypes:
 
   FX.AC:IFunctionalEntityType:
   - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:129, FX.AC:ApplicationIdentifier, FX.AC:ApplicationIdentifierDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:127, FX.AC:AuthorAssignedIdentifier, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:128, FX.AC:AuthorAssignedVersion, FX.AC:FxVersion, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:126, FX.AC:AuthorUri, UriString, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, FX.AC:5039, FX.AC:Capabilities ]
     - HasModellingRule:
@@ -584,6 +652,10 @@ DefinedTypes:
           LockStatus: [ Int32, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:6095, FX.AC:IsControlled, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, FX.AC:5075, FX.AC:ListOfRelated ]
     - HasTypeDefinition:
@@ -704,6 +776,10 @@ DefinedTypes:
       - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:6485, FX.AC:MaxInactiveLockTime, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
 
@@ -731,6 +807,22 @@ DefinedTypes:
 
   FX.AC:FunctionalEntityType:
   - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:205, FX.AC:ApplicationIdentifier, FX.AC:ApplicationIdentifierDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:203, FX.AC:AuthorAssignedIdentifier, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:204, FX.AC:AuthorAssignedVersion, FX.AC:FxVersion, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:202, FX.AC:AuthorUri, UriString, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, FX.AC:5040, FX.AC:Capabilities ]
     - HasModellingRule:
@@ -811,10 +903,26 @@ DefinedTypes:
 
   FX.AC:FxAssetType:
   - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:195, DI:AssetId, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:198, FX.AC:BuildAssetNumber, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:184, DI:ComponentName, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, FX.AC:72, FX.AC:Connectors ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:191, DI:DeviceClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -825,6 +933,62 @@ DefinedTypes:
     - [ UAObject, FX.AC:5023, DI:DeviceHealthAlarms ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:190, DI:DeviceManual, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:189, DI:DeviceRevision, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:187, DI:HardwareRevision, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:196, FX.AC:MajorAssetVersion, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:175, DI:Manufacturer, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:185, DI:ManufacturerUri, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:197, FX.AC:MinorAssetVersion, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:176, DI:Model, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:186, DI:ProductCode, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:193, DI:ProductInstanceUri, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:194, DI:RevisionCounter, Int32, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:192, DI:SerialNumber, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:188, DI:SoftwareRevision, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FX.AC:199, FX.AC:SubBuildAssetNumber, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:

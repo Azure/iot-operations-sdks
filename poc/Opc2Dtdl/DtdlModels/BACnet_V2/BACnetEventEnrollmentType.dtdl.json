@@ -16,269 +16,9 @@
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameter;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3050",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Change_of_bitstring",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfBitstring;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Change_of_state",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfState;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Change_of_value",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfValue;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Command_failure",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterCommandFailure;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Floating_limit",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterFloatingLimit;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Out_of_range",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterOutOfRange;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Extended",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventFaultParameterExtended;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Buffer_ready",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterBufferReady;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Unsigned_range",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterUnsignedRange;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Double_out_of_range",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterDoubleOutOfRange;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Signed_out_of_range",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterSignedOutOfRange;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Unsigned_out_of_range",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterUnsignedOutOfRange;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Change_of_characterstring",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfCharacterString;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Change_of_life_safety",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfLifeSafety;1"
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameter;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3051",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Fault_characterstring",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultCharacterstring;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Fault_life_safety",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultLifeSafety;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Fault_state",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultState;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Fault_status_flags",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultStatusFlags;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Fault_extended",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventFaultParameterExtended;1"
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultCharacterstring;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103030",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Fault_characterstring",
-          "schema": "string"
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfBitstring;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103005",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Time_delay",
-          "schema": "unsignedInteger"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Bitmask",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:OptionSet;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "List_of_bitstring_values",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:OptionSet;1"
-          }
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:OptionSet;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA;i=12755",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Value",
-          "schema": "bytes"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ValidBits",
-          "schema": "bytes"
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfState;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103009",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Time_delay",
-          "schema": "unsignedInteger"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "List_of_values",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetPropertyStates;1"
-          }
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetPropertyStates;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3028",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "BooleanValue",
-          "schema": "boolean"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "BinaryValue",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetBinaryPV;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "EventType",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventEnumType;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Polarity",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetPolarity;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ProgramChange",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetProgramRequest;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ProgramState",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetProgramStates;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ProgramError",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetProgramError;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Reliability",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetReliability;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "State",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventState;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "SystemStatus",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDeviceStatus;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Units",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "UnsignedValue",
-          "schema": "unsignedInteger"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "LifeSafetyMode",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetLifeSafetyMode;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "LifeSafetyState",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetLifeSafetyState;1"
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetPolarity;1",
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventState;1",
       "@type": [ "Enum", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3007",
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3003",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -286,111 +26,128 @@
           "enumValue": 0
         },
         {
-          "name": "Reverse",
-          "enumValue": 1
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventEnumType;1",
-      "@type": [ "Enum", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3029",
-      "valueSchema": "integer",
-      "enumValues": [
-        {
-          "name": "ChangeOfBitstring",
-          "enumValue": 0
-        },
-        {
-          "name": "ChangeOfState",
+          "name": "Fault",
           "enumValue": 1
         },
         {
-          "name": "ChangeOfValue",
+          "name": "OffNormal",
           "enumValue": 2
         },
         {
-          "name": "CommandFailure",
+          "name": "HighLimit",
           "enumValue": 3
         },
         {
-          "name": "FloatingLimit",
+          "name": "LowLimit",
           "enumValue": 4
         },
         {
-          "name": "OutOfRange",
+          "name": "LifeSafetyAlarm",
           "enumValue": 5
-        },
-        {
-          "name": "ChangeOfLifeSafety",
-          "enumValue": 8
-        },
-        {
-          "name": "Extended",
-          "enumValue": 9
-        },
-        {
-          "name": "BufferReady",
-          "enumValue": 10
-        },
-        {
-          "name": "UnsignedRange",
-          "enumValue": 11
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetBinaryPV;1",
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventType;1",
       "@type": [ "Enum", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3005",
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103054",
       "valueSchema": "integer",
       "enumValues": [
         {
-          "name": "Inactive",
+          "name": "change_of_bitstring",
           "enumValue": 0
         },
         {
-          "name": "Active",
+          "name": "change_of_state",
           "enumValue": 1
+        },
+        {
+          "name": "change_of_value",
+          "enumValue": 2
+        },
+        {
+          "name": "command_failure",
+          "enumValue": 3
+        },
+        {
+          "name": "out_of_range",
+          "enumValue": 5
+        },
+        {
+          "name": "change_of_life_safety",
+          "enumValue": 8
+        },
+        {
+          "name": "floating_limit",
+          "enumValue": 4
+        },
+        {
+          "name": "extended",
+          "enumValue": 9
+        },
+        {
+          "name": "buffer_ready",
+          "enumValue": 10
+        },
+        {
+          "name": "unsigned_range",
+          "enumValue": 11
+        },
+        {
+          "name": "access_event",
+          "enumValue": 13
+        },
+        {
+          "name": "double_out_of_range",
+          "enumValue": 14
+        },
+        {
+          "name": "signed_out_of_range",
+          "enumValue": 15
+        },
+        {
+          "name": "unsigned_out_of_range",
+          "enumValue": 16
+        },
+        {
+          "name": "change_of_characterstring",
+          "enumValue": 17
+        },
+        {
+          "name": "change_of_status_flags",
+          "enumValue": 18
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfValue;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103037",
-      "fields": [
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultType;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103028",
+      "valueSchema": "integer",
+      "enumValues": [
         {
-          "@type": [ "Field", "Required" ],
-          "name": "Time_delay",
-          "schema": "unsignedInteger"
+          "name": "none",
+          "enumValue": 0
         },
         {
-          "@type": [ "Field", "Required" ],
-          "name": "Cov_criteria_bitmask",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:OptionSet;1"
+          "name": "fault_characterstring",
+          "enumValue": 1
         },
         {
-          "@type": [ "Field", "Required" ],
-          "name": "Cov_criteria_referenced_property_increment",
-          "schema": "float"
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterCommandFailure;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103039",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Time_delay",
-          "schema": "unsignedInteger"
+          "name": "fault_exended",
+          "enumValue": 2
         },
         {
-          "@type": [ "Field", "Required" ],
-          "name": "Feedback_property_reference",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDeviceObjectPropertyReference;1"
+          "name": "fault_life_safety",
+          "enumValue": 3
+        },
+        {
+          "name": "fault_state",
+          "enumValue": 4
+        },
+        {
+          "name": "fault_status_flags",
+          "enumValue": 5
         }
       ]
     },
@@ -1978,6 +1735,107 @@
       ]
     },
     {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetStatusFlags;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3065",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "InAlarm",
+          "enumValue": 0
+        },
+        {
+          "name": "Fault",
+          "enumValue": 1
+        },
+        {
+          "name": "Overriden",
+          "enumValue": 2
+        },
+        {
+          "name": "OutOfService",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameter;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3050",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Change_of_bitstring",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfBitstring;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Change_of_state",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfState;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Change_of_value",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfValue;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Command_failure",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterCommandFailure;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Floating_limit",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterFloatingLimit;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Out_of_range",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterOutOfRange;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Extended",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventFaultParameterExtended;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Buffer_ready",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterBufferReady;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Unsigned_range",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterUnsignedRange;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Double_out_of_range",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterDoubleOutOfRange;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Signed_out_of_range",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterSignedOutOfRange;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Unsigned_out_of_range",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterUnsignedOutOfRange;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Change_of_characterstring",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfCharacterString;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Change_of_life_safety",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfLifeSafety;1"
+        }
+      ]
+    },
+    {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterFloatingLimit;1",
       "@type": [ "Object", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103040",
@@ -2006,6 +1864,358 @@
           "@type": [ "Field", "Required" ],
           "name": "Deadband",
           "schema": "double"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfValue;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103037",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Time_delay",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Cov_criteria_bitmask",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:OptionSet;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Cov_criteria_referenced_property_increment",
+          "schema": "float"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:OptionSet;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=12755",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Value",
+          "schema": "bytes"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ValidBits",
+          "schema": "bytes"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfState;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103009",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Time_delay",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "List_of_values",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetPropertyStates;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetPropertyStates;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3028",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "BooleanValue",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "BinaryValue",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetBinaryPV;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "EventType",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventEnumType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Polarity",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetPolarity;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ProgramChange",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetProgramRequest;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ProgramState",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetProgramStates;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ProgramError",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetProgramError;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Reliability",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetReliability;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "State",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventState;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "SystemStatus",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDeviceStatus;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Units",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "UnsignedValue",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LifeSafetyMode",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetLifeSafetyMode;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LifeSafetyState",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetLifeSafetyState;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventEnumType;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3029",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ChangeOfBitstring",
+          "enumValue": 0
+        },
+        {
+          "name": "ChangeOfState",
+          "enumValue": 1
+        },
+        {
+          "name": "ChangeOfValue",
+          "enumValue": 2
+        },
+        {
+          "name": "CommandFailure",
+          "enumValue": 3
+        },
+        {
+          "name": "FloatingLimit",
+          "enumValue": 4
+        },
+        {
+          "name": "OutOfRange",
+          "enumValue": 5
+        },
+        {
+          "name": "ChangeOfLifeSafety",
+          "enumValue": 8
+        },
+        {
+          "name": "Extended",
+          "enumValue": 9
+        },
+        {
+          "name": "BufferReady",
+          "enumValue": 10
+        },
+        {
+          "name": "UnsignedRange",
+          "enumValue": 11
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetBinaryPV;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3005",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Inactive",
+          "enumValue": 0
+        },
+        {
+          "name": "Active",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterCommandFailure;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103039",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Time_delay",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Feedback_property_reference",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDeviceObjectPropertyReference;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfBitstring;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103005",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Time_delay",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Bitmask",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:OptionSet;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "List_of_bitstring_values",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:OptionSet;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetPolarity;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3007",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Normal",
+          "enumValue": 0
+        },
+        {
+          "name": "Reverse",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameter;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3051",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Fault_characterstring",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultCharacterstring;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Fault_life_safety",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultLifeSafety;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Fault_state",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultState;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Fault_status_flags",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultStatusFlags;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Fault_extended",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventFaultParameterExtended;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultStatusFlags;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103034",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Status_flags_reference",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDeviceObjectPropertyReference;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultState;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103033",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "List_of_fault_values",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetProgramStates;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultLifeSafety;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103032",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "List_of_fault_values",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetLifeSafetyState;1"
+          }
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Mode_property_reference",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDeviceObjectPropertyReference;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultCharacterstring;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103030",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Fault_characterstring",
+          "schema": "string"
         }
       ]
     },
@@ -2657,56 +2867,6 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultLifeSafety;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103032",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "List_of_fault_values",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetLifeSafetyState;1"
-          }
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Mode_property_reference",
-          "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDeviceObjectPropertyReference;1"
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultState;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103033",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "List_of_fault_values",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetProgramStates;1"
-          }
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultStatusFlags;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103034",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Status_flags_reference",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDeviceObjectPropertyReference;1"
-          }
-        }
-      ]
-    },
-    {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetProgramRequest;1",
       "@type": [ "Enum", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3030",
@@ -2863,38 +3023,6 @@
         {
           "name": "TRIPPED",
           "enumValue": 15
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventState;1",
-      "@type": [ "Enum", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3003",
-      "valueSchema": "integer",
-      "enumValues": [
-        {
-          "name": "Normal",
-          "enumValue": 0
-        },
-        {
-          "name": "Fault",
-          "enumValue": 1
-        },
-        {
-          "name": "OffNormal",
-          "enumValue": 2
-        },
-        {
-          "name": "HighLimit",
-          "enumValue": 3
-        },
-        {
-          "name": "LowLimit",
-          "enumValue": 4
-        },
-        {
-          "name": "LifeSafetyAlarm",
-          "enumValue": 5
         }
       ]
     },
@@ -3104,6 +3232,41 @@
     }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Event_State",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventState;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Event_Type",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventType;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Fault_Type",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultType;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Object_Property_Reference",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDeviceObjectPropertyReference;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Status_Flags",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetStatusFlags;1",
+      "writable": true
+    },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetEventAlgorithm",

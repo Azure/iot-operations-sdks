@@ -16,18 +16,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MaterialId",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MaterialName",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     }
   ]
 }

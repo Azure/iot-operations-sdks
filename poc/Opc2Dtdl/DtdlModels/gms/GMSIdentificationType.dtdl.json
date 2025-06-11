@@ -16,5 +16,19 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SubDeviceClass",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Workspace",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "bytes",
+      "writable": false
+    }
   ]
 }

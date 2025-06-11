@@ -17,10 +17,16 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "NumberInList",
+      "namespace": "http://opcfoundation.org/UA/IA",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AudioSample",
       "namespace": "http://opcfoundation.org/UA/IA",
-      "schema": "bytes",
-      "writable": true
+      "schema": "bytes"
     }
   ]
 }

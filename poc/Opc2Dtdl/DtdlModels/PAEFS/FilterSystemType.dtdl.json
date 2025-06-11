@@ -14,8 +14,70 @@
   "commandTopic": "opcua/PAEFS/FilterSystemType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PAEFS:FilterSystemType:dataType:ControlModeEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=3003",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Automatic",
+          "enumValue": 0
+        },
+        {
+          "name": "Manual",
+          "enumValue": 1
+        },
+        {
+          "name": "Other",
+          "enumValue": 2
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ControlMode",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "dtmi:opcua:PAEFS:FilterSystemType:dataType:ControlModeEnum;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaintenanceRequested",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Malfunction",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OperationCycleCounter",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OperationDuration",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "duration",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PowerOnDuration",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "duration",
+      "writable": false
+    },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "OperationOff",

@@ -39,9 +39,9 @@
       <LastGenOutput>DtdlObject.cs</LastGenOutput>
       <CustomToolNamespace>Yaml2Dtdl</CustomToolNamespace>
     </None>
-    <None Update="T4\t4\DtdlProperty.tt">
+    <None Update="T4\t4\DtdlPropTelem.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>DtdlProperty.cs</LastGenOutput>
+      <LastGenOutput>DtdlPropTelem.cs</LastGenOutput>
       <CustomToolNamespace>Yaml2Dtdl</CustomToolNamespace>
     </None>
     <None Update="T4\t4\DtdlRelationship.tt">
@@ -76,10 +76,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DtdlObject.tt</DependentUpon>
     </Compile>
-    <Compile Update="T4\t4\DtdlProperty.cs">
+    <Compile Update="T4\t4\DtdlPropTelem.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>DtdlProperty.tt</DependentUpon>
+      <DependentUpon>DtdlPropTelem.tt</DependentUpon>
     </Compile>
     <Compile Update="T4\t4\DtdlRelationship.cs">
       <DesignTime>True</DesignTime>

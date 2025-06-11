@@ -17,6 +17,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ActiveAirnet",
+      "namespace": "http://opcfoundation.org/UA/CAS",
+      "schema": "string",
+      "writable": true
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "Ambient",
       "namespace": "http://opcfoundation.org/UA/CAS",

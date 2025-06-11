@@ -15,5 +15,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProductInstanceUri",
+      "namespace": "http://opcfoundation.org/UA/Onboarding",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }

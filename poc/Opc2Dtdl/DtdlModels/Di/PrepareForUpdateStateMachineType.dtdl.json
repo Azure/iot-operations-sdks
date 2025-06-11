@@ -17,11 +17,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PercentComplete",
       "namespace": "http://opcfoundation.org/UA/DI",
-      "schema": "unsignedByte",
-      "writable": false
+      "schema": "unsignedByte"
     },
     {
       "@type": [ "Command", "Qualified" ],

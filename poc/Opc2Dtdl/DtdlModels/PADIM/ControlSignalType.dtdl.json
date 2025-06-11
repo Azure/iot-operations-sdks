@@ -34,7 +34,7 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ControlSignal",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": {
@@ -65,8 +65,7 @@
             "schema": "float"
           }
         ]
-      },
-      "writable": true
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

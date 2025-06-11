@@ -17,6 +17,20 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "DefaultInstanceBrowseName",
+      "namespace": "http://opcfoundation.org/UA/RSL",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Identifier",
+      "namespace": "http://opcfoundation.org/UA/RSL",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PositionFrame",
       "namespace": "http://opcfoundation.org/UA/RSL",
       "schema": {
@@ -35,8 +49,7 @@
             "schema": "string"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

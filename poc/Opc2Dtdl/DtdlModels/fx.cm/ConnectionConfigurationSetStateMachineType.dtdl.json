@@ -16,11 +16,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LastTransition",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

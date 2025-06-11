@@ -19,24 +19,35 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "BinWeight",
+      "name": "Discharging",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "string",
-      "writable": false
-    },
-    {
-      "@type": [ "Property", "Qualified" ],
-      "name": "HopperFillLevel",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
+      "schema": "boolean",
       "writable": true
     },
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "Refilling",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "BinWeight",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "HopperFillLevel",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "integer"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "HopperWeight",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
       "@type": [ "Command", "Qualified" ],

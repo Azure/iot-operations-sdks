@@ -17,14 +17,13 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MacAddress",
       "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": {
         "@type": "Array",
         "elementSchema": "unsignedByte"
-      },
-      "writable": false
+      }
     }
   ]
 }

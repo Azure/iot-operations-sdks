@@ -93,6 +93,18 @@ DefinedTypes:
 
   isa95-jobcontrol:ISA95JobOrderStatusEventType:
   - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+  - HasProperty:
+    - [ UAVariable, isa95-jobcontrol:6047, isa95-jobcontrol:JobOrder, isa95-jobcontrol:ISA95JobOrderDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, isa95-jobcontrol:6049, isa95-jobcontrol:JobResponse, isa95-jobcontrol:ISA95JobResponseDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, isa95-jobcontrol:6048, isa95-jobcontrol:JobState, isa95-jobcontrol:ISA95StateDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
@@ -333,6 +345,10 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, isa95-jobcontrol:6036, isa95-jobcontrol:MaterialDefinitionID, String, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, isa95-jobcontrol:6088, isa95-jobcontrol:MaxDownloadableJobOrders, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:

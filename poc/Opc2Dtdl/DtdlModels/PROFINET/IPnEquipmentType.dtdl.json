@@ -238,13 +238,19 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "Vendor",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Diagnosis",
       "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnDeviceDiagnosisDataType;1"
-      },
-      "writable": false
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

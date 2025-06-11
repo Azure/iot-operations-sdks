@@ -291,3 +291,7 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.Corrugator:6002, PlasticsRubber.Extrusion.Corrugator:ExtruderEnabled, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Corrugator:6001, PlasticsRubber.Extrusion.Corrugator:MouldId, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]

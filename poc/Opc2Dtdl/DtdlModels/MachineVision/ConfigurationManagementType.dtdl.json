@@ -76,11 +76,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActiveConfiguration",
       "namespace": "http://opcfoundation.org/UA/MachineVision",
-      "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:ConfigurationDataType;1",
-      "writable": true
+      "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:ConfigurationDataType;1"
     },
     {
       "@type": [ "Command", "Qualified" ],

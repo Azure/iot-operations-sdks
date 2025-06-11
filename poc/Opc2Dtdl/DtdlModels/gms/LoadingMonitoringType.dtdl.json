@@ -17,18 +17,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "IsInLoadingPosition",
       "namespace": "http://opcfoundation.org/UA/GMS",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LoadStatus",
       "namespace": "http://opcfoundation.org/UA/GMS",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     }
   ]
 }

@@ -18,11 +18,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AnalogSignal",
       "namespace": "http://opcfoundation.org/UA/PADIM",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
       "@type": [ "Command", "Qualified" ],

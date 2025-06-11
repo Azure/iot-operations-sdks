@@ -92,51 +92,46 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PreconfiguredDataSetOnly",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PreconfiguredSubscribedDataSets",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SupportedMessageReceiveTimeouts",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:IntervalRange;1"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SupportedPublishingIntervals",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:IntervalRange;1"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SupportedQos",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:SubscriberQosDataType;1"
-      },
-      "writable": true
+      }
     }
   ]
 }

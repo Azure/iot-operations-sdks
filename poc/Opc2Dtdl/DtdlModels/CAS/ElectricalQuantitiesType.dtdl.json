@@ -18,38 +18,40 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "StartTime",
+      "namespace": "http://opcfoundation.org/UA/IA",
+      "schema": "dateTime",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ApparentPower",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Current",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Energy",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Power",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Voltage",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
       "@type": [ "Command", "Qualified" ],

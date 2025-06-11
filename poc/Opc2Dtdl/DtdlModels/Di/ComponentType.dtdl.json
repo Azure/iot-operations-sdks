@@ -16,5 +16,103 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Manufacturer",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ManufacturerUri",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Model",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "HardwareRevision",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SoftwareRevision",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceRevision",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProductCode",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceManual",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceClass",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SerialNumber",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProductInstanceUri",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RevisionCounter",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AssetId",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ComponentName",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }

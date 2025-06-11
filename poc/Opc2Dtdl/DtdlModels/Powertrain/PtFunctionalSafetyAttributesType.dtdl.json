@@ -16,5 +16,22 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SafetyAssessor",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SafetyTransportProtocols",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    }
   ]
 }

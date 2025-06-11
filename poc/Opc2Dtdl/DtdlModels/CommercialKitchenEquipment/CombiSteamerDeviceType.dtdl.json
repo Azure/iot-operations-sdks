@@ -14,8 +14,63 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1011",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerDeviceType:dataType:EnergySourceEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Electric",
+          "enumValue": 0
+        },
+        {
+          "name": "Gas",
+          "enumValue": 1
+        },
+        {
+          "name": "Steam",
+          "enumValue": 2
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "EnergySource",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerDeviceType:dataType:EnergySourceEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IsWithAutomaticCleaning",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IsWithExternalCoreTempSensor",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IsWithInternalCoreTempSensor",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IsWithSousvideTempSensor",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "schema": "boolean",
+      "writable": false
+    },
     {
       "@type": [ "Relationship", "Qualified" ],
       "name": "CombiSteamer",

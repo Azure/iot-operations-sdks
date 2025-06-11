@@ -17,18 +17,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "EncoderTechnology",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "EncoderType",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     }
   ]
 }

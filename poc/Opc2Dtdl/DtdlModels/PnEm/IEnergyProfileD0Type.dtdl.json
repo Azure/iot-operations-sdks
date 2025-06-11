@@ -16,12 +16,11 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Current" ],
+      "@type": [ "Telemetry", "Qualified", "Current" ],
       "name": "DcCurrent",
       "namespace": "http://opcfoundation.org/UA/PNEM",
       "unit": "ampere",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     }
   ]
 }

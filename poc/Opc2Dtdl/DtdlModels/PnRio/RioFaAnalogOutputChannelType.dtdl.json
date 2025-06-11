@@ -167,14 +167,13 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Config",
       "namespace": "http://opcfoundation.org/UA/PNRIO",
-      "schema": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType:dataType:RioFaAnalogOutputConfigDataType;1",
-      "writable": false
+      "schema": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType:dataType:RioFaAnalogOutputConfigDataType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProcessValue",
       "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": {
@@ -193,11 +192,10 @@
             "schema": "boolean"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProcessValueReadback",
       "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": {
@@ -216,22 +214,19 @@
             "schema": "boolean"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SignalValue",
       "namespace": "http://opcfoundation.org/UA/PNRIO",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SignalValueReadback",
       "namespace": "http://opcfoundation.org/UA/PNRIO",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     }
   ]
 }

@@ -16,6 +16,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "FilterMediumOperatingHours",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "FilterMediumState",
       "namespace": "http://opcfoundation.org/UA/PAEFS",

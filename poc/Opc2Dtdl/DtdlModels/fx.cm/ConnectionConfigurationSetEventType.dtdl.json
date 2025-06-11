@@ -13,7 +13,60 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1006",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetEventType:dataType:FxProcessEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3002",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ActionEstablishConnectionsEnabled",
+          "enumValue": 0
+        },
+        {
+          "name": "ActionEstablishConnectionsDisabled",
+          "enumValue": 1
+        },
+        {
+          "name": "ActionEstablishConnections",
+          "enumValue": 2
+        },
+        {
+          "name": "ActionRemoveConnections",
+          "enumValue": 3
+        },
+        {
+          "name": "ActionEnableConnections",
+          "enumValue": 4
+        },
+        {
+          "name": "ActionDisableConnections",
+          "enumValue": 5
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Action",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
+      "schema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetEventType:dataType:FxProcessEnum;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ConnectionConfigurationSetNode",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
+      "schema": "string",
+      "writable": true
+    }
   ]
 }

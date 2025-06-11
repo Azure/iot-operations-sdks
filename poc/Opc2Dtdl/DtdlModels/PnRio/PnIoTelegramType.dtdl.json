@@ -13,8 +13,64 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1021",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PNRIO:PnIoTelegramType:dataType:PnIoTelegramStatusEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=3002",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "GOOD",
+          "enumValue": 0
+        },
+        {
+          "name": "BAD_BY_SUBSLOT",
+          "enumValue": 1
+        },
+        {
+          "name": "BAD_BY_SLOT",
+          "enumValue": 2
+        },
+        {
+          "name": "BAD_BY_DEVICE",
+          "enumValue": 3
+        },
+        {
+          "name": "BAD_BY_CONTROLLER",
+          "enumValue": 4
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ConsumerStatus",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
+      "schema": "dtmi:opcua:PNRIO:PnIoTelegramType:dataType:PnIoTelegramStatusEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IoTelegramImage",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
+      "schema": "bytes",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Length",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProviderStatus",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
+      "schema": "dtmi:opcua:PNRIO:PnIoTelegramType:dataType:PnIoTelegramStatusEnumeration;1",
+      "writable": false
+    },
     {
       "@type": [ "Relationship", "Qualified" ],
       "name": "Nr_SignalName",

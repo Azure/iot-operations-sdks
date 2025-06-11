@@ -16,5 +16,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ID",
+      "namespace": "http://opcfoundation.org/UA/AML",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }

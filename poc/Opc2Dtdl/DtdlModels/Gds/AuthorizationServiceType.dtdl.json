@@ -85,6 +85,30 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ServiceUri",
+      "namespace": "http://opcfoundation.org/UA/GDS",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ServiceCertificate",
+      "namespace": "http://opcfoundation.org/UA/GDS",
+      "schema": "bytes",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "UserTokenPolicies",
+      "namespace": "http://opcfoundation.org/UA/GDS",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:GDS:AuthorizationServiceType:dataType:UserTokenPolicy;1"
+      },
+      "writable": false
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "GetServiceDescription",
       "namespace": "http://opcfoundation.org/UA/GDS",

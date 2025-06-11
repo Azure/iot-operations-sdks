@@ -17,6 +17,27 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ApplicationTag",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LastParameterChange",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
+      "schema": "dateTime",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RioChannelNumber",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "SetApplicationTag",
       "namespace": "http://opcfoundation.org/UA/PNRIO",

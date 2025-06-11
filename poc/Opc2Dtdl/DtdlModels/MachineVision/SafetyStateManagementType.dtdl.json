@@ -17,18 +17,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "VisionSafetyInformation",
       "namespace": "http://opcfoundation.org/UA/MachineVision",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "VisionSafetyTriggered",
       "namespace": "http://opcfoundation.org/UA/MachineVision",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
       "@type": [ "Command", "Qualified" ],

@@ -114,11 +114,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AutomationComponentNode",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "dtmi:opcua:FX_CM:AutomationComponentConfigurationType:dataType:PortableNodeIdentifier;1",
-      "writable": true
+      "schema": "dtmi:opcua:FX_CM:AutomationComponentConfigurationType:dataType:PortableNodeIdentifier;1"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

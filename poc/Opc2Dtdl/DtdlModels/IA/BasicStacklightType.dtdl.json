@@ -13,8 +13,39 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1002",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:IA:BasicStacklightType:dataType:StacklightOperationMode;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=3002",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Segmented",
+          "enumValue": 0
+        },
+        {
+          "name": "Levelmeter",
+          "enumValue": 1
+        },
+        {
+          "name": "Running_Light",
+          "enumValue": 2
+        },
+        {
+          "name": "Other",
+          "enumValue": 3
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "StacklightMode",
+      "namespace": "http://opcfoundation.org/UA/IA",
+      "schema": "dtmi:opcua:IA:BasicStacklightType:dataType:StacklightOperationMode;1",
+      "writable": true
+    },
     {
       "@type": [ "Relationship", "Qualified" ],
       "name": "StackLevel",

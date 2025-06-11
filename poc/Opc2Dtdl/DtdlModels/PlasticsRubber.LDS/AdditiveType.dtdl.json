@@ -13,8 +13,78 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1004",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PlasticsRubber_LDS:AdditiveType:dataType:AdditiveStatusEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=3002",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "GOOD",
+          "enumValue": 0
+        },
+        {
+          "name": "WARNING",
+          "enumValue": 1
+        },
+        {
+          "name": "ADVANCE_WARNING_ADDITIVE_CHANGE",
+          "enumValue": 2
+        },
+        {
+          "name": "ERROR_EMPTY",
+          "enumValue": 3
+        },
+        {
+          "name": "ERROR",
+          "enumValue": 4
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ActivateAdditive",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ActivateClosedLoopControl",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AdditiveActivated",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ClosedLoopControlActivated",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IsPresent",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Status",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
+      "schema": "dtmi:opcua:PlasticsRubber_LDS:AdditiveType:dataType:AdditiveStatusEnumeration;1",
+      "writable": false
+    },
     {
       "@type": [ "Relationship", "Qualified" ],
       "name": "AdditiveFraction",

@@ -101,30 +101,27 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "LastFreezeTime",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "second",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "LastHarvestTime",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "second",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Status",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "dtmi:opcua:CommercialKitchenEquipment:IceMachineParameterType:dataType:StatusEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:IceMachineParameterType:dataType:StatusEnumeration;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Temperature_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -139,16 +136,14 @@
           "unit": "degreeCelsius",
           "schema": "float"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "WaterFillTime",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "second",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     }
   ]
 }

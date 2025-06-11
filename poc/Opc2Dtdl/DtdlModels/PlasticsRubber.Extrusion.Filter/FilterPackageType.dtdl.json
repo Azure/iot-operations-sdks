@@ -13,14 +13,69 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter;i=1004",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Filter:FilterPackageType:dataType:FilterPackageStatusEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter;i=3002",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NOT_ACTIVE",
+          "enumValue": 0
+        },
+        {
+          "name": "ACTIVE",
+          "enumValue": 1
+        },
+        {
+          "name": "CHANGE_REQUIRED",
+          "enumValue": 2
+        },
+        {
+          "name": "IN_CHANGE_POSITION",
+          "enumValue": 3
+        },
+        {
+          "name": "BACKFLUSH_ACTIVE",
+          "enumValue": 4
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "BackflushCounter",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "BackflushTime",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Status",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",
+      "schema": "dtmi:opcua:PlasticsRubber_Extrusion_Filter:FilterPackageType:dataType:FilterPackageStatusEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Area",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

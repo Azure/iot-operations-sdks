@@ -17,25 +17,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MaterialDensity",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TargetFlowRate",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TargetWeight",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     }
   ]
 }

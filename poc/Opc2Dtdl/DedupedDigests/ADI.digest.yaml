@@ -954,6 +954,14 @@ DefinedTypes:
 
   ADI:AccessorySlotType:
   - [ UAObjectType, ADI:1017, ADI:AccessorySlotType ]
+  - HasProperty:
+    - [ UAVariable, ADI:12786, ADI:IsHotSwappable, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, ADI:12787, ADI:IsEnabled, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, ADI:12788, ADI:AccessorySlotStateMachine ]
     - HasTypeDefinition:
@@ -1064,6 +1072,14 @@ DefinedTypes:
     - [ UAObject, ADI:12902, ADI:FactorySettings ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, ADI:12904, ADI:IsHotSwappable, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, ADI:12905, ADI:IsReady, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:

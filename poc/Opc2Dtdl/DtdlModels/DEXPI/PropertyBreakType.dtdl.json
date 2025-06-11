@@ -81,32 +81,28 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CompositionBreakSpecialization",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:CompositionBreakClassification;1",
-      "writable": true
+      "schema": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:CompositionBreakClassification;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InsulationBreakSpecialization",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:InsulationBreakClassification;1",
-      "writable": true
+      "schema": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:InsulationBreakClassification;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NominalDiameterBreakSpecialization",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:NominalDiameterBreakClassification;1",
-      "writable": true
+      "schema": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:NominalDiameterBreakClassification;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PipingClassBreakSpecialization",
       "namespace": "http://opcfoundation.org/UA/DEXPI",
-      "schema": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:PipingClassBreakClassification;1",
-      "writable": true
+      "schema": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:PipingClassBreakClassification;1"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

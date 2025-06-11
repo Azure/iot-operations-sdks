@@ -14,7 +14,173 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1048",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetNotifierType:dataType:BACnetDestination;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103020",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ValidDays",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetNotifierType:dataType:BACnetDaysOfWeek;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "FromTime",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetNotifierType:dataType:BACnetTime;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ToTime",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetNotifierType:dataType:BACnetTime;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Recipient",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetNotifierType:dataType:BACnetRecipient;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ProcessIdentifier",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "IssueConfirmedNotifications",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Transitions",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetNotifierType:dataType:BACnetEventTransitionBits;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetNotifierType:dataType:BACnetDaysOfWeek;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3060",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "monday",
+          "enumValue": 0
+        },
+        {
+          "name": "tuesday",
+          "enumValue": 1
+        },
+        {
+          "name": "wednesday",
+          "enumValue": 2
+        },
+        {
+          "name": "thursday",
+          "enumValue": 3
+        },
+        {
+          "name": "friday",
+          "enumValue": 4
+        },
+        {
+          "name": "saturday",
+          "enumValue": 5
+        },
+        {
+          "name": "sunday",
+          "enumValue": 6
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetNotifierType:dataType:BACnetTime;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3019",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Hour",
+          "schema": "unsignedByte"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Minute",
+          "schema": "unsignedByte"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Second",
+          "schema": "unsignedByte"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Hundredths",
+          "schema": "unsignedByte"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetNotifierType:dataType:BACnetRecipient;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3054",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Device",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Address",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetNotifierType:dataType:BACnetAddress;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetNotifierType:dataType:BACnetAddress;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3022",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "NetworkNumber",
+          "schema": "unsignedShort"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MacAddress",
+          "schema": "bytes"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetNotifierType:dataType:BACnetEventTransitionBits;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3061",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "to_offnormal",
+          "enumValue": 0
+        },
+        {
+          "name": "to_fault",
+          "enumValue": 1
+        },
+        {
+          "name": "to_normal",
+          "enumValue": 2
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Recipient_List",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetNotifierType:dataType:BACnetDestination;1",
+      "writable": true
+    }
   ]
 }

@@ -13,8 +13,37 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1003",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:Glass_Flat:InstructionType:dataType:FileFormatType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=3007",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "FileExtension",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Version",
+          "schema": "string"
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PlanFileFormat",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": "dtmi:opcua:Glass_Flat:InstructionType:dataType:FileFormatType;1",
+      "writable": true
+    },
     {
       "@type": [ "Relationship", "Qualified" ],
       "name": "Plan",

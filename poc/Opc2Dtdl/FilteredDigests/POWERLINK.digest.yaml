@@ -241,5 +241,13 @@ DefinedTypes:
 
   POWERLINK:PowerlinkDeviceProfileType:
   - [ UAObjectType, POWERLINK:1, POWERLINK:PowerlinkDeviceProfileType ]
+  - HasProperty:
+    - [ UAVariable, POWERLINK:444, POWERLINK:IndexRangeSize, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, POWERLINK:443, POWERLINK:IndexRangeStart, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1001, DI:TopologyElementType ]

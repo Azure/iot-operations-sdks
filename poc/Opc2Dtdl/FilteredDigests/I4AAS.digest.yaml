@@ -121,6 +121,14 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1030, I4AAS:AASAdministrativeInformationType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6084, I4AAS:Revision, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6083, I4AAS:Version, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   I4AAS:AASAssetAdministrationShellType:
   - [ UAObjectType, I4AAS:1002, I4AAS:AASAssetAdministrationShellType ]
@@ -185,6 +193,10 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6006, I4AAS:AssetKind, I4AAS:AASAssetKindDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, I4AAS:5050, I4AAS:BillOfMaterial ]
     - HasTypeDefinition:
@@ -212,16 +224,64 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1030, I4AAS:AASAdministrativeInformationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6065, I4AAS:Category, I4AAS:AASCategoryDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6072, I4AAS:DataType, I4AAS:AASDataTypeIEC61360DataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6063, I4AAS:DefaultInstanceBrowseName, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6073, I4AAS:Definition, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, I4AAS:5026, I4AAS:Identification ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1029, I4AAS:AASIdentifierType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6075, I4AAS:LevelType, I4AAS:AASLevelTypeDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6074, I4AAS:PreferredName, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6066, I4AAS:ShortName, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6067, I4AAS:SourceOfDefinition, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6068, I4AAS:Symbol, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6069, I4AAS:Unit, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, I4AAS:5028, I4AAS:UnitId ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6071, I4AAS:Value ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6070, I4AAS:ValueFormat, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -241,17 +301,37 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1029, I4AAS:AASIdentifierType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6086, I4AAS:Id, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6085, I4AAS:IdType, I4AAS:AASIdentifierTypeDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   I4AAS:AASQualifierType:
   - [ UAObjectType, I4AAS:1032, I4AAS:AASQualifierType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6010, I4AAS:Type, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6078, I4AAS:Value ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, I4AAS:5033, I4AAS:ValueId ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6015, I4AAS:ValueType, I4AAS:AASValueTypeDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   I4AAS:AASReferenceType:
   - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
@@ -263,6 +343,10 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6001, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   I4AAS:AASSubmodelElementType:
   - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
@@ -280,6 +364,14 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6126, I4AAS:Category, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6013, I4AAS:ModelingKind, I4AAS:AASModelingKindDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   I4AAS:AASBlobType:
   - [ UAObjectType, I4AAS:1016, I4AAS:AASBlobType ]
@@ -313,6 +405,10 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6056, I4AAS:EntityType, I4AAS:AASEntityTypeDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   I4AAS:AASEventType:
   - [ UAObjectType, I4AAS:1021, I4AAS:AASEventType ]
@@ -329,11 +425,23 @@ DefinedTypes:
       - [ UAObjectType, 11575, FileType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6037, I4AAS:MimeType, I4AAS:AASMimeDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6132, I4AAS:Value, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   I4AAS:AASMultiLanguagePropertyType:
   - [ UAObjectType, I4AAS:1012, I4AAS:AASMultiLanguagePropertyType ]
   - HasSubtype_reverse:
     - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6019, I4AAS:Value, LocalizedText, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, I4AAS:5013, I4AAS:ValueId ]
     - HasTypeDefinition:
@@ -354,17 +462,37 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1013, I4AAS:AASPropertyType ]
   - HasSubtype_reverse:
     - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6020, I4AAS:Value ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, I4AAS:5014, I4AAS:ValueId ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6021, I4AAS:ValueType, I4AAS:AASValueTypeDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   I4AAS:AASRangeType:
   - [ UAObjectType, I4AAS:1023, I4AAS:AASRangeType ]
   - HasSubtype_reverse:
     - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6059, I4AAS:Max ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6058, I4AAS:Min ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6057, I4AAS:ValueType, I4AAS:AASValueTypeDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   I4AAS:AASReferenceElementType:
   - [ UAObjectType, I4AAS:1020, I4AAS:AASReferenceElementType ]
@@ -415,6 +543,10 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6017, I4AAS:AllowDuplicates, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   I4AAS:AASOrderedSubmodelElementCollectionType:
   - [ UAObjectType, I4AAS:1011, I4AAS:AASOrderedSubmodelElementCollectionType ]
@@ -443,9 +575,17 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6009, I4AAS:ModelingKind, I4AAS:AASModelingKindDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   I4AAS:IAASReferableType:
   - [ UAObjectType, I4AAS:1033, I4AAS:IAASReferableType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6082, I4AAS:Category, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 

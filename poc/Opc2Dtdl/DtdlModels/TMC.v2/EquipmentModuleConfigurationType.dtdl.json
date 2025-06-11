@@ -17,6 +17,13 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "LastChangeDate",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "time",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ConfigurationItem",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
@@ -31,8 +38,7 @@
           "unit": "",
           "schema": "string"
         }
-      },
-      "writable": false
+      }
     }
   ]
 }

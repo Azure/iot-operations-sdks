@@ -15,5 +15,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceName",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }

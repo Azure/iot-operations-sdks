@@ -14,10 +14,104 @@
   "commandTopic": "opcua/PNGSDGM/GsdGenSubmoduleApplicationType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PNGSDGM:GsdGenSubmoduleApplicationType:dataType:GsdGenIoCommunicationStatusEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3012",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "INDATA",
+          "enumValue": 0
+        },
+        {
+          "name": "OFFLINE",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PNGSDGM:GsdGenSubmoduleApplicationType:dataType:GsdGenIoConfigurationStatusEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3015",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "OK",
+          "enumValue": 0
+        },
+        {
+          "name": "SUBSTITUTE",
+          "enumValue": 1
+        },
+        {
+          "name": "WRONG",
+          "enumValue": 2
+        },
+        {
+          "name": "UNKNOWN",
+          "enumValue": 3
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "ValueProperty",
+      "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ValueProperty",
+          "schema": "string"
+        },
+        "mapValue": {
+          "@type": [ "MapValue", "" ],
+          "name": "ValuePropertySchema",
+          "unit": "",
+          "schema": "string"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ApplicationTag",
+      "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ARIdentifier",
+      "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+      "schema": "uuid",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CommunicationStatus",
+      "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+      "schema": "dtmi:opcua:PNGSDGM:GsdGenSubmoduleApplicationType:dataType:GsdGenIoCommunicationStatusEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ConfigurationStatus",
+      "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+      "schema": "dtmi:opcua:PNGSDGM:GsdGenSubmoduleApplicationType:dataType:GsdGenIoConfigurationStatusEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ControllerName",
+      "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "EnumerationVariable",
       "namespace": "http://opcfoundation.org/UA/PNGSDGM",
       "schema": {
@@ -32,11 +126,10 @@
           "unit": "",
           "schema": "string"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OptionSetVariable",
       "namespace": "http://opcfoundation.org/UA/PNGSDGM",
       "schema": {
@@ -51,11 +144,10 @@
           "unit": "",
           "schema": "string"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "UnitRangeVariable",
       "namespace": "http://opcfoundation.org/UA/PNGSDGM",
       "schema": {
@@ -70,11 +162,10 @@
           "unit": "",
           "schema": "integer"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "UnitVariable",
       "namespace": "http://opcfoundation.org/UA/PNGSDGM",
       "schema": {
@@ -89,11 +180,10 @@
           "unit": "",
           "schema": "integer"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ValueVariable",
       "namespace": "http://opcfoundation.org/UA/PNGSDGM",
       "schema": {
@@ -108,8 +198,7 @@
           "unit": "",
           "schema": "string"
         }
-      },
-      "writable": false
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

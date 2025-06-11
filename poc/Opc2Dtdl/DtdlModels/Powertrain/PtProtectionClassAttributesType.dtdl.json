@@ -18,10 +18,16 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "ExClass",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "IpClass",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     }
   ]
 }

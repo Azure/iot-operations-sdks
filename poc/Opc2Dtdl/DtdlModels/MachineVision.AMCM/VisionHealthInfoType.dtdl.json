@@ -62,32 +62,28 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DeviceHealth",
       "namespace": "http://opcfoundation.org/UA/DI",
-      "schema": "dtmi:opcua:MachineVision_AMCM:VisionHealthInfoType:dataType:DeviceHealthEnumeration;1",
-      "writable": true
+      "schema": "dtmi:opcua:MachineVision_AMCM:VisionHealthInfoType:dataType:DeviceHealthEnumeration;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RemainingLifeTime",
       "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "State",
       "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
-      "schema": "dtmi:opcua:MachineVision_AMCM:VisionHealthInfoType:dataType:SEMI_E10SystemStateDataType;1",
-      "writable": true
+      "schema": "dtmi:opcua:MachineVision_AMCM:VisionHealthInfoType:dataType:SEMI_E10SystemStateDataType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Temperature",
       "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

@@ -16,5 +16,26 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "InitialOperationDate",
+      "namespace": "http://opcfoundation.org/UA/Machinery",
+      "schema": "dateTime",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MonthOfConstruction",
+      "namespace": "http://opcfoundation.org/UA/Machinery",
+      "schema": "unsignedByte",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "YearOfConstruction",
+      "namespace": "http://opcfoundation.org/UA/Machinery",
+      "schema": "unsignedShort",
+      "writable": false
+    }
   ]
 }

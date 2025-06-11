@@ -18,59 +18,58 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "TareId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FeedRateMeasuringInterval",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "duration",
-      "writable": true
+      "schema": "duration"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FillingTime",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "duration",
-      "writable": true
+      "schema": "duration"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FineFeedWeight",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InFlightWeight",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "JogFeed",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MinimumDeltaPerFeedRateMeasuringInterval",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SettlingTime",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "duration",
-      "writable": true
+      "schema": "duration"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TargetWeight",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     }
   ]
 }

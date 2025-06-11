@@ -17,10 +17,23 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "Id",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Density",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     }
   ]
 }

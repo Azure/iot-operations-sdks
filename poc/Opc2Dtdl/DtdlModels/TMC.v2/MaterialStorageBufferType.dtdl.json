@@ -14,10 +14,203 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1035",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:TMC_v2:MaterialStorageBufferType:dataType:MaterialStorageBufferDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3014",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "StoredMaterial",
+          "schema": "dtmi:opcua:TMC_v2:MaterialStorageBufferType:dataType:MaterialDefinitionType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "TotalStorageCapacity",
+          "schema": "double"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "StorageLogic",
+          "schema": "dtmi:opcua:TMC_v2:MaterialStorageBufferType:dataType:StorageLogicEnumeration;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MixingLogic",
+          "schema": "dtmi:opcua:TMC_v2:MaterialStorageBufferType:dataType:StorageMixingLogicEnumeration;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MaterialStorageBufferType:dataType:StorageMixingLogicEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3035",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Mixing",
+          "enumValue": 0
+        },
+        {
+          "name": "NonMixingByProduct",
+          "enumValue": 1
+        },
+        {
+          "name": "NonMixingByBatch",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MaterialStorageBufferType:dataType:StorageLogicEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3015",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Other",
+          "enumValue": 0
+        },
+        {
+          "name": "FIFO",
+          "enumValue": 1
+        },
+        {
+          "name": "LIFO",
+          "enumValue": 2
+        },
+        {
+          "name": "FEFO",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MaterialStorageBufferType:dataType:MaterialDefinitionType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3010",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "BaseUnitOfMeasure",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "BatchManaged",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "GroupID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ParentGroupID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ShelfLife",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MaterialStorageBufferType:dataType:DataDescriptionType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MaterialStorageBufferType:dataType:DataDescriptionType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3019",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    }
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaterialPointDefinition",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "dtmi:opcua:TMC_v2:MaterialStorageBufferType:dataType:MaterialStorageBufferDataType;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MES_ID",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MixingLogic",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "dtmi:opcua:TMC_v2:MaterialStorageBufferType:dataType:StorageMixingLogicEnumeration;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "StorageLogic",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "dtmi:opcua:TMC_v2:MaterialStorageBufferType:dataType:StorageLogicEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "TotalStorageCapacity",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "ActualLoadingRate",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
@@ -36,11 +229,10 @@
             "schema": "double"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "ActualUnloadingRate",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
@@ -59,18 +251,16 @@
             "schema": "double"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "LoadingRateState",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NominalLoadingRate",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
@@ -89,11 +279,10 @@
             "schema": "double"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NominalUnloadingRate",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
@@ -112,11 +301,10 @@
             "schema": "double"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "StoredLot",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
@@ -135,15 +323,13 @@
             "schema": "double"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "UnloadingRateState",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     }
   ]
 }

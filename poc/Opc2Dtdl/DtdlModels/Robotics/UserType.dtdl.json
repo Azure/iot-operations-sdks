@@ -15,5 +15,19 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Level",
+      "namespace": "http://opcfoundation.org/UA/Robotics",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/Robotics",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }

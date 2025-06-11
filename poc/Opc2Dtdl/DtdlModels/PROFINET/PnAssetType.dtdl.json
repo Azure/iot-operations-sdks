@@ -15,5 +15,89 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Annotation",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceId",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceSubId",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "HardwareRevision",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Location",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OrderId",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Organization",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SerialNumber",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SoftwareRevision",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "TypeIdentification",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "UniqueIdentifier",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "uuid",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "VendorId",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedShort",
+      "writable": false
+    }
   ]
 }

@@ -18,6 +18,30 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Policy",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProcessStateId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProcessStateMessage",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "ResetGlobalStatistics",
       "namespace": "http://opcfoundation.org/UA/Scales.V2"

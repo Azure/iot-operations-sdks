@@ -34,7 +34,7 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "GearRatio",
       "namespace": "http://opcfoundation.org/UA/Robotics",
       "schema": {
@@ -59,15 +59,13 @@
             "schema": "unsignedInteger"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Pitch",
       "namespace": "http://opcfoundation.org/UA/Robotics",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     }
   ]
 }

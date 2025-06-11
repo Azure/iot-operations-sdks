@@ -15,6 +15,50 @@
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
+      "@id": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:ApplicationIdentifierDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=28",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "UniqueIdentifier",
+          "schema": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:ApplicationId;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:FxVersion;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=25",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Major",
+          "schema": "unsignedShort"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Minor",
+          "schema": "unsignedShort"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Build",
+          "schema": "unsignedShort"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "SubBuild",
+          "schema": "unsignedShort"
+        }
+      ]
+    },
+    {
       "@id": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:OperationalHealthOptionSet;1",
       "@type": [ "Enum", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=3010",
@@ -94,15 +138,72 @@
           "enumValue": 2
         }
       ]
+    },
+    {
+      "@id": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:ApplicationId;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=3013",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "IdNumeric",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "IdString",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "IdGuid",
+          "schema": "uuid"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "IdByteString",
+          "schema": "bytes"
+        }
+      ]
     }
   ],
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "ApplicationIdentifier",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:ApplicationIdentifierDataType;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AuthorAssignedIdentifier",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AuthorAssignedVersion",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:FxVersion;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AuthorUri",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OperationalHealth",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
-      "schema": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:OperationalHealthOptionSet;1",
-      "writable": false
+      "schema": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:OperationalHealthOptionSet;1"
     },
     {
       "@type": [ "Command", "Qualified" ],

@@ -17,24 +17,38 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "NotificationCategory",
+      "name": "AuxParameters",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "unsignedInteger",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
       "writable": true
     },
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "NotificationId",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "unsignedInteger",
-      "writable": true
-    },
-    {
-      "@type": [ "Property", "Qualified" ],
-      "name": "VendorNotificationId",
+      "name": "HelpSource",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "string",
       "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "NotificationCategory",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "unsignedInteger"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "NotificationId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "unsignedInteger"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "VendorNotificationId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string"
     }
   ]
 }

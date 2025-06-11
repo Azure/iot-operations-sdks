@@ -17,11 +17,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MultiStateDiscreteSignal",
       "namespace": "http://opcfoundation.org/UA/PADIM",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     }
   ]
 }

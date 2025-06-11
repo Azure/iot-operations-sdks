@@ -35,31 +35,48 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "AnalogInputElectricalType",
+      "name": "GalvanicIsolationSupported",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NumberOfChannels",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "unsignedShort",
       "writable": false
     },
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "Resolution",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "AnalogInputElectricalType",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "unsignedShort"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InputCurrentRange",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType:dataType:Range;1",
-      "writable": false
+      "schema": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType:dataType:Range;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InputVoltageRange",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType:dataType:Range;1",
-      "writable": false
+      "schema": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType:dataType:Range;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InternalResistance",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     }
   ]
 }

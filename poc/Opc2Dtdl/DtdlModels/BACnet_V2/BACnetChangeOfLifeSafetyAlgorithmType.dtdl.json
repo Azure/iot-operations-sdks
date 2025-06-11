@@ -121,24 +121,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AlarmValues",
       "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:BACnet_V2:BACnetChangeOfLifeSafetyAlgorithmType:dataType:BACnetLifeSafetyState;1"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LifeSafetyAlarmValues",
       "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:BACnet_V2:BACnetChangeOfLifeSafetyAlgorithmType:dataType:BACnetLifeSafetyState;1"
-      },
-      "writable": true
+      }
     }
   ]
 }

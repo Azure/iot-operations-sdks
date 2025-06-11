@@ -122,6 +122,20 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PackMLVersion",
+      "namespace": "http://opcfoundation.org/UA/PackML",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "TagID",
+      "namespace": "http://opcfoundation.org/UA/PackML",
+      "schema": "string",
+      "writable": false
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "RemoteCommand",
       "namespace": "http://opcfoundation.org/UA/PackML",

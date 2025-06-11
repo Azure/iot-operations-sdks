@@ -65,7 +65,7 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualGrillTemperature_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -80,11 +80,10 @@
           "unit": "degreeCelsius",
           "schema": "float"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualPlatenTemperature_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -99,47 +98,41 @@
           "unit": "degreeCelsius",
           "schema": "float"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CurrentState",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType:dataType:GrillingZoneStateEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType:dataType:GrillingZoneStateEnumeration;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "GrillingZoneName",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "IsWithPlaten",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PlatenPositionState",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType:dataType:PlatenPositionStateEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType:dataType:PlatenPositionStateEnumeration;1"
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "RemainingProcessTime",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "second",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SetGrillTemperature_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -154,11 +147,10 @@
           "unit": "degreeCelsius",
           "schema": "float"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SetPlatenTemperature_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -173,16 +165,14 @@
           "unit": "degreeCelsius",
           "schema": "float"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "SetProcessTime",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "second",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     }
   ]
 }

@@ -16,5 +16,33 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DefaultInstanceBrowseName",
+      "namespace": "http://opcfoundation.org/UA/Machinery",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OperationCycleCounter",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OperationDuration",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PowerOnDuration",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "duration",
+      "writable": true
+    }
   ]
 }

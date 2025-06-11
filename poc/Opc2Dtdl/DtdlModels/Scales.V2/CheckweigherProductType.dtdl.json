@@ -17,25 +17,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LowerToleranceLimit1",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LowerToleranceLimit2",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NominalWeight",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     }
   ]
 }

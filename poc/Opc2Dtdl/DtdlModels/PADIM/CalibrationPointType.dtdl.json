@@ -16,18 +16,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CalibrationActualValue",
       "namespace": "http://opcfoundation.org/UA/PADIM",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CalibrationSetpoint",
       "namespace": "http://opcfoundation.org/UA/PADIM",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     }
   ]
 }

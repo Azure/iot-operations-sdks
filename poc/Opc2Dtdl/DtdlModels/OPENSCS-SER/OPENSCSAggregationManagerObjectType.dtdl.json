@@ -150,6 +150,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaxAggregationEvents",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "AggregationPackingEvent",
       "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",

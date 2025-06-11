@@ -15,6 +15,126 @@
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:ControlModeEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3023",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "OTHER",
+          "enumValue": 0
+        },
+        {
+          "name": "PRODUCTION",
+          "enumValue": 1
+        },
+        {
+          "name": "MAINTENANCE",
+          "enumValue": 2
+        },
+        {
+          "name": "MANUAL",
+          "enumValue": 3
+        },
+        {
+          "name": "CHANGE_OVER",
+          "enumValue": 4
+        },
+        {
+          "name": "CLEAN",
+          "enumValue": 5
+        },
+        {
+          "name": "SET_UP",
+          "enumValue": 6
+        },
+        {
+          "name": "EMPTY_OUT",
+          "enumValue": 7
+        },
+        {
+          "name": "REMOTE_SERVICE",
+          "enumValue": 8
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:StateEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3008",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Stopped",
+          "enumValue": 0
+        },
+        {
+          "name": "Resetting",
+          "enumValue": 1
+        },
+        {
+          "name": "Idle",
+          "enumValue": 2
+        },
+        {
+          "name": "Starting",
+          "enumValue": 3
+        },
+        {
+          "name": "Execute",
+          "enumValue": 4
+        },
+        {
+          "name": "Completing",
+          "enumValue": 5
+        },
+        {
+          "name": "Complete",
+          "enumValue": 6
+        },
+        {
+          "name": "Aborting",
+          "enumValue": 7
+        },
+        {
+          "name": "Aborted",
+          "enumValue": 8
+        },
+        {
+          "name": "Stopping",
+          "enumValue": 9
+        },
+        {
+          "name": "Clearing",
+          "enumValue": 10
+        },
+        {
+          "name": "Suspending",
+          "enumValue": 11
+        },
+        {
+          "name": "Suspended",
+          "enumValue": 12
+        },
+        {
+          "name": "Unsuspending",
+          "enumValue": 13
+        },
+        {
+          "name": "Holding",
+          "enumValue": 14
+        },
+        {
+          "name": "Held",
+          "enumValue": 15
+        },
+        {
+          "name": "Unholding",
+          "enumValue": 16
+        }
+      ]
+    },
+    {
       "@id": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:MethodExecutionFeedbackType;1",
       "@type": [ "Object", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3009",
@@ -31,6 +151,23 @@
             "@type": "Array",
             "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:MessageType;1"
           }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:MessageType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3002",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LocalText",
+          "schema": "string"
         }
       ]
     },
@@ -77,70 +214,30 @@
           "enumValue": 8
         }
       ]
-    },
-    {
-      "@id": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:ControlModeEnumeration;1",
-      "@type": [ "Enum", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3023",
-      "valueSchema": "integer",
-      "enumValues": [
-        {
-          "name": "OTHER",
-          "enumValue": 0
-        },
-        {
-          "name": "PRODUCTION",
-          "enumValue": 1
-        },
-        {
-          "name": "MAINTENANCE",
-          "enumValue": 2
-        },
-        {
-          "name": "MANUAL",
-          "enumValue": 3
-        },
-        {
-          "name": "CHANGE_OVER",
-          "enumValue": 4
-        },
-        {
-          "name": "CLEAN",
-          "enumValue": 5
-        },
-        {
-          "name": "SET_UP",
-          "enumValue": 6
-        },
-        {
-          "name": "EMPTY_OUT",
-          "enumValue": 7
-        },
-        {
-          "name": "REMOTE_SERVICE",
-          "enumValue": 8
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:MessageType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3002",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ID",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "LocalText",
-          "schema": "string"
-        }
-      ]
     }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ControlMode",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:ControlModeEnumeration;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IdleEnergySavingMode",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "State",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:StateEnumeration;1",
+      "writable": false
+    },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AcknowledgeAlarms",

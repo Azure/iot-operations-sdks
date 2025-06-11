@@ -16,105 +16,91 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Power" ],
+      "@type": [ "Telemetry", "Qualified", "Power" ],
       "name": "ActualProcessPower",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "unit": "kilowatt",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "Power" ],
+      "@type": [ "Telemetry", "Qualified", "Power" ],
       "name": "ActualPumpPower",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "unit": "kilowatt",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualPumpSpeedRPM",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualRegulationRatio",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "DelayTimeAfterCooling",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "unit": "minute",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InternalMeasuringPoint",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "unsignedShort",
-      "writable": true
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PressureMainLine",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PressureReturnLine",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PumpControlMode",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "unsignedShort",
-      "writable": true
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "StandbyTemperature",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SwitchingOffTemperature",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TemperatureLimitation",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TemperatureMainLine",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TemperatureReturnLine",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

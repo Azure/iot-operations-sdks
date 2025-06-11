@@ -41,24 +41,62 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "AllowedEngineeringUnits",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaterialClass",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Policy",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProcessStateId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProcessStateMessage",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CurrentWeight",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "dtmi:opcua:Scales_V2:ScaleDeviceType:dataType:WeightType;1",
-      "writable": true
+      "schema": "dtmi:opcua:Scales_V2:ScaleDeviceType:dataType:WeightType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MinimalWeight",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RegisteredWeight",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "dtmi:opcua:Scales_V2:ScaleDeviceType:dataType:WeightType;1",
-      "writable": true
+      "schema": "dtmi:opcua:Scales_V2:ScaleDeviceType:dataType:WeightType;1"
     },
     {
       "@type": [ "Command", "Qualified" ],

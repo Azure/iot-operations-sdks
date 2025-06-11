@@ -16,6 +16,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DefaultInstanceBrowseName",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
+      "schema": "string",
+      "writable": true
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "EnergySaving",
       "namespace": "http://opcfoundation.org/UA/LaserSystems"

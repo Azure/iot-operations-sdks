@@ -40,26 +40,6 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:TMC_v2:MachineModuleSetupType:dataType:MethodExecutionFeedbackType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3009",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Success",
-          "schema": "boolean"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Message",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleSetupType:dataType:MessageType;1"
-          }
-        }
-      ]
-    },
-    {
       "@id": "dtmi:opcua:TMC_v2:MachineModuleSetupType:dataType:MaterialListType;1",
       "@type": [ "Object", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3037",
@@ -80,6 +60,26 @@
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleSetupType:dataType:MaterialListItemType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleSetupType:dataType:MethodExecutionFeedbackType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3009",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Success",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Message",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleSetupType:dataType:MessageType;1"
           }
         }
       ]
@@ -362,6 +362,20 @@
     }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DataSet",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "dtmi:opcua:TMC_v2:MachineModuleSetupType:dataType:DataSetType;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaterialList",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "dtmi:opcua:TMC_v2:MachineModuleSetupType:dataType:MaterialListType;1",
+      "writable": false
+    },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "LoadDataSet",

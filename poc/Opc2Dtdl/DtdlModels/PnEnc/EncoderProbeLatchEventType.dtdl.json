@@ -15,5 +15,26 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LastLatchedPos",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LatchActive",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProbeName",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }

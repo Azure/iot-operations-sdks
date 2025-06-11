@@ -18,10 +18,23 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "Interval",
+      "namespace": "http://opcfoundation.org/UA/TTD",
+      "schema": "time",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LastExecutionTime",
+      "namespace": "http://opcfoundation.org/UA/TTD",
+      "schema": "time",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Activity",
       "namespace": "http://opcfoundation.org/UA/TTD",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     }
   ]
 }

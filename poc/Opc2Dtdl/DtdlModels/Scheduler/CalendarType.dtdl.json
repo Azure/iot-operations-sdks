@@ -335,10 +335,19 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "DateList",
+      "namespace": "http://opcfoundation.org/UA/Scheduler",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:Scheduler:CalendarType:dataType:CalendarEntryType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PresentValue",
       "namespace": "http://opcfoundation.org/UA/Scheduler",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
       "@type": [ "Command", "Qualified" ],

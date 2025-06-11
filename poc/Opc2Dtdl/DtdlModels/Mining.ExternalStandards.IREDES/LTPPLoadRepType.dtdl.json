@@ -17,31 +17,34 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "DefaultInstanceBrowseName",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPCyclTot",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "unsignedLong",
-      "writable": true
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPdistTot",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPloadTot",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LTPPwrkDist",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     }
   ]
 }

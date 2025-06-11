@@ -18,7 +18,7 @@ namespace Yaml2Dtdl
     /// Class to produce the template output
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public partial class DtdlProperty : DtdlPropertyBase
+    public partial class DtdlPropTelem : DtdlPropTelemBase
     {
         /// <summary>
         /// Create the template output
@@ -26,7 +26,9 @@ namespace Yaml2Dtdl
         public virtual string TransformText()
         {
  (string, string) unitInfo; 
-            this.Write("    {\r\n      \"@type\": [ \"Property\", ");
+            this.Write("    {\r\n      \"@type\": [ \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.classType));
+            this.Write("\", ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.GetCotypes(null)));
             this.Write(" ],\r\n      \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))));
@@ -41,7 +43,8 @@ namespace Yaml2Dtdl
  } 
             this.Write("      \"schema\": ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.definedType.Datatype, this.definedType.ValueRank, definedType.BrowseName, unitInfo, 6)));
-            this.Write(",\r\n");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.isWritable != null ? "," : ""));
+            this.Write("\r\n");
  } else { 
             this.Write("      \"schema\": {\r\n        \"@type\": [ \"Object\", \"Detail\" ],\r\n        \"fields\": [\r" +
                     "\n          {\r\n            \"@type\": [ \"Field\", \"Subject\", ");
@@ -78,11 +81,16 @@ namespace Yaml2Dtdl
             this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.SubVars.Count ? "," : ""));
             this.Write("\r\n");
  ix++; } 
-            this.Write("        ]\r\n      },\r\n");
+            this.Write("        ]\r\n      }");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.isWritable != null ? "," : ""));
+            this.Write("\r\n");
  } 
+ if (this.isWritable != null) { 
             this.Write("      \"writable\": ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.isWritable ? "true" : "false"));
-            this.Write("\r\n    }");
+            this.Write(this.ToStringHelper.ToStringWithCulture((bool)this.isWritable ? "true" : "false"));
+            this.Write("\r\n");
+ } 
+            this.Write("    }");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -91,7 +99,7 @@ namespace Yaml2Dtdl
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public class DtdlPropertyBase
+    public class DtdlPropTelemBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

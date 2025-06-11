@@ -17,6 +17,20 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IsHotSwappable",
+      "namespace": "http://opcfoundation.org/UA/ADI",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IsEnabled",
+      "namespace": "http://opcfoundation.org/UA/ADI",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "AccessorySlotStateMachine",
       "namespace": "http://opcfoundation.org/UA/ADI",

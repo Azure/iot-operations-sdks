@@ -14,8 +14,31 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1022",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:I4AAS:AASEntityType:dataType:AASEntityTypeDataType;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3006",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "CoManagedEntity",
+          "enumValue": 0
+        },
+        {
+          "name": "SelfManagedEntity",
+          "enumValue": 1
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "EntityType",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
+      "schema": "dtmi:opcua:I4AAS:AASEntityType:dataType:AASEntityTypeDataType;1",
+      "writable": true
+    },
     {
       "@type": [ "Relationship", "Qualified" ],
       "name": "SubmodelElement",

@@ -113,14 +113,13 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ArticleSpecList",
       "namespace": "http://opcfoundation.org/UA/WireHarness",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:WireHarness:ArticleSpecManagementType:dataType:ISA95MaterialDataType;1"
-      },
-      "writable": true
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

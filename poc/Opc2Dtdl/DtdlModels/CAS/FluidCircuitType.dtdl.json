@@ -40,11 +40,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FluidType",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "dtmi:opcua:CAS:FluidCircuitType:dataType:FluidTypeEnum;1",
-      "writable": false
+      "schema": "dtmi:opcua:CAS:FluidCircuitType:dataType:FluidTypeEnum;1"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

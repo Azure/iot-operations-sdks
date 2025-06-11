@@ -18,10 +18,16 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "ContainerId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "UnitPrice",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     }
   ]
 }

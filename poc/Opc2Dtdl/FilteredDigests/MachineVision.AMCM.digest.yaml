@@ -128,6 +128,70 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionMachineIdentificationType:
   - [ UAObjectType, MachineVision.AMCM:1006, MachineVision.AMCM:VisionMachineIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6785, DI:AssetId, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6786, DI:ComponentName, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6026, MachineVision.AMCM:ConfigurationCode, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6787, DI:DeviceClass, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6788, DI:HardwareRevision, SemanticVersionString, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6789, Machinery:InitialOperationDate, DateTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6783, Machinery:Location, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6790, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6791, DI:ManufacturerUri, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6792, DI:Model, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6793, Machinery:MonthOfConstruction, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6794, DI:ProductCode, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6784, DI:ProductInstanceUri, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6795, DI:SerialNumber, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6796, DI:SoftwareRevision, SemanticVersionString, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6797, Machinery:YearOfConstruction, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
   - HasSubtype_reverse:
@@ -147,6 +211,70 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionComponentIdentificationType:
   - [ UAObjectType, MachineVision.AMCM:1007, MachineVision.AMCM:VisionComponentIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6768, DI:AssetId, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6769, DI:ComponentName, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6029, MachineVision.AMCM:ConfigurationCode, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6770, DI:DeviceClass, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6767, DI:DeviceRevision, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6771, DI:HardwareRevision, SemanticVersionString, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6772, Machinery:InitialOperationDate, DateTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6773, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6774, DI:ManufacturerUri, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6775, DI:Model, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6776, Machinery:MonthOfConstruction, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6777, DI:ProductCode, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6778, DI:ProductInstanceUri, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6779, DI:SerialNumber, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6780, DI:SoftwareRevision, SemanticVersionString, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6781, Machinery:YearOfConstruction, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1005, Machinery:MachineryComponentIdentificationType ]
   - HasSubtype_reverse:
@@ -207,8 +335,40 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionMaintenanceInfoType:
   - [ UAObjectType, MachineVision.AMCM:1003, MachineVision.AMCM:VisionMaintenanceInfoType ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6005, MachineVision.AMCM:CalibrationNeeded, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6225, MachineVision.AMCM:FirmwareInfo, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6006, MachineVision.AMCM:LastCalibration, UtcTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6025, MachineVision.AMCM:LastService, UtcTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6009, MachineVision.AMCM:MaintenanceRecord, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6007, MachineVision.AMCM:NextCalibration, UtcTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6003, MachineVision.AMCM:NextService, UtcTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, MachineVision.AMCM:6008, MachineVision.AMCM:ServiceClass, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision.AMCM:6001, MachineVision.AMCM:StartOfWarranty, UtcTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:

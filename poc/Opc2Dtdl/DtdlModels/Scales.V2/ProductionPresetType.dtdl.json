@@ -17,14 +17,13 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CurrentProducts",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
-      },
-      "writable": true
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

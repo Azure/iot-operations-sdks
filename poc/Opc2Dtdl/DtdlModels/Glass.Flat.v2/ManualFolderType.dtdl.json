@@ -16,6 +16,16 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ExternalManuals",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "LocalManuals",
       "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2"

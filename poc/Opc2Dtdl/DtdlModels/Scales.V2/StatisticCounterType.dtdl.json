@@ -15,5 +15,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Weighed",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "boolean",
+      "writable": true
+    }
   ]
 }

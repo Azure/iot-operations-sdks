@@ -14,35 +14,75 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1011",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PlasticsRubber_HotRunner:HRDTemperatureType:dataType:TimeMethodPIDParametersDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=3005",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Xp",
+          "schema": "double"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Tn",
+          "schema": "double"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Tv",
+          "schema": "double"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Ts",
+          "schema": "double"
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "BoostTime",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "TimeMethodPIDParameters",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:PlasticsRubber_HotRunner:HRDTemperatureType:dataType:TimeMethodPIDParametersDataType;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActiveSetValue",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "BoostSetValue",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SecondSetValue",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "StandbySetValue",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     }
   ]
 }

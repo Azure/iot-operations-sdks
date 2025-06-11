@@ -330,6 +330,10 @@ DefinedTypes:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, AdditiveManufacturing:6073, AdditiveManufacturing:NodeVersion, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   AdditiveManufacturing:FeedstockType:
   - [ UAObjectType, AdditiveManufacturing:1000, AdditiveManufacturing:FeedstockType ]
@@ -337,8 +341,24 @@ DefinedTypes:
     - [ UAVariable, AdditiveManufacturing:6012, AdditiveManufacturing:Cycle, UInt32, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, AdditiveManufacturing:6009, AdditiveManufacturing:ExternalIdentifier, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, AdditiveManufacturing:6015, AdditiveManufacturing:Function, AdditiveManufacturing:FeedstockFunction, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, AdditiveManufacturing:6008, AdditiveManufacturing:Identifier, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, AdditiveManufacturing:6011, AdditiveManufacturing:Manufacturer, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, AdditiveManufacturing:6010, AdditiveManufacturing:Name, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -354,6 +374,10 @@ DefinedTypes:
 
   AdditiveManufacturing:MachineIdentificationAMType:
   - [ UAObjectType, AdditiveManufacturing:1004, AdditiveManufacturing:MachineIdentificationAMType ]
+  - HasProperty:
+    - [ UAVariable, AdditiveManufacturing:6078, AdditiveManufacturing:AMTechnologyIdentifier, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, MachineTool:11, MachineTool:MachineToolIdentificationType ]
 
@@ -364,5 +388,13 @@ DefinedTypes:
 
   AdditiveManufacturing:ProcessValueAMType:
   - [ UAObjectType, AdditiveManufacturing:1002, AdditiveManufacturing:ProcessValueAMType ]
+  - HasProperty:
+    - [ UAVariable, AdditiveManufacturing:6063, AdditiveManufacturing:Category, AdditiveManufacturing:SensorCategory, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
+  - HasProperty:
+    - [ UAVariable, AdditiveManufacturing:6064, AdditiveManufacturing:Severity, AdditiveManufacturing:SensorSeverity, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]

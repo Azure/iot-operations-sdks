@@ -17,18 +17,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "GasFilling",
       "namespace": "http://opcfoundation.org/UA/Glass.Flat",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MixingRatio",
       "namespace": "http://opcfoundation.org/UA/Glass.Flat",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

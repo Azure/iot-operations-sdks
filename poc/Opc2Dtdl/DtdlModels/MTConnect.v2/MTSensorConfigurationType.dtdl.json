@@ -16,5 +16,33 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CalibrationDate",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "time",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CalibrationInitials",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "FirwareVersion",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NextCalibrationDate",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "time",
+      "writable": false
+    }
   ]
 }

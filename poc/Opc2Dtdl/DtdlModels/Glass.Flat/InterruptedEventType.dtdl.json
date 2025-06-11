@@ -16,5 +16,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProcessName",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": "string",
+      "writable": true
+    }
   ]
 }

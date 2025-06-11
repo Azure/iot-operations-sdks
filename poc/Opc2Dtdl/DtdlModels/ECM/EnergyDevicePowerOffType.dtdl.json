@@ -18,24 +18,28 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "WOLMagicPacket",
+      "namespace": "http://opcfoundation.org/UA/ECM",
+      "schema": "bytes",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ModePowerConsumption",
       "namespace": "http://opcfoundation.org/UA/ECM",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RegularTimeToOperate",
       "namespace": "http://opcfoundation.org/UA/ECM",
-      "schema": "duration",
-      "writable": false
+      "schema": "duration"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TimeMinPause",
       "namespace": "http://opcfoundation.org/UA/ECM",
-      "schema": "duration",
-      "writable": false
+      "schema": "duration"
     },
     {
       "@type": [ "Command", "Qualified" ],

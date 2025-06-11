@@ -15,6 +15,28 @@
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:ProductionOrderType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3038",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Header",
+          "schema": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:ProductionOrderHeaderType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MaterialList",
+          "schema": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:MaterialListType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "DataSet",
+          "schema": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:DataSetType;1"
+        }
+      ]
+    },
+    {
       "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:ProductionOrderHeaderType;1",
       "@type": [ "Object", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3016",
@@ -72,6 +94,107 @@
       ]
     },
     {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:MaterialDefinitionType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3010",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "BaseUnitOfMeasure",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "BatchManaged",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "GroupID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ParentGroupID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ShelfLife",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:DataDescriptionType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:DataDescriptionType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3019",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:ProductionStatusEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3017",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Other",
+          "enumValue": 0
+        },
+        {
+          "name": "BrandChange",
+          "enumValue": 1
+        },
+        {
+          "name": "Production",
+          "enumValue": 2
+        },
+        {
+          "name": "NoProduction",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
       "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:MethodExecutionFeedbackType;1",
       "@type": [ "Object", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3009",
@@ -109,28 +232,6 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:ProductionOrderType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3038",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Header",
-          "schema": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:ProductionOrderHeaderType;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "MaterialList",
-          "schema": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:MaterialListType;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "DataSet",
-          "schema": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:DataSetType;1"
-        }
-      ]
-    },
-    {
       "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:MaterialListType;1",
       "@type": [ "Object", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3037",
@@ -152,48 +253,6 @@
             "@type": "Array",
             "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:MaterialListItemType;1"
           }
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:DataSetType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3018",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ID",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Description",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Values",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:DataSetEntryType;1"
-          }
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:DataSetEntryType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3004",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ID",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Value",
-          "schema": "string"
         }
       ]
     },
@@ -234,6 +293,26 @@
             "@type": "Array",
             "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:MaterialSublotType;1"
           }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:MaterialStockStatusEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3039",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Unrestricted",
+          "enumValue": 0
+        },
+        {
+          "name": "QualityInspection",
+          "enumValue": 1
+        },
+        {
+          "name": "Blocked",
+          "enumValue": 2
         }
       ]
     },
@@ -293,26 +372,6 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:MaterialStockStatusEnumeration;1",
-      "@type": [ "Enum", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3039",
-      "valueSchema": "integer",
-      "enumValues": [
-        {
-          "name": "Unrestricted",
-          "enumValue": 0
-        },
-        {
-          "name": "QualityInspection",
-          "enumValue": 1
-        },
-        {
-          "name": "Blocked",
-          "enumValue": 2
-        }
-      ]
-    },
-    {
       "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:MaterialLotType;1",
       "@type": [ "Object", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3012",
@@ -363,9 +422,9 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:DataDescriptionType;1",
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:DataSetType;1",
       "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3019",
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3018",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -374,20 +433,23 @@
         },
         {
           "@type": [ "Field", "Required" ],
-          "name": "MES_ID",
+          "name": "Description",
           "schema": "string"
         },
         {
           "@type": [ "Field", "Required" ],
-          "name": "Description",
-          "schema": "string"
+          "name": "Values",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:DataSetEntryType;1"
+          }
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:MaterialDefinitionType;1",
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:DataSetEntryType;1",
       "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3010",
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3004",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -396,51 +458,51 @@
         },
         {
           "@type": [ "Field", "Required" ],
-          "name": "MES_ID",
+          "name": "Value",
           "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Description",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "BaseUnitOfMeasure",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "BatchManaged",
-          "schema": "boolean"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "GroupID",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ParentGroupID",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ShelfLife",
-          "schema": "unsignedInteger"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Properties",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:DataDescriptionType;1"
-          }
         }
       ]
     }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AssignedProductionOrders",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:ProductionOrderType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AutoComplete",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AutoStart",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProductionOrder",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:ProductionOrderHeaderType;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProductionStatus",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "dtmi:opcua:TMC_v2:MachineModuleProductionType:dataType:ProductionStatusEnumeration;1",
+      "writable": false
+    },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "AbortProductionOrder",

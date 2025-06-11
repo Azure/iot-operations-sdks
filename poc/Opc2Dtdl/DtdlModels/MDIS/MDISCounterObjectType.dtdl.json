@@ -17,11 +17,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Count",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
       "@type": [ "Command", "Qualified" ],

@@ -15,5 +15,33 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "GSDDescription",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "GSDName",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IdentNumber",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Slot",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedShort",
+      "writable": false
+    }
   ]
 }

@@ -13,10 +13,33 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1006",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PNGSDGM:GsdGenIoDataType:dataType:GsdGenIoConsistencyEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3002",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ITEM_CONSISTENCY",
+          "enumValue": 0
+        },
+        {
+          "name": "ALL_ITEMS_CONSISTENCY",
+          "enumValue": 1
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "Consistency",
+      "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+      "schema": "dtmi:opcua:PNGSDGM:GsdGenIoDataType:dataType:GsdGenIoConsistencyEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DataItemx",
       "namespace": "http://opcfoundation.org/UA/PNGSDGM",
       "schema": {
@@ -31,8 +54,7 @@
           "unit": "",
           "schema": "string"
         }
-      },
-      "writable": false
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

@@ -86,52 +86,46 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CleanupTimeout",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
-      "schema": "duration",
-      "writable": true
+      "schema": "duration"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InputVariables",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "IsPersistent",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OutputVariables",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelatedEndpoint",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
-      "schema": "dtmi:opcua:FX_AC:ConnectionEndpointType:dataType:RelatedEndpointDataType;1",
-      "writable": true
+      "schema": "dtmi:opcua:FX_AC:ConnectionEndpointType:dataType:RelatedEndpointDataType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Status",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
-      "schema": "dtmi:opcua:FX_AC:ConnectionEndpointType:dataType:ConnectionEndpointStatusEnum;1",
-      "writable": false
+      "schema": "dtmi:opcua:FX_AC:ConnectionEndpointType:dataType:ConnectionEndpointStatusEnum;1"
     }
   ]
 }

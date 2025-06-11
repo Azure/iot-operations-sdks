@@ -16,5 +16,15 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ActiveTool",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": true
+    }
   ]
 }

@@ -16,11 +16,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LifetimeConsumption",
       "namespace": "http://opcfoundation.org/UA/PAEFS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

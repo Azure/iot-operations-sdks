@@ -350,6 +350,10 @@ DefinedTypes:
 
   GMS:SensorWarningAlarmType:
   - [ UAObjectType, GMS:1010, GMS:SensorWarningAlarmType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6029, GMS:ErrorCode, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2955, LimitAlarmType ]
 
@@ -363,14 +367,38 @@ DefinedTypes:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery.Result:1002, Machinery.Result:ResultReadyEventType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6121, GMS:ProgramName, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   GMS:MultiSensorType:
   - [ UAObjectType, GMS:1012, GMS:MultiSensorType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6018, GMS:Alignment, GMS:ToolAlignmentState, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6016, GMS:Axes, String, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, MachineTool:51, MachineTool:MultiToolType ]
 
   GMS:SensorType:
   - [ UAObjectType, GMS:1007, GMS:SensorType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6127, GMS:AbsoluteProbe, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6021, GMS:Alignment, GMS:ToolAlignmentState, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6084, GMS:Axes, String, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, GMS:6019, GMS:Capabilities, UInteger, 1, 3 ]
     - HasModellingRule:
@@ -379,19 +407,59 @@ DefinedTypes:
     - [ UAVariable, GMS:6056, GMS:Class, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, GMS:6126, GMS:EngineeringUnit, EUInformation, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6020, GMS:IsQualifiedStatus, GMS:ToolIsQualifiedStatus, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6123, GMS:MeasuringRange, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6125, GMS:Resolution, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, MachineTool:50, MachineTool:ToolType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6124, GMS:WorkingRange, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   GMS:CharacteristicType:
   - [ UAObjectType, GMS:1009, GMS:CharacteristicType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6028, GMS:CharacteristicIdentifier, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6046, GMS:CharacteristicsClass, Byte, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6122, GMS:Formula, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6111, GMS:IsValid, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, GMS:6042, GMS:LowerToleranceLimit, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, GMS:6044, GMS:Nominal, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6038, GMS:ResultEvaluation, Machinery.Result:ResultEvaluationEnum, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -405,6 +473,10 @@ DefinedTypes:
 
   GMS:CorrectionType:
   - [ UAObjectType, GMS:1005, GMS:CorrectionType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6009, GMS:CharacteristicIdentifier, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
@@ -415,8 +487,20 @@ DefinedTypes:
     - [ UAVariable, GMS:6010, GMS:CorrectionValueRelative, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6082, GMS:Description, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6002, GMS:Identifier, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, GMS:6080, GMS:LowerControlLimit, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6050, GMS:ProgramName, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -439,6 +523,10 @@ DefinedTypes:
 
   GMS:ToolMonitoringType:
   - [ UAObjectType, GMS:1006, GMS:ToolMonitoringType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6068, GMS:ActiveTool, NodeId, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, MachineTool:41, MachineTool:WorkingUnitMonitoringType ]
 
@@ -463,6 +551,14 @@ DefinedTypes:
   - [ UAObjectType, GMS:1011, GMS:GMSIdentificationType ]
   - HasSubtype_reverse:
     - [ UAObjectType, MachineTool:11, MachineTool:MachineToolIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6012, GMS:SubDeviceClass, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6001, GMS:Workspace, GMS:WorkspaceType, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   GMS:GMSType:
   - [ UAObjectType, GMS:1002, GMS:GMSType ]
@@ -494,8 +590,24 @@ DefinedTypes:
 
   GMS:GMSJobType:
   - [ UAObjectType, GMS:1016, GMS:GMSJobType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6312, GMS:BatchIdentifier, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6114, GMS:Duration, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, MachineTool:29, MachineTool:ProductionJobType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6085, GMS:MeasurementReason, GMS:MeasurementReasonEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6119, GMS:RemainingTime, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   GMS:GMSPartType:
   - [ UAObjectType, GMS:1017, GMS:GMSPartType ]
@@ -509,8 +621,16 @@ DefinedTypes:
     - [ UAVariable, GMS:6321, GMS:Operator, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6314, GMS:PartAmendmentStatus, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, GMS:6331, GMS:PartCarrierIdentifier, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6313, GMS:PartDescription, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -521,11 +641,35 @@ DefinedTypes:
     - [ UAVariable, GMS:6326, GMS:ProcessParameter, Number, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6315, GMS:ProductionNumber, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   GMS:CalibrationPrognosisType:
   - [ UAObjectType, GMS:1019, GMS:CalibrationPrognosisType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6352, GMS:Calibrated, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, GMS:6107, GMS:CalibrationCertificate, String, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6354, GMS:CalibrationInterval, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6355, GMS:CalibrationPreptime, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, MachineTool:3, MachineTool:PrognosisType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6353, GMS:DateOfCalibration, UtcTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   GMS:GMSResultManagementType:
   - [ UAObjectType, GMS:1008, GMS:GMSResultManagementType ]
@@ -540,15 +684,31 @@ DefinedTypes:
 
   GMS:RotaryTableType:
   - [ UAObjectType, GMS:1018, GMS:RotaryTableType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6350, GMS:IsIntegrated, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, GMS:6351, GMS:NumberOfAxes, Byte, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   GMS:SensorExchangeRackType:
   - [ UAObjectType, GMS:1015, GMS:SensorExchangeRackType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6134, GMS:IsAvailable, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   GMS:TipExchangeRackType:
   - [ UAObjectType, GMS:1022, GMS:TipExchangeRackType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6137, GMS:IsAvailable, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

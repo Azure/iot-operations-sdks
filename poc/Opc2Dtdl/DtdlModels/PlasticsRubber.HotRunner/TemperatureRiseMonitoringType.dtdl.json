@@ -17,10 +17,30 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "ErrorDetected",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SetValueActive",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SupervisionTime",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SetValueTemperatureChange",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     }
   ]
 }

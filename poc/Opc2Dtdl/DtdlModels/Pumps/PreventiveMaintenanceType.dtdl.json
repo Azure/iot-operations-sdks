@@ -17,55 +17,48 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "ActivePreventiveMaintenanceTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "hour",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InstallationDate",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "dateTime",
-      "writable": true
+      "schema": "dateTime"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LastInspectionDate",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "dateTime",
-      "writable": true
+      "schema": "dateTime"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LastServicingDate",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "dateTime",
-      "writable": true
+      "schema": "dateTime"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NextInspectionDate",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "dateTime",
-      "writable": true
+      "schema": "dateTime"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NextServicingDate",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "dateTime",
-      "writable": true
+      "schema": "dateTime"
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "PreventiveMaintenanceTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "hour",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     }
   ]
 }

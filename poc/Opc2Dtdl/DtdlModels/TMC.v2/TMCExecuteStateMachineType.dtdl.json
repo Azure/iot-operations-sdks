@@ -17,144 +17,124 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CompleteToResettingGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CompletingToCompleteGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ExecuteToCompletingGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ExecuteToHoldingGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ExecuteToSuspendingGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "HeldToUnholdingGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "HoldingToHeldGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "IdleToStartingGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LastTransition",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ResettingToIdleGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "StartingToExecuteGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "StartingToHoldingGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SuspendedToHoldingGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SuspendedToUnsuspendingGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SuspendingToHoldingGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SuspendingToSuspendedGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "UnholdingToExecuteGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "UnholdingToHoldingGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "UnsuspendingToExecuteGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "UnsuspendingToHoldingGuard",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

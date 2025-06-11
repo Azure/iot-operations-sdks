@@ -256,6 +256,10 @@ DefinedTypes:
 
   PlasticsRubber.TCD:TCDHelpOffNormalAlarmType:
   - [ UAObjectType, PlasticsRubber.TCD:1009, PlasticsRubber.TCD:TCDHelpOffNormalAlarmType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.TCD:7137, PlasticsRubber.TCD:DeviceMappingNumber, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, PlasticsRubber.GeneralTypes:1052, PlasticsRubber.GeneralTypes:HelpOffNormalAlarmType ]
 
@@ -415,6 +419,10 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.TCD:6082, PlasticsRubber.TCD:NodeVersion, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.TCD:ExternalChannelType:
   - [ UAObjectType, PlasticsRubber.TCD:1002, PlasticsRubber.TCD:ExternalChannelType ]
@@ -442,6 +450,10 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6013, PlasticsRubber.TCD:PressureReturnLine, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.TCD:6558, PlasticsRubber.TCD:SwitchedOn, Boolean, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -479,6 +491,10 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.TCD:6204, PlasticsRubber.TCD:ActualValue, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.TCD:6210, PlasticsRubber.TCD:AutomaticModeSwitch, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5014, PlasticsRubber.TCD:ClosedLoopControl ]
     - HasTypeDefinition:
@@ -501,6 +517,10 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6207, PlasticsRubber.TCD:ThermocoupleType, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.TCD:6206, PlasticsRubber.TCD:Used, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
@@ -586,6 +606,14 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.TCD:6551, PlasticsRubber.TCD:ActiveErrors, PlasticsRubber.GeneralTypes:ActiveErrorDataType, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.TCD:6509, PlasticsRubber.TCD:DeviceMappingNumber, UInt32, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.TCD:6121, PlasticsRubber.TCD:HighestActiveAlarmSeverity, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6512, PlasticsRubber.TCD:HoursOfOperation, Double, 0, 0 ]
     - HasProperty:
@@ -599,6 +627,10 @@ DefinedTypes:
     - [ UAMethod, PlasticsRubber.TCD:7044, PlasticsRubber.TCD:IdentifyDevice ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.TCD:6511, PlasticsRubber.TCD:OperatingMode, PlasticsRubber.TCD:OperatingModeEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
@@ -640,6 +672,10 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.TCD:1008, PlasticsRubber.TCD:DeviceZoneType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.TCD:6557, PlasticsRubber.TCD:DisplayLanguage, LocaleId, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5047, PlasticsRubber.TCD:Identification ]
     - HasTypeDefinition:
@@ -685,6 +721,10 @@ DefinedTypes:
       - UnitId: 4937556
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.TCD:7138, PlasticsRubber.TCD:DeviceZoneId, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:

@@ -17,25 +17,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AlarmSuppression",
       "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
-      "schema": "unsignedShort",
-      "writable": true
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProcessValueSetpoint",
       "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Status",
       "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
-      "schema": "unsignedShort",
-      "writable": true
+      "schema": "unsignedShort"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

@@ -16,5 +16,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IsUpperHwLimit",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "boolean",
+      "writable": false
+    }
   ]
 }

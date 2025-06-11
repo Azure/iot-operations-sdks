@@ -17,11 +17,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ComponentClass",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     }
   ]
 }

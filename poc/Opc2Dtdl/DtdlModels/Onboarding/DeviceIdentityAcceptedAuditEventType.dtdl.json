@@ -16,5 +16,26 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Certificate",
+      "namespace": "http://opcfoundation.org/UA/Onboarding",
+      "schema": "bytes",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Ticket",
+      "namespace": "http://opcfoundation.org/UA/Onboarding",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Composite",
+      "namespace": "http://opcfoundation.org/UA/Onboarding",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }

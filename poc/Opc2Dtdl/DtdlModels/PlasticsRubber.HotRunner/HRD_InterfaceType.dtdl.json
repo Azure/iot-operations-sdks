@@ -16,6 +16,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DisplayLanguage",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "schema": "string",
+      "writable": true
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "Diagnostics",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",

@@ -17,32 +17,28 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActivePressureBand",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FlowRateRatio",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "IsentropicEfficiency",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SpecificEnergyRequirement",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     }
   ]
 }

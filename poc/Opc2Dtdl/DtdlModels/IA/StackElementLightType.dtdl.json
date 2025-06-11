@@ -81,25 +81,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Intensity",
       "namespace": "http://opcfoundation.org/UA/IA",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SignalColor",
       "namespace": "http://opcfoundation.org/UA/IA",
-      "schema": "dtmi:opcua:IA:StackElementLightType:dataType:SignalColor;1",
-      "writable": true
+      "schema": "dtmi:opcua:IA:StackElementLightType:dataType:SignalColor;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SignalMode",
       "namespace": "http://opcfoundation.org/UA/IA",
-      "schema": "dtmi:opcua:IA:StackElementLightType:dataType:SignalModeLight;1",
-      "writable": true
+      "schema": "dtmi:opcua:IA:StackElementLightType:dataType:SignalModeLight;1"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

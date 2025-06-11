@@ -14,8 +14,92 @@
   "commandTopic": "opcua/PROFINET/IPnInterfaceType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PROFINET:IPnInterfaceType:dataType:PnDeviceRoleOptionSet;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3002",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "IO_DEVICE",
+          "enumValue": 0
+        },
+        {
+          "name": "IO_CONTROLLER",
+          "enumValue": 1
+        },
+        {
+          "name": "IO_MULTIDEVICE",
+          "enumValue": 2
+        },
+        {
+          "name": "IO_SUPERVISOR",
+          "enumValue": 3
+        },
+        {
+          "name": "IO_CIM",
+          "enumValue": 4
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceId",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceInstance",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceRole",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "dtmi:opcua:PROFINET:IPnInterfaceType:dataType:PnDeviceRoleOptionSet;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceVendor",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NameOfStation",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OEMDeviceId",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OEMVendorId",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "VendorId",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedShort",
+      "writable": false
+    },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetNameOfStation",

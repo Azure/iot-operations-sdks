@@ -16,5 +16,15 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "EnumStrings",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    }
   ]
 }

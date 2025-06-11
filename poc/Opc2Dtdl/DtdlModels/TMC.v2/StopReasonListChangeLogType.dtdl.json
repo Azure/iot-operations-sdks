@@ -14,7 +14,44 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1015",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:TMC_v2:StopReasonListChangeLogType:dataType:MessageType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3002",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LocalText",
+          "schema": "string"
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NewStopReasonMessages",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:TMC_v2:StopReasonListChangeLogType:dataType:MessageType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OldStopReasonMessages",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:TMC_v2:StopReasonListChangeLogType:dataType:MessageType;1"
+      },
+      "writable": false
+    }
   ]
 }

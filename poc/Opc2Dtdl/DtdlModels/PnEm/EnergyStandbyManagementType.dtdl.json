@@ -17,18 +17,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PauseTime",
       "namespace": "http://opcfoundation.org/UA/PNEM",
-      "schema": "duration",
-      "writable": false
+      "schema": "duration"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "StandbyManagementStatus",
       "namespace": "http://opcfoundation.org/UA/PNEM",
-      "schema": "unsignedByte",
-      "writable": false
+      "schema": "unsignedByte"
     },
     {
       "@type": [ "Command", "Qualified" ],

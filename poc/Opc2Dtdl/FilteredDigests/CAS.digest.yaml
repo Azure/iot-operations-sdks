@@ -302,12 +302,40 @@ DefinedTypes:
   - [ UAObjectType, CAS:1048, CAS:CommunicationSettingsType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, CAS:10520, CAS:DefaultGateway, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:11298, CAS:Dhcp, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, CAS:10521, CAS:DnsServer, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, CAS:6324, CAS:DomainName, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, CAS:6325, CAS:Hostname, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, CAS:6326, CAS:IpAddress, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, CAS:10527, CAS:IpVersion, CAS:IpVersionEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6460, CAS:MacAddress, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, CAS:10528, CAS:SubnetMask, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
@@ -362,6 +390,10 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, CAS:7814, IA:ResetStatistics ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, CAS:6113, IA:StartTime, DateTime, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -446,6 +478,10 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, CAS:7007, IA:ResetStatistics ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, CAS:6541, IA:StartTime, DateTime, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -582,8 +618,16 @@ DefinedTypes:
 
   CAS:CASIdentificationType:
   - [ UAObjectType, CAS:1051, CAS:CASIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, CAS:7702, CAS:AssetId, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
+  - HasProperty:
+    - [ UAVariable, CAS:7703, CAS:ComponentName, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   CAS:ConfigurationType:
   - [ UAObjectType, CAS:1037, CAS:ConfigurationType ]
@@ -963,6 +1007,10 @@ DefinedTypes:
     - [ UAVariable, CAS:6005, CAS:RealTimeToNextService, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, CAS:6231, IA:ResetCondition, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, CAS:7793, IA:ResetStatistics ]
     - HasModellingRule:
@@ -973,6 +1021,10 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6001, CAS:RunningTimeToNextService, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, CAS:6230, IA:StartTime, DateTime, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1001,6 +1053,8 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
+  - HasProperty:
+    - [ UAVariable, CAS:10213, CAS:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
 
   CAS:ComponentsGroupType:
   - [ UAObjectType, CAS:1047, CAS:ComponentsGroupType ]
@@ -1151,6 +1205,10 @@ DefinedTypes:
 
   CAS:CASComponentType:
   - [ UAObjectType, CAS:1021, CAS:CASComponentType ]
+  - HasProperty:
+    - [ UAVariable, CAS:12533, CAS:ActiveAirnet, NodeId, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5140, CAS:Ambient ]
     - HasTypeDefinition:

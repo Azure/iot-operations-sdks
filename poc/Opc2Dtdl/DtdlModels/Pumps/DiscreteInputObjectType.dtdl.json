@@ -17,11 +17,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DiscreteInputValue",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     }
   ]
 }

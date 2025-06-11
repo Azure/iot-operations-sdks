@@ -14,7 +14,598 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1038",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetPropertyStates;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3028",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "BooleanValue",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "BinaryValue",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetBinaryPV;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "EventType",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetEventEnumType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Polarity",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetPolarity;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ProgramChange",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetProgramRequest;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ProgramState",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetProgramStates;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ProgramError",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetProgramError;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Reliability",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetReliability;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "State",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetEventState;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "SystemStatus",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetDeviceStatus;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Units",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "UnsignedValue",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LifeSafetyMode",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetLifeSafetyMode;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LifeSafetyState",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetLifeSafetyState;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetStatusFlags;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3065",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "InAlarm",
+          "enumValue": 0
+        },
+        {
+          "name": "Fault",
+          "enumValue": 1
+        },
+        {
+          "name": "Overriden",
+          "enumValue": 2
+        },
+        {
+          "name": "OutOfService",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetBinaryPV;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3005",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Inactive",
+          "enumValue": 0
+        },
+        {
+          "name": "Active",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetEventEnumType;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3029",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ChangeOfBitstring",
+          "enumValue": 0
+        },
+        {
+          "name": "ChangeOfState",
+          "enumValue": 1
+        },
+        {
+          "name": "ChangeOfValue",
+          "enumValue": 2
+        },
+        {
+          "name": "CommandFailure",
+          "enumValue": 3
+        },
+        {
+          "name": "FloatingLimit",
+          "enumValue": 4
+        },
+        {
+          "name": "OutOfRange",
+          "enumValue": 5
+        },
+        {
+          "name": "ChangeOfLifeSafety",
+          "enumValue": 8
+        },
+        {
+          "name": "Extended",
+          "enumValue": 9
+        },
+        {
+          "name": "BufferReady",
+          "enumValue": 10
+        },
+        {
+          "name": "UnsignedRange",
+          "enumValue": 11
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetPolarity;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3007",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Normal",
+          "enumValue": 0
+        },
+        {
+          "name": "Reverse",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetProgramRequest;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3030",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Ready",
+          "enumValue": 0
+        },
+        {
+          "name": "Load",
+          "enumValue": 1
+        },
+        {
+          "name": "Run",
+          "enumValue": 2
+        },
+        {
+          "name": "Halt",
+          "enumValue": 3
+        },
+        {
+          "name": "Restart",
+          "enumValue": 4
+        },
+        {
+          "name": "Unload",
+          "enumValue": 5
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetProgramStates;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3031",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Idle",
+          "enumValue": 0
+        },
+        {
+          "name": "Loading",
+          "enumValue": 1
+        },
+        {
+          "name": "Running",
+          "enumValue": 2
+        },
+        {
+          "name": "Waiting",
+          "enumValue": 3
+        },
+        {
+          "name": "Halted",
+          "enumValue": 4
+        },
+        {
+          "name": "Unloading",
+          "enumValue": 5
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetProgramError;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3032",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Normal",
+          "enumValue": 0
+        },
+        {
+          "name": "LoadFailed",
+          "enumValue": 1
+        },
+        {
+          "name": "Internal",
+          "enumValue": 2
+        },
+        {
+          "name": "Program",
+          "enumValue": 3
+        },
+        {
+          "name": "Other",
+          "enumValue": 4
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetReliability;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3001",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NoFaultDetected",
+          "enumValue": 0
+        },
+        {
+          "name": "NoSensor",
+          "enumValue": 1
+        },
+        {
+          "name": "OverRange",
+          "enumValue": 2
+        },
+        {
+          "name": "UnderRange",
+          "enumValue": 3
+        },
+        {
+          "name": "OpenLoop",
+          "enumValue": 4
+        },
+        {
+          "name": "ShortedLoop",
+          "enumValue": 5
+        },
+        {
+          "name": "NoOutput",
+          "enumValue": 6
+        },
+        {
+          "name": "UnreliableOther",
+          "enumValue": 7
+        },
+        {
+          "name": "ProcessError",
+          "enumValue": 8
+        },
+        {
+          "name": "MultiStateFault",
+          "enumValue": 9
+        },
+        {
+          "name": "ConfigurationError",
+          "enumValue": 10
+        },
+        {
+          "name": "CommunicationFailure",
+          "enumValue": 12
+        },
+        {
+          "name": "MemberFault",
+          "enumValue": 13
+        },
+        {
+          "name": "MONITORED_OBJECT_FAULT",
+          "enumValue": 14
+        },
+        {
+          "name": "TRIPPED",
+          "enumValue": 15
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetEventState;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3003",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Normal",
+          "enumValue": 0
+        },
+        {
+          "name": "Fault",
+          "enumValue": 1
+        },
+        {
+          "name": "OffNormal",
+          "enumValue": 2
+        },
+        {
+          "name": "HighLimit",
+          "enumValue": 3
+        },
+        {
+          "name": "LowLimit",
+          "enumValue": 4
+        },
+        {
+          "name": "LifeSafetyAlarm",
+          "enumValue": 5
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetDeviceStatus;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3033",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Operational",
+          "enumValue": 0
+        },
+        {
+          "name": "OperationalReadOnly",
+          "enumValue": 1
+        },
+        {
+          "name": "DownloadRequired",
+          "enumValue": 2
+        },
+        {
+          "name": "DownloadInProgress",
+          "enumValue": 3
+        },
+        {
+          "name": "NonOperational",
+          "enumValue": 4
+        },
+        {
+          "name": "BackupInProgress",
+          "enumValue": 5
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetLifeSafetyMode;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3035",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Off",
+          "enumValue": 0
+        },
+        {
+          "name": "On",
+          "enumValue": 1
+        },
+        {
+          "name": "Test",
+          "enumValue": 2
+        },
+        {
+          "name": "Manned",
+          "enumValue": 3
+        },
+        {
+          "name": "UnManned",
+          "enumValue": 4
+        },
+        {
+          "name": "Armed",
+          "enumValue": 5
+        },
+        {
+          "name": "Disarmed",
+          "enumValue": 6
+        },
+        {
+          "name": "Prearmed",
+          "enumValue": 7
+        },
+        {
+          "name": "Slow",
+          "enumValue": 8
+        },
+        {
+          "name": "Fast",
+          "enumValue": 9
+        },
+        {
+          "name": "Disconnected",
+          "enumValue": 10
+        },
+        {
+          "name": "Enabled",
+          "enumValue": 11
+        },
+        {
+          "name": "Disabled",
+          "enumValue": 12
+        },
+        {
+          "name": "AutomaticReleaseDisabled",
+          "enumValue": 13
+        },
+        {
+          "name": "Default",
+          "enumValue": 14
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetLifeSafetyState;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3036",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Quiet",
+          "enumValue": 0
+        },
+        {
+          "name": "PreAlarm",
+          "enumValue": 1
+        },
+        {
+          "name": "Alarm",
+          "enumValue": 2
+        },
+        {
+          "name": "Fault",
+          "enumValue": 3
+        },
+        {
+          "name": "FaultPreAlarm",
+          "enumValue": 4
+        },
+        {
+          "name": "FaultAlarm",
+          "enumValue": 5
+        },
+        {
+          "name": "NotReady",
+          "enumValue": 6
+        },
+        {
+          "name": "Active",
+          "enumValue": 7
+        },
+        {
+          "name": "Tamper",
+          "enumValue": 8
+        },
+        {
+          "name": "TestAlarm",
+          "enumValue": 9
+        },
+        {
+          "name": "TestActive",
+          "enumValue": 10
+        },
+        {
+          "name": "TestFault",
+          "enumValue": 11
+        },
+        {
+          "name": "TestFaultAlarm",
+          "enumValue": 12
+        },
+        {
+          "name": "Holdup",
+          "enumValue": 13
+        },
+        {
+          "name": "Duress",
+          "enumValue": 14
+        },
+        {
+          "name": "TamperAlarm",
+          "enumValue": 15
+        },
+        {
+          "name": "Abnormal",
+          "enumValue": 16
+        },
+        {
+          "name": "EmergencyPower",
+          "enumValue": 17
+        },
+        {
+          "name": "Delayed",
+          "enumValue": 18
+        },
+        {
+          "name": "Blocked",
+          "enumValue": 19
+        },
+        {
+          "name": "LocalAlarm",
+          "enumValue": 20
+        },
+        {
+          "name": "GeneralAlarm",
+          "enumValue": 21
+        },
+        {
+          "name": "Supervisory",
+          "enumValue": 22
+        },
+        {
+          "name": "TestSupervisory",
+          "enumValue": 23
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NewState",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetPropertyStates;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "StatusFlags",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetStatusFlags;1",
+      "writable": true
+    }
   ]
 }

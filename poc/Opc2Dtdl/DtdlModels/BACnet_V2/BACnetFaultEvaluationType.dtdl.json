@@ -13,8 +13,90 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1025",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetFaultEvaluationType:dataType:BACnetReliability;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3001",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NoFaultDetected",
+          "enumValue": 0
+        },
+        {
+          "name": "NoSensor",
+          "enumValue": 1
+        },
+        {
+          "name": "OverRange",
+          "enumValue": 2
+        },
+        {
+          "name": "UnderRange",
+          "enumValue": 3
+        },
+        {
+          "name": "OpenLoop",
+          "enumValue": 4
+        },
+        {
+          "name": "ShortedLoop",
+          "enumValue": 5
+        },
+        {
+          "name": "NoOutput",
+          "enumValue": 6
+        },
+        {
+          "name": "UnreliableOther",
+          "enumValue": 7
+        },
+        {
+          "name": "ProcessError",
+          "enumValue": 8
+        },
+        {
+          "name": "MultiStateFault",
+          "enumValue": 9
+        },
+        {
+          "name": "ConfigurationError",
+          "enumValue": 10
+        },
+        {
+          "name": "CommunicationFailure",
+          "enumValue": 12
+        },
+        {
+          "name": "MemberFault",
+          "enumValue": 13
+        },
+        {
+          "name": "MONITORED_OBJECT_FAULT",
+          "enumValue": 14
+        },
+        {
+          "name": "TRIPPED",
+          "enumValue": 15
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Reliability",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetFaultEvaluationType:dataType:BACnetReliability;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Reliability_Evaluation_Inhibit",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "boolean",
+      "writable": true
+    },
     {
       "@type": [ "Relationship", "Qualified" ],
       "name": "FaultAlgorithm",

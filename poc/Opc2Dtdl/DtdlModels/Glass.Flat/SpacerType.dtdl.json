@@ -14,10 +14,52 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1016",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:Glass_Flat:SpacerType:dataType:SpacerMaterialClass;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=3005",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Other",
+          "enumValue": 0
+        },
+        {
+          "name": "Metalic",
+          "enumValue": 1
+        },
+        {
+          "name": "TPS",
+          "enumValue": 2
+        },
+        {
+          "name": "Plastic",
+          "enumValue": 3
+        },
+        {
+          "name": "Elastic",
+          "enumValue": 4
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "SpacerMaterialClass",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": "dtmi:opcua:Glass_Flat:SpacerType:dataType:SpacerMaterialClass;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SpacerMaterialSubClass",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Filling",
       "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": {
@@ -36,15 +78,13 @@
             "schema": "double"
           }
         ]
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SealantDepth",
       "namespace": "http://opcfoundation.org/UA/Glass.Flat",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     }
   ]
 }

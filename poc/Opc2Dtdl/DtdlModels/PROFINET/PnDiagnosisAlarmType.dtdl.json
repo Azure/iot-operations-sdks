@@ -13,7 +13,247 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1002",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelAccumulativeEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3011",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "SINGLE",
+          "enumValue": 0
+        },
+        {
+          "name": "ACCUMULATIVE",
+          "enumValue": 256
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelDirectionEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3014",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "MANUFACTURER_SPECIFIC",
+          "enumValue": 0
+        },
+        {
+          "name": "INPUT_CHANNEL",
+          "enumValue": 8192
+        },
+        {
+          "name": "OUTPUT_CHANNEL",
+          "enumValue": 16384
+        },
+        {
+          "name": "BIDIRECTIONAL_CHANNEL",
+          "enumValue": 24576
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelMaintenanceEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3012",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "FAULT",
+          "enumValue": 0
+        },
+        {
+          "name": "MAINTENANCE_REQUIRED",
+          "enumValue": 512
+        },
+        {
+          "name": "MAINTENANCE_DEMANDED",
+          "enumValue": 1024
+        },
+        {
+          "name": "USE_QUALIFIED_CHANNEL_QUALIFIER",
+          "enumValue": 1536
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelSpecifierEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3013",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ALL_DISAPPEARS",
+          "enumValue": 0
+        },
+        {
+          "name": "APPEARS",
+          "enumValue": 2048
+        },
+        {
+          "name": "DISAPPEARS",
+          "enumValue": 4096
+        },
+        {
+          "name": "DISAPPEARS_OTHER_REMAIN",
+          "enumValue": 6144
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelTypeEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3010",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "UNSPECIFIC",
+          "enumValue": 0
+        },
+        {
+          "name": "X_1BIT",
+          "enumValue": 1
+        },
+        {
+          "name": "X_2BIT",
+          "enumValue": 2
+        },
+        {
+          "name": "X_4BIT",
+          "enumValue": 3
+        },
+        {
+          "name": "X_8BIT",
+          "enumValue": 4
+        },
+        {
+          "name": "X_16BIT",
+          "enumValue": 5
+        },
+        {
+          "name": "X_32BIT",
+          "enumValue": 6
+        },
+        {
+          "name": "X_64BIT",
+          "enumValue": 7
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Accumulative",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelAccumulativeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "API",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ChannelErrorType",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ChannelNumber",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Direction",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelDirectionEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ExtChannelAddValue",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ExtChannelErrorType",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "HelpText",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Maintenance",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelMaintenanceEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ManufacturerData",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "bytes",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "QualifiedChannelQualifier",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Slot",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Specifier",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelSpecifierEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Subslot",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Type",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelTypeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "UserStructureIdentifier",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "unsignedShort",
+      "writable": false
+    }
   ]
 }

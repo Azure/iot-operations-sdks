@@ -355,6 +355,10 @@ DefinedTypes:
 
   CuttingTool:CuttingToolFileType:
   - [ UAObjectType, CuttingTool:1003, CuttingTool:CuttingToolFileType ]
+  - HasProperty:
+    - [ UAVariable, CuttingTool:6070, CuttingTool:FileFormat, CuttingTool:FileFormatDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11575, FileType ]
 

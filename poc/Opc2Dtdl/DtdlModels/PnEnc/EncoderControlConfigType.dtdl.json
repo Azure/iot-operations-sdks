@@ -15,6 +15,38 @@
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
+      "@id": "dtmi:opcua:PNENC:EncoderControlConfigType:dataType:EncoderAlarmChannelControlEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3006",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ALARM_CHANNEL_DISABLED",
+          "enumValue": 0
+        },
+        {
+          "name": "ALARM_CHANNEL_ENABLED",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PNENC:EncoderControlConfigType:dataType:EncoderPresetControlEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3007",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ENABLE_PRESET_CONTROL",
+          "enumValue": 0
+        },
+        {
+          "name": "DISABLE_PRESET_CONTROL",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
       "@id": "dtmi:opcua:PNENC:EncoderControlConfigType:dataType:KeyValuePair;1",
       "@type": [ "Object", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA;i=14533",
@@ -33,6 +65,27 @@
     }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AlarmChannelControl",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "dtmi:opcua:PNENC:EncoderControlConfigType:dataType:EncoderAlarmChannelControlEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SignOfLifeFailuresTolerated",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "XIST1PresetControl",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "dtmi:opcua:PNENC:EncoderControlConfigType:dataType:EncoderPresetControlEnumeration;1",
+      "writable": false
+    },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "SetControlConfig",

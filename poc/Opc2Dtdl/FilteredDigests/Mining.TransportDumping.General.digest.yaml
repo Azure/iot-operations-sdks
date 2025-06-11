@@ -44,6 +44,8 @@ DefinedTypes:
 
   Mining.TransportDumping.General:HaulageMachineType:
   - [ UAObjectType, Mining.TransportDumping.General:1003, Mining.TransportDumping.General:HaulageMachineType ]
+  - HasProperty:
+    - [ UAVariable, Mining.TransportDumping.General:6057, Mining.TransportDumping.General:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
   - HasSubtype_reverse:
     - [ UAObjectType, Mining.General:1002, Mining.General:MiningEquipmentType ]
   - HasComponent:

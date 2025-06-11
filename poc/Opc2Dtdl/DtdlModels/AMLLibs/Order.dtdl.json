@@ -17,11 +17,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Direction",
       "namespace": "http://opcfoundation.org/UA/AMLLibs",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     }
   ]
 }

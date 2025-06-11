@@ -480,6 +480,18 @@ DefinedTypes:
 
   IJT.Base:IJoiningAdditionalInformationType:
   - [ UAObjectType, IJT.Base:1017, IJT.Base:IJoiningAdditionalInformationType ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6175, IJT.Base:Description, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6176, IJT.Base:JoiningTechnology, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6452, IJT.Base:SupplierCode, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
@@ -579,8 +591,50 @@ DefinedTypes:
 
   IJT.Base:JoiningSystemIdentificationType:
   - [ UAObjectType, IJT.Base:1029, IJT.Base:JoiningSystemIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6234, IJT.Base:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6242, IJT.Base:Description, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6241, IJT.Base:IntegratorName, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6244, IJT.Base:JoiningTechnology, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6458, Machinery:Location, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6245, DI:Manufacturer, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6246, DI:ManufacturerUri, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6247, DI:Model, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6240, IJT.Base:Name, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6236, DI:ProductInstanceUri, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6248, IJT.Base:SystemId, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   IJT.Base:JoiningProcessManagementType:
   - [ UAObjectType, IJT.Base:1025, IJT.Base:JoiningProcessManagementType ]
@@ -622,6 +676,8 @@ DefinedTypes:
           StatusMessage: [ LocalizedText, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6338, IJT.Base:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7054, IJT.Base:DeleteJoiningProcess ]
     - HasModellingRule:
@@ -886,6 +942,8 @@ DefinedTypes:
 
   IJT.Base:JoiningSystemAssetMethodSetType:
   - [ UAObjectType, IJT.Base:1026, IJT.Base:JoiningSystemAssetMethodSetType ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6295, IJT.Base:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7007, IJT.Base:DisconnectAsset ]
     - HasModellingRule:
@@ -1205,6 +1263,8 @@ DefinedTypes:
 
   IJT.Base:JointManagementType:
   - [ UAObjectType, IJT.Base:1023, IJT.Base:JointManagementType ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6339, IJT.Base:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7055, IJT.Base:DeleteJoint ]
     - HasModellingRule:

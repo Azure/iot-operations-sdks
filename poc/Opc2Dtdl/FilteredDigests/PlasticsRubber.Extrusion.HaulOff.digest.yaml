@@ -285,6 +285,10 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion.HaulOff:HaulOff_InterfaceType:
   - [ UAObjectType, PlasticsRubber.Extrusion.HaulOff:1002, PlasticsRubber.Extrusion.HaulOff:HaulOff_InterfaceType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.HaulOff:6013, PlasticsRubber.Extrusion.HaulOff:ClampClosed, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.Extrusion.HaulOff:7002, PlasticsRubber.Extrusion.HaulOff:CloseClamp ]
     - HasModellingRule:

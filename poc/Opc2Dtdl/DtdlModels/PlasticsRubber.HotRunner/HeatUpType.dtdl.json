@@ -17,17 +17,43 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "SetValueManualOutputLimit",
+      "name": "EvenHeatUpEnabled",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
-      "schema": "double",
+      "schema": "boolean",
       "writable": true
     },
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "ManualOutputLimitActive",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RelayHeatingGroup",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "schema": "unsignedByte",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RelayHeatingTime",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "SetValueManualOutputLimit",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "schema": "double"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SetValueTemperature",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     }
   ]
 }

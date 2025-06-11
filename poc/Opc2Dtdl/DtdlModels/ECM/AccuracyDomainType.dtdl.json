@@ -13,7 +13,39 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1014",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:ECM:AccuracyDomainType:dataType:EnumValueType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=7594",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Value",
+          "schema": "long"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "DisplayName",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "EnumValues",
+      "namespace": "http://opcfoundation.org/UA/ECM",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:ECM:AccuracyDomainType:dataType:EnumValueType;1"
+      },
+      "writable": true
+    }
   ]
 }

@@ -38,46 +38,40 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DefeatableStartInterlock",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DefeatableStopInterlock",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NonDefeatableStartInterlock",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NonDefeatableStopInterlock",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Operation",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "dtmi:opcua:MDIS:MDISMotorObjectType:dataType:MotorOperationEnum;1",
-      "writable": false
+      "schema": "dtmi:opcua:MDIS:MDISMotorObjectType:dataType:MotorOperationEnum;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Running",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
       "@type": [ "Command", "Qualified" ],

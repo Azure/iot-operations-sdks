@@ -17,32 +17,28 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "HealthState",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "IntegratedState",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OnOff",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OperatingState",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     }
   ]
 }

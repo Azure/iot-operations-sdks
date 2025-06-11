@@ -17,6 +17,16 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Value",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": true
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "ValueId",
       "namespace": "http://opcfoundation.org/UA/I4AAS",

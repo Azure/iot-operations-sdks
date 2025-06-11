@@ -301,6 +301,30 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.Extrusion.Extruder:1003, PlasticsRubber.Extrusion.Extruder:HopperType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Extruder:6083, PlasticsRubber.Extrusion.Extruder:Id, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Extruder:6005, PlasticsRubber.Extrusion.Extruder:IsControlled, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Extruder:6004, PlasticsRubber.Extrusion.Extruder:IsPresent, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Extruder:6040, PlasticsRubber.Extrusion.Extruder:Mode, PlasticsRubber.Extrusion.Extruder:FeedingModeEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Extruder:6002, PlasticsRubber.Extrusion.Extruder:Name, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Extruder:6085, PlasticsRubber.Extrusion.Extruder:Target, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Extruder:5001, PlasticsRubber.Extrusion.Extruder:Throughput ]
     - HasTypeDefinition:
@@ -314,6 +338,10 @@ DefinedTypes:
     - [ UAObject, PlasticsRubber.Extrusion.Extruder:5037, PlasticsRubber.Extrusion.Extruder:AdditionalDrives ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1069, PlasticsRubber.GeneralTypes:DrivesType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Extruder:6521, PlasticsRubber.Extrusion.Extruder:BarrelId, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -340,6 +368,10 @@ DefinedTypes:
     - [ UAObject, PlasticsRubber.Extrusion.Extruder:5031, PlasticsRubber.Extrusion.Extruder:MeltTemperatureZones ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, PlasticsRubber.GeneralTypes:MeasuringDevicesType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Extruder:6001, PlasticsRubber.Extrusion.Extruder:ScrewId, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -387,11 +419,19 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Extruder:6041, PlasticsRubber.Extrusion.Extruder:NodeVersion, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.Extrusion.Extruder:HopperType:
   - [ UAObjectType, PlasticsRubber.Extrusion.Extruder:1003, PlasticsRubber.Extrusion.Extruder:HopperType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Extruder:6070, PlasticsRubber.Extrusion.Extruder:Id, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Extruder:5008, PlasticsRubber.Extrusion.Extruder:Material ]
     - HasModellingRule:
@@ -400,6 +440,10 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1002, PlasticsRubber.GeneralTypes:MaterialType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.Extruder:6080, PlasticsRubber.Extrusion.Extruder:MaterialLevel, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Extruder:6077, PlasticsRubber.Extrusion.Extruder:MaterialLot, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:

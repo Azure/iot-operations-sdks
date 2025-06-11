@@ -37,46 +37,40 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ControlIdentifier1",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ControlIdentifier2",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ControlIdentifierInterpretation",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "dtmi:opcua:MachineTool:ToolType:dataType:ToolManagement;1",
-      "writable": false
+      "schema": "dtmi:opcua:MachineTool:ToolType:dataType:ToolManagement;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LastUsage",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "time",
-      "writable": false
+      "schema": "time"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Locked",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PlannedForOperating",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

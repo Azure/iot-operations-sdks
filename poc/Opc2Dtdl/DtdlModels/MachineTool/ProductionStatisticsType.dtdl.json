@@ -16,11 +16,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PartsProducedInLifetime",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     }
   ]
 }

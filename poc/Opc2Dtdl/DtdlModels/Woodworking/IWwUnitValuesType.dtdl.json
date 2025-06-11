@@ -16,249 +16,214 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AbsoluteErrorTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AbsoluteLength",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AbsoluteMachineOffTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AbsoluteMachineOnTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AbsolutePiecesIn",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AbsolutePiecesOut",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AbsolutePowerPresentTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AbsoluteProductionTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AbsoluteProductionWaitWorkpieceTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AbsoluteProductionWithoutWorkpieceTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AbsoluteReadyTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AbsoluteRunsAborted",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AbsoluteRunsGood",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AbsoluteRunsTotal",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AbsoluteStandbyTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AbsoluteWorkingTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualCycle",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AxisOverride",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FeedSpeed",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelativeErrorTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelativeLength",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelativeMachineOnTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelativePiecesIn",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelativePiecesOut",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelativePowerPresentTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelativeProductionTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelativeProductionWaitWorkpieceTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelativeProductionWithoutWorkpieceTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelativeReadyTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelativeRunsAborted",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelativeRunsGood",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelativeRunsTotal",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelativeStandbyTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelativeWorkingTime",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SpindleOverride",
       "namespace": "http://opcfoundation.org/UA/Woodworking",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     }
   ]
 }

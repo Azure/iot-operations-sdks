@@ -17,11 +17,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FeedRate",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.MeltPump",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

@@ -71,6 +71,138 @@
       ]
     },
     {
+      "@id": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialIntegrityAgentEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3020",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "None",
+          "enumValue": 0
+        },
+        {
+          "name": "Local",
+          "enumValue": 1
+        },
+        {
+          "name": "External",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialPointType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3013",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MaterialCapability",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialDefinitionType;1"
+          }
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ConnectedMaterialPoint",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "PropagatesProductionOrder",
+          "schema": "boolean"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialDefinitionType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3010",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "BaseUnitOfMeasure",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "BatchManaged",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "GroupID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ParentGroupID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ShelfLife",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:DataDescriptionType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:DataDescriptionType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3019",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
       "@id": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialValidationStatusEnumeration;1",
       "@type": [ "Enum", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3040",
@@ -182,61 +314,6 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialDefinitionType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3010",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ID",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "MES_ID",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Description",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "BaseUnitOfMeasure",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "BatchManaged",
-          "schema": "boolean"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "GroupID",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ParentGroupID",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ShelfLife",
-          "schema": "unsignedInteger"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Properties",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:DataDescriptionType;1"
-          }
-        }
-      ]
-    },
-    {
       "@id": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialStockStatusEnumeration;1",
       "@type": [ "Enum", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3039",
@@ -255,33 +332,56 @@
           "enumValue": 2
         }
       ]
-    },
-    {
-      "@id": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:DataDescriptionType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3019",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ID",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "MES_ID",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Description",
-          "schema": "string"
-        }
-      ]
     }
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified" ],
+      "name": "AllowMixedLots",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ExpectedMaterials",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialSublotType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaterialIntegrityAgent",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialIntegrityAgentEnumeration;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaterialPointDefinition",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialPointType;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MES_ID",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "UpstreamHold",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "ActualDispensingRate",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
@@ -300,11 +400,10 @@
             "schema": "double"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ConsumedMaterialMasterTotal",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
@@ -323,11 +422,10 @@
             "schema": "double"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "ConsumedMaterialTotal",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
@@ -346,11 +444,10 @@
             "schema": "double"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DispensedMaterialMasterTotal",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
@@ -369,11 +466,10 @@
             "schema": "double"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "DispensedMaterialTotal",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
@@ -392,28 +488,25 @@
             "schema": "double"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "DispensingRateState",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LoadedMaterial",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialSublotType;1"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NominalDispensingRate",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
@@ -432,22 +525,19 @@
             "schema": "double"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PresentedMaterial",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialSublotType;1",
-      "writable": true
+      "schema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialSublotType;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PresentedMaterialValidationStatus",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialValidationStatusEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialValidationStatusEnumeration;1"
     },
     {
       "@type": [ "Command", "Qualified" ],

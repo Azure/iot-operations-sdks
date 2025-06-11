@@ -15,5 +15,26 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ActualOutput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CuttingProductId",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "TotalOutput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
+      "schema": "unsignedLong",
+      "writable": false
+    }
   ]
 }

@@ -17,11 +17,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DiscreteSignal",
       "namespace": "http://opcfoundation.org/UA/PADIM",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     }
   ]
 }

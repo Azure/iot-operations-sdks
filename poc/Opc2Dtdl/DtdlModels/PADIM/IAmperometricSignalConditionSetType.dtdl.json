@@ -16,20 +16,32 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
-      "name": "SensorNextCalibration",
+      "@type": [ "Property", "Qualified" ],
+      "name": "SensorCleaningsCounter",
       "namespace": "http://opcfoundation.org/UA/PADIM",
-      "unit": "day",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Property", "Qualified" ],
+      "name": "SensorSterilisationsCounter",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
+      "name": "SensorNextCalibration",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
+      "unit": "day",
+      "schema": "unsignedInteger"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "SensingElementTemperature",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     }
   ]
 }

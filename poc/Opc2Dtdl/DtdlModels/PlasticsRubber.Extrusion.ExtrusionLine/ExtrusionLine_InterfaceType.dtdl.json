@@ -14,8 +14,91 @@
   "commandTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/ExtrusionLine_InterfaceType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:ExtrusionLine_InterfaceType:dataType:ConfigurationParameterType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3024",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Id",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "DefaultValue",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Unit",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:ExtrusionLine_InterfaceType:dataType:ProductionStatusEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3016",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "OTHER",
+          "enumValue": 0
+        },
+        {
+          "name": "NO_PRODUCTION",
+          "enumValue": 1
+        },
+        {
+          "name": "START_UP",
+          "enumValue": 2
+        },
+        {
+          "name": "READY_FOR_PRODUCTION",
+          "enumValue": 3
+        },
+        {
+          "name": "PRODUCTION",
+          "enumValue": 4
+        },
+        {
+          "name": "DRY_RUN",
+          "enumValue": 5
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ConfigurationParameters",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:ExtrusionLine_InterfaceType:dataType:ConfigurationParameterType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LineId",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LineStatus",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
+      "schema": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:ExtrusionLine_InterfaceType:dataType:ProductionStatusEnumeration;1",
+      "writable": false
+    },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "ClearMESMessage",

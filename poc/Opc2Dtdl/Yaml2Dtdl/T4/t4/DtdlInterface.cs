@@ -62,6 +62,11 @@ namespace Yaml2Dtdl
             this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.contentCount ? "," : ""));
             this.Write("\r\n");
  ix++; } 
+ foreach (DtdlTelemetry dtdlTelemetry in this.dtdlTelemetries) { 
+            this.Write(this.ToStringHelper.ToStringWithCulture(dtdlTelemetry.TransformText()));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.contentCount ? "," : ""));
+            this.Write("\r\n");
+ ix++; } 
  foreach (DtdlCommand dtdlCommand in this.dtdlCommands) { 
             this.Write(this.ToStringHelper.ToStringWithCulture(dtdlCommand.TransformText()));
             this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.contentCount ? "," : ""));

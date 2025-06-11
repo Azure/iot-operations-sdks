@@ -17,11 +17,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TotalizedValue",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "bytes",
-      "writable": false
+      "schema": "bytes"
     },
     {
       "@type": [ "Command", "Qualified" ],

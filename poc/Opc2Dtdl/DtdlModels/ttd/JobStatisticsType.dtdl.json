@@ -15,5 +15,40 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "EndTime",
+      "namespace": "http://opcfoundation.org/UA/TTD",
+      "schema": "time",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "StartTime",
+      "namespace": "http://opcfoundation.org/UA/TTD",
+      "schema": "time",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "TotalInitializingTime",
+      "namespace": "http://opcfoundation.org/UA/TTD",
+      "schema": "duration",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "TotalInterruptedTime",
+      "namespace": "http://opcfoundation.org/UA/TTD",
+      "schema": "duration",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "TotalRunningTime",
+      "namespace": "http://opcfoundation.org/UA/TTD",
+      "schema": "duration",
+      "writable": false
+    }
   ]
 }

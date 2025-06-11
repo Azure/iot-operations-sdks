@@ -17,25 +17,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Area",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "BackflushPressure",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FiltrationFineness",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

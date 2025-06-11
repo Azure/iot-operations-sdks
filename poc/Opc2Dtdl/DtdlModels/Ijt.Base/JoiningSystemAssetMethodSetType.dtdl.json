@@ -123,6 +123,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DefaultInstanceBrowseName",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
+      "schema": "string",
+      "writable": false
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "DisconnectAsset",
       "namespace": "http://opcfoundation.org/UA/IJT.Base",

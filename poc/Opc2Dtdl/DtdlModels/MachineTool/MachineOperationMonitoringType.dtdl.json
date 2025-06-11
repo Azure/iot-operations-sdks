@@ -48,32 +48,28 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FeedOverride",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "IsWarmUp",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OperationMode",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "dtmi:opcua:MachineTool:MachineOperationMonitoringType:dataType:MachineOperationMode;1",
-      "writable": false
+      "schema": "dtmi:opcua:MachineTool:MachineOperationMonitoringType:dataType:MachineOperationMode;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PowerOnDuration",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

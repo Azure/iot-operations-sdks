@@ -14,7 +14,53 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1014",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineModeChangeLogType:dataType:MachineModeEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3011",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "OTHER",
+          "enumValue": 0
+        },
+        {
+          "name": "AUTOMATIC",
+          "enumValue": 1
+        },
+        {
+          "name": "SEMI_AUTOMATIC",
+          "enumValue": 2
+        },
+        {
+          "name": "MANUAL",
+          "enumValue": 3
+        },
+        {
+          "name": "SETUP",
+          "enumValue": 4
+        },
+        {
+          "name": "SLEEP",
+          "enumValue": 5
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NewMachineMode",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineModeChangeLogType:dataType:MachineModeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OldMachineMode",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineModeChangeLogType:dataType:MachineModeEnumeration;1",
+      "writable": false
+    }
   ]
 }

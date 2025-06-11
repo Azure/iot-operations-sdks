@@ -18,10 +18,23 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "DigitalInputElectricalType",
+      "name": "NumberOfChannels",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "unsignedShort",
       "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SafetyPropertySupported",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "DigitalInputElectricalType",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "unsignedShort"
     }
   ]
 }

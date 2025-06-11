@@ -16,5 +16,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceMappingNumber",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+      "schema": "unsignedInteger",
+      "writable": false
+    }
   ]
 }

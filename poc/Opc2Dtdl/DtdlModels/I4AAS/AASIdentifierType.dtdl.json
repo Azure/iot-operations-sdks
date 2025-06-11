@@ -13,7 +13,41 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1029",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:I4AAS:AASIdentifierType:dataType:AASIdentifierTypeDataType;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3010",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "IRDI",
+          "enumValue": 0
+        },
+        {
+          "name": "IRI",
+          "enumValue": 1
+        },
+        {
+          "name": "Custom",
+          "enumValue": 2
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Id",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IdType",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
+      "schema": "dtmi:opcua:I4AAS:AASIdentifierType:dataType:AASIdentifierTypeDataType;1",
+      "writable": true
+    }
   ]
 }

@@ -279,6 +279,14 @@ DefinedTypes:
     - [ UAVariable, LaserSystems:6062, LaserSystems:Description, LocalizedText, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6024, LaserSystems:NumberInList, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6009, LaserSystems:ParameterIdentifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6010, LaserSystems:PreviousValue, Number, 0, 0 ]
     - HasModellingRule:
@@ -288,6 +296,10 @@ DefinedTypes:
 
   LaserSystems:ConditionDataMonitoringType:
   - [ UAObjectType, LaserSystems:1006, LaserSystems:ConditionDataMonitoringType ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6005, LaserSystems:ConditionParameterIdentifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6070, LaserSystems:Description, LocalizedText, 0, 0 ]
     - HasModellingRule:
@@ -317,6 +329,10 @@ DefinedTypes:
 
   LaserSystems:ConsumptionDataMonitoringType:
   - [ UAObjectType, LaserSystems:1004, LaserSystems:ConsumptionDataMonitoringType ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6001, LaserSystems:ConsumableIdentifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6002, LaserSystems:Description, LocalizedText, 0, 0 ]
     - HasModellingRule:
@@ -427,6 +443,10 @@ DefinedTypes:
 
   LaserSystems:LaserSystemMaintenancePrognosisType:
   - [ UAObjectType, LaserSystems:1013, LaserSystems:LaserSystemMaintenancePrognosisType ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6077, LaserSystems:Code, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6076, LaserSystems:Description, LocalizedText, 0, 0 ]
     - HasModellingRule:
@@ -436,6 +456,10 @@ DefinedTypes:
 
   LaserSystems:LaserSystemUtilityChangePrognosisType:
   - [ UAObjectType, LaserSystems:1014, LaserSystems:LaserSystemUtilityChangePrognosisType ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6079, LaserSystems:Code, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6078, LaserSystems:Description, LocalizedText, 0, 0 ]
     - HasModellingRule:
@@ -445,8 +469,32 @@ DefinedTypes:
 
   LaserSystems:RecipeSettingsAndOverviewType:
   - [ UAObjectType, LaserSystems:1007, LaserSystems:RecipeSettingsAndOverviewType ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6074, LaserSystems:CreationDate, UtcTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6075, LaserSystems:Description, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6073, LaserSystems:LastModification, UtcTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6014, LaserSystems:LastUsage, UtcTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6072, LaserSystems:RecipeIdentifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6071, LaserSystems:RecipeName, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6016, LaserSystems:RecipeRevision, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -458,6 +506,8 @@ DefinedTypes:
 
   LaserSystems:LaserSystemState_StateMachineType:
   - [ UAObjectType, LaserSystems:1009, LaserSystems:LaserSystemState_StateMachineType ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6152, LaserSystems:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
   - HasComponent:
     - [ UAObject, LaserSystems:5029, LaserSystems:EnergySaving ]
     - HasTypeDefinition:

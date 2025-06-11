@@ -17,25 +17,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DiscreteOutputValue",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FaultAction",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FaultValue",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     }
   ]
 }

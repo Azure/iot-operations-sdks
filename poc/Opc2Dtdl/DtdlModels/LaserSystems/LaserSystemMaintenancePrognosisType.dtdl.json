@@ -18,10 +18,16 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "Description",
+      "name": "Code",
       "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "schema": "string",
       "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "Description",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
+      "schema": "string"
     }
   ]
 }

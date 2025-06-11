@@ -15,5 +15,26 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Description",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "JoiningTechnology",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SupplierCode",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }

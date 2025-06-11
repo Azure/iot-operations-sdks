@@ -18,105 +18,91 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AverageCycleTime",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "duration",
-      "writable": false
+      "schema": "duration"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "BoxBadPartsCounter",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "BoxCycleCounter",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "BoxGoodPartsCounter",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "BoxPartsCounter",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "BoxTestSamplesCounter",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "JobBadPartsCounter",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "JobCycleCounter",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "JobGoodPartsCounter",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "JobPartsCounter",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "JobTestSamplesCounter",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LastCycleTime",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "duration",
-      "writable": false
+      "schema": "duration"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LastPartId",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MachineCycleCounter",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
       "@type": [ "Command", "Qualified" ],

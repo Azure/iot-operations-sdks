@@ -15,26 +15,6 @@
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:ParameterDependencyEnumeration;1",
-      "@type": [ "Enum", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3005",
-      "valueSchema": "integer",
-      "enumValues": [
-        {
-          "name": "Machine",
-          "enumValue": 0
-        },
-        {
-          "name": "Brand",
-          "enumValue": 1
-        },
-        {
-          "name": "Machine_and_Brand",
-          "enumValue": 2
-        }
-      ]
-    },
-    {
       "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:DataSetDefinitionType;1",
       "@type": [ "Object", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3021",
@@ -55,6 +35,97 @@
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:DataDefinitionType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseGroupType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3030",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ParentID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseMessageType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3029",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "GroupID",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MessageType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3002",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "LocalText",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:ParameterDependencyEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3005",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Machine",
+          "enumValue": 0
+        },
+        {
+          "name": "Brand",
+          "enumValue": 1
+        },
+        {
+          "name": "Machine_and_Brand",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3009",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Success",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Message",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MessageType;1"
           }
         }
       ]
@@ -117,80 +188,67 @@
           "schema": "double"
         }
       ]
-    },
-    {
-      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3009",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Success",
-          "schema": "boolean"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Message",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MessageType;1"
-          }
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseGroupType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3030",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ID",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ParentID",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "Description",
-          "schema": "string"
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseMessageType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3029",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "GroupID",
-          "schema": "string"
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MessageType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3002",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ID",
-          "schema": "string"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "LocalText",
-          "schema": "string"
-        }
-      ]
     }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DataSetList",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:DataSetDefinitionType;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LastChangeDate",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "time",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LongestMicroStopDuration",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RootCauseGroupList",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseGroupType;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RootCauseList",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseMessageType;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RootCauseListInputIsMandatory",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "StopReasonList",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MessageType;1"
+      },
+      "writable": false
+    },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "GetDataSetList",

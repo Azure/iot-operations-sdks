@@ -54,6 +54,41 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PositionX",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PositionY",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PositionZ",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Resizable",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Width",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "double",
+      "writable": true
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "DeleteUIResource",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",

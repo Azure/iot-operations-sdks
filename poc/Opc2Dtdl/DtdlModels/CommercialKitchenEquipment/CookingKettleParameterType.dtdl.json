@@ -81,73 +81,64 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "ActualCoreTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "ActualTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CookingLevel",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProgramMode",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "dtmi:opcua:CommercialKitchenEquipment:CookingKettleParameterType:dataType:CookingKettleModeEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:CookingKettleParameterType:dataType:CookingKettleModeEnumeration;1"
     },
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "SetCoreTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "SetProcessTime",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "second",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "SetTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SignalMode",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "dtmi:opcua:CommercialKitchenEquipment:CookingKettleParameterType:dataType:SignalModeEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:CookingKettleParameterType:dataType:SignalModeEnumeration;1"
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "TimeRemaining",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "second",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     }
   ]
 }

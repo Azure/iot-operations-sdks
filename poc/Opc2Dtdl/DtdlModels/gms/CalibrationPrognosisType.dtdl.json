@@ -16,5 +16,43 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Calibrated",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CalibrationCertificate",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CalibrationInterval",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CalibrationPreptime",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DateOfCalibration",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "time",
+      "writable": true
+    }
   ]
 }

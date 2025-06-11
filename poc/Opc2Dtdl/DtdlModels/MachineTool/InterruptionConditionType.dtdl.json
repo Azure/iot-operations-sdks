@@ -15,5 +15,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IsAutomated",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
+      "schema": "boolean",
+      "writable": false
+    }
   ]
 }

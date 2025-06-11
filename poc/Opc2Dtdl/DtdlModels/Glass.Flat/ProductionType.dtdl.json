@@ -17,6 +17,37 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CurrentCountOfJobs",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "JobListIsRecommendation",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaxCountOfJobs",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SupportedMaterialTypes",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": true
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "ChangePositionInList",
       "namespace": "http://opcfoundation.org/UA/Glass.Flat",

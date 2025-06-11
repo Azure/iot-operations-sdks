@@ -13,7 +13,42 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1060",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosisEndEventType:dataType:DiagnosticsStatusEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3027",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "OFF",
+          "enumValue": 0
+        },
+        {
+          "name": "ACTIVE_OK",
+          "enumValue": 1
+        },
+        {
+          "name": "ACTIVE_ERROR_DETECTED",
+          "enumValue": 2
+        },
+        {
+          "name": "COMPLETE",
+          "enumValue": 3
+        },
+        {
+          "name": "COMPLETE_ERROR_DETECTED",
+          "enumValue": 4
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Status",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+      "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosisEndEventType:dataType:DiagnosticsStatusEnumeration;1",
+      "writable": false
+    }
   ]
 }

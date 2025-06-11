@@ -91,11 +91,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FilterClass",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterClassDataType;1",
-      "writable": false
+      "schema": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterClassDataType;1"
     }
   ]
 }

@@ -17,144 +17,124 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "ArmatureCircuit",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "CurrentInsideDevice",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "ElectricalFault",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "FieldCircuit",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "InstallationFault",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "InsulationResistance",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "PhaseFailure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "ShortCircuit",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "ShortToEarth",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "SupplyCurrent",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "SupplyCurrentHigh",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "SupplyCurrentLow",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "SupplyFrequency",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "SupplyFrequencyHigh",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "SupplyFrequencyLow",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "SupplyVoltage",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "SupplyVoltageHigh",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "SupplyVoltageLow",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "VoltageInsideDevice",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "WindingTemperature",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     }
   ]
 }

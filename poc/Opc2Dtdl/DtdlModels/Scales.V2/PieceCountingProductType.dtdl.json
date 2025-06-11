@@ -40,116 +40,100 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CurrentItemCount",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FeedRateMeasuringInterval",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "duration",
-      "writable": true
+      "schema": "duration"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FillingTime",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "duration",
-      "writable": true
+      "schema": "duration"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FineFeedCount",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InFlightCount",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "JogFeed",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MinimumDeltaPerFeedRateMeasuringInterval",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NumberOfReferencePieces",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ReferencePieceWeight",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RegisteredPieceCount",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SettlingTime",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "duration",
-      "writable": true
+      "schema": "duration"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TareId",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TargetItemCount",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TargetPieceCount",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TotalizedItemCount",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TotalizedWeight",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "dtmi:opcua:Scales_V2:PieceCountingProductType:dataType:WeightType;1",
-      "writable": true
+      "schema": "dtmi:opcua:Scales_V2:PieceCountingProductType:dataType:WeightType;1"
     },
     {
       "@type": [ "Command", "Qualified" ],

@@ -47,7 +47,7 @@
 
             string coreYamlFileName = $"{coreSpecName}{fileSuffix}";
 
-            Dictionary<string, HashSet<string>> objectTypeComponents = new ();
+            Dictionary<string, HashSet<string>> objectTypeComponentsAndProperties = new ();
             Dictionary<string, List<string>> objectTypeSupers = new ();
 
             foreach (string sourceFilePath in Directory.GetFiles(sourceRoot, $"*{fileSuffix}"))
@@ -59,7 +59,7 @@
                 }
                 else
                 {
-                    Preload(deserializer, sourceFilePath, objectTypeComponents, objectTypeSupers);
+                    Preload(deserializer, sourceFilePath, objectTypeComponentsAndProperties, objectTypeSupers);
                 }
             }
 
@@ -72,11 +72,11 @@
                     continue;
                 }
 
-                Dedup(deserializer, sourceFilePath, destRoot, objectTypeComponents, objectTypeSupers);
+                Dedup(deserializer, sourceFilePath, destRoot, objectTypeComponentsAndProperties, objectTypeSupers);
             }
         }
 
-        private static void Preload(IDeserializer deserializer, string sourceFilePath, Dictionary<string, HashSet<string>> objectTypeComponents, Dictionary<string, List<string>> objectTypeSupers)
+        private static void Preload(IDeserializer deserializer, string sourceFilePath, Dictionary<string, HashSet<string>> objectTypeComponentsAndProperties, Dictionary<string, List<string>> objectTypeSupers)
         {
             string yamlFileName = Path.GetFileName(sourceFilePath);
 
@@ -90,12 +90,12 @@
             {
                 foreach (KeyValuePair<string, OpcUaDefinedType> definedType in opcUaDigest.DefinedTypes)
                 {
-                    HashSet<string> components = new ();
+                    HashSet<string> componentsAndProperties = new ();
                     foreach (OpcUaContent content in definedType.Value.Contents)
                     {
-                        if (content.Relationship == "HasComponent")
+                        if (content.Relationship == "HasComponent" || content.Relationship == "HasProperty")
                         {
-                            components.Add(DequalifyBrowseName(content.DefinedType.BrowseName));
+                            componentsAndProperties.Add(DequalifyBrowseName(content.DefinedType.BrowseName));
                         }
                     }
 
@@ -113,7 +113,7 @@
 
                     TryGetQualifiedNameFromDefinedType(definedType.Value, out string objectType);
 
-                    objectTypeComponents[objectType] = components;
+                    objectTypeComponentsAndProperties[objectType] = componentsAndProperties;
                     objectTypeSupers[objectType] = superTypes;
                 }
             }
@@ -131,11 +131,11 @@
             return true;
         }
 
-        private static bool DoesAncestorHaveComponent(string objectType, string componentName, Dictionary<string, HashSet<string>> objectTypeComponents, Dictionary<string, List<string>> objectTypeSupers)
+        private static bool DoesAncestorHaveComponentOrProperty(string objectType, string componentOrPropertyName, Dictionary<string, HashSet<string>> objectTypeComponentsAndProperties, Dictionary<string, List<string>> objectTypeSupers)
         {
             foreach (string supertype in objectTypeSupers[objectType])
             {
-                if (objectTypeComponents[supertype].Contains(componentName) || DoesAncestorHaveComponent(supertype, componentName, objectTypeComponents, objectTypeSupers))
+                if (objectTypeComponentsAndProperties[supertype].Contains(componentOrPropertyName) || DoesAncestorHaveComponentOrProperty(supertype, componentOrPropertyName, objectTypeComponentsAndProperties, objectTypeSupers))
                 {
                     return true;
                 }
@@ -145,24 +145,24 @@
         }
 
 
-        private static IEnumerable<OpcUaContent> DedupedContents(OpcUaDefinedType definedType, Dictionary<string, HashSet<string>> objectTypeComponents, Dictionary<string, List<string>> objectTypeSupers)
+        private static IEnumerable<OpcUaContent> DedupedContents(OpcUaDefinedType definedType, Dictionary<string, HashSet<string>> objectTypeComponentsAndProperties, Dictionary<string, List<string>> objectTypeSupers)
         {
             TryGetQualifiedNameFromDefinedType(definedType, out string objectType);
 
             foreach (OpcUaContent content in definedType.Contents)
             {
-                if (definedType.NodeType != "UAObjectType" || content.Relationship != "HasComponent")
+                if (definedType.NodeType != "UAObjectType" || (content.Relationship != "HasComponent" && content.Relationship != "HasProperty"))
                 {
                     yield return content;
                 }
-                else if (!DoesAncestorHaveComponent(objectType, DequalifyBrowseName(content.DefinedType.BrowseName), objectTypeComponents, objectTypeSupers))
+                else if (!DoesAncestorHaveComponentOrProperty(objectType, DequalifyBrowseName(content.DefinedType.BrowseName), objectTypeComponentsAndProperties, objectTypeSupers))
                 {
                     yield return content;
                 }
             }
         }
 
-        public static void Dedup(IDeserializer deserializer, string sourceFilePath, string destRoot, Dictionary<string, HashSet<string>> objectTypeComponents, Dictionary<string, List<string>> objectTypeSupers)
+        public static void Dedup(IDeserializer deserializer, string sourceFilePath, string destRoot, Dictionary<string, HashSet<string>> objectTypeComponentsAndProperties, Dictionary<string, List<string>> objectTypeSupers)
         {
             string yamlFileName = Path.GetFileName(sourceFilePath);
 
@@ -193,13 +193,13 @@
                     {
                         outputFile.WriteLine();
                         outputFile.WriteLine($"  {definedType.Key}:");
-                        Visit(outputFile, 1, definedType.Value, objectTypeComponents, objectTypeSupers);
+                        Visit(outputFile, 1, definedType.Value, objectTypeComponentsAndProperties, objectTypeSupers);
                     }
                 }
             }
         }
 
-        private static void Visit(StreamWriter outputFile, int depth, OpcUaDefinedType definedType, Dictionary<string, HashSet<string>> objectTypeComponents, Dictionary<string, List<string>> objectTypeSupers)
+        private static void Visit(StreamWriter outputFile, int depth, OpcUaDefinedType definedType, Dictionary<string, HashSet<string>> objectTypeComponentsAndProperties, Dictionary<string, List<string>> objectTypeSupers)
         {
             string currentIndent = new string(' ', depth * 2);
 
@@ -233,10 +233,10 @@
                 outputFile.WriteLine($"{currentIndent}- UnitId: {definedType.UnitId}");
             }
 
-            foreach (OpcUaContent content in DedupedContents(definedType, objectTypeComponents, objectTypeSupers))
+            foreach (OpcUaContent content in DedupedContents(definedType, objectTypeComponentsAndProperties, objectTypeSupers))
             {
                 outputFile.WriteLine($"{currentIndent}- {content.Relationship}:");
-                Visit(outputFile, depth + 1, content.DefinedType, objectTypeComponents, objectTypeSupers);
+                Visit(outputFile, depth + 1, content.DefinedType, objectTypeComponentsAndProperties, objectTypeSupers);
             }
         }
 

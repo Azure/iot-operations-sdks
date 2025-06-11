@@ -145,6 +145,34 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "GeographicalUnit",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LengthUnit",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RotationalUnit",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SpeedUnit",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
+      "schema": "string",
+      "writable": true
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "GetLocation",
       "namespace": "http://opcfoundation.org/UA/AutoID",

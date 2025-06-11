@@ -15,5 +15,26 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IsPartOfBase",
+      "namespace": "http://opcfoundation.org/UA/IA",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NumberInList",
+      "namespace": "http://opcfoundation.org/UA/IA",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SignalOn",
+      "namespace": "http://opcfoundation.org/UA/IA",
+      "schema": "boolean",
+      "writable": true
+    }
   ]
 }

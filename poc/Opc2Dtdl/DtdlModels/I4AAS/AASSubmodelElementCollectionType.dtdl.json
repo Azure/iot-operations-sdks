@@ -17,6 +17,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AllowDuplicates",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "SubmodelElement",
       "namespace": "http://opcfoundation.org/UA/I4AAS",

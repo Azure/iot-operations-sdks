@@ -17,6 +17,34 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProteusXMLExternalLink",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DEXPIXMIExternalLink",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DEXPISpecificationVersion",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProteusSchemaVersion",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
+      "schema": "string",
+      "writable": true
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "DEXPIXMIFile",
       "namespace": "http://opcfoundation.org/UA/DEXPI"

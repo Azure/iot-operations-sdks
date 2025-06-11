@@ -92,41 +92,37 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PreconfiguredDataSetOnly",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PreconfiguredPublishedDataSets",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SupportedPublishingIntervals",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:FX_AC:PublisherCapabilitiesType:dataType:IntervalRange;1"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SupportedQos",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:FX_AC:PublisherCapabilitiesType:dataType:PublisherQosDataType;1"
-      },
-      "writable": true
+      }
     }
   ]
 }

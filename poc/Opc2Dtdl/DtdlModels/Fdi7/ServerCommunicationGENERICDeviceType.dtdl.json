@@ -17,6 +17,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProtocolIdentifier",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
+      "schema": "string",
+      "writable": false
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "ServiceProvider",
       "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",

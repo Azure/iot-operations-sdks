@@ -382,14 +382,13 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "JobOrderResponseList",
       "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95JobResponseDataType;1"
-      },
-      "writable": true
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

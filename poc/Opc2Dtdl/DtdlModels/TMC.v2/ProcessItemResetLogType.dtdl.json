@@ -18,45 +18,53 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "AggregationWindow",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LastResetTime",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "time",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Avg",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Max",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Min",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SamplingRate",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Std",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Total",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     }
   ]
 }

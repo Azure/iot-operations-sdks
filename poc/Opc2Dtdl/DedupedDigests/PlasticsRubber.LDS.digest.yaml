@@ -274,6 +274,18 @@ DefinedTypes:
   - [ UAObjectType, PlasticsRubber.LDS:1004, PlasticsRubber.LDS:AdditiveType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6008, PlasticsRubber.LDS:ActivateAdditive, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6042, PlasticsRubber.LDS:ActivateClosedLoopControl, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6009, PlasticsRubber.LDS:AdditiveActivated, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.LDS:5001, PlasticsRubber.LDS:AdditiveFraction ]
     - HasModellingRule:
@@ -286,6 +298,18 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, PlasticsRubber.GeneralTypes:ControlledParameterType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6449, PlasticsRubber.LDS:ClosedLoopControlActivated, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6636, PlasticsRubber.LDS:IsPresent, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6010, PlasticsRubber.LDS:Status, PlasticsRubber.LDS:AdditiveStatusEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.LDS:AdditiveAlarmType:
   - [ UAObjectType, PlasticsRubber.LDS:1002, PlasticsRubber.LDS:AdditiveAlarmType ]
@@ -311,6 +335,14 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.LDS:6457, PlasticsRubber.LDS:AdditivesRatioTarget, Double, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6450, PlasticsRubber.LDS:CycleNumber, UInt64, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6451, PlasticsRubber.LDS:DosingTime, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -382,6 +414,10 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.LDS:6044, PlasticsRubber.LDS:ActualPressure, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6049, PlasticsRubber.LDS:AllowsCycles, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.LDS:6702, PlasticsRubber.LDS:DrumCapacity, Double, 0, 0 ]
     - HasModellingRule:
@@ -412,11 +448,23 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.LDS:6040, PlasticsRubber.LDS:SetValueDensity, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6050, PlasticsRubber.LDS:Status, PlasticsRubber.LDS:ComponentStatusEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.LDS:LDS_InterfaceType:
   - [ UAObjectType, PlasticsRubber.LDS:1007, PlasticsRubber.LDS:LDS_InterfaceType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6206, PlasticsRubber.LDS:DeviceEnabled, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6205, PlasticsRubber.LDS:DisplayLanguage, LocaleId, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.LDS:5008, PlasticsRubber.LDS:Identification ]
     - HasModellingRule:
@@ -440,6 +488,10 @@ DefinedTypes:
   - [ UAObjectType, PlasticsRubber.LDS:1006, PlasticsRubber.LDS:OperationType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6072, PlasticsRubber.LDS:ActivateMaterialBalanceSystem, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.LDS:6060, PlasticsRubber.LDS:ActivateRemoteControl, UInt16, 0, 3 ]
     - HasModellingRule:
@@ -494,14 +546,26 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.LDS:6062, PlasticsRubber.LDS:DeliveryType, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6058, PlasticsRubber.LDS:DeviceMappingNumber, UInt32, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.LDS:6052, PlasticsRubber.LDS:DosingActive, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6057, PlasticsRubber.LDS:HighestActiveAlarmSeverity, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.LDS:7002, PlasticsRubber.LDS:IdentifyDevice ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6061, PlasticsRubber.LDS:MaterialBalanceSystemType, PlasticsRubber.LDS:MaterialBalanceSystemTypeEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.LDS:6079, PlasticsRubber.LDS:MaxDeviationMixingRatio, Double, 0, 3 ]
     - HasModellingRule:
@@ -528,6 +592,10 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.LDS:6184, PlasticsRubber.LDS:PurgeQuantity, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6361, PlasticsRubber.LDS:PurgeStatus, PlasticsRubber.LDS:PurgeStatusEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:

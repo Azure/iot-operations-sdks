@@ -34,21 +34,19 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RecipeNodeId",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Report",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:Scales_V2:RecipeProductType:dataType:RecipeReportElementType;1"
-      },
-      "writable": true
+      }
     },
     {
       "@type": [ "Relationship", "Qualified" ],

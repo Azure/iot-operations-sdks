@@ -16,6 +16,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NodeVersion",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+      "schema": "string",
+      "writable": false
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "CleaningSystem_Nr",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",

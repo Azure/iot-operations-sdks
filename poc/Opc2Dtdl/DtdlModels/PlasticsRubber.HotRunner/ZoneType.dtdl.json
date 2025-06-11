@@ -17,17 +17,29 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "CommunicationProtocolType",
+      "name": "HighestActiveAlarmSeverity",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "unsignedShort",
-      "writable": true
+      "writable": false
     },
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "CommunicationProtocolType",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "schema": "unsignedShort"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ThermocoupleType",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
-      "schema": "unsignedShort",
-      "writable": true
+      "schema": "unsignedShort"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

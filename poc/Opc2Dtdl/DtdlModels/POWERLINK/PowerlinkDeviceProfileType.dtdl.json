@@ -16,5 +16,19 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IndexRangeSize",
+      "namespace": "http://opcfoundation.org/UA/POWERLINK",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IndexRangeStart",
+      "namespace": "http://opcfoundation.org/UA/POWERLINK",
+      "schema": "unsignedShort",
+      "writable": false
+    }
   ]
 }

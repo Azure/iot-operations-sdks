@@ -18,17 +18,43 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "EndTime",
+      "name": "Identifier",
       "namespace": "http://opcfoundation.org/UA/Glass.Flat",
-      "schema": "dateTime",
+      "schema": "string",
       "writable": true
     },
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "JobGroup",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NumberInList",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "EndTime",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": "dateTime"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "StartTime",
       "namespace": "http://opcfoundation.org/UA/Glass.Flat",
-      "schema": "dateTime",
-      "writable": true
+      "schema": "dateTime"
     },
     {
       "@type": [ "Command", "Qualified" ],

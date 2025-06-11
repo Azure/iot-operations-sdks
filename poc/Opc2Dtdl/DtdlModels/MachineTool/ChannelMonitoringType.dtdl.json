@@ -77,32 +77,28 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ChannelMode",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "dtmi:opcua:MachineTool:ChannelMonitoringType:dataType:ChannelMode;1",
-      "writable": false
+      "schema": "dtmi:opcua:MachineTool:ChannelMonitoringType:dataType:ChannelMode;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ChannelState",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "dtmi:opcua:MachineTool:ChannelMonitoringType:dataType:ChannelState;1",
-      "writable": false
+      "schema": "dtmi:opcua:MachineTool:ChannelMonitoringType:dataType:ChannelState;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FeedOverride",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RapidOverride",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

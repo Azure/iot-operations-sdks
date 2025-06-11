@@ -16,12 +16,11 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Power" ],
+      "@type": [ "Telemetry", "Qualified", "Power" ],
       "name": "AcActivePowerTotal",
       "namespace": "http://opcfoundation.org/UA/PNEM",
       "unit": "watt",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     }
   ]
 }

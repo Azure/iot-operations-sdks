@@ -16,6 +16,27 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Id",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MasterRollId",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
+      "schema": "string",
+      "writable": false
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "CrossAxisLeft",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",

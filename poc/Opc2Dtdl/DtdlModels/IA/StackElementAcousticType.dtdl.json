@@ -17,18 +17,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Intensity",
       "namespace": "http://opcfoundation.org/UA/IA",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OperationMode",
       "namespace": "http://opcfoundation.org/UA/IA",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

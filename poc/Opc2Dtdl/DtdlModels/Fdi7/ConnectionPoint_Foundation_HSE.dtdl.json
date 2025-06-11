@@ -16,5 +16,22 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Address",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "unsignedByte"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OrdinalNumber",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
+      "schema": "integer",
+      "writable": false
+    }
   ]
 }

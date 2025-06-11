@@ -16,49 +16,50 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Pressure" ],
+      "@type": [ "Property", "Qualified" ],
+      "name": "SourceResidualLife",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified", "Pressure" ],
       "name": "AbsoluteSampleGasPressure",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "millibar",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ChopperFrequencyDeviation",
       "namespace": "http://opcfoundation.org/UA/PADIM",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "SampleCellTemperature",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DetectorZeroSignal",
       "namespace": "http://opcfoundation.org/UA/PADIM",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RelativeReagentLevel",
       "namespace": "http://opcfoundation.org/UA/PADIM",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "VolumeFlowRate" ],
+      "@type": [ "Telemetry", "Qualified", "VolumeFlowRate" ],
       "name": "SampleGasVolumeFlow",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "litrePerHour",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     }
   ]
 }

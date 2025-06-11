@@ -17,18 +17,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OperatingModes",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "unsignedShort",
-      "writable": true
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OperatingProfiles",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "unsignedShort",
-      "writable": true
+      "schema": "unsignedShort"
     }
   ]
 }

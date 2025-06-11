@@ -54,25 +54,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ArbitrationMode",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "dtmi:opcua:MDIS:MDISDiscreteArbitrationObjectType:dataType:ArbitrationModeEnum;1",
-      "writable": false
+      "schema": "dtmi:opcua:MDIS:MDISDiscreteArbitrationObjectType:dataType:ArbitrationModeEnum;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SourceA",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SourceB",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
       "@type": [ "Command", "Qualified" ],

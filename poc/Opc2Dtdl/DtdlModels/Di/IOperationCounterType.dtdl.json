@@ -15,5 +15,26 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PowerOnDuration",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "duration",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OperationDuration",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "duration",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OperationCycleCounter",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "unsignedInteger",
+      "writable": false
+    }
   ]
 }

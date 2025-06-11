@@ -15,5 +15,19 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Offset",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SignalId",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
+      "schema": "unsignedShort",
+      "writable": false
+    }
   ]
 }

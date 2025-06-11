@@ -14,7 +14,30 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=39",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:Scales_V2:EdgeTriggeredSleepType:dataType:EdgeOperator;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=62",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Rising_0",
+          "enumValue": 0
+        },
+        {
+          "name": "Falling_1",
+          "enumValue": 1
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ConditionMode",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "dtmi:opcua:Scales_V2:EdgeTriggeredSleepType:dataType:EdgeOperator;1",
+      "writable": true
+    }
   ]
 }

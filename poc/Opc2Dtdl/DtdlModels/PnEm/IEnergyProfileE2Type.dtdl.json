@@ -16,28 +16,25 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Energy" ],
+      "@type": [ "Telemetry", "Qualified", "Energy" ],
       "name": "AcActiveEnergyTotalExportLp",
       "namespace": "http://opcfoundation.org/UA/PNEM",
       "unit": "wattHour",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Energy" ],
+      "@type": [ "Telemetry", "Qualified", "Energy" ],
       "name": "AcActiveEnergyTotalImportLp",
       "namespace": "http://opcfoundation.org/UA/PNEM",
       "unit": "wattHour",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Power" ],
+      "@type": [ "Telemetry", "Qualified", "Power" ],
       "name": "AcActivePowerTotal",
       "namespace": "http://opcfoundation.org/UA/PNEM",
       "unit": "watt",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     }
   ]
 }

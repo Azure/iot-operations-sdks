@@ -13,35 +13,90 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1009",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:GMS:CharacteristicType:dataType:ResultEvaluationEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=3002",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Undefined",
+          "enumValue": 0
+        },
+        {
+          "name": "OK",
+          "enumValue": 1
+        },
+        {
+          "name": "NotOK",
+          "enumValue": 2
+        },
+        {
+          "name": "NotDecidable",
+          "enumValue": 3
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "CharacteristicIdentifier",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CharacteristicsClass",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "unsignedByte",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Formula",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IsValid",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ResultEvaluation",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "dtmi:opcua:GMS:CharacteristicType:dataType:ResultEvaluationEnum;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LowerToleranceLimit",
       "namespace": "http://opcfoundation.org/UA/GMS",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Nominal",
       "namespace": "http://opcfoundation.org/UA/GMS",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ResultValue",
       "namespace": "http://opcfoundation.org/UA/GMS",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "UpperToleranceLimit",
       "namespace": "http://opcfoundation.org/UA/GMS",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     }
   ]
 }

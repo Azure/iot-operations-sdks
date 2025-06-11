@@ -548,6 +548,13 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "ConformanceName",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AggregatedHealth",
       "namespace": "http://opcfoundation.org/UA/FX.AC",
       "schema": {
@@ -572,8 +579,7 @@
             "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:OperationalHealthOptionSet;1"
           }
         ]
-      },
-      "writable": true
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

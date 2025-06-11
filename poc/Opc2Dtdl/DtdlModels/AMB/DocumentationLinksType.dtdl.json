@@ -18,6 +18,13 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "DefaultInstanceBrowseName",
+      "namespace": "http://opcfoundation.org/UA/AMB",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Link",
       "namespace": "http://opcfoundation.org/UA/AMB",
       "schema": {
@@ -32,8 +39,7 @@
           "unit": "",
           "schema": "string"
         }
-      },
-      "writable": true
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

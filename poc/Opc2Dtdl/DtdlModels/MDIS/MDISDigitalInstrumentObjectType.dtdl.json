@@ -17,11 +17,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "State",
       "namespace": "http://opcfoundation.org/UA/MDIS",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     }
   ]
 }

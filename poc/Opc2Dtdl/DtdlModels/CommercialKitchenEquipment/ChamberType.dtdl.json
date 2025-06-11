@@ -101,7 +101,7 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualBoilerTemperature_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -116,11 +116,10 @@
           "unit": "degreeCelsius",
           "schema": "float"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualBottomTemperature_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -135,11 +134,10 @@
           "unit": "degreeCelsius",
           "schema": "float"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualChamberTemperature_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -154,11 +152,10 @@
           "unit": "degreeCelsius",
           "schema": "float"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualCoreTemperature_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -173,11 +170,10 @@
           "unit": "degreeCelsius",
           "schema": "float"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualFanSpeed_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -192,11 +188,10 @@
           "unit": "",
           "schema": "integer"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualHumidity_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -211,11 +206,10 @@
           "unit": "",
           "schema": "float"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualTopTemperature_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -230,106 +224,92 @@
           "unit": "degreeCelsius",
           "schema": "float"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "IsDoorOpen",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "IsProgramEnd",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "IsReadyToStart",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OperationMode",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "dtmi:opcua:CommercialKitchenEquipment:ChamberType:dataType:ChamberModeEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:ChamberType:dataType:ChamberModeEnumeration;1"
     },
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "SetBoilerTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "SetBottomTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "SetChamberTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "SetCoreTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SetFanSpeed",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SetHumidity",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "SetProcessTimeProgram",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "second",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "SetTopTemperature",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "TimeRemaining",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "second",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     }
   ]
 }

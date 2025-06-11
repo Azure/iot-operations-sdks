@@ -114,80 +114,70 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CleanupTimeout",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "duration",
-      "writable": true
+      "schema": "duration"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CommunicationLinks",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "bytes",
-      "writable": true
+      "schema": "bytes"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ConnectionEndpointTypeId",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "dtmi:opcua:FX_CM:ConnectionEndpointParameterType:dataType:PortableNodeId;1",
-      "writable": true
+      "schema": "dtmi:opcua:FX_CM:ConnectionEndpointParameterType:dataType:PortableNodeId;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InputVariableIds",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:FX_CM:ConnectionEndpointParameterType:dataType:PortableNodeIdentifier;1"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "IsPersistent",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "IsPreconfigured",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Name",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OutputVariableIds",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:FX_CM:ConnectionEndpointParameterType:dataType:PortableNodeIdentifier;1"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PreconfiguredPublishedDataSet",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PreconfiguredSubscribedDataSet",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     }
   ]
 }

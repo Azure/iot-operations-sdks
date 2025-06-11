@@ -62,24 +62,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SupportedTargetValues",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:Scales_V2:RecipeScaleType:dataType:RecipeTargetValueType;1"
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SupportedThresholdValues",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:Scales_V2:RecipeScaleType:dataType:RecipeThresholdType;1"
-      },
-      "writable": true
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

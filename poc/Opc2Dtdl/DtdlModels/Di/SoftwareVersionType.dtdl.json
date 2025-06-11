@@ -15,5 +15,57 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Manufacturer",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ManufacturerUri",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SoftwareRevision",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PatchIdentifiers",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ReleaseDate",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "dateTime",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ChangeLogReference",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Hash",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "bytes",
+      "writable": false
+    }
   ]
 }

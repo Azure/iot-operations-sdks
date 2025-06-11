@@ -17,24 +17,56 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "PresetTare",
-      "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
-    },
-    {
-      "@type": [ "Property", "Qualified" ],
-      "name": "ProductId",
+      "name": "BatchId",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "string",
       "writable": true
     },
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "BatchName",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "JobId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "JobName",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProductName",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "PresetTare",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "integer"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "ProductId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "string"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProductMode",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

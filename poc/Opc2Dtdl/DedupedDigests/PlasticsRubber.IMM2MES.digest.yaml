@@ -447,6 +447,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6107, PlasticsRubber.IMM2MES:Index, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6065, PlasticsRubber.IMM2MES:InjectionSpeedAverage, Double, 0, 0 ]
     - HasModellingRule:
@@ -595,11 +599,31 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6006, PlasticsRubber.IMM2MES:NodeVersion, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.IMM2MES:InjectionUnitType:
   - [ UAObjectType, PlasticsRubber.IMM2MES:1028, PlasticsRubber.IMM2MES:InjectionUnitType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6097, PlasticsRubber.IMM2MES:BarrelId, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6724, PlasticsRubber.IMM2MES:Index, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6099, PlasticsRubber.IMM2MES:InProduction, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6098, PlasticsRubber.IMM2MES:IsPresent, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6102, PlasticsRubber.IMM2MES:MaxScrewStroke, Double, 0, 0 ]
     - HasModellingRule:
@@ -611,6 +635,10 @@ DefinedTypes:
       - UnitId: -1
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6106, PlasticsRubber.IMM2MES:ScrewId, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:

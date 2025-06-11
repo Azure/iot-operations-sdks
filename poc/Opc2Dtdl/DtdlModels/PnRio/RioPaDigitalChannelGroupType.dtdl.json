@@ -15,17 +15,43 @@
   "commandTopic": "opcua/PNRIO/RioPaDigitalChannelGroupType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PNRIO:RioPaDigitalChannelGroupType:dataType:RioPaDigitalValueDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=3003",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Value",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Qualifier",
+          "schema": "unsignedByte"
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "SimulationValues",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:PNRIO:RioPaDigitalChannelGroupType:dataType:RioPaDigitalValueDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SimulationEnabled",
       "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": {
         "@type": "Array",
         "elementSchema": "boolean"
-      },
-      "writable": false
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

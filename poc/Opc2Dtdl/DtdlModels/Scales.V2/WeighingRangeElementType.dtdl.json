@@ -33,25 +33,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualScaleInterval",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Range",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "dtmi:opcua:Scales_V2:WeighingRangeElementType:dataType:Range;1",
-      "writable": true
+      "schema": "dtmi:opcua:Scales_V2:WeighingRangeElementType:dataType:Range;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "VerificationScaleInterval",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     }
   ]
 }

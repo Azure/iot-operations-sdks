@@ -69,11 +69,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AggregatedCurrentState",
       "namespace": "http://opcfoundation.org/UA/FX.CM",
-      "schema": "boolean",
-      "writable": true
+      "schema": "boolean"
     },
     {
       "@type": [ "Command", "Qualified" ],

@@ -136,6 +136,8 @@ DefinedTypes:
 
   Machinery.Jobs:JobManagementType:
   - [ UAObjectType, Machinery.Jobs:1003, Machinery.Jobs:JobManagementType ]
+  - HasProperty:
+    - [ UAVariable, Machinery.Jobs:6013, Machinery.Jobs:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
   - HasComponent:
     - [ UAObject, Machinery.Jobs:5001, Machinery.Jobs:JobOrderControl ]
     - HasModellingRule:

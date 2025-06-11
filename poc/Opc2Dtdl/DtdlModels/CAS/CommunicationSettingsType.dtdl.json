@@ -13,21 +13,84 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1048",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:CAS:CommunicationSettingsType:dataType:IpVersionEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=3016",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "IPv4",
+          "enumValue": 0
+        },
+        {
+          "name": "IPv6",
+          "enumValue": 1
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "Dhcp",
+      "name": "DefaultGateway",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "boolean",
+      "schema": "string",
       "writable": false
     },
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "MacAddress",
+      "name": "DnsServer",
       "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "string",
       "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DomainName",
+      "namespace": "http://opcfoundation.org/UA/CAS",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Hostname",
+      "namespace": "http://opcfoundation.org/UA/CAS",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IpAddress",
+      "namespace": "http://opcfoundation.org/UA/CAS",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IpVersion",
+      "namespace": "http://opcfoundation.org/UA/CAS",
+      "schema": "dtmi:opcua:CAS:CommunicationSettingsType:dataType:IpVersionEnum;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SubnetMask",
+      "namespace": "http://opcfoundation.org/UA/CAS",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "Dhcp",
+      "namespace": "http://opcfoundation.org/UA/CAS",
+      "schema": "boolean"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "MacAddress",
+      "namespace": "http://opcfoundation.org/UA/CAS",
+      "schema": "string"
     }
   ]
 }

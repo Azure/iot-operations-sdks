@@ -17,17 +17,22 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "Enabled",
+      "name": "Name",
       "namespace": "http://opcfoundation.org/UA/Robotics",
-      "schema": "boolean",
+      "schema": "string",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "Enabled",
+      "namespace": "http://opcfoundation.org/UA/Robotics",
+      "schema": "boolean"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Active",
       "namespace": "http://opcfoundation.org/UA/Robotics",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     }
   ]
 }

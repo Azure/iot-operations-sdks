@@ -16,5 +16,15 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ListOfCommunicationProfiles",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    }
   ]
 }

@@ -17,18 +17,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LoadedTime",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "UnloadedTime",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     }
   ]
 }

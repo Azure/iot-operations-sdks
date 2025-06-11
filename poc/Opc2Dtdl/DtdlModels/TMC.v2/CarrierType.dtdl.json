@@ -257,13 +257,40 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "FormFactor",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ID",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MES_ID",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ParentCarrierID",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Sublots",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:TMC_v2:CarrierType:dataType:MaterialSublotType;1"
-      },
-      "writable": false
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

@@ -17,6 +17,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IsControlled",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "EstablishControl",
       "namespace": "http://opcfoundation.org/UA/FX.AC",

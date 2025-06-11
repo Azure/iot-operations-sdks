@@ -14,7 +14,31 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101003",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfBitStringAlgorithmType:dataType:OptionSet;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=12755",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Value",
+          "schema": "bytes"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ValidBits",
+          "schema": "bytes"
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AlarmValues",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfBitStringAlgorithmType:dataType:OptionSet;1",
+      "writable": true
+    }
   ]
 }

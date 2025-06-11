@@ -16,5 +16,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Location",
+      "namespace": "http://opcfoundation.org/UA/Machinery",
+      "schema": "string",
+      "writable": true
+    }
   ]
 }

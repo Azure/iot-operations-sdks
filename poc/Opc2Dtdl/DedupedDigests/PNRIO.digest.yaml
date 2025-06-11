@@ -238,18 +238,82 @@ DefinedTypes:
 
   PNRIO:RioChannelDiagnosisAlarmType:
   - [ UAObjectType, PNRIO:1004, PNRIO:RioChannelDiagnosisAlarmType ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6109, PNRIO:ApplicationTag, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6111, PNRIO:HelpText, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6110, PNRIO:ManufacturerData, ByteString, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6270, PNRIO:PnChannelNumber, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6108, PNRIO:Reason, PNRIO:RioChannelDiagnosisReasonEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2915, AlarmConditionType ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6107, PNRIO:RioChannelNumber, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6271, PNRIO:Status, PNRIO:RioChannelDiagnosisStatusEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PNRIO:RioChannelDiagnosisEventType:
   - [ UAObjectType, PNRIO:1019, PNRIO:RioChannelDiagnosisEventType ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6232, PNRIO:ApplicationTag, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6234, PNRIO:HelpText, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6233, PNRIO:ManufacturerData, ByteString, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6228, PNRIO:PnChannelNumber, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6230, PNRIO:Reason, PNRIO:RioChannelDiagnosisReasonEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6227, PNRIO:RioChannelNumber, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6229, PNRIO:Status, PNRIO:RioChannelDiagnosisStatusEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PNRIO:PnIoSignalType:
   - [ UAObjectType, PNRIO:1020, PNRIO:PnIoSignalType ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6207, PNRIO:Offset, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6206, PNRIO:SignalId, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PNRIO:PnIoTelegramType:
   - [ UAObjectType, PNRIO:1021, PNRIO:PnIoTelegramType ]
@@ -259,8 +323,24 @@ DefinedTypes:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, PNRIO:1020, PNRIO:PnIoSignalType ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6279, PNRIO:ConsumerStatus, PNRIO:PnIoTelegramStatusEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6276, PNRIO:IoTelegramImage, ByteString, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6277, PNRIO:Length, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6278, PNRIO:ProviderStatus, PNRIO:PnIoTelegramStatusEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PNRIO:PnTelegramType:
   - [ UAObjectType, PNRIO:1018, PNRIO:PnTelegramType ]
@@ -281,25 +361,89 @@ DefinedTypes:
 
   PNRIO:RioChannelGroupConfigType:
   - [ UAObjectType, PNRIO:1017, PNRIO:RioChannelGroupConfigType ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6200, PNRIO:Damping, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6290, PNRIO:FaAnalogSubstituteValue, PNRIO:RioAnalogDataType, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PNRIO:6204, PNRIO:FaDigitalSubstituteValue, PNRIO:RioBitFieldDataType, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6201, PNRIO:HighLimit, PNRIO:RioAnalogDataType, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6192, PNRIO:InversionEnabled, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6196, PNRIO:LoadVoltageCheckEnabled, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6202, PNRIO:LowLimit, PNRIO:RioAnalogDataType, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6289, PNRIO:PaAnalogSubstituteValue, PNRIO:RioAnalogDataType, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PNRIO:6198, PNRIO:PaDigitalSubstituteValue, PNRIO:RioBitFieldDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6193, PNRIO:ShortCircuitCheckEnabled, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6191, PNRIO:SignalType, PNRIO:RioSignalTypeEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6197, PNRIO:SubstitutePolicy, PNRIO:RioSubstitutePolicyEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6199, PNRIO:SubstituteTime, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6195, PNRIO:SupplyVoltageCheckEnabled, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6194, PNRIO:WireCheckEnabled, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PNRIO:RioChannelGroupType:
   - [ UAObjectType, PNRIO:1012, PNRIO:RioChannelGroupType ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6164, PNRIO:ApplicationTag, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6165, PNRIO:LastParameterChange, DateTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PNRIO:5054, PNRIO:Lock ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6226, PNRIO:NumberOfChannels, UInt16, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
@@ -354,6 +498,10 @@ DefinedTypes:
     - [ UAVariable, PNRIO:6010, PNRIO:SimulationEnabled, Boolean, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6291, PNRIO:SimulationValues, PNRIO:RioPaAnalogValueDataType, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PNRIO:RioPaDigitalChannelGroupType:
   - [ UAObjectType, PNRIO:1015, PNRIO:RioPaDigitalChannelGroupType ]
@@ -386,15 +534,31 @@ DefinedTypes:
     - [ UAVariable, PNRIO:6136, PNRIO:SimulationEnabled, Boolean, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6061, PNRIO:SimulationValues, PNRIO:RioPaDigitalValueDataType, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PNRIO:RioChannelType:
   - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6113, PNRIO:ApplicationTag, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6274, PNRIO:LastParameterChange, DateTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PNRIO:5025, PNRIO:Lock ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNRIO:6112, PNRIO:RioChannelNumber, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:

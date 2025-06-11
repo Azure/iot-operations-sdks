@@ -18,24 +18,35 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "CurrentValue",
+      "name": "NumberInList",
       "namespace": "http://opcfoundation.org/UA/LaserSystems",
-      "schema": "integer",
+      "schema": "unsignedShort",
       "writable": false
     },
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "Description",
+      "name": "ParameterIdentifier",
       "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "CurrentValue",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
+      "schema": "integer"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "Description",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
+      "schema": "string"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PreviousValue",
       "namespace": "http://opcfoundation.org/UA/LaserSystems",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     }
   ]
 }

@@ -13,8 +13,177 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1004",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:I4AAS:AASReferenceType:dataType:AASKeyDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3011",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Type",
+          "schema": "dtmi:opcua:I4AAS:AASReferenceType:dataType:AASKeyElementsDataType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Local",
+          "schema": "boolean"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Value",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "IdType",
+          "schema": "dtmi:opcua:I4AAS:AASReferenceType:dataType:AASKeyTypeDataType;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:I4AAS:AASReferenceType:dataType:AASKeyElementsDataType;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3012",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "AccessPermissionRule",
+          "enumValue": 0
+        },
+        {
+          "name": "AnnotatedRelationshipElement",
+          "enumValue": 1
+        },
+        {
+          "name": "Asset",
+          "enumValue": 2
+        },
+        {
+          "name": "AssetAdministrationShell",
+          "enumValue": 3
+        },
+        {
+          "name": "Blob",
+          "enumValue": 4
+        },
+        {
+          "name": "Capability",
+          "enumValue": 5
+        },
+        {
+          "name": "ConceptDescription",
+          "enumValue": 6
+        },
+        {
+          "name": "ConceptDictionary",
+          "enumValue": 7
+        },
+        {
+          "name": "DataElement",
+          "enumValue": 8
+        },
+        {
+          "name": "Entity",
+          "enumValue": 9
+        },
+        {
+          "name": "Event",
+          "enumValue": 10
+        },
+        {
+          "name": "File",
+          "enumValue": 11
+        },
+        {
+          "name": "FragmentReference",
+          "enumValue": 12
+        },
+        {
+          "name": "GlobalReference",
+          "enumValue": 13
+        },
+        {
+          "name": "MultiLanguageProperty",
+          "enumValue": 14
+        },
+        {
+          "name": "Operation",
+          "enumValue": 15
+        },
+        {
+          "name": "Property",
+          "enumValue": 16
+        },
+        {
+          "name": "Range",
+          "enumValue": 17
+        },
+        {
+          "name": "ReferenceElement",
+          "enumValue": 18
+        },
+        {
+          "name": "RelationshipElement",
+          "enumValue": 19
+        },
+        {
+          "name": "Submodel",
+          "enumValue": 20
+        },
+        {
+          "name": "SubmodelElement",
+          "enumValue": 21
+        },
+        {
+          "name": "SubmodelElementCollection",
+          "enumValue": 22
+        },
+        {
+          "name": "View",
+          "enumValue": 23
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:I4AAS:AASReferenceType:dataType:AASKeyTypeDataType;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3002",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "IdShort",
+          "enumValue": 0
+        },
+        {
+          "name": "FragmentId",
+          "enumValue": 1
+        },
+        {
+          "name": "Custom",
+          "enumValue": 2
+        },
+        {
+          "name": "IRDI",
+          "enumValue": 3
+        },
+        {
+          "name": "IRI",
+          "enumValue": 4
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Keys",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:I4AAS:AASReferenceType:dataType:AASKeyDataType;1"
+      },
+      "writable": true
+    },
     {
       "@type": [ "Relationship", "Qualified" ],
       "name": "Referable",

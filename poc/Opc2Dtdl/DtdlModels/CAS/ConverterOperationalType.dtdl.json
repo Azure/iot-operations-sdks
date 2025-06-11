@@ -17,11 +17,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CatalyticMaterialTemperature",
       "namespace": "http://opcfoundation.org/UA/CAS",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     }
   ]
 }

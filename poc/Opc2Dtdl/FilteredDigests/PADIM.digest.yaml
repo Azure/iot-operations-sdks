@@ -61,6 +61,34 @@ DefinedTypes:
   - [ UAObjectType, PADIM:1009, PADIM:PADIMType ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:15063, DI:ComponentType ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1010, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1011, DI:ManufacturerUri, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1012, DI:Model, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1013, DI:SerialNumber, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1014, DI:SoftwareRevision, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1015, DI:HardwareRevision, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1016, DI:ProductCode, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1029, DI:DeviceHealth, DI:DeviceHealthEnumeration, 0, 0 ]
     - HasModellingRule:
@@ -79,6 +107,10 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1021, PADIM:SignalSetType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1020, DI:ProductInstanceUri, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PADIM:1018, DI:DeviceHealthAlarms ]
     - HasTypeDefinition:
@@ -101,6 +133,20 @@ DefinedTypes:
           ResetMode: [ PADIM:ResetModeEnum, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1019, DI:AssetId, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1017, DI:RevisionCounter, Int32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1208, DI:DeviceRevision, SemanticVersionString, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1209, PADIM:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
   - HasComponent:
     - [ UAObject, PADIM:1284, PADIM:DeviceConditionSet ]
     - HasTypeDefinition:
@@ -157,6 +203,10 @@ DefinedTypes:
   - [ UAObjectType, PADIM:1008, PADIM:SignalType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1035, PADIM:SignalTag, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PADIM:AnalogSignalType:
   - [ UAObjectType, PADIM:1022, PADIM:AnalogSignalType ]
@@ -318,6 +368,22 @@ DefinedTypes:
       - UnitId: 4408652
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1529, PADIM:ResidualLife, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1316, DI:OperationCycleCounter, UInteger, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1317, DI:OperationDuration, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1318, DI:PowerOnDuration, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PADIM:IGeneralDeviceConditionSetType:
   - [ UAObjectType, PADIM:1044, PADIM:IGeneralDeviceConditionSetType ]
@@ -344,6 +410,10 @@ DefinedTypes:
     - [ UAObject, PADIM:1283, PADIM:CalibrationPointSet ]
     - HasTypeDefinition:
       - [ UAObjectType, PADIM:1043, PADIM:CalibrationPointSetType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1307, PADIM:CalibrationTimestamp, DateTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -373,6 +443,10 @@ DefinedTypes:
       - UnitId: 12890
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1425, PADIM:SensorT90, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PADIM:IConductivityCalibrationType:
   - [ UAObjectType, PADIM:1047, PADIM:IConductivityCalibrationType ]
@@ -414,6 +488,10 @@ DefinedTypes:
       - UnitId: 4274487
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1510, PADIM:SensorT90, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PADIM:IOpticalFluorescenseQuenchingCalibrationType:
   - [ UAObjectType, PADIM:1049, PADIM:IOpticalFluorescenseQuenchingCalibrationType ]
@@ -441,6 +519,10 @@ DefinedTypes:
       - UnitId: 4340024
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1519, PADIM:SensorT90, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PADIM:ITocDeviceConditionSetType:
   - [ UAObjectType, PADIM:1053, PADIM:ITocDeviceConditionSetType ]
@@ -582,6 +664,10 @@ DefinedTypes:
       - UnitId: 4408652
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1323, PADIM:SourceResidualLife, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PADIM:ITocSignalConditionSetType:
   - [ UAObjectType, PADIM:1056, PADIM:ITocSignalConditionSetType ]
@@ -623,6 +709,10 @@ DefinedTypes:
       - UnitId: 13625
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1384, PADIM:SourceResidualLife, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1387, PADIM:RelativeReagentLevel, Float, -2, 0 ]
     - HasModellingRule:
@@ -767,6 +857,10 @@ DefinedTypes:
       - UnitId: 5195853
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1360, PADIM:SensorCleaningsCounter, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1357, PADIM:SensorNextCalibration, UInt32, 0, 0 ]
     - HasModellingRule:
@@ -785,6 +879,10 @@ DefinedTypes:
       - UnitId: 5195853
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1361, PADIM:SensorSterilisationsCounter, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1338, PADIM:SensingElementTemperature, Float, 0, 0 ]
     - HasModellingRule:
@@ -801,6 +899,14 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, PADIM:1366, PADIM:ConductivityMeasuringMethod, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1369, PADIM:SensorCleaningsCounter, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1370, PADIM:SensorSterilisationsCounter, UInt32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -821,6 +927,10 @@ DefinedTypes:
   - [ UAObjectType, PADIM:1063, PADIM:IOpticalFluorescenseQuenchingSignalConditionSetType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1520, PADIM:SensorCleaningsCounter, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1521, PADIM:SensorNextCalibration, UInt32, 0, 0 ]
     - HasModellingRule:
@@ -830,6 +940,10 @@ DefinedTypes:
       - UnitId: 4473177
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1522, PADIM:SensorSterilisationsCounter, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1523, PADIM:SensingElementTemperature, Float, 0, 0 ]
     - HasModellingRule:
@@ -844,6 +958,10 @@ DefinedTypes:
   - [ UAObjectType, PADIM:1064, PADIM:IAmperometricSignalConditionSetType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1376, PADIM:SensorCleaningsCounter, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1374, PADIM:SensorNextCalibration, UInt32, 0, 0 ]
     - HasModellingRule:
@@ -853,6 +971,10 @@ DefinedTypes:
       - UnitId: 4473177
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PADIM:1377, PADIM:SensorSterilisationsCounter, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1378, PADIM:SensingElementTemperature, Float, 0, 0 ]
     - HasModellingRule:

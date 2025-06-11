@@ -17,6 +17,20 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MimeType",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Value",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
+      "schema": "string",
+      "writable": true
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "File",
       "namespace": "http://opcfoundation.org/UA/I4AAS"

@@ -95,7 +95,7 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "JoiningSystemEventContent",
       "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "schema": {
@@ -144,8 +144,7 @@
             }
           }
         ]
-      },
-      "writable": false
+      }
     }
   ]
 }

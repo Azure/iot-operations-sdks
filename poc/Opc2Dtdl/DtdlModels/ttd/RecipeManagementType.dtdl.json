@@ -15,28 +15,6 @@
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3018",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "RecipeId",
-          "schema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeIdDataType;1"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "RecipeContent",
-          "schema": "bytes"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "ContentEncoding",
-          "schema": "string"
-        }
-      ]
-    },
-    {
       "@id": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeIdDataType;1",
       "@type": [ "Object", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3003",
@@ -82,9 +60,41 @@
           "schema": "boolean"
         }
       ]
+    },
+    {
+      "@id": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3018",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "RecipeId",
+          "schema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeIdDataType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "RecipeContent",
+          "schema": "bytes"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ContentEncoding",
+          "schema": "string"
+        }
+      ]
     }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RecipeIds",
+      "namespace": "http://opcfoundation.org/UA/TTD",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeIdDataType;1"
+      },
+      "writable": true
+    },
     {
       "@type": [ "Command", "Qualified" ],
       "name": "DeleteRecipe",

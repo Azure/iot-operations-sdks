@@ -16,5 +16,19 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProcessStep",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Status",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+      "schema": "string",
+      "writable": true
+    }
   ]
 }

@@ -65,18 +65,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DiagnosticLevel",
       "namespace": "http://opcfoundation.org/UA/MachineVision",
-      "schema": "unsignedShort",
-      "writable": true
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SystemState",
       "namespace": "http://opcfoundation.org/UA/MachineVision",
-      "schema": "dtmi:opcua:MachineVision:VisionSystemType:dataType:SystemStateDescriptionDataType;1",
-      "writable": true
+      "schema": "dtmi:opcua:MachineVision:VisionSystemType:dataType:SystemStateDescriptionDataType;1"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

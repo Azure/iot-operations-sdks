@@ -97,6 +97,26 @@ DefinedTypes:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:16351, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:16353, DI:Model, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:16359, DI:ProductCode, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:16354, DI:SerialNumber, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:16362, Robotics:MotionDeviceCategory, Robotics:MotionDeviceCategoryEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Robotics:15305, Robotics:Axes ]
     - HasTypeDefinition:
@@ -130,6 +150,10 @@ DefinedTypes:
     - [ UAObject, Robotics:16602, DI:ParameterSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:16637, Robotics:MotionProfile, Robotics:AxisMotionProfileEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -166,11 +190,43 @@ DefinedTypes:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17101, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17103, DI:Model, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17109, DI:ProductCode, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17104, DI:SerialNumber, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:15063, DI:ComponentType ]
 
   Robotics:GearType:
   - [ UAObjectType, Robotics:1022, Robotics:GearType ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17152, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17154, DI:Model, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17160, DI:ProductCode, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17155, DI:SerialNumber, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Robotics:15941, Robotics:GearRatio, RationalNumber, 0, 0 ]
     - HasComponent:
@@ -215,6 +271,10 @@ DefinedTypes:
 
   Robotics:EmergencyStopFunctionType:
   - [ UAObjectType, Robotics:17230, Robotics:EmergencyStopFunctionType ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17231, Robotics:Name, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Robotics:17232, Robotics:Active, Boolean, 0, 0 ]
     - HasModellingRule:
@@ -224,6 +284,10 @@ DefinedTypes:
 
   Robotics:ProtectiveStopFunctionType:
   - [ UAObjectType, Robotics:17233, Robotics:ProtectiveStopFunctionType ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17234, Robotics:Name, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Robotics:17235, Robotics:Enabled, Boolean, 0, 0 ]
     - HasModellingRule:
@@ -243,6 +307,22 @@ DefinedTypes:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17237, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17239, DI:Model, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17245, DI:ProductCode, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17240, DI:SerialNumber, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Robotics:17249, Robotics:CurrentUser ]
     - HasTypeDefinition:
@@ -272,11 +352,19 @@ DefinedTypes:
 
   Robotics:AuxiliaryComponentType:
   - [ UAObjectType, Robotics:17725, Robotics:AuxiliaryComponentType ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17756, DI:ProductCode, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1002, DI:DeviceType ]
 
   Robotics:DriveType:
   - [ UAObjectType, Robotics:17793, Robotics:DriveType ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17824, DI:ProductCode, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1002, DI:DeviceType ]
 
@@ -286,6 +374,10 @@ DefinedTypes:
     - [ UAObject, Robotics:15883, DI:ParameterSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:17873, DI:ComponentName, LocalizedText, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -354,5 +446,13 @@ DefinedTypes:
 
   Robotics:UserType:
   - [ UAObjectType, Robotics:18175, Robotics:UserType ]
+  - HasProperty:
+    - [ UAVariable, Robotics:18176, Robotics:Level, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Robotics:18177, Robotics:Name, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

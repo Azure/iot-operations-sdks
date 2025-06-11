@@ -224,6 +224,27 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaxEPCISaggregationEvents",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaxEPCISObjectEventSIDs",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaxEvents",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "LabelsEncodingEvent",
       "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",

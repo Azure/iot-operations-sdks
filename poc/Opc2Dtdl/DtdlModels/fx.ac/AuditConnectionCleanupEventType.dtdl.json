@@ -14,7 +14,63 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=1040",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:FX_AC:AuditConnectionCleanupEventType:dataType:RelatedEndpointDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=3003",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Address",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ConnectionEndpointPath",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:FX_AC:AuditConnectionCleanupEventType:dataType:PortableQualifiedName;1"
+          }
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "ConnectionEndpointName",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:FX_AC:AuditConnectionCleanupEventType:dataType:PortableQualifiedName;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=24105",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "NamespaceUri",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Name",
+          "schema": "string"
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RelatedEndpoint",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": "dtmi:opcua:FX_AC:AuditConnectionCleanupEventType:dataType:RelatedEndpointDataType;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RemovedEndpoint",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": "string",
+      "writable": true
+    }
   ]
 }

@@ -44,5 +44,7 @@ DefinedTypes:
 
   Mining.Loading.General:LoadingMachineType:
   - [ UAObjectType, Mining.Loading.General:1002, Mining.Loading.General:LoadingMachineType ]
+  - HasProperty:
+    - [ UAVariable, Mining.Loading.General:6017, Mining.Loading.General:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
   - HasSubtype_reverse:
     - [ UAObjectType, Mining.General:1002, Mining.General:MiningEquipmentType ]

@@ -6,6 +6,12 @@ DefinedTypes:
   - [ UAObjectType, AMLBaseTypes:1006, AMLBaseTypes:CAEXBasicObjectType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, AMLBaseTypes:6001, AMLBaseTypes:Version, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   AMLBaseTypes:CAEXFileType:
   - [ UAObjectType, AMLBaseTypes:1005, AMLBaseTypes:CAEXFileType ]
@@ -38,6 +44,12 @@ DefinedTypes:
 
   AMLBaseTypes:CAEXObjectType:
   - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
+  - HasProperty:
+    - [ UAVariable, AMLBaseTypes:6002, AMLBaseTypes:ID, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLBaseTypes:1006, AMLBaseTypes:CAEXBasicObjectType ]
 

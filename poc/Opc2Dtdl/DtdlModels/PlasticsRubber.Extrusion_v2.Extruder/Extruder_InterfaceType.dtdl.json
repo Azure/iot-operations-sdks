@@ -18,10 +18,23 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "BarrelId",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ScrewId",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SpecificOutput",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

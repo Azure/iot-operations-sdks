@@ -351,14 +351,30 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Filter:6166, PlasticsRubber.Extrusion_v2.Filter:Area, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Filter:6169, PlasticsRubber.Extrusion_v2.Filter:BackflushCounter, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Filter:6168, PlasticsRubber.Extrusion_v2.Filter:BackflushTime, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Filter:6276, PlasticsRubber.Extrusion_v2.Filter:Name, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.Filter:5013, PlasticsRubber.Extrusion_v2.Filter:ScreenPackage_<Nr> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.Filter:1003, PlasticsRubber.Extrusion_v2.Filter:ScreenPackageType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Filter:6165, PlasticsRubber.Extrusion_v2.Filter:Status, PlasticsRubber.Extrusion_v2.Filter:FilterPackageStatusEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.Extrusion_v2.Filter:ScreenPackageType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.Filter:1003, PlasticsRubber.Extrusion_v2.Filter:ScreenPackageType ]
@@ -366,5 +382,17 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Filter:6155, PlasticsRubber.Extrusion_v2.Filter:Area, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Filter:6151, PlasticsRubber.Extrusion_v2.Filter:Name, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Filter:6153, PlasticsRubber.Extrusion_v2.Filter:PackageSetup, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Filter:6154, PlasticsRubber.Extrusion_v2.Filter:SerialNr, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]

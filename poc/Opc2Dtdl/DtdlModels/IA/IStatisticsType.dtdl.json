@@ -17,6 +17,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "StartTime",
+      "namespace": "http://opcfoundation.org/UA/IA",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "ResetStatistics",
       "namespace": "http://opcfoundation.org/UA/IA"

@@ -16,39 +16,34 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "BlockSkip",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DryRun",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OptionalStop",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SingleStep",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TestMode",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     }
   ]
 }

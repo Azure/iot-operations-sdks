@@ -16,6 +16,34 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CertificateUri",
+      "namespace": "http://opcfoundation.org/UA/IA",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LastValidationDate",
+      "namespace": "http://opcfoundation.org/UA/IA",
+      "schema": "time",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NextValidationDate",
+      "namespace": "http://opcfoundation.org/UA/IA",
+      "schema": "time",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Quality",
+      "namespace": "http://opcfoundation.org/UA/IA",
+      "schema": "unsignedByte",
+      "writable": true
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "CalibrationTargetCategory",
       "namespace": "http://opcfoundation.org/UA/IA",

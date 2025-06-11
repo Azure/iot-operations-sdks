@@ -18,24 +18,35 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "AutomaticModeSwitch",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Used",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualValue",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CommunicationProtocolType",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "unsignedShort",
-      "writable": true
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ThermocoupleType",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "unsignedShort",
-      "writable": true
+      "schema": "unsignedShort"
     },
     {
       "@type": [ "Command", "Qualified" ],

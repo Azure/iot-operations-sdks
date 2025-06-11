@@ -18,17 +18,48 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "LevelMax",
+      "name": "Limits",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "Limits",
+          "schema": "string"
+        },
+        "mapValue": {
+          "@type": [ "MapValue", "" ],
+          "name": "LimitsSchema",
+          "unit": "",
+          "schema": "boolean"
+        }
+      },
       "writable": true
     },
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "LimitMax",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LimitMin",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "LevelMax",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "integer"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LevelMin",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     }
   ]
 }

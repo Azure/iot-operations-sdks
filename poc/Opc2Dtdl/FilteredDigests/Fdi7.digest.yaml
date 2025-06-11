@@ -100,51 +100,199 @@ DefinedTypes:
 
   FDI7:GenericProtocol:
   - [ UAObjectType, FDI7:1378, FDI7:GenericProtocol ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1379, FDI7:ProtocolIdentifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1006, DI:ProtocolType ]
 
   FDI7:ConnectionPoint_Foundation_H1:
   - [ UAObjectType, FDI7:1380, FDI7:ConnectionPoint_Foundation_H1 ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1421, FDI7:Address, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1422, FDI7:OrdinalNumber, Int32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1423, FDI7:SIFConnection, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
 
   FDI7:ConnectionPoint_Foundation_HSE:
   - [ UAObjectType, FDI7:1424, FDI7:ConnectionPoint_Foundation_HSE ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1465, FDI7:Address, Byte, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1466, FDI7:OrdinalNumber, Int32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
 
   FDI7:ConnectionPoint_Profibus_DP:
   - [ UAObjectType, FDI7:1467, FDI7:ConnectionPoint_Profibus_DP ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1508, FDI7:Address, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
 
   FDI7:ConnectionPoint_Profinet_IO:
   - [ UAObjectType, FDI7:1509, FDI7:ConnectionPoint_Profinet_IO ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1550, FDI7:MAC, Byte, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1551, FDI7:IPv4, Byte, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1552, FDI7:DNSNAME, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1553, FDI7:VALID, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
 
   FDI7:ConnectionPoint_HART_TP5:
   - [ UAObjectType, FDI7:1554, FDI7:ConnectionPoint_HART_TP5 ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1595, FDI7:DevAddr, Byte, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1596, FDI7:DevMfg, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1597, FDI7:DevType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1598, FDI7:DevRev, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1599, FDI7:DevTag, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1600, FDI7:DevPollAddr, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
 
   FDI7:ConnectionPoint_HART_TP6:
   - [ UAObjectType, FDI7:1601, FDI7:ConnectionPoint_HART_TP6 ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1642, FDI7:DevAddr, Byte, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1643, FDI7:DevMfg, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1644, FDI7:DevType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1645, FDI7:DevRev, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1646, FDI7:DevTag, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1647, FDI7:DevPollAddr, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
 
   FDI7:ConnectionPoint_HART_TP7:
   - [ UAObjectType, FDI7:1648, FDI7:ConnectionPoint_HART_TP7 ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1689, FDI7:DevAddr, Byte, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1690, FDI7:DevMfg, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1691, FDI7:DevType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1692, FDI7:DevRev, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1693, FDI7:DevTag, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1694, FDI7:DevPollAddr, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
 
   FDI7:ConnectionPoint_ISA100_Wireless:
   - [ UAObjectType, FDI7:1695, FDI7:ConnectionPoint_ISA100_Wireless ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1736, FDI7:IPAddress, ByteString, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1737, FDI7:DevMfg, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1738, FDI7:DevType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1739, FDI7:DevRev, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1740, FDI7:DevTag, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1741, FDI7:DevPollAddr, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
 
   FDI7:GenericConnectionPoint:
   - [ UAObjectType, FDI7:1742, FDI7:GenericConnectionPoint ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1783, FDI7:Address, ByteString, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1784, FDI7:ProtocolIdentifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
 
@@ -179,6 +327,10 @@ DefinedTypes:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:15001, FDI7:ListOfCommunicationProfiles, String, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1002, DI:DeviceType ]
 
@@ -286,6 +438,10 @@ DefinedTypes:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, FDI7:1987, FDI7:ProtocolIdentifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, FDI7:1991, FDI7:ServiceProvider ]
     - HasTypeDefinition:

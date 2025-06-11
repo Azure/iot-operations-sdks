@@ -16,7 +16,7 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DcActivePower",
       "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
@@ -42,11 +42,10 @@
             "schema": "unsignedInteger"
           }
         ]
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DcCurrent",
       "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
@@ -72,11 +71,10 @@
             "schema": "unsignedInteger"
           }
         ]
-      },
-      "writable": true
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DcVoltage",
       "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
@@ -102,8 +100,7 @@
             "schema": "unsignedInteger"
           }
         ]
-      },
-      "writable": true
+      }
     }
   ]
 }

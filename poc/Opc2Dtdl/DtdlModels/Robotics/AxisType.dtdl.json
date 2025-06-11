@@ -14,8 +14,43 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=16601",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:Robotics:AxisType:dataType:AxisMotionProfileEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=3008",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "OTHER",
+          "enumValue": 0
+        },
+        {
+          "name": "ROTARY",
+          "enumValue": 1
+        },
+        {
+          "name": "ROTARY_ENDLESS",
+          "enumValue": 2
+        },
+        {
+          "name": "LINEAR",
+          "enumValue": 3
+        },
+        {
+          "name": "LINEAR_ENDLESS",
+          "enumValue": 4
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MotionProfile",
+      "namespace": "http://opcfoundation.org/UA/Robotics",
+      "schema": "dtmi:opcua:Robotics:AxisType:dataType:AxisMotionProfileEnumeration;1",
+      "writable": false
+    },
     {
       "@type": [ "Relationship", "Qualified" ],
       "name": "AdditionalLoad",

@@ -14,7 +14,46 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=38",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:Scales_V2:AnalogConditionSleepType:dataType:EqualityAndRelationalOperator;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=61",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Equal_0",
+          "enumValue": 0
+        },
+        {
+          "name": "NotEqual_1",
+          "enumValue": 1
+        },
+        {
+          "name": "LessOrEqualThan_2",
+          "enumValue": 2
+        },
+        {
+          "name": "GreaterOrEqualThan_3",
+          "enumValue": 3
+        },
+        {
+          "name": "LessThan_4",
+          "enumValue": 4
+        },
+        {
+          "name": "GreaterThan_5",
+          "enumValue": 5
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ConditionMode",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "dtmi:opcua:Scales_V2:AnalogConditionSleepType:dataType:EqualityAndRelationalOperator;1",
+      "writable": true
+    }
   ]
 }

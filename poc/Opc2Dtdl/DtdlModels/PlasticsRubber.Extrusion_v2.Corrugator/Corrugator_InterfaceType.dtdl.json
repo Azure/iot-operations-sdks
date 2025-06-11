@@ -18,10 +18,16 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "MouldId",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Corrugator",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ExtruderEnabled",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Corrugator",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     }
   ]
 }

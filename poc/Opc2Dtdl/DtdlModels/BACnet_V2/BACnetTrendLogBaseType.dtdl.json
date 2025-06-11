@@ -14,7 +14,62 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101026",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetTrendLogBaseType:dataType:BACnetLoggingType;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103048",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Polled",
+          "enumValue": 0
+        },
+        {
+          "name": "COV",
+          "enumValue": 1
+        },
+        {
+          "name": "Triggered",
+          "enumValue": 2
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Align_Intervals",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Interval_Offset",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Log_Interval",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Logging_Type",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetTrendLogBaseType:dataType:BACnetLoggingType;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Trigger",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "boolean",
+      "writable": true
+    }
   ]
 }

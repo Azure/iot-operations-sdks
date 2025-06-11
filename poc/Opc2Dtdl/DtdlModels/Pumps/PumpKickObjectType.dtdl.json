@@ -37,26 +37,23 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PumpKickMode",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "dtmi:opcua:Pumps:PumpKickObjectType:dataType:PumpKickModeEnum;1",
-      "writable": true
+      "schema": "dtmi:opcua:Pumps:PumpKickObjectType:dataType:PumpKickModeEnum;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PumpKickTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "PumpKickTimeDifference",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "second",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     }
   ]
 }

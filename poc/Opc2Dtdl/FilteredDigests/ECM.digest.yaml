@@ -101,6 +101,10 @@ DefinedTypes:
   - [ UAObjectType, ECM:1014, ECM:AccuracyDomainType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, ECM:6201, ECM:EnumValues, EnumValueType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   ECM:IEnergyProfileD0Type:
   - [ UAObjectType, ECM:1011, ECM:IEnergyProfileD0Type ]
@@ -378,6 +382,10 @@ DefinedTypes:
     - [ UAVariable, ECM:6107, ECM:TimeMinPause, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, ECM:6109, ECM:WOLMagicPacket, ByteString, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   ECM:EnergyMeasurementType:
   - [ UAObjectType, ECM:1006, ECM:EnergyMeasurementType ]
@@ -400,8 +408,16 @@ DefinedTypes:
       - [ UAVariable, ECM:6130, ECM:Resource, UInt32, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, ECM:6055, ECM:ApplicationTag, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, ECM:7008, IA:ResetStatistics ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, ECM:6009, IA:StartTime, DateTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
@@ -433,12 +449,20 @@ DefinedTypes:
   - [ UAObjectType, ECM:1003, ECM:EnergySavingModeType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, ECM:6026, ECM:DynamicData, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, ECM:6036, ECM:EnergyConsumptionToOperate, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, ECM:6034, ECM:EnergyConsumptionToPause, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, ECM:6025, ECM:ID, Byte, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:

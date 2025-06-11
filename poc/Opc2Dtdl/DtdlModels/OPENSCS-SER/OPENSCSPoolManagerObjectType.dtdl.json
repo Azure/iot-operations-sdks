@@ -181,6 +181,47 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaxSNPushable",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaxSNRequestable",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaxSNReturnable",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PoolSelectionCriteria",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SNFormat",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "SNRequestAllocated",
       "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",

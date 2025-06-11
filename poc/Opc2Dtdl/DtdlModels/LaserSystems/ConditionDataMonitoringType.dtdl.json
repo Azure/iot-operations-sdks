@@ -18,45 +18,46 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "Description",
+      "name": "ConditionParameterIdentifier",
       "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "Description",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
+      "schema": "string"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LowerErrorLevel",
       "namespace": "http://opcfoundation.org/UA/LaserSystems",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LowerWarningLevel",
       "namespace": "http://opcfoundation.org/UA/LaserSystems",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "UpperErrorLevel",
       "namespace": "http://opcfoundation.org/UA/LaserSystems",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "UpperWarningLevel",
       "namespace": "http://opcfoundation.org/UA/LaserSystems",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Value",
       "namespace": "http://opcfoundation.org/UA/LaserSystems",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     }
   ]
 }

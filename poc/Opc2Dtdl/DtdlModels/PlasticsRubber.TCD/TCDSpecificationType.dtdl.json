@@ -16,42 +16,44 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Power" ],
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceZoneId",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified", "Power" ],
       "name": "ConnectedLoad",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "unit": "kilowatt",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "Power" ],
+      "@type": [ "Telemetry", "Qualified", "Power" ],
       "name": "CoolingCapacity",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "unit": "kilowatt",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MaxTemperature",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NominalFlowRate",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "Power" ],
+      "@type": [ "Telemetry", "Qualified", "Power" ],
       "name": "PowerValue",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "unit": "kilowatt",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     }
   ]
 }

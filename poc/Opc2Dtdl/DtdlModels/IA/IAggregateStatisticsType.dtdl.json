@@ -16,5 +16,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ResetCondition",
+      "namespace": "http://opcfoundation.org/UA/IA",
+      "schema": "string",
+      "writable": true
+    }
   ]
 }

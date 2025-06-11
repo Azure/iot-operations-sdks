@@ -41,79 +41,69 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "BeverageSize",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "BeverageSML",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineRecipeParameterType:dataType:BeverageSMLEnumeration;1",
-      "writable": true
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineRecipeParameterType:dataType:BeverageSMLEnumeration;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CoffeeType",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Container",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified", "Volume" ],
+      "@type": [ "Telemetry", "Qualified", "Volume" ],
       "name": "FoamAmount",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "millilitre",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Mass" ],
+      "@type": [ "Telemetry", "Qualified", "Mass" ],
       "name": "GroundsAmount",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "gram",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Volume" ],
+      "@type": [ "Telemetry", "Qualified", "Volume" ],
       "name": "GroundsWater",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "millilitre",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Volume" ],
+      "@type": [ "Telemetry", "Qualified", "Volume" ],
       "name": "MilkAmount",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "millilitre",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Mass" ],
+      "@type": [ "Telemetry", "Qualified", "Mass" ],
       "name": "PowderAmount",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "gram",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "RcpType",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     }
   ]
 }

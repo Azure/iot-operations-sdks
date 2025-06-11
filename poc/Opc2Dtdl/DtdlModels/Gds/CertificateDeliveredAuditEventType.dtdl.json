@@ -15,5 +15,19 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CertificateGroup",
+      "namespace": "http://opcfoundation.org/UA/GDS",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CertificateType",
+      "namespace": "http://opcfoundation.org/UA/GDS",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }

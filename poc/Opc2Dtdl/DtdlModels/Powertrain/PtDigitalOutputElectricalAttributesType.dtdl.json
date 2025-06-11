@@ -18,17 +18,29 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "DigitalOutputElectricalType",
+      "name": "NumberOfChannels",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "unsignedShort",
       "writable": false
     },
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "SafetyPropertySupported",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "DigitalOutputElectricalType",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "unsignedShort"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OutputCurrentMax",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     }
   ]
 }

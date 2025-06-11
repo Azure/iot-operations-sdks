@@ -17,263 +17,226 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "AccessoryLiquidFlow",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "AccessoryLiquidHigh",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "AccessoryLiquidLow",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "AccessoryLiquidOverheat",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "AccessoryLiquidPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "AmbientTemperature",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "CaseOverheat",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "ControllerOverheat",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "ConverterOverheat",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "CoolantFlow",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "CoolantHigh",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "CoolantLow",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "CoolantOverheat",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "Deceleration",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "DirtyImpeller",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "DriveOverheat",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "GeneratorOperation",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "Leakage",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "Lubricant",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "MaximumNumberStarts",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "MaximumOperationTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "MaximumStartsAtTime",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "MotorHumidity",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "MotorOverheat",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "OperationFault",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "OverLoad",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "OverSpeed",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "PartialLoad",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "Synchronisation",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "TemperatureFault",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "TimeOut",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "TMSFailure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "TorqueLimit",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "TurbineOperation",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "UnderSpeed",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "VelocityLimit",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "WearReserveExhausted",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     }
   ]
 }

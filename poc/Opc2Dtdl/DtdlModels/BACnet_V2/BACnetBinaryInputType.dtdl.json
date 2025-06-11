@@ -14,7 +14,37 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1013",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetBinaryInputType:dataType:BACnetPolarity;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3007",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Normal",
+          "enumValue": 0
+        },
+        {
+          "name": "Reverse",
+          "enumValue": 1
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Device_Type",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Polarity",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetBinaryInputType:dataType:BACnetPolarity;1",
+      "writable": true
+    }
   ]
 }

@@ -14,7 +14,59 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16847",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:Powertrain:PtContactorAttributesType:dataType:Range;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Low",
+          "schema": "double"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "High",
+          "schema": "double"
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ControlVoltageAC50HzRangeRated",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "dtmi:opcua:Powertrain:PtContactorAttributesType:dataType:Range;1",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NumberofAuxiliaryContactsNC",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NumberofAuxiliaryContactsNO",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NumberofMainContactsNO",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "OperationalCurrentAC3At400VRated",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "float",
+      "writable": false
+    }
   ]
 }

@@ -13,8 +13,31 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1005",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:I4AAS:AASAssetType:dataType:AASAssetKindDataType;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3003",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Type",
+          "enumValue": 0
+        },
+        {
+          "name": "Instance",
+          "enumValue": 1
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AssetKind",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
+      "schema": "dtmi:opcua:I4AAS:AASAssetType:dataType:AASAssetKindDataType;1",
+      "writable": true
+    },
     {
       "@type": [ "Relationship", "Qualified" ],
       "name": "DataSpecification",

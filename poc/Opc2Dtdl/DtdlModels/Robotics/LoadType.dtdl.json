@@ -99,14 +99,13 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Mass",
       "namespace": "http://opcfoundation.org/UA/Robotics",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CenterOfMass",
       "namespace": "http://opcfoundation.org/UA/Robotics",
       "schema": {
@@ -131,11 +130,10 @@
             "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DOrientation;1"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Inertia",
       "namespace": "http://opcfoundation.org/UA/Robotics",
       "schema": {
@@ -166,8 +164,7 @@
             "schema": "double"
           }
         ]
-      },
-      "writable": false
+      }
     }
   ]
 }

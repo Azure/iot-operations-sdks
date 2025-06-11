@@ -14,14 +14,44 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=5",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:Scales_V2:AutomaticFillingScaleType:dataType:ToleranceState;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=60",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "In_0",
+          "enumValue": 0
+        },
+        {
+          "name": "Under_1",
+          "enumValue": 1
+        },
+        {
+          "name": "Over_2",
+          "enumValue": 2
+        },
+        {
+          "name": "UnderOrOver_3",
+          "enumValue": 3
+        }
+      ]
+    }
   ],
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "ToleranceState",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
+      "schema": "dtmi:opcua:Scales_V2:AutomaticFillingScaleType:dataType:ToleranceState;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Deviation",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     }
   ]
 }

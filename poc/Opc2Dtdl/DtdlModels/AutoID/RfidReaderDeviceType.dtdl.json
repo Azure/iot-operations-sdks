@@ -16,6 +16,23 @@
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
+      "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:AntennaNameIdPair;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3011",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "AntennaId",
+          "schema": "integer"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "AntennaName",
+          "schema": "string"
+        }
+      ]
+    },
+    {
       "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:ScanData;1",
       "@type": [ "Object", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3020",
@@ -39,6 +56,33 @@
           "@type": [ "Field", "Required" ],
           "name": "Custom",
           "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:ScanDataEpc;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3024",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "PC",
+          "schema": "unsignedShort"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "UId",
+          "schema": "bytes"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "XPC_W1",
+          "schema": "unsignedShort"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "XPC_W2",
+          "schema": "unsignedShort"
         }
       ]
     },
@@ -213,49 +257,30 @@
           "enumValue": 3
         }
       ]
-    },
-    {
-      "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:ScanDataEpc;1",
-      "@type": [ "Object", "Congruence" ],
-      "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3024",
-      "fields": [
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "PC",
-          "schema": "unsignedShort"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "UId",
-          "schema": "bytes"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "XPC_W1",
-          "schema": "unsignedShort"
-        },
-        {
-          "@type": [ "Field", "Required" ],
-          "name": "XPC_W2",
-          "schema": "unsignedShort"
-        }
-      ]
     }
   ],
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "LastScanAntenna",
+      "name": "AntennaNames",
       "namespace": "http://opcfoundation.org/UA/AutoID",
-      "schema": "integer",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:AntennaNameIdPair;1"
+      },
       "writable": true
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "LastScanAntenna",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
+      "schema": "integer"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LastScanRSSI",
       "namespace": "http://opcfoundation.org/UA/AutoID",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
       "@type": [ "Command", "Qualified" ],

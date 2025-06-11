@@ -70,90 +70,92 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "ApplicationTag",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "EncoderProfileVersion",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Acceleration",
       "namespace": "http://opcfoundation.org/UA/PNENC",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "EncoderChannelState",
       "namespace": "http://opcfoundation.org/UA/PNENC",
-      "schema": "dtmi:opcua:PNENC:EncoderChannelType:dataType:EncoderChannelStateEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:PNENC:EncoderChannelType:dataType:EncoderChannelStateEnumeration;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "G1_STW",
       "namespace": "http://opcfoundation.org/UA/PNENC",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "G1_XIST1",
       "namespace": "http://opcfoundation.org/UA/PNENC",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "G1_XIST2",
       "namespace": "http://opcfoundation.org/UA/PNENC",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "G1_XIST3",
       "namespace": "http://opcfoundation.org/UA/PNENC",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "G1_XIST_PRESET_B",
       "namespace": "http://opcfoundation.org/UA/PNENC",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "G1_XIST_PRESET_B1",
       "namespace": "http://opcfoundation.org/UA/PNENC",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "G1_XIST_PRESET_C",
       "namespace": "http://opcfoundation.org/UA/PNENC",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "G1_ZSW",
       "namespace": "http://opcfoundation.org/UA/PNENC",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NIST_A",
       "namespace": "http://opcfoundation.org/UA/PNENC",
-      "schema": "short",
-      "writable": false
+      "schema": "short"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NIST_B",
       "namespace": "http://opcfoundation.org/UA/PNENC",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Position",
       "namespace": "http://opcfoundation.org/UA/PNENC",
       "schema": {
@@ -172,32 +174,28 @@
             "schema": "double"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PositionSensorSignalValue",
       "namespace": "http://opcfoundation.org/UA/PNENC",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "STW2_ENC",
       "namespace": "http://opcfoundation.org/UA/PNENC",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Temperature",
       "namespace": "http://opcfoundation.org/UA/PNENC",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Velocity",
       "namespace": "http://opcfoundation.org/UA/PNENC",
       "schema": {
@@ -216,15 +214,13 @@
             "schema": "float"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ZSW2_ENC",
       "namespace": "http://opcfoundation.org/UA/PNENC",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
       "@type": [ "Command", "Qualified" ],

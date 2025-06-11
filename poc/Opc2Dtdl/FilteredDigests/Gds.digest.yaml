@@ -305,11 +305,27 @@ DefinedTypes:
 
   GDS:CertificateRequestedAuditEventType:
   - [ UAObjectType, GDS:91, GDS:CertificateRequestedAuditEventType ]
+  - HasProperty:
+    - [ UAVariable, GDS:717, GDS:CertificateGroup, NodeId, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, GDS:718, GDS:CertificateType, NodeId, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
 
   GDS:CertificateDeliveredAuditEventType:
   - [ UAObjectType, GDS:109, GDS:CertificateDeliveredAuditEventType ]
+  - HasProperty:
+    - [ UAVariable, GDS:719, GDS:CertificateGroup, NodeId, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, GDS:720, GDS:CertificateType, NodeId, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
 
@@ -326,6 +342,18 @@ DefinedTypes:
 
   GDS:KeyCredentialServiceType:
   - [ UAObjectType, GDS:1020, GDS:KeyCredentialServiceType ]
+  - HasProperty:
+    - [ UAVariable, GDS:1021, GDS:ResourceUri, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, GDS:1022, GDS:ProfileUris, String, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, GDS:495, GDS:SecurityPolicyUris, String, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, GDS:1023, GDS:StartRequest ]
     - HasProperty:
@@ -401,6 +429,18 @@ DefinedTypes:
 
   GDS:AuthorizationServiceType:
   - [ UAObjectType, GDS:966, GDS:AuthorizationServiceType ]
+  - HasProperty:
+    - [ UAVariable, GDS:1003, GDS:ServiceUri, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, GDS:968, GDS:ServiceCertificate, ByteString, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, GDS:967, GDS:UserTokenPolicies, UserTokenPolicy, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, GDS:1004, GDS:GetServiceDescription ]
     - HasProperty:

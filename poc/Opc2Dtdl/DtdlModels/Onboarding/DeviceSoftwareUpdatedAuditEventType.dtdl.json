@@ -16,5 +16,19 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Status",
+      "namespace": "http://opcfoundation.org/UA/Onboarding",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SoftwareRevision",
+      "namespace": "http://opcfoundation.org/UA/Onboarding",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }

@@ -17,6 +17,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProgramName",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "string",
+      "writable": true
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "Characteristics",
       "namespace": "http://opcfoundation.org/UA/GMS",

@@ -57,6 +57,8 @@ DefinedTypes:
 
   Machinery.Result:ResultManagementType:
   - [ UAObjectType, Machinery.Result:1004, Machinery.Result:ResultManagementType ]
+  - HasProperty:
+    - [ UAVariable, Machinery.Result:6037, Machinery.Result:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
   - HasComponent:
     - [ UAMethod, Machinery.Result:7008, Machinery.Result:GetLatestResult ]
     - HasModellingRule:

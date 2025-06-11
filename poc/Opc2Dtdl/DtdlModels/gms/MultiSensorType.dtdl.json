@@ -14,7 +14,44 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1012",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:GMS:MultiSensorType:dataType:ToolAlignmentState;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=3004",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Fixed",
+          "enumValue": 0
+        },
+        {
+          "name": "Indexed",
+          "enumValue": 1
+        },
+        {
+          "name": "Continuous",
+          "enumValue": 2
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Alignment",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "dtmi:opcua:GMS:MultiSensorType:dataType:ToolAlignmentState;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Axes",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": true
+    }
   ]
 }

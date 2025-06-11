@@ -38,34 +38,58 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "DeviceMappingNumber",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "EnablePower",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "HighestActiveAlarmSeverity",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SessionNameForReactionOnDisconnect",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActiveErrors",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:PlasticsRubber_HotRunner:OperationType:dataType:ClassifiedActiveErrorDataType;1"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActiveSetValues",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
-      "schema": "unsignedShort",
-      "writable": true
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "EvenHeatUpMaxTemperatureDifference",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ReactionOnDisconnect",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
       "@type": [ "Command", "Qualified" ],

@@ -17,24 +17,56 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "BarrelId",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Index",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "InProduction",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "IsPresent",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ScrewId",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MaxScrewStroke",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ScrewDiameter",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ScrewVolume",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

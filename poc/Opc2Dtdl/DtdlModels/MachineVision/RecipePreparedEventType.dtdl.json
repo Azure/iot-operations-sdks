@@ -13,7 +13,77 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1022",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:MachineVision:RecipePreparedEventType:dataType:ProductIdDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:RecipePreparedEventType:dataType:BinaryIdBaseDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Version",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Hash",
+          "schema": "bytes"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "HashAlgorithm",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ExternalId",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
+      "schema": "dtmi:opcua:MachineVision:RecipePreparedEventType:dataType:BinaryIdBaseDataType;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "InternalId",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
+      "schema": "dtmi:opcua:MachineVision:RecipePreparedEventType:dataType:BinaryIdBaseDataType;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProductId",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
+      "schema": "dtmi:opcua:MachineVision:RecipePreparedEventType:dataType:ProductIdDataType;1",
+      "writable": true
+    }
   ]
 }

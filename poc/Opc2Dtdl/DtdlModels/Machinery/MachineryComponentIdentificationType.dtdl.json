@@ -16,5 +16,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceRevision",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }

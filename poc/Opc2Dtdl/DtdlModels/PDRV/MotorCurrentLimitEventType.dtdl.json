@@ -16,5 +16,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MotorCurrentLimitHigh",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "float",
+      "writable": false
+    }
   ]
 }

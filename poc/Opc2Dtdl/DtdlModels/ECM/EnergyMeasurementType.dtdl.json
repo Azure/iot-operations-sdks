@@ -18,6 +18,20 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "ApplicationTag",
+      "namespace": "http://opcfoundation.org/UA/ECM",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "StartTime",
+      "namespace": "http://opcfoundation.org/UA/IA",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MeasurementValue",
       "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
@@ -54,8 +68,7 @@
             "schema": "unsignedInteger"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

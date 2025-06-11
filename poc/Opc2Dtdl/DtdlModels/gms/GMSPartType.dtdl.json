@@ -18,41 +18,57 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "PartAmendmentStatus",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PartDescription",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProductionNumber",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "NestIdentifier",
       "namespace": "http://opcfoundation.org/UA/GMS",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Operator",
       "namespace": "http://opcfoundation.org/UA/GMS",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PartCarrierIdentifier",
       "namespace": "http://opcfoundation.org/UA/GMS",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProcessingMachineIdentifier",
       "namespace": "http://opcfoundation.org/UA/GMS",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProcessParameter",
       "namespace": "http://opcfoundation.org/UA/GMS",
       "schema": {
         "@type": "Array",
         "elementSchema": "integer"
-      },
-      "writable": true
+      }
     }
   ]
 }

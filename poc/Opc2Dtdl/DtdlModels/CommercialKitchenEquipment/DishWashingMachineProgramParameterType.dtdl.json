@@ -170,6 +170,20 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "ProductGroup",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProductType",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualFinalRinseTemperature_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -184,25 +198,22 @@
           "unit": "degreeCelsius",
           "schema": "unsignedShort"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualFinalRinseTemperatureNo",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualHygieneValue",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualMainTankTemperature_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -217,18 +228,16 @@
           "unit": "degreeCelsius",
           "schema": "unsignedShort"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualMainTankTemperatureNo",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualPreTankTemperature_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -243,18 +252,16 @@
           "unit": "degreeCelsius",
           "schema": "unsignedShort"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualPreTankTemperatureNo",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualPumpedFinalRinseTemperature_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -269,18 +276,16 @@
           "unit": "degreeCelsius",
           "schema": "unsignedShort"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ActualPumpedFinalRinseTemperatureNo",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FinalRinseTemperatureSetpoint_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -295,32 +300,28 @@
           "unit": "degreeCelsius",
           "schema": "unsignedShort"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "FinalRinseTemperatureSetpointNo",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "HygieneMode",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:HygieneModeEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:HygieneModeEnumeration;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "HygieneSetpoint",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MainTankTemperatureSetpoint_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -335,25 +336,22 @@
           "unit": "degreeCelsius",
           "schema": "unsignedShort"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "MainTankTemperatureSetpointNo",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OperationMode",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:OperationModeEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:OperationModeEnumeration;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PreTankTemperatureSetpoint_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -368,25 +366,22 @@
           "unit": "degreeCelsius",
           "schema": "unsignedShort"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PreTankTemperatureSetpointNo",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProgramMode",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:ProgramModeEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:ProgramModeEnumeration;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PumpedFinalRinseTemperatureSetpoint_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -401,15 +396,13 @@
           "unit": "degreeCelsius",
           "schema": "unsignedShort"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PumpedFinalRinseTemperatureSetpointNo",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "unsignedShort",
-      "writable": false
+      "schema": "unsignedShort"
     }
   ]
 }

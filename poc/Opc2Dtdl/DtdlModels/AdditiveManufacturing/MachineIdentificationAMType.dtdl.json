@@ -16,5 +16,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AMTechnologyIdentifier",
+      "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
+      "schema": "string",
+      "writable": true
+    }
   ]
 }

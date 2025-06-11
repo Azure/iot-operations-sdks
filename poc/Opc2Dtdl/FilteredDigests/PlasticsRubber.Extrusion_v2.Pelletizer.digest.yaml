@@ -275,8 +275,16 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion_v2.Pelletizer:DiePlateType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.Pelletizer:1002, PlasticsRubber.Extrusion_v2.Pelletizer:DiePlateType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6006, PlasticsRubber.Extrusion_v2.Pelletizer:ActiveTime, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6001, PlasticsRubber.Extrusion_v2.Pelletizer:Name, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.Extrusion_v2.Pelletizer:Pelletizer_InterfaceType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.Pelletizer:1004, PlasticsRubber.Extrusion_v2.Pelletizer:Pelletizer_InterfaceType ]
@@ -302,6 +310,10 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.Pelletizer:1003, PlasticsRubber.Extrusion_v2.Pelletizer:KnifePackageType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6108, PlasticsRubber.Extrusion_v2.Pelletizer:PelletizerClosed, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5011, PlasticsRubber.Extrusion_v2.Pelletizer:PressureZones ]
     - HasTypeDefinition:
@@ -314,10 +326,26 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1017, PlasticsRubber.Extrusion_v2.GeneralTypes:ExtrusionTemperatureZonesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6109, PlasticsRubber.Extrusion_v2.Pelletizer:WaterFlowActive, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1002, PlasticsRubber.Extrusion_v2.GeneralTypes:ExtrusionDeviceType ]
 
   PlasticsRubber.Extrusion_v2.Pelletizer:KnifePackageType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.Pelletizer:1003, PlasticsRubber.Extrusion_v2.Pelletizer:KnifePackageType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6010, PlasticsRubber.Extrusion_v2.Pelletizer:ActiveTime, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6009, PlasticsRubber.Extrusion_v2.Pelletizer:Amount, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6008, PlasticsRubber.Extrusion_v2.Pelletizer:Name, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]

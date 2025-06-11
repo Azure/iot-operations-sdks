@@ -15,5 +15,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Category",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
+      "schema": "string",
+      "writable": true
+    }
   ]
 }

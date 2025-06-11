@@ -30,6 +30,9 @@
 <# foreach (DtdlProperty dtdlProperty in this.dtdlProperties) { #>
 <#=dtdlProperty.TransformText()#><#=ix < this.contentCount ? "," : ""#>
 <# ix++; } #>
+<# foreach (DtdlTelemetry dtdlTelemetry in this.dtdlTelemetries) { #>
+<#=dtdlTelemetry.TransformText()#><#=ix < this.contentCount ? "," : ""#>
+<# ix++; } #>
 <# foreach (DtdlCommand dtdlCommand in this.dtdlCommands) { #>
 <#=dtdlCommand.TransformText()#><#=ix < this.contentCount ? "," : ""#>
 <# ix++; } #>

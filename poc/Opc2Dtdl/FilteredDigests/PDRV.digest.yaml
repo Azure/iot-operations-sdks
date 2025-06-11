@@ -138,6 +138,10 @@ DefinedTypes:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6020, PDRV:ApplicationTag, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PDRV:5002, PDRV:Lock ]
     - HasTypeDefinition:
@@ -190,6 +194,10 @@ DefinedTypes:
       - [ UAObjectType, PDRV:1015, PDRV:SafetyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6153, PDRV:AxisType, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PDRV:5003, PDRV:CharacteristicsMotorAndControl ]
     - HasTypeDefinition:
@@ -423,16 +431,28 @@ DefinedTypes:
   - [ UAObjectType, PDRV:1012, PDRV:DiagnosisAlarmType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2915, AlarmConditionType ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6026, PDRV:LogEntry, PNENC:LogEntryDataType, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PDRV:AxisSwOvertravelEventType:
   - [ UAObjectType, PDRV:1013, PDRV:AxisSwOvertravelEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6147, PDRV:IsUpperSwLimit, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PDRV:AxisHwOvertravelEventType:
   - [ UAObjectType, PDRV:1014, PDRV:AxisHwOvertravelEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6148, PDRV:IsUpperHwLimit, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PDRV:SafetyType:
   - [ UAObjectType, PDRV:1015, PDRV:SafetyType ]
@@ -491,11 +511,27 @@ DefinedTypes:
   - [ UAObjectType, PDRV:1016, PDRV:TorqueLimitEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6270, PDRV:TorqueLimit, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6271, PDRV:Torque, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PDRV:MotorCurrentLimitEventType:
   - [ UAObjectType, PDRV:1017, PDRV:MotorCurrentLimitEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6164, PDRV:MotorCurrentLimitHigh, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6273, PDRV:OutputCurrent, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PDRV:SafetyFunctionType:
   - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
@@ -509,13 +545,85 @@ DefinedTypes:
     - [ UAVariable, PDRV:6154, PDRV:ActivationState, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6155, PDRV:Limit, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PDRV:ForceLimitEventType:
   - [ UAObjectType, PDRV:1019, PDRV:ForceLimitEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6201, PDRV:ForceLimit, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6272, PDRV:Force, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PDRV:AxisEventType:
   - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6136, PDRV:AxisState, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6150, PDRV:ControlPriority, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6167, PDRV:OutputCurrent, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6171, PDRV:Torque, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6172, PDRV:Force, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6178, PDRV:Power, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6179, PDRV:MotorTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6190, PDRV:ConverterTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6191, PDRV:DeviceTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6214, PDRV:DcBusVoltage, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6227, PDRV:PositionFollowingError, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6261, PDRV:VelocityFollowingError, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6263, PDRV:ControlMode, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6268, PDRV:<FeedbackSensor1..3Temperature>, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasProperty:
+    - [ UAVariable, PDRV:6269, PDRV:BrakeResistorTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]

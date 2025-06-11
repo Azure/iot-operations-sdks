@@ -18,10 +18,65 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "CalibrationNeeded",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "FirmwareInfo",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LastCalibration",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
+      "schema": "time",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LastService",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
+      "schema": "time",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MaintenanceRecord",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NextCalibration",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
+      "schema": "time",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NextService",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
+      "schema": "time",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "StartOfWarranty",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
+      "schema": "time",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ServiceClass",
       "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
-      "schema": "unsignedInteger",
-      "writable": true
+      "schema": "unsignedInteger"
     }
   ]
 }

@@ -42,10 +42,16 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "GSDDescription",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "State",
       "namespace": "http://opcfoundation.org/UA/PROFINET",
-      "schema": "dtmi:opcua:PROFINET:IPnDeviceType:dataType:PnDeviceStateEnumeration;1",
-      "writable": false
+      "schema": "dtmi:opcua:PROFINET:IPnDeviceType:dataType:PnDeviceStateEnumeration;1"
     }
   ]
 }

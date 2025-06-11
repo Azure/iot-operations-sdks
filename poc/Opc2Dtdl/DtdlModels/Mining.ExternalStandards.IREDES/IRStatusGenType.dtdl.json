@@ -17,17 +17,43 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "Comment",
+      "name": "DefaultInstanceBrowseName",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": "string",
       "writable": true
     },
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "OperatorId",
+      "name": "EndLogTime",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ReportId",
       "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": "string",
       "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "StartLogTime",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "Comment",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
+      "schema": "string"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "OperatorId",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
+      "schema": "string"
     }
   ]
 }

@@ -36,18 +36,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DisplayMode",
       "namespace": "http://opcfoundation.org/UA/IA",
-      "schema": "dtmi:opcua:IA:StackLevelType:dataType:LevelDisplayMode;1",
-      "writable": true
+      "schema": "dtmi:opcua:IA:StackLevelType:dataType:LevelDisplayMode;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LevelPercent",
       "namespace": "http://opcfoundation.org/UA/IA",
-      "schema": "float",
-      "writable": true
+      "schema": "float"
     }
   ]
 }

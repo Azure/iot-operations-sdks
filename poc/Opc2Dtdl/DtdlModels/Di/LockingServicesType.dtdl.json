@@ -17,6 +17,41 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DefaultInstanceBrowseName",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Locked",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LockingClient",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LockingUser",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RemainingLockTime",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "duration",
+      "writable": false
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "InitLock",
       "namespace": "http://opcfoundation.org/UA/DI",

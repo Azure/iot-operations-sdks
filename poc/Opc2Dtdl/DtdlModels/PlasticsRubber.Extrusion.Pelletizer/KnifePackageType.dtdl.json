@@ -15,5 +15,26 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ActiveTime",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+      "schema": "duration",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Amount",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }

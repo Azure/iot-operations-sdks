@@ -16,6 +16,20 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NumberInList",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
       "@type": [ "Relationship", "Qualified" ],
       "name": "State",
       "namespace": "http://opcfoundation.org/UA/MachineTool",

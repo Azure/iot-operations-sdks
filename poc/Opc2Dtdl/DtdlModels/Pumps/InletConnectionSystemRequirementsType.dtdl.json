@@ -17,12 +17,11 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Pressure" ],
+      "@type": [ "Telemetry", "Qualified", "Pressure" ],
       "name": "InletPressure",
       "namespace": "http://opcfoundation.org/UA/Pumps",
       "unit": "pascal",
-      "schema": "double",
-      "writable": true
+      "schema": "double"
     }
   ]
 }

@@ -17,6 +17,41 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "AutomaticCleaningEnabled",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CleaningActive",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "CleaningRecommended",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Malfunction",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "TotalCleaningCycles",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "RequestCleaning",
       "namespace": "http://opcfoundation.org/UA/PAEFS"

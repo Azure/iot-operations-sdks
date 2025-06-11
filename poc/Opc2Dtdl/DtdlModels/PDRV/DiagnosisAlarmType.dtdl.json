@@ -13,7 +13,81 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1012",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:PDRV:DiagnosisAlarmType:dataType:LogEntryDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3013",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "FaultSituationNumber",
+          "schema": "unsignedByte"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "EventNumber",
+          "schema": "unsignedInteger"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "EventType",
+          "schema": "dtmi:opcua:PDRV:DiagnosisAlarmType:dataType:EventTypeEnumeration;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "EventCode",
+          "schema": "integer"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "EventText",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "EventComing",
+          "schema": "time"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "EventGoing",
+          "schema": "time"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "EventAcknowledged",
+          "schema": "time"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PDRV:DiagnosisAlarmType:dataType:EventTypeEnumeration;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3003",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "FAULT",
+          "enumValue": 0
+        },
+        {
+          "name": "WARNING",
+          "enumValue": 1
+        },
+        {
+          "name": "UNSPECIFIED",
+          "enumValue": 255
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "LogEntry",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
+      "schema": "dtmi:opcua:PDRV:DiagnosisAlarmType:dataType:LogEntryDataType;1",
+      "writable": false
+    }
   ]
 }

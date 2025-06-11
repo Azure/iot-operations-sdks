@@ -17,18 +17,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "JobNodeId",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SourceIdentifier",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "string",
-      "writable": false
+      "schema": "string"
     }
   ]
 }

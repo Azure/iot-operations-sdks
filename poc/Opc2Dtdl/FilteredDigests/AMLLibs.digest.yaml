@@ -4,11 +4,19 @@ DefinedTypes:
 
   AutomationMLBaseInterface:
   - [ UAObjectType, AMLLibs:22, AMLLibs:AutomationMLBaseInterface ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:23, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:24, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
 
   Order:
   - [ UAObjectType, AMLLibs:25, AMLLibs:Order ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:26, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:27, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:22, AMLLibs:AutomationMLBaseInterface ]
   - HasComponent:
@@ -16,21 +24,37 @@ DefinedTypes:
 
   PortConnector:
   - [ UAObjectType, AMLLibs:28, AMLLibs:PortConnector ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:29, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:30, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:22, AMLLibs:AutomationMLBaseInterface ]
 
   InterlockingConnector:
   - [ UAObjectType, AMLLibs:31, AMLLibs:InterlockingConnector ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:32, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:33, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:22, AMLLibs:AutomationMLBaseInterface ]
 
   PPRConnector:
   - [ UAObjectType, AMLLibs:34, AMLLibs:PPRConnector ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:35, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:36, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:22, AMLLibs:AutomationMLBaseInterface ]
 
   ExternalDataConnector:
   - [ UAObjectType, AMLLibs:37, AMLLibs:ExternalDataConnector ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:38, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:39, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:22, AMLLibs:AutomationMLBaseInterface ]
   - HasComponent:
@@ -38,36 +62,64 @@ DefinedTypes:
 
   Communication:
   - [ UAObjectType, AMLLibs:179, AMLLibs:Communication ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:180, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:181, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   AttachmentInterface:
   - [ UAObjectType, AMLLibs:43, AMLLibs:AttachmentInterface ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:44, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:45, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:22, AMLLibs:AutomationMLBaseInterface ]
 
   COLLADAInterface:
   - [ UAObjectType, AMLLibs:52, AMLLibs:COLLADAInterface ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:53, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:54, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:37, AMLLibs:ExternalDataConnector ]
 
   PLCopenXMLInterface:
   - [ UAObjectType, AMLLibs:55, AMLLibs:PLCopenXMLInterface ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:56, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:57, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:37, AMLLibs:ExternalDataConnector ]
 
   LogicInterface:
   - [ UAObjectType, AMLLibs:58, AMLLibs:LogicInterface ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:59, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:60, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:55, AMLLibs:PLCopenXMLInterface ]
 
   VariableInterface:
   - [ UAObjectType, AMLLibs:61, AMLLibs:VariableInterface ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:62, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:63, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:55, AMLLibs:PLCopenXMLInterface ]
 
   InterlockingVariableInterface:
   - [ UAObjectType, AMLLibs:64, AMLLibs:InterlockingVariableInterface ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:65, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:66, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:61, AMLLibs:VariableInterface ]
   - HasComponent:
@@ -75,16 +127,28 @@ DefinedTypes:
 
   SignalInterface:
   - [ UAObjectType, AMLLibs:71, AMLLibs:SignalInterface ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:72, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:73, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:40, AMLLibs:Communication ]
 
   AutomationMLBaseRole:
   - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:75, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:76, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
 
   Group:
   - [ UAObjectType, AMLLibs:77, AMLLibs:Group ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:78, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:79, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
   - HasComponent:
@@ -92,11 +156,19 @@ DefinedTypes:
 
   Facet:
   - [ UAObjectType, AMLLibs:80, AMLLibs:Facet ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:81, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:82, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
 
   Port:
   - [ UAObjectType, AMLLibs:83, AMLLibs:Port ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:84, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:85, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
   - HasComponent:
@@ -116,380 +188,684 @@ DefinedTypes:
 
   Resource:
   - [ UAObjectType, AMLLibs:86, AMLLibs:Resource ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:87, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:88, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
 
   Product:
   - [ UAObjectType, AMLLibs:89, AMLLibs:Product ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:90, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:91, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
 
   Process:
   - [ UAObjectType, AMLLibs:92, AMLLibs:Process ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:93, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:94, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
 
   Structure:
   - [ UAObjectType, AMLLibs:95, AMLLibs:Structure ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:96, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:97, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
 
   PropertySet:
   - [ UAObjectType, AMLLibs:98, AMLLibs:PropertySet ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:99, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:100, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
 
   Frame:
   - [ UAObjectType, AMLLibs:101, AMLLibs:Frame ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:102, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:103, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:74, AMLLibs:AutomationMLBaseRole ]
 
   SignalGroup:
   - [ UAObjectType, AMLLibs:107, AMLLibs:SignalGroup ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:108, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:109, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:77, AMLLibs:Group ]
 
   ComponentGroup:
   - [ UAObjectType, AMLLibs:110, AMLLibs:ComponentGroup ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:111, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:112, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:77, AMLLibs:Group ]
 
   ProductStructure:
   - [ UAObjectType, AMLLibs:131, AMLLibs:ProductStructure ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:132, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:133, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:95, AMLLibs:Structure ]
 
   ProcessStructure:
   - [ UAObjectType, AMLLibs:134, AMLLibs:ProcessStructure ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:135, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:136, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:95, AMLLibs:Structure ]
 
   ResourceStructure:
   - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:138, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:139, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:95, AMLLibs:Structure ]
 
   BatchManufacturingEquipment:
   - [ UAObjectType, AMLLibs:140, AMLLibs:BatchManufacturingEquipment ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:141, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:142, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
 
   ContManufacturingEquipment:
   - [ UAObjectType, AMLLibs:143, AMLLibs:ContManufacturingEquipment ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:144, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:145, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
 
   DiscManufacturingEquipment:
   - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:147, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:148, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:86, AMLLibs:Resource ]
 
   Transport:
   - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:150, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:151, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   Storage:
   - [ UAObjectType, AMLLibs:152, AMLLibs:Storage ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:153, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:154, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   Fixture:
   - [ UAObjectType, AMLLibs:155, AMLLibs:Fixture ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:156, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:157, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   Gate:
   - [ UAObjectType, AMLLibs:158, AMLLibs:Gate ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:159, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:160, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   Robot:
   - [ UAObjectType, AMLLibs:161, AMLLibs:Robot ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:162, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:163, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   Tool:
   - [ UAObjectType, AMLLibs:164, AMLLibs:Tool ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:165, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:166, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   Carrier:
   - [ UAObjectType, AMLLibs:167, AMLLibs:Carrier ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:168, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:169, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   Machine:
   - [ UAObjectType, AMLLibs:170, AMLLibs:Machine ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:171, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:172, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   StaticObject:
   - [ UAObjectType, AMLLibs:173, AMLLibs:StaticObject ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:174, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:175, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:146, AMLLibs:DiscManufacturingEquipment ]
 
   ControlEquipment:
   - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:177, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:178, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:86, AMLLibs:Resource ]
 
   ControlHardware:
   - [ UAObjectType, AMLLibs:182, AMLLibs:ControlHardware ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:183, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:184, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   Sensor:
   - [ UAObjectType, AMLLibs:185, AMLLibs:Sensor ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:186, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:187, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   Actuator:
   - [ UAObjectType, AMLLibs:188, AMLLibs:Actuator ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:189, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:190, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   Controller:
   - [ UAObjectType, AMLLibs:191, AMLLibs:Controller ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:192, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:193, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   PC:
   - [ UAObjectType, AMLLibs:194, AMLLibs:PC ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:195, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:196, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:182, AMLLibs:ControlHardware ]
 
   IPC:
   - [ UAObjectType, AMLLibs:197, AMLLibs:IPC ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:198, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:199, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:182, AMLLibs:ControlHardware ]
 
   EmbeddedDevice:
   - [ UAObjectType, AMLLibs:200, AMLLibs:EmbeddedDevice ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:201, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:202, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:182, AMLLibs:ControlHardware ]
 
   Handheld:
   - [ UAObjectType, AMLLibs:203, AMLLibs:Handheld ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:204, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:205, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:182, AMLLibs:ControlHardware ]
 
   PLC:
   - [ UAObjectType, AMLLibs:206, AMLLibs:PLC ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:207, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:208, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:191, AMLLibs:Controller ]
 
   NC:
   - [ UAObjectType, AMLLibs:209, AMLLibs:NC ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:210, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:211, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:191, AMLLibs:Controller ]
 
   RC:
   - [ UAObjectType, AMLLibs:212, AMLLibs:RC ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:213, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:214, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:191, AMLLibs:Controller ]
 
   PAC:
   - [ UAObjectType, AMLLibs:215, AMLLibs:PAC ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:216, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:217, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:191, AMLLibs:Controller ]
 
   PLCFacet:
   - [ UAObjectType, AMLLibs:218, AMLLibs:PLCFacet ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:219, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:220, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:80, AMLLibs:Facet ]
 
   HMIFacet:
   - [ UAObjectType, AMLLibs:221, AMLLibs:HMIFacet ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:222, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:223, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:80, AMLLibs:Facet ]
 
   Enterprise:
   - [ UAObjectType, AMLLibs:224, AMLLibs:Enterprise ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:225, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:226, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   Site:
   - [ UAObjectType, AMLLibs:227, AMLLibs:Site ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:228, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:229, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   Area:
   - [ UAObjectType, AMLLibs:230, AMLLibs:Area ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:231, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:232, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   ProductionLine:
   - [ UAObjectType, AMLLibs:233, AMLLibs:ProductionLine ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:234, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:235, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   WorkCell:
   - [ UAObjectType, AMLLibs:236, AMLLibs:WorkCell ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:237, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:238, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   ProcessCell:
   - [ UAObjectType, AMLLibs:239, AMLLibs:ProcessCell ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:240, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:241, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   Unit:
   - [ UAObjectType, AMLLibs:242, AMLLibs:Unit ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:243, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:244, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   ProductionUnit:
   - [ UAObjectType, AMLLibs:245, AMLLibs:ProductionUnit ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:246, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:247, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   StorageZone:
   - [ UAObjectType, AMLLibs:248, AMLLibs:StorageZone ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:249, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:250, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   StorageUnit:
   - [ UAObjectType, AMLLibs:251, AMLLibs:StorageUnit ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:252, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:253, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:137, AMLLibs:ResourceStructure ]
 
   Turntable:
   - [ UAObjectType, AMLLibs:254, AMLLibs:Turntable ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:255, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:256, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
 
   Conveyor:
   - [ UAObjectType, AMLLibs:257, AMLLibs:Conveyor ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:258, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:259, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
 
   LiftingTable:
   - [ UAObjectType, AMLLibs:260, AMLLibs:LiftingTable ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:261, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:262, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
 
   AGV:
   - [ UAObjectType, AMLLibs:263, AMLLibs:AGV ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:264, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:265, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
 
   Transposer:
   - [ UAObjectType, AMLLibs:266, AMLLibs:Transposer ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:267, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:268, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
 
   CarrierHandlingSystem:
   - [ UAObjectType, AMLLibs:269, AMLLibs:CarrierHandlingSystem ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:270, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:271, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
 
   BodyStore:
   - [ UAObjectType, AMLLibs:272, AMLLibs:BodyStore ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:273, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:274, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:152, AMLLibs:Storage ]
 
   Lift:
   - [ UAObjectType, AMLLibs:275, AMLLibs:Lift ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:276, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:277, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
 
   Rollerbed:
   - [ UAObjectType, AMLLibs:278, AMLLibs:Rollerbed ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:279, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:280, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:149, AMLLibs:Transport ]
 
   StationaryTool:
   - [ UAObjectType, AMLLibs:281, AMLLibs:StationaryTool ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:282, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:283, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:164, AMLLibs:Tool ]
 
   MovableTool:
   - [ UAObjectType, AMLLibs:284, AMLLibs:MovableTool ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:285, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:286, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:164, AMLLibs:Tool ]
 
   ControlCabinet:
   - [ UAObjectType, AMLLibs:287, AMLLibs:ControlCabinet ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:288, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:289, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   IODevice:
   - [ UAObjectType, AMLLibs:290, AMLLibs:IODevice ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:291, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:292, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   HMI:
   - [ UAObjectType, AMLLibs:293, AMLLibs:HMI ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:294, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:295, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   ActuatingDrive:
   - [ UAObjectType, AMLLibs:296, AMLLibs:ActuatingDrive ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:297, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:298, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:188, AMLLibs:Actuator ]
 
   MotionController:
   - [ UAObjectType, AMLLibs:299, AMLLibs:MotionController ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:300, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:301, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:176, AMLLibs:ControlEquipment ]
 
   Panel:
   - [ UAObjectType, AMLLibs:302, AMLLibs:Panel ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:303, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:304, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:182, AMLLibs:ControlHardware ]
 
   MeasuringEquipment:
   - [ UAObjectType, AMLLibs:305, AMLLibs:MeasuringEquipment ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:306, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:307, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:86, AMLLibs:Resource ]
 
   Clamp:
   - [ UAObjectType, AMLLibs:308, AMLLibs:Clamp ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:309, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:310, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:155, AMLLibs:Fixture ]
 
   ProcessController:
   - [ UAObjectType, AMLLibs:311, AMLLibs:ProcessController ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:312, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:313, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:191, AMLLibs:Controller ]
 
   Loader:
   - [ UAObjectType, AMLLibs:314, AMLLibs:Loader ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:315, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:316, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:152, AMLLibs:Storage ]
 
   Unloader:
   - [ UAObjectType, AMLLibs:317, AMLLibs:Unloader ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:318, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:319, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:152, AMLLibs:Storage ]
 
   BeltConveyor:
   - [ UAObjectType, AMLLibs:320, AMLLibs:BeltConveyor ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:321, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:322, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:257, AMLLibs:Conveyor ]
 
   RollConveyor:
   - [ UAObjectType, AMLLibs:323, AMLLibs:RollConveyor ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:324, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:325, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:257, AMLLibs:Conveyor ]
 
   ChainConveyor:
   - [ UAObjectType, AMLLibs:326, AMLLibs:ChainConveyor ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:327, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:328, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:257, AMLLibs:Conveyor ]
 
   PalletConveyor:
   - [ UAObjectType, AMLLibs:329, AMLLibs:PalletConveyor ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:330, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:331, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:257, AMLLibs:Conveyor ]
 
   OverheadConveyor:
   - [ UAObjectType, AMLLibs:332, AMLLibs:OverheadConveyor ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:333, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:334, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:257, AMLLibs:Conveyor ]
 
   WarningEquipment:
   - [ UAObjectType, AMLLibs:335, AMLLibs:WarningEquipment ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:336, AMLLibs:ID ]
+  - HasProperty:
+    - [ UAVariable, AMLLibs:337, AMLLibs:Version ]
   - HasSubtype_reverse:
     - [ UAObjectType, AMLLibs:293, AMLLibs:HMI ]

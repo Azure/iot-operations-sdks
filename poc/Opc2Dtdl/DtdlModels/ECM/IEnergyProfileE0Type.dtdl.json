@@ -38,7 +38,7 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "AcCurrentPe",
       "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
@@ -63,8 +63,7 @@
             "schema": "unsignedInteger"
           }
         ]
-      },
-      "writable": true
+      }
     }
   ]
 }

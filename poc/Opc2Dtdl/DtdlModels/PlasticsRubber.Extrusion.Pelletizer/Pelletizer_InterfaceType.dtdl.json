@@ -18,10 +18,23 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "PelletizerClosed",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "WaterFlowActive",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CutGap",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

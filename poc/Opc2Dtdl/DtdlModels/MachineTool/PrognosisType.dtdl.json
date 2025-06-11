@@ -15,5 +15,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "PredictedTime",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
+      "schema": "time",
+      "writable": false
+    }
   ]
 }

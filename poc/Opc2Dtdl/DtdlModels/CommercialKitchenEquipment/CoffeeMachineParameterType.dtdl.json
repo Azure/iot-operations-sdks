@@ -41,44 +41,39 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "BoilerPressureSteam",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Pressure" ],
+      "@type": [ "Telemetry", "Qualified", "Pressure" ],
       "name": "BoilerPressureWater",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "pascal",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "BoilerTempSteam",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "Temperature" ],
+      "@type": [ "Telemetry", "Qualified", "Temperature" ],
       "name": "BoilerTempWater",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "unit": "degreeCelsius",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "CurrentState",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineParameterType:dataType:CoffeeMachineModeEnumeration;1",
-      "writable": true
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineParameterType:dataType:CoffeeMachineModeEnumeration;1"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "GrinderRuntime_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -93,18 +88,16 @@
           "unit": "second",
           "schema": "unsignedLong"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SystemClean",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "dateTime",
-      "writable": false
+      "schema": "dateTime"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TotalBrew_No",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
@@ -119,15 +112,13 @@
           "unit": "",
           "schema": "unsignedLong"
         }
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TotalMix",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "unsignedLong",
-      "writable": false
+      "schema": "unsignedLong"
     }
   ]
 }

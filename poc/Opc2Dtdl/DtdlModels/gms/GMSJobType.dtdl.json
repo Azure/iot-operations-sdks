@@ -14,7 +14,67 @@
   "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1016",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
+    {
+      "@id": "dtmi:opcua:GMS:GMSJobType:dataType:MeasurementReasonEnum;1",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=3009",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ContinuousMeasurements",
+          "enumValue": 0
+        },
+        {
+          "name": "SpecialMeasurement",
+          "enumValue": 1
+        },
+        {
+          "name": "AuditMeasurement",
+          "enumValue": 2
+        },
+        {
+          "name": "MinMastering",
+          "enumValue": 3
+        },
+        {
+          "name": "MedMastering",
+          "enumValue": 4
+        },
+        {
+          "name": "MaxMastering",
+          "enumValue": 5
+        }
+      ]
+    }
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "BatchIdentifier",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Duration",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MeasurementReason",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "dtmi:opcua:GMS:GMSJobType:dataType:MeasurementReasonEnum;1",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RemainingTime",
+      "namespace": "http://opcfoundation.org/UA/GMS",
+      "schema": "duration",
+      "writable": true
+    }
   ]
 }

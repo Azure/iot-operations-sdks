@@ -78,6 +78,34 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "BuildAssetNumber",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MajorAssetVersion",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MinorAssetVersion",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SubBuildAssetNumber",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "VerifyAsset",
       "namespace": "http://opcfoundation.org/UA/FX.AC",

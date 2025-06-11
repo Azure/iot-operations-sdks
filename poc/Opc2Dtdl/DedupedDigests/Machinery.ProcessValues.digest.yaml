@@ -61,6 +61,10 @@ DefinedTypes:
   - [ UAObjectType, Machinery.ProcessValues:1002, Machinery.ProcessValues:ZeroPointAdjustmentEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
+  - HasProperty:
+    - [ UAVariable, Machinery.ProcessValues:6032, Machinery.ProcessValues:ZeroPointAdjustmentResult, StatusCode, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   Machinery.ProcessValues:ProcessValueType:
   - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]

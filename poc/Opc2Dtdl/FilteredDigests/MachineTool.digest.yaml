@@ -316,21 +316,45 @@ DefinedTypes:
 
   MachineTool:AlertType:
   - [ UAObjectType, MachineTool:39, MachineTool:AlertType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:231, MachineTool:ErrorCode, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2915, AlarmConditionType ]
 
   MachineTool:InterruptionConditionType:
   - [ UAObjectType, MachineTool:19, MachineTool:InterruptionConditionType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:244, MachineTool:IsAutomated, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2782, ConditionType ]
 
   MachineTool:NotificationEventType:
   - [ UAObjectType, MachineTool:35, MachineTool:NotificationEventType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:232, MachineTool:Identifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
   MachineTool:ProductionJobTransitionEventType:
   - [ UAObjectType, MachineTool:31, MachineTool:ProductionJobTransitionEventType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:416, MachineTool:CustomerOrderIdentifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:243, MachineTool:Identifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:417, MachineTool:OrderIdentifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, MachineTool:418, MachineTool:RunsCompleted, UInt32, 0, 0 ]
     - HasModellingRule:
@@ -344,6 +368,22 @@ DefinedTypes:
 
   MachineTool:ProductionPartTransitionEventType:
   - [ UAObjectType, MachineTool:27, MachineTool:ProductionPartTransitionEventType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:404, MachineTool:CustomerOrderIdentifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:173, MachineTool:Identifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:300, MachineTool:JobIdentifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:351, MachineTool:Name, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, MachineTool:391, MachineTool:PartQuality, MachineTool:PartQuality, 0, 0 ]
     - HasModellingRule:
@@ -357,17 +397,33 @@ DefinedTypes:
 
   MachineTool:ProductionProgramTransitionEventType:
   - [ UAObjectType, MachineTool:17, MachineTool:ProductionProgramTransitionEventType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:301, MachineTool:JobIdentifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:344, MachineTool:Name, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2311, TransitionEventType ]
 
   MachineTool:BaseToolType:
   - [ UAObjectType, MachineTool:49, MachineTool:BaseToolType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:316, MachineTool:Identifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, MachineTool:118, MachineTool:Location ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:176, MachineTool:Name, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
@@ -444,6 +500,10 @@ DefinedTypes:
 
   MachineTool:ElementMonitoringType:
   - [ UAObjectType, MachineTool:23, MachineTool:ElementMonitoringType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:234, MachineTool:Name, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
@@ -682,6 +742,22 @@ DefinedTypes:
 
   MachineTool:ProductionJobType:
   - [ UAObjectType, MachineTool:29, MachineTool:ProductionJobType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:181, MachineTool:CustomerOrderIdentifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:189, MachineTool:Identifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:196, MachineTool:NumberInList, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:251, MachineTool:OrderIdentifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, MachineTool:6015, MachineTool:PartsCompleted, UInt32, 0, 0 ]
     - HasModellingRule:
@@ -721,6 +797,14 @@ DefinedTypes:
 
   MachineTool:ProductionPartSetType:
   - [ UAObjectType, MachineTool:34, MachineTool:ProductionPartSetType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:365, MachineTool:ContainsMixedParts, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:262, MachineTool:Name, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, MachineTool:267, MachineTool:PartsCompletedPerRun, UInt32, 0, 0 ]
     - HasModellingRule:
@@ -740,6 +824,18 @@ DefinedTypes:
 
   MachineTool:ProductionPartType:
   - [ UAObjectType, MachineTool:56, MachineTool:ProductionPartType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:201, MachineTool:CustomerOrderIdentifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:172, MachineTool:Identifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:348, MachineTool:Name, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, MachineTool:167, MachineTool:PartQuality, MachineTool:PartQuality, 0, 0 ]
     - HasModellingRule:
@@ -759,6 +855,14 @@ DefinedTypes:
 
   MachineTool:ProductionProgramType:
   - [ UAObjectType, MachineTool:59, MachineTool:ProductionProgramType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:193, MachineTool:Name, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:230, MachineTool:NumberInList, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, MachineTool:5032, MachineTool:State ]
     - HasModellingRule:
@@ -827,11 +931,19 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineTool:3, MachineTool:PrognosisType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:341, MachineTool:NodeVersion, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   MachineTool:PrognosisType:
   - [ UAObjectType, MachineTool:3, MachineTool:PrognosisType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:162, MachineTool:PredictedTime, UtcTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
@@ -991,11 +1103,25 @@ DefinedTypes:
 
   MachineTool:SoftwareIdentificationType:
   - [ UAObjectType, MachineTool:43, MachineTool:SoftwareIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:185, MachineTool:Identifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:186, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:184, DI:SoftwareRevision, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   MachineTool:MachineOperationModeStateMachineType:
   - [ UAObjectType, MachineTool:1003, MachineTool:MachineOperationModeStateMachineType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:6063, MachineTool:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
   - HasComponent:
     - [ UAObject, MachineTool:5042, Machinery:FromMaintenanceToMaintenance ]
     - HasTypeDefinition:
@@ -1386,5 +1512,9 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineTool:49, MachineTool:BaseToolType ]
+  - HasProperty:
+    - [ UAVariable, MachineTool:213, MachineTool:NodeVersion, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

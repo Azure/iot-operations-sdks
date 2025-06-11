@@ -16,6 +16,23 @@
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
+      "@id": "dtmi:opcua:PNRIO:RioPaAnalogChannelGroupType:dataType:RioPaAnalogValueDataType;1",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=3027",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Value",
+          "schema": "dtmi:opcua:PNRIO:RioPaAnalogChannelGroupType:dataType:RioAnalogDataType;1"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "Qualifier",
+          "schema": "unsignedByte"
+        }
+      ]
+    },
+    {
       "@id": "dtmi:opcua:PNRIO:RioPaAnalogChannelGroupType:dataType:RioAnalogDataType;1",
       "@type": [ "Object", "Congruence" ],
       "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=3020",
@@ -51,13 +68,22 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "SimulationValues",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:PNRIO:RioPaAnalogChannelGroupType:dataType:RioPaAnalogValueDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SimulationEnabled",
       "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": {
         "@type": "Array",
         "elementSchema": "boolean"
-      },
-      "writable": false
+      }
     },
     {
       "@type": [ "Command", "Qualified" ],

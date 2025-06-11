@@ -18,6 +18,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ClampClosed",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.HaulOff",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "CloseClamp",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.HaulOff"

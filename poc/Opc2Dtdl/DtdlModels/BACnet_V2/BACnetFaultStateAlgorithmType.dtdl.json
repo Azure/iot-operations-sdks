@@ -16,5 +16,12 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "FaultValues",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }

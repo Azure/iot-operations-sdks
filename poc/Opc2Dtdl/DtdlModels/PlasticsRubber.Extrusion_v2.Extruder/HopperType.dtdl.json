@@ -17,17 +17,29 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "MaterialLevel",
+      "name": "Id",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
-      "schema": "double",
+      "schema": "string",
       "writable": false
     },
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "MaterialLot",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "MaterialLevel",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+      "schema": "double"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Weight",
       "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

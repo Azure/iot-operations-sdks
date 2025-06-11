@@ -17,17 +17,22 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "UpdateStatus",
+      "name": "DefaultInstanceBrowseName",
       "namespace": "http://opcfoundation.org/UA/DI",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "UpdateStatus",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "VendorErrorCode",
       "namespace": "http://opcfoundation.org/UA/DI",
-      "schema": "integer",
-      "writable": false
+      "schema": "integer"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

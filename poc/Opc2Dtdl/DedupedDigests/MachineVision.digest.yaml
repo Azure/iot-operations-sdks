@@ -108,9 +108,69 @@ DefinedTypes:
   - [ UAObjectType, MachineVision:1025, MachineVision:AcquisitionDoneEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6308, MachineVision:JobId, MachineVision:JobIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   MachineVision:VisionConditionType:
   - [ UAObjectType, MachineVision:1033, MachineVision:VisionConditionType ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6206, MachineVision:BlockReaction, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6207, MachineVision:CausePath, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6208, MachineVision:ErrorCode, UInt64, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6283, MachineVision:ErrorString, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6347, MachineVision:ExternalConfigurationId, MachineVision:ConfigurationIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6346, MachineVision:ExternalRecipeId, MachineVision:RecipeIdExternalDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6192, MachineVision:InternalConfigurationId, MachineVision:ConfigurationIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6321, MachineVision:InternalRecipeId, MachineVision:RecipeIdInternalDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6343, MachineVision:JobId, MachineVision:JobIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6344, MachineVision:MeasId, MachineVision:MeasIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6307, MachineVision:PartId, MachineVision:PartIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6323, MachineVision:ProductId, MachineVision:ProductIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6345, MachineVision:ResultId, MachineVision:ResultIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6293, MachineVision:StopReaction, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2881, AcknowledgeableConditionType ]
 
@@ -133,9 +193,17 @@ DefinedTypes:
   - [ UAObjectType, MachineVision:1027, MachineVision:EnterStepSequenceEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6322, MachineVision:Steps, Int32, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   MachineVision:JobStartedEventType:
   - [ UAObjectType, MachineVision:1013, MachineVision:JobStartedEventType ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6141, MachineVision:JobId, MachineVision:JobIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
@@ -148,21 +216,101 @@ DefinedTypes:
   - [ UAObjectType, MachineVision:1028, MachineVision:NextStepEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6324, MachineVision:Step, Int32, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   MachineVision:ReadyEventType:
   - [ UAObjectType, MachineVision:1023, MachineVision:ReadyEventType ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6294, MachineVision:JobId, MachineVision:JobIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
   MachineVision:RecipePreparedEventType:
   - [ UAObjectType, MachineVision:1022, MachineVision:RecipePreparedEventType ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6291, MachineVision:ExternalId, MachineVision:RecipeIdExternalDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6140, MachineVision:InternalId, MachineVision:RecipeIdInternalDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6292, MachineVision:ProductId, MachineVision:ProductIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
   MachineVision:ResultReadyEventType:
   - [ UAObjectType, MachineVision:1024, MachineVision:ResultReadyEventType ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6303, MachineVision:CreationTime, UtcTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6045, MachineVision:ExternalConfigurationId, MachineVision:ConfigurationIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6301, MachineVision:ExternalRecipeId, MachineVision:RecipeIdExternalDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6142, MachineVision:InternalConfigurationId, MachineVision:ConfigurationIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6302, MachineVision:InternalRecipeId, MachineVision:RecipeIdInternalDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6296, MachineVision:IsPartial, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6297, MachineVision:IsSimulated, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6300, MachineVision:JobId, MachineVision:JobIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6299, MachineVision:MeasId, MachineVision:MeasIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6304, MachineVision:PartId, MachineVision:PartIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6305, MachineVision:ProcessingTimes, MachineVision:ProcessingTimesDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6143, MachineVision:ProductId, MachineVision:ProductIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6306, MachineVision:ResultContent ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6295, MachineVision:ResultId, MachineVision:ResultIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6298, MachineVision:ResultState, MachineVision:ResultStateDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   MachineVision:ErrorEventType:
   - [ UAObjectType, MachineVision:1019, MachineVision:ErrorEventType ]
@@ -181,6 +329,46 @@ DefinedTypes:
 
   MachineVision:VisionEventType:
   - [ UAObjectType, MachineVision:1015, MachineVision:VisionEventType ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6193, MachineVision:CausePath, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6550, MachineVision:ExternalConfigurationId, MachineVision:ConfigurationIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6195, MachineVision:ExternalRecipeId, MachineVision:RecipeIdExternalDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6200, MachineVision:InternalConfigurationId, MachineVision:ConfigurationIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6198, MachineVision:InternalRecipeId, MachineVision:RecipeIdInternalDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6203, MachineVision:JobId, MachineVision:JobIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6194, MachineVision:MeasId, MachineVision:MeasIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6201, MachineVision:PartId, MachineVision:PartIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6199, MachineVision:ProductId, MachineVision:ProductIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6204, MachineVision:ResultId, MachineVision:ResultIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
@@ -198,6 +386,14 @@ DefinedTypes:
   - [ UAObjectType, MachineVision:1030, MachineVision:VisionSafetyEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6050, MachineVision:VisionSafetyInformation, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6051, MachineVision:VisionSafetyTriggered, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   MachineVision:ConfigurationManagementType:
   - [ UAObjectType, MachineVision:1006, MachineVision:ConfigurationManagementType ]
@@ -585,10 +781,30 @@ DefinedTypes:
 
   MachineVision:RecipeType:
   - [ UAObjectType, MachineVision:1002, MachineVision:RecipeType ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6023, MachineVision:ExternalId, MachineVision:RecipeIdExternalDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, MachineVision:5001, MachineVision:Handle ]
     - HasTypeDefinition:
       - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6019, MachineVision:InternalId, MachineVision:RecipeIdInternalDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6605, MachineVision:IsPrepared, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6017, MachineVision:LastModified, UtcTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, MachineVision:6018, MachineVision:LinkedProducts, MachineVision:ProductIdDataType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:

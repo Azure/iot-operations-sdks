@@ -44,6 +44,16 @@ DefinedTypes:
 
   Mining.General:MiningEquipmentIdentificationType:
   - [ UAObjectType, Mining.General:1003, Mining.General:MiningEquipmentIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, Mining.General:6027, DI:AssetId, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Mining.General:6026, Mining.General:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
+  - HasProperty:
+    - [ UAVariable, Mining.General:6032, DI:DeviceClass, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Mining.General:5006, DI:DeviceTypeImage ]
     - HasModellingRule:
@@ -62,8 +72,16 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+  - HasProperty:
+    - [ UAVariable, Mining.General:6028, DI:ManufacturerUri, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, Mining.General:6029, DI:Model, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Mining.General:5009, DI:ProtocolSupport ]
     - HasModellingRule:

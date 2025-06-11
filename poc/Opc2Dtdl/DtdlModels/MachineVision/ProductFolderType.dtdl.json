@@ -45,7 +45,7 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Product",
       "namespace": "http://opcfoundation.org/UA/MachineVision",
       "schema": {
@@ -60,8 +60,7 @@
           "unit": "",
           "schema": "dtmi:opcua:MachineVision:ProductFolderType:dataType:ProductDataType;1"
         }
-      },
-      "writable": true
+      }
     }
   ]
 }

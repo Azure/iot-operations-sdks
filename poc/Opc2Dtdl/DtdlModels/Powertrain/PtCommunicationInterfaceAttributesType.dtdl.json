@@ -18,33 +18,44 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "CommunicationSpeed",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "NumberOfPorts",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProfileTypes",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": {
         "@type": "Array",
         "elementSchema": "unsignedShort"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProtocolTypes",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": {
         "@type": "Array",
         "elementSchema": "unsignedShort"
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "SafetyProtocolTypes",
       "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": {
         "@type": "Array",
         "elementSchema": "unsignedShort"
-      },
-      "writable": false
+      }
     }
   ]
 }

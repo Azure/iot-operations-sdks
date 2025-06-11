@@ -54,53 +54,60 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
-      "name": "Avg",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "double",
-      "writable": false
-    },
-    {
       "@type": [ "Property", "Qualified" ],
-      "name": "Max",
+      "name": "AggregationWindow",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "double",
-      "writable": false
-    },
-    {
-      "@type": [ "Property", "Qualified" ],
-      "name": "Min",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "double",
-      "writable": false
-    },
-    {
-      "@type": [ "Property", "Qualified" ],
-      "name": "SamplingRate",
-      "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "double",
+      "schema": "unsignedInteger",
       "writable": true
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Property", "Qualified" ],
+      "name": "LastResetTime",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "time",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
+      "name": "Avg",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "double"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "Max",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "double"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "Min",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "double"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "SamplingRate",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
+      "schema": "double"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "Std",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Total",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified", "Historized" ],
+      "@type": [ "Telemetry", "Qualified", "Historized" ],
       "name": "Value",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
       "@type": [ "Command", "Qualified" ],

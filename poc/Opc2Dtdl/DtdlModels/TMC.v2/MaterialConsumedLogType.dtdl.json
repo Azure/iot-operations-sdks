@@ -17,7 +17,7 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ConsumedMaterial",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
@@ -36,11 +36,10 @@
             "schema": "double"
           }
         ]
-      },
-      "writable": false
+      }
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ConsumedMaterialTotal",
       "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
@@ -59,8 +58,7 @@
             "schema": "double"
           }
         ]
-      },
-      "writable": false
+      }
     }
   ]
 }

@@ -16,25 +16,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProgramId",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "integer",
-      "writable": true
+      "schema": "integer"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProgramName",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "string",
-      "writable": true
+      "schema": "string"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProgramUId",
       "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
-      "schema": "uuid",
-      "writable": true
+      "schema": "uuid"
     }
   ]
 }

@@ -15,5 +15,36 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Maximum",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Minimum",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Nominal",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Values",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    }
   ]
 }

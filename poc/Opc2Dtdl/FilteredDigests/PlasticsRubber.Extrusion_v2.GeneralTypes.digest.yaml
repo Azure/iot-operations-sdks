@@ -295,6 +295,14 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1063, PlasticsRubber.GeneralTypes:EnergyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6035, PlasticsRubber.Extrusion_v2.GeneralTypes:IsPresent, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6020, PlasticsRubber.Extrusion_v2.GeneralTypes:LineId, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.GeneralTypes:5009, PlasticsRubber.Extrusion_v2.GeneralTypes:MachineConfiguration ]
     - HasTypeDefinition:
@@ -331,6 +339,18 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, PlasticsRubber.GeneralTypes:StartDeviceType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6037, PlasticsRubber.Extrusion_v2.GeneralTypes:Strand, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6702, PlasticsRubber.Extrusion_v2.GeneralTypes:SupportedLogbookEvents, PlasticsRubber.GeneralTypes:LogbookEventsEnumeration, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6036, PlasticsRubber.Extrusion_v2.GeneralTypes:Target, String, -3, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
 
   PlasticsRubber.Extrusion_v2.GeneralTypes:ExtrusionTemperatureZonesType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1017, PlasticsRubber.Extrusion_v2.GeneralTypes:ExtrusionTemperatureZonesType ]
@@ -342,6 +362,10 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, PlasticsRubber.GeneralTypes:MaintenanceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6987, PlasticsRubber.Extrusion_v2.GeneralTypes:NodeVersion, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.GeneralTypes:5017, PlasticsRubber.Extrusion_v2.GeneralTypes:StartTempering ]
     - HasModellingRule:
@@ -365,6 +389,10 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6467, PlasticsRubber.Extrusion_v2.GeneralTypes:NodeVersion, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.Extrusion_v2.GeneralTypes:GapType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1003, PlasticsRubber.Extrusion_v2.GeneralTypes:GapType ]
@@ -388,8 +416,24 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6344, PlasticsRubber.Extrusion_v2.GeneralTypes:Id, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6345, PlasticsRubber.Extrusion_v2.GeneralTypes:IsClosed, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6346, PlasticsRubber.Extrusion_v2.GeneralTypes:RollId1, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6347, PlasticsRubber.Extrusion_v2.GeneralTypes:RollId2, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6348, PlasticsRubber.Extrusion_v2.GeneralTypes:StockingGuideIsPresent, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
@@ -418,6 +462,10 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion_v2.GeneralTypes:RollBendingType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1007, PlasticsRubber.Extrusion_v2.GeneralTypes:RollBendingType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6305, PlasticsRubber.Extrusion_v2.GeneralTypes:NodeVersion, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.GeneralTypes:5021, PlasticsRubber.Extrusion_v2.GeneralTypes:ReferencePoint_<Nr> ]
     - HasTypeDefinition:
@@ -441,11 +489,19 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, PlasticsRubber.GeneralTypes:StartDeviceType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6772, PlasticsRubber.Extrusion_v2.GeneralTypes:NodeVersion, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   PlasticsRubber.Extrusion_v2.GeneralTypes:RollsType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1006, PlasticsRubber.Extrusion_v2.GeneralTypes:RollsType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6803, PlasticsRubber.Extrusion_v2.GeneralTypes:NodeVersion, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.GeneralTypes:5052, PlasticsRubber.Extrusion_v2.GeneralTypes:Roll_<Nr> ]
     - HasModellingRule:
@@ -475,6 +531,18 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1068, PlasticsRubber.GeneralTypes:DriveType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6638, PlasticsRubber.Extrusion_v2.GeneralTypes:Id, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6641, PlasticsRubber.Extrusion_v2.GeneralTypes:MasterRollId, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6642, PlasticsRubber.Extrusion_v2.GeneralTypes:Name, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.GeneralTypes:5030, PlasticsRubber.Extrusion_v2.GeneralTypes:PeripheralDevices ]
     - HasModellingRule:
@@ -539,6 +607,8 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion_v2.GeneralTypes:ExtrusionMachineryItemState_StateMachineType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1010, PlasticsRubber.Extrusion_v2.GeneralTypes:ExtrusionMachineryItemState_StateMachineType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6017, PlasticsRubber.Extrusion_v2.GeneralTypes:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.GeneralTypes:5092, Machinery:Executing ]
     - HasTypeDefinition:

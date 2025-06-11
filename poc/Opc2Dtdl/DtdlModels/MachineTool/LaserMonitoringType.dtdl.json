@@ -41,18 +41,16 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ControllerIsOn",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "boolean",
-      "writable": false
+      "schema": "boolean"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "LaserState",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "dtmi:opcua:MachineTool:LaserMonitoringType:dataType:LaserState;1",
-      "writable": false
+      "schema": "dtmi:opcua:MachineTool:LaserMonitoringType:dataType:LaserState;1"
     }
   ]
 }

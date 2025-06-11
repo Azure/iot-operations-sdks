@@ -144,10 +144,135 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "AssetId",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "BuildAssetNumber",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ComponentName",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceClass",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceManual",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DeviceRevision",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "HardwareRevision",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MajorAssetVersion",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Manufacturer",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ManufacturerUri",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "MinorAssetVersion",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Model",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProductCode",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProductInstanceUri",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "RevisionCounter",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SerialNumber",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SoftwareRevision",
+      "namespace": "http://opcfoundation.org/UA/DI",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "SubBuildAssetNumber",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "DeviceHealth",
       "namespace": "http://opcfoundation.org/UA/DI",
-      "schema": "dtmi:opcua:FX_AC:FxAssetType:dataType:DeviceHealthEnumeration;1",
-      "writable": true
+      "schema": "dtmi:opcua:FX_AC:FxAssetType:dataType:DeviceHealthEnumeration;1"
     },
     {
       "@type": [ "Command", "Qualified" ],

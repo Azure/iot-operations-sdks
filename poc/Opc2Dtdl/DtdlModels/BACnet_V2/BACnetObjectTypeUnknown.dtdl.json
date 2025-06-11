@@ -245,11 +245,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Object_Type",
       "namespace": "http://opcfoundation.org/UA/BACnet_V2",
-      "schema": "dtmi:opcua:BACnet_V2:BACnetObjectTypeUnknown:dataType:BACnetObjectTypeEnum;1",
-      "writable": true
+      "schema": "dtmi:opcua:BACnet_V2:BACnetObjectTypeUnknown:dataType:BACnetObjectTypeEnum;1"
     }
   ]
 }

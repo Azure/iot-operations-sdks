@@ -17,81 +17,70 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Availability",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Durability",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ExpectedReliability",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "InstantaneousAvailability",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "IntrinsicMaintainability",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "IntrinsicReliability",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Maintainability",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OperationalReliability",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "ProductionBasedAvailability",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Reliability",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "TimeBasedAvailability",
       "namespace": "http://opcfoundation.org/UA/Pumps",
-      "schema": "double",
-      "writable": false
+      "schema": "double"
     }
   ]
 }

@@ -17,17 +17,29 @@
   "contents": [
     {
       "@type": [ "Property", "Qualified" ],
-      "name": "PartsCompletedPerRun",
+      "name": "ContainsMixedParts",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "unsignedInteger",
+      "schema": "boolean",
       "writable": false
     },
     {
       "@type": [ "Property", "Qualified" ],
+      "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
+      "name": "PartsCompletedPerRun",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
+      "schema": "unsignedInteger"
+    },
+    {
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "PartsPlannedPerRun",
       "namespace": "http://opcfoundation.org/UA/MachineTool",
-      "schema": "unsignedInteger",
-      "writable": false
+      "schema": "unsignedInteger"
     },
     {
       "@type": [ "Relationship", "Qualified" ],

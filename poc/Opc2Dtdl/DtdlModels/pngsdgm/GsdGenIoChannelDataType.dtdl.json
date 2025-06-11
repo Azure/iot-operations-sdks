@@ -15,5 +15,19 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "BitLength",
+      "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "BitOffset",
+      "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+      "schema": "unsignedShort",
+      "writable": false
+    }
   ]
 }

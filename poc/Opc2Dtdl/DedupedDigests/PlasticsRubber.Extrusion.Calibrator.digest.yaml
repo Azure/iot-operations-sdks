@@ -293,6 +293,10 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Calibrator:6155, PlasticsRubber.Extrusion.Calibrator:NodeVersion, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Calibrator:5048, PlasticsRubber.Extrusion.Calibrator:WaterFlowIn ]
     - HasTypeDefinition:
@@ -334,6 +338,18 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Calibrator:6002, PlasticsRubber.Extrusion.Calibrator:IsPresent, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Calibrator:6001, PlasticsRubber.Extrusion.Calibrator:Name, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Calibrator:6324, PlasticsRubber.Extrusion.Calibrator:Position, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Calibrator:5001, PlasticsRubber.Extrusion.Calibrator:Vacuum ]
     - HasTypeDefinition:

@@ -16,27 +16,31 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified", "Pressure" ],
+      "@type": [ "Property", "Qualified" ],
+      "name": "SensorT90",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": [ "Telemetry", "Qualified", "Pressure" ],
       "name": "AbsoluteAirPressure",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "hectopascal",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "OpticalFluorescenseQuenchingSensorSlope",
       "namespace": "http://opcfoundation.org/UA/PADIM",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     },
     {
-      "@type": [ "Property", "Qualified", "TimeSpan" ],
+      "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
       "name": "OpticalFluorescenseQuenchingSensorZeroPoint",
       "namespace": "http://opcfoundation.org/UA/PADIM",
       "unit": "microsecond",
-      "schema": "float",
-      "writable": false
+      "schema": "float"
     }
   ]
 }

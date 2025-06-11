@@ -280,6 +280,18 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.HotRunner:6034, PlasticsRubber.HotRunner:ActualOutput, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6025, PlasticsRubber.HotRunner:ActualType, PlasticsRubber.HotRunner:ControllerTypeEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6022, PlasticsRubber.HotRunner:ActualValueActive, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6500, PlasticsRubber.HotRunner:AutomaticReferenceZoneSelection, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6036, PlasticsRubber.HotRunner:AverageControllerOutput, Double, 0, 0 ]
     - HasModellingRule:
@@ -302,6 +314,18 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.HotRunner:6028, PlasticsRubber.HotRunner:LowerOutput, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6030, PlasticsRubber.HotRunner:OutputTime, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6031, PlasticsRubber.HotRunner:ReferenceZone, UInt32, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6021, PlasticsRubber.HotRunner:SetValueActive, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6032, PlasticsRubber.HotRunner:SetValueManualOutput, Double, 0, 3 ]
     - HasModellingRule:
@@ -321,8 +345,24 @@ DefinedTypes:
 
   PlasticsRubber.HotRunner:HeatUpType:
   - [ UAObjectType, PlasticsRubber.HotRunner:1004, PlasticsRubber.HotRunner:HeatUpType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6013, PlasticsRubber.HotRunner:EvenHeatUpEnabled, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6008, PlasticsRubber.HotRunner:ManualOutputLimitActive, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6238, PlasticsRubber.HotRunner:RelayHeatingGroup, Byte, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6484, PlasticsRubber.HotRunner:RelayHeatingTime, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6009, PlasticsRubber.HotRunner:SetValueManualOutputLimit, Double, 0, 3 ]
     - HasModellingRule:
@@ -338,6 +378,10 @@ DefinedTypes:
     - [ UAObject, PlasticsRubber.HotRunner:5022, PlasticsRubber.HotRunner:Diagnostics ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1066, PlasticsRubber.GeneralTypes:DiagnosticsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6240, PlasticsRubber.HotRunner:DisplayLanguage, LocaleId, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -406,6 +450,10 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.HotRunner:6132, PlasticsRubber.HotRunner:BoostSetValue, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6118, PlasticsRubber.HotRunner:BoostTime, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, PlasticsRubber.GeneralTypes:ControlledParameterType ]
   - HasComponent:
@@ -414,6 +462,10 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6255, PlasticsRubber.HotRunner:StandbySetValue, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6164, PlasticsRubber.HotRunner:TimeMethodPIDParameters, PlasticsRubber.HotRunner:TimeMethodPIDParametersDataType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
@@ -427,10 +479,22 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.HotRunner:6217, PlasticsRubber.HotRunner:ActiveSetValues, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6214, PlasticsRubber.HotRunner:DeviceMappingNumber, UInt32, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6216, PlasticsRubber.HotRunner:EnablePower, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6506, PlasticsRubber.HotRunner:EvenHeatUpMaxTemperatureDifference, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6213, PlasticsRubber.HotRunner:HighestActiveAlarmSeverity, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.HotRunner:7006, PlasticsRubber.HotRunner:IdentifyDevice ]
     - HasModellingRule:
@@ -455,6 +519,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6649, PlasticsRubber.HotRunner:SessionNameForReactionOnDisconnect, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.HotRunner:7031, PlasticsRubber.HotRunner:SetReactionOnDisconnect ]
     - HasProperty:
@@ -468,8 +536,20 @@ DefinedTypes:
 
   PlasticsRubber.HotRunner:TemperatureRiseMonitoringType:
   - [ UAObjectType, PlasticsRubber.HotRunner:1003, PlasticsRubber.HotRunner:TemperatureRiseMonitoringType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6003, PlasticsRubber.HotRunner:ErrorDetected, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6002, PlasticsRubber.HotRunner:SetValueActive, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6005, PlasticsRubber.HotRunner:SetValueTemperatureChange, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6004, PlasticsRubber.HotRunner:SupervisionTime, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -477,6 +557,10 @@ DefinedTypes:
 
   PlasticsRubber.HotRunner:ZonesType:
   - [ UAObjectType, PlasticsRubber.HotRunner:1008, PlasticsRubber.HotRunner:ZonesType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6136, PlasticsRubber.HotRunner:NodeVersion, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.HotRunner:5009, PlasticsRubber.HotRunner:Zone_<Nr> ]
     - HasModellingRule:
@@ -502,6 +586,14 @@ DefinedTypes:
     - [ UAObject, PlasticsRubber.HotRunner:5003, PlasticsRubber.HotRunner:HeatUp ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.HotRunner:1004, PlasticsRubber.HotRunner:HeatUpType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6052, PlasticsRubber.HotRunner:HighestActiveAlarmSeverity, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.HotRunner:6051, PlasticsRubber.HotRunner:Name, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:

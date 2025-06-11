@@ -316,6 +316,13 @@
   ],
   "contents": [
     {
+      "@type": [ "Property", "Qualified" ],
+      "name": "DefaultInstanceBrowseName",
+      "namespace": "http://opcfoundation.org/UA/Machinery.Result",
+      "schema": "string",
+      "writable": true
+    },
+    {
       "@type": [ "Command", "Qualified" ],
       "name": "GetLatestResult",
       "namespace": "http://opcfoundation.org/UA/Machinery.Result",

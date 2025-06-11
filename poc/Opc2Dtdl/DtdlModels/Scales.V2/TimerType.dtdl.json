@@ -17,11 +17,10 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Qualified" ],
+      "@type": [ "Telemetry", "Qualified" ],
       "name": "Duration",
       "namespace": "http://opcfoundation.org/UA/Scales.V2",
-      "schema": "duration",
-      "writable": true
+      "schema": "duration"
     }
   ]
 }

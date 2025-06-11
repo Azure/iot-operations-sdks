@@ -16,5 +16,19 @@
   "schemas": [
   ],
   "contents": [
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "Address",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
+      "schema": "bytes",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Qualified" ],
+      "name": "ProtocolIdentifier",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
+      "schema": "string",
+      "writable": false
+    }
   ]
 }
