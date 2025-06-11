@@ -28,14 +28,71 @@ pub mod dispatcher {
     }
 
     /// Error when dispatching a message to a receiver
-    #[derive(Error, Debug)]
-    pub enum DispatchError<T> {
-        /// Error when trying to send a message to a receiver
-        #[error(transparent)]
-        SendError(#[from] SendError<T>),
-        /// Error when trying to find a receiver by ID
-        #[error("receiver with id {:?} not found", 0.0)]
-        NotFound((String, T)),
+    // #[derive(Error, Debug)]
+    // pub enum DispatchError<T> {
+    //     /// Error when trying to send a message to a receiver
+    //     #[error(transparent)]
+    //     SendError(#[from] SendError<T>),
+    //     /// Error when trying to find a receiver by ID
+    //     #[error("receiver with id {:?} not found", 0.0)]
+    //     NotFound((String, T)),
+    // }
+    #[derive(PartialEq, Eq, Clone)]
+    pub struct DispatchError<T> {
+        // /// The ID of the receiver that was not found
+        // pub receiver_id: String,
+        /// The message that could not be sent
+        pub data: T,
+        /// The kind of error that occurred
+        pub kind: DispatchErrorKind,
+    }
+    // No need to return data. may be implement display for kind.
+    // use this error for display
+    impl<T: std::fmt::Debug> std::fmt::Display for DispatchError<T> {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match &self.kind {
+                DispatchErrorKind::SendError => {
+                    write!(f, "Failed to send message: {:?}", self.data)
+                }
+                DispatchErrorKind::NotFound(receiver_id) => {
+                    write!(f, "Receiver with ID '{}' not found", receiver_id)
+                }
+            }
+        }
+    }
+
+    impl<T: std::fmt::Debug> std::fmt::Debug for DispatchError<T> {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            write!(
+                f,
+                "DispatchError {{ data: {:?}, kind: {:?} }}",
+                self.data, self.kind
+            )
+        }
+    }
+
+    impl<T: std::fmt::Debug> std::error::Error for DispatchError<T> {}
+
+    // impl<T> DispatchError<T> {
+    //     /// Creates a new `DispatchError` with the given data and kind
+    //     pub fn new(data: T, kind: DispatchErrorKind) -> Self {
+    //         Self { data, kind }
+    //     }
+    // }
+
+    // impl<T> From<SendError<T>> for DispatchError<T> {
+    //     fn from(err: SendError<T>) -> Self {
+    //         Self {
+    //             data: err.0,
+    //             kind: DispatchErrorKind::SendError,
+    //         }
+    //     }
+    // }
+
+    #[derive(Debug, Eq, PartialEq, Clone)]
+    pub enum DispatchErrorKind {
+        SendError,
+        NotFound(String), // receiver ID
     }
 
     /// Dispatches messages to receivers based on ID
