@@ -31,25 +31,18 @@ namespace Azure.Iot.Operations.Connector
         private readonly ConcurrentDictionary<string, DeviceContext> _devices = new();
         private bool _isDisposed = false;
 
+        private readonly ConcurrentDictionary<string, ConnectorTaskContext> _deviceTasks = new();
+        private readonly ConcurrentDictionary<string, ConnectorTaskContext> _assetTasks = new();
+
         /// <summary>
         /// Event handler for when an device becomes available.
         /// </summary>
-        public EventHandler<DeviceAvailableEventArgs>? OnDeviceAvailable;
-
-        /// <summary>
-        /// Event handler for when an device becomes unavailable.
-        /// </summary>
-        public EventHandler<DeviceUnavailableEventArgs>? OnDeviceUnavailable;
+        public Func<DeviceAvailableEventArgs, Task>? OnDeviceAvailable;
 
         /// <summary>
         /// Event handler for when an asset becomes available.
         /// </summary>
-        public EventHandler<AssetAvailableEventArgs>? OnAssetAvailable;
-
-        /// <summary>
-        /// Event handler for when an asset becomes unavailable.
-        /// </summary>
-        public EventHandler<AssetUnavailableEventArgs>? OnAssetUnavailable;
+        public Func<AssetAvailableEventArgs, Task>? OnAssetAvailable;
 
         private readonly ConnectorLeaderElectionConfiguration? _leaderElectionConfiguration; //TODO one connector as leader for all devices? Or will some connectors have a subset of devices?
 
@@ -171,16 +164,21 @@ namespace Azure.Iot.Operations.Connector
                     {
                         _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was created", args.DeviceName, args.InboundEndpointName);
                         DeviceAvailable(args, compoundDeviceName);
-                        if (args.Device != null)
+                        if (args.Device != null && OnDeviceAvailable != null)
                         {
-                            OnDeviceAvailable?.Invoke(this, new(args.Device, args.InboundEndpointName));
+                            Task taskToRunWhileDeviceIsAvailable = OnDeviceAvailable.Invoke(new(args.Device, args.InboundEndpointName));
+                            _deviceTasks.TryAdd(compoundDeviceName, new(taskToRunWhileDeviceIsAvailable));
                         }
                     }
                     else if (args.ChangeType == ChangeType.Deleted)
                     {
                         _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
                         await DeviceUnavailableAsync(args, compoundDeviceName, false);
-                        OnDeviceUnavailable?.Invoke(this, new(args.DeviceName, args.InboundEndpointName));
+                        if (_deviceTasks.TryRemove(compoundDeviceName, out ConnectorTaskContext? taskContext))
+                        {
+                            taskContext.TaskCancellationTokenSource.Cancel();
+                            taskContext.Dispose();
+                        }
                     }
                     else if (args.ChangeType == ChangeType.Updated)
                     {
@@ -499,7 +497,13 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            OnAssetAvailable?.Invoke(this, new(device, inboundEndpointName, assetName, asset!));
+            if (OnAssetAvailable != null)
+            {
+                Task taskToRunWhileAssetIsAvailable = OnAssetAvailable.Invoke(new(device, inboundEndpointName, assetName, asset!));
+                var taskContext = new ConnectorTaskContext(taskToRunWhileAssetIsAvailable);
+                _assetTasks.TryAdd(GetCompoundAssetName(compoundDeviceName, assetName), taskContext);
+                Task.Run(taskToRunWhileAssetIsAvailable, taskContext.TaskCancellationTokenSource.Token);
+            }
         }
 
         private void AssetUnavailable(string deviceName, string inboundEndpointName, string assetName, bool isUpdating)
@@ -509,8 +513,17 @@ namespace Azure.Iot.Operations.Connector
             // This method may be called either when an asset was updated or when it was deleted. If it was updated, then it will still be sampleable.
             if (!isUpdating)
             {
-                OnAssetUnavailable?.Invoke(this, new(assetName));
+                if (_assetTasks.TryRemove(GetCompoundAssetName(compoundDeviceName, assetName), out ConnectorTaskContext? assetTaskContext))
+                {
+                    assetTaskContext.TaskCancellationTokenSource.Cancel();
+                    assetTaskContext.Dispose();
+                }
             }
+        }
+
+        private string GetCompoundAssetName(string compoundDeviceName, string assetName)
+        {
+            return compoundDeviceName + "_" + assetName;
         }
     }
 }
