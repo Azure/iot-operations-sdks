@@ -3,8 +3,7 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public enum NotificationResponse
+public record NotificationResponse
 {
-    Accepted = 0,
-    Failed = 1
+    public required string ResponsePayload { get; set; }
 }

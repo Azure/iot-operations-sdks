@@ -9,54 +9,95 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using System.Text.Json.Serialization;
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
+    /// <summary>
+    /// Represents a Device resource, modeled after the devices.namespaces.deviceregistry.microsoft.com CRD in Kubernetes.
+    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class Device : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class Device
     {
         /// <summary>
-        /// The 'name' Field.
+        /// A set of key-value pairs that contain custom attributes set by the customer.
         /// </summary>
-        [JsonPropertyName("name")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string Name { get; set; } = default!;
-
-        /// <summary>
-        /// The 'specification' Field.
-        /// </summary>
-        [JsonPropertyName("specification")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public DeviceSpecificationSchema Specification { get; set; } = default!;
-
-        /// <summary>
-        /// The 'status' Field.
-        /// </summary>
-        [JsonPropertyName("status")]
+        [JsonPropertyName("attributes")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public DeviceStatus? Status { get; set; } = default;
+        public Dictionary<string, string>? Attributes { get; set; } = default;
 
-        void IJsonOnDeserialized.OnDeserialized()
-        {
-            if (Name is null)
-            {
-                throw new ArgumentNullException("name field cannot be null");
-            }
-            if (Specification is null)
-            {
-                throw new ArgumentNullException("specification field cannot be null");
-            }
-        }
+        /// <summary>
+        /// Reference to a device. Populated only if the device had been created from discovery flow. Discovered device name must be provided.
+        /// </summary>
+        [JsonPropertyName("discoveredDeviceRef")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DiscoveredDeviceRef { get; set; } = default;
 
-        void IJsonOnSerializing.OnSerializing()
-        {
-            if (Name is null)
-            {
-                throw new ArgumentNullException("name field cannot be null");
-            }
-            if (Specification is null)
-            {
-                throw new ArgumentNullException("specification field cannot be null");
-            }
-        }
+        /// <summary>
+        /// Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with Microsoft Entra ID.
+        /// </summary>
+        [JsonPropertyName("enabled")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public bool? Enabled { get; set; } = default;
+
+        /// <summary>
+        /// Connection endpoint url a device can use to connect to a service.
+        /// </summary>
+        [JsonPropertyName("endpoints")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public DeviceEndpointsSchema? Endpoints { get; set; } = default;
+
+        /// <summary>
+        /// The Device ID provided by the customer.
+        /// </summary>
+        [JsonPropertyName("externalDeviceId")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? ExternalDeviceId { get; set; } = default;
+
+        /// <summary>
+        /// A timestamp (in UTC) that is updated each time the resource is modified.
+        /// </summary>
+        [JsonPropertyName("lastTransitionTime")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public DateTime? LastTransitionTime { get; set; } = default;
+
+        /// <summary>
+        /// Device manufacturer.
+        /// </summary>
+        [JsonPropertyName("manufacturer")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? Manufacturer { get; set; } = default;
+
+        /// <summary>
+        /// Device model.
+        /// </summary>
+        [JsonPropertyName("model")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? Model { get; set; } = default;
+
+        /// <summary>
+        /// Device operating system.
+        /// </summary>
+        [JsonPropertyName("operatingSystem")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? OperatingSystem { get; set; } = default;
+
+        /// <summary>
+        /// Device operating system version.
+        /// </summary>
+        [JsonPropertyName("operatingSystemVersion")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? OperatingSystemVersion { get; set; } = default;
+
+        /// <summary>
+        /// Gets a unique identifier for this resource.
+        /// </summary>
+        [JsonPropertyName("uuid")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? Uuid { get; set; } = default;
+
+        /// <summary>
+        /// An integer that is incremented each time the resource is modified.
+        /// </summary>
+        [JsonPropertyName("version")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public ulong? Version { get; set; } = default;
+
     }
 }

@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public Dictionary<string, InboundSchemaMapValueSchema>? Inbound { get; set; } = default;
 
         /// <summary>
-        /// The 'outbound' Field.
+        /// Set of endpoints for device to connect to.
         /// </summary>
         [JsonPropertyName("outbound")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

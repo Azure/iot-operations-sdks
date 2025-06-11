@@ -5,7 +5,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record AssetStatus
 {
-    public AssetConfigStatus? Config { get; set; }
+    public ConfigStatus? Config { get; set; }
 
     public List<AssetDatasetEventStreamStatus>? Datasets { get; set; }
 

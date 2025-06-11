@@ -10,28 +10,21 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class AssetConfigStatusSchema
+    public partial class UpdateAssetStatusResponseSchema
     {
         /// <summary>
-        /// The 'error' Field.
+        /// The 'updateAssetStatusError' Field.
         /// </summary>
-        [JsonPropertyName("error")]
+        [JsonPropertyName("updateAssetStatusError")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public ConfigError? Error { get; set; } = default;
+        public AkriServiceError? UpdateAssetStatusError { get; set; } = default;
 
         /// <summary>
-        /// The 'lastTransitionTime' Field.
+        /// The 'updatedAssetStatus' Field.
         /// </summary>
-        [JsonPropertyName("lastTransitionTime")]
+        [JsonPropertyName("updatedAssetStatus")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public DateTime? LastTransitionTime { get; set; } = default;
-
-        /// <summary>
-        /// The 'version' Field.
-        /// </summary>
-        [JsonPropertyName("version")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public ulong? Version { get; set; } = default;
+        public AssetStatus? UpdatedAssetStatus { get; set; } = default;
 
     }
 }

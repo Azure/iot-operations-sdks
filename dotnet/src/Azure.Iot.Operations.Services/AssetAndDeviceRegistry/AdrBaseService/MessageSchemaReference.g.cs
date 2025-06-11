@@ -9,11 +9,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using System.Text.Json.Serialization;
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
+    /// <summary>
+    /// The message schema reference object.
+    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
     public partial class MessageSchemaReference : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'schemaName' Field.
+        /// The reference to the message schema name.
         /// </summary>
         [JsonPropertyName("schemaName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -21,7 +24,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string SchemaName { get; set; } = default!;
 
         /// <summary>
-        /// The 'schemaRegistryNamespace' Field.
+        /// The reference to the message schema registry namespace.
         /// </summary>
         [JsonPropertyName("schemaRegistryNamespace")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -29,7 +32,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string SchemaRegistryNamespace { get; set; } = default!;
 
         /// <summary>
-        /// The 'schemaVersion' Field.
+        /// The reference to the message schema version.
         /// </summary>
         [JsonPropertyName("schemaVersion")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

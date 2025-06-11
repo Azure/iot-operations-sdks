@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// <summary>
         /// Specializes the <c>CommandInvoker</c> class for Command 'updateAssetStatus'.
         /// </summary>
-        public class UpdateAssetStatusCommandInvoker : CommandInvoker<UpdateAssetStatusRequestPayload, UpdateAssetStatusResponsePayload>
+        public class UpdateAssetStatusCommandInvoker : CommandInvoker<UpdateAssetStatusRequestPayload, UpdateAssetStatusResponseSchema>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="UpdateAssetStatusCommandInvoker"/> class.

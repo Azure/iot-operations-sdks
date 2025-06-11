@@ -13,14 +13,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class InboundSchemaMapValueSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'additionalConfiguration' Field.
+        /// Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, ONVIF).
         /// </summary>
         [JsonPropertyName("additionalConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? AdditionalConfiguration { get; set; } = default;
 
         /// <summary>
-        /// The 'address' Field.
+        /// The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).
         /// </summary>
         [JsonPropertyName("address")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -28,14 +28,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string Address { get; set; } = default!;
 
         /// <summary>
-        /// The 'authentication' Field.
+        /// Defines the client authentication mechanism to the server.
         /// </summary>
         [JsonPropertyName("authentication")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public AuthenticationSchema? Authentication { get; set; } = default;
 
         /// <summary>
-        /// The 'endpointType' Field.
+        /// Type of connection endpoint.
         /// </summary>
         [JsonPropertyName("endpointType")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -43,14 +43,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string EndpointType { get; set; } = default!;
 
         /// <summary>
-        /// The 'trustSettings' Field.
+        /// Defines server trust settings for the endpoint.
         /// </summary>
         [JsonPropertyName("trustSettings")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public TrustSettingsSchema? TrustSettings { get; set; } = default;
 
         /// <summary>
-        /// The 'version' Field.
+        /// Version associated with device endpoint.
         /// </summary>
         [JsonPropertyName("version")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
