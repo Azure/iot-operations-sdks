@@ -64,11 +64,6 @@
 
         private static IEnumerable<OpcUaContent> FilteredContents(OpcUaDefinedType definedType)
         {
-            if (definedType.BrowseName == "CommercialKitchenEquipment:ChamberType")
-            {
-                int x = 0;
-            }
-
             foreach (OpcUaContent content in definedType.Contents)
             {
                 if (definedType.NodeType == "UAObjectType" && content.Relationship == "HasComponent" ||
