@@ -15,21 +15,11 @@ We will implement sdk-level message chunking as part of the Protocol layer to tr
 **The chunking mechanism will**:
 
 - Be enabled/disabled by a configuration setting.
-- Use standardized user properties for chunk metadata:
-
-  - The `__chunk` user property will contain a JSON object with chunking metadata.
-  - The JSON structure will include:
-
-    ```json
-    {
-       "messageId": "unique-id-for-chunked-message",
-       "chunkIndex": 0,
-       "totalChunks": 5,
-       "checksum": "message-hash"
-     }
-     ```
-
-  - `messageId, chunkIndex` - present for every chunk; `totalChunks, checksum` - present only for the first chunk. `messageId` is UUID.
+- Use standardized user properties for chunk metadata. The `__chunk` user property will contain a colon-separated string with chunking metadata: ```<messageId>:<chunkIndex>:<totalChunks>:<checksum>```. The string will include:
+  - `messageId` - UUID string in the 8-4-4-4-12 format, present for every chunk.
+  - `chunkIndex` - unsigned 32 bit integer in decimal format, present for every chunk;
+  - `totalChunks` - unsigned 32 bit integer in decimal format, present only for the first chunk.
+  - `checksum` - SHA-256 hash in hexadecimal format (64 characters long), present only for the first chunk.
 
 **Chunk size calculation:**
 
@@ -124,11 +114,6 @@ sequenceDiagram
         Receiver->>Receiver: Timeout occurred
         Receiver->>Receiver: Cleanup buffers
         Note over Receiver: Notify application:<br/>ChunkTimeoutError
-    else Failure: Buffer Limit
-        Note over Receiver: Reassembly buffer full
-        Receiver->>Receiver: Reject new chunks
-        Receiver->>Receiver: Cleanup oldest incomplete messages
-        Note over Receiver: Notify application:<br/>BufferLimitExceededError
     else Failure: Checksum Mismatch
         Note over Receiver: All chunks received
         Receiver->>Receiver: Calculate checksum
