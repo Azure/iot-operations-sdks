@@ -203,8 +203,9 @@
           "type": "object",
           "properties": {
             "endpointType": {
-              "type": "string",
-              "description": "The type of this inbound endpoint like 'Microsoft.Media'."
+              "description": "Type of connection endpoint. Formatted as ABC.XYZ:{connectorVersion}. For example, 'Microsoft.Media:1.2.3'",
+              "pattern": "^[a-zA-Z]+\\.[a-zA-Z]+:[^+#{}/]+$",
+              "type": "string"
             },
             "additionalConfigurationSchema": {
               "$ref": "http://json-schema.org/draft-07/schema#"
