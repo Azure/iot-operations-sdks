@@ -85,6 +85,6 @@ The `DedupYaml` tool reads the previous file and writes a deduped version of the
 
 [./DedupedDigests/CommercialKitchenEquipment.digest.yaml](./DedupedDigests/CommercialKitchenEquipment.digest.yaml)
 
-The `Yaml2Dtdl` reads the previous file, generates DTDL models, and writes the models into files in the following folder:
+The `Yaml2Dtdl` reads the previous file, generates DTDL models, and writes the models into the following file:
 
-[./DtdlModels/CommercialKitchenEquipment](./DtdlModels/CommercialKitchenEquipment/)
+[./DtdlModels/CommercialKitchenEquipment.dtdl.json](./DtdlModels/CommercialKitchenEquipment.dtdl.json)
