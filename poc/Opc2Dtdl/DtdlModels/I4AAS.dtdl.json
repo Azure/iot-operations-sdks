@@ -813,7 +813,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Referable",
-        "namespace": "http://opcfoundation.org/UA/I4AAS"
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
   },
@@ -901,7 +902,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "File",
-        "namespace": "http://opcfoundation.org/UA/I4AAS"
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
   },
@@ -1039,7 +1041,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "File",
-        "namespace": "http://opcfoundation.org/UA/I4AAS"
+        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
   },

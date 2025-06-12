@@ -120,7 +120,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "DeviceHealthAlarms",
-        "namespace": "http://opcfoundation.org/UA/DI"
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -131,7 +132,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "DeviceConditionSet",
-        "namespace": "http://opcfoundation.org/UA/PADIM"
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
   },
@@ -319,12 +321,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "SignalCalibrationIdentifier",
-        "namespace": "http://opcfoundation.org/UA/PADIM"
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "SignalConditionSet",
-        "namespace": "http://opcfoundation.org/UA/PADIM"
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
   },
@@ -731,7 +735,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "DeviceComponentConditions",
-        "namespace": "http://opcfoundation.org/UA/PADIM"
+        "namespace": "http://opcfoundation.org/UA/PADIM",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
   },

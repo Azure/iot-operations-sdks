@@ -237,17 +237,20 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Flags",
-        "namespace": "http://opcfoundation.org/UA/Woodworking"
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Overview",
-        "namespace": "http://opcfoundation.org/UA/Woodworking"
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Values",
-        "namespace": "http://opcfoundation.org/UA/Woodworking"
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
   },
@@ -489,12 +492,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Machine",
-        "namespace": "http://opcfoundation.org/UA/Woodworking"
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "SubUnits",
-        "namespace": "http://opcfoundation.org/UA/Woodworking"
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
   },
@@ -518,7 +523,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "SubUnit",
-        "namespace": "http://opcfoundation.org/UA/Woodworking"
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
   },
@@ -1065,12 +1071,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ManufacturerSpecific",
-        "namespace": "http://opcfoundation.org/UA/Woodworking"
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "State",
-        "namespace": "http://opcfoundation.org/UA/Woodworking"
+        "namespace": "http://opcfoundation.org/UA/Woodworking",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
   }

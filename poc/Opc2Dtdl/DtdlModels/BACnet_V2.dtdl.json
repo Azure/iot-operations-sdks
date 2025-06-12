@@ -15077,12 +15077,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Object_List",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2"
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Structured_Object_List",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2"
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],

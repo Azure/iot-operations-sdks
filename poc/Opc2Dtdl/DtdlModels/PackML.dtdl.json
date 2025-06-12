@@ -748,32 +748,38 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Aborted",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AbortedToCleared",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Aborting",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AbortingToAborted",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Cleared",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ClearedToAborting",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -902,157 +908,188 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Complete",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "CompleteToResetting",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Completing",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "CompletingToComplete",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Execute",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ExecuteToCompleting",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ExecuteToHolding",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ExecuteToSuspending",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Held",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "HeldToUnholding",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Holding",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "HoldingToHeld",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Idle",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "IdleToStarting",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Resetting",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ResettingToIdle",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Starting",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "StartingToExecute",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "StartingToHolding",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Suspended",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "SuspendedToHolding",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "SuspendedToUnsuspending",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Suspending",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "SuspendingToHolding",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "SuspendingToSuspended",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Unholding",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "UnholdingToExecute",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "UnholdingToHolding",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Unsuspending",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "UnsuspendingToExecute",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "UnsuspendingToHolding",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]
   },
@@ -1106,12 +1143,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Clearing",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ClearingToStopped",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -1122,32 +1161,38 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Running",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "RunningToStopping",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Stopped",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "StoppedToRunning",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Stopping",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "StoppingToStopped",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]
   }

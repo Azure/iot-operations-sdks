@@ -520,12 +520,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Accessories",
-        "namespace": "http://opcfoundation.org/UA/GMS"
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AdditionalSensor",
-        "namespace": "http://opcfoundation.org/UA/GMS"
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -862,7 +864,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "CorrectionsFolder",
-        "namespace": "http://opcfoundation.org/UA/GMS"
+        "namespace": "http://opcfoundation.org/UA/GMS",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },

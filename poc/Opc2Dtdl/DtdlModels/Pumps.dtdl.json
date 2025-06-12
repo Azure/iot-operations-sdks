@@ -2051,37 +2051,44 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "InstallationNpshCurve",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "PumpCurve",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "PumpEfficiencyCurve",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "PumpH_Q_Curve",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "PumpNpshCurve",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "PumpPowerInputCurve",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "StablePumpH_Q_Curve",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
   },
@@ -2239,112 +2246,134 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Arrangements",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Certificates",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "CircuitDiagram",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ComponentsList",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Detail",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "DuringMaintenanceServicesRendered",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ImplementationDescription",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Layout",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Location",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "LogicDiagram",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "LubricationMap",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MaintenanceManual",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "OperationManual",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "PersonnelRecording",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "PipeAndInstrumentDiagram",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ScopeOfWork",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "SingleLineDiagram",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "SparePartReference",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Staff",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "TechnicalData",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "TestProgramReport",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "UnitMaintenanceReport",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
   },
@@ -6094,7 +6123,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Marking",
-        "namespace": "http://opcfoundation.org/UA/Pumps"
+        "namespace": "http://opcfoundation.org/UA/Pumps",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
   },

@@ -79,11 +79,6 @@
 
             foreach (string yamlFilePath in Directory.GetFiles(sourceRoot, $"*{sourceFileSuffix}"))
             {
-                if (Path.GetFileName(yamlFilePath) == coreYamlFileName)
-                {
-                    continue;
-                }
-
                 string yamlFileName = Path.GetFileName(yamlFilePath);
                 string specName = yamlFileName.Substring(0, yamlFileName.Length - sourceFileSuffix.Length);
 

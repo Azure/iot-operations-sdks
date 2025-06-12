@@ -657,7 +657,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "SubDevices",
-        "namespace": "http://fdi-cooperation.com/OPCUA/FDI7"
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },

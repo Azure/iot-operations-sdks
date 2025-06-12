@@ -3979,7 +3979,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ProductionDatasetTransfer",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "target": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType"
       }
     ]
   },

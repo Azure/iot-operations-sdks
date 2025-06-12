@@ -44,7 +44,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MachineryBuildingBlocks",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   }

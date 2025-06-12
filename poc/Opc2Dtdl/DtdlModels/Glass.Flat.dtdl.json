@@ -1069,7 +1069,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "LocalManuals",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
   },
@@ -1167,7 +1168,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Plan",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
   },
@@ -1272,7 +1274,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "InputMaterials",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -1289,7 +1292,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "OutputMaterials",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -1575,37 +1579,44 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Idle",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "IdleToQueued",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Queued",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "QueuedToIdle",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "QueuedToReleased",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Released",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ReleasedToQueued",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]
   },
@@ -1636,27 +1647,32 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Aborted",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AbortedToInitializing",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Ended",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "EndedToInitializing",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Initializing",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -1667,52 +1683,62 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "InitializingToAborted",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "InitializingToRunning",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Interrupted",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "InterruptedToAborted",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "InterruptedToRunning",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Running",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "RunningToAborted",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "RunningToEnded",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "RunningToInterrupted",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "RunningToRunning",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]
   }

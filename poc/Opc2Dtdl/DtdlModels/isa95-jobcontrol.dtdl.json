@@ -1432,17 +1432,20 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Closed",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Completed",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromCompletedToClosed",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]
   },
@@ -1466,22 +1469,26 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromHeldToSuspended",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromSuspendedToHeld",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Held",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Suspended",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       }
     ]
   },
@@ -2441,97 +2448,116 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Aborted",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AllowedToStart",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Ended",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromAllowedToStartToAborted",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromAllowedToStartToAllowedToStart",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromAllowedToStartToNotAllowedToStart",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromAllowedToStartToRunning",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromInterruptedToAborted",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromInterruptedToEnded",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromInterruptedToRunning",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromNotAllowedToStartToAborted",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromNotAllowedToStartToAllowedToStart",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromNotAllowedToStartToNotAllowedToStart",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromRunningToAborted",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromRunningToEnded",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromRunningToInterrupted",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Interrupted",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "NotAllowedToStart",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Running",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       }
     ]
   },
@@ -2599,42 +2625,50 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromLoadedToReady",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromLoadedToWaiting",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromReadyToLoaded",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromReadyToWaiting",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromWaitingToReady",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Loaded",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Ready",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Waiting",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       }
     ]
   }

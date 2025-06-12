@@ -11,6 +11,7 @@ namespace Yaml2Dtdl
     {
         public const string ModelingRuleOptionalNodeId = "80";
 
+        private const string coreSpecName = "OpcUaCore";
         private const string defaultType = "string";
 
         // Per https://reference.opcfoundation.org/Core/Part6/v104/docs/5
@@ -166,7 +167,7 @@ namespace Yaml2Dtdl
 
         public static string Dequalify(string browseName) => browseName.Substring(browseName.IndexOf(':') + 1);
 
-        public static string? GetSpecName(OpcUaDefinedType definedType) => GetSpecName(definedType.BrowseName) ?? GetSpecName(definedType.NodeId);
+        public static string? GetSpecName(OpcUaDefinedType definedType) => GetSpecName(definedType.BrowseName) ?? GetSpecName(definedType.NodeId) ?? coreSpecName;
 
         public static string? GetSpecName(string nameOrId)
         {

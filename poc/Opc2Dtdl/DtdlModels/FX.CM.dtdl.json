@@ -2621,7 +2621,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ConnectionConfigurationSets",
-        "namespace": "http://opcfoundation.org/UA/FX.CM"
+        "namespace": "http://opcfoundation.org/UA/FX.CM",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -2779,37 +2780,44 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Error",
-        "namespace": "http://opcfoundation.org/UA/FX.CM"
+        "namespace": "http://opcfoundation.org/UA/FX.CM",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ErrorToProcessing",
-        "namespace": "http://opcfoundation.org/UA/FX.CM"
+        "namespace": "http://opcfoundation.org/UA/FX.CM",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Processing",
-        "namespace": "http://opcfoundation.org/UA/FX.CM"
+        "namespace": "http://opcfoundation.org/UA/FX.CM",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ProcessingToError",
-        "namespace": "http://opcfoundation.org/UA/FX.CM"
+        "namespace": "http://opcfoundation.org/UA/FX.CM",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ProcessingToReady",
-        "namespace": "http://opcfoundation.org/UA/FX.CM"
+        "namespace": "http://opcfoundation.org/UA/FX.CM",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Ready",
-        "namespace": "http://opcfoundation.org/UA/FX.CM"
+        "namespace": "http://opcfoundation.org/UA/FX.CM",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ReadyToProcessing",
-        "namespace": "http://opcfoundation.org/UA/FX.CM"
+        "namespace": "http://opcfoundation.org/UA/FX.CM",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]
   },

@@ -725,7 +725,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Results",
-        "namespace": "http://opcfoundation.org/UA/Machinery.Result"
+        "namespace": "http://opcfoundation.org/UA/Machinery.Result",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],

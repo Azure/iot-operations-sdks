@@ -3508,12 +3508,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Data",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "SubCarriers",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -4054,27 +4056,32 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Alarms",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Data",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Interlocks",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Measurements",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ProcessControlLoops",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -4730,12 +4737,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Alarms",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Data",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -5669,12 +5678,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Alarms",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Data",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -6447,7 +6458,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Data",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -7013,12 +7025,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "DataSetFolder",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MechanicalAdjustments",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -7530,7 +7544,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Documentation",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -7878,7 +7893,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Carriers",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -8028,7 +8044,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "LimitAlarms",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:NonExclusiveLevelAlarmType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -8402,92 +8419,110 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Aborted",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AbortedToComplete",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Aborting",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AbortingToAborted",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Assigned",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AssignedToComplete",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AssignedToStarting",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Complete",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "CompleteToAssigned",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Completing",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "CompletingToAborting",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "CompletingToComplete",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Execute",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ExecuteToAborting",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ExecuteToCompleting",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Starting",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "StartingToAborting",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "StartingToExecute",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]
   },
@@ -8537,7 +8572,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AbortedSubstate",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateMachineType"
       }
     ]
   },
@@ -8683,17 +8719,20 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "CompleteSubstate",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ExecuteSubstate",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "IdleSubstate",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateMachineType"
       }
     ]
   },
@@ -8749,7 +8788,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "StoppedSubstate",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateMachineType"
       }
     ]
   },
@@ -9030,162 +9070,194 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Aborted",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Aborting",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AbortingToAborted",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Assigned",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AssignedToStarting",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AssignedToUnassigning",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AssignedToUnreleasing",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Assigning",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AssigningToAssigned",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Complete",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Completing",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "CompletingToAborting",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "CompletingToComplete",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Execute",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ExecuteToAborting",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ExecuteToCompleting",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MachineModuleProductionOrders",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Released",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ReleasedToAssigning",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ReleasedToUnreleasing",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Releasing",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ReleasingToReleased",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ReleasingToUnreleasing",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Starting",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "StartingToAborting",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "StartingToExecute",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Unassigning",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "UnassigningToReleased",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Unreleased",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "UnreleasedToReleased",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Unreleasing",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "UnreleasingToUnreleased",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]
   },
@@ -9497,7 +9569,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Data",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -9528,7 +9601,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ControlModules",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -9539,12 +9613,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ProcessControlLoops",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ProcessItems",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -9590,17 +9666,20 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ControlModules",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "DefectDetectionSensors",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "EquipmentModules",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -9611,42 +9690,50 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MaterialBuffers",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MaterialLoadingPoints",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MaterialLocations",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MaterialOutputPoints",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MaterialRejectionPoints",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "PastSpecificationRecords",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ProcessControlLoops",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ProcessItems",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -11312,7 +11399,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ExternalAlarms",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -12197,7 +12285,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ProductionOrders",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -12366,7 +12455,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "UIResources",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -12390,32 +12480,38 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ControlPanelVURO",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ControlPanelVURW",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "KPIVU",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "LoopVUReferences",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "OverVU",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ZoomedVU",
-        "namespace": "http://opcfoundation.org/UA/TMC.v2"
+        "namespace": "http://opcfoundation.org/UA/TMC.v2",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
   }

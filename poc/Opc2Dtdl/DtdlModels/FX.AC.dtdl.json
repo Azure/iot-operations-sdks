@@ -62,7 +62,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "DescriptorFile",
-        "namespace": "http://opcfoundation.org/UA/FX.AC"
+        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
   },
@@ -948,7 +949,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Assets",
-        "namespace": "http://opcfoundation.org/UA/FX.AC"
+        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -959,12 +961,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Descriptors",
-        "namespace": "http://opcfoundation.org/UA/FX.AC"
+        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FunctionalEntities",
-        "namespace": "http://opcfoundation.org/UA/FX.AC"
+        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -1097,7 +1101,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Connectors",
-        "namespace": "http://opcfoundation.org/UA/FX.AC"
+        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -1548,7 +1553,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "OperationalHealthAlarms",
-        "namespace": "http://opcfoundation.org/UA/FX.AC"
+        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -1855,7 +1861,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ListOfRelated",
-        "namespace": "http://opcfoundation.org/UA/FX.AC"
+        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -2502,7 +2509,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "OperationalHealthAlarms",
-        "namespace": "http://opcfoundation.org/UA/FX.AC"
+        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -2869,12 +2877,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Connectors",
-        "namespace": "http://opcfoundation.org/UA/FX.AC"
+        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "DeviceHealthAlarms",
-        "namespace": "http://opcfoundation.org/UA/DI"
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },

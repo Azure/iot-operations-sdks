@@ -9,7 +9,6 @@
 
     internal class Program
     {
-        private const string coreSpecName = "OpcUaCore";
         private const string fileSuffix = ".digest.yaml";
 
         private static readonly IDeserializer deserializer;
@@ -46,16 +45,9 @@
                 Directory.CreateDirectory(destRoot);
             }
 
-            string coreYamlFileName = $"{coreSpecName}{fileSuffix}";
-
             foreach (string sourceFilePath in Directory.GetFiles(sourceRoot, $"*{fileSuffix}"))
             {
-                if (Path.GetFileName(sourceFilePath) == coreYamlFileName)
-                {
-                    string outFilePath = Path.Combine(destRoot, Path.GetFileName(sourceFilePath));
-                    File.Copy(sourceFilePath, outFilePath, overwrite:true);
-                }
-                else if (singleFileName == null || Path.GetFileName(singleFileName) == Path.GetFileName(sourceFilePath))
+                if (singleFileName == null || Path.GetFileName(singleFileName) == Path.GetFileName(sourceFilePath))
                 {
                     Filter(deserializer, sourceFilePath, destRoot);
                 }

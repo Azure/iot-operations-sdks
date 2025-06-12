@@ -401,7 +401,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Component",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
   },
@@ -434,102 +435,122 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Executing",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromExecutingToExecuting",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromExecutingToNotAvailable",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromExecutingToNotExecuting",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromExecutingToOutOfService",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromNotAvailableToExecuting",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromNotAvailableToNotAvailable",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromNotAvailableToNotExecuting",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromNotAvailableToOutOfService",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromNotExecutingToExecuting",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromNotExecutingToNotAvailable",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromNotExecutingToNotExecuting",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromNotExecutingToOutOfService",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromOutOfServiceToExecuting",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromOutOfServiceToNotAvailable",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromOutOfServiceToNotExecuting",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromOutOfServiceToOutOfService",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "NotAvailable",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "NotExecuting",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "OutOfService",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       }
     ]
   },
@@ -562,102 +583,122 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromMaintenanceToMaintenance",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromMaintenanceToNone",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromMaintenanceToProcessing",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromMaintenanceToSetup",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromNoneToMaintenance",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromNoneToNone",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromNoneToProcessing",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromNoneToSetup",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromProcessingToMaintenance",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromProcessingToNone",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromProcessingToProcessing",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromProcessingToSetup",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromSetupToMaintenance",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromSetupToNone",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromSetupToProcessing",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FromSetupToSetup",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Maintenance",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "None",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Processing",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Setup",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       }
     ]
   }

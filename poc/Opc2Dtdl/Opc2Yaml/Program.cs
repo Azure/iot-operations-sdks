@@ -85,8 +85,9 @@
 
             using (StreamWriter outputFile = new StreamWriter(coreOutFilePath))
             {
-                outputFile.WriteLine("DataTypes:");
                 RecordDataTypes(coreSpecDoc, outputFile);
+                outputFile.WriteLine();
+                RecordDefinitions(coreSpecDoc, outputFile);
             }
         }
 
@@ -124,14 +125,14 @@
 
                 using (StreamWriter outputFile = new StreamWriter(outFilePath))
                 {
-                    outputFile.WriteLine("DataTypes:");
-
                     foreach (ManagedXmlDocument reqSpecDoc in EnumerateRequiredModels(specFile.Value.SpecName, specFiles))
                     {
                         RecordDataTypes(reqSpecDoc, outputFile);
                     }
 
-                    RecordDefinitions(specFilePath, outputFile);
+                    outputFile.WriteLine();
+                    ManagedXmlDocument specDoc = new ManagedXmlDocument(specFilePath);
+                    RecordDefinitions(specDoc, outputFile);
                 }
             }
         }
@@ -216,13 +217,11 @@
             return localAliasToResolvedNodeIdMap;
         }
 
-        private static void RecordDefinitions(string specFilePath, StreamWriter outputFile)
+        private static void RecordDefinitions(ManagedXmlDocument specDoc, StreamWriter outputFile)
         {
-            ManagedXmlDocument specDoc = new ManagedXmlDocument(specFilePath);
             Dictionary<string, string> namespaceMap = GetNamespaceMap(specDoc);
             Dictionary<string, string> localAliasToResolvedNodeIdMap = GetLocalAliasToResolvedNodeIdMap(specDoc, namespaceMap);
 
-            outputFile.WriteLine();
             outputFile.WriteLine("DefinedTypes:");
             foreach (string typeNodeName in typeNodeNames)
             {
@@ -319,6 +318,8 @@
         {
             Dictionary<string, string> namespaceMap = GetNamespaceMap(specDoc);
             Dictionary<string, string> localAliasToResolvedNodeIdMap = GetLocalAliasToResolvedNodeIdMap(specDoc, namespaceMap);
+
+            outputFile.WriteLine("DataTypes:");
 
             foreach (XmlNode dtNode in specDoc.RootElement.SelectNodes("//opc:UADataType", specDoc.NamespaceManager)!)
             {

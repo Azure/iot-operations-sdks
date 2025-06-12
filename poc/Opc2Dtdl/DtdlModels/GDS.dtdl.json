@@ -458,7 +458,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Applications",
-        "namespace": "http://opcfoundation.org/UA/GDS"
+        "namespace": "http://opcfoundation.org/UA/GDS",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },

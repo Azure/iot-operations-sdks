@@ -20,17 +20,20 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MotionDevices",
-        "namespace": "http://opcfoundation.org/UA/Robotics"
+        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Controllers",
-        "namespace": "http://opcfoundation.org/UA/Robotics"
+        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "SafetyStates",
-        "namespace": "http://opcfoundation.org/UA/Robotics"
+        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -100,12 +103,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Axes",
-        "namespace": "http://opcfoundation.org/UA/Robotics"
+        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "PowerTrains",
-        "namespace": "http://opcfoundation.org/UA/Robotics"
+        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -116,7 +121,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AdditionalComponents",
-        "namespace": "http://opcfoundation.org/UA/Robotics"
+        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -328,12 +334,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "EmergencyStopFunctions",
-        "namespace": "http://opcfoundation.org/UA/Robotics"
+        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ProtectiveStopFunctions",
-        "namespace": "http://opcfoundation.org/UA/Robotics"
+        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -438,17 +446,20 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Components",
-        "namespace": "http://opcfoundation.org/UA/Robotics"
+        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Software",
-        "namespace": "http://opcfoundation.org/UA/Robotics"
+        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "TaskControls",
-        "namespace": "http://opcfoundation.org/UA/Robotics"
+        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },

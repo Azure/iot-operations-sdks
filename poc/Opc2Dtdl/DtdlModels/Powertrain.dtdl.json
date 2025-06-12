@@ -3353,32 +3353,38 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "DeviceHealthAlarms",
-        "namespace": "http://opcfoundation.org/UA/DI"
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "DeviceTypeImage",
-        "namespace": "http://opcfoundation.org/UA/DI"
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Documentation",
-        "namespace": "http://opcfoundation.org/UA/DI"
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "DocumentationFiles",
-        "namespace": "http://opcfoundation.org/UA/DI"
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ImageSet",
-        "namespace": "http://opcfoundation.org/UA/DI"
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ProtocolSupport",
-        "namespace": "http://opcfoundation.org/UA/DI"
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],

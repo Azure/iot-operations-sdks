@@ -50,12 +50,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "DEXPIXMIFile",
-        "namespace": "http://opcfoundation.org/UA/DEXPI"
+        "namespace": "http://opcfoundation.org/UA/DEXPI",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ProteusXMLFile",
-        "namespace": "http://opcfoundation.org/UA/DEXPI"
+        "namespace": "http://opcfoundation.org/UA/DEXPI",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
   },

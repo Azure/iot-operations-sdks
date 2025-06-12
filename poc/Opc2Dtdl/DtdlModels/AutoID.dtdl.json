@@ -1152,7 +1152,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Images",
-        "namespace": "http://opcfoundation.org/UA/AutoID"
+        "namespace": "http://opcfoundation.org/UA/AutoID",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -1177,7 +1178,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Images",
-        "namespace": "http://opcfoundation.org/UA/AutoID"
+        "namespace": "http://opcfoundation.org/UA/AutoID",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },

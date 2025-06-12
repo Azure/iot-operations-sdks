@@ -1892,7 +1892,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Signatures",
-        "namespace": "http://opcfoundation.org/UA/MDIS"
+        "namespace": "http://opcfoundation.org/UA/MDIS",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],

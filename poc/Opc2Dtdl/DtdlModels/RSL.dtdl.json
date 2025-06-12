@@ -114,17 +114,20 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AlternativeFrames",
-        "namespace": "http://opcfoundation.org/UA/RSL"
+        "namespace": "http://opcfoundation.org/UA/RSL",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AttachPoints",
-        "namespace": "http://opcfoundation.org/UA/RSL"
+        "namespace": "http://opcfoundation.org/UA/RSL",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "InternalFrames",
-        "namespace": "http://opcfoundation.org/UA/RSL"
+        "namespace": "http://opcfoundation.org/UA/RSL",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   }

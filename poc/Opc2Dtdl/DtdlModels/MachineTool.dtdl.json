@@ -492,7 +492,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Location",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
   },
@@ -600,7 +601,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ToolLife",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
   },
@@ -1036,7 +1038,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "SoftwareIdentification",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
   },
@@ -1148,12 +1151,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FileSystem",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:FileDirectoryType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MachineryBuildingBlocks",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -1387,12 +1392,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "PartSets",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ProductionPrograms",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:OrderedListType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -1450,7 +1457,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "PartsPerRun",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
   },
@@ -2219,27 +2227,32 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Inspection",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Other",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Repair",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Service",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Upgrade",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       }
     ]
   },
@@ -2276,77 +2289,92 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Aborted",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "AbortedToInitializing",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Ended",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "EndedToInitializing",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Initializing",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "InitializingToAborted",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "InitializingToRunning",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Interrupted",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "InterruptedToAborted",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "InterruptedToRunning",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Running",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "RunningToAborted",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "RunningToEnded",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "RunningToInterrupted",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "RunningToRunning",
-        "namespace": "http://opcfoundation.org/UA/MachineTool"
+        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]
   },

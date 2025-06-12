@@ -940,7 +940,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MachineryBuildingBlocks",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -951,7 +952,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Parameters",
-        "namespace": "http://opcfoundation.org/UA/IJT.Base"
+        "namespace": "http://opcfoundation.org/UA/IJT.Base",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -3141,7 +3143,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MachineryBuildingBlocks",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },

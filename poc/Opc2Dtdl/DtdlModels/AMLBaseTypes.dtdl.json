@@ -48,22 +48,26 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "InstanceHierarchies",
-        "namespace": "http://opcfoundation.org/UA/AML"
+        "namespace": "http://opcfoundation.org/UA/AML",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "InterfaceClassLibs",
-        "namespace": "http://opcfoundation.org/UA/AML"
+        "namespace": "http://opcfoundation.org/UA/AML",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "RoleClassLibs",
-        "namespace": "http://opcfoundation.org/UA/AML"
+        "namespace": "http://opcfoundation.org/UA/AML",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "SystemUnitClassLibs",
-        "namespace": "http://opcfoundation.org/UA/AML"
+        "namespace": "http://opcfoundation.org/UA/AML",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },

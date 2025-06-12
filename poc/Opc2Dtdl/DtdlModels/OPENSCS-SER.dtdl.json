@@ -978,7 +978,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "EPCISStream",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER"
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "target": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType"
       }
     ]
   },

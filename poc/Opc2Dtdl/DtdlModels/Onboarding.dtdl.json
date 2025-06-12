@@ -98,12 +98,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "TicketAuthorities",
-        "namespace": "http://opcfoundation.org/UA/Onboarding"
+        "namespace": "http://opcfoundation.org/UA/Onboarding",
+        "target": "dtmi:opcua:OpcUaCore:TrustListType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "DeviceIdentityAuthorities",
-        "namespace": "http://opcfoundation.org/UA/Onboarding"
+        "namespace": "http://opcfoundation.org/UA/Onboarding",
+        "target": "dtmi:opcua:OpcUaCore:TrustListType"
       }
     ]
   },

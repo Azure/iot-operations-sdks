@@ -346,7 +346,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "DeviceHealthAlarms",
-        "namespace": "http://opcfoundation.org/UA/DI"
+        "namespace": "http://opcfoundation.org/UA/DI",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -939,7 +940,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ImageHandlingAspects",
-        "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM"
+        "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],

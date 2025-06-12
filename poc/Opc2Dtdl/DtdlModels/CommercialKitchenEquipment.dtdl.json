@@ -3129,7 +3129,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ErrorConditions",
-        "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment"
+        "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -3140,7 +3141,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "InformationConditions",
-        "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment"
+        "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
   },

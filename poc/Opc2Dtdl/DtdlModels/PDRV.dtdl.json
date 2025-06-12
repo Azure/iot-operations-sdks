@@ -54,7 +54,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Monitoring",
-        "namespace": "http://opcfoundation.org/UA/PDRV"
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -65,17 +66,20 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "PNSignals",
-        "namespace": "http://opcfoundation.org/UA/PDRV"
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Maintenance",
-        "namespace": "http://opcfoundation.org/UA/PDRV"
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "LimitSupervision",
-        "namespace": "http://opcfoundation.org/UA/PDRV"
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -86,7 +90,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "CharacteristicsConverter",
-        "namespace": "http://opcfoundation.org/UA/PDRV"
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -97,12 +102,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "CharacteristicsMotorAndControl",
-        "namespace": "http://opcfoundation.org/UA/PDRV"
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "VelocityProfile",
-        "namespace": "http://opcfoundation.org/UA/PDRV"
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -167,17 +174,20 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "CharacteristicsMechanics",
-        "namespace": "http://opcfoundation.org/UA/PDRV"
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MotionProgram",
-        "namespace": "http://opcfoundation.org/UA/PDRV"
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Homing",
-        "namespace": "http://opcfoundation.org/UA/PDRV"
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -264,7 +274,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Homing",
-        "namespace": "http://opcfoundation.org/UA/PDRV"
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -319,7 +330,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Homing",
-        "namespace": "http://opcfoundation.org/UA/PDRV"
+        "namespace": "http://opcfoundation.org/UA/PDRV",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },

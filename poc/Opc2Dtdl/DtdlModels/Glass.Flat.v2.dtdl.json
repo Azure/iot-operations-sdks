@@ -410,7 +410,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "LocalManuals",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
   },
@@ -440,12 +441,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "FileSystem",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2"
+        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "target": "dtmi:opcua:OpcUaCore:FileDirectoryType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MachineryBuildingBlocks",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],

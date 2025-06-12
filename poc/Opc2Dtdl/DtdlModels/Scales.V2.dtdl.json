@@ -319,7 +319,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Products",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -958,7 +959,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "ReportFile",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
   },
@@ -1717,12 +1719,14 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "RecipeElements",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "RecipeFile",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
   },
@@ -1962,7 +1966,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MachineryBuildingBlocks",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -2018,7 +2023,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MachineryBuildingBlocks",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
   },
@@ -2176,7 +2182,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MachineryBuildingBlocks",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -3198,7 +3205,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "MachineryBuildingBlocks",
-        "namespace": "http://opcfoundation.org/UA/Machinery"
+        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],

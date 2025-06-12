@@ -19,7 +19,7 @@ namespace Yaml2Dtdl
         private string? GetTarget()
         {
             OpcUaDefinedType? typeDefinition = definedType.Contents.FirstOrDefault(c => c.Relationship == "HasTypeDefinition")?.DefinedType;
-            if (typeDefinition == null || !typeDefinition.NodeId.Contains(':'))
+            if (typeDefinition == null)
             {
                 return null;
             }

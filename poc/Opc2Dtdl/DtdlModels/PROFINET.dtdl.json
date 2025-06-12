@@ -646,7 +646,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Alarms",
-        "namespace": "http://opcfoundation.org/UA/PROFINET"
+        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -1256,7 +1257,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Alarms",
-        "namespace": "http://opcfoundation.org/UA/PROFINET"
+        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -1605,7 +1607,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "Alarms",
-        "namespace": "http://opcfoundation.org/UA/PROFINET"
+        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -2063,7 +2066,8 @@
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "PnEquipments",
-        "namespace": "http://opcfoundation.org/UA/PROFINET"
+        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
   },

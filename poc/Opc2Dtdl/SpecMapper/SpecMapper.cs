@@ -9,6 +9,7 @@
 
         private static readonly List<(string, string)> mapping = new()
         {
+            ( "http://opcfoundation.org/UA/", "OpcUaCore" ),
             ( "http://fdi-cooperation.com/OPCUA/FDI5/", "FDI5" ),
             ( "http://fdi-cooperation.com/OPCUA/FDI7/", "FDI7" ),
             ( "http://opcfoundation.org/UA/AML/", "AMLBaseTypes" ),
