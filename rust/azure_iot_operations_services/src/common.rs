@@ -36,19 +36,12 @@ pub mod dispatcher {
         pub kind: DispatchErrorKind,
     }
 
-    #[derive(Debug, Eq, PartialEq, Clone)]
+    #[derive(Debug, Eq, PartialEq, Clone, Error)]
     pub enum DispatchErrorKind {
+        #[error("Failed to send message")]
         SendError,
+        #[error("Receiver with ID '{0}' not found")]
         NotFound(String), // receiver ID
-    }
-
-    impl std::fmt::Display for DispatchErrorKind {
-        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-            match self {
-                DispatchErrorKind::SendError => write!(f, "Failed to send message"),
-                DispatchErrorKind::NotFound(id) => write!(f, "Receiver with ID '{id}' not found"),
-            }
-        }
     }
 
     impl<T> From<SendError<T>> for DispatchError<T> {
