@@ -44,7 +44,7 @@ pub mod dispatcher {
                     write!(f, "Failed to send message: {:?}", self.data)
                 }
                 DispatchErrorKind::NotFound(receiver_id) => {
-                    write!(f, "Receiver with ID '{}' not found", receiver_id)
+                    write!(f, "Receiver with ID '{receiver_id}' not found")
                 }
             }
         }
@@ -129,9 +129,7 @@ pub mod dispatcher {
         /// Dispatches a message to the receiver associated with the provided ID.
         pub fn dispatch(&self, receiver_id: &str, message: T) -> Result<(), DispatchError<T>> {
             if let Some(tx) = self.tx_map.lock().unwrap().get(receiver_id) {
-                // Ok(tx.send(message)?) // Short form
-                // tx.send(message).map_err(MyDispatchError::from)
-                tx.send(message).map_err(|e| e.into())
+                Ok(tx.send(message)?)
             } else {
                 // Err(DispatchError::NotFound((receiver_id.to_string(), message)))
                 Err(DispatchError {
