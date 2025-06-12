@@ -32,6 +32,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_HotRunner:ControllerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1005",
+    "commandTopic": "opcua/PlasticsRubber_HotRunner/ControllerType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_HotRunner/ControllerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -183,6 +185,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_HotRunner:HeatUpType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1004",
+    "commandTopic": "opcua/PlasticsRubber_HotRunner/HeatUpType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_HotRunner/HeatUpType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -242,6 +246,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_HotRunner:HRD_InterfaceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1010",
+    "commandTopic": "opcua/PlasticsRubber_HotRunner/HRD_InterfaceType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_HotRunner/HRD_InterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -342,6 +348,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1011",
+    "commandTopic": "opcua/PlasticsRubber_HotRunner/HRDTemperatureType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_HotRunner/HRDTemperatureType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -430,6 +438,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1009",
     "commandTopic": "opcua/PlasticsRubber_HotRunner/OperationType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_HotRunner/OperationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -572,6 +581,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_HotRunner:TemperatureRiseMonitoringType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1003",
+    "commandTopic": "opcua/PlasticsRubber_HotRunner/TemperatureRiseMonitoringType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_HotRunner/TemperatureRiseMonitoringType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -618,6 +629,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_HotRunner:ZonesType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1008",
+    "commandTopic": "opcua/PlasticsRubber_HotRunner/ZonesType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_HotRunner/ZonesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -650,6 +663,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_HotRunner:ZoneType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1006",
+    "commandTopic": "opcua/PlasticsRubber_HotRunner/ZoneType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_HotRunner/ZoneType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

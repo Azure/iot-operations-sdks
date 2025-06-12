@@ -13,6 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1007",
     "commandTopic": "opcua/PAEFS/AirConnectionType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/AirConnectionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -224,6 +225,8 @@
     "@id": "dtmi:opcua:PAEFS:CleaningRecommendedConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1037",
+    "commandTopic": "opcua/PAEFS/CleaningRecommendedConditionType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/CleaningRecommendedConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -250,6 +253,8 @@
     "@id": "dtmi:opcua:PAEFS:MaintenanceRequestedConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1023",
+    "commandTopic": "opcua/PAEFS/MaintenanceRequestedConditionType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/MaintenanceRequestedConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -276,6 +281,8 @@
     "@id": "dtmi:opcua:PAEFS:AirConnectionStatusChangedConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1040",
+    "commandTopic": "opcua/PAEFS/AirConnectionStatusChangedConditionType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/AirConnectionStatusChangedConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -326,6 +333,8 @@
     "@id": "dtmi:opcua:PAEFS:CleaningUnitActiveConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1036",
+    "commandTopic": "opcua/PAEFS/CleaningUnitActiveConditionType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/CleaningUnitActiveConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -352,6 +361,8 @@
     "@id": "dtmi:opcua:PAEFS:ContainerOpenConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1024",
+    "commandTopic": "opcua/PAEFS/ContainerOpenConditionType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/ContainerOpenConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -378,6 +389,8 @@
     "@id": "dtmi:opcua:PAEFS:DischargeContainerInstalledConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1038",
+    "commandTopic": "opcua/PAEFS/DischargeContainerInstalledConditionType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/DischargeContainerInstalledConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -404,6 +417,8 @@
     "@id": "dtmi:opcua:PAEFS:FilterAidDeviceStatusChangedConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1033",
+    "commandTopic": "opcua/PAEFS/FilterAidDeviceStatusChangedConditionType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/FilterAidDeviceStatusChangedConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -454,6 +469,8 @@
     "@id": "dtmi:opcua:PAEFS:MaintenanceSwitchConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1039",
+    "commandTopic": "opcua/PAEFS/MaintenanceSwitchConditionType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/MaintenanceSwitchConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -480,6 +497,8 @@
     "@id": "dtmi:opcua:PAEFS:WashingAgentDrainOpenConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1028",
+    "commandTopic": "opcua/PAEFS/WashingAgentDrainOpenConditionType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/WashingAgentDrainOpenConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -506,6 +525,8 @@
     "@id": "dtmi:opcua:PAEFS:WashingAgentInflowOpenConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1027",
+    "commandTopic": "opcua/PAEFS/WashingAgentInflowOpenConditionType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/WashingAgentInflowOpenConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -532,6 +553,8 @@
     "@id": "dtmi:opcua:PAEFS:HighVoltageUnitSupplyActiveEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1031",
+    "commandTopic": "opcua/PAEFS/HighVoltageUnitSupplyActiveEventType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/HighVoltageUnitSupplyActiveEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -559,6 +582,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1005",
     "commandTopic": "opcua/PAEFS/CleaningUnitType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/CleaningUnitType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -653,6 +677,8 @@
     "@id": "dtmi:opcua:PAEFS:CleaningUnitValveType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1016",
+    "commandTopic": "opcua/PAEFS/CleaningUnitValveType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/CleaningUnitValveType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -711,6 +737,7 @@
     "@id": "dtmi:opcua:PAEFS:ConsumptionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1011",
+    "telemetryTopic": "opcua/PAEFS/ConsumptionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -742,6 +769,8 @@
     "@id": "dtmi:opcua:PAEFS:DischargeSystemType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1006",
+    "commandTopic": "opcua/PAEFS/DischargeSystemType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/DischargeSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -806,6 +835,8 @@
     "@id": "dtmi:opcua:PAEFS:FanType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1009",
+    "commandTopic": "opcua/PAEFS/FanType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/FanType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -857,6 +888,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1004",
     "commandTopic": "opcua/PAEFS/FilterAidDeviceType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/FilterAidDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -982,6 +1014,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1002",
     "commandTopic": "opcua/PAEFS/FilterSystemType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/FilterSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1139,6 +1172,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1012",
     "commandTopic": "opcua/PAEFS/FilterUnitType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/FilterUnitType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1332,6 +1366,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1022",
+    "commandTopic": "opcua/PAEFS/FilterMachineIdentificationType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/FilterMachineIdentificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1370,6 +1406,8 @@
     "@id": "dtmi:opcua:PAEFS:HighVoltageUnitType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1015",
+    "commandTopic": "opcua/PAEFS/HighVoltageUnitType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/HighVoltageUnitType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1474,6 +1512,8 @@
     "@id": "dtmi:opcua:PAEFS:SafetySystemType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1008",
+    "commandTopic": "opcua/PAEFS/SafetySystemType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/SafetySystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1512,6 +1552,8 @@
     "@id": "dtmi:opcua:PAEFS:SensorMonitoringType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1010",
+    "commandTopic": "opcua/PAEFS/SensorMonitoringType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/SensorMonitoringType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1566,6 +1608,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PAEFS:SensorMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1034",
+    "commandTopic": "opcua/PAEFS/SensorSetpointReadType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/SensorSetpointReadType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1612,6 +1656,8 @@
     "@id": "dtmi:opcua:PAEFS:SeparatorType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1003",
+    "commandTopic": "opcua/PAEFS/SeparatorType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/SeparatorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1662,6 +1708,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PAEFS:SeparatorType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1021",
+    "commandTopic": "opcua/PAEFS/AutomaticRollFilterType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/AutomaticRollFilterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1735,6 +1783,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PAEFS:SeparatorType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1014",
+    "commandTopic": "opcua/PAEFS/WetSeparatorType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/WetSeparatorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1782,6 +1832,8 @@
     "@id": "dtmi:opcua:PAEFS:TemperatureRegulatorType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1017",
+    "commandTopic": "opcua/PAEFS/TemperatureRegulatorType/{commandName}",
+    "telemetryTopic": "opcua/PAEFS/TemperatureRegulatorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

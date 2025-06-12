@@ -13,6 +13,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1061",
+    "commandTopic": "opcua/DEXPI/DEXPISupplementaryDataType/{commandName}",
+    "telemetryTopic": "opcua/DEXPI/DEXPISupplementaryDataType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -184,6 +186,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1079",
+    "telemetryTopic": "opcua/DEXPI/MetaDataType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -462,6 +465,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1118",
+    "telemetryTopic": "opcua/DEXPI/ProcessSignalGeneratingSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -506,6 +510,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1127",
+    "telemetryTopic": "opcua/DEXPI/PositionerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -538,6 +543,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1130",
+    "telemetryTopic": "opcua/DEXPI/ProcessInstrumentationFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -728,6 +734,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1152",
+    "telemetryTopic": "opcua/DEXPI/ProcessControlFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -918,6 +925,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1174",
+    "telemetryTopic": "opcua/DEXPI/SignalLineFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1022,6 +1030,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1181",
+    "telemetryTopic": "opcua/DEXPI/MeasuringLineFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1126,6 +1135,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1188",
+    "telemetryTopic": "opcua/DEXPI/InstrumentationLoopFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1152,6 +1162,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1195",
+    "telemetryTopic": "opcua/DEXPI/PrimaryElementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1178,6 +1189,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1197",
+    "telemetryTopic": "opcua/DEXPI/ShutOffValveReferenceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1204,6 +1216,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1200",
+    "telemetryTopic": "opcua/DEXPI/ActuatingSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1254,6 +1267,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1210",
+    "telemetryTopic": "opcua/DEXPI/ProcessSignalGeneratingFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1306,6 +1320,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:PrimaryElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1220",
+    "telemetryTopic": "opcua/DEXPI/OfflinePrimaryElementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1706,6 +1721,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1239",
+    "telemetryTopic": "opcua/DEXPI/ActuatingFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1732,6 +1748,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1247",
+    "telemetryTopic": "opcua/DEXPI/TransmitterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1784,6 +1801,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1251",
+    "telemetryTopic": "opcua/DEXPI/SignalConveyingFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1888,6 +1906,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1258",
+    "telemetryTopic": "opcua/DEXPI/ControlledActuatorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1972,6 +1991,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1265",
+    "telemetryTopic": "opcua/DEXPI/PlantSectionIso10209_2012Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2024,6 +2044,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1272",
+    "telemetryTopic": "opcua/DEXPI/IndustrialComplexIso10209_2012Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2096,6 +2117,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1280",
+    "telemetryTopic": "opcua/DEXPI/SiteIsa95Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2168,6 +2190,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1290",
+    "telemetryTopic": "opcua/DEXPI/AreaIsa95Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2260,6 +2283,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1297",
+    "telemetryTopic": "opcua/DEXPI/PlantSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2292,6 +2316,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1300",
+    "telemetryTopic": "opcua/DEXPI/ProcessPlantType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2324,6 +2349,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1305",
+    "telemetryTopic": "opcua/DEXPI/Isa95EnterpriseType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2376,6 +2402,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1309",
+    "telemetryTopic": "opcua/DEXPI/PlantTrainType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2408,6 +2435,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:PumpType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1312",
+    "telemetryTopic": "opcua/DEXPI/EjectorPumpType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2434,6 +2462,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:MixerType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1316",
+    "telemetryTopic": "opcua/DEXPI/KneaderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2472,6 +2501,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1326",
+    "telemetryTopic": "opcua/DEXPI/HeatExchangerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2510,6 +2540,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1337",
+    "telemetryTopic": "opcua/DEXPI/TaggedPlantItemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2554,6 +2585,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:PumpType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1342",
+    "telemetryTopic": "opcua/DEXPI/RotaryPumpType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2592,6 +2624,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:HeatExchangerType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1350",
+    "telemetryTopic": "opcua/DEXPI/ThinFilmEvaporatorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2636,6 +2669,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1361",
+    "telemetryTopic": "opcua/DEXPI/NozzleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2896,6 +2930,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1370",
+    "telemetryTopic": "opcua/DEXPI/ColumnPackingsArrangementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2966,6 +3001,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1379",
+    "telemetryTopic": "opcua/DEXPI/ReciprocatingCompressorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3004,6 +3040,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1387",
+    "telemetryTopic": "opcua/DEXPI/SpecialCompressorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3054,6 +3091,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1399",
+    "telemetryTopic": "opcua/DEXPI/SubTaggedColumnSectionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3098,6 +3136,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1408",
+    "telemetryTopic": "opcua/DEXPI/CompressorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3130,6 +3169,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:MixerType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1415",
+    "telemetryTopic": "opcua/DEXPI/RotaryMixerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3168,6 +3208,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1425",
+    "telemetryTopic": "opcua/DEXPI/VesselType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3194,6 +3235,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:FilterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1431",
+    "telemetryTopic": "opcua/DEXPI/GasFilterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3244,6 +3286,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:VesselType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1445",
+    "telemetryTopic": "opcua/DEXPI/PressureVesselType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3270,6 +3313,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:VesselType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1449",
+    "telemetryTopic": "opcua/DEXPI/SpecialVesselType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3328,6 +3372,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1456",
+    "telemetryTopic": "opcua/DEXPI/FilterUnitType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3396,6 +3441,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:HeatExchangerType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1478",
+    "telemetryTopic": "opcua/DEXPI/AirCoolingSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3480,6 +3526,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1491",
+    "telemetryTopic": "opcua/DEXPI/HeatExchangerRotorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3506,6 +3553,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1494",
+    "telemetryTopic": "opcua/DEXPI/ColumnSectionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3564,6 +3612,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:PumpType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1503",
+    "telemetryTopic": "opcua/DEXPI/ReciprocatingPumpType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3602,6 +3651,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1511",
+    "telemetryTopic": "opcua/DEXPI/TaggedColumnSectionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3640,6 +3690,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1523",
+    "telemetryTopic": "opcua/DEXPI/ChamberType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3774,6 +3825,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:HeatExchangerType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1557",
+    "telemetryTopic": "opcua/DEXPI/ElectricHeaterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3806,6 +3858,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1562",
+    "telemetryTopic": "opcua/DEXPI/MixingElementAssemblyType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3838,6 +3891,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1566",
+    "telemetryTopic": "opcua/DEXPI/CentrifugalCompressorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3902,6 +3956,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:HeatExchangerType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1576",
+    "telemetryTopic": "opcua/DEXPI/PlateAndShellHeatExchangerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3940,6 +3995,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:PumpType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1584",
+    "telemetryTopic": "opcua/DEXPI/CentrifugalPumpType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3978,6 +4034,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1592",
+    "telemetryTopic": "opcua/DEXPI/TubeBundleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -4308,6 +4365,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1603",
+    "telemetryTopic": "opcua/DEXPI/ColumnTraysArrangementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4346,6 +4404,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:PumpType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1607",
+    "telemetryTopic": "opcua/DEXPI/SpecialPumpType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4416,6 +4475,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1620",
+    "telemetryTopic": "opcua/DEXPI/AirEjectorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4448,6 +4508,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:MixerType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1625",
+    "telemetryTopic": "opcua/DEXPI/StaticMixerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4474,6 +4535,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1629",
+    "telemetryTopic": "opcua/DEXPI/ImpellerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4532,6 +4594,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1637",
+    "telemetryTopic": "opcua/DEXPI/AgitatorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4570,6 +4633,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1645",
+    "telemetryTopic": "opcua/DEXPI/AxialCompressorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4608,6 +4672,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:HeatExchangerType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1653",
+    "telemetryTopic": "opcua/DEXPI/ShellAndTubeHeatExchangerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4640,6 +4705,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1656",
+    "telemetryTopic": "opcua/DEXPI/DisplacerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4678,6 +4744,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:VesselType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1663",
+    "telemetryTopic": "opcua/DEXPI/TankType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4704,6 +4771,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1667",
+    "telemetryTopic": "opcua/DEXPI/ProcessColumnType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4736,6 +4804,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1672",
+    "telemetryTopic": "opcua/DEXPI/AgitatorRotorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4780,6 +4849,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1682",
+    "telemetryTopic": "opcua/DEXPI/EquipmentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4842,6 +4912,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:FilterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1694",
+    "telemetryTopic": "opcua/DEXPI/LiquidFilterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4892,6 +4963,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1708",
+    "telemetryTopic": "opcua/DEXPI/RotaryCompressorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4930,6 +5002,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1716",
+    "telemetryTopic": "opcua/DEXPI/PumpType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4968,6 +5041,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1726",
+    "telemetryTopic": "opcua/DEXPI/PipingNetworkSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -5490,6 +5564,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1757",
+    "telemetryTopic": "opcua/DEXPI/StrainerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -5646,6 +5721,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:PipingComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1773",
+    "telemetryTopic": "opcua/DEXPI/CheckValveType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -5868,6 +5944,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:PipingComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1793",
+    "telemetryTopic": "opcua/DEXPI/InlinePrimaryElementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -6098,6 +6175,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1812",
+    "telemetryTopic": "opcua/DEXPI/SteamTrapType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -6306,6 +6384,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1832",
+    "telemetryTopic": "opcua/DEXPI/SilencerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -6402,6 +6481,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:PipingComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1845",
+    "telemetryTopic": "opcua/DEXPI/ShutOffValveType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -6806,6 +6886,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:PipingComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1877",
+    "telemetryTopic": "opcua/DEXPI/PipeFittingType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -6982,6 +7063,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1898",
+    "telemetryTopic": "opcua/DEXPI/PipingNetworkSegmentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -7584,6 +7666,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1938",
+    "telemetryTopic": "opcua/DEXPI/PropertyBreakType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -7698,6 +7781,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:PipingComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1944",
+    "telemetryTopic": "opcua/DEXPI/SafetyValveOrFittingType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7814,6 +7898,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1958",
+    "telemetryTopic": "opcua/DEXPI/VentilationDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -7930,6 +8015,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:SafetyValveOrFittingType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1972",
+    "telemetryTopic": "opcua/DEXPI/FlameArrestorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -8016,6 +8102,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1976",
+    "telemetryTopic": "opcua/DEXPI/OrificePlateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -8152,6 +8239,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1995",
+    "telemetryTopic": "opcua/DEXPI/PipingComponentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -8332,6 +8420,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2008",
+    "telemetryTopic": "opcua/DEXPI/PipingNodeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -8666,6 +8755,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2014",
+    "telemetryTopic": "opcua/DEXPI/RotationalSpeedType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8698,6 +8788,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2018",
+    "telemetryTopic": "opcua/DEXPI/HeatTransferCoefficientType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8730,6 +8821,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2022",
+    "telemetryTopic": "opcua/DEXPI/TemperatureType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8762,6 +8854,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2026",
+    "telemetryTopic": "opcua/DEXPI/PhysicalQuantityType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8788,6 +8881,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2029",
+    "telemetryTopic": "opcua/DEXPI/AreaType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8820,6 +8914,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2033",
+    "telemetryTopic": "opcua/DEXPI/VolumeFlowRateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8852,6 +8947,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2037",
+    "telemetryTopic": "opcua/DEXPI/PowerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8884,6 +8980,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2041",
+    "telemetryTopic": "opcua/DEXPI/LengthType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8916,6 +9013,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2045",
+    "telemetryTopic": "opcua/DEXPI/PercentageType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8948,6 +9046,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2049",
+    "telemetryTopic": "opcua/DEXPI/VolumeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8980,6 +9079,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2053",
+    "telemetryTopic": "opcua/DEXPI/MassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9012,6 +9112,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2057",
+    "telemetryTopic": "opcua/DEXPI/PressureType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9044,6 +9145,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2061",
+    "telemetryTopic": "opcua/DEXPI/AngleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

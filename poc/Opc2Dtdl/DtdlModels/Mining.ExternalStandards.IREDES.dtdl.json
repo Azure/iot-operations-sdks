@@ -12,6 +12,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:DisplayToOperatorType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1004",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/DisplayToOperatorType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/DisplayToOperatorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -72,6 +74,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:EquipmentInfoType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1006",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/EquipmentInfoType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/EquipmentInfoType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -144,6 +148,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:GenHeadType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1009",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/GenHeadType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/GenHeadType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -191,6 +197,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:GenTrailerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1015",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/GenTrailerType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/GenTrailerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -231,6 +239,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IREDESType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1005",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IREDESType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/IREDESType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -271,6 +281,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRLHDTruckType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1030",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRLHDTruckType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/IRLHDTruckType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -297,6 +309,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRLTMMonType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1011",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRLTMMonType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/IRLTMMonType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -337,6 +351,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRLTPlanType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1014",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRLTPlanType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/IRLTPlanType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -377,6 +393,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRLTPPerfType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1026",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRLTPPerfType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/IRLTPPerfType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -417,6 +435,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IROptionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1008",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IROptionType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/IROptionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -449,6 +469,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRplanGenType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1017",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRplanGenType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/IRplanGenType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -510,6 +532,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRpPerfGenType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1013",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRpPerfGenType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/IRpPerfGenType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -563,6 +587,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRreplyType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1016",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRreplyType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/IRreplyType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -598,6 +624,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRStatusGenType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1020",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRStatusGenType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/IRStatusGenType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -657,6 +685,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRWorkOrderGenType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1021",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRWorkOrderGenType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/IRWorkOrderGenType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -786,6 +816,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRWorkOrderReplyGenType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1010",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRWorkOrderReplyGenType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/IRWorkOrderReplyGenType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -872,6 +904,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPaccPtsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1018",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/LTPPaccPtsType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/LTPPaccPtsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -948,6 +982,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPLoadRepType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1019",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/LTPPLoadRepType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/LTPPLoadRepType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -998,6 +1034,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1028",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/LTPPMissionType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/LTPPMissionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1223,6 +1261,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPTimeRepType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1025",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/LTPPTimeRepType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/LTPPTimeRepType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1263,6 +1303,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPwaitProcType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1022",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/LTPPwaitProcType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/LTPPwaitProcType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1325,6 +1367,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:OpPerfLogType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1007",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/OpPerfLogType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/OpPerfLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1387,6 +1431,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:ProjectInfoType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1003",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/ProjectInfoType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/ProjectInfoType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1425,6 +1471,8 @@
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:SiteHeadType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1012",
+    "commandTopic": "opcua/Mining_ExternalStandards_IREDES/SiteHeadType/{commandName}",
+    "telemetryTopic": "opcua/Mining_ExternalStandards_IREDES/SiteHeadType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

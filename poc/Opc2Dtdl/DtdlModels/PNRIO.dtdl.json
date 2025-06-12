@@ -12,6 +12,8 @@
     "@id": "dtmi:opcua:PNRIO:RioChannelDiagnosisAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1004",
+    "commandTopic": "opcua/PNRIO/RioChannelDiagnosisAlarmType/{commandName}",
+    "telemetryTopic": "opcua/PNRIO/RioChannelDiagnosisAlarmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -140,6 +142,8 @@
     "@id": "dtmi:opcua:PNRIO:RioChannelDiagnosisEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1019",
+    "commandTopic": "opcua/PNRIO/RioChannelDiagnosisEventType/{commandName}",
+    "telemetryTopic": "opcua/PNRIO/RioChannelDiagnosisEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -268,6 +272,8 @@
     "@id": "dtmi:opcua:PNRIO:PnIoSignalType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1020",
+    "commandTopic": "opcua/PNRIO/PnIoSignalType/{commandName}",
+    "telemetryTopic": "opcua/PNRIO/PnIoSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -301,6 +307,8 @@
     "@id": "dtmi:opcua:PNRIO:PnIoTelegramType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1021",
+    "commandTopic": "opcua/PNRIO/PnIoTelegramType/{commandName}",
+    "telemetryTopic": "opcua/PNRIO/PnIoTelegramType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -413,6 +421,8 @@
     "@id": "dtmi:opcua:PNRIO:RioChannelGroupConfigType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1017",
+    "commandTopic": "opcua/PNRIO/RioChannelGroupConfigType/{commandName}",
+    "telemetryTopic": "opcua/PNRIO/RioChannelGroupConfigType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -655,6 +665,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1012",
     "commandTopic": "opcua/PNRIO/RioChannelGroupType/{commandName}",
+    "telemetryTopic": "opcua/PNRIO/RioChannelGroupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -765,6 +776,7 @@
     "extends": "dtmi:opcua:PNRIO:RioChannelGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1013",
     "commandTopic": "opcua/PNRIO/RioPaAnalogChannelGroupType/{commandName}",
+    "telemetryTopic": "opcua/PNRIO/RioPaAnalogChannelGroupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -907,6 +919,7 @@
     "extends": "dtmi:opcua:PNRIO:RioChannelGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1015",
     "commandTopic": "opcua/PNRIO/RioPaDigitalChannelGroupType/{commandName}",
+    "telemetryTopic": "opcua/PNRIO/RioPaDigitalChannelGroupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1016,6 +1029,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1005",
     "commandTopic": "opcua/PNRIO/RioChannelType/{commandName}",
+    "telemetryTopic": "opcua/PNRIO/RioChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1082,6 +1096,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1003",
+    "telemetryTopic": "opcua/PNRIO/RioFaAnalogInputChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1281,6 +1296,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1007",
+    "telemetryTopic": "opcua/PNRIO/RioFaAnalogOutputChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1513,6 +1529,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1009",
+    "telemetryTopic": "opcua/PNRIO/RioFaDigitalInputChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1659,6 +1676,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1011",
+    "telemetryTopic": "opcua/PNRIO/RioFaDigitalOutputChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1828,6 +1846,7 @@
     "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1002",
     "commandTopic": "opcua/PNRIO/RioPaAnalogInputChannelType/{commandName}",
+    "telemetryTopic": "opcua/PNRIO/RioPaAnalogInputChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2169,6 +2188,7 @@
     "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1006",
     "commandTopic": "opcua/PNRIO/RioPaAnalogOutputChannelType/{commandName}",
+    "telemetryTopic": "opcua/PNRIO/RioPaAnalogOutputChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2512,6 +2532,7 @@
     "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1008",
     "commandTopic": "opcua/PNRIO/RioPaDigitalInputChannelType/{commandName}",
+    "telemetryTopic": "opcua/PNRIO/RioPaDigitalInputChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2811,6 +2832,7 @@
     "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1010",
     "commandTopic": "opcua/PNRIO/RioPaDigitalOutputChannelType/{commandName}",
+    "telemetryTopic": "opcua/PNRIO/RioPaDigitalOutputChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {

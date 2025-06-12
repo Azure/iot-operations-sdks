@@ -32,6 +32,8 @@
     "@id": "dtmi:opcua:TTD:JobStatisticsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1009",
+    "commandTopic": "opcua/TTD/JobStatisticsType/{commandName}",
+    "telemetryTopic": "opcua/TTD/JobStatisticsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -87,6 +89,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1012",
     "commandTopic": "opcua/TTD/MachineStatisticsType/{commandName}",
+    "telemetryTopic": "opcua/TTD/MachineStatisticsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -119,6 +122,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1004",
+    "commandTopic": "opcua/TTD/RecurrentPrognosisType/{commandName}",
+    "telemetryTopic": "opcua/TTD/RecurrentPrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -159,6 +164,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1003",
     "commandTopic": "opcua/TTD/RecipeManagementType/{commandName}",
+    "telemetryTopic": "opcua/TTD/RecipeManagementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -424,6 +430,8 @@
     "@id": "dtmi:opcua:TTD:TextileTestingDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1010",
+    "commandTopic": "opcua/TTD/TextileTestingDeviceType/{commandName}",
+    "telemetryTopic": "opcua/TTD/TextileTestingDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {

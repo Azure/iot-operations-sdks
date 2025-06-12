@@ -12,6 +12,8 @@
     "@id": "dtmi:opcua:PNENC:EncoderDiagnosisEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1006",
+    "commandTopic": "opcua/PNENC/EncoderDiagnosisEventType/{commandName}",
+    "telemetryTopic": "opcua/PNENC/EncoderDiagnosisEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -103,6 +105,8 @@
     "@id": "dtmi:opcua:PNENC:EncoderProbeLatchEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1005",
+    "commandTopic": "opcua/PNENC/EncoderProbeLatchEventType/{commandName}",
+    "telemetryTopic": "opcua/PNENC/EncoderProbeLatchEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -143,6 +147,8 @@
     "@id": "dtmi:opcua:PNENC:EncoderRefLatchEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1004",
+    "commandTopic": "opcua/PNENC/EncoderRefLatchEventType/{commandName}",
+    "telemetryTopic": "opcua/PNENC/EncoderRefLatchEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -176,6 +182,8 @@
     "@id": "dtmi:opcua:PNENC:LogbookEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1003",
+    "commandTopic": "opcua/PNENC/LogbookEventType/{commandName}",
+    "telemetryTopic": "opcua/PNENC/LogbookEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -270,6 +278,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1009",
     "commandTopic": "opcua/PNENC/EncoderAxisConfigType/{commandName}",
+    "telemetryTopic": "opcua/PNENC/EncoderAxisConfigType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -424,6 +433,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1002",
     "commandTopic": "opcua/PNENC/EncoderChannelType/{commandName}",
+    "telemetryTopic": "opcua/PNENC/EncoderChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -711,6 +721,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1008",
     "commandTopic": "opcua/PNENC/EncoderControlConfigType/{commandName}",
+    "telemetryTopic": "opcua/PNENC/EncoderControlConfigType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -865,6 +876,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1011",
     "commandTopic": "opcua/PNENC/EncoderProbeType/{commandName}",
+    "telemetryTopic": "opcua/PNENC/EncoderProbeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -908,6 +920,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1007",
     "commandTopic": "opcua/PNENC/EncoderSensorConfigType/{commandName}",
+    "telemetryTopic": "opcua/PNENC/EncoderSensorConfigType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1072,6 +1085,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1013",
     "commandTopic": "opcua/PNENC/EncoderSensorType/{commandName}",
+    "telemetryTopic": "opcua/PNENC/EncoderSensorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1134,6 +1148,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1010",
     "commandTopic": "opcua/PNENC/LogbookType/{commandName}",
+    "telemetryTopic": "opcua/PNENC/LogbookType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {

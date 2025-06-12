@@ -48,6 +48,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:ComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=1004",
+    "commandTopic": "opcua/Robotics/MotionDeviceType/{commandName}",
+    "telemetryTopic": "opcua/Robotics/MotionDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -132,6 +134,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:ComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=16601",
+    "commandTopic": "opcua/Robotics/AxisType/{commandName}",
+    "telemetryTopic": "opcua/Robotics/AxisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -245,6 +249,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:ComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=1022",
+    "telemetryTopic": "opcua/Robotics/GearType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -345,6 +350,8 @@
     "@id": "dtmi:opcua:Robotics:EmergencyStopFunctionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=17230",
+    "commandTopic": "opcua/Robotics/EmergencyStopFunctionType/{commandName}",
+    "telemetryTopic": "opcua/Robotics/EmergencyStopFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -377,6 +384,8 @@
     "@id": "dtmi:opcua:Robotics:ProtectiveStopFunctionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=17233",
+    "commandTopic": "opcua/Robotics/ProtectiveStopFunctionType/{commandName}",
+    "telemetryTopic": "opcua/Robotics/ProtectiveStopFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -516,6 +525,7 @@
     "@id": "dtmi:opcua:Robotics:LoadType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=1018",
+    "telemetryTopic": "opcua/Robotics/LoadType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -686,6 +696,8 @@
     "@id": "dtmi:opcua:Robotics:UserType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=18175",
+    "commandTopic": "opcua/Robotics/UserType/{commandName}",
+    "telemetryTopic": "opcua/Robotics/UserType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

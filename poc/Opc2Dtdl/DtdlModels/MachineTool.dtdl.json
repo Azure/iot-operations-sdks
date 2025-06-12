@@ -183,6 +183,8 @@
     "@id": "dtmi:opcua:MachineTool:AlertType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=39",
+    "commandTopic": "opcua/MachineTool/AlertType/{commandName}",
+    "telemetryTopic": "opcua/MachineTool/AlertType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -209,6 +211,8 @@
     "@id": "dtmi:opcua:MachineTool:InterruptionConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=19",
+    "commandTopic": "opcua/MachineTool/InterruptionConditionType/{commandName}",
+    "telemetryTopic": "opcua/MachineTool/InterruptionConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -235,6 +239,8 @@
     "@id": "dtmi:opcua:MachineTool:NotificationEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=35",
+    "commandTopic": "opcua/MachineTool/NotificationEventType/{commandName}",
+    "telemetryTopic": "opcua/MachineTool/NotificationEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -261,6 +267,8 @@
     "@id": "dtmi:opcua:MachineTool:ProductionJobTransitionEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=31",
+    "commandTopic": "opcua/MachineTool/ProductionJobTransitionEventType/{commandName}",
+    "telemetryTopic": "opcua/MachineTool/ProductionJobTransitionEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -313,6 +321,8 @@
     "@id": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=27",
+    "commandTopic": "opcua/MachineTool/ProductionPartTransitionEventType/{commandName}",
+    "telemetryTopic": "opcua/MachineTool/ProductionPartTransitionEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -424,6 +434,8 @@
     "@id": "dtmi:opcua:MachineTool:ProductionProgramTransitionEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=17",
+    "commandTopic": "opcua/MachineTool/ProductionProgramTransitionEventType/{commandName}",
+    "telemetryTopic": "opcua/MachineTool/ProductionProgramTransitionEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -457,6 +469,8 @@
     "@id": "dtmi:opcua:MachineTool:BaseToolType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=49",
+    "commandTopic": "opcua/MachineTool/BaseToolType/{commandName}",
+    "telemetryTopic": "opcua/MachineTool/BaseToolType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -522,6 +536,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineTool:BaseToolType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=50",
+    "telemetryTopic": "opcua/MachineTool/ToolType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -602,6 +617,7 @@
     "@id": "dtmi:opcua:MachineTool:ChannelModifierType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=33",
+    "telemetryTopic": "opcua/MachineTool/ChannelModifierType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -651,6 +667,8 @@
     "@id": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=23",
+    "commandTopic": "opcua/MachineTool/ElementMonitoringType/{commandName}",
+    "telemetryTopic": "opcua/MachineTool/ElementMonitoringType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -678,6 +696,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=16",
+    "telemetryTopic": "opcua/MachineTool/ChannelMonitoringType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -828,6 +847,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=42",
+    "telemetryTopic": "opcua/MachineTool/EDMGeneratorMonitoringType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -888,6 +908,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=36",
+    "telemetryTopic": "opcua/MachineTool/LaserMonitoringType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -944,6 +965,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=22",
+    "telemetryTopic": "opcua/MachineTool/SpindleMonitoringType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1031,6 +1053,7 @@
     "@id": "dtmi:opcua:MachineTool:MachineOperationMonitoringType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=26",
+    "telemetryTopic": "opcua/MachineTool/MachineOperationMonitoringType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1252,6 +1275,7 @@
     "@id": "dtmi:opcua:MachineTool:ObligationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=1002",
+    "telemetryTopic": "opcua/MachineTool/ObligationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1302,6 +1326,8 @@
     "@id": "dtmi:opcua:MachineTool:ProductionJobType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=29",
+    "commandTopic": "opcua/MachineTool/ProductionJobType/{commandName}",
+    "telemetryTopic": "opcua/MachineTool/ProductionJobType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1389,6 +1415,8 @@
     "@id": "dtmi:opcua:MachineTool:ProductionPartSetType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=34",
+    "commandTopic": "opcua/MachineTool/ProductionPartSetType/{commandName}",
+    "telemetryTopic": "opcua/MachineTool/ProductionPartSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1439,6 +1467,8 @@
     "@id": "dtmi:opcua:MachineTool:ProductionPartType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=56",
+    "commandTopic": "opcua/MachineTool/ProductionPartType/{commandName}",
+    "telemetryTopic": "opcua/MachineTool/ProductionPartType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1549,6 +1579,8 @@
     "@id": "dtmi:opcua:MachineTool:ProductionProgramType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=59",
+    "commandTopic": "opcua/MachineTool/ProductionProgramType/{commandName}",
+    "telemetryTopic": "opcua/MachineTool/ProductionProgramType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1589,6 +1621,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineTool:ProductionProgramType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=32",
+    "telemetryTopic": "opcua/MachineTool/ProductionActiveProgramType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1620,6 +1653,7 @@
     "@id": "dtmi:opcua:MachineTool:ProductionStatisticsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=20",
+    "telemetryTopic": "opcua/MachineTool/ProductionStatisticsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1682,6 +1716,8 @@
     "@id": "dtmi:opcua:MachineTool:PrognosisListType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=2",
+    "commandTopic": "opcua/MachineTool/PrognosisListType/{commandName}",
+    "telemetryTopic": "opcua/MachineTool/PrognosisListType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1714,6 +1750,8 @@
     "@id": "dtmi:opcua:MachineTool:PrognosisType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=3",
+    "commandTopic": "opcua/MachineTool/PrognosisType/{commandName}",
+    "telemetryTopic": "opcua/MachineTool/PrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1741,6 +1779,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=9",
+    "telemetryTopic": "opcua/MachineTool/MaintenancePrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1767,6 +1806,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=10",
+    "telemetryTopic": "opcua/MachineTool/ManualActivityPrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1793,6 +1833,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=1",
+    "telemetryTopic": "opcua/MachineTool/PartLoadPrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1837,6 +1878,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=5",
+    "telemetryTopic": "opcua/MachineTool/PartUnloadPrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1881,6 +1923,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=8",
+    "telemetryTopic": "opcua/MachineTool/ProcessChangeoverPrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1913,6 +1956,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=37",
+    "telemetryTopic": "opcua/MachineTool/ProductionJobEndPrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1945,6 +1989,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=45",
+    "telemetryTopic": "opcua/MachineTool/ToolChangePrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1989,6 +2034,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=4",
+    "telemetryTopic": "opcua/MachineTool/ToolLoadPrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2027,6 +2073,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=18",
+    "telemetryTopic": "opcua/MachineTool/ToolUnloadPrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2071,6 +2118,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=6",
+    "telemetryTopic": "opcua/MachineTool/UtilityChangePrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2096,6 +2144,8 @@
     "@id": "dtmi:opcua:MachineTool:SoftwareIdentificationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=43",
+    "commandTopic": "opcua/MachineTool/SoftwareIdentificationType/{commandName}",
+    "telemetryTopic": "opcua/MachineTool/SoftwareIdentificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2206,6 +2256,7 @@
     "@id": "dtmi:opcua:MachineTool:ProductionStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=24",
+    "telemetryTopic": "opcua/MachineTool/ProductionStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2372,6 +2423,8 @@
     "@id": "dtmi:opcua:MachineTool:ToolListType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=44",
+    "commandTopic": "opcua/MachineTool/ToolListType/{commandName}",
+    "telemetryTopic": "opcua/MachineTool/ToolListType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

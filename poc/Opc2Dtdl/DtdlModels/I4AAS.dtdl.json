@@ -12,6 +12,8 @@
     "@id": "dtmi:opcua:I4AAS:AASAdministrativeInformationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1030",
+    "commandTopic": "opcua/I4AAS/AASAdministrativeInformationType/{commandName}",
+    "telemetryTopic": "opcua/I4AAS/AASAdministrativeInformationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -106,6 +108,8 @@
     "@id": "dtmi:opcua:I4AAS:AASAssetType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1005",
+    "commandTopic": "opcua/I4AAS/AASAssetType/{commandName}",
+    "telemetryTopic": "opcua/I4AAS/AASAssetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -205,6 +209,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:I4AAS:AASDataSpecificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1028",
+    "commandTopic": "opcua/I4AAS/AASDataSpecificationIEC61360Type/{commandName}",
+    "telemetryTopic": "opcua/I4AAS/AASDataSpecificationIEC61360Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -454,6 +460,8 @@
     "@id": "dtmi:opcua:I4AAS:AASIdentifierType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1029",
+    "commandTopic": "opcua/I4AAS/AASIdentifierType/{commandName}",
+    "telemetryTopic": "opcua/I4AAS/AASIdentifierType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -507,6 +515,8 @@
     "@id": "dtmi:opcua:I4AAS:AASQualifierType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1032",
+    "commandTopic": "opcua/I4AAS/AASQualifierType/{commandName}",
+    "telemetryTopic": "opcua/I4AAS/AASQualifierType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -625,6 +635,8 @@
     "@id": "dtmi:opcua:I4AAS:AASReferenceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1004",
+    "commandTopic": "opcua/I4AAS/AASReferenceType/{commandName}",
+    "telemetryTopic": "opcua/I4AAS/AASReferenceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -818,6 +830,8 @@
     "@id": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1009",
+    "commandTopic": "opcua/I4AAS/AASSubmodelElementType/{commandName}",
+    "telemetryTopic": "opcua/I4AAS/AASSubmodelElementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -925,6 +939,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1022",
+    "commandTopic": "opcua/I4AAS/AASEntityType/{commandName}",
+    "telemetryTopic": "opcua/I4AAS/AASEntityType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1000,6 +1016,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1017",
+    "commandTopic": "opcua/I4AAS/AASFileType/{commandName}",
+    "telemetryTopic": "opcua/I4AAS/AASFileType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1039,6 +1057,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1012",
+    "commandTopic": "opcua/I4AAS/AASMultiLanguagePropertyType/{commandName}",
+    "telemetryTopic": "opcua/I4AAS/AASMultiLanguagePropertyType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1101,6 +1121,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1013",
+    "commandTopic": "opcua/I4AAS/AASPropertyType/{commandName}",
+    "telemetryTopic": "opcua/I4AAS/AASPropertyType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1213,6 +1235,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1023",
+    "commandTopic": "opcua/I4AAS/AASRangeType/{commandName}",
+    "telemetryTopic": "opcua/I4AAS/AASRangeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1410,6 +1434,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1010",
+    "commandTopic": "opcua/I4AAS/AASSubmodelElementCollectionType/{commandName}",
+    "telemetryTopic": "opcua/I4AAS/AASSubmodelElementCollectionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1462,6 +1488,8 @@
     "@id": "dtmi:opcua:I4AAS:AASSubmodelType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1006",
+    "commandTopic": "opcua/I4AAS/AASSubmodelType/{commandName}",
+    "telemetryTopic": "opcua/I4AAS/AASSubmodelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1522,6 +1550,8 @@
     "@id": "dtmi:opcua:I4AAS:IAASReferableType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1033",
+    "commandTopic": "opcua/I4AAS/IAASReferableType/{commandName}",
+    "telemetryTopic": "opcua/I4AAS/IAASReferableType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

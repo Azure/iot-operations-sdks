@@ -13,6 +13,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1009",
+    "commandTopic": "opcua/PlasticsRubber_TCD/TCDHelpOffNormalAlarmType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_TCD/TCDHelpOffNormalAlarmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -39,6 +41,7 @@
     "@id": "dtmi:opcua:PlasticsRubber_TCD:DeviceZoneType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1008",
+    "telemetryTopic": "opcua/PlasticsRubber_TCD/DeviceZoneType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -205,6 +208,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_TCD:ExternalChannelsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1003",
+    "commandTopic": "opcua/PlasticsRubber_TCD/ExternalChannelsType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_TCD/ExternalChannelsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -238,6 +243,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1002",
     "commandTopic": "opcua/PlasticsRubber_TCD/ExternalChannelType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_TCD/ExternalChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -329,6 +335,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1007",
     "commandTopic": "opcua/PlasticsRubber_TCD/ExternalSensorType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_TCD/ExternalSensorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -470,6 +477,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1005",
     "commandTopic": "opcua/PlasticsRubber_TCD/MouldEvacuationType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_TCD/MouldEvacuationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -525,6 +533,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1010",
     "commandTopic": "opcua/PlasticsRubber_TCD/OperationType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_TCD/OperationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -700,6 +709,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_TCD:TCD_InterfaceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1012",
+    "commandTopic": "opcua/PlasticsRubber_TCD/TCD_InterfaceType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_TCD/TCD_InterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -756,6 +767,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_TCD:TCDSpecificationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1011",
+    "commandTopic": "opcua/PlasticsRubber_TCD/TCDSpecificationType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_TCD/TCDSpecificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

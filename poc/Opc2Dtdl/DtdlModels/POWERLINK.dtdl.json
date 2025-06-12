@@ -167,6 +167,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK;i=1",
+    "commandTopic": "opcua/POWERLINK/PowerlinkDeviceProfileType/{commandName}",
+    "telemetryTopic": "opcua/POWERLINK/PowerlinkDeviceProfileType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

@@ -12,6 +12,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Cutter:CutEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter;i=1002",
+    "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/CutEventType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/CutEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -52,6 +54,7 @@
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Cutter:CuttingProductsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter;i=1004",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/CuttingProductsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -84,6 +87,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter;i=1003",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/CuttingProductType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/CuttingProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -184,6 +188,7 @@
     "extends": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter;i=1005",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/Cutter_InterfaceType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/Cutter_InterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

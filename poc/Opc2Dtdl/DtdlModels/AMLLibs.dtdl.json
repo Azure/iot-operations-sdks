@@ -33,6 +33,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=25",
+    "telemetryTopic": "opcua/AMLLibs/Order/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -119,6 +120,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=37",
+    "telemetryTopic": "opcua/AMLLibs/ExternalDataConnector/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -265,6 +267,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:AMLLibs:VariableInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=64",
+    "telemetryTopic": "opcua/AMLLibs/InterlockingVariableInterface/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -331,6 +334,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=77",
+    "telemetryTopic": "opcua/AMLLibs/Group/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -377,6 +381,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=83",
+    "telemetryTopic": "opcua/AMLLibs/Port/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

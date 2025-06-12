@@ -13,6 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter;i=1002",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Filter/Filter_InterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -98,6 +99,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Filter:FilterPackageType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter;i=1004",
+    "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Filter/FilterPackageType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Filter/FilterPackageType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -185,6 +188,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Filter:ScreenPackageType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter;i=1003",
+    "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Filter/ScreenPackageType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Filter/ScreenPackageType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

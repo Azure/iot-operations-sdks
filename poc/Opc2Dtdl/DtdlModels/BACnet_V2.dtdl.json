@@ -13,6 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101020",
     "commandTopic": "opcua/BACnet_V2/BACnetBackupRestoreType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetBackupRestoreType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2063,6 +2064,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1016",
     "commandTopic": "opcua/BACnet_V2/BACnetChangeOfStateCountType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetChangeOfStateCountType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2436,6 +2438,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101022",
     "commandTopic": "opcua/BACnet_V2/BACnetDeviceRestartType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetDeviceRestartType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2975,6 +2978,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1017",
     "commandTopic": "opcua/BACnet_V2/BACnetElapsedActiveTimeType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetElapsedActiveTimeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3013,6 +3017,8 @@
     "@id": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1026",
+    "commandTopic": "opcua/BACnet_V2/BACnetEventAlgorithmType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetEventAlgorithmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3047,6 +3053,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101005",
+    "commandTopic": "opcua/BACnet_V2/BACnetBufferReadyAlgorithmType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetBufferReadyAlgorithmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3081,6 +3089,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101003",
+    "commandTopic": "opcua/BACnet_V2/BACnetChangeOfBitStringAlgorithmType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetChangeOfBitStringAlgorithmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3125,6 +3135,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101034",
+    "commandTopic": "opcua/BACnet_V2/BACnetChangeOfCharacterStringAlgorithmType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetChangeOfCharacterStringAlgorithmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3155,6 +3167,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101028",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetChangeOfLifeSafetyAlgorithmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3297,6 +3310,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1010",
+    "commandTopic": "opcua/BACnet_V2/BACnetChangeOfStateAlgorithmType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetChangeOfStateAlgorithmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3324,6 +3339,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101030",
+    "commandTopic": "opcua/BACnet_V2/BACnetChangeOfStatusFlagsAlgorithmType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetChangeOfStatusFlagsAlgorithmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3375,6 +3392,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101004",
+    "commandTopic": "opcua/BACnet_V2/BACnetChangeOfValueAlgorithmType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetChangeOfValueAlgorithmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3426,6 +3445,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1029",
+    "commandTopic": "opcua/BACnet_V2/BACnetCommandFailureAlgorithmType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetCommandFailureAlgorithmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -5036,6 +5057,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101031",
+    "commandTopic": "opcua/BACnet_V2/BACnetDoubleOutOfRangeAlgorithmType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetDoubleOutOfRangeAlgorithmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -5100,6 +5123,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101002",
+    "commandTopic": "opcua/BACnet_V2/BACnetFloatingLimitAlgorithmType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetFloatingLimitAlgorithmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -6731,6 +6756,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1009",
+    "commandTopic": "opcua/BACnet_V2/BACnetOutOfRangeAlgorithmType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetOutOfRangeAlgorithmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -6795,6 +6822,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101032",
+    "commandTopic": "opcua/BACnet_V2/BACnetSignedOutOfRangeAlgorithmType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetSignedOutOfRangeAlgorithmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -6859,6 +6888,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101033",
+    "commandTopic": "opcua/BACnet_V2/BACnetUnsignedOutOfRangeAlgorithmType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetUnsignedOutOfRangeAlgorithmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -6923,6 +6954,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101029",
+    "commandTopic": "opcua/BACnet_V2/BACnetUnsignedRangeAlgorithmType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetUnsignedRangeAlgorithmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6956,6 +6989,8 @@
     "@id": "dtmi:opcua:BACnet_V2:BACnetEventReportingType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1003",
+    "commandTopic": "opcua/BACnet_V2/BACnetEventReportingType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetEventReportingType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -9072,6 +9107,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventReportingType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101016",
+    "commandTopic": "opcua/BACnet_V2/BACnetIntrinsicReportingTrendLogType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetIntrinsicReportingTrendLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9118,6 +9155,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetFaultAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101009",
+    "commandTopic": "opcua/BACnet_V2/BACnetFaultCharacterStringAlgorithmType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetFaultCharacterStringAlgorithmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9148,6 +9187,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetFaultAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101011",
+    "commandTopic": "opcua/BACnet_V2/BACnetFaultStateAlgorithmType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetFaultStateAlgorithmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9194,6 +9235,8 @@
     "@id": "dtmi:opcua:BACnet_V2:BACnetFaultEvaluationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1025",
+    "commandTopic": "opcua/BACnet_V2/BACnetFaultEvaluationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetFaultEvaluationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -11135,6 +11178,8 @@
     "@id": "dtmi:opcua:BACnet_V2:BACnetMstpMasterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101021",
+    "commandTopic": "opcua/BACnet_V2/BACnetMstpMasterType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetMstpMasterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -11236,6 +11281,8 @@
     "@id": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1002",
+    "commandTopic": "opcua/BACnet_V2/BACnetObjectType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -11270,6 +11317,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1004",
+    "commandTopic": "opcua/BACnet_V2/BACnetAnalogType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetAnalogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -11360,6 +11409,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetAnalogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1005",
+    "commandTopic": "opcua/BACnet_V2/BACnetAnalogInputType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetAnalogInputType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -11387,6 +11438,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetAnalogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1006",
+    "commandTopic": "opcua/BACnet_V2/BACnetAnalogOutputType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetAnalogOutputType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -11468,6 +11521,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetAnalogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1007",
+    "commandTopic": "opcua/BACnet_V2/BACnetAnalogValueType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetAnalogValueType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -11542,6 +11597,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1012",
+    "commandTopic": "opcua/BACnet_V2/BACnetBinaryType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetBinaryType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -11630,6 +11687,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetBinaryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1013",
+    "commandTopic": "opcua/BACnet_V2/BACnetBinaryInputType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetBinaryInputType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -11680,6 +11739,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetBinaryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1014",
+    "commandTopic": "opcua/BACnet_V2/BACnetBinaryOutputType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetBinaryOutputType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -11805,6 +11866,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetBinaryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1015",
+    "commandTopic": "opcua/BACnet_V2/BACnetBinaryValueType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetBinaryValueType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -11894,6 +11957,7 @@
     "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1008",
     "commandTopic": "opcua/BACnet_V2/BACnetCalendarType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetCalendarType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -12383,6 +12447,7 @@
     "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1011",
     "commandTopic": "opcua/BACnet_V2/BACnetDeviceType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -15042,6 +15107,7 @@
     "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101006",
     "commandTopic": "opcua/BACnet_V2/BACnetEventEnrollmentType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetEventEnrollmentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -18362,6 +18428,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101014",
+    "commandTopic": "opcua/BACnet_V2/BACnetLogType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -18828,6 +18896,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101026",
+    "commandTopic": "opcua/BACnet_V2/BACnetTrendLogBaseType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetTrendLogBaseType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -18903,6 +18973,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetTrendLogBaseType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101027",
+    "commandTopic": "opcua/BACnet_V2/BACnetTrendLogMultipleType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetTrendLogMultipleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -20522,6 +20594,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetTrendLogBaseType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101017",
+    "commandTopic": "opcua/BACnet_V2/BACnetTrendLogType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetTrendLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -22164,6 +22238,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetTrendLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101015",
+    "commandTopic": "opcua/BACnet_V2/BACnetClockAlignedTrendLogType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetClockAlignedTrendLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -22191,6 +22267,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101001",
+    "commandTopic": "opcua/BACnet_V2/BACnetLoopType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetLoopType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -23944,6 +24022,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1018",
+    "commandTopic": "opcua/BACnet_V2/BACnetMultiStateType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetMultiStateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -24020,6 +24100,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetMultiStateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1019",
+    "commandTopic": "opcua/BACnet_V2/BACnetMultiStateInputType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetMultiStateInputType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -24047,6 +24129,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetMultiStateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1020",
+    "commandTopic": "opcua/BACnet_V2/BACnetMultiStateOutputType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetMultiStateOutputType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -24135,6 +24219,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetMultiStateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1021",
+    "commandTopic": "opcua/BACnet_V2/BACnetMultiStateValueType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetMultiStateValueType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -24209,6 +24295,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1048",
+    "commandTopic": "opcua/BACnet_V2/BACnetNotifierType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetNotifierType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -24395,6 +24483,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetNotifierType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1024",
+    "commandTopic": "opcua/BACnet_V2/BACnetNotificationClassType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetNotificationClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -24459,6 +24549,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101024",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetObjectTypeUnknown/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -24714,6 +24805,7 @@
     "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1022",
     "commandTopic": "opcua/BACnet_V2/BACnetScheduleType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetScheduleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -27040,6 +27132,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1049",
+    "commandTopic": "opcua/BACnet_V2/BACnetStructuredViewType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetStructuredViewType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -28745,6 +28839,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101019",
     "commandTopic": "opcua/BACnet_V2/BACnetTimeManagementType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetTimeManagementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -29123,6 +29218,7 @@
     "extends": "dtmi:opcua:BACnet_V2:BACnetTimeManagementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1052",
     "commandTopic": "opcua/BACnet_V2/BACnetAutomaticTimeSynchronizationMasterType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetAutomaticTimeSynchronizationMasterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -29299,6 +29395,8 @@
     "@id": "dtmi:opcua:BACnet_V2:BACnetNotificationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1001",
+    "commandTopic": "opcua/BACnet_V2/BACnetNotificationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetNotificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -29399,6 +29497,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1028",
+    "commandTopic": "opcua/BACnet_V2/BACnetEventNotificationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetEventNotificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -29426,6 +29526,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1042",
+    "commandTopic": "opcua/BACnet_V2/BACnetBufferReadyNotificationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetBufferReadyNotificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -31050,6 +31152,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1037",
+    "commandTopic": "opcua/BACnet_V2/BACnetChangeOfBitStringNotificationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetChangeOfBitStringNotificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -31111,6 +31215,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1047",
+    "commandTopic": "opcua/BACnet_V2/BACnetChangeOfCharacterStringNotificationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetChangeOfCharacterStringNotificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -31176,6 +31282,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1039",
+    "commandTopic": "opcua/BACnet_V2/BACnetChangeOfRealValueNotificationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetChangeOfRealValueNotificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -31234,6 +31342,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1038",
+    "commandTopic": "opcua/BACnet_V2/BACnetChangeOfStateNotificationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetChangeOfStateNotificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -31845,6 +31955,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1053",
+    "commandTopic": "opcua/BACnet_V2/BACnetChangeOfValueNotificationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetChangeOfValueNotificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -31920,6 +32032,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1040",
+    "commandTopic": "opcua/BACnet_V2/BACnetCommandFailureNotificationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetCommandFailureNotificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -31985,6 +32099,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1044",
+    "commandTopic": "opcua/BACnet_V2/BACnetDoubleOutOfRangeNotificationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetDoubleOutOfRangeNotificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -32057,6 +32173,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1041",
+    "commandTopic": "opcua/BACnet_V2/BACnetFloatingLimitNotificationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetFloatingLimitNotificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -32129,6 +32247,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1031",
+    "commandTopic": "opcua/BACnet_V2/BACnetOutOfRangeNotificationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetOutOfRangeNotificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -32201,6 +32321,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1045",
+    "commandTopic": "opcua/BACnet_V2/BACnetSignedOutOfRangeNotificationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetSignedOutOfRangeNotificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -32273,6 +32395,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1046",
+    "commandTopic": "opcua/BACnet_V2/BACnetUnsignedOutOfRangeNotificationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetUnsignedOutOfRangeNotificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -32345,6 +32469,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1043",
+    "commandTopic": "opcua/BACnet_V2/BACnetUnsignedRangeNotificationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetUnsignedRangeNotificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -32410,6 +32536,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1027",
+    "commandTopic": "opcua/BACnet_V2/BACnetFaultNotificationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetFaultNotificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -32536,6 +32664,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetFaultNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1036",
+    "commandTopic": "opcua/BACnet_V2/BACnetChangeOfReliabilityNotificationType/{commandName}",
+    "telemetryTopic": "opcua/BACnet_V2/BACnetChangeOfReliabilityNotificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

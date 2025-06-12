@@ -12,6 +12,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_LDS:AdditiveType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1004",
+    "commandTopic": "opcua/PlasticsRubber_LDS/AdditiveType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_LDS/AdditiveType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -153,6 +155,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_LDS:LDSCycleParametersEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1008",
+    "commandTopic": "opcua/PlasticsRubber_LDS/LDSCycleParametersEventType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_LDS/LDSCycleParametersEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -301,6 +305,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1005",
     "commandTopic": "opcua/PlasticsRubber_LDS/ComponentType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_LDS/ComponentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -431,6 +436,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_LDS:LDS_InterfaceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1007",
+    "commandTopic": "opcua/PlasticsRubber_LDS/LDS_InterfaceType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_LDS/LDS_InterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -483,6 +490,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1006",
     "commandTopic": "opcua/PlasticsRubber_LDS/OperationType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_LDS/OperationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {

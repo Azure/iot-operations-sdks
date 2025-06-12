@@ -13,6 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=194",
     "commandTopic": "opcua/MDIS/MDISBaseObjectType/{commandName}",
+    "telemetryTopic": "opcua/MDIS/MDISBaseObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -200,6 +201,7 @@
     "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1066",
     "commandTopic": "opcua/MDIS/MDISChokeObjectType/{commandName}",
+    "telemetryTopic": "opcua/MDIS/MDISChokeObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -459,6 +461,7 @@
     "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15114",
     "commandTopic": "opcua/MDIS/MDISCIMVObjectType/{commandName}",
+    "telemetryTopic": "opcua/MDIS/MDISCIMVObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -786,6 +789,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=889",
+    "telemetryTopic": "opcua/MDIS/MDISDigitalInstrumentObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -813,6 +817,7 @@
     "extends": "dtmi:opcua:MDIS:MDISDigitalInstrumentObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15015",
     "commandTopic": "opcua/MDIS/MDISDigitalArbitrationObjectType/{commandName}",
+    "telemetryTopic": "opcua/MDIS/MDISDigitalArbitrationObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -946,6 +951,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1214",
+    "telemetryTopic": "opcua/MDIS/MDISDiscreteInstrumentObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -973,6 +979,7 @@
     "extends": "dtmi:opcua:MDIS:MDISDiscreteInstrumentObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15032",
     "commandTopic": "opcua/MDIS/MDISDiscreteArbitrationObjectType/{commandName}",
+    "telemetryTopic": "opcua/MDIS/MDISDiscreteArbitrationObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1107,6 +1114,7 @@
     "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15076",
     "commandTopic": "opcua/MDIS/MDISElectricChokeObjectType/{commandName}",
+    "telemetryTopic": "opcua/MDIS/MDISElectricChokeObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1239,6 +1247,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=971",
+    "commandTopic": "opcua/MDIS/MDISInstrumentObjectType/{commandName}",
+    "telemetryTopic": "opcua/MDIS/MDISInstrumentObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1318,6 +1328,7 @@
     "extends": "dtmi:opcua:MDIS:MDISInstrumentObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15547",
     "commandTopic": "opcua/MDIS/MDISInstrumentArbitrationObjectType/{commandName}",
+    "telemetryTopic": "opcua/MDIS/MDISInstrumentArbitrationObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1459,6 +1470,7 @@
     "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15190",
     "commandTopic": "opcua/MDIS/MDISMotorObjectType/{commandName}",
+    "telemetryTopic": "opcua/MDIS/MDISMotorObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1593,6 +1605,7 @@
     "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=794",
     "commandTopic": "opcua/MDIS/MDISValveObjectType/{commandName}",
+    "telemetryTopic": "opcua/MDIS/MDISValveObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1798,6 +1811,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15098",
     "commandTopic": "opcua/MDIS/MDISCounterObjectType/{commandName}",
+    "telemetryTopic": "opcua/MDIS/MDISCounterObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1842,6 +1856,7 @@
     "@id": "dtmi:opcua:MDIS:MDISInformationObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1471",
+    "telemetryTopic": "opcua/MDIS/MDISInformationObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {

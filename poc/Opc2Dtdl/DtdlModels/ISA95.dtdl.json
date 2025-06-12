@@ -170,6 +170,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:ISA95:ISA95ObjectType;1",
     "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5085",
+    "telemetryTopic": "opcua/ISA95/PhysicalAssetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -236,6 +237,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:ISA95:ISA95ObjectType;1",
     "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5040",
+    "telemetryTopic": "opcua/ISA95/EquipmentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

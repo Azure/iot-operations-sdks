@@ -13,6 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1048",
     "commandTopic": "opcua/TMC_v2/ExternalAlarmType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/ExternalAlarmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -129,6 +130,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1085",
+    "commandTopic": "opcua/TMC_v2/CarrierEnteredLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/CarrierEnteredLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -156,6 +159,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1087",
+    "commandTopic": "opcua/TMC_v2/CarrierReleasedLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/CarrierReleasedLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -183,6 +188,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1055",
+    "commandTopic": "opcua/TMC_v2/CarrierSublotsChangeLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/CarrierSublotsChangeLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -422,6 +429,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1089",
+    "commandTopic": "opcua/TMC_v2/MachineContextLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/MachineContextLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -463,6 +472,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MachineContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1010",
+    "commandTopic": "opcua/TMC_v2/ControlModeChangeLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/ControlModeChangeLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -541,6 +552,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MachineContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1022",
+    "commandTopic": "opcua/TMC_v2/MachineModuleSpecificationChangeLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/MachineModuleSpecificationChangeLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -841,6 +854,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MachineContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1011",
+    "commandTopic": "opcua/TMC_v2/ProductionContextLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/ProductionContextLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -875,6 +890,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1017",
+    "commandTopic": "opcua/TMC_v2/DataSetChangeLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/DataSetChangeLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -946,6 +963,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1026",
+    "commandTopic": "opcua/TMC_v2/DefectDetectedLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/DefectDetectedLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -993,6 +1012,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1045",
+    "commandTopic": "opcua/TMC_v2/DetectionModeChangeLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/DetectionModeChangeLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1020,6 +1041,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1024",
+    "commandTopic": "opcua/TMC_v2/DowntimeLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/DowntimeLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1096,6 +1119,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1086",
+    "commandTopic": "opcua/TMC_v2/MaterialContextLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/MaterialContextLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1130,6 +1155,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MaterialContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1039",
+    "commandTopic": "opcua/TMC_v2/IntegrityRejectedMaterialLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/IntegrityRejectedMaterialLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1359,6 +1386,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MaterialContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1032",
+    "commandTopic": "opcua/TMC_v2/LoadingPointUnloadedLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/LoadingPointUnloadedLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1588,6 +1617,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MaterialContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1033",
+    "telemetryTopic": "opcua/TMC_v2/MaterialConsumedLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1652,6 +1682,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MaterialContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1084",
+    "telemetryTopic": "opcua/TMC_v2/MaterialDispensedLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1716,6 +1747,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MaterialContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1030",
+    "telemetryTopic": "opcua/TMC_v2/MaterialOutputProducedLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1780,6 +1812,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MaterialContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1027",
+    "telemetryTopic": "opcua/TMC_v2/MaterialRejectedLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1844,6 +1877,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MaterialContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1034",
+    "commandTopic": "opcua/TMC_v2/MaterialUnloadingRequiredLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/MaterialUnloadingRequiredLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2073,6 +2108,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MaterialContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1038",
+    "commandTopic": "opcua/TMC_v2/NewPresentedMaterialLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/NewPresentedMaterialLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2342,6 +2379,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1031",
+    "commandTopic": "opcua/TMC_v2/ProcessItemResetLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/ProcessItemResetLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2412,6 +2451,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1029",
+    "commandTopic": "opcua/TMC_v2/RejectionModeChangeLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/RejectionModeChangeLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2439,6 +2480,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1021",
+    "commandTopic": "opcua/TMC_v2/StateChangeLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/StateChangeLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2549,6 +2592,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MachineContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1036",
+    "commandTopic": "opcua/TMC_v2/RootCauseGroupListChangeLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/RootCauseGroupListChangeLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2611,6 +2656,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MachineContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1014",
+    "commandTopic": "opcua/TMC_v2/RootCauseListChangeLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/RootCauseListChangeLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2663,6 +2710,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MachineContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1015",
+    "commandTopic": "opcua/TMC_v2/StopReasonListChangeLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/StopReasonListChangeLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2720,6 +2769,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1078",
+    "commandTopic": "opcua/TMC_v2/SubCarrierLoadedLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/SubCarrierLoadedLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2754,6 +2805,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1079",
+    "commandTopic": "opcua/TMC_v2/SubCarrierLoadingEndedLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/SubCarrierLoadingEndedLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2781,6 +2834,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1080",
+    "commandTopic": "opcua/TMC_v2/SubCarrierLoadingStartedLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/SubCarrierLoadingStartedLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2808,6 +2863,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1081",
+    "commandTopic": "opcua/TMC_v2/SubCarrierUnloadedLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/SubCarrierUnloadedLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2842,6 +2899,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1082",
+    "commandTopic": "opcua/TMC_v2/SubCarrierUnloadingEndedLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/SubCarrierUnloadingEndedLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2869,6 +2928,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1083",
+    "commandTopic": "opcua/TMC_v2/SubCarrierUnloadingStartedLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/SubCarrierUnloadingStartedLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2895,6 +2956,8 @@
     "@id": "dtmi:opcua:TMC_v2:ProductionOrderTransitionLogType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1088",
+    "commandTopic": "opcua/TMC_v2/ProductionOrderTransitionLogType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/ProductionOrderTransitionLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2929,6 +2992,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1074",
     "commandTopic": "opcua/TMC_v2/CarrierType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/CarrierType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3467,6 +3531,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1051",
     "commandTopic": "opcua/TMC_v2/ControlModuleAggregatesType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/ControlModuleAggregatesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3568,6 +3633,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ControlModuleAggregatesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1054",
+    "telemetryTopic": "opcua/TMC_v2/MotorAggregatesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3600,6 +3666,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ControlModuleAggregatesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1053",
+    "telemetryTopic": "opcua/TMC_v2/ValveAggregatesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3625,6 +3692,8 @@
     "@id": "dtmi:opcua:TMC_v2:ControlModuleConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1047",
+    "commandTopic": "opcua/TMC_v2/ControlModuleConfigurationType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/ControlModuleConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3677,6 +3746,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1050",
     "commandTopic": "opcua/TMC_v2/ControlModuleLiveStatusType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/ControlModuleLiveStatusType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -4027,6 +4097,7 @@
     "@id": "dtmi:opcua:TMC_v2:ControlModuleSetupType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1052",
+    "telemetryTopic": "opcua/TMC_v2/ControlModuleSetupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4065,6 +4136,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ControlModuleSetupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1056",
+    "telemetryTopic": "opcua/TMC_v2/AnalogInputSetupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4091,6 +4163,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ControlModuleSetupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1057",
+    "telemetryTopic": "opcua/TMC_v2/DigitalInputSetupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4117,6 +4190,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ControlModuleSetupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1058",
+    "telemetryTopic": "opcua/TMC_v2/MotorSetupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -4159,6 +4233,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ControlModuleSetupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1059",
+    "telemetryTopic": "opcua/TMC_v2/ValveSetupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4185,6 +4260,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1041",
     "commandTopic": "opcua/TMC_v2/DefectReasonType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/DefectReasonType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -4299,6 +4375,8 @@
     "@id": "dtmi:opcua:TMC_v2:EquipmentModuleConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1068",
+    "commandTopic": "opcua/TMC_v2/EquipmentModuleConfigurationType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/EquipmentModuleConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4344,6 +4422,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1069",
     "commandTopic": "opcua/TMC_v2/EquipmentModuleLiveStatusType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/EquipmentModuleLiveStatusType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -4679,6 +4758,7 @@
     "@id": "dtmi:opcua:TMC_v2:EquipmentModuleSetupType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1070",
+    "telemetryTopic": "opcua/TMC_v2/EquipmentModuleSetupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4717,6 +4797,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1013",
     "commandTopic": "opcua/TMC_v2/MachineModuleConfigurationType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/MachineModuleConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -5186,6 +5267,8 @@
     "@id": "dtmi:opcua:TMC_v2:MachineModuleHistoricalRecordType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1012",
+    "commandTopic": "opcua/TMC_v2/MachineModuleHistoricalRecordType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/MachineModuleHistoricalRecordType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5219,6 +5302,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1005",
     "commandTopic": "opcua/TMC_v2/MachineModuleLiveStatusType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/MachineModuleLiveStatusType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -5614,6 +5698,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1009",
     "commandTopic": "opcua/TMC_v2/MachineModuleProductionType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/MachineModuleProductionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -6386,6 +6471,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1016",
     "commandTopic": "opcua/TMC_v2/MachineModuleSetupType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/MachineModuleSetupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -6950,6 +7036,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1002",
     "commandTopic": "opcua/TMC_v2/MachineModuleSpecificationType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/MachineModuleSpecificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -7460,6 +7547,8 @@
     "@id": "dtmi:opcua:TMC_v2:MaterialLocationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1077",
+    "commandTopic": "opcua/TMC_v2/MaterialLocationType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/MaterialLocationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -7819,6 +7908,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1046",
     "commandTopic": "opcua/TMC_v2/ProcessItemType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/ProcessItemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -7963,6 +8053,7 @@
     "extends": "dtmi:opcua:TMC_v2:ProcessItemType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1040",
     "commandTopic": "opcua/TMC_v2/ProcessControlItemType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/ProcessControlItemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -8080,6 +8171,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1044",
     "commandTopic": "opcua/TMC_v2/SensorFunctionType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/SensorFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -8230,6 +8322,7 @@
     "@id": "dtmi:opcua:TMC_v2:MachineModuleProductionStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1001",
+    "telemetryTopic": "opcua/TMC_v2/MachineModuleProductionStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8412,6 +8505,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PackML:PackMLBaseStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1018",
+    "telemetryTopic": "opcua/TMC_v2/TMCStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8461,6 +8555,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PackML:PackMLExecuteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1028",
+    "telemetryTopic": "opcua/TMC_v2/TMCExecuteStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8616,6 +8711,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PackML:PackMLMachineStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1019",
+    "telemetryTopic": "opcua/TMC_v2/TMCMachineStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8670,6 +8766,8 @@
     "@id": "dtmi:opcua:TMC_v2:ProductionOrderExecutionStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1072",
+    "commandTopic": "opcua/TMC_v2/ProductionOrderExecutionStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/ProductionOrderExecutionStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -9175,6 +9273,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ControlModuleType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1063",
+    "telemetryTopic": "opcua/TMC_v2/AnalogInputType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9207,6 +9306,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ControlModuleType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1064",
+    "telemetryTopic": "opcua/TMC_v2/DigitalInputType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9294,6 +9394,7 @@
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1025",
     "commandTopic": "opcua/TMC_v2/DefectDetectionSensorType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/DefectDetectionSensorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -9467,6 +9568,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1004",
+    "commandTopic": "opcua/TMC_v2/MachineModuleType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/MachineModuleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9580,6 +9683,7 @@
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1003",
     "commandTopic": "opcua/TMC_v2/MaterialLoadingPointType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/MaterialLoadingPointType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -10155,6 +10259,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1037",
+    "commandTopic": "opcua/TMC_v2/MaterialOutputPointType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/MaterialOutputPointType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -10541,6 +10647,7 @@
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1023",
     "commandTopic": "opcua/TMC_v2/MaterialRejectionPointType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/MaterialRejectionPointType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -10839,6 +10946,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1035",
+    "commandTopic": "opcua/TMC_v2/MaterialStorageBufferType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/MaterialStorageBufferType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -11174,6 +11283,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1049",
+    "commandTopic": "opcua/TMC_v2/ProcessControlLoopType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/ProcessControlLoopType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -11232,6 +11343,7 @@
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1073",
     "commandTopic": "opcua/TMC_v2/ProductionOrderOrchestrationLayerType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/ProductionOrderOrchestrationLayerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -12103,6 +12215,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1020",
     "commandTopic": "opcua/TMC_v2/UIInformationType/{commandName}",
+    "telemetryTopic": "opcua/TMC_v2/UIInformationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {

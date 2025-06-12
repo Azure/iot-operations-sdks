@@ -12,6 +12,7 @@
     "@id": "dtmi:opcua:FX_CM:AssetVerificationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1247",
+    "telemetryTopic": "opcua/FX_CM/AssetVerificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -234,6 +235,7 @@
     "@id": "dtmi:opcua:FX_CM:AutomationComponentConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1246",
+    "telemetryTopic": "opcua/FX_CM/AutomationComponentConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -363,6 +365,8 @@
     "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1006",
+    "commandTopic": "opcua/FX_CM/ConnectionConfigurationSetEventType/{commandName}",
+    "telemetryTopic": "opcua/FX_CM/ConnectionConfigurationSetEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -540,6 +544,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:FX_CM:CommunicationFlowConfigurationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1014",
+    "telemetryTopic": "opcua/FX_CM/PubSubCommunicationFlowConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -691,6 +696,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:FX_CM:CommunicationModelConfigurationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1042",
+    "telemetryTopic": "opcua/FX_CM/PubSubCommunicationModelConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1624,6 +1630,8 @@
     "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1012",
+    "commandTopic": "opcua/FX_CM/ConnectionConfigurationSetType/{commandName}",
+    "telemetryTopic": "opcua/FX_CM/ConnectionConfigurationSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2048,6 +2056,7 @@
     "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1013",
+    "telemetryTopic": "opcua/FX_CM/ConnectionConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2085,6 +2094,7 @@
     "@id": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1129",
+    "telemetryTopic": "opcua/FX_CM/ConnectionEndpointConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2266,6 +2276,7 @@
     "@id": "dtmi:opcua:FX_CM:ConnectionEndpointParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1261",
+    "telemetryTopic": "opcua/FX_CM/ConnectionEndpointParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2450,6 +2461,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1002",
     "commandTopic": "opcua/FX_CM/ConnectionManagerType/{commandName}",
+    "telemetryTopic": "opcua/FX_CM/ConnectionManagerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2753,6 +2765,7 @@
     "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1018",
+    "telemetryTopic": "opcua/FX_CM/ConnectionConfigurationSetStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2813,6 +2826,7 @@
     "@id": "dtmi:opcua:FX_CM:SubscriberConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1001",
+    "telemetryTopic": "opcua/FX_CM/SubscriberConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {

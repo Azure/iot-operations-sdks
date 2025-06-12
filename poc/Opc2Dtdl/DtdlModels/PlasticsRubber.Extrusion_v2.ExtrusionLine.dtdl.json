@@ -12,6 +12,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:JobGroupStatusChangedEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine;i=1012",
+    "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/JobGroupStatusChangedEventType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/JobGroupStatusChangedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -108,6 +110,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:JobStatusChangedEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine;i=1008",
+    "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/JobStatusChangedEventType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/JobStatusChangedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -211,6 +215,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:LotFinishedEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine;i=1010",
+    "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/LotFinishedEventType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/LotFinishedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -251,6 +257,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:RequestAddMaterialEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine;i=1006",
+    "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/RequestAddMaterialEventType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/RequestAddMaterialEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -277,6 +285,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:UnitFinishedEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine;i=1009",
+    "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/UnitFinishedEventType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/UnitFinishedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -326,6 +336,7 @@
     "extends": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine;i=1003",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/ExtrusionLine_InterfaceType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/ExtrusionLine_InterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -453,6 +464,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine;i=1013",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/JobGroupsType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/JobGroupsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -665,6 +677,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine;i=1011",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/JobGroupType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/JobGroupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1084,6 +1097,8 @@
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:JobType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine;i=1007",
+    "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/JobType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/JobType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1322,6 +1337,7 @@
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:ProductionParametersType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine;i=1002",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/ProductionParametersType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

@@ -12,6 +12,7 @@
     "@id": "dtmi:opcua:PNEM:IEnergyProfileD0Type;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1011",
+    "telemetryTopic": "opcua/PNEM/IEnergyProfileD0Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -38,6 +39,7 @@
     "@id": "dtmi:opcua:PNEM:IEnergyProfileE0Type;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1007",
+    "telemetryTopic": "opcua/PNEM/IEnergyProfileE0Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -85,6 +87,7 @@
     "@id": "dtmi:opcua:PNEM:IEnergyProfileE1Type;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1008",
+    "telemetryTopic": "opcua/PNEM/IEnergyProfileE1Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -111,6 +114,7 @@
     "@id": "dtmi:opcua:PNEM:IEnergyProfileE2Type;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1009",
+    "telemetryTopic": "opcua/PNEM/IEnergyProfileE2Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -151,6 +155,7 @@
     "@id": "dtmi:opcua:PNEM:IEnergyProfileE3Type;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1010",
+    "telemetryTopic": "opcua/PNEM/IEnergyProfileE3Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -277,6 +282,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1012",
     "commandTopic": "opcua/PNEM/EnergyDevicePowerOffType/{commandName}",
+    "telemetryTopic": "opcua/PNEM/EnergyDevicePowerOffType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -361,6 +367,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1006",
     "commandTopic": "opcua/PNEM/EnergyMeasurementType/{commandName}",
+    "telemetryTopic": "opcua/PNEM/EnergyMeasurementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -435,6 +442,7 @@
     "@id": "dtmi:opcua:PNEM:EnergySavingModeStatusType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1002",
+    "telemetryTopic": "opcua/PNEM/EnergySavingModeStatusType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -520,6 +528,8 @@
     "@id": "dtmi:opcua:PNEM:EnergySavingModeType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1003",
+    "commandTopic": "opcua/PNEM/EnergySavingModeType/{commandName}",
+    "telemetryTopic": "opcua/PNEM/EnergySavingModeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -602,6 +612,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1005",
     "commandTopic": "opcua/PNEM/EnergyStandbyManagementType/{commandName}",
+    "telemetryTopic": "opcua/PNEM/EnergyStandbyManagementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -781,6 +792,8 @@
     "@id": "dtmi:opcua:PNEM:PeServiceAccessPointType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1013",
+    "commandTopic": "opcua/PNEM/PeServiceAccessPointType/{commandName}",
+    "telemetryTopic": "opcua/PNEM/PeServiceAccessPointType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {

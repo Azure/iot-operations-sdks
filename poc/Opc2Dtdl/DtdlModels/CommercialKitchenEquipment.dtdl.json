@@ -12,6 +12,8 @@
     "@id": "dtmi:opcua:CommercialKitchenEquipment:BatchInformationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1002",
+    "commandTopic": "opcua/CommercialKitchenEquipment/BatchInformationType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/BatchInformationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -76,6 +78,8 @@
     "@id": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceHAConfigType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1003",
+    "commandTopic": "opcua/CommercialKitchenEquipment/KitchenDeviceHAConfigType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/KitchenDeviceHAConfigType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -109,6 +113,7 @@
     "@id": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1004",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/KitchenDeviceParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -147,6 +152,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1012",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/ChamberType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -462,6 +468,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1022",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/CoffeeMachineParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -586,6 +593,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1023",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/CoffeeMachineRecipeParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -695,6 +703,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1010",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/CombiSteamerParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -966,6 +975,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1016",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/CookingKettleParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1110,6 +1120,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1029",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/CookingZoneParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1212,6 +1223,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1025",
+    "commandTopic": "opcua/CommercialKitchenEquipment/DishWashingMachineProgramParameterType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/DishWashingMachineProgramParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1620,6 +1633,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1006",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/FryerParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1742,6 +1756,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1031",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/FryingAndGrillingParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1920,6 +1935,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1008",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/FryingPanParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2081,6 +2097,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1035",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/IceMachineParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2230,6 +2247,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1033",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/MicrowaveCombiOvenParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2359,6 +2377,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1018",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/MultiFunctionPanParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2635,6 +2654,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1020",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/PastaCookerParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2761,6 +2781,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1014",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/PressureCookingKettleParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2937,6 +2958,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1027",
+    "commandTopic": "opcua/CommercialKitchenEquipment/TrayType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/TrayType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3084,6 +3107,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:DeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1005",
+    "commandTopic": "opcua/CommercialKitchenEquipment/CommercialKitchenDeviceType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/CommercialKitchenDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3165,6 +3190,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1011",
+    "commandTopic": "opcua/CommercialKitchenEquipment/CombiSteamerDeviceType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/CombiSteamerDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3246,6 +3273,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1017",
+    "commandTopic": "opcua/CommercialKitchenEquipment/CookingKettleDeviceType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/CookingKettleDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3313,6 +3342,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1030",
+    "commandTopic": "opcua/CommercialKitchenEquipment/CookingZoneDeviceType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/CookingZoneDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3413,6 +3444,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1007",
+    "commandTopic": "opcua/CommercialKitchenEquipment/FryerDeviceType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/FryerDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3473,6 +3506,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1032",
+    "commandTopic": "opcua/CommercialKitchenEquipment/FryingAndGrillingDeviceType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/FryingAndGrillingDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3526,6 +3561,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1009",
+    "commandTopic": "opcua/CommercialKitchenEquipment/FryingPanDeviceType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/FryingPanDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3638,6 +3675,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1019",
+    "commandTopic": "opcua/CommercialKitchenEquipment/MultiFunctionPanDeviceType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/MultiFunctionPanDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3717,6 +3756,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1021",
+    "commandTopic": "opcua/CommercialKitchenEquipment/PastaCookerDeviceType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/PastaCookerDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3777,6 +3818,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1015",
+    "commandTopic": "opcua/CommercialKitchenEquipment/PressureCookingKettleDeviceType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/PressureCookingKettleDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {

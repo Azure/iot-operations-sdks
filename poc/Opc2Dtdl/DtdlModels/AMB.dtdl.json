@@ -279,6 +279,8 @@
     "@id": "dtmi:opcua:AMB:IMaintenanceEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1012",
+    "commandTopic": "opcua/AMB/IMaintenanceEventType/{commandName}",
+    "telemetryTopic": "opcua/AMB/IMaintenanceEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -399,6 +401,8 @@
     "@id": "dtmi:opcua:AMB:IRootCauseIndicationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1002",
+    "commandTopic": "opcua/AMB/IRootCauseIndicationType/{commandName}",
+    "telemetryTopic": "opcua/AMB/IRootCauseIndicationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -446,6 +450,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1011",
     "commandTopic": "opcua/AMB/DocumentationLinksType/{commandName}",
+    "telemetryTopic": "opcua/AMB/DocumentationLinksType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

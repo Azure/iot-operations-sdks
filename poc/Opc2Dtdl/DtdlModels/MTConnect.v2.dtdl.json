@@ -12,6 +12,8 @@
     "@id": "dtmi:opcua:MTConnect_v2:MTChannelType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2059",
+    "commandTopic": "opcua/MTConnect_v2/MTChannelType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/MTChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -73,6 +75,8 @@
     "@id": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2021",
+    "commandTopic": "opcua/MTConnect_v2/MTComponentType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/MTComponentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -147,6 +151,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2015",
+    "commandTopic": "opcua/MTConnect_v2/MTDeviceType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/MTDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -180,6 +186,8 @@
     "@id": "dtmi:opcua:MTConnect_v2:MTCompositionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2067",
+    "commandTopic": "opcua/MTConnect_v2/MTCompositionType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/MTCompositionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -247,6 +255,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTConfigurationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2046",
+    "commandTopic": "opcua/MTConnect_v2/MTSensorConfigurationType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/MTSensorConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -294,6 +304,8 @@
     "@id": "dtmi:opcua:MTConnect_v2:MTDescriptionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2053",
+    "commandTopic": "opcua/MTConnect_v2/MTDescriptionType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/MTDescriptionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1061,6 +1073,8 @@
     "@id": "dtmi:opcua:MTConnect_v2:MTConstraintType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2647",
+    "commandTopic": "opcua/MTConnect_v2/MTConstraintType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/MTConstraintType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1131,6 +1145,8 @@
     "@id": "dtmi:opcua:MTConnect_v2:MTMessageEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2656",
+    "commandTopic": "opcua/MTConnect_v2/MTMessageEventType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/MTMessageEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1157,6 +1173,8 @@
     "@id": "dtmi:opcua:MTConnect_v2:MTConditionEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=4326",
+    "commandTopic": "opcua/MTConnect_v2/MTConditionEventType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/MTConditionEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1268,6 +1286,8 @@
     "@id": "dtmi:opcua:MTConnect_v2:MTConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2660",
+    "commandTopic": "opcua/MTConnect_v2/MTConditionType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/MTConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2296,6 +2316,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2146",
+    "commandTopic": "opcua/MTConnect_v2/ActuatorStateClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/ActuatorStateClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2326,6 +2348,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2149",
+    "commandTopic": "opcua/MTConnect_v2/AvailabilityClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/AvailabilityClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2356,6 +2380,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2152",
+    "commandTopic": "opcua/MTConnect_v2/AxisCouplingClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/AxisCouplingClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2386,6 +2412,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2155",
+    "commandTopic": "opcua/MTConnect_v2/AxisInterlockClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/AxisInterlockClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2416,6 +2444,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2158",
+    "commandTopic": "opcua/MTConnect_v2/AxisStateClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/AxisStateClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2446,6 +2476,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2161",
+    "commandTopic": "opcua/MTConnect_v2/ChuckInterlockClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/ChuckInterlockClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2476,6 +2508,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2164",
+    "commandTopic": "opcua/MTConnect_v2/ChuckStateClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/ChuckStateClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2506,6 +2540,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2256",
+    "commandTopic": "opcua/MTConnect_v2/CloseChuckClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/CloseChuckClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2536,6 +2572,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2250",
+    "commandTopic": "opcua/MTConnect_v2/CloseDoorClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/CloseDoorClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2566,6 +2604,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2173",
+    "commandTopic": "opcua/MTConnect_v2/CompositionStateClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/CompositionStateClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2596,6 +2636,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2167",
+    "commandTopic": "opcua/MTConnect_v2/ControllerModeClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/ControllerModeClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2626,6 +2668,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2176",
+    "commandTopic": "opcua/MTConnect_v2/ControllerModeOverrideClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/ControllerModeOverrideClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2656,6 +2700,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2179",
+    "commandTopic": "opcua/MTConnect_v2/DirectionClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/DirectionClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2686,6 +2732,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2182",
+    "commandTopic": "opcua/MTConnect_v2/DoorStateClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/DoorStateClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2716,6 +2764,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2185",
+    "commandTopic": "opcua/MTConnect_v2/EmergencyStopClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/EmergencyStopClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2746,6 +2796,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2188",
+    "commandTopic": "opcua/MTConnect_v2/EndOfBarClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/EndOfBarClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2776,6 +2828,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2191",
+    "commandTopic": "opcua/MTConnect_v2/EquipmentModeClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/EquipmentModeClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2806,6 +2860,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2170",
+    "commandTopic": "opcua/MTConnect_v2/ExecutionClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/ExecutionClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2836,6 +2892,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2194",
+    "commandTopic": "opcua/MTConnect_v2/FunctionalModeClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/FunctionalModeClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2866,6 +2924,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2227",
+    "commandTopic": "opcua/MTConnect_v2/InterfaceStateClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/InterfaceStateClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2896,6 +2956,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2235",
+    "commandTopic": "opcua/MTConnect_v2/MaterialChangeClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/MaterialChangeClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2926,6 +2988,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2231",
+    "commandTopic": "opcua/MTConnect_v2/MaterialFeedClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/MaterialFeedClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2956,6 +3020,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2241",
+    "commandTopic": "opcua/MTConnect_v2/MaterialLoadClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/MaterialLoadClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2986,6 +3052,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2238",
+    "commandTopic": "opcua/MTConnect_v2/MaterialRetractClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/MaterialRetractClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3016,6 +3084,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2244",
+    "commandTopic": "opcua/MTConnect_v2/MaterialUnloadClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/MaterialUnloadClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3046,6 +3116,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2253",
+    "commandTopic": "opcua/MTConnect_v2/OpenChuckClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/OpenChuckClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3076,6 +3148,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2247",
+    "commandTopic": "opcua/MTConnect_v2/OpenDoorClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/OpenDoorClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3106,6 +3180,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2259",
+    "commandTopic": "opcua/MTConnect_v2/PartChangeClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/PartChangeClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3136,6 +3212,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2215",
+    "commandTopic": "opcua/MTConnect_v2/PathModeClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/PathModeClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3166,6 +3244,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2218",
+    "commandTopic": "opcua/MTConnect_v2/PowerStateClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/PowerStateClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3196,6 +3276,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2221",
+    "commandTopic": "opcua/MTConnect_v2/ProgramEditClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/ProgramEditClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3226,6 +3308,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2224",
+    "commandTopic": "opcua/MTConnect_v2/RotaryModeClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/RotaryModeClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3256,6 +3340,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2212",
+    "commandTopic": "opcua/MTConnect_v2/SpindleInterlockClassType/{commandName}",
+    "telemetryTopic": "opcua/MTConnect_v2/SpindleInterlockClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

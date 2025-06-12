@@ -13,6 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15094",
     "commandTopic": "opcua/OPENSCS_SER/OPENSCSAggregationManagerObjectType/{commandName}",
+    "telemetryTopic": "opcua/OPENSCS_SER/OPENSCSAggregationManagerObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -281,6 +282,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15062",
     "commandTopic": "opcua/OPENSCS_SER/OPENSCSEventManagerObjectType/{commandName}",
+    "telemetryTopic": "opcua/OPENSCS_SER/OPENSCSEventManagerObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -994,6 +996,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15032",
     "commandTopic": "opcua/OPENSCS_SER/OPENSCSPoolManagerObjectType/{commandName}",
+    "telemetryTopic": "opcua/OPENSCS_SER/OPENSCSPoolManagerObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1646,6 +1649,8 @@
     "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSSIDClassObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15102",
+    "commandTopic": "opcua/OPENSCS_SER/OPENSCSSIDClassObjectType/{commandName}",
+    "telemetryTopic": "opcua/OPENSCS_SER/OPENSCSSIDClassObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {

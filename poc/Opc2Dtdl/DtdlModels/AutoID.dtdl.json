@@ -12,6 +12,8 @@
     "@id": "dtmi:opcua:AutoID:AutoIdDiagnosticsEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1010",
+    "commandTopic": "opcua/AutoID/AutoIdDiagnosticsEventType/{commandName}",
+    "telemetryTopic": "opcua/AutoID/AutoIdDiagnosticsEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -39,6 +41,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:AutoID:AutoIdDiagnosticsEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1015",
+    "commandTopic": "opcua/AutoID/AutoIdAccessEventType/{commandName}",
+    "telemetryTopic": "opcua/AutoID/AutoIdAccessEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -199,6 +203,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:AutoID:AutoIdDiagnosticsEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1018",
+    "commandTopic": "opcua/AutoID/AutoIdPresenceEventType/{commandName}",
+    "telemetryTopic": "opcua/AutoID/AutoIdPresenceEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -225,6 +231,8 @@
     "@id": "dtmi:opcua:AutoID:AutoIdScanEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1004",
+    "commandTopic": "opcua/AutoID/AutoIdScanEventType/{commandName}",
+    "telemetryTopic": "opcua/AutoID/AutoIdScanEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -560,6 +568,7 @@
     "extends": "dtmi:opcua:DI:DeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1001",
     "commandTopic": "opcua/AutoID/AutoIdDeviceType/{commandName}",
+    "telemetryTopic": "opcua/AutoID/AutoIdDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1207,6 +1216,7 @@
     "extends": "dtmi:opcua:AutoID:AutoIdDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1003",
     "commandTopic": "opcua/AutoID/RfidReaderDeviceType/{commandName}",
+    "telemetryTopic": "opcua/AutoID/RfidReaderDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1831,6 +1841,7 @@
     "extends": "dtmi:opcua:AutoID:AutoIdDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1012",
     "commandTopic": "opcua/AutoID/RtlsDeviceType/{commandName}",
+    "telemetryTopic": "opcua/AutoID/RtlsDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {

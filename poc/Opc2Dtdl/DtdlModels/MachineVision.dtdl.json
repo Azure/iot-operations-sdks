@@ -12,6 +12,8 @@
     "@id": "dtmi:opcua:MachineVision:AcquisitionDoneEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1025",
+    "commandTopic": "opcua/MachineVision/AcquisitionDoneEventType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision/AcquisitionDoneEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -50,6 +52,8 @@
     "@id": "dtmi:opcua:MachineVision:VisionConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1033",
+    "commandTopic": "opcua/MachineVision/VisionConditionType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision/VisionConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -334,6 +338,8 @@
     "@id": "dtmi:opcua:MachineVision:EnterStepSequenceEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1027",
+    "commandTopic": "opcua/MachineVision/EnterStepSequenceEventType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision/EnterStepSequenceEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -360,6 +366,8 @@
     "@id": "dtmi:opcua:MachineVision:JobStartedEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1013",
+    "commandTopic": "opcua/MachineVision/JobStartedEventType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision/JobStartedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -417,6 +425,8 @@
     "@id": "dtmi:opcua:MachineVision:NextStepEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1028",
+    "commandTopic": "opcua/MachineVision/NextStepEventType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision/NextStepEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -443,6 +453,8 @@
     "@id": "dtmi:opcua:MachineVision:ReadyEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1023",
+    "commandTopic": "opcua/MachineVision/ReadyEventType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision/ReadyEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -481,6 +493,8 @@
     "@id": "dtmi:opcua:MachineVision:RecipePreparedEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1022",
+    "commandTopic": "opcua/MachineVision/RecipePreparedEventType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision/RecipePreparedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -570,6 +584,8 @@
     "@id": "dtmi:opcua:MachineVision:ResultReadyEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1024",
+    "commandTopic": "opcua/MachineVision/ResultReadyEventType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision/ResultReadyEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -885,6 +901,8 @@
     "@id": "dtmi:opcua:MachineVision:VisionEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1015",
+    "commandTopic": "opcua/MachineVision/VisionEventType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision/VisionEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1121,6 +1139,8 @@
     "@id": "dtmi:opcua:MachineVision:VisionSafetyEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1030",
+    "commandTopic": "opcua/MachineVision/VisionSafetyEventType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision/VisionSafetyEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1155,6 +1175,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1006",
     "commandTopic": "opcua/MachineVision/ConfigurationManagementType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision/ConfigurationManagementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1512,6 +1533,7 @@
     "@id": "dtmi:opcua:MachineVision:ConfigurationFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1011",
+    "telemetryTopic": "opcua/MachineVision/ConfigurationFolderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1608,6 +1630,7 @@
     "@id": "dtmi:opcua:MachineVision:ProductFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1010",
+    "telemetryTopic": "opcua/MachineVision/ProductFolderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1699,6 +1722,7 @@
     "@id": "dtmi:opcua:MachineVision:ResultFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1016",
+    "telemetryTopic": "opcua/MachineVision/ResultFolderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2530,6 +2554,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1002",
     "commandTopic": "opcua/MachineVision/RecipeType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision/RecipeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3320,6 +3345,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1009",
     "commandTopic": "opcua/MachineVision/SafetyStateManagementType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision/SafetyStateManagementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4627,6 +4653,7 @@
     "@id": "dtmi:opcua:MachineVision:VisionSystemType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1003",
+    "telemetryTopic": "opcua/MachineVision/VisionSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {

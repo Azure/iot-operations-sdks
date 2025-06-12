@@ -12,6 +12,8 @@
     "@id": "dtmi:opcua:PNGSDGM:GsdGenAlarmEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1002",
+    "commandTopic": "opcua/PNGSDGM/GsdGenAlarmEventType/{commandName}",
+    "telemetryTopic": "opcua/PNGSDGM/GsdGenAlarmEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -224,6 +226,8 @@
     "@id": "dtmi:opcua:PNGSDGM:GsdGenIoChannelDataType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1004",
+    "commandTopic": "opcua/PNGSDGM/GsdGenIoChannelDataType/{commandName}",
+    "telemetryTopic": "opcua/PNGSDGM/GsdGenIoChannelDataType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -257,6 +261,8 @@
     "@id": "dtmi:opcua:PNGSDGM:GsdGenIoChannelQualityType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1003",
+    "commandTopic": "opcua/PNGSDGM/GsdGenIoChannelQualityType/{commandName}",
+    "telemetryTopic": "opcua/PNGSDGM/GsdGenIoChannelQualityType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -310,6 +316,8 @@
     "@id": "dtmi:opcua:PNGSDGM:GsdGenIoChannelType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1005",
+    "commandTopic": "opcua/PNGSDGM/GsdGenIoChannelType/{commandName}",
+    "telemetryTopic": "opcua/PNGSDGM/GsdGenIoChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -348,6 +356,8 @@
     "@id": "dtmi:opcua:PNGSDGM:GsdGenIoDataType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1006",
+    "commandTopic": "opcua/PNGSDGM/GsdGenIoDataType/{commandName}",
+    "telemetryTopic": "opcua/PNGSDGM/GsdGenIoDataType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -421,6 +431,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1007",
     "commandTopic": "opcua/PNGSDGM/GsdGenSubmoduleApplicationType/{commandName}",
+    "telemetryTopic": "opcua/PNGSDGM/GsdGenSubmoduleApplicationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {

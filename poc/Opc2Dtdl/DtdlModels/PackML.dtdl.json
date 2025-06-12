@@ -12,6 +12,7 @@
     "@id": "dtmi:opcua:PackML:PackMLAdminObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=5",
+    "telemetryTopic": "opcua/PackML/PackMLAdminObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -205,6 +206,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=6",
     "commandTopic": "opcua/PackML/PackMLBaseObjectType/{commandName}",
+    "telemetryTopic": "opcua/PackML/PackMLBaseObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -489,6 +491,8 @@
     "@id": "dtmi:opcua:PackML:PackMLStatusObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=4",
+    "commandTopic": "opcua/PackML/PackMLStatusObjectType/{commandName}",
+    "telemetryTopic": "opcua/PackML/PackMLStatusObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -708,6 +712,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=3",
     "commandTopic": "opcua/PackML/PackMLBaseStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/PackML/PackMLBaseStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -792,6 +797,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=1",
     "commandTopic": "opcua/PackML/PackMLExecuteStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/PackML/PackMLExecuteStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1064,6 +1070,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=2",
     "commandTopic": "opcua/PackML/PackMLMachineStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/PackML/PackMLMachineStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

@@ -1394,6 +1394,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:ConfigurableObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1017",
+    "commandTopic": "opcua/ADI/AccessorySlotType/{commandName}",
+    "telemetryTopic": "opcua/ADI/AccessorySlotType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1549,6 +1551,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1019",
+    "commandTopic": "opcua/ADI/AccessoryType/{commandName}",
+    "telemetryTopic": "opcua/ADI/AccessoryType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

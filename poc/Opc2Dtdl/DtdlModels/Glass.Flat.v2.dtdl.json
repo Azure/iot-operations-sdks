@@ -12,6 +12,8 @@
     "@id": "dtmi:opcua:Glass_Flat_v2:GlassEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2;i=1030",
+    "commandTopic": "opcua/Glass_Flat_v2/GlassEventType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat_v2/GlassEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -59,6 +61,8 @@
     "@id": "dtmi:opcua:Glass_Flat_v2:ConfigurationRulesType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2;i=1063",
+    "commandTopic": "opcua/Glass_Flat_v2/ConfigurationRulesType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat_v2/ConfigurationRulesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -172,6 +176,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2;i=1020",
+    "commandTopic": "opcua/Glass_Flat_v2/GlassMachineIdentificationType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat_v2/GlassMachineIdentificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -385,6 +391,8 @@
     "@id": "dtmi:opcua:Glass_Flat_v2:ManualFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2;i=1041",
+    "commandTopic": "opcua/Glass_Flat_v2/ManualFolderType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat_v2/ManualFolderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

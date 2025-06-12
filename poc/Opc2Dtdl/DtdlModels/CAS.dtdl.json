@@ -85,6 +85,8 @@
     "@id": "dtmi:opcua:CAS:CommunicationSettingsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1048",
+    "commandTopic": "opcua/CAS/CommunicationSettingsType/{commandName}",
+    "telemetryTopic": "opcua/CAS/CommunicationSettingsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -225,6 +227,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1011",
     "commandTopic": "opcua/CAS/ElectricalQuantitiesType/{commandName}",
+    "telemetryTopic": "opcua/CAS/ElectricalQuantitiesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -286,6 +289,7 @@
     "@id": "dtmi:opcua:CAS:FluidCircuitType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1013",
+    "telemetryTopic": "opcua/CAS/FluidCircuitType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -360,6 +364,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1012",
     "commandTopic": "opcua/CAS/FluidQuantitiesType/{commandName}",
+    "telemetryTopic": "opcua/CAS/FluidQuantitiesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -597,6 +602,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1054",
+    "telemetryTopic": "opcua/CAS/CalibrationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -629,6 +635,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1051",
+    "commandTopic": "opcua/CAS/CASIdentificationType/{commandName}",
+    "telemetryTopic": "opcua/CAS/CASIdentificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -683,6 +691,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CAS:ConfigurationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1016",
+    "telemetryTopic": "opcua/CAS/AirnetConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -757,6 +766,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1044",
+    "telemetryTopic": "opcua/CAS/DesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -783,6 +793,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CAS:DesignType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1008",
+    "telemetryTopic": "opcua/CAS/CompressorDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -903,6 +914,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CAS:DesignType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1033",
+    "telemetryTopic": "opcua/CAS/DryerDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -929,6 +941,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CAS:DesignType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1009",
+    "telemetryTopic": "opcua/CAS/FilterDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1029,6 +1042,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CAS:DesignType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1023",
+    "telemetryTopic": "opcua/CAS/ReceiverDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1055,6 +1069,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CAS:DesignType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1031",
+    "telemetryTopic": "opcua/CAS/SensorDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1163,6 +1178,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CAS:DesignType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1032",
+    "telemetryTopic": "opcua/CAS/ValveDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1234,6 +1250,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1028",
+    "telemetryTopic": "opcua/CAS/MaintenanceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1266,6 +1283,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1006",
+    "telemetryTopic": "opcua/CAS/OperationalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1310,6 +1328,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CAS:OperationalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1002",
+    "telemetryTopic": "opcua/CAS/AirnetOperationalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1384,6 +1403,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CAS:OperationalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1045",
+    "telemetryTopic": "opcua/CAS/CompressorOperationalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1428,6 +1448,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CAS:OperationalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1046",
+    "telemetryTopic": "opcua/CAS/ConverterOperationalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1480,6 +1501,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CAS:OperationalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1052",
+    "telemetryTopic": "opcua/CAS/DryerOperationalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1506,6 +1528,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CAS:OperationalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1053",
+    "telemetryTopic": "opcua/CAS/ValveOperationalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1539,6 +1562,7 @@
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1018",
     "commandTopic": "opcua/CAS/StatisticsType/{commandName}",
+    "telemetryTopic": "opcua/CAS/StatisticsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1602,6 +1626,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:CAS:StatisticsType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1027",
+    "telemetryTopic": "opcua/CAS/CompressorStatisticsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1751,6 +1776,7 @@
     "@id": "dtmi:opcua:CAS:ParticleType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1043",
+    "telemetryTopic": "opcua/CAS/ParticleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1845,6 +1871,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1021",
+    "commandTopic": "opcua/CAS/CASComponentType/{commandName}",
+    "telemetryTopic": "opcua/CAS/CASComponentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

@@ -13,6 +13,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Machinery:IMachineTagNameplateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15898",
+    "commandTopic": "opcua/Powertrain/IPtTagNameplateType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/IPtTagNameplateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -53,6 +55,8 @@
     "@id": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16337",
+    "commandTopic": "opcua/Powertrain/PtAssetAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtAssetAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -80,6 +84,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1008",
+    "telemetryTopic": "opcua/Powertrain/PtBleedAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -124,6 +129,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16609",
+    "commandTopic": "opcua/Powertrain/PtBrakeAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtBrakeAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -329,6 +336,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1004",
+    "telemetryTopic": "opcua/Powertrain/PtCapacitanceAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -375,6 +383,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16875",
+    "telemetryTopic": "opcua/Powertrain/PtAmbientAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -437,6 +446,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16907",
+    "commandTopic": "opcua/Powertrain/PtAnalogInputElectricalAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtAnalogInputElectricalAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -519,6 +530,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16913",
+    "commandTopic": "opcua/Powertrain/PtAnalogOutputElectricalAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtAnalogOutputElectricalAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -581,6 +594,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16928",
+    "telemetryTopic": "opcua/Powertrain/PtAuxiliarySupplyAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -631,6 +645,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16960",
+    "commandTopic": "opcua/Powertrain/PtCertificateAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtCertificateAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -661,6 +677,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16963",
+    "commandTopic": "opcua/Powertrain/PtCommunicationInterfaceAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtCommunicationInterfaceAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -722,6 +740,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16970",
+    "telemetryTopic": "opcua/Powertrain/PtCoolingAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -748,6 +767,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17000",
+    "commandTopic": "opcua/Powertrain/PtDigitalInputElectricalAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtDigitalInputElectricalAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -788,6 +809,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17009",
+    "commandTopic": "opcua/Powertrain/PtDigitalOutputElectricalAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtDigitalOutputElectricalAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -834,6 +857,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17144",
+    "commandTopic": "opcua/Powertrain/PtFunctionalSafetyAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtFunctionalSafetyAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -871,6 +896,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17024",
+    "commandTopic": "opcua/Powertrain/PtFuseAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtFuseAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -922,6 +949,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16973",
+    "commandTopic": "opcua/Powertrain/PtHardwareAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtHardwareAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -988,6 +1017,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17046",
+    "commandTopic": "opcua/Powertrain/PtInputInterfaceAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtInputInterfaceAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1086,6 +1117,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17136",
+    "commandTopic": "opcua/Powertrain/PtMechanicalStrengthAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtMechanicalStrengthAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1126,6 +1159,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17085",
+    "commandTopic": "opcua/Powertrain/PtOutputInterfaceAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtOutputInterfaceAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1236,6 +1271,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17140",
+    "commandTopic": "opcua/Powertrain/PtProtectionClassAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtProtectionClassAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1269,6 +1306,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17149",
+    "commandTopic": "opcua/Powertrain/PtSafetyFunctionsAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtSafetyFunctionsAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1323,6 +1362,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17156",
+    "commandTopic": "opcua/Powertrain/PtStandardAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtStandardAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1353,6 +1394,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16847",
+    "commandTopic": "opcua/Powertrain/PtContactorAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtContactorAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1425,6 +1468,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16798",
+    "telemetryTopic": "opcua/Powertrain/PtDcBusAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1486,6 +1530,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1014",
+    "commandTopic": "opcua/Powertrain/PtElectronicOverloadRelayAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtElectronicOverloadRelayAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1578,6 +1624,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16553",
+    "telemetryTopic": "opcua/Powertrain/PtEncoderAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1610,6 +1657,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtEncoderAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1024",
+    "commandTopic": "opcua/Powertrain/PtEncoderLinearAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtEncoderLinearAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1668,6 +1717,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtEncoderAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1021",
+    "commandTopic": "opcua/Powertrain/PtEncoderRotaryAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtEncoderRotaryAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1762,6 +1813,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1003",
+    "telemetryTopic": "opcua/Powertrain/PtEncoderInterfaceAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1788,6 +1840,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16605",
+    "telemetryTopic": "opcua/Powertrain/PtEncoderInterfaceProtocolAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1814,6 +1867,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16503",
+    "commandTopic": "opcua/Powertrain/PtGearAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtGearAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1925,6 +1980,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16806",
+    "commandTopic": "opcua/Powertrain/PtInputConverterAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtInputConverterAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1994,6 +2051,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16827",
+    "telemetryTopic": "opcua/Powertrain/PtInputFilterAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2038,6 +2096,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16383",
+    "telemetryTopic": "opcua/Powertrain/PtMotorAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2064,6 +2123,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtMotorAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1012",
+    "telemetryTopic": "opcua/Powertrain/PtMotorLinearAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2102,6 +2162,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtMotorAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1009",
+    "commandTopic": "opcua/Powertrain/PtMotorRotaryAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtMotorRotaryAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2141,6 +2203,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16499",
+    "commandTopic": "opcua/Powertrain/PtMotorDutyAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtMotorDutyAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2177,6 +2241,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1023",
+    "commandTopic": "opcua/Powertrain/PtMotorManagementDeviceAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtMotorManagementDeviceAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2353,6 +2419,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16399",
+    "commandTopic": "opcua/Powertrain/PtMotorRatedAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtMotorRatedAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2422,6 +2490,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtMotorRatedAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1018",
+    "telemetryTopic": "opcua/Powertrain/PtMotorLinearRatedAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2478,6 +2547,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtMotorRatedAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1015",
+    "telemetryTopic": "opcua/Powertrain/PtMotorRotaryRatedAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2534,6 +2604,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16854",
+    "commandTopic": "opcua/Powertrain/PtMotorStarterAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtMotorStarterAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2619,6 +2691,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16818",
+    "telemetryTopic": "opcua/Powertrain/PtOutputConverterAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2663,6 +2736,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16838",
+    "telemetryTopic": "opcua/Powertrain/PtOutputFilterAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2695,6 +2769,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1010",
+    "telemetryTopic": "opcua/Powertrain/PtPrechargeAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2751,6 +2826,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1006",
+    "telemetryTopic": "opcua/Powertrain/PtReactorAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2777,6 +2853,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1019",
+    "commandTopic": "opcua/Powertrain/PtSoftStarterAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtSoftStarterAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2842,6 +2920,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16708",
+    "commandTopic": "opcua/Powertrain/PtTemperatureSensorAttributesType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtTemperatureSensorAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2893,6 +2973,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16747",
+    "telemetryTopic": "opcua/Powertrain/PtVibrationSensorAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2996,6 +3077,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15912",
     "commandTopic": "opcua/Powertrain/PtAssetType/{commandName}",
+    "telemetryTopic": "opcua/Powertrain/PtAssetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {

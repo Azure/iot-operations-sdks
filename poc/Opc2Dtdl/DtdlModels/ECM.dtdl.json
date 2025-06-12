@@ -12,6 +12,8 @@
     "@id": "dtmi:opcua:ECM:AccuracyDomainType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1014",
+    "commandTopic": "opcua/ECM/AccuracyDomainType/{commandName}",
+    "telemetryTopic": "opcua/ECM/AccuracyDomainType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -63,6 +65,7 @@
     "@id": "dtmi:opcua:ECM:IEnergyProfileD0Type;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1011",
+    "telemetryTopic": "opcua/ECM/IEnergyProfileD0Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -111,6 +114,7 @@
     "@id": "dtmi:opcua:ECM:IEnergyProfileD1Type;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1015",
+    "telemetryTopic": "opcua/ECM/IEnergyProfileD1Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -217,6 +221,7 @@
     "@id": "dtmi:opcua:ECM:IEnergyProfileE0Type;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1007",
+    "telemetryTopic": "opcua/ECM/IEnergyProfileE0Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -286,6 +291,7 @@
     "@id": "dtmi:opcua:ECM:IEnergyProfileE1Type;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1008",
+    "telemetryTopic": "opcua/ECM/IEnergyProfileE1Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -334,6 +340,7 @@
     "@id": "dtmi:opcua:ECM:IEnergyProfileE2Type;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1009",
+    "telemetryTopic": "opcua/ECM/IEnergyProfileE2Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -382,6 +389,7 @@
     "@id": "dtmi:opcua:ECM:IEnergyProfileE3Type;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1010",
+    "telemetryTopic": "opcua/ECM/IEnergyProfileE3Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -614,6 +622,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1012",
     "commandTopic": "opcua/ECM/EnergyDevicePowerOffType/{commandName}",
+    "telemetryTopic": "opcua/ECM/EnergyDevicePowerOffType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -698,6 +707,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1006",
     "commandTopic": "opcua/ECM/EnergyMeasurementType/{commandName}",
+    "telemetryTopic": "opcua/ECM/EnergyMeasurementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -801,6 +811,7 @@
     "@id": "dtmi:opcua:ECM:EnergySavingModeStatusType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1002",
+    "telemetryTopic": "opcua/ECM/EnergySavingModeStatusType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -886,6 +897,8 @@
     "@id": "dtmi:opcua:ECM:EnergySavingModeType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1003",
+    "commandTopic": "opcua/ECM/EnergySavingModeType/{commandName}",
+    "telemetryTopic": "opcua/ECM/EnergySavingModeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -968,6 +981,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM;i=1005",
     "commandTopic": "opcua/ECM/EnergyStandbyManagementType/{commandName}",
+    "telemetryTopic": "opcua/ECM/EnergyStandbyManagementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

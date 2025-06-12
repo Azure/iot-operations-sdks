@@ -13,6 +13,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Machinery:IMachineVendorNameplateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1004",
+    "commandTopic": "opcua/Pumps/IPumpVendorNameplateType/{commandName}",
+    "telemetryTopic": "opcua/Pumps/IPumpVendorNameplateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -139,6 +141,7 @@
     "@id": "dtmi:opcua:Pumps:DiscreteObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1029",
+    "telemetryTopic": "opcua/Pumps/DiscreteObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -171,6 +174,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Pumps:DiscreteObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1030",
+    "telemetryTopic": "opcua/Pumps/DiscreteInputObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -197,6 +201,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Pumps:DiscreteObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1031",
+    "telemetryTopic": "opcua/Pumps/DiscreteOutputObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -235,6 +240,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Pumps:DiscreteOutputObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1032",
+    "telemetryTopic": "opcua/Pumps/PumpKickObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -294,6 +300,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1025",
+    "telemetryTopic": "opcua/Pumps/ActuationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -356,6 +363,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Pumps:ActuationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1028",
+    "telemetryTopic": "opcua/Pumps/PumpActuationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -586,6 +594,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1010",
+    "telemetryTopic": "opcua/Pumps/BreakdownMaintenanceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -637,6 +646,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1008",
+    "telemetryTopic": "opcua/Pumps/ConditionBasedMaintenanceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -761,6 +771,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1040",
+    "telemetryTopic": "opcua/Pumps/ConnectionDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -787,6 +798,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Pumps:ConnectionDesignType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1041",
+    "telemetryTopic": "opcua/Pumps/InletConnectionDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -863,6 +875,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Pumps:ConnectionDesignType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1042",
+    "telemetryTopic": "opcua/Pumps/OutletConnectionDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -932,6 +945,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1046",
+    "telemetryTopic": "opcua/Pumps/ConnectionImplementationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -958,6 +972,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Pumps:ConnectionImplementationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1047",
+    "telemetryTopic": "opcua/Pumps/InletConnectionImplementationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1006,6 +1021,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Pumps:ConnectionImplementationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1048",
+    "telemetryTopic": "opcua/Pumps/OutletConnectionImplementationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1054,6 +1070,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1021",
+    "telemetryTopic": "opcua/Pumps/ControlType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1153,6 +1170,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1020",
+    "telemetryTopic": "opcua/Pumps/DesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2081,6 +2099,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1006",
+    "telemetryTopic": "opcua/Pumps/DocumentationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2343,6 +2362,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1043",
+    "telemetryTopic": "opcua/Pumps/DriveDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2442,6 +2462,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1051",
+    "telemetryTopic": "opcua/Pumps/DriveMeasurementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2551,6 +2572,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1007",
+    "telemetryTopic": "opcua/Pumps/GeneralMaintenanceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2763,6 +2785,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1023",
+    "telemetryTopic": "opcua/Pumps/ImplementationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3005,6 +3028,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1050",
+    "telemetryTopic": "opcua/Pumps/InletConnectionMeasurementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3039,6 +3063,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1045",
+    "telemetryTopic": "opcua/Pumps/InletConnectionSystemRequirementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3066,6 +3091,8 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1005",
+    "commandTopic": "opcua/Pumps/PumpIdentificationType/{commandName}",
+    "telemetryTopic": "opcua/Pumps/PumpIdentificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3243,6 +3270,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1054",
+    "telemetryTopic": "opcua/Pumps/MeasurementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3606,6 +3634,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1039",
+    "telemetryTopic": "opcua/Pumps/MultiPumpType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3852,6 +3881,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1049",
+    "telemetryTopic": "opcua/Pumps/OutletConnectionMeasurementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3886,6 +3916,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1044",
+    "telemetryTopic": "opcua/Pumps/OutletConnectionSystemRequirementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3951,6 +3982,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1009",
+    "telemetryTopic": "opcua/Pumps/PreventiveMaintenanceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4161,6 +4193,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1017",
+    "telemetryTopic": "opcua/Pumps/SupervisionAuxiliaryDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4391,6 +4424,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1018",
+    "telemetryTopic": "opcua/Pumps/SupervisionElectronicsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4531,6 +4565,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1013",
+    "telemetryTopic": "opcua/Pumps/SupervisionHardwareType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4623,6 +4658,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1012",
+    "telemetryTopic": "opcua/Pumps/SupervisionMechanicsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4739,6 +4775,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1015",
+    "telemetryTopic": "opcua/Pumps/SupervisionProcessFluidType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4837,6 +4874,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1016",
+    "telemetryTopic": "opcua/Pumps/SupervisionPumpOperationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5079,6 +5117,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1014",
+    "telemetryTopic": "opcua/Pumps/SupervisionSoftwareType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5209,6 +5248,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1022",
+    "telemetryTopic": "opcua/Pumps/SystemRequirementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -5792,6 +5832,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1055",
+    "telemetryTopic": "opcua/Pumps/VibrationMeasurementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6070,6 +6111,7 @@
     "@id": "dtmi:opcua:Pumps:PortType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1035",
+    "telemetryTopic": "opcua/Pumps/PortType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {

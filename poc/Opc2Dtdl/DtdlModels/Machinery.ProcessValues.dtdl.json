@@ -12,6 +12,8 @@
     "@id": "dtmi:opcua:Machinery_ProcessValues:ZeroPointAdjustmentEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.ProcessValues;i=1002",
+    "commandTopic": "opcua/Machinery_ProcessValues/ZeroPointAdjustmentEventType/{commandName}",
+    "telemetryTopic": "opcua/Machinery_ProcessValues/ZeroPointAdjustmentEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -39,6 +41,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PADIM:AnalogSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.ProcessValues;i=1003",
+    "telemetryTopic": "opcua/Machinery_ProcessValues/ProcessValueType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

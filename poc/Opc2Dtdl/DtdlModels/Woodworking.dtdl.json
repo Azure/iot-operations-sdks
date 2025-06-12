@@ -12,6 +12,8 @@
     "@id": "dtmi:opcua:Woodworking:WwBaseEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=13",
+    "commandTopic": "opcua/Woodworking/WwBaseEventType/{commandName}",
+    "telemetryTopic": "opcua/Woodworking/WwBaseEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -262,6 +264,8 @@
     "@id": "dtmi:opcua:Woodworking:IWwEventMessageType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=1002",
+    "commandTopic": "opcua/Woodworking/IWwEventMessageType/{commandName}",
+    "telemetryTopic": "opcua/Woodworking/IWwEventMessageType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -531,6 +535,7 @@
     "@id": "dtmi:opcua:Woodworking:IWwUnitFlagsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=4",
+    "telemetryTopic": "opcua/Woodworking/IWwUnitFlagsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -706,6 +711,7 @@
     "@id": "dtmi:opcua:Woodworking:IWwUnitOverviewType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=5",
+    "telemetryTopic": "opcua/Woodworking/IWwUnitOverviewType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -797,6 +803,7 @@
     "@id": "dtmi:opcua:Woodworking:IWwUnitValuesType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=1006",
+    "telemetryTopic": "opcua/Woodworking/IWwUnitValuesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

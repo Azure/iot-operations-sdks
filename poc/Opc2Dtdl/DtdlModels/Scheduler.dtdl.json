@@ -13,6 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=37",
     "commandTopic": "opcua/Scheduler/CalendarType/{commandName}",
+    "telemetryTopic": "opcua/Scheduler/CalendarType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -444,6 +445,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=52",
     "commandTopic": "opcua/Scheduler/ScheduleType/{commandName}",
+    "telemetryTopic": "opcua/Scheduler/ScheduleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {

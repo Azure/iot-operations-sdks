@@ -908,6 +908,8 @@
     "@id": "dtmi:opcua:GDS:CertificateRequestedAuditEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS;i=91",
+    "commandTopic": "opcua/GDS/CertificateRequestedAuditEventType/{commandName}",
+    "telemetryTopic": "opcua/GDS/CertificateRequestedAuditEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -941,6 +943,8 @@
     "@id": "dtmi:opcua:GDS:CertificateDeliveredAuditEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS;i=109",
+    "commandTopic": "opcua/GDS/CertificateDeliveredAuditEventType/{commandName}",
+    "telemetryTopic": "opcua/GDS/CertificateDeliveredAuditEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1000,6 +1004,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS;i=1020",
     "commandTopic": "opcua/GDS/KeyCredentialServiceType/{commandName}",
+    "telemetryTopic": "opcua/GDS/KeyCredentialServiceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1254,6 +1259,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS;i=966",
     "commandTopic": "opcua/GDS/AuthorizationServiceType/{commandName}",
+    "telemetryTopic": "opcua/GDS/AuthorizationServiceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
