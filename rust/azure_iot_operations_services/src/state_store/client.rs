@@ -19,7 +19,7 @@ use data_encoding::HEXUPPER;
 use derive_builder::Builder;
 use tokio::{sync::Notify, task};
 
-use crate::common::dispatcher::{DispatchError, Dispatcher, Receiver};
+use crate::common::dispatcher::{DispatchError, DispatchErrorKind, Dispatcher, Receiver};
 use crate::state_store::{self, Error, ErrorKind, FENCING_TOKEN_USER_PROPERTY, SetOptions};
 
 const REQUEST_TOPIC_PATTERN: &str =
@@ -626,11 +626,12 @@ where
                                     Ok(()) => {
                                         log::debug!("Key Notification dispatched: {key_notification:?}");
                                     }
-                                    Err(DispatchError::SendError(_)) => {
-                                        log::warn!("Key Notification Receiver has been dropped. Received Notification: {key_notification:?}",);
+                                    Err(DispatchError { data, kind: DispatchErrorKind::SendError }) => {
+                                        log::warn!("Key Notification Receiver has been dropped. Received Notification:: {data:?}");
+
                                     }
-                                    Err(DispatchError::NotFound(_)) => {
-                                        log::warn!("Key is not being observed. Received Notification: {key_notification:?}",);
+                                    Err(DispatchError { data, kind: DispatchErrorKind::NotFound(receiver_id) }) => {
+                                        log::warn!("Key is not being observed. Received Notification: {data:?} for {receiver_id}");
                                     }
                                 }
                             }
