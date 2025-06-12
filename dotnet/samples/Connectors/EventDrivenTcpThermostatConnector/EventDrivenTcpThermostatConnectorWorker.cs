@@ -13,18 +13,19 @@ namespace EventDrivenTcpThermostatConnector
         private readonly ILogger<EventDrivenTcpThermostatConnectorWorker> _logger;
         private readonly ConnectorWorker _connector;
 
-        // TODO user wants access to leader election client used by this connector so that they can check their leader status.
-        // Alternatively, they are fine with the connector doing this for them.
         public EventDrivenTcpThermostatConnectorWorker(ApplicationContext applicationContext, ILogger<EventDrivenTcpThermostatConnectorWorker> logger, ILogger<ConnectorWorker> connectorLogger, IMqttClient mqttClient, IMessageSchemaProvider datasetSamplerFactory, IAdrClientWrapper assetMonitor, IConnectorLeaderElectionConfigurationProvider leaderElectionConfigurationProvider)
         {
             _logger = logger;
-            _connector = new(applicationContext, connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor, leaderElectionConfigurationProvider);
-            _connector.WhileAssetIsAvailable = OnAssetAvailableAsync;
+            _connector = new(applicationContext, connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor, leaderElectionConfigurationProvider)
+            {
+                WhileAssetIsAvailable = WhileAssetAvailableAsync
+            };
         }
 
-        private async Task OnAssetAvailableAsync(AssetAvailableEventArgs args, CancellationToken cancellationToken)
+        private async Task WhileAssetAvailableAsync(AssetAvailableEventArgs args, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
+            cancellationToken.ThrowIfCancellationRequested();
 
             if (args.Asset.Events == null)
             {
@@ -100,7 +101,7 @@ namespace EventDrivenTcpThermostatConnector
         public override void Dispose()
         {
             base.Dispose();
-            _connector.WhileAssetIsAvailable -= OnAssetAvailableAsync;
+            _connector.WhileAssetIsAvailable -= WhileAssetAvailableAsync;
             _connector.Dispose();
         }
     }

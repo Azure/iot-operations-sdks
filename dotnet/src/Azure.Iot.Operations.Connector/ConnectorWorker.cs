@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
-using System.Threading.Tasks;
 using Azure.Iot.Operations.Connector.ConnectorConfigurations;
 using Azure.Iot.Operations.Connector.Exceptions;
 using Azure.Iot.Operations.Protocol;
@@ -33,7 +30,10 @@ namespace Azure.Iot.Operations.Connector
         private readonly ConcurrentDictionary<string, DeviceContext> _devices = new();
         private bool _isDisposed = false;
 
+        // Keys are <deviceName>_<inboundEndpointName> and values are the cancellation tokens to signal once the device is no longer available
         private readonly ConcurrentDictionary<string, CancellationTokenSource> _deviceTasks = new();
+
+        // Keys are <deviceName>_<inboundEndpointName>_<assetName> and values are the cancellation tokens to signal once the asset is no longer available
         private readonly ConcurrentDictionary<string, CancellationTokenSource> _assetTasks = new();
 
         /// <summary>
@@ -132,8 +132,6 @@ namespace Azure.Iot.Operations.Connector
                             }
                         };
 
-                        //TODO manually check who the leader is periodically on top of listening to events?
-
                         _leaderElectionClient.LeadershipChangeEventReceivedAsync += (sender, args) =>
                         {
                             isLeader = args.NewLeader != null && args.NewLeader.GetString().Equals(mqttConnectionSettings.ClientId);
@@ -172,7 +170,18 @@ namespace Azure.Iot.Operations.Connector
                             _deviceTasks.TryAdd(compoundDeviceName, deviceTaskCancellationTokenSource);
                             if (WhileDeviceIsAvailable != null)
                             {
-                                _ = Task.Run(async () => await WhileDeviceIsAvailable.Invoke(new(args.Device, args.InboundEndpointName), deviceTaskCancellationTokenSource.Token));
+                                // Do not block on this call because the user callback is designed to run for extended periods of time.
+                                _ = Task.Run(async () =>
+                                {
+                                    try
+                                    {
+                                        await WhileDeviceIsAvailable.Invoke(new(args.Device, args.InboundEndpointName), deviceTaskCancellationTokenSource.Token);
+                                    }
+                                    catch (OperationCanceledException)
+                                    {
+                                        // This is the expected way for the callback to exit since this layer signals the cancellation token
+                                    }
+                                });
                             }
                         }
                     }
@@ -506,10 +515,20 @@ namespace Azure.Iot.Operations.Connector
             CancellationTokenSource assetTaskCancellationTokenSource = new();
             _assetTasks.TryAdd(GetCompoundAssetName(compoundDeviceName, assetName), assetTaskCancellationTokenSource);
 
-            // Do not block on this call because the user callback is designed to run for extended periods of time.
             if (WhileAssetIsAvailable != null)
             {
-                _ = Task.Run(async () => await WhileAssetIsAvailable.Invoke(new(device, inboundEndpointName, assetName, asset!), assetTaskCancellationTokenSource.Token));
+                // Do not block on this call because the user callback is designed to run for extended periods of time.
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        await WhileAssetIsAvailable.Invoke(new(device, inboundEndpointName, assetName, asset!), assetTaskCancellationTokenSource.Token);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        // This is the expected way for the callback to exit since this layer signals the cancellation token
+                    }
+                });
             }
         }
 
