@@ -86,12 +86,12 @@ namespace Yaml2Dtdl
             stringBuilder.AppendLine($"{it}  }},");
 
             stringBuilder.AppendLine($"{it}  \"mapValue\": {{");
-            if (unitInfo.Item1 != string.Empty)
+            if (unitInfo.Item1 != null)
             {
                 stringBuilder.AppendLine($"{it}    \"@type\": [ \"MapValue\", \"{unitInfo.Item1}\" ],");
             }
             stringBuilder.AppendLine($"{it}    \"name\": \"{legalizedName}Schema\",");
-            if (unitInfo.Item2 != string.Empty)
+            if (unitInfo.Item2 != null)
             {
                 stringBuilder.AppendLine($"{it}    \"unit\": \"{unitInfo.Item2}\",");
             }

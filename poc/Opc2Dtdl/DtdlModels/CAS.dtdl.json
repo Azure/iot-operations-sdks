@@ -388,9 +388,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "QuantitySchema",
-            "unit": "",
             "schema": "integer"
           }
         }

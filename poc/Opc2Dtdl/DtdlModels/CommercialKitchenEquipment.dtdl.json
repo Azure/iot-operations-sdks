@@ -324,9 +324,9 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
+            "@type": [ "MapValue", "Concentration" ],
             "name": "ActualFanSpeed_NoSchema",
-            "unit": "",
+            "unit": "percent",
             "schema": "integer"
           }
         }
@@ -342,9 +342,9 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
+            "@type": [ "MapValue", "Concentration" ],
             "name": "ActualHumidity_NoSchema",
-            "unit": "",
+            "unit": "percent",
             "schema": "float"
           }
         }
@@ -420,15 +420,17 @@
         "schema": "float"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "SetFanSpeed",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+        "unit": "percent",
         "schema": "integer"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "SetHumidity",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+        "unit": "percent",
         "schema": "float"
       },
       {
@@ -564,9 +566,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "TotalBrew_NoSchema",
-            "unit": "",
             "schema": "unsignedLong"
           }
         }
@@ -623,9 +623,10 @@
     ],
     "contents": [
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "BeverageSize",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+        "unit": "percent",
         "schema": "float"
       },
       {
@@ -827,9 +828,10 @@
         }
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "ActualHumidity",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+        "unit": "percent",
         "schema": "integer"
       },
       {
@@ -906,9 +908,10 @@
         "schema": "float"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "SetHumidity",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+        "unit": "percent",
         "schema": "integer"
       },
       {
@@ -1195,9 +1198,10 @@
         "schema": "integer"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "SetPowerValue",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+        "unit": "percent",
         "schema": "integer"
       },
       {
@@ -2310,9 +2314,10 @@
         "schema": "integer"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "FanSpeed",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+        "unit": "percent",
         "schema": "integer"
       },
       {
@@ -2322,9 +2327,10 @@
         "schema": "boolean"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "MicrowaveEnergy",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
+        "unit": "percent",
         "schema": "integer"
       },
       {
@@ -2517,9 +2523,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "ActualZoneTemperature_NoSchema",
-            "unit": "",
             "schema": "float"
           }
         }

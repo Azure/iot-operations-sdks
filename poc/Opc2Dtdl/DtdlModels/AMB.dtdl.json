@@ -473,9 +473,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "LinkSchema",
-            "unit": "",
             "schema": "string"
           }
         }

@@ -696,9 +696,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "VendorCapabilitySchema",
-            "unit": "",
             "schema": "string"
           }
         }
@@ -14482,9 +14480,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "ExtensionFieldNameSchema",
-            "unit": "",
             "schema": "string"
           }
         },
@@ -21864,9 +21860,10 @@
     ],
     "contents": [
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "DataRate" ],
         "name": "Speed",
         "namespace": "http://opcfoundation.org/UA",
+        "unit": "mebibitPerSecond",
         "schema": "unsignedLong"
       },
       {

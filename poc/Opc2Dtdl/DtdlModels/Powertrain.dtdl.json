@@ -100,9 +100,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "ResistanceValueSchema",
-            "unit": "",
             "schema": "float"
           }
         }
@@ -1501,9 +1499,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "DcBusVoltageRatedSchema",
-            "unit": "",
             "schema": "float"
           }
         }
@@ -1891,9 +1887,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "EfficiencySchema",
-            "unit": "",
             "schema": "float"
           }
         }
@@ -1909,9 +1903,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "GearRatioSchema",
-            "unit": "",
             "schema": "float"
           }
         }
@@ -2004,9 +1996,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "PwmSwitchingFrequencySchema",
-            "unit": "",
             "schema": "float"
           }
         }
@@ -2707,9 +2697,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "PwmSwitchingFrequencySchema",
-            "unit": "",
             "schema": "float"
           }
         }

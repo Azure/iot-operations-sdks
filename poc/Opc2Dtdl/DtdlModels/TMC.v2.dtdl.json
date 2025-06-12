@@ -3593,9 +3593,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "AggregateItemSchema",
-            "unit": "",
             "schema": "string"
           }
         }
@@ -3725,9 +3723,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "ConfigurationItemSchema",
-            "unit": "",
             "schema": "string"
           }
         }
@@ -4120,9 +4116,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "SetupItemSchema",
-            "unit": "",
             "schema": "string"
           }
         }
@@ -4406,9 +4400,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "ConfigurationItemSchema",
-            "unit": "",
             "schema": "string"
           }
         }
@@ -4783,9 +4775,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "SetupItemSchema",
-            "unit": "",
             "schema": "string"
           }
         }

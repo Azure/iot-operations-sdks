@@ -803,9 +803,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "FeedbackSensor13TemperatureSchema",
-            "unit": "",
             "schema": "float"
           }
         },

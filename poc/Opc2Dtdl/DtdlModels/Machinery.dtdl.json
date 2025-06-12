@@ -363,9 +363,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "LifetimeVariableSchema",
-            "unit": "",
             "schema": "integer"
           }
         }

@@ -7,6 +7,7 @@
     using System.Linq;
     using System.Text.Json;
     using System.Text.Json.Serialization;
+    using System.Text.RegularExpressions;
     using CsvHelper;
 
     public class EnumValueInfo
@@ -73,11 +74,29 @@
         private const string dtdlUnitsFileName = "DTDL.FeatureExtension.quantitativeTypes.v2.Elements.json";
         private const string uaUnitsRelPath = "Schema/UNECE_to_OPCUA.csv";
 
+        private static Dictionary<string, int> decimalPrefixes = new ();
+        private static Dictionary<string, int> binaryPrefixes = new ();
+        private static Dictionary<string, string> unitPrefixMap = new ();
+
+        private static string Decamel(string s) => Regex.Replace(s, @"([a-z])([A-Z])", (m) => $"{m.Groups[1].Captures[0].Value} {m.Groups[2].Captures[0].Value.ToLower()}");
+
         private static string Debracket(string s) => s.IndexOf(" [") > 0 ? s.Substring(0, s.IndexOf(" [")) : s;
+
+        private static string RegularizeUaUnitDesc(string s) => Debracket(MapPrefixes(s)
+            .Replace(" (US)", "")
+            .Replace(" (UK)", "")
+            .Replace(" (statute mile)", "")
+            .Replace("[unit of angle]", "of arc")
+            .Replace("reciprocal second", "hertz")
+            .Replace("revolutions", "revolution"));
+
+        private static string RegularizeDtdlUnitDispName(string s) => Decamel(MapPrefixes(s)
+            .Replace("inches", "inch")
+            .Replace("parts", "part"));
 
         private static double MatchQuality(DtdlUnit dtdlUnit, UneceUnit uneceUnit)
         {
-            return 1.0 - ScaledLevenshteinDistance(dtdlUnit.DisplayName!.Replace("inches", "inch"), Debracket(uneceUnit.Description!.Replace(" (US)", "").Replace(" (UK)", "").Replace(" (statute mile)", "").Replace("[unit of angle]", "of arc").Replace("revolutions", "revolution")));
+            return 1.0 - ScaledLevenshteinDistance(RegularizeDtdlUnitDispName(dtdlUnit.DisplayName!), RegularizeUaUnitDesc(uneceUnit.Description!));
         }
 
         private static double SecondaryMatchQuality(DtdlUnit dtdlUnit, UneceUnit uneceUnit)
@@ -85,6 +104,16 @@
             double noSepDist = ScaledLevenshteinDistance(dtdlUnit.Symbol, Debracket(uneceUnit.DisplayName!.Replace(" (US)", "").Replace(" (UK)", "").Replace(" ", "").Replace("·", "").Trim()));
             double lowerDist = ScaledLevenshteinDistance(dtdlUnit.Symbol.ToLower(), Debracket(uneceUnit.DisplayName!.Replace(" (US)", "").Replace(" (UK)", "").Replace(" ", "").ToLower().Trim()));
             return 1.0 - Math.Min(noSepDist, lowerDist);
+        }
+
+        static string MapPrefixes(string inDesc)
+        {
+            string outDesc = inDesc;
+            foreach (KeyValuePair<string, string> kvp in unitPrefixMap)
+            {
+                outDesc = outDesc.Replace(kvp.Key, kvp.Value);
+            }
+            return outDesc;
         }
 
         static void Main(string[] args)
@@ -121,7 +150,9 @@
             }
 
             List<DtdlUnit> dtdlUnits = GetDtdlUnits(enumInfos!);
-            Dictionary<string, int> decimalPrefixes = GetDecimalPrefixes(enumInfos!);
+            decimalPrefixes = GetUnitPrefixes(enumInfos!, "DecimalPrefix");
+            binaryPrefixes = GetUnitPrefixes(enumInfos!, "BinaryPrefix");
+            unitPrefixMap = binaryPrefixes.ToDictionary(b => b.Key, b => decimalPrefixes.First(d => d.Value * 10 == b.Value * 3).Key);
 
             List<(UneceUnit, DtdlUnit, double, double)> matches = new();
             HashSet<string> matchedDtdlUnits = new ();
@@ -184,7 +215,7 @@
 
             foreach (EnumInfo enumInfo in enumInfos!)
             {
-                if (!enumInfo.Id!.EndsWith("Unit"))
+                if (!enumInfo.Id!.EndsWith("Unit") && !enumInfo.Id!.EndsWith("Unitless"))
                 {
                     continue;
                 }
@@ -198,11 +229,11 @@
             return dtdlUnits;
         }
 
-        private static Dictionary<string, int> GetDecimalPrefixes(List<EnumInfo> enumInfos)
+        private static Dictionary<string, int> GetUnitPrefixes(List<EnumInfo> enumInfos, string unitBase)
         {
             Dictionary<string, int> decimalPrefixes = new();
 
-            EnumInfo enumInfo = enumInfos!.First(e => e.Id!.EndsWith("DecimalPrefix"));
+            EnumInfo enumInfo = enumInfos!.First(e => e.Id!.EndsWith(unitBase));
             foreach (EnumValueInfo enumValueInfo in enumInfo.EnumValues!)
             {
                 decimalPrefixes[enumValueInfo.Name!] = (int)enumValueInfo.Exponent!;
@@ -215,6 +246,7 @@
         {
             return unitType switch
             {
+                "Unitless" => "Concentration",
                 "TimeUnit" => "TimeSpan",
                 _ => unitType.Substring(0, unitType.Length - "Unit".Length)
             };

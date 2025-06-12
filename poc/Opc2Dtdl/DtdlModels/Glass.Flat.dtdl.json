@@ -495,15 +495,17 @@
     ],
     "contents": [
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "GasFilling",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "unit": "percent",
         "schema": "integer"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "MixingRatio",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "unit": "percent",
         "schema": "integer"
       },
       {
@@ -743,9 +745,10 @@
         "schema": "string"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "MixingRatio",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
+        "unit": "percent",
         "schema": "double"
       },
       {

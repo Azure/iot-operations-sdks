@@ -376,9 +376,10 @@
           "@type": [ "Object", "Detail" ],
           "fields": [
             {
-              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "@type": [ "Field", "Subject", "Qualified", "Required", "Concentration" ],
               "name": "ControlSignal",
               "namespace": "http://opcfoundation.org/UA/PADIM",
+              "unit": "percent",
               "schema": "float"
             },
             {
@@ -394,9 +395,10 @@
               "schema": "unsignedInteger"
             },
             {
-              "@type": [ "Field", "Qualified", "Required" ],
+              "@type": [ "Field", "Qualified", "Required", "Concentration" ],
               "name": "Setpoint",
               "namespace": "http://opcfoundation.org/UA/PADIM",
+              "unit": "percent",
               "schema": "float"
             }
           ]
@@ -1094,9 +1096,10 @@
         "schema": "float"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "ChopperFrequencyDeviation",
         "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "percent",
         "schema": "float"
       },
       {
@@ -1142,9 +1145,10 @@
         "schema": "float"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "ChopperFrequencyDeviation",
         "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "percent",
         "schema": "float"
       },
       {
@@ -1155,15 +1159,17 @@
         "schema": "float"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "DetectorZeroSignal",
         "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "partsPerMillion",
         "schema": "float"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "RelativeReagentLevel",
         "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "percent",
         "schema": "float"
       },
       {

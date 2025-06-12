@@ -390,9 +390,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "MeasurementValueSchema",
-            "unit": "",
             "schema": "integer"
           }
         }

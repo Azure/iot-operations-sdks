@@ -2846,9 +2846,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "LimitsSchema",
-            "unit": "",
             "schema": "boolean"
           }
         },

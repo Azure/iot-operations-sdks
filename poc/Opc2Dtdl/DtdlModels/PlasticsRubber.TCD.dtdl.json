@@ -67,9 +67,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "ActualRegulationRatio",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "unit": "percent",
         "schema": "double"
       },
       {

@@ -318,9 +318,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "FeedbackVariable",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -336,9 +337,10 @@
         "schema": "boolean"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "ReferenceVariable",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -652,69 +654,80 @@
     ],
     "contents": [
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "Availability",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "Durability",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "ExpectedReliability",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "InstantaneousAvailability",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "IntrinsicMaintainability",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "IntrinsicReliability",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "Maintainability",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "OperationalReliability",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "ProductionBasedAvailability",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "Reliability",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "TimeBasedAvailability",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       }
     ]
@@ -1611,9 +1624,10 @@
         "schema": "boolean"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Frequency" ],
         "name": "CriticalSpeed",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "hertz",
         "schema": "double"
       },
       {
@@ -1649,9 +1663,10 @@
         "schema": "dtmi:opcua:Pumps:DesignType:dataType:DeclarationOfConformityOptionSet;1"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Frequency" ],
         "name": "DryCriticalSpeed",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "hertz",
         "schema": "double"
       },
       {
@@ -1703,9 +1718,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Frequency" ],
         "name": "MaximumAllowableContinuousSpeed",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "hertz",
         "schema": "double"
       },
       {
@@ -1716,9 +1732,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "MaximumAllowableRelativeHumidity",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -1784,9 +1801,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Frequency" ],
         "name": "MinimumAllowableContinuousSpeed",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "hertz",
         "schema": "double"
       },
       {
@@ -1797,9 +1815,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "MinimumAllowableRelativeHumidity",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -1970,9 +1989,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Frequency" ],
         "name": "SpecificSpeed",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "hertz",
         "schema": "double"
       },
       {
@@ -1990,9 +2010,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Frequency" ],
         "name": "Suction_SpecificSpeed",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "hertz",
         "schema": "double"
       },
       {
@@ -2003,9 +2024,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Frequency" ],
         "name": "TripSpeed",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "hertz",
         "schema": "double"
       },
       {
@@ -2043,9 +2065,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Frequency" ],
         "name": "WetCriticalSpeed",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "hertz",
         "schema": "double"
       },
       {
@@ -2417,9 +2440,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "MotorEfficiency",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -2444,9 +2468,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "PowerFactor",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -2463,9 +2488,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Frequency" ],
         "name": "RatedSpeed",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "hertz",
         "schema": "double"
       },
       {
@@ -2546,9 +2572,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "MotorEfficiency",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -2684,9 +2711,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "FailureRate",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -2861,9 +2889,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "HydraulicEfficiency",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -2894,9 +2923,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "MechanicalEfficiency",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -2921,21 +2951,24 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "OverallEfficiency",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "PumpBestEfficiency",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "PumpEfficiency",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -2988,9 +3021,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Frequency" ],
         "name": "RatedSpeed",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "hertz",
         "schema": "double"
       },
       {
@@ -3036,9 +3070,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "VolumetricEfficiency",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       }
     ]
@@ -3305,9 +3340,10 @@
     ],
     "contents": [
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "AmbientHumidity",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -3400,9 +3436,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "HydraulicEfficiency",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -3468,9 +3505,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "MechanicalEfficiency",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -3501,9 +3539,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "OverallEfficiency",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -3521,15 +3560,17 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "PumpEfficiency",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "PumpHumidity",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -3610,9 +3651,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Frequency" ],
         "name": "Speed",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "hertz",
         "schema": "double"
       },
       {
@@ -3636,9 +3678,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "VolumetricEfficiency",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -5623,9 +5666,10 @@
         "schema": "string"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "GasContent",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -5685,9 +5729,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "MaximumRelativeHumidity",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -5740,9 +5785,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "MinimumRelativeHumidity",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -5820,9 +5866,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "SolidContent",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "percent",
         "schema": "double"
       },
       {
@@ -6026,9 +6073,10 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Historized" ],
+        "@type": [ "Telemetry", "Qualified", "Historized", "Frequency" ],
         "name": "SpeedOfRotation",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "hertz",
         "schema": "double"
       },
       {

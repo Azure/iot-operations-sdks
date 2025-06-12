@@ -396,9 +396,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "DataItemxSchema",
-            "unit": "",
             "schema": "string"
           }
         }
@@ -487,9 +485,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "ValuePropertySchema",
-            "unit": "",
             "schema": "string"
           }
         },
@@ -541,9 +537,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "EnumerationVariableSchema",
-            "unit": "",
             "schema": "string"
           }
         }
@@ -559,9 +553,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "OptionSetVariableSchema",
-            "unit": "",
             "schema": "string"
           }
         }
@@ -577,9 +569,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "UnitRangeVariableSchema",
-            "unit": "",
             "schema": "integer"
           }
         }
@@ -595,9 +585,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "UnitVariableSchema",
-            "unit": "",
             "schema": "integer"
           }
         }
@@ -613,9 +601,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "" ],
             "name": "ValueVariableSchema",
-            "unit": "",
             "schema": "string"
           }
         }
