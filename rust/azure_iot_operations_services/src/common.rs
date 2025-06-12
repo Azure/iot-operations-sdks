@@ -38,6 +38,30 @@ pub mod dispatcher {
         NotFound((String, T)),
     }
 
+    /// Error when dispatching a message to a receiver
+    #[derive(PartialEq, Eq, Clone, Error, Debug)]
+    pub struct MyDispatchError<T> {
+        /// The message that could not be sent
+        pub data: T,
+        /// The kind of error that occurred
+        pub kind: DispatchErrorKind,
+    }
+
+    #[derive(Debug, Eq, PartialEq, Clone)]
+    pub enum DispatchErrorKind {
+        SendError,
+        NotFound(String), // receiver ID
+    }
+
+    impl std::fmt::Display for DispatchErrorKind {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match self {
+                DispatchErrorKind::SendError => write!(f, "SendError"),
+                DispatchErrorKind::NotFound(id) => write!(f, "Receiver with ID '{}' not found", id),
+            }
+        }
+    }
+
     /// Dispatches messages to receivers based on ID
     #[derive(Default)]
     pub struct Dispatcher<T> {
