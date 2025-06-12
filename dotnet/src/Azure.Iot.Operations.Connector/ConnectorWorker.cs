@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
+using System.Threading.Tasks;
 using Azure.Iot.Operations.Connector.ConnectorConfigurations;
 using Azure.Iot.Operations.Connector.Exceptions;
 using Azure.Iot.Operations.Protocol;
@@ -11,9 +16,6 @@ using Azure.Iot.Operations.Services.LeaderElection;
 using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Services.StateStore;
 using Microsoft.Extensions.Logging;
-using System.Collections.Concurrent;
-using System.Diagnostics;
-using System.Text;
 
 namespace Azure.Iot.Operations.Connector
 {
@@ -31,18 +33,18 @@ namespace Azure.Iot.Operations.Connector
         private readonly ConcurrentDictionary<string, DeviceContext> _devices = new();
         private bool _isDisposed = false;
 
-        private readonly ConcurrentDictionary<string, ConnectorTaskContext> _deviceTasks = new();
-        private readonly ConcurrentDictionary<string, ConnectorTaskContext> _assetTasks = new();
+        private readonly ConcurrentDictionary<string, CancellationTokenSource> _deviceTasks = new();
+        private readonly ConcurrentDictionary<string, CancellationTokenSource> _assetTasks = new();
 
         /// <summary>
         /// Event handler for when an device becomes available.
         /// </summary>
-        public Func<DeviceAvailableEventArgs, Task>? OnDeviceAvailable;
+        public Func<DeviceAvailableEventArgs, CancellationToken, Task>? WhileDeviceIsAvailable;
 
         /// <summary>
-        /// Event handler for when an asset becomes available.
+        /// The function to run while an asset is available. The provided cancellation is signaled when the asset is no longer available or when this connector is no longer the leader (and no longer responsible for interacting with the asset).
         /// </summary>
-        public Func<AssetAvailableEventArgs, Task>? OnAssetAvailable;
+        public Func<AssetAvailableEventArgs, CancellationToken, Task>? WhileAssetIsAvailable;
 
         private readonly ConnectorLeaderElectionConfiguration? _leaderElectionConfiguration; //TODO one connector as leader for all devices? Or will some connectors have a subset of devices?
 
@@ -164,20 +166,24 @@ namespace Azure.Iot.Operations.Connector
                     {
                         _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was created", args.DeviceName, args.InboundEndpointName);
                         DeviceAvailable(args, compoundDeviceName);
-                        if (args.Device != null && OnDeviceAvailable != null)
+                        if (args.Device != null)
                         {
-                            Task taskToRunWhileDeviceIsAvailable = OnDeviceAvailable.Invoke(new(args.Device, args.InboundEndpointName));
-                            _deviceTasks.TryAdd(compoundDeviceName, new(taskToRunWhileDeviceIsAvailable));
+                            CancellationTokenSource deviceTaskCancellationTokenSource = new();
+                            _deviceTasks.TryAdd(compoundDeviceName, deviceTaskCancellationTokenSource);
+                            if (WhileDeviceIsAvailable != null)
+                            {
+                                _ = Task.Run(async () => await WhileDeviceIsAvailable.Invoke(new(args.Device, args.InboundEndpointName), deviceTaskCancellationTokenSource.Token));
+                            }
                         }
                     }
                     else if (args.ChangeType == ChangeType.Deleted)
                     {
                         _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
                         await DeviceUnavailableAsync(args, compoundDeviceName, false);
-                        if (_deviceTasks.TryRemove(compoundDeviceName, out ConnectorTaskContext? taskContext))
+                        if (_deviceTasks.TryRemove(compoundDeviceName, out CancellationTokenSource? deviceTaskCancellationTokenSource))
                         {
-                            taskContext.TaskCancellationTokenSource.Cancel();
-                            taskContext.Dispose();
+                            deviceTaskCancellationTokenSource.Cancel();
+                            deviceTaskCancellationTokenSource.Dispose();
                         }
                     }
                     else if (args.ChangeType == ChangeType.Updated)
@@ -497,12 +503,13 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            if (OnAssetAvailable != null)
+            CancellationTokenSource assetTaskCancellationTokenSource = new();
+            _assetTasks.TryAdd(GetCompoundAssetName(compoundDeviceName, assetName), assetTaskCancellationTokenSource);
+
+            // Do not block on this call because the user callback is designed to run for extended periods of time.
+            if (WhileAssetIsAvailable != null)
             {
-                Task taskToRunWhileAssetIsAvailable = OnAssetAvailable.Invoke(new(device, inboundEndpointName, assetName, asset!));
-                var taskContext = new ConnectorTaskContext(taskToRunWhileAssetIsAvailable);
-                _assetTasks.TryAdd(GetCompoundAssetName(compoundDeviceName, assetName), taskContext);
-                Task.Run(taskToRunWhileAssetIsAvailable, taskContext.TaskCancellationTokenSource.Token);
+                _ = Task.Run(async () => await WhileAssetIsAvailable.Invoke(new(device, inboundEndpointName, assetName, asset!), assetTaskCancellationTokenSource.Token));
             }
         }
 
@@ -513,10 +520,10 @@ namespace Azure.Iot.Operations.Connector
             // This method may be called either when an asset was updated or when it was deleted. If it was updated, then it will still be sampleable.
             if (!isUpdating)
             {
-                if (_assetTasks.TryRemove(GetCompoundAssetName(compoundDeviceName, assetName), out ConnectorTaskContext? assetTaskContext))
+                if (_assetTasks.TryRemove(GetCompoundAssetName(compoundDeviceName, assetName), out CancellationTokenSource? assetTaskCancellationTokenSource))
                 {
-                    assetTaskContext.TaskCancellationTokenSource.Cancel();
-                    assetTaskContext.Dispose();
+                    assetTaskCancellationTokenSource.Cancel();
+                    assetTaskCancellationTokenSource.Dispose();
                 }
             }
         }

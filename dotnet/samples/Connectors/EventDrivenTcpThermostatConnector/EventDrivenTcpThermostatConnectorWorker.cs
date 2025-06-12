@@ -12,7 +12,6 @@ namespace EventDrivenTcpThermostatConnector
     {
         private readonly ILogger<EventDrivenTcpThermostatConnectorWorker> _logger;
         private readonly ConnectorWorker _connector;
-        private CancellationTokenSource? _tcpConnectionCancellationToken;
 
         // TODO user wants access to leader election client used by this connector so that they can check their leader status.
         // Alternatively, they are fine with the connector doing this for them.
@@ -20,13 +19,10 @@ namespace EventDrivenTcpThermostatConnector
         {
             _logger = logger;
             _connector = new(applicationContext, connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor, leaderElectionConfigurationProvider);
-            _connector.OnAssetAvailable += OnAssetAvailableAsync;
-            _connector.OnAssetUnavailable += OnAssetUnavailableAsync;
+            _connector.WhileAssetIsAvailable = OnAssetAvailableAsync;
         }
 
-        //TODO customer feedback wants for this method to return a task instead and to have the connector worker run that task until the asset is unavailable (using cancellation token)
-        // This spares the user from saving their tasks locally and cancelling them once the asset is unavailable or the connector shuts down
-        private async void OnAssetAvailableAsync(object? sender, AssetAvailableEventArgs args)
+        private async Task OnAssetAvailableAsync(AssetAvailableEventArgs args, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
 
@@ -47,57 +43,52 @@ namespace EventDrivenTcpThermostatConnector
                 return;
             }
 
-            await OpenTcpConnectionAsync(args, assetEvent, port);
+            await OpenTcpConnectionAsync(args, assetEvent, port, cancellationToken);
         }
 
-        private async Task OpenTcpConnectionAsync(AssetAvailableEventArgs args, AssetEvent assetEvent, int port)
+        private async Task OpenTcpConnectionAsync(AssetAvailableEventArgs args, AssetEvent assetEvent, int port, CancellationToken cancellationToken)
         {
-            _tcpConnectionCancellationToken = new();
-            try
+            while (!cancellationToken.IsCancellationRequested)
             {
-                //tcp-service.azure-iot-operations.svc.cluster.local:80
-                if (args.Device.Endpoints == null
-                    || args.Device.Endpoints.Inbound == null)
-                {
-                    _logger.LogError("Missing TCP server address configuration");
-                    return;
-                }
-
-                string host = args.Device.Endpoints.Inbound["my-tcp-endpoint"].Address.Split(":")[0];
-                _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", host, port);
-                using TcpClient client = new();
-                await client.ConnectAsync(host, port, _tcpConnectionCancellationToken.Token);
-                await using NetworkStream stream = client.GetStream();
-
                 try
                 {
-                    while (true)
+                    //tcp-service.azure-iot-operations.svc.cluster.local:80
+                    if (args.Device.Endpoints == null
+                        || args.Device.Endpoints.Inbound == null)
                     {
-                        byte[] buffer = new byte[1024];
-                        int bytesRead = await stream.ReadAsync(buffer.AsMemory(0, 1024), _tcpConnectionCancellationToken.Token);
-                        Array.Resize(ref buffer, bytesRead);
+                        _logger.LogError("Missing TCP server address configuration");
+                        return;
+                    }
 
-                        _logger.LogInformation("Received data from event with name {0} on asset with name {1}. Forwarding this data to the MQTT broker.", assetEvent.Name, args.AssetName);
-                        await _connector.ForwardReceivedEventAsync(args.Asset, assetEvent, buffer, _tcpConnectionCancellationToken.Token);
+                    string host = args.Device.Endpoints.Inbound["my-tcp-endpoint"].Address.Split(":")[0];
+                    _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", host, port);
+                    using TcpClient client = new();
+                    await client.ConnectAsync(host, port, cancellationToken);
+                    await using NetworkStream stream = client.GetStream();
+
+                    try
+                    {
+                        while (!cancellationToken.IsCancellationRequested)
+                        {
+                            byte[] buffer = new byte[1024];
+                            int bytesRead = await stream.ReadAsync(buffer.AsMemory(0, 1024), cancellationToken);
+                            Array.Resize(ref buffer, bytesRead);
+
+                            _logger.LogInformation("Received data from event with name {0} on asset with name {1}. Forwarding this data to the MQTT broker.", assetEvent.Name, args.AssetName);
+                            await _connector.ForwardReceivedEventAsync(args.Asset, assetEvent, buffer, cancellationToken);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Failed to listen on TCP connection");
+                        await Task.Delay(TimeSpan.FromSeconds(10));
                     }
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(e, "Failed to listen on TCP connection");
-                    await Task.Delay(TimeSpan.FromSeconds(10));
+                    _logger.LogError(e, "Failed to open TCP connection to asset");
                 }
             }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Failed to open TCP connection to asset");
-            }
-        }
-
-        private void OnAssetUnavailableAsync(object? sender, AssetUnavailableEventArgs args)
-        {
-            _logger.LogInformation("Asset with name {0} is no longer sampleable", args.AssetName);
-            _tcpConnectionCancellationToken?.Cancel();
-            _tcpConnectionCancellationToken?.Dispose();
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -109,9 +100,7 @@ namespace EventDrivenTcpThermostatConnector
         public override void Dispose()
         {
             base.Dispose();
-            _tcpConnectionCancellationToken?.Dispose();
-            _connector.OnAssetAvailable -= OnAssetAvailableAsync;
-            _connector.OnAssetUnavailable -= OnAssetUnavailableAsync;
+            _connector.WhileAssetIsAvailable -= OnAssetAvailableAsync;
             _connector.Dispose();
         }
     }

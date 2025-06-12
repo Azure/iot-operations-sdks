@@ -30,23 +30,20 @@ namespace EventDrivenTelemetryConnector
         {
             _logger = logger;
             _connector = new(applicationContext, connectorLogger, mqttClient, messageSchemaProviderFactory, assetMonitor);
-            _connector.OnAssetAvailable += OnAssetAvailableAsync;
-            _connector.OnAssetUnavailable += OnAssetUnavailableAsync;
+            _connector.WhileAssetIsAvailable += OnAssetAvailableAsync;
         }
 
-        public void OnAssetAvailableAsync(object? sender, AssetAvailableEventArgs e)
+        public Task OnAssetAvailableAsync(AssetAvailableEventArgs e, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             // This callback notifies your app when an asset is available and you can open a connection to your asset to start receiving events
             _logger.LogInformation("Asset with name {0} is now available", e.AssetName);
 
             // Once you receive an event from your asset, use the connector to forward it as telemetry to your MQTT broker
             // await _connector.ForwardReceivedEventAsync(args.Asset, args.Asset.Events[0], new byte[0]);
-        }
 
-        public void OnAssetUnavailableAsync(object? sender, AssetUnavailableEventArgs args)
-        {
-            // This callback notifies your app when an asset is no longer available. At this point, you should close any connection to your asset
-            _logger.LogInformation("Asset with name {0} is no longer available", args.AssetName);
+            return Task.CompletedTask;
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -59,8 +56,7 @@ namespace EventDrivenTelemetryConnector
         public override void Dispose()
         {
             base.Dispose();
-            _connector.OnAssetAvailable -= OnAssetAvailableAsync;
-            _connector.OnAssetUnavailable -= OnAssetUnavailableAsync;
+            _connector.WhileAssetIsAvailable -= OnAssetAvailableAsync;
             _connector.Dispose();
         }
     }
