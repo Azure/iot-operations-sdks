@@ -32,8 +32,6 @@ public record DiscoveredAsset
 
     public required AssetDeviceRef DeviceRef { get; set; }
 
-    public Topic? DefaultTopic { get; set; }
-
     public string? DocumentationUri { get; set; }
 
     public List<DetectedAssetEventSchemaElement>? Events { get; set; }
