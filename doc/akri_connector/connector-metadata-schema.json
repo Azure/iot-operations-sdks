@@ -215,8 +215,8 @@
           "type": "object",
           "properties": {
             "endpointType": {
-              "description": "Type of connection endpoint. Formatted as ABC.XYZ:{connectorVersion}. For example, 'Microsoft.Media:1.2.3'",
-              "pattern": "^[a-zA-Z]+\\.[a-zA-Z]+:[^+#{}/]+$",
+              "description": "Type of connection endpoint. Formatted as ABC.XYZ. For example, 'Microsoft.Media'",
+              "pattern": "^[a-zA-Z]+\\.[a-zA-Z]+",
               "type": "string"
             },
             "additionalConfigurationSchema": {
