@@ -34,6 +34,16 @@ use crate::{
 const RETRY_STRATEGY: tokio_retry2::strategy::ExponentialFactorBackoff =
     tokio_retry2::strategy::ExponentialFactorBackoff::from_millis(500, 2.0);
 
+/// Notifications that can be received for a Client
+pub enum ClientNotification<T> {
+    /// Indicates that the Client's specification has been updated in place
+    Updated,
+    /// Indicates that the Client has been deleted.
+    Deleted,
+    /// Indicates that there is a new `T` for this Client, which is included in the notification
+    New(T),
+}
+
 /// An Observation for device endpoint creation events that uses
 /// multiple underlying clients to get full device endpoint information.
 pub struct DeviceEndpointClientCreationObservation {
@@ -183,16 +193,6 @@ impl DeviceEndpointClientCreationObservation {
     }
 }
 
-/// Notifications that can be received for a [`DeviceEndpointClient`]
-pub enum DeviceEndpointClientNotification {
-    /// Indicates that the [`DeviceEndpointClient`] has been updated in place
-    Updated,
-    /// Indicates that the [`DeviceEndpointClient`] has been deleted
-    Deleted,
-    /// Indicates that there is a new [`AssetClient`] for this Device Endpoint, which is included in the notification
-    AssetCreated(AssetClient),
-}
-
 /// Azure Device Registry Device Endpoint that includes additional functionality to report status and receive updates
 #[derive(Debug, Getters)]
 pub struct DeviceEndpointClient {
@@ -331,26 +331,24 @@ impl DeviceEndpointClient {
         self.internal_report_status(status).await;
     }
 
-    /// Used to receive notifications related to the Device/Inbound Endpoint from the Azure Device Registry Service.
-    /// This function returning [`DeviceEndpointClientNotification`] indicates that the device specification has been
-    /// updated in place. The function returns [`None`] if there will be no more notifications because
-    /// the `DeviceEndpoint` has been deleted.
+    /// Used to receive notifications related to the Device/Inbound Endpoint
+    /// from the Azure Device Registry Service.
     ///
-    /// Returns [`DeviceEndpointClientNotification::Updated`] if the Device Endpoint
+    /// Returns [`ClientNotification::Updated`] if the Device Endpoint
     /// Specification has been updated in place.
     ///
-    /// Returns [`DeviceEndpointClientNotification::Deleted`] if the Device Endpoint
-    /// has been deleted. The [`DeviceEndpointClient`] should not be used after this
+    /// Returns [`ClientNotification::Deleted`] if the Device Endpoint has been
+    /// deleted. The [`DeviceEndpointClient`] should not be used after this
     /// point, and no more notifications will be received.
     ///
-    /// Returns [`DeviceEndpointClientNotification::AssetCreated`] with a new [`AssetClient`]
-    /// if a new Asset has been created.
+    /// Returns [`ClientNotification::New`] with a new [`AssetClient`] if a new
+    /// Asset has been created.
     ///
     /// # Panics
     /// If the Azure Device Registry Service provides a notification that isn't for this Device Endpoint. This should not be possible.
     ///
     /// If the specification mutex has been poisoned, which should not be possible
-    pub async fn recv_notification(&mut self) -> DeviceEndpointClientNotification {
+    pub async fn recv_notification(&mut self) -> ClientNotification<AssetClient> {
         loop {
             tokio::select! {
                 biased;
@@ -363,7 +361,7 @@ impl DeviceEndpointClient {
                         // if the update notification is None, then the device endpoint has been deleted
                         // unobserve as cleanup
                         Self::unobserve_device(&self.connector_context, &self.device_endpoint_ref).await;
-                        return DeviceEndpointClientNotification::Deleted;
+                        return ClientNotification::Deleted;
                     };
                     // update self with updated specification
                     let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
@@ -373,14 +371,14 @@ impl DeviceEndpointClient {
                                     "/etc/akri/secrets/device_endpoint_auth",
                                     &self.device_endpoint_ref.inbound_endpoint_name,
                                 ).expect("Device Update Notification should never provide a device that doesn't have the inbound endpoint");
-                    return DeviceEndpointClientNotification::Updated;
+                    return ClientNotification::Updated;
                 },
                 create_notification = self.asset_create_observation.recv_notification() => {
                     let Some((asset_ref, asset_deletion_token)) = create_notification else {
                         // if the create notification is None, then the device endpoint has been deleted
                         // unobserve as cleanup
                         Self::unobserve_device(&self.connector_context, &self.device_endpoint_ref).await;
-                        return DeviceEndpointClientNotification::Deleted;
+                        return ClientNotification::Deleted;
                     };
                     // Get asset update observation as well
                     let asset_update_observation =  match Retry::spawn(RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10), async || -> Result<azure_device_registry::AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
@@ -447,7 +445,6 @@ impl DeviceEndpointClient {
                                         self.specification.clone(),
                                         self.status.clone(),
                                         asset_update_observation,
-                                        // dataset_creation_tx,
                                         asset_deletion_token,
                                         self.connector_context.clone(),
                                     )
@@ -468,8 +465,7 @@ impl DeviceEndpointClient {
                             continue;
                         }
                     };
-
-                    return DeviceEndpointClientNotification::AssetCreated(asset_client);
+                    return ClientNotification::New(asset_client);
                 }
             }
         }
@@ -552,16 +548,6 @@ impl DeviceEndpointClient {
     }
 }
 
-/// Notifications that can be received for an [`AssetClient`]
-pub enum AssetClientNotification {
-    /// Indicates that the [`AssetClient`] has been updated in place
-    Updated,
-    /// Indicates that the [`AssetClient`] has been deleted
-    Deleted,
-    /// Indicates that there is a new [`DatasetClient`] for this [`AssetClient`], which is included in the notification
-    DatasetCreated(DatasetClient),
-}
-
 /// Azure Device Registry Asset that includes additional functionality
 /// to report status and receive Asset updates
 #[derive(Debug, Getters)]
@@ -581,21 +567,21 @@ pub struct AssetClient {
     #[getter(skip)]
     device_status: Arc<RwLock<DeviceEndpointStatus>>,
     // Internally used fields
+    /// Internal `CancellationToken` for when the Asset is deleted. Surfaced to the user through the receive update flow
+    #[getter(skip)]
+    asset_deletion_token: CancellationToken,
     /// The internal observation for updates
     #[getter(skip)]
     asset_update_observation: azure_device_registry::AssetUpdateObservation,
     /// Internal sender for when new datasets are created
     #[getter(skip)]
-    dataset_creation_tx: UnboundedSender<(
-        DatasetClient,
-        tokio::sync::watch::Receiver<()>, // watch receiver for when the creation notification should be released to the application
-    )>,
+    dataset_creation_tx: UnboundedSender<DatasetClient>,
     /// Internal channel for receiving notifications about dataset creation events.
     #[getter(skip)]
-    dataset_creation_rx: UnboundedReceiver<(
-        DatasetClient,
-        tokio::sync::watch::Receiver<()>, // watch receiver for when the creation notification should be released to the application
-    )>,
+    dataset_creation_rx: UnboundedReceiver<DatasetClient>,
+    /// Internal watch sender for releasing dataset create/update notifications
+    #[getter(skip)]
+    release_dataset_notifications_tx: tokio::sync::watch::Sender<()>,
     /// hashmap of current dataset names to their current definition and a sender to send dataset updates
     #[getter(skip)]
     dataset_hashmap: HashMap<
@@ -607,12 +593,6 @@ pub struct AssetClient {
     >,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
-    /// Internal watch sender for releasing dataset create/update notifications
-    #[getter(skip)]
-    release_dataset_notifications_tx: tokio::sync::watch::Sender<()>,
-    /// Internal `CancellationToken` for when the Asset is deleted. Surfaced to the user through the receive update flow
-    #[getter(skip)]
-    asset_deletion_token: CancellationToken,
 }
 
 impl AssetClient {
@@ -704,11 +684,6 @@ impl AssetClient {
             )
             .await;
 
-        // release new datasets to be consumable
-        asset_client
-            .release_dataset_notifications_tx
-            .send_modify(|()| ());
-
         asset_client
     }
 
@@ -733,18 +708,27 @@ impl AssetClient {
         .await;
     }
 
-    /// Used to receive notifications for the Asset from the Azure Device Registry Service.
-    /// This function returning `Some(())` indicates that the asset specification has been
-    /// updated in place. The function returns [`None`] if there will be no more notifications
-    /// because the Asset has been deleted.
-    /// Receiving an update will also trigger update/creation/deletion notifications for datasets that
+    /// Used to receive notifications related to the Asset from the Azure Device
+    /// Registry Service.
+    ///
+    /// Returns [`ClientNotification::Updated`] if the Asset Specification has
+    /// been updated in place.
+    ///
+    /// Returns [`ClientNotification::Deleted`] if the Asset has been deleted.
+    /// The [`AssetClient`] should not be used after this point, and no more
+    /// notifications will be received.
+    ///
+    /// Returns [`ClientNotification::New`] with a new [`DatasetClient`] if a
+    /// new Dataset has been created.
+    ///
+    /// Receiving an update will also trigger update/deletion notifications for datasets that
     /// are linked to this asset. To ensure the asset update is received before dataset notifications,
     /// dataset notifications won't be released until this function is polled again after receiving an
     /// update.
     ///
     /// # Panics
     /// If the status or specification mutexes have been poisoned, which should not be possible
-    pub async fn recv_notification(&mut self) -> AssetClientNotification {
+    pub async fn recv_notification(&mut self) -> ClientNotification<DatasetClient> {
         // release any pending dataset create/update notifications
         self.release_dataset_notifications_tx.send_modify(|()| ());
         tokio::select! {
@@ -753,7 +737,7 @@ impl AssetClient {
                     log::debug!("Asset deletion token received, stopping asset update observation");
                     // unobserve as cleanup
                     Self::unobserve_asset(&self.connector_context, &self.asset_ref).await;
-                    AssetClientNotification::Deleted
+                    ClientNotification::Deleted
             },
             notification = self.asset_update_observation.recv_notification() => {
                 // handle the notification
@@ -763,7 +747,7 @@ impl AssetClient {
                 let Some((updated_asset, _)) = notification else {
                     // unobserve as cleanup
                     Self::unobserve_asset(&self.connector_context, &self.asset_ref).await;
-                    return AssetClientNotification::Deleted;
+                    return ClientNotification::Deleted;
                 };
 
                 // update datasets
@@ -867,22 +851,15 @@ impl AssetClient {
                 let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
                 *unlocked_specification = AssetSpecification::from(updated_asset);
 
-                AssetClientNotification::Updated
+                ClientNotification::Updated
             },
             create_notification = self.dataset_creation_rx.recv() => {
-                let Some((dataset_client, mut watch_receiver)) = create_notification else {
+                let Some(dataset_client) = create_notification else {
                     // unobserve as cleanup
                     Self::unobserve_asset(&self.connector_context, &self.asset_ref).await;
-                    return AssetClientNotification::Deleted;
+                    return ClientNotification::Deleted;
                 };
-                // TODO: waiting here might block flow
-                // wait until the message has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
-                if watch_receiver.changed().await.is_err() {
-                    // unobserve as cleanup
-                    Self::unobserve_asset(&self.connector_context, &self.asset_ref).await;
-                    return AssetClientNotification::Deleted;
-                }
-                AssetClientNotification::DatasetCreated(dataset_client)
+                ClientNotification::New(dataset_client)
             },
         }
     }
@@ -1064,14 +1041,7 @@ impl AssetClient {
             (dataset_definition, dataset_update_tx),
         );
 
-        if self
-            .dataset_creation_tx
-            .send((
-                new_dataset_client,
-                self.release_dataset_notifications_tx.subscribe(),
-            ))
-            .is_err()
-        {
+        if self.dataset_creation_tx.send(new_dataset_client).is_err() {
             // should only happen if the dataset creation observation is dropped. Should not be possible on AssetClient::new
             log::warn!(
                 "New dataset received, but DatasetClientCreationObservation has been dropped"

@@ -17,8 +17,8 @@ use azure_iot_operations_connector::{
     base_connector::{
         BaseConnector,
         managed_azure_device_registry::{
-            AssetClient, AssetClientNotification, DatasetClient, DeviceEndpointClient,
-            DeviceEndpointClientCreationObservation, DeviceEndpointClientNotification,
+            AssetClient, ClientNotification, DatasetClient, DeviceEndpointClient,
+            DeviceEndpointClientCreationObservation,
         },
     },
     data_processor::derived_json,
@@ -79,11 +79,11 @@ async fn run_program(mut device_creation_observation: DeviceEndpointClientCreati
 async fn run_device(mut device_endpoint_client: DeviceEndpointClient) {
     loop {
         match device_endpoint_client.recv_notification().await {
-            DeviceEndpointClientNotification::Deleted => {
+            ClientNotification::Deleted => {
                 log::warn!("Device Endpoint deleted");
                 break;
             }
-            DeviceEndpointClientNotification::Updated => {
+            ClientNotification::Updated => {
                 log::info!("Device updated: {device_endpoint_client:?}");
                 // now we should update the status of the device
                 let endpoint_status = generate_endpoint_status(&device_endpoint_client);
@@ -92,7 +92,7 @@ async fn run_device(mut device_endpoint_client: DeviceEndpointClient) {
                     .report_status(Ok(()), endpoint_status)
                     .await;
             }
-            DeviceEndpointClientNotification::AssetCreated(asset_client) => {
+            ClientNotification::New(asset_client) => {
                 log::info!("Asset created: {asset_client:?}");
 
                 // now we should update the status of the asset
@@ -112,18 +112,18 @@ async fn run_device(mut device_endpoint_client: DeviceEndpointClient) {
 async fn run_asset(mut asset_client: AssetClient) {
     loop {
         match asset_client.recv_notification().await {
-            AssetClientNotification::Updated => {
+            ClientNotification::Updated => {
                 log::info!("asset updated: {asset_client:?}");
                 // now we should update the status of the asset
                 let asset_status = generate_asset_status(&asset_client);
 
                 asset_client.report_status(asset_status).await;
             }
-            AssetClientNotification::Deleted => {
+            ClientNotification::Deleted => {
                 log::warn!("Asset has been deleted");
                 break;
             }
-            AssetClientNotification::DatasetCreated(dataset_client) => {
+            ClientNotification::New(dataset_client) => {
                 tokio::task::spawn(run_dataset(dataset_client));
             }
         }
