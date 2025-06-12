@@ -271,7 +271,7 @@ impl DeviceEndpointClient {
     }
 
     /// Used to report the status of just the device,
-    /// and then updates the [`Device`] with the new status returned
+    /// and then updates the [`DeviceEndpointClient`] with the new status returned
     ///
     /// # Panics
     /// if the status or specification mutexes have been poisoned, which should not be possible
@@ -298,7 +298,7 @@ impl DeviceEndpointClient {
     }
 
     /// Used to report the status of just the endpoint,
-    /// and then updates the [`Device`] with the new status returned
+    /// and then updates the [`DeviceEndpointClient`] with the new status returned
     /// # Panics
     /// if the status or specification mutexes have been poisoned, which should not be possible
     pub async fn report_endpoint_status(&self, endpoint_status: Result<(), AdrConfigError>) {
@@ -522,6 +522,7 @@ impl DeviceEndpointClient {
         };
     }
 
+    /// Internal convenience function to unobserve from a device's update notifications for cleanup
     async fn unobserve_device(
         connector_context: &Arc<ConnectorContext>,
         device_endpoint_ref: &DeviceEndpointRef,
@@ -1093,6 +1094,7 @@ impl AssetClient {
         }
     }
 
+    /// Internal convenience function to unobserve from an asset's update notifications for cleanup
     async fn unobserve_asset(connector_context: &Arc<ConnectorContext>, asset_ref: &AssetRef) {
         // unobserve as cleanup
         let _ = Retry::spawn(
@@ -1399,8 +1401,8 @@ impl DatasetClient {
         Some(())
     }
 
-    /// Returns a clone of this dataset's [`MessageSchemaReference`] from
-    /// the [`AssetStatus`], if it exists
+    /// Returns a clone of this dataset's [`adr_models::MessageSchemaReference`] from
+    /// the `AssetStatus`, if it exists
     ///
     /// # Panics
     /// if the asset status mutex has been poisoned, which should not be possible
