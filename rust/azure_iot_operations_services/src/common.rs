@@ -28,26 +28,15 @@ pub mod dispatcher {
     }
 
     /// Error when dispatching a message to a receiver
-    // #[derive(Error, Debug)]
-    // pub enum DispatchError<T> {
-    //     /// Error when trying to send a message to a receiver
-    //     #[error(transparent)]
-    //     SendError(#[from] SendError<T>),
-    //     /// Error when trying to find a receiver by ID
-    //     #[error("receiver with id {:?} not found", 0.0)]
-    //     NotFound((String, T)),
-    // }
     #[derive(PartialEq, Eq, Clone)]
     pub struct DispatchError<T> {
-        // /// The ID of the receiver that was not found
-        // pub receiver_id: String,
         /// The message that could not be sent
         pub data: T,
         /// The kind of error that occurred
         pub kind: DispatchErrorKind,
     }
     // No need to return data. may be implement display for kind.
-    // use this error for display
+    // use thiserror for display
     impl<T: std::fmt::Debug> std::fmt::Display for DispatchError<T> {
         fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
             match &self.kind {
@@ -80,14 +69,14 @@ pub mod dispatcher {
     //     }
     // }
 
-    // impl<T> From<SendError<T>> for DispatchError<T> {
-    //     fn from(err: SendError<T>) -> Self {
-    //         Self {
-    //             data: err.0,
-    //             kind: DispatchErrorKind::SendError,
-    //         }
-    //     }
-    // }
+    impl<T> From<SendError<T>> for DispatchError<T> {
+        fn from(err: SendError<T>) -> Self {
+            Self {
+                data: err.0,
+                kind: DispatchErrorKind::SendError,
+            }
+        }
+    }
 
     #[derive(Debug, Eq, PartialEq, Clone)]
     pub enum DispatchErrorKind {
@@ -140,9 +129,15 @@ pub mod dispatcher {
         /// Dispatches a message to the receiver associated with the provided ID.
         pub fn dispatch(&self, receiver_id: &str, message: T) -> Result<(), DispatchError<T>> {
             if let Some(tx) = self.tx_map.lock().unwrap().get(receiver_id) {
-                Ok(tx.send(message)?)
+                // Ok(tx.send(message)?) // Short form
+                // tx.send(message).map_err(MyDispatchError::from)
+                tx.send(message).map_err(|e| e.into())
             } else {
-                Err(DispatchError::NotFound((receiver_id.to_string(), message)))
+                // Err(DispatchError::NotFound((receiver_id.to_string(), message)))
+                Err(DispatchError {
+                    data: message,
+                    kind: DispatchErrorKind::NotFound(receiver_id.to_string()),
+                })
             }
         }
 
