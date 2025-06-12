@@ -113,27 +113,11 @@ impl DeviceEndpointClientCreationObservation {
                         "Dropping device endpoint create notification: {device_endpoint_ref:?}"
                     );
                     // unobserve as cleanup
-                    let _ = Retry::spawn(
-                        RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
-                        async || -> Result<(), RetryError<azure_device_registry::Error>> {
-                            self.connector_context
-                                .azure_device_registry_client
-                                .unobserve_device_update_notifications(
-                                    device_endpoint_ref.device_name.clone(),
-                                    device_endpoint_ref.inbound_endpoint_name.clone(),
-                                    self.connector_context.default_timeout,
-                                )
-                                // retry on network errors, otherwise don't retry on config/dev errors
-                                .await
-                                .map_err(observe_error_into_retry_error)
-                        },
+                    DeviceEndpointClient::unobserve_device(
+                        &self.connector_context,
+                        &device_endpoint_ref,
                     )
-                    .await
-                    .inspect_err(|e| {
-                        log::error!(
-                            "Failed to unobserve device update notifications after retries: {e}"
-                        );
-                    });
+                    .await;
                     continue;
                 }
             };
@@ -162,27 +146,7 @@ impl DeviceEndpointClientCreationObservation {
                         "Dropping device endpoint create notification: {device_endpoint_ref:?}"
                     );
                     // unobserve as cleanup
-                    let _ = Retry::spawn(
-                        RETRY_STRATEGY.take(10),
-                        async || -> Result<(), RetryError<azure_device_registry::Error>> {
-                            self.connector_context
-                                .azure_device_registry_client
-                                .unobserve_device_update_notifications(
-                                    device_endpoint_ref.device_name.clone(),
-                                    device_endpoint_ref.inbound_endpoint_name.clone(),
-                                    self.connector_context.default_timeout,
-                                )
-                                // retry on network errors, otherwise don't retry on config/dev errors
-                                .await
-                                .map_err(observe_error_into_retry_error)
-                        },
-                    )
-                    .await
-                    .inspect_err(|e| {
-                        log::error!(
-                            "Failed to unobserve device update notifications after retries: {e}"
-                        );
-                    });
+                    DeviceEndpointClient::unobserve_device(&self.connector_context, &device_endpoint_ref).await;
                     continue;
                 }
             };
@@ -205,28 +169,12 @@ impl DeviceEndpointClientCreationObservation {
                         log::error!(
                             "Dropping device endpoint create notification: {device_endpoint_ref:?}"
                         );
-                        // unobserve
-                        let _ = Retry::spawn(
-                            RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
-                            async || -> Result<(), RetryError<azure_device_registry::Error>> {
-                                self.connector_context
-                                    .azure_device_registry_client
-                                    .unobserve_device_update_notifications(
-                                        device_endpoint_ref.device_name.clone(),
-                                        device_endpoint_ref.inbound_endpoint_name.clone(),
-                                        self.connector_context.default_timeout,
-                                    )
-                                    // retry on network errors, otherwise don't retry on config/dev errors
-                                    .await
-                                    .map_err(observe_error_into_retry_error)
-                            },
+                        // unobserve as cleanup
+                        DeviceEndpointClient::unobserve_device(
+                            &self.connector_context,
+                            &device_endpoint_ref,
                         )
-                        .await
-                        .inspect_err(|e| {
-                            log::error!(
-                                "Failed to unobserve device update notifications after retries: {e}"
-                            );
-                        });
+                        .await;
                         continue;
                     }
                 },
@@ -402,7 +350,7 @@ impl DeviceEndpointClient {
     /// If the Azure Device Registry Service provides a notification that isn't for this Device Endpoint. This should not be possible.
     ///
     /// If the specification mutex has been poisoned, which should not be possible
-    pub async fn recv_update(&mut self) -> DeviceEndpointClientNotification {
+    pub async fn recv_notification(&mut self) -> DeviceEndpointClientNotification {
         loop {
             tokio::select! {
                 biased;
@@ -413,6 +361,8 @@ impl DeviceEndpointClient {
                     // the notification again.
                     let Some((updated_device, _)) = update else {
                         // if the update notification is None, then the device endpoint has been deleted
+                        // unobserve as cleanup
+                        Self::unobserve_device(&self.connector_context, &self.device_endpoint_ref).await;
                         return DeviceEndpointClientNotification::Deleted;
                     };
                     // update self with updated specification
@@ -428,6 +378,8 @@ impl DeviceEndpointClient {
                 create_notification = self.asset_create_observation.recv_notification() => {
                     let Some((asset_ref, asset_deletion_token)) = create_notification else {
                         // if the create notification is None, then the device endpoint has been deleted
+                        // unobserve as cleanup
+                        Self::unobserve_device(&self.connector_context, &self.device_endpoint_ref).await;
                         return DeviceEndpointClientNotification::Deleted;
                     };
                     // Get asset update observation as well
@@ -472,91 +424,47 @@ impl DeviceEndpointClient {
                         Ok(asset) => {
                             // get the asset status
                             match Retry::spawn(
-                                            RETRY_STRATEGY,
-                                            async || -> Result<adr_models::AssetStatus, RetryError<azure_device_registry::Error>> {
-                                                self.connector_context
-                                                    .azure_device_registry_client
-                                                    .get_asset_status(
-                                                        asset_ref.device_name.clone(),
-                                                        asset_ref.inbound_endpoint_name.clone(),
-                                                        asset_ref.name.clone(),
-                                                        self.connector_context.default_timeout,
-                                                    )
-                                                    .await
-                                                    .map_err(|e| adr_error_into_retry_error(e, "Get Asset Status"))
-                                            },
-                                        )
-                                        .await {
-                                            Ok(asset_status) => {
-                                                AssetClient::new(
-                                                    asset,
-                                                    asset_status,
-                                                    asset_ref,
-                                                    self.specification.clone(),
-                                                    self.status.clone(),
-                                                    asset_update_observation,
-                                                    // dataset_creation_tx,
-                                                    asset_deletion_token,
-                                                    self.connector_context.clone(),
-                                                )
-                                                .await
-                                            },
-                                            Err(e) => {
-                                                log::error!("Failed to get Asset status after retries: {e}");
-                                                log::error!("Dropping asset create notification: {asset_ref:?}");
-                                                // unobserve as cleanup
-                                                let _ = Retry::spawn(
-                                                    RETRY_STRATEGY.take(10),
-                                                    async || -> Result<(), RetryError<azure_device_registry::Error>> {
-                                                        self.connector_context
-                                                            .azure_device_registry_client
-                                                            .unobserve_asset_update_notifications(
-                                                                asset_ref.device_name.clone(),
-                                                                asset_ref.inbound_endpoint_name.clone(),
-                                                                asset_ref.name.clone(),
-                                                                self.connector_context.default_timeout,
-                                                            )
-                                                            // retry on network errors, otherwise don't retry on config/dev errors
-                                                            .await
-                                                            .map_err(observe_error_into_retry_error)
-                                                    },
-                                                )
-                                                .await
-                                                .inspect_err(|e| {
-                                                    log::error!(
-                                                        "Failed to unobserve asset update notifications after retries: {e}"
-                                                    );
-                                                });
-                                                continue;
-                                            },
-                                        }
-                        }
-                        Err(e) => {
-                            log::error!("Failed to get Asset definition after retries: {e}");
-                            log::error!("Dropping asset create notification: {asset_ref:?}");
-                            // unobserve as cleanup
-                            let _ = Retry::spawn(
-                                RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
-                                async || -> Result<(), RetryError<azure_device_registry::Error>> {
+                                RETRY_STRATEGY,
+                                async || -> Result<adr_models::AssetStatus, RetryError<azure_device_registry::Error>> {
                                     self.connector_context
                                         .azure_device_registry_client
-                                        .unobserve_asset_update_notifications(
+                                        .get_asset_status(
                                             asset_ref.device_name.clone(),
                                             asset_ref.inbound_endpoint_name.clone(),
                                             asset_ref.name.clone(),
                                             self.connector_context.default_timeout,
                                         )
-                                        // retry on network errors, otherwise don't retry on config/dev errors
                                         .await
-                                        .map_err(observe_error_into_retry_error)
+                                        .map_err(|e| adr_error_into_retry_error(e, "Get Asset Status"))
                                 },
                             )
-                            .await
-                            .inspect_err(|e| {
-                                log::error!(
-                                    "Failed to unobserve asset update notifications after retries: {e}"
-                                );
-                            });
+                            .await {
+                                Ok(asset_status) => {
+                                    AssetClient::new(
+                                        asset,
+                                        asset_status,
+                                        asset_ref,
+                                        self.specification.clone(),
+                                        self.status.clone(),
+                                        asset_update_observation,
+                                        // dataset_creation_tx,
+                                        asset_deletion_token,
+                                        self.connector_context.clone(),
+                                    )
+                                    .await
+                                },
+                                Err(e) => {
+                                    log::error!("Dropping asset create notification: {asset_ref:?}. Failed to get Asset status after retries: {e}");
+                                    // unobserve as cleanup
+                                    AssetClient::unobserve_asset(&self.connector_context, &asset_ref).await;
+                                    continue;
+                                },
+                            }
+                        }
+                        Err(e) => {
+                            log::error!("Dropping asset create notification: {asset_ref:?}. Failed to get Asset definition after retries: {e}");
+                            // unobserve as cleanup
+                            AssetClient::unobserve_asset(&self.connector_context, &asset_ref).await;
                             continue;
                         }
                     };
@@ -616,6 +524,31 @@ impl DeviceEndpointClient {
                 log::error!("Failed to Update Device Status: {e}");
             }
         };
+    }
+
+    async fn unobserve_device(
+        connector_context: &Arc<ConnectorContext>,
+        device_endpoint_ref: &DeviceEndpointRef,
+    ) {
+        let _ = Retry::spawn(
+            RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
+            async || -> Result<(), RetryError<azure_device_registry::Error>> {
+                connector_context
+                    .azure_device_registry_client
+                    .unobserve_device_update_notifications(
+                        device_endpoint_ref.device_name.clone(),
+                        device_endpoint_ref.inbound_endpoint_name.clone(),
+                        connector_context.default_timeout,
+                    )
+                    // retry on network errors, otherwise don't retry on config/dev errors
+                    .await
+                    .map_err(observe_error_into_retry_error)
+            },
+        )
+        .await
+        .inspect_err(|e| {
+            log::error!("Failed to unobserve device update notifications after retries: {e}");
+        });
     }
 }
 
@@ -800,7 +733,7 @@ impl AssetClient {
         .await;
     }
 
-    /// Used to receive updates for the Asset from the Azure Device Registry Service.
+    /// Used to receive notifications for the Asset from the Azure Device Registry Service.
     /// This function returning `Some(())` indicates that the asset specification has been
     /// updated in place. The function returns [`None`] if there will be no more notifications
     /// because the Asset has been deleted.
@@ -811,14 +744,15 @@ impl AssetClient {
     ///
     /// # Panics
     /// If the status or specification mutexes have been poisoned, which should not be possible
-    pub async fn recv_update(&mut self) -> AssetClientNotification {
+    pub async fn recv_notification(&mut self) -> AssetClientNotification {
         // release any pending dataset create/update notifications
         self.release_dataset_notifications_tx.send_modify(|()| ());
         tokio::select! {
             biased;
             () = self.asset_deletion_token.cancelled() => {
                     log::debug!("Asset deletion token received, stopping asset update observation");
-                    // TODO: stop observing updates
+                    // unobserve as cleanup
+                    Self::unobserve_asset(&self.connector_context, &self.asset_ref).await;
                     AssetClientNotification::Deleted
             },
             notification = self.asset_update_observation.recv_notification() => {
@@ -827,6 +761,8 @@ impl AssetClient {
                 // get the update again because we'll pull the latest definition on the restart, so we don't need to get
                 // the notification again as an MQTT message.
                 let Some((updated_asset, _)) = notification else {
+                    // unobserve as cleanup
+                    Self::unobserve_asset(&self.connector_context, &self.asset_ref).await;
                     return AssetClientNotification::Deleted;
                 };
 
@@ -867,7 +803,7 @@ impl AssetClient {
                                 &self.connector_context,
                                 &self.asset_ref,
                                 &self.status,
-                                "AssetClient::recv_update default_dataset_destination",
+                                "AssetClient::recv_notification default_dataset_destination",
                             )
                             .await;
                             // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
@@ -923,7 +859,7 @@ impl AssetClient {
                 self.report_dataset_config_errors(
                     dataset_config_errors,
                     updated_asset.version,
-                    "AssetClient::recv_update dataset_destination",
+                    "AssetClient::recv_notification dataset_destination",
                 )
                 .await;
 
@@ -935,11 +871,15 @@ impl AssetClient {
             },
             create_notification = self.dataset_creation_rx.recv() => {
                 let Some((dataset_client, mut watch_receiver)) = create_notification else {
+                    // unobserve as cleanup
+                    Self::unobserve_asset(&self.connector_context, &self.asset_ref).await;
                     return AssetClientNotification::Deleted;
                 };
                 // TODO: waiting here might block flow
                 // wait until the message has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
                 if watch_receiver.changed().await.is_err() {
+                    // unobserve as cleanup
+                    Self::unobserve_asset(&self.connector_context, &self.asset_ref).await;
                     return AssetClientNotification::Deleted;
                 }
                 AssetClientNotification::DatasetCreated(dataset_client)
@@ -1181,6 +1121,30 @@ impl AssetClient {
             )
             .await;
         }
+    }
+
+    async fn unobserve_asset(connector_context: &Arc<ConnectorContext>, asset_ref: &AssetRef) {
+        // unobserve as cleanup
+        let _ = Retry::spawn(
+            RETRY_STRATEGY.take(10),
+            async || -> Result<(), RetryError<azure_device_registry::Error>> {
+                connector_context
+                    .azure_device_registry_client
+                    .unobserve_asset_update_notifications(
+                        asset_ref.device_name.clone(),
+                        asset_ref.inbound_endpoint_name.clone(),
+                        asset_ref.name.clone(),
+                        connector_context.default_timeout,
+                    )
+                    // retry on network errors, otherwise don't retry on config/dev errors
+                    .await
+                    .map_err(observe_error_into_retry_error)
+            },
+        )
+        .await
+        .inspect_err(|e| {
+            log::error!("Failed to unobserve asset update notifications after retries: {e}");
+        });
     }
 }
 
@@ -1430,12 +1394,12 @@ impl DatasetClient {
         self.forwarder.send_data(data).await
     }
 
-    /// Used to receive updates for the Dataset from the Azure Device Registry Service.
+    /// Used to receive notifications about the Dataset from the Azure Device Registry Service.
     /// This function returning `Some(())` indicates that the dataset definition has been
     /// updated in place. The function returns [`None`] if there will be no more
     /// notifications. This can occur if the Dataset has been deleted or the
     /// [`AssetClient`] that this [`DatasetClient`] is related to has been dropped.
-    pub async fn recv_update(&mut self) -> Option<()> {
+    pub async fn recv_notification(&mut self) -> Option<()> {
         loop {
             let (updated_dataset, default_destinations, mut watch_receiver) =
                 self.dataset_update_rx.recv().await?;
