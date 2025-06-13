@@ -27,16 +27,31 @@ pub mod dispatcher {
     }
 
     /// Error when dispatching a message to a receiver
-    #[derive(Error, Debug)]
-    pub enum DispatchError<T> {
-        /// Error when trying to send a message to a receiver
-        #[error(transparent)]
-        SendError(#[from] SendError<T>),
-        /// Error when trying to find a receiver by ID
-        #[error("receiver with id {0} not found")]
-        NotFound(String),
+    #[derive(PartialEq, Eq, Clone, Error, Debug)]
+    #[error("{kind}")]
+    pub struct DispatchError<T> {
+        /// The message that could not be sent
+        pub data: T,
+        /// The kind of error that occurred
+        pub kind: DispatchErrorKind,
     }
 
+    #[derive(Debug, Eq, PartialEq, Clone, Error)]
+    pub enum DispatchErrorKind {
+        #[error("Failed to send message")]
+        SendError,
+        #[error("Receiver with ID '{0}' not found")]
+        NotFound(String), // receiver ID
+    }
+
+    impl<T> From<SendError<T>> for DispatchError<T> {
+        fn from(err: SendError<T>) -> Self {
+            Self {
+                data: err.0,
+                kind: DispatchErrorKind::SendError,
+            }
+        }
+    }
     /// Dispatches messages to receivers based on ID
     #[derive(Default)]
     pub struct Dispatcher<T> {
@@ -84,7 +99,10 @@ pub mod dispatcher {
             if let Some(tx) = self.tx_map.lock().unwrap().get(receiver_id) {
                 Ok(tx.send(message)?)
             } else {
-                Err(DispatchError::NotFound(receiver_id.to_string()))
+                Err(DispatchError {
+                    data: message,
+                    kind: DispatchErrorKind::NotFound(receiver_id.to_string()),
+                })
             }
         }
     }
