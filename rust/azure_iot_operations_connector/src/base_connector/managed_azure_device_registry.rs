@@ -771,7 +771,7 @@ impl AssetClient {
                         .read()
                         .unwrap()
                         .default_datasets_destinations;
-                let default_dataset_destinations: Vec<Arc<destination_endpoint::Destination>> =
+                let default_dataset_destinations =
                     match destination_endpoint::Destination::new_dataset_destinations(
                         &updated_asset.default_datasets_destinations,
                         &self.asset_ref.inbound_endpoint_name,
