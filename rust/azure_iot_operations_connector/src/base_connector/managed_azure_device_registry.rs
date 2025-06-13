@@ -261,6 +261,10 @@ impl DeviceEndpointClient {
             )]),
         };
 
+        log::debug!(
+            "reporting device endpoint status from app for {:?}",
+            self.device_endpoint_ref
+        );
         // send status update to the service
         self.internal_report_status(status).await;
     }
@@ -288,6 +292,10 @@ impl DeviceEndpointClient {
             endpoints: current_endpoints,
         };
 
+        log::debug!(
+            "reporting device status from app for {:?}",
+            self.device_endpoint_ref
+        );
         // send status update to the service
         self.internal_report_status(status).await;
     }
@@ -322,6 +330,10 @@ impl DeviceEndpointClient {
             )]),
         };
 
+        log::debug!(
+            "reporting endpoint status from app for {:?}",
+            self.device_endpoint_ref
+        );
         // send status update to the service
         self.internal_report_status(status).await;
     }
@@ -371,6 +383,7 @@ impl DeviceEndpointClient {
                 create_notification = self.asset_create_observation.recv_notification() => {
                     let Some((asset_ref, asset_deletion_token)) = create_notification else {
                         // if the create notification is None, then the device endpoint has been deleted
+                        log::debug!("Device Endpoint Deletion detected, stopping device update observation for {:?}", self.device_endpoint_ref);
                         // unobserve as cleanup
                         Self::unobserve_device(&self.connector_context, &self.device_endpoint_ref).await;
                         return ClientNotification::Deleted;
