@@ -89,12 +89,12 @@ impl DeviceEndpointClientCreationObservation {
                         self.connector_context.default_timeout,
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
-                    .await.map_err(observe_error_into_retry_error)
+                    .await
+                    .map_err(|e| observe_error_into_retry_error(e, "Observe for Device Updates"))
             }).await {
                 Ok(device_update_observation) => device_update_observation,
                 Err(e) => {
-                  log::error!("Failed to observe for device update notifications after retries: {e}");
-                  log::error!("Dropping device endpoint create notification: {device_endpoint_ref:?}");
+                  log::error!("Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to observe for device update notifications after retries: {e}");
                   continue;
                 },
             };
@@ -118,9 +118,8 @@ impl DeviceEndpointClientCreationObservation {
             {
                 Ok(device) => device,
                 Err(e) => {
-                    log::error!("Failed to get Device definition after retries: {e}");
                     log::error!(
-                        "Dropping device endpoint create notification: {device_endpoint_ref:?}"
+                        "Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to get Device definition after retries: {e}"
                     );
                     // unobserve as cleanup
                     DeviceEndpointClient::unobserve_device(
@@ -151,10 +150,7 @@ impl DeviceEndpointClientCreationObservation {
             {
                 Ok(device_status) => device_status,
                 Err(e) => {
-                    log::error!("Failed to get Device Status after retries: {e}");
-                    log::error!(
-                        "Dropping device endpoint create notification: {device_endpoint_ref:?}"
-                    );
+                    log::error!("Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to get Device Status after retries: {e}");
                     // unobserve as cleanup
                     DeviceEndpointClient::unobserve_device(&self.connector_context, &device_endpoint_ref).await;
                     continue;
@@ -175,9 +171,8 @@ impl DeviceEndpointClientCreationObservation {
                     Err(e) => {
                         // the device definition didn't include the inbound_endpoint, so it likely no longer exists
                         // TODO: This won't be a possible failure point in the future once the service returns errors
-                        log::error!("{e}");
                         log::error!(
-                            "Dropping device endpoint create notification: {device_endpoint_ref:?}"
+                            "Dropping device endpoint create notification: {device_endpoint_ref:?}. {e}"
                         );
                         // unobserve as cleanup
                         DeviceEndpointClient::unobserve_device(
@@ -394,12 +389,11 @@ impl DeviceEndpointClient {
                                 )
                                 // retry on network errors, otherwise don't retry on config/dev errors
                                 .await
-                                .map_err(observe_error_into_retry_error)
+                                .map_err(|e| observe_error_into_retry_error(e, "Observe for Asset Updates"))
                     }).await {
                         Ok(asset_update_observation) => asset_update_observation,
                         Err(e) => {
-                            log::error!("Failed to observe for asset update notifications after retries: {e}");
-                            log::error!("Dropping asset create notification: {asset_ref:?}");
+                            log::error!("Dropping asset create notification: {asset_ref:?}. Failed to observe for asset update notifications after retries: {e}");
                             continue;
                         },
                     };
@@ -520,7 +514,7 @@ impl DeviceEndpointClient {
             }
             Err(e) => {
                 // TODO: return an error for this scenario? Largely shouldn't be possible
-                log::error!("Failed to Update Device Status: {e}");
+                log::error!("Failed to Update Device Status for {:?}: {e}", self.device_endpoint_ref);
             }
         };
     }
@@ -542,12 +536,12 @@ impl DeviceEndpointClient {
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await
-                    .map_err(observe_error_into_retry_error)
+                    .map_err(|e| observe_error_into_retry_error(e, "Unobserve for Device Updates"))
             },
         )
         .await
         .inspect_err(|e| {
-            log::error!("Failed to unobserve device update notifications after retries: {e}");
+            log::error!("Failed to unobserve device update notifications for {device_endpoint_ref:?} after retries: {e}");
         });
     }
 }
@@ -627,8 +621,7 @@ impl AssetClient {
                 Ok(res) => res.into_iter().map(Arc::new).collect(),
                 Err(e) => {
                     log::error!(
-                        "Invalid default dataset destination for Asset {}: {e:?}",
-                        asset_ref.name
+                        "Invalid default dataset destination for Asset {asset_ref:?}: {e:?}"
                     );
                     let adr_asset_status =
                         Self::internal_asset_status(&status, Err(e), specification_version);
@@ -700,7 +693,7 @@ impl AssetClient {
         let version = self.specification.read().unwrap().version;
         let new_status = Self::internal_asset_status(&self.status, status, version);
 
-        log::debug!("reporting asset status from app");
+        log::debug!("reporting asset status from app for {:?}", self.asset_ref);
         // send status update to the service
         Self::internal_report_status(
             new_status,
@@ -738,7 +731,7 @@ impl AssetClient {
         tokio::select! {
             biased;
             () = self.asset_deletion_token.cancelled() => {
-                log::debug!("Asset deletion token received, stopping asset update observation");
+                log::debug!("Asset deletion token received, stopping asset update observation for {:?}", self.asset_ref);
                 // unobserve as cleanup
                 Self::unobserve_asset(&self.connector_context, &self.asset_ref).await;
                 ClientNotification::Deleted
@@ -780,8 +773,8 @@ impl AssetClient {
                         Ok(res) => res.into_iter().map(Arc::new).collect(),
                         Err(e) => {
                             log::error!(
-                                "Invalid default dataset destination for Asset {}: {e:?}",
-                                self.asset_ref.name
+                                "Invalid default dataset destination for Asset {:?}: {e:?}",
+                                self.asset_ref
                             );
                             let adr_asset_status =
                                 Self::internal_asset_status(&self.status, Err(e), updated_asset.version);
@@ -825,8 +818,9 @@ impl AssetClient {
                                 )).inspect_err(|tokio::sync::mpsc::error::SendError((e_dataset_definition, _,_))| {
                                     // TODO: should this trigger the datasetClient create flow, or is this just indicative of an application bug?
                                     log::warn!(
-                                        "Update received for dataset {}, but DatasetClient has been dropped",
-                                        e_dataset_definition.name
+                                        "Update received for dataset {} on asset {:?}, but DatasetClient has been dropped",
+                                        e_dataset_definition.name,
+                                        self.asset_ref
                                     );
                                 });
                         }
@@ -981,7 +975,7 @@ impl AssetClient {
             }
             Err(e) => {
                 // TODO: return an error for this scenario? Largely shouldn't be possible
-                log::error!("Failed to Update Asset Status: {e}");
+                log::error!("Failed to Update Asset Status for {asset_ref:?}: {e}");
             }
         };
     }
@@ -1011,8 +1005,9 @@ impl AssetClient {
         )
         .map_err(|e| {
             log::error!(
-                "Invalid dataset destination for dataset: {} {e:?}",
-                dataset_definition.name.clone()
+                "Invalid dataset destination for dataset {} on asset {:?}: {e:?}",
+                dataset_definition.name,
+                self.asset_ref
             );
             // Get current message schema reference if there is one, so that it isn't overwritten
             let message_schema_reference =
@@ -1044,10 +1039,11 @@ impl AssetClient {
             (dataset_definition, dataset_update_tx),
         );
 
-        if self.dataset_creation_tx.send(new_dataset_client).is_err() {
+        if let Err(e) = self.dataset_creation_tx.send(new_dataset_client) {
             // should only happen if the dataset creation observation is dropped. Should not be possible on AssetClient::new
             log::warn!(
-                "New dataset received, but DatasetClientCreationObservation has been dropped"
+                "New dataset {:?} received, but DatasetClientCreationObservation has been dropped",
+                e.0.dataset_ref()
             );
         }
         Ok(())
@@ -1082,8 +1078,8 @@ impl AssetClient {
 
             // send status update to the service
             log::debug!(
-                "Reporting status(es) for invalid dataset destination(s) for Asset {}",
-                self.asset_ref.name
+                "Reporting status(es) for invalid dataset destination(s) for Asset {:?}",
+                self.asset_ref
             );
             AssetClient::internal_report_status(
                 new_status,
@@ -1112,12 +1108,12 @@ impl AssetClient {
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await
-                    .map_err(observe_error_into_retry_error)
+                    .map_err(|e| observe_error_into_retry_error(e, "Unobserve for Asset Updates"))
             },
         )
         .await
         .inspect_err(|e| {
-            log::error!("Failed to unobserve asset update notifications after retries: {e}");
+            log::error!("Failed to unobserve asset update notifications for {asset_ref:?} after retries: {e}");
         });
     }
 }
@@ -1233,10 +1229,7 @@ impl DatasetClient {
         }
 
         // send status update to the service
-        log::debug!(
-            "reporting dataset {} status from app",
-            self.dataset_ref.dataset_name
-        );
+        log::debug!("reporting dataset {:?} status from app", self.dataset_ref);
         AssetClient::internal_report_status(
             new_status,
             &self.connector_context,
@@ -1282,8 +1275,8 @@ impl DatasetClient {
                             // network/retriable
                             schema_registry::ErrorKind::AIOProtocolError(_) => {
                                 log::warn!(
-                                    "Reporting message schema failed for {}. Retrying: {e}",
-                                    self.dataset_ref.dataset_name
+                                    "Reporting message schema failed for {:?}. Retrying: {e}",
+                                    self.dataset_ref
                                 );
                                 RetryError::transient(e)
                             }
@@ -1343,8 +1336,8 @@ impl DatasetClient {
 
         // send status update to the service
         log::debug!(
-            "reporting dataset {} message schema from app",
-            self.dataset_ref.dataset_name
+            "reporting dataset {:?} message schema from app",
+            self.dataset_ref
         );
         AssetClient::internal_report_status(
             new_status,
@@ -1390,8 +1383,8 @@ impl DatasetClient {
                 Err(e) => {
                     // TODO: we could delete the dataset here, but the current implementation would just wait for a new valid definition, which seems okay for now?
                     log::error!(
-                        "Ignoring update. Invalid dataset destination for updated dataset: {} {e:?}",
-                        updated_dataset.name
+                        "Ignoring update. Invalid dataset destination for updated dataset: {:?} {e:?}",
+                        self.dataset_ref
                     );
                     self.report_status(Err(e)).await;
                     continue;
@@ -1766,10 +1759,12 @@ impl From<adr_models::Asset> for AssetSpecification {
 
 fn observe_error_into_retry_error(
     e: azure_device_registry::Error,
+    operation_for_log: &str,
 ) -> RetryError<azure_device_registry::Error> {
     match e.kind() {
         // network/retriable
         azure_device_registry::ErrorKind::AIOProtocolError(_) => {
+            log::warn!("{operation_for_log} failed. Retrying: {e}");
             RetryError::transient(e)
         }
         // indicates an error in the configuration, so we want to get a new notification instead of retrying this operation

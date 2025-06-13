@@ -124,6 +124,7 @@ async fn run_asset(mut asset_client: AssetClient) {
                 break;
             }
             ClientNotification::Created(dataset_client) => {
+                log::info!("Dataset Created: {dataset_client:?}");
                 tokio::task::spawn(run_dataset(dataset_client));
             }
         }
@@ -131,8 +132,6 @@ async fn run_asset(mut asset_client: AssetClient) {
 }
 
 async fn run_dataset(mut dataset_client: DatasetClient) {
-    log::info!("new Dataset: {dataset_client:?}");
-
     // now we should update the status of the dataset and report the message schema
     dataset_client.report_status(Ok(())).await;
 
