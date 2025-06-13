@@ -290,7 +290,7 @@ async fn run_program(
                                             azure_device_registry_client_clone.clone();
                                         tokio::spawn(async move {
                                             // Wait for the asset deletion token to be triggered
-                                            asset_deletion_token.await;
+                                            asset_deletion_token.cancelled().await;
                                             log::info!("Asset removed: {asset_ref:?}");
                                             // Unobserve must be called on clean-up to prevent getting notifications for this in the future
                                             match azure_device_registry_client_clone_2
