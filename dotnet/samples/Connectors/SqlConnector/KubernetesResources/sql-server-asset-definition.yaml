@@ -4,9 +4,9 @@ metadata:
   name: my-sql-qualityanalyzer-asset
   namespace: azure-iot-operations
 spec:
-  #attributes:# This part of the spec is currently broken in the operator. Re-enable later
-    #assetId: my-sql-qualityanalyzer-asset-id
-    #assetType: sql-qualityanalyzer
+  attributes:
+    assetId: my-sql-qualityanalyzer-asset-id
+    assetType: sql-qualityanalyzer
   datasets:
     - name: qualityanalyzer_data
       dataPoints:

@@ -4,9 +4,9 @@ metadata:
   name: my-tcp-thermostat-asset
   namespace: azure-iot-operations
 spec:
-  #attributes: # This part of the spec is currently broken in the operator. Re-enable later
-  #  assetId: my-tcp-thermostat-asset
-  #  assetType: thermostat
+  attributes:
+    assetId: my-tcp-thermostat-asset
+    assetType: thermostat
   events:
     - name: thermostat_status_changed
       dataPoints:
