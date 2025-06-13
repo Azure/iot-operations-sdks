@@ -157,74 +157,8 @@ namespace Azure.Iot.Operations.Connector
                     }
                 }
 
-                _assetMonitor.DeviceChanged += async (sender, args) =>
-                {
-                    string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
-                    if (args.ChangeType == ChangeType.Created)
-                    {
-                        _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was created", args.DeviceName, args.InboundEndpointName);
-                        DeviceAvailable(args, compoundDeviceName);
-                        if (args.Device != null)
-                        {
-                            CancellationTokenSource deviceTaskCancellationTokenSource = new();
-                            _deviceTasks.TryAdd(compoundDeviceName, deviceTaskCancellationTokenSource);
-                            if (WhileDeviceIsAvailable != null)
-                            {
-                                // Do not block on this call because the user callback is designed to run for extended periods of time.
-                                _ = Task.Run(async () =>
-                                {
-                                    try
-                                    {
-                                        await WhileDeviceIsAvailable.Invoke(new(args.Device, args.InboundEndpointName), deviceTaskCancellationTokenSource.Token);
-                                    }
-                                    catch (OperationCanceledException)
-                                    {
-                                        // This is the expected way for the callback to exit since this layer signals the cancellation token
-                                    }
-                                });
-                            }
-                        }
-                    }
-                    else if (args.ChangeType == ChangeType.Deleted)
-                    {
-                        _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
-                        await DeviceUnavailableAsync(args, compoundDeviceName, false);
-                        if (_deviceTasks.TryRemove(compoundDeviceName, out CancellationTokenSource? deviceTaskCancellationTokenSource))
-                        {
-                            deviceTaskCancellationTokenSource.Cancel();
-                            deviceTaskCancellationTokenSource.Dispose();
-                        }
-                    }
-                    else if (args.ChangeType == ChangeType.Updated)
-                    {
-                        _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was updated", args.DeviceName, args.InboundEndpointName);
-                        await DeviceUnavailableAsync(args, compoundDeviceName, true);
-                        DeviceAvailable(args, compoundDeviceName);
-                    }
-                };
-
-                _assetMonitor.AssetChanged += async (sender, args) =>
-                {
-                    string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
-                    if (args.ChangeType == ChangeType.Created)
-                    {
-                        _logger.LogInformation("Asset with name {0} created on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
-                        await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, linkedToken);
-                        _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
-                    }
-                    else if (args.ChangeType == ChangeType.Deleted)
-                    {
-                        _logger.LogInformation("Asset with name {0} deleted from endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
-                        AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, false);
-                        await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
-                    }
-                    else if (args.ChangeType == ChangeType.Updated)
-                    {
-                        _logger.LogInformation("Asset with name {0} updated on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
-                        AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, true);
-                        await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, linkedToken);
-                    }
-                };
+                _assetMonitor.DeviceChanged += OnDeviceChanged;
+                _assetMonitor.AssetChanged += OnAssetChanged;
 
                 _logger.LogInformation("Starting to observe devices...");
                 _assetMonitor.ObserveDevices();
@@ -249,12 +183,104 @@ namespace Azure.Iot.Operations.Connector
                         await _assetMonitor.UnobserveAllAsync(cancellationToken);
                     }
                 }
+
+                _assetMonitor.DeviceChanged -= OnDeviceChanged;
+                _assetMonitor.AssetChanged -= OnAssetChanged;
+
+                _logger.LogInformation("Stopping all tasks that run while an asset is available");
+                while (_assetTasks.Count > 1)
+                {
+                    // Cancel all tasks that run while an asset is available
+                    var first = _assetTasks.First();
+                    _assetTasks.TryRemove(first);
+                    first.Value.Cancel();
+                    first.Value.Dispose();
+                }
+
+                _logger.LogInformation("Stopping all tasks that run while a device is available");
+                while (_deviceTasks.Count > 1)
+                {
+                    // Cancel all tasks that run while a device is available
+                    var first = _deviceTasks.First();
+                    _deviceTasks.TryRemove(first);
+                    first.Value.Cancel();
+                    first.Value.Dispose();
+                }
             }
 
             _logger.LogInformation("Shutting down connector...");
 
             _leaderElectionClient?.DisposeAsync();
             await _mqttClient.DisconnectAsync(null, CancellationToken.None);
+        }
+
+        private async void OnAssetChanged(object? _, AssetChangedEventArgs args)
+        {
+            string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
+            if (args.ChangeType == ChangeType.Created)
+            {
+                _logger.LogInformation("Asset with name {0} created on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
+                await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName);
+                _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
+            }
+            else if (args.ChangeType == ChangeType.Deleted)
+            {
+                _logger.LogInformation("Asset with name {0} deleted from endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
+                AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, false);
+                await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
+            }
+            else if (args.ChangeType == ChangeType.Updated)
+            {
+                _logger.LogInformation("Asset with name {0} updated on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
+                AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, true);
+                await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName);
+            }
+        }
+
+        private async void OnDeviceChanged(object? _, DeviceChangedEventArgs args)
+        {
+            string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
+            if (args.ChangeType == ChangeType.Created)
+            {
+                _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was created", args.DeviceName, args.InboundEndpointName);
+                DeviceAvailable(args, compoundDeviceName);
+                if (args.Device != null)
+                {
+                    CancellationTokenSource deviceTaskCancellationTokenSource = new();
+                    _deviceTasks.TryAdd(compoundDeviceName, deviceTaskCancellationTokenSource);
+                    if (WhileDeviceIsAvailable != null)
+                    {
+                        // Do not block on this call because the user callback is designed to run for extended periods of time.
+                        _ = Task.Run(async () =>
+                        {
+                            try
+                            {
+                                await WhileDeviceIsAvailable.Invoke(new(args.Device, args.InboundEndpointName), deviceTaskCancellationTokenSource.Token);
+                            }
+                            catch (OperationCanceledException)
+                            {
+                                // This is the expected way for the callback to exit since this layer signals the cancellation token
+                            }
+                        });
+                    }
+                }
+            }
+            else if (args.ChangeType == ChangeType.Deleted)
+            {
+                _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
+                await DeviceUnavailableAsync(args, compoundDeviceName, false);
+                if (_deviceTasks.TryRemove(compoundDeviceName, out CancellationTokenSource? deviceTaskCancellationTokenSource))
+                {
+                    deviceTaskCancellationTokenSource.Cancel();
+                    deviceTaskCancellationTokenSource.Dispose();
+                }
+            }
+            else if (args.ChangeType == ChangeType.Updated)
+            {
+                _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was updated", args.DeviceName, args.InboundEndpointName);
+                await DeviceUnavailableAsync(args, compoundDeviceName, true);
+                DeviceAvailable(args, compoundDeviceName);
+            }
         }
 
         public async Task ForwardSampledDatasetAsync(Asset asset, AssetDataset dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
@@ -414,7 +440,7 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private async Task AssetAvailableAsync(string deviceName, string inboundEndpointName, Asset? asset, string assetName, CancellationToken cancellationToken = default)
+        private async Task AssetAvailableAsync(string deviceName, string inboundEndpointName, Asset? asset, string assetName)
         {
             string compoundDeviceName = $"{deviceName}_{inboundEndpointName}";
 
@@ -459,9 +485,7 @@ namespace Azure.Iot.Operations.Connector
                                 datasetMessageSchema.SchemaFormat,
                                 datasetMessageSchema.SchemaType,
                                 datasetMessageSchema.Version ?? "1",
-                                datasetMessageSchema.Tags,
-                                null,
-                                cancellationToken);
+                                datasetMessageSchema.Tags);
                         }
                         catch (Exception ex)
                         {
@@ -496,9 +520,7 @@ namespace Azure.Iot.Operations.Connector
                                 eventMessageSchema.SchemaFormat,
                                 eventMessageSchema.SchemaType,
                                 eventMessageSchema.Version ?? "1",
-                                eventMessageSchema.Tags,
-                                null,
-                                cancellationToken);
+                                eventMessageSchema.Tags);
                         }
                         catch (Exception ex)
                         {
