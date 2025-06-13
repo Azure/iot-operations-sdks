@@ -56,6 +56,9 @@ jobs:
         wait-for-broker: 'true'
         install-rust: 'true'
         action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
+    
+    - name: Create ADR resources
+      run: kubectl apply -f ../eng/test/test-adr-resources
 
     - name: Run Checks
       run: |
@@ -79,8 +82,15 @@ jobs:
         if-no-files-found: "error"
         retention-days: 10
 
-    - name: Verify Tools
+    - name: Verify Statestore CLI
       working-directory: tools/statestore-cli
+      run:
+        source ../../rust/ci/build-deps.sh
+        cargo clippy --all-features
+        cargo fmt --verbose --all
+
+    - name: Verify Stub Service
+      working-directory: tools/azure_iot_operations_stub_services
       run:
         source ../../rust/ci/build-deps.sh
         cargo clippy --all-features

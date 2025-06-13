@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector;
-using Azure.Iot.Operations.Services.Assets;
+using Azure.Iot.Operations.Connector.Assets;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace SqlQualityAnalyzerConnectorApp
 {
@@ -10,23 +11,23 @@ namespace SqlQualityAnalyzerConnectorApp
     {
         public static Func<IServiceProvider, IDatasetSamplerFactory> DatasetSamplerFactoryProvider = service =>
         {
-
             return new SqlQualityAnalyzerDatasetSamplerFactory();
         };
 
-        public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
+        public IDatasetSampler CreateDatasetSampler(Device device, string inboundEndpointName, string assetName, Asset asset, AssetDataset dataset, EndpointCredentials? deviceCredentials)
         {
             if (dataset.Name.Equals("qualityanalyzer_data"))
             {
-                string connectionString = assetEndpointProfile.TargetAddress;
-
-                return new QualityAnalyzerDatasetSampler(connectionString, asset.DisplayName!, assetEndpointProfile.Credentials);
-
+                if (device.Endpoints != null
+                    && device.Endpoints.Inbound != null
+                    && device.Endpoints.Inbound.TryGetValue(inboundEndpointName, out var inboundEndpoint))
+                {
+                    string connectionString = inboundEndpoint.Address;
+                    return new QualityAnalyzerDatasetSampler(connectionString, assetName, deviceCredentials);
+                }
             }
-            else
-            {
-                throw new InvalidOperationException($"Unrecognized dataset with name {dataset.Name} on asset with name {asset.DisplayName}");
-            }
+
+            throw new InvalidOperationException($"Unrecognized dataset with name {dataset.Name} on asset with name {assetName}");
         }
     }
 }
