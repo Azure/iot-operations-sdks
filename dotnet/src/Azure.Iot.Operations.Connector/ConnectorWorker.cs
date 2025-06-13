@@ -39,11 +39,17 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>
         /// Event handler for when an device becomes available.
         /// </summary>
+        /// <remarks>
+        /// The provided cancellation is signaled when the device is no longer available or when this connector is no longer the leader (and no longer responsible for interacting with the device).
+        /// </remarks>
         public Func<DeviceAvailableEventArgs, CancellationToken, Task>? WhileDeviceIsAvailable;
 
         /// <summary>
-        /// The function to run while an asset is available. The provided cancellation is signaled when the asset is no longer available or when this connector is no longer the leader (and no longer responsible for interacting with the asset).
+        /// The function to run while an asset is available.
         /// </summary>
+        /// <remarks>
+        /// The provided cancellation is signaled when the asset is no longer available or when this connector is no longer the leader (and no longer responsible for interacting with the asset).
+        /// </remarks>
         public Func<AssetAvailableEventArgs, CancellationToken, Task>? WhileAssetIsAvailable;
 
         private readonly ConnectorLeaderElectionConfiguration? _leaderElectionConfiguration; //TODO one connector as leader for all devices? Or will some connectors have a subset of devices?
