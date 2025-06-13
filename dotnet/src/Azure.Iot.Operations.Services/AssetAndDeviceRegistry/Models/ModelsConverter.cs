@@ -389,7 +389,7 @@ internal static class ModelsConverter
         return new InboundEndpointSchemaMapValue
         {
             Address = source.Address,
-            AdditionalConfiguration = source.AdditionalConfiguration,
+            AdditionalConfiguration = source.AdditionalConfiguration != null ? JsonDocument.Parse(source.AdditionalConfiguration, _jsonDocumentOptions) : null,
             Version = source.Version,
             EndpointType = source.EndpointType,
             Authentication = source.Authentication?.ToModel(),

@@ -30,12 +30,16 @@ internal class Program
             description: "Directory for receiving generated code (or TD file if --thingOnly is specified)")
             { ArgumentHelpName = "DIRPATH" };
 
+        var resolverOption = new Option<FileInfo?>(
+            name: "--resolver",
+            description: "Path to a JSON file defining how to resolve referenced identifiers in models")
+            { ArgumentHelpName = "FILEPATH" };
+
         var namespaceOption = new Option<string?>(
             name: "--namespace",
             description: "Namespace for generated code (overrides namespace from model or annex file; required if no model)")
             { ArgumentHelpName = "NAMESPACE" };
 
-#if DEBUG
         var sharedOption = new Option<string?>(
             name: "--shared",
             description: "DTMI prefix of shared schemas")
@@ -45,7 +49,6 @@ internal class Program
             name: "--sdkPath",
             description: "Local path or feed URL for Azure.Iot.Operations.Protocol SDK")
             { ArgumentHelpName = "FILEPATH | URL" };
-#endif
 
         var langOption = new Option<string>(
             name: "--lang",
@@ -79,11 +82,10 @@ internal class Program
             modelIdOption,
             workingDirOption,
             outDirOption,
+            resolverOption,
             namespaceOption,
-#if DEBUG
             sharedOption,
             sdkPathOption,
-#endif
             langOption,
             thingOnlyOption,
             clientOnlyOption,
@@ -97,11 +99,10 @@ internal class Program
             modelIdOption,
             workingDirOption,
             outDirOption,
+            resolverOption,
             namespaceOption,
-#if DEBUG
             sharedOption,
             sdkPathOption,
-#endif
             langOption,
             thingOnlyOption,
             clientOnlyOption,
