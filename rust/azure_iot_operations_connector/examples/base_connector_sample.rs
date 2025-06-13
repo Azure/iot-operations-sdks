@@ -92,7 +92,7 @@ async fn run_device(mut device_endpoint_client: DeviceEndpointClient) {
                     .report_status(Ok(()), endpoint_status)
                     .await;
             }
-            ClientNotification::New(asset_client) => {
+            ClientNotification::Created(asset_client) => {
                 log::info!("Asset created: {asset_client:?}");
 
                 // now we should update the status of the asset
@@ -123,7 +123,7 @@ async fn run_asset(mut asset_client: AssetClient) {
                 log::warn!("Asset has been deleted");
                 break;
             }
-            ClientNotification::New(dataset_client) => {
+            ClientNotification::Created(dataset_client) => {
                 tokio::task::spawn(run_dataset(dataset_client));
             }
         }

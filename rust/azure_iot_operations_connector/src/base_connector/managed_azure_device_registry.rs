@@ -41,7 +41,7 @@ pub enum ClientNotification<T> {
     /// Indicates that the Client has been deleted.
     Deleted,
     /// Indicates that there is a new `T` for this Client, which is included in the notification
-    New(T),
+    Created(T),
 }
 
 /// An Observation for device endpoint creation events that uses
@@ -341,7 +341,7 @@ impl DeviceEndpointClient {
     /// deleted. The [`DeviceEndpointClient`] should not be used after this
     /// point, and no more notifications will be received.
     ///
-    /// Returns [`ClientNotification::New`] with a new [`AssetClient`] if a new
+    /// Returns [`ClientNotification::Created`] with a new [`AssetClient`] if a new
     /// Asset has been created.
     ///
     /// # Panics
@@ -366,11 +366,11 @@ impl DeviceEndpointClient {
                     // update self with updated specification
                     let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
                     *unlocked_specification = DeviceSpecification::new(
-                                    updated_device,
-                                    // TODO: get device_endpoint_credentials_mount_path from connector config
-                                    "/etc/akri/secrets/device_endpoint_auth",
-                                    &self.device_endpoint_ref.inbound_endpoint_name,
-                                ).expect("Device Update Notification should never provide a device that doesn't have the inbound endpoint");
+                        updated_device,
+                        // TODO: get device_endpoint_credentials_mount_path from connector config
+                        "/etc/akri/secrets/device_endpoint_auth",
+                        &self.device_endpoint_ref.inbound_endpoint_name,
+                    ).expect("Device Update Notification should never provide a device that doesn't have the inbound endpoint");
                     return ClientNotification::Updated;
                 },
                 create_notification = self.asset_create_observation.recv_notification() => {
@@ -381,25 +381,28 @@ impl DeviceEndpointClient {
                         return ClientNotification::Deleted;
                     };
                     // Get asset update observation as well
-                    let asset_update_observation =  match Retry::spawn(RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10), async || -> Result<azure_device_registry::AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
-                                self.connector_context
-                                    .azure_device_registry_client
-                                    .observe_asset_update_notifications(
-                                        asset_ref.device_name.clone(),
-                                        asset_ref.inbound_endpoint_name.clone(),
-                                        asset_ref.name.clone(),
-                                        self.connector_context.default_timeout,
-                                    )
-                                    // retry on network errors, otherwise don't retry on config/dev errors
-                                    .await.map_err(observe_error_into_retry_error)
-                            }).await {
-                                Ok(asset_update_observation) => asset_update_observation,
-                                Err(e) => {
-                                    log::error!("Failed to observe for asset update notifications after retries: {e}");
-                                    log::error!("Dropping asset create notification: {asset_ref:?}");
-                                    continue;
-                                },
-                            };
+                    let asset_update_observation =  match Retry::spawn(
+                        RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
+                        async || -> Result<azure_device_registry::AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
+                            self.connector_context
+                                .azure_device_registry_client
+                                .observe_asset_update_notifications(
+                                    asset_ref.device_name.clone(),
+                                    asset_ref.inbound_endpoint_name.clone(),
+                                    asset_ref.name.clone(),
+                                    self.connector_context.default_timeout,
+                                )
+                                // retry on network errors, otherwise don't retry on config/dev errors
+                                .await
+                                .map_err(observe_error_into_retry_error)
+                    }).await {
+                        Ok(asset_update_observation) => asset_update_observation,
+                        Err(e) => {
+                            log::error!("Failed to observe for asset update notifications after retries: {e}");
+                            log::error!("Dropping asset create notification: {asset_ref:?}");
+                            continue;
+                        },
+                    };
 
                     // get the asset definition
                     let asset_client = match Retry::spawn(
@@ -465,7 +468,7 @@ impl DeviceEndpointClient {
                             continue;
                         }
                     };
-                    return ClientNotification::New(asset_client);
+                    return ClientNotification::Created(asset_client);
                 }
             }
         }
@@ -719,7 +722,7 @@ impl AssetClient {
     /// The [`AssetClient`] should not be used after this point, and no more
     /// notifications will be received.
     ///
-    /// Returns [`ClientNotification::New`] with a new [`DatasetClient`] if a
+    /// Returns [`ClientNotification::Created`] with a new [`DatasetClient`] if a
     /// new Dataset has been created.
     ///
     /// Receiving an update will also trigger update/deletion notifications for datasets that
@@ -735,10 +738,10 @@ impl AssetClient {
         tokio::select! {
             biased;
             () = self.asset_deletion_token.cancelled() => {
-                    log::debug!("Asset deletion token received, stopping asset update observation");
-                    // unobserve as cleanup
-                    Self::unobserve_asset(&self.connector_context, &self.asset_ref).await;
-                    ClientNotification::Deleted
+                log::debug!("Asset deletion token received, stopping asset update observation");
+                // unobserve as cleanup
+                Self::unobserve_asset(&self.connector_context, &self.asset_ref).await;
+                ClientNotification::Deleted
             },
             notification = self.asset_update_observation.recv_notification() => {
                 // handle the notification
@@ -815,17 +818,17 @@ impl AssetClient {
                             *dataset_definition = received_dataset_definition.clone();
                             // send update to the dataset
                             let _ = dataset_update_tx
-                                    .send((
-                                        received_dataset_definition.clone(),
-                                        default_dataset_destinations.clone(),
-                                        self.release_dataset_notifications_tx.subscribe(),
-                                    )).inspect_err(|tokio::sync::mpsc::error::SendError((e_dataset_definition, _,_))| {
-                                        // TODO: should this trigger the datasetClient create flow, or is this just indicative of an application bug?
-                                        log::warn!(
-                                            "Update received for dataset {}, but DatasetClient has been dropped",
-                                            e_dataset_definition.name
-                                        );
-                                    });
+                                .send((
+                                    received_dataset_definition.clone(),
+                                    default_dataset_destinations.clone(),
+                                    self.release_dataset_notifications_tx.subscribe(),
+                                )).inspect_err(|tokio::sync::mpsc::error::SendError((e_dataset_definition, _,_))| {
+                                    // TODO: should this trigger the datasetClient create flow, or is this just indicative of an application bug?
+                                    log::warn!(
+                                        "Update received for dataset {}, but DatasetClient has been dropped",
+                                        e_dataset_definition.name
+                                    );
+                                });
                         }
                     }
                     // it needs to be created
@@ -845,8 +848,7 @@ impl AssetClient {
                     dataset_config_errors,
                     updated_asset.version,
                     "AssetClient::recv_notification dataset_destination",
-                )
-                .await;
+                ).await;
 
                 // update specification
                 let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
@@ -860,7 +862,7 @@ impl AssetClient {
                     Self::unobserve_asset(&self.connector_context, &self.asset_ref).await;
                     return ClientNotification::Deleted;
                 };
-                ClientNotification::New(dataset_client)
+                ClientNotification::Created(dataset_client)
             },
         }
     }
