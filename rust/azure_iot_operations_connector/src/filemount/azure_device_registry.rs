@@ -7,14 +7,13 @@ use std::collections::{HashMap, HashSet};
 use std::env;
 use std::fmt::{Display, Formatter};
 use std::path::{Path, PathBuf};
-use std::task::Context;
 use std::time::Duration;
 
 use notify::{RecommendedWatcher, event::EventKind};
 use notify_debouncer_full::{RecommendedCache, new_debouncer};
 use thiserror::Error;
 use tokio::sync::mpsc::{self, UnboundedReceiver, UnboundedSender};
-use tokio::sync::oneshot;
+use tokio_util::sync::{CancellationToken, DropGuard};
 
 /// Environment variable name for the mount path of the Azure Device Registry resources.
 const ADR_RESOURCES_NAME_MOUNT_PATH: &str = "ADR_RESOURCES_NAME_MOUNT_PATH";
@@ -157,9 +156,10 @@ impl DeviceEndpointCreateObservation {
 }
 
 /// Represents an observation for asset creation events.
+#[derive(Debug)]
 pub struct AssetCreateObservation {
     /// A channel for receiving notifications about asset creation events.
-    asset_creation_rx: UnboundedReceiver<(AssetRef, AssetDeletionToken)>,
+    asset_creation_rx: UnboundedReceiver<(AssetRef, CancellationToken)>,
 }
 
 impl AssetCreateObservation {
@@ -167,33 +167,19 @@ impl AssetCreateObservation {
     ///
     /// Returns a new [`AssetCreateObservation`] instance.
     pub(crate) fn new(
-        asset_creation_rx: UnboundedReceiver<(AssetRef, AssetDeletionToken)>,
+        asset_creation_rx: UnboundedReceiver<(AssetRef, CancellationToken)>,
     ) -> AssetCreateObservation {
         Self { asset_creation_rx }
     }
 
     /// Receives a notification for a newly created asset.
     ///
-    /// Returns Some(([`AssetRef`], [`AssetDeletionToken`])) if a notification is received or `None`
+    /// Returns Some(([`AssetRef`], [`CancellationToken`])) if a notification is received or `None`
     /// if there will be no more notifications (i.e. the device endpoint was deleted).
     ///
-    /// The [`AssetDeletionToken`] can be used to wait for the deletion of the asset.
-    pub async fn recv_notification(&mut self) -> Option<(AssetRef, AssetDeletionToken)> {
+    /// The [`CancellationToken`] can be used to wait for the deletion of the asset.
+    pub async fn recv_notification(&mut self) -> Option<(AssetRef, CancellationToken)> {
         self.asset_creation_rx.recv().await
-    }
-}
-
-/// Represents a token that can be used to wait for the deletion of an asset.
-pub struct AssetDeletionToken(oneshot::Receiver<()>);
-
-impl std::future::Future for AssetDeletionToken {
-    type Output = ();
-
-    fn poll(self: std::pin::Pin<&mut Self>, cx: &mut Context<'_>) -> std::task::Poll<Self::Output> {
-        match std::pin::Pin::new(&mut self.get_mut().0).poll(cx) {
-            std::task::Poll::Ready(Err(_) | Ok(())) => std::task::Poll::Ready(()),
-            std::task::Poll::Pending => std::task::Poll::Pending,
-        }
     }
 }
 
@@ -297,7 +283,7 @@ fn get_asset_names(
 /// sending notifications about device endpoint creation.
 ///
 /// Each device endpoint is associated with a tuple containing an unbounded sender for asset creation
-/// notifications and a hash map of asset references to their associated deletion tokens.
+/// notifications and a hash map of asset references to their associated deletion token drop guards.
 struct FileMountMap {
     // TODO: This is a complex type, need to simplify it later
     file_mount_path: PathBuf,
@@ -305,8 +291,8 @@ struct FileMountMap {
     file_mount_hashmap: HashMap<
         DeviceEndpointRef,
         (
-            UnboundedSender<(AssetRef, AssetDeletionToken)>,
-            HashMap<AssetRef, oneshot::Sender<()>>,
+            UnboundedSender<(AssetRef, CancellationToken)>,
+            HashMap<AssetRef, DropGuard>,
         ),
     >,
     create_device_tx: UnboundedSender<(DeviceEndpointRef, AssetCreateObservation)>,
@@ -397,22 +383,20 @@ impl FileMountMap {
             // the device is created.
             return;
         };
-        // When an asset is not retained it gets dropped and its deletion token is triggered when
+        // When an asset is not retained it gets dropped and its cancellation token is triggered when
         // the channel associated with it is dropped.
         tracked_assets.retain(|tracked_asset, _| assets.remove(tracked_asset));
 
         // Iterate over the assets and check if they are already tracked, if not, add them
         for asset in assets {
             if !tracked_assets.contains_key(&asset) {
-                // Create a one shot channel for asset deletion
-                let (asset_deletion_tx, asset_deletion_rx) = oneshot::channel();
+                // Create a cancellation token for asset deletion
+                let asset_deletion_token = CancellationToken::new();
 
-                let asset_deletion_token = AssetDeletionToken(asset_deletion_rx);
-
-                // Add the new asset to the tracked assets with the one shot sender so when the asset is
-                // deleted the channel is closed and the receiver is notified.
+                // Add the new asset to the tracked assets with the cancellation token drop guard so
+                // when the asset is deleted the cancellation token is cancelled.
                 log::info!("New asset: {asset:?}");
-                tracked_assets.insert(asset.clone(), asset_deletion_tx);
+                tracked_assets.insert(asset.clone(), asset_deletion_token.clone().drop_guard());
 
                 // Notify that an asset has been created
                 if create_asset_tx
@@ -926,7 +910,7 @@ mod tests {
                 // Ensure all asset deletion tokens are triggered
                 for deletion_token in asset_deletion_tokens {
                     tokio::select! {
-                        () = deletion_token => {
+                        () = deletion_token.cancelled() => {
                             // Token triggered successfully
                         },
                         () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
@@ -985,7 +969,7 @@ mod tests {
                         // Wait for the asset deletion token to be triggered
                         if let Some(deletion_token) = asset_deletion_tokens.remove(asset_to_remove) {
                             tokio::select! {
-                                () = deletion_token => {
+                                () = deletion_token.cancelled() => {
                                     // Token triggered successfully
                                 },
                                 () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
@@ -1001,7 +985,7 @@ mod tests {
 
                         if let Some(deletion_token) = asset_deletion_tokens.remove(remaining_asset) {
                             tokio::select! {
-                                () = deletion_token => {
+                                () = deletion_token.cancelled() => {
                                     panic!("Asset deletion token was triggered for the remaining asset");
                                 },
                                 () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {

@@ -13,11 +13,10 @@
         private readonly Option<string?> modelId;
         private readonly Option<string?> workingDir;
         private readonly Option<DirectoryInfo> outDir;
+        private readonly Option<FileInfo?> resolver;
         private readonly Option<string?> genNamespace;
-#if DEBUG
         private readonly Option<string?> sharedPrefix;
         private readonly Option<string?> sdkPath;
-#endif
         private readonly Option<string> lang;
         private readonly Option<bool> thingOnly;
         private readonly Option<bool> clientOnly;
@@ -32,11 +31,10 @@
         /// <param name="modelId">DTMI of Interface to use for codegen (not needed when model has only one Mqtt Interface).</param>
         /// <param name="workingDir">Directory for storing temporary files (relative to outDir unless path is rooted).</param>
         /// <param name="outDir">Directory for receiving generated code.</param>
+        /// <param name="resolver">Path to a JSON file defining how to resolve referenced identifiers in models.</param>
         /// <param name="genNamespace">Namespace for generated code.</param>
-#if DEBUG
         /// <param name="sharedPrefix">DTMI prefix of shared schemas.</param>
         /// <param name="sdkPath">Local path or feed URL for Azure.Iot.Operations.Protocol SDK.</param>
-#endif
         /// <param name="lang">Programming language for generated code.</param>
         /// <param name="thingOnly">Generate only Thing Description.</param>
         /// <param name="clientOnly">Generate only client-side code.</param>
@@ -46,11 +44,10 @@
             Option<string?> modelId,
             Option<string?> workingDir,
             Option<DirectoryInfo> outDir,
+            Option<FileInfo?> resolver,
             Option<string?> genNamespace,
-#if DEBUG
             Option<string?> sharedPrefix,
             Option<string?> sdkPath,
-#endif
             Option<string> lang,
             Option<bool> thingOnly,
             Option<bool> clientOnly,
@@ -62,11 +59,10 @@
             this.modelId = modelId;
             this.workingDir = workingDir;
             this.outDir = outDir;
+            this.resolver = resolver;
             this.genNamespace = genNamespace;
-#if DEBUG
             this.sharedPrefix = sharedPrefix;
             this.sdkPath = sdkPath;
-#endif
             this.lang = lang;
             this.thingOnly = thingOnly;
             this.clientOnly = clientOnly;
@@ -83,14 +79,10 @@
                 ModelId = bindingContext.ParseResult.GetValueForOption(this.modelId),
                 WorkingDir = bindingContext.ParseResult.GetValueForOption(this.workingDir),
                 OutDir = bindingContext.ParseResult.GetValueForOption(this.outDir)!,
+                ResolverConfig = bindingContext.ParseResult.GetValueForOption(this.resolver),
                 GenNamespace = bindingContext.ParseResult.GetValueForOption(this.genNamespace),
-#if DEBUG
                 SharedPrefix = bindingContext.ParseResult.GetValueForOption(this.sharedPrefix),
                 SdkPath = bindingContext.ParseResult.GetValueForOption(this.sdkPath),
-#else
-                SharedPrefix = null,
-                SdkPath = null,
-#endif
                 Lang = bindingContext.ParseResult.GetValueForOption(this.lang)!,
                 ThingOnly = bindingContext.ParseResult.GetValueForOption(this.thingOnly),
                 ClientOnly = bindingContext.ParseResult.GetValueForOption(this.clientOnly),
