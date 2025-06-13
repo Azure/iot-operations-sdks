@@ -30,37 +30,35 @@ namespace EventDrivenTelemetryConnector
         {
             _logger = logger;
             _connector = new(applicationContext, connectorLogger, mqttClient, messageSchemaProviderFactory, assetMonitor);
-            _connector.OnAssetAvailable += OnAssetAvailableAsync;
-            _connector.OnAssetUnavailable += OnAssetUnavailableAsync;
+            _connector.WhileAssetIsAvailable += WhileAssetAvailableAsync;
         }
 
-        public void OnAssetAvailableAsync(object? sender, AssetAvailableEventArgs e)
+        public Task WhileAssetAvailableAsync(AssetAvailableEventArgs e, CancellationToken cancellationToken)
         {
+            // This cancellation token will signal for cancellation once the asset is no longer available.
+            // It is safe to throw an OperationCancelledException from this thread.
+            cancellationToken.ThrowIfCancellationRequested();
+
             // This callback notifies your app when an asset is available and you can open a connection to your asset to start receiving events
             _logger.LogInformation("Asset with name {0} is now available", e.AssetName);
 
             // Once you receive an event from your asset, use the connector to forward it as telemetry to your MQTT broker
-            // await _connector.ForwardReceivedEventAsync(args.Asset, args.Asset.Events[0], new byte[0]);
-        }
+            // await _connector.ForwardReceivedEventAsync(args.Asset, args.Asset.Events[0], new byte[0], cancellationToken);
 
-        public void OnAssetUnavailableAsync(object? sender, AssetUnavailableEventArgs args)
-        {
-            // This callback notifies your app when an asset is no longer available. At this point, you should close any connection to your asset
-            _logger.LogInformation("Asset with name {0} is no longer available", args.AssetName);
+            return Task.CompletedTask;
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             // This will run the connector application which connects you to the MQTT broker, optionally performs leader election, and
-            // monitors for assets. As assets become available, OnAssetAvailable and OnAssetUnavailable events will execute.
+            // monitors for assets. As assets become available, WhileAssetAvailable events will execute for each particular asset.
             await _connector.StartAsync(cancellationToken);
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            _connector.OnAssetAvailable -= OnAssetAvailableAsync;
-            _connector.OnAssetUnavailable -= OnAssetUnavailableAsync;
+            _connector.WhileAssetIsAvailable -= WhileAssetAvailableAsync;
             _connector.Dispose();
         }
     }
