@@ -72,7 +72,8 @@ where
     C::PubReceiver: Send + Sync,
 {
     invoker: rpc_command::Invoker<state_store::resp3::Request, state_store::resp3::Response, C>,
-    notification_dispatcher: Arc<Dispatcher<(state_store::KeyNotification, Option<AckToken>)>>,
+    notification_dispatcher:
+        Arc<Dispatcher<(state_store::KeyNotification, Option<AckToken>), String>>,
     shutdown_notifier: Arc<Notify>,
 }
 
@@ -574,7 +575,9 @@ where
     async fn receive_key_notification_loop(
         shutdown_notifier: Arc<Notify>,
         mut receiver: telemetry::Receiver<state_store::resp3::Operation, C>,
-        notification_dispatcher: Arc<Dispatcher<(state_store::KeyNotification, Option<AckToken>)>>,
+        notification_dispatcher: Arc<
+            Dispatcher<(state_store::KeyNotification, Option<AckToken>), String>,
+        >,
         connection_monitor: SessionConnectionMonitor,
     ) {
         let mut shutdown_attempt_count = 0;
