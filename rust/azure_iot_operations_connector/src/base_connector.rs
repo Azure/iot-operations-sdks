@@ -154,7 +154,7 @@ impl BaseConnector {
 
     /// Creates a handle to use the [`BaseConnector`]'s Azure Device Registry client for discovery operations.
     pub fn discovery_client(&self) -> adr_discovery::Client {
-        adr_discovery::Client::new(self.connector_context.clone())
+        adr_discovery::Client(self.connector_context.clone())
     }
 
     /// Returns a copy of the connector artifacts

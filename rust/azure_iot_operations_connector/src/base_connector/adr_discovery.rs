@@ -13,16 +13,9 @@ use azure_iot_operations_services::azure_device_registry::{
 use super::ConnectorContext;
 
 /// Client exposing Azure Device Registry Discovery operations
-pub struct Client {
-    connector_context: Arc<ConnectorContext>,
-}
+pub struct Client(pub(crate) Arc<ConnectorContext>);
 
 impl Client {
-    /// Creates a new Azure Device Registry Discovery [`Client`].
-    pub(crate) fn new(connector_context: Arc<ConnectorContext>) -> Self {
-        Client { connector_context }
-    }
-
     /// Creates or updates a discovered device in the Azure Device Registry service.
     ///
     /// If the specified discovered device does not yet exist, it will be created.
@@ -37,17 +30,17 @@ impl Client {
     /// Returns tuple containing the discovery ID and version of the discovered device.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](azure_device_registry::ErrorKind::InvalidRequestArgument)
+    /// [`azure_device_registry::Error`] of kind [`InvalidRequestArgument`](azure_device_registry::ErrorKind::InvalidRequestArgument)
     /// if timeout is 0 or > `u32::max`.
     ///
-    /// [`struct@Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if:
+    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if:
     /// - inbound endpoint type is invalid for the topic.
     /// - there are any underlying errors from the AIO RPC protocol.
     ///
-    /// [`struct@Error`] of kind [`ValidationError`](azure_device_registry::ErrorKind::ValidationError)
+    /// [`azure_device_registry::Error`] of kind [`ValidationError`](azure_device_registry::ErrorKind::ValidationError)
     /// if the device name is empty.
     ///
-    /// [`struct@Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
     pub async fn create_or_update_discovered_device(
         &self,
@@ -55,13 +48,13 @@ impl Client {
         device: adr_models::DiscoveredDevice,
         inbound_endpoint_type: String,
     ) -> Result<(String, u64), azure_device_registry::Error> {
-        self.connector_context
+        self.0
             .azure_device_registry_client
             .create_or_update_discovered_device(
                 device_name,
                 device,
                 inbound_endpoint_type,
-                self.connector_context.default_timeout,
+                self.0.default_timeout,
             )
             .await
     }
@@ -81,17 +74,17 @@ impl Client {
     /// Returns a tuple containing the discovery ID and version of the discovered asset.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](azure_device_registry::ErrorKind::InvalidRequestArgument)
+    /// [`azure_device_registry::Error`] of kind [`InvalidRequestArgument`](azure_device_registry::ErrorKind::InvalidRequestArgument)
     /// if timeout is 0 or > `u32::max`.
     ///
-    /// [`struct@Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if:
+    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
     ///
-    /// [`struct@Error`] of kind [`ValidationError`](azure_device_registry::ErrorKind::ValidationError)
+    /// [`azure_device_registry::Error`] of kind [`ValidationError`](azure_device_registry::ErrorKind::ValidationError)
     /// if the asset name is empty.
     ///
-    /// [`struct@Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
     pub async fn create_or_update_discovered_asset(
         &self,
@@ -100,14 +93,14 @@ impl Client {
         asset_name: String,
         asset: adr_models::DiscoveredAsset,
     ) -> Result<(String, u64), azure_device_registry::Error> {
-        self.connector_context
+        self.0
             .azure_device_registry_client
             .create_or_update_discovered_asset(
                 device_name,
                 inbound_endpoint_name,
                 asset_name,
                 asset,
-                self.connector_context.default_timeout,
+                self.0.default_timeout,
             )
             .await
     }
