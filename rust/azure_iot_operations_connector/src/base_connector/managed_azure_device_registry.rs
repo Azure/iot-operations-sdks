@@ -80,7 +80,7 @@ impl DeviceEndpointClientCreationObservation {
                 .await?;
 
             // and then get device update observation as well
-            let device_endpoint_update_observation =  match Retry::spawn(RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10), async || -> Result<azure_device_registry::DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
+            let device_endpoint_update_observation =  match Retry::spawn(RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10), async || -> Result<azure_device_registry::DeviceUpdateObservation, RetryError<azure_device_registry::Error<String>>> {
                 self.connector_context
                     .azure_device_registry_client
                     .observe_device_update_notifications(
@@ -102,7 +102,7 @@ impl DeviceEndpointClientCreationObservation {
             // get the device definition
             let device = match Retry::spawn(
                 RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
-                async || -> Result<adr_models::Device, RetryError<azure_device_registry::Error>> {
+                async || -> Result<adr_models::Device, RetryError<azure_device_registry::Error<String>>> {
                     self.connector_context
                         .azure_device_registry_client
                         .get_device(
@@ -134,7 +134,7 @@ impl DeviceEndpointClientCreationObservation {
             // get the device status
             let device_status = match Retry::spawn(
                 RETRY_STRATEGY,
-                async || -> Result<adr_models::DeviceStatus, RetryError<azure_device_registry::Error>> {
+                async || -> Result<adr_models::DeviceStatus, RetryError<azure_device_registry::Error<String>>> {
                     self.connector_context
                         .azure_device_registry_client
                         .get_device_status(
@@ -391,7 +391,7 @@ impl DeviceEndpointClient {
                     // Get asset update observation as well
                     let asset_update_observation =  match Retry::spawn(
                         RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
-                        async || -> Result<azure_device_registry::AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
+                        async || -> Result<azure_device_registry::AssetUpdateObservation, RetryError<azure_device_registry::Error<String>>> {
                             self.connector_context
                                 .azure_device_registry_client
                                 .observe_asset_update_notifications(
@@ -414,7 +414,7 @@ impl DeviceEndpointClient {
                     // get the asset definition
                     let asset_client = match Retry::spawn(
                         RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
-                        async || -> Result<adr_models::Asset, RetryError<azure_device_registry::Error>> {
+                        async || -> Result<adr_models::Asset, RetryError<azure_device_registry::Error<String>>> {
                             self.connector_context
                                 .azure_device_registry_client
                                 .get_asset(
@@ -433,7 +433,7 @@ impl DeviceEndpointClient {
                             // get the asset status
                             match Retry::spawn(
                                 RETRY_STRATEGY,
-                                async || -> Result<adr_models::AssetStatus, RetryError<azure_device_registry::Error>> {
+                                async || -> Result<adr_models::AssetStatus, RetryError<azure_device_registry::Error<String>>> {
                                     self.connector_context
                                         .azure_device_registry_client
                                         .get_asset_status(
@@ -502,7 +502,7 @@ impl DeviceEndpointClient {
         // send status update to the service
         match Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
-            async || -> Result<adr_models::DeviceStatus, RetryError<azure_device_registry::Error>> {
+            async || -> Result<adr_models::DeviceStatus, RetryError<azure_device_registry::Error<String>>> {
                 self.connector_context
                     .azure_device_registry_client
                     .update_device_plus_endpoint_status(
@@ -539,7 +539,7 @@ impl DeviceEndpointClient {
     ) {
         let _ = Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
-            async || -> Result<(), RetryError<azure_device_registry::Error>> {
+            async || -> Result<(), RetryError<azure_device_registry::Error<String>>> {
                 connector_context
                     .azure_device_registry_client
                     .unobserve_device_update_notifications(
@@ -965,7 +965,7 @@ impl AssetClient {
         // send status update to the service
         match Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
-            async || -> Result<adr_models::AssetStatus, RetryError<azure_device_registry::Error>> {
+            async || -> Result<adr_models::AssetStatus, RetryError<azure_device_registry::Error<String>>> {
                 connector_context
                     .azure_device_registry_client
                     .update_asset_status(
@@ -1110,7 +1110,7 @@ impl AssetClient {
         // unobserve as cleanup
         let _ = Retry::spawn(
             RETRY_STRATEGY.take(10),
-            async || -> Result<(), RetryError<azure_device_registry::Error>> {
+            async || -> Result<(), RetryError<azure_device_registry::Error<String>>> {
                 connector_context
                     .azure_device_registry_client
                     .unobserve_asset_update_notifications(
@@ -1771,9 +1771,9 @@ impl From<adr_models::Asset> for AssetSpecification {
 }
 
 fn observe_error_into_retry_error(
-    e: azure_device_registry::Error,
+    e: azure_device_registry::Error<String>,
     operation_for_log: &str,
-) -> RetryError<azure_device_registry::Error> {
+) -> RetryError<azure_device_registry::Error<String>> {
     match e.kind() {
         // network/retriable
         azure_device_registry::ErrorKind::AIOProtocolError(_) => {
@@ -1795,9 +1795,9 @@ fn observe_error_into_retry_error(
 }
 
 fn adr_error_into_retry_error(
-    e: azure_device_registry::Error,
+    e: azure_device_registry::Error<String>,
     operation_for_log: &str,
-) -> RetryError<azure_device_registry::Error> {
+) -> RetryError<azure_device_registry::Error<String>> {
     match e.kind() {
         // network/retriable
         azure_device_registry::ErrorKind::AIOProtocolError(_) => {
