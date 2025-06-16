@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-namespace Azure.Iot.Operations.Connector.Assets
+namespace Azure.Iot.Operations.Connector.Files
 {
     internal class FileUtilities
     {

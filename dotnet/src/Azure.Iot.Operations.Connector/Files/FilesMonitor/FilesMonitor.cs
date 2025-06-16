@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-namespace Azure.Iot.Operations.Connector.Assets.FileMonitor
+namespace Azure.Iot.Operations.Connector.Files.FileMonitor
 {
     internal class FilesMonitor
     {

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Connector.Assets;
+using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector.UnitTests
@@ -13,8 +13,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
         private bool _isObservingDevices = false;
 
-        public event EventHandler<Assets.AssetChangedEventArgs>? AssetFileChanged;
-        public event EventHandler<Assets.DeviceChangedEventArgs>? DeviceFileChanged;
+        public event EventHandler<AssetFileChangedEventArgs>? AssetFileChanged;
+        public event EventHandler<DeviceFileChangedEventArgs>? DeviceFileChanged;
 
         public void SimulateNewDeviceCreated(string deviceName, string inboundEndpointName)
         {

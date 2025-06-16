@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-namespace Azure.Iot.Operations.Connector.Assets
+namespace Azure.Iot.Operations.Connector.Files
 {
-    public class DeviceChangedEventArgs : EventArgs
+    public class DeviceFileChangedEventArgs : EventArgs
     {
         public string DeviceName { get; set; }
 
@@ -11,7 +11,7 @@ namespace Azure.Iot.Operations.Connector.Assets
 
         public AssetFileMonitorChangeType ChangeType { get; set; }
 
-        internal DeviceChangedEventArgs(string deviceName, string inboundEndpointName, AssetFileMonitorChangeType changeType)
+        internal DeviceFileChangedEventArgs(string deviceName, string inboundEndpointName, AssetFileMonitorChangeType changeType)
         {
             DeviceName = deviceName;
             InboundEndpointName = inboundEndpointName;

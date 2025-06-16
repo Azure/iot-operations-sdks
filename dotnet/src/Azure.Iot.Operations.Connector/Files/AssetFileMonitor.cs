@@ -1,13 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Connector.Assets.FileMonitor;
+using Azure.Iot.Operations.Connector.Files.FileMonitor;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text;
 
-namespace Azure.Iot.Operations.Connector.Assets
+namespace Azure.Iot.Operations.Connector.Files
 {
     /// <summary>
     /// This class allows for getting and monitor changes to assets and devices.
@@ -35,10 +35,10 @@ namespace Azure.Iot.Operations.Connector.Assets
         private FilesMonitor? _deviceDirectoryMonitor;
 
         /// </inheritdoc>
-        public event EventHandler<AssetChangedEventArgs>? AssetFileChanged;
+        public event EventHandler<AssetFileChangedEventArgs>? AssetFileChanged;
 
         /// </inheritdoc>
-        public event EventHandler<DeviceChangedEventArgs>? DeviceFileChanged;
+        public event EventHandler<DeviceFileChangedEventArgs>? DeviceFileChanged;
 
         public AssetFileMonitor()
         {

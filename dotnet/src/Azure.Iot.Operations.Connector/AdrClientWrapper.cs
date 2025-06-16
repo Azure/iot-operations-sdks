@@ -3,7 +3,7 @@
 
 using System;
 using System.Collections.Concurrent;
-using Azure.Iot.Operations.Connector.Assets;
+using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
@@ -166,7 +166,7 @@ namespace Azure.Iot.Operations.Connector
             return Task.CompletedTask;
         }
 
-        private async void AssetFileChanged(object? sender, Assets.AssetChangedEventArgs e)
+        private async void AssetFileChanged(object? sender, AssetFileChangedEventArgs e)
         {
             if (e.ChangeType == AssetFileMonitorChangeType.Deleted)
             {
@@ -197,7 +197,7 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private async void DeviceFileChanged(object? sender, Assets.DeviceChangedEventArgs e)
+        private async void DeviceFileChanged(object? sender, DeviceFileChangedEventArgs e)
         {
             if (e.ChangeType == AssetFileMonitorChangeType.Deleted)
             {

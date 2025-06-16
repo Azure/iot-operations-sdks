@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Azure.Iot.Operations.Connector.Assets;
+using Azure.Iot.Operations.Connector.Files;
 using Xunit;
 
 namespace Azure.Iot.Operations.Connector.UnitTests
@@ -58,7 +58,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             try
             {
-                TaskCompletionSource<Assets.DeviceChangedEventArgs> deviceChangedEventArgsTcs = new();
+                TaskCompletionSource<DeviceFileChangedEventArgs> deviceChangedEventArgsTcs = new();
                 assetFileMonitor.DeviceFileChanged += (sender, args) =>
                 {
                     deviceChangedEventArgsTcs.TrySetResult(args);
@@ -72,9 +72,9 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Assert.Equal("SomeInboundEndpointName", deviceChangeArgs.InboundEndpointName);
                 Assert.Equal(AssetFileMonitorChangeType.Created, deviceChangeArgs.ChangeType);
 
-                TaskCompletionSource<Assets.AssetChangedEventArgs> asset1ChangedEventArgsTcs = new();
-                TaskCompletionSource<Assets.AssetChangedEventArgs> asset2ChangedEventArgsTcs = new();
-                TaskCompletionSource<Assets.AssetChangedEventArgs> assetChangedEventArgsTcs = new();
+                TaskCompletionSource<AssetFileChangedEventArgs> asset1ChangedEventArgsTcs = new();
+                TaskCompletionSource<AssetFileChangedEventArgs> asset2ChangedEventArgsTcs = new();
+                TaskCompletionSource<AssetFileChangedEventArgs> assetChangedEventArgsTcs = new();
                 assetFileMonitor.AssetFileChanged += (sender, args) =>
                 {
                     if (args.AssetName.Equals("SomeAssetName1"))
