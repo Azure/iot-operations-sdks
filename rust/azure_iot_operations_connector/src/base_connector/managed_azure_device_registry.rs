@@ -5,6 +5,7 @@
 
 use std::{
     collections::HashMap,
+    path::PathBuf,
     sync::{Arc, RwLock},
 };
 
@@ -219,10 +220,12 @@ impl DeviceEndpointClient {
         // TODO: This won't need to return an error once the service properly sends errors if the endpoint doesn't exist
     ) -> Result<Self, String> {
         Ok(DeviceEndpointClient {
-            // TODO: get device_endpoint_credentials_mount_path from connector config
             specification: Arc::new(RwLock::new(DeviceSpecification::new(
                 device,
-                "/etc/akri/secrets/device_endpoint_auth",
+                connector_context
+                    .connector_config
+                    .device_endpoint_credentials_mount
+                    .as_ref(),
                 &device_endpoint_ref.inbound_endpoint_name,
             )?)),
             status: Arc::new(RwLock::new(DeviceEndpointStatus::new(
@@ -374,8 +377,10 @@ impl DeviceEndpointClient {
                     let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
                     *unlocked_specification = DeviceSpecification::new(
                         updated_device,
-                        // TODO: get device_endpoint_credentials_mount_path from connector config
-                        "/etc/akri/secrets/device_endpoint_auth",
+                        self.connector_context
+                            .connector_config
+                            .device_endpoint_credentials_mount
+                            .as_ref(),
                         &self.device_endpoint_ref.inbound_endpoint_name,
                     ).expect("Device Update Notification should never provide a device that doesn't have the inbound endpoint");
                     return ClientNotification::Updated;
@@ -1496,7 +1501,7 @@ pub struct DeviceSpecification {
 impl DeviceSpecification {
     pub(crate) fn new(
         device_specification: adr_models::Device,
-        device_endpoint_credentials_mount_path: &str,
+        device_endpoint_credentials_mount_path: Option<&PathBuf>,
         inbound_endpoint_name: &str,
     ) -> Result<Self, String> {
         // convert the endpoints to the new format with only the one specified inbound endpoint
@@ -1517,18 +1522,14 @@ impl DeviceSpecification {
             adr_models::Authentication::Certificate {
                 certificate_secret_name,
             } => Authentication::Certificate {
-                certificate_path: format!("path/{certificate_secret_name}"),
+                certificate_path: device_endpoint_credentials_mount_path.expect("device_endpoint_credentials_mount_path must be present if Authentication is Certificate").as_path().join(certificate_secret_name),
             },
             adr_models::Authentication::UsernamePassword {
                 password_secret_name,
                 username_secret_name,
             } => Authentication::UsernamePassword {
-                password_path: format!(
-                    "{device_endpoint_credentials_mount_path}/{password_secret_name}"
-                ),
-                username_path: format!(
-                    "{device_endpoint_credentials_mount_path}/{username_secret_name}"
-                ),
+                password_path: device_endpoint_credentials_mount_path.expect("device_endpoint_credentials_mount_path must be present if Authentication is UsernamePassword").as_path().join(password_secret_name),
+                username_path: device_endpoint_credentials_mount_path.expect("device_endpoint_credentials_mount_path must be present if Authentication is UsernamePassword").as_path().join(username_secret_name),
             },
         };
 
@@ -1598,14 +1599,14 @@ pub enum Authentication {
     /// Represents authentication using a certificate.
     Certificate {
         /// The 'certificateSecretName' Field.
-        certificate_path: String, // different from adr
+        certificate_path: PathBuf, // different from adr
     },
     /// Represents authentication using a username and password.
     UsernamePassword {
         /// The 'passwordSecretName' Field.
-        password_path: String, // different from adr
+        password_path: PathBuf, // different from adr
         /// The 'usernameSecretName' Field.
-        username_path: String, // different from adr
+        username_path: PathBuf, // different from adr
     },
 }
 
