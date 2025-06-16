@@ -72,7 +72,6 @@ namespace Azure.Iot.Operations.Connector
             _monitor.ObserveAssets(deviceName, inboundEndpointName);
         }
 
-        //TODO "setnotificationpreference"
         /// </inheritdoc>
         public async Task UnobserveAssetsAsync(string deviceName, string inboundEndpointName, CancellationToken cancellationToken = default)
         {
