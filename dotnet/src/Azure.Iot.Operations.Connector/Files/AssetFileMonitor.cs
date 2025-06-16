@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Connector.Files.FileMonitor;
+using Azure.Iot.Operations.Connector.Files.FilesMonitor;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using System.Collections.Concurrent;
 using System.Text;
@@ -29,9 +29,11 @@ namespace Azure.Iot.Operations.Connector.Files
         private readonly ConcurrentDictionary<string, List<string>> _lastKnownAssetNames = new();
 
         // Key is <deviceName>_<inboundEndpointName>, value is the file watcher for the asset
-        private readonly ConcurrentDictionary<string, FilesMonitor> _assetFileMonitors = new();
+        private readonly ConcurrentDictionary<string, IFilesMonitor> _assetFileMonitors = new();
 
-        private FilesMonitor? _deviceDirectoryMonitor;
+        private IFilesMonitor? _deviceDirectoryMonitor;
+
+        private readonly IFilesMonitorFactory _filesMonitorFactory;
 
         /// </inheritdoc>
         public event EventHandler<AssetFileChangedEventArgs>? AssetFileChanged;
@@ -39,8 +41,9 @@ namespace Azure.Iot.Operations.Connector.Files
         /// </inheritdoc>
         public event EventHandler<DeviceFileChangedEventArgs>? DeviceFileChanged;
 
-        public AssetFileMonitor()
+        public AssetFileMonitor(IFilesMonitorFactory? filesMonitorFactory = null)
         {
+            _filesMonitorFactory = filesMonitorFactory ?? new FsnotifyFilesMonitorFactory();
             _adrResourcesNameMountPath = Environment.GetEnvironmentVariable(AdrResourcesNameMountPathEnvVar) ?? throw new InvalidOperationException($"Missing {AdrResourcesNameMountPathEnvVar} environment variable");
             _deviceEndpointTlsTrustBundleCertMountPath = Environment.GetEnvironmentVariable(DeviceEndpointTlsTrustBundleCertMountPathEnvVar);
             _deviceEndpointCredentialsMountPath = Environment.GetEnvironmentVariable(DeviceEndpointCredentialsMountPathEnvVar);
@@ -50,7 +53,7 @@ namespace Azure.Iot.Operations.Connector.Files
         public void ObserveAssets(string deviceName, string inboundEndpointName)
         {
             string assetFileName = $"{deviceName}_{inboundEndpointName}";
-            FilesMonitor assetMonitor = new(_adrResourcesNameMountPath, assetFileName);
+            IFilesMonitor assetMonitor = _filesMonitorFactory.Create();
             if (_assetFileMonitors.TryAdd(assetFileName, assetMonitor))
             {
                 assetMonitor.OnFileChanged += (sender, args) =>
@@ -106,7 +109,7 @@ namespace Azure.Iot.Operations.Connector.Files
                     }
                 };
 
-                assetMonitor.Start();
+                assetMonitor.Start(_adrResourcesNameMountPath, assetFileName);
 
                 // Treate any assets that already exist as though they were just created
                 IEnumerable<string>? currentAssetNames = GetAssetNames(deviceName, inboundEndpointName);
@@ -131,7 +134,7 @@ namespace Azure.Iot.Operations.Connector.Files
         public void UnobserveAssets(string deviceName, string inboundEndpointName)
         {
             string assetFileName = $"{deviceName}_{inboundEndpointName}";
-            if (_assetFileMonitors.TryRemove(assetFileName, out FilesMonitor? assetMonitor))
+            if (_assetFileMonitors.TryRemove(assetFileName, out IFilesMonitor? assetMonitor))
             {
                 assetMonitor.Stop();
             }
@@ -142,7 +145,7 @@ namespace Azure.Iot.Operations.Connector.Files
         {
             if (_deviceDirectoryMonitor == null)
             {
-                _deviceDirectoryMonitor = new(_adrResourcesNameMountPath, null);
+                _deviceDirectoryMonitor = _filesMonitorFactory.Create();
                 _deviceDirectoryMonitor.OnFileChanged += (sender, args) =>
                 {
                     if (args.FileName.Contains("_") && args.FileName.Split("_").Length == 2)
@@ -161,7 +164,7 @@ namespace Azure.Iot.Operations.Connector.Files
                     }
                 };
 
-                _deviceDirectoryMonitor.Start();
+                _deviceDirectoryMonitor.Start(_adrResourcesNameMountPath, null);
 
                 // Treat any devices created before this call as newly created
                 IEnumerable<string>? currentDeviceNames = GetCompositeDeviceNames();

@@ -1,26 +1,17 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-namespace Azure.Iot.Operations.Connector.Files.FileMonitor
+namespace Azure.Iot.Operations.Connector.Files.FilesMonitor
 {
-    public class FsnotifyFilesMonitor
+    public class FsnotifyFilesMonitor : IFilesMonitor
     {
-        private readonly string _directory;
-        private readonly string? _fileName;
-
         private FileSystemWatcher? _watcher;
-
-        internal event EventHandler<FileChangedEventArgs>? OnFileChanged;
 
         private bool _startedObserving = false;
 
-        public FsnotifyFilesMonitor(string directory, string? fileName)
-        {
-            _directory = directory;
-            _fileName = fileName;
-        }
+        public event EventHandler<FileChangedEventArgs>? OnFileChanged;
 
-        public void Start()
+        public void Start(string directory, string? fileName = null)
         {
             if (_startedObserving)
             {
@@ -29,7 +20,7 @@ namespace Azure.Iot.Operations.Connector.Files.FileMonitor
 
             _startedObserving = true;
 
-            _watcher = new FileSystemWatcher(_directory)
+            _watcher = new FileSystemWatcher(directory)
             {
                 NotifyFilter = NotifyFilters.Attributes
                                      | NotifyFilters.CreationTime
@@ -40,10 +31,10 @@ namespace Azure.Iot.Operations.Connector.Files.FileMonitor
                                      | NotifyFilters.Size
             };
 
-            if (_fileName != null)
+            if (fileName != null)
             {
                 // Watch only this file in the directory
-                _watcher.Filter = _fileName;
+                _watcher.Filter = fileName;
             }
 
             _watcher.Created += OnChanged;

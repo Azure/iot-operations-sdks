@@ -8,32 +8,28 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Azure.Iot.Operations.Connector.Files.FileMonitor;
 
 namespace Azure.Iot.Operations.Connector.Files.FilesMonitor
 {
-    public class PollingFilesMonitor
+    public class PollingFilesMonitor : IFilesMonitor
     {
         private CancellationTokenSource? _observationTaskCancellationTokenSource;
 
         // The set of file paths and their last known contents hash
         private readonly Dictionary<string, byte[]> _lastKnownDirectoryState = new();
 
-        private readonly Func<string> _directoryRetriever;
-
         private readonly TimeSpan _pollingInterval;
-
-        internal event EventHandler<FileChangedEventArgs>? OnFileChanged;
 
         private bool _startedObserving = false;
 
-        internal PollingFilesMonitor(Func<string> directoryRetriever, TimeSpan? pollingInterval = null)
+        public event EventHandler<FileChangedEventArgs>? OnFileChanged;
+
+        public PollingFilesMonitor(TimeSpan? pollingInterval = null)
         {
-            _directoryRetriever = directoryRetriever;
             _pollingInterval = pollingInterval ?? TimeSpan.FromSeconds(10);
         }
 
-        internal void Start()
+        public void Start(string directory, string? file = null) //TODO this impl ignores file. Needs fixing
         {
             if (_startedObserving)
             {
@@ -51,8 +47,7 @@ namespace Azure.Iot.Operations.Connector.Files.FilesMonitor
                     {
                         while (!_observationTaskCancellationTokenSource.Token.IsCancellationRequested)
                         {
-                            string directoryToObserve = _directoryRetriever.Invoke();
-                            if (string.IsNullOrWhiteSpace(directoryToObserve) || !Directory.Exists(directoryToObserve))
+                            if (string.IsNullOrWhiteSpace(directory) || !Directory.Exists(directory))
                             {
                                 // The folder was deleted, so all previously known files must have been deleted as well
                                 foreach (string filePath in _lastKnownDirectoryState.Keys)
@@ -64,7 +59,7 @@ namespace Azure.Iot.Operations.Connector.Files.FilesMonitor
                             }
                             else
                             {
-                                var currentFilesInDirectory = Directory.EnumerateFiles(directoryToObserve);
+                                var currentFilesInDirectory = Directory.EnumerateFiles(directory);
 
                                 // Check if any previously known files are gone now
                                 List<string> filePathsToRemove = new();
@@ -129,7 +124,7 @@ namespace Azure.Iot.Operations.Connector.Files.FilesMonitor
             observationTask.Start();
         }
 
-        internal void Stop()
+        public void Stop()
         {
             _observationTaskCancellationTokenSource?.Cancel();
             _observationTaskCancellationTokenSource?.Dispose();

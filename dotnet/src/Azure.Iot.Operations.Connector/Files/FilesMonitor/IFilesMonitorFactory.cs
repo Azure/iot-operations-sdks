@@ -9,12 +9,8 @@ using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Connector.Files.FilesMonitor
 {
-    public interface IFilesMonitor
+    public interface IFilesMonitorFactory
     {
-        event EventHandler<FileChangedEventArgs>? OnFileChanged;
-
-        void Start(string directory, string? file = null);
-
-        void Stop();
+        IFilesMonitor Create();
     }
 }

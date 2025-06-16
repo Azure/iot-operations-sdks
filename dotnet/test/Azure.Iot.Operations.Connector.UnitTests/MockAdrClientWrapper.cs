@@ -78,5 +78,20 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         {
             return mockClientWrapper.Object.UpdateDeviceStatusAsync(deviceName, inboundEndpointName, status, commandTimeout, cancellationToken);
         }
+
+        public Task<CreateOrUpdateDiscoveredAssetResponsePayload> CreateOrUpdateDiscoveredAssetAsync(string deviceName, string inboundEndpointName, CreateOrUpdateDiscoveredAssetRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return mockClientWrapper.Object.CreateOrUpdateDiscoveredAssetAsync(deviceName, inboundEndpointName, request, commandTimeout, cancellationToken);
+        }
+
+        public Task<CreateOrUpdateDiscoveredDeviceResponsePayload> CreateOrUpdateDiscoveredDeviceAsync(CreateOrUpdateDiscoveredDeviceRequestSchema request, string inboundEndpointType, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return mockClientWrapper.Object.CreateOrUpdateDiscoveredDeviceAsync(request, inboundEndpointType, commandTimeout, cancellationToken);
+        }
+
+        public ValueTask DisposeAsync()
+        {
+            return ValueTask.CompletedTask;
+        }
     }
 }
