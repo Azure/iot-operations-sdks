@@ -5,7 +5,6 @@ using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Retry;
 using System.Diagnostics;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Azure.Iot.Operations.Services.IntegrationTest;
 
@@ -14,7 +13,7 @@ public class ClientFactory
     public static async Task<MqttSessionClient> CreateAndConnectClientAsyncFromEnvAsync(string clientId = "")
     {
         var mcs = CreateMqttConnectionSettings();
-        if (clientId.IsNullOrEmpty())
+        if (string.IsNullOrEmpty(clientId))
         {
             mcs.ClientId += Guid.NewGuid().ToString();
         }
