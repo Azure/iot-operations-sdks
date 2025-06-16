@@ -92,7 +92,7 @@ namespace Azure.Iot.Operations.Connector.Files
                             }
 
                             _lastKnownAssetNames[assetFileName].Add(addedAssetName);
-                            AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, addedAssetName, AssetFileMonitorChangeType.Created));
+                            AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, addedAssetName, FileChangeType.Created));
                         }
 
                         foreach (string removedAssetName in removedAssetNames)
@@ -100,7 +100,7 @@ namespace Azure.Iot.Operations.Connector.Files
                             if (_lastKnownAssetNames.ContainsKey(assetFileName))
                             {
                                 _lastKnownAssetNames[assetFileName].Remove(removedAssetName);
-                                AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, removedAssetName, AssetFileMonitorChangeType.Deleted));
+                                AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, removedAssetName, FileChangeType.Deleted));
                             }
                         }
                     }
@@ -121,7 +121,7 @@ namespace Azure.Iot.Operations.Connector.Files
 
                         _lastKnownAssetNames[assetFileName].Add(currentAssetName);
 
-                        AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, currentAssetName, AssetFileMonitorChangeType.Created));
+                        AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, currentAssetName, FileChangeType.Created));
                     }
                 }
             }
@@ -152,11 +152,11 @@ namespace Azure.Iot.Operations.Connector.Files
 
                         if (args.ChangeType == WatcherChangeTypes.Created)
                         {
-                            DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, AssetFileMonitorChangeType.Created));
+                            DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, FileChangeType.Created));
                         }
                         else if (args.ChangeType == WatcherChangeTypes.Deleted)
                         {
-                            DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, AssetFileMonitorChangeType.Deleted));
+                            DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, FileChangeType.Deleted));
                         }
                     }
                 };
@@ -169,7 +169,7 @@ namespace Azure.Iot.Operations.Connector.Files
                 {
                     foreach (string deviceName in currentDeviceNames)
                     {
-                        DeviceFileChanged?.Invoke(this, new(deviceName.Split('_')[0], deviceName.Split('_')[1], AssetFileMonitorChangeType.Created));
+                        DeviceFileChanged?.Invoke(this, new(deviceName.Split('_')[0], deviceName.Split('_')[1], FileChangeType.Created));
                     }
                 }
             }

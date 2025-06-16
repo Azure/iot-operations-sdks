@@ -7,11 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Azure.Iot.Operations.Connector.Files
+namespace Azure.Iot.Operations.Connector.Files.FilesMonitor
 {
-    public enum AssetFileMonitorChangeType
+    internal interface IFilesMonitor
     {
-        Deleted,
-        Created
     }
 }

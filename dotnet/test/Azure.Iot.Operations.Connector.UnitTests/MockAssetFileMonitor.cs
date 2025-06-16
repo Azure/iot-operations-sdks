@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         {
             if (_isObservingDevices)
             {
-                DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, AssetFileMonitorChangeType.Created));
+                DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, FileChangeType.Created));
             }
 
             _devicesAndAssetNames.Add(ToComposite(deviceName, inboundEndpointName), new());
@@ -30,7 +30,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         {
             if (_isObservingDevices)
             {
-                DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, AssetFileMonitorChangeType.Deleted));
+                DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, FileChangeType.Deleted));
             }
 
             _devicesAndAssetNames.Remove(ToComposite(deviceName, inboundEndpointName));
@@ -40,7 +40,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         {
             if (_observedDevicesAndAssetNames.Contains(ToComposite(deviceName, inboundEndpointName)))
             {
-                AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, assetName, AssetFileMonitorChangeType.Created));
+                AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, assetName, FileChangeType.Created));
             }
 
             _devicesAndAssetNames[ToComposite(deviceName, inboundEndpointName)].Add(assetName);
@@ -50,7 +50,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         {
             if (_observedDevicesAndAssetNames.Contains(ToComposite(deviceName, inboundEndpointName)))
             {
-                AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, assetName, AssetFileMonitorChangeType.Deleted));
+                AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, assetName, FileChangeType.Deleted));
             }
 
             _devicesAndAssetNames[ToComposite(deviceName, inboundEndpointName)].Remove(assetName);

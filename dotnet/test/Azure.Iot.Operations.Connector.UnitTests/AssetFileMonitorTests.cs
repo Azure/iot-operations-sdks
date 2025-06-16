@@ -70,7 +70,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 var deviceChangeArgs = await deviceChangedEventArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
                 Assert.Equal("SomeDeviceName", deviceChangeArgs.DeviceName);
                 Assert.Equal("SomeInboundEndpointName", deviceChangeArgs.InboundEndpointName);
-                Assert.Equal(AssetFileMonitorChangeType.Created, deviceChangeArgs.ChangeType);
+                Assert.Equal(FileChangeType.Created, deviceChangeArgs.ChangeType);
 
                 TaskCompletionSource<AssetFileChangedEventArgs> asset1ChangedEventArgsTcs = new();
                 TaskCompletionSource<AssetFileChangedEventArgs> asset2ChangedEventArgsTcs = new();
@@ -98,13 +98,13 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Assert.Equal("SomeDeviceName", asset1ChangeArgs.DeviceName);
                 Assert.Equal("SomeInboundEndpointName", asset1ChangeArgs.InboundEndpointName);
                 Assert.Equal("SomeAssetName1", asset1ChangeArgs.AssetName);
-                Assert.Equal(AssetFileMonitorChangeType.Created, asset1ChangeArgs.ChangeType);
+                Assert.Equal(FileChangeType.Created, asset1ChangeArgs.ChangeType);
 
                 var asset2ChangeArgs = await asset2ChangedEventArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
                 Assert.Equal("SomeDeviceName", asset2ChangeArgs.DeviceName);
                 Assert.Equal("SomeInboundEndpointName", asset2ChangeArgs.InboundEndpointName);
                 Assert.Equal("SomeAssetName2", asset2ChangeArgs.AssetName);
-                Assert.Equal(AssetFileMonitorChangeType.Created, asset2ChangeArgs.ChangeType);
+                Assert.Equal(FileChangeType.Created, asset2ChangeArgs.ChangeType);
 
                 // Add a new device + endpoint
                 deviceChangedEventArgsTcs = new();
@@ -114,7 +114,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
                 Assert.Equal(expectedDeviceName, deviceCreatedArgs.DeviceName);
                 Assert.Equal(expectedEndpointName, deviceCreatedArgs.InboundEndpointName);
-                Assert.Equal(AssetFileMonitorChangeType.Created, deviceCreatedArgs.ChangeType);
+                Assert.Equal(FileChangeType.Created, deviceCreatedArgs.ChangeType);
 
                 string expectedCreatedAssetName = Guid.NewGuid().ToString();
                 assetFileMonitor.ObserveAssets(expectedDeviceName, expectedEndpointName);
@@ -126,7 +126,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Assert.Equal(expectedDeviceName, assetChangedEventArgs.DeviceName);
                 Assert.Equal(expectedEndpointName, assetChangedEventArgs.InboundEndpointName);
                 Assert.Equal(expectedCreatedAssetName, assetChangedEventArgs.AssetName);
-                Assert.Equal(AssetFileMonitorChangeType.Created, assetChangedEventArgs.ChangeType);
+                Assert.Equal(FileChangeType.Created, assetChangedEventArgs.ChangeType);
 
                 // Delete the asset
                 assetChangedEventArgsTcs = new();
@@ -136,7 +136,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Assert.Equal(expectedDeviceName, assetDeletedEventArgs.DeviceName);
                 Assert.Equal(expectedEndpointName, assetDeletedEventArgs.InboundEndpointName);
                 Assert.Equal(expectedCreatedAssetName, assetDeletedEventArgs.AssetName);
-                Assert.Equal(AssetFileMonitorChangeType.Deleted, assetDeletedEventArgs.ChangeType);
+                Assert.Equal(FileChangeType.Deleted, assetDeletedEventArgs.ChangeType);
 
                 deviceChangedEventArgsTcs = new();
                 File.Delete(devicePath);
@@ -145,7 +145,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
                 Assert.Equal(expectedDeviceName, deviceDeletedArgs.DeviceName);
                 Assert.Equal(expectedEndpointName, deviceDeletedArgs.InboundEndpointName);
-                Assert.Equal(AssetFileMonitorChangeType.Deleted, deviceDeletedArgs.ChangeType);
+                Assert.Equal(FileChangeType.Deleted, deviceDeletedArgs.ChangeType);
             }
             finally
             {

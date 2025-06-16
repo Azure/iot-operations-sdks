@@ -196,12 +196,12 @@ namespace Azure.Iot.Operations.Connector
 
         private async void AssetFileChanged(object? sender, AssetFileChangedEventArgs e)
         {
-            if (e.ChangeType == AssetFileMonitorChangeType.Deleted)
+            if (e.ChangeType == FileChangeType.Deleted)
             {
                 await _client.SetNotificationPreferenceForAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName, NotificationPreference.Off);
                 AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Deleted, null));
             }
-            else if (e.ChangeType == AssetFileMonitorChangeType.Created)
+            else if (e.ChangeType == FileChangeType.Created)
             {
                 var notificationResponse = await _client.SetNotificationPreferenceForAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName, NotificationPreference.On);
 
@@ -227,12 +227,12 @@ namespace Azure.Iot.Operations.Connector
 
         private async void DeviceFileChanged(object? sender, DeviceFileChangedEventArgs e)
         {
-            if (e.ChangeType == AssetFileMonitorChangeType.Deleted)
+            if (e.ChangeType == FileChangeType.Deleted)
             {
                 await _client.SetNotificationPreferenceForDeviceUpdatesAsync(e.DeviceName, e.InboundEndpointName, NotificationPreference.Off);
                 DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Deleted, null));
             }
-            else if (e.ChangeType == AssetFileMonitorChangeType.Created)
+            else if (e.ChangeType == FileChangeType.Created)
             {
                 var notificationResponse = await _client.SetNotificationPreferenceForDeviceUpdatesAsync(e.DeviceName, e.InboundEndpointName, NotificationPreference.On);
 

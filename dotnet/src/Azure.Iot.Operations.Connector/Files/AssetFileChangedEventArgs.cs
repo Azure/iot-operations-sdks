@@ -14,9 +14,9 @@ namespace Azure.Iot.Operations.Connector.Files
 
         public string AssetName { get; set; }
 
-        public AssetFileMonitorChangeType ChangeType { get; set; }
+        public FileChangeType ChangeType { get; set; }
 
-        internal AssetFileChangedEventArgs(string deviceName, string inboundEndpointName, string assetName, AssetFileMonitorChangeType changeType)
+        internal AssetFileChangedEventArgs(string deviceName, string inboundEndpointName, string assetName, FileChangeType changeType)
         {
             DeviceName = deviceName;
             AssetName = assetName;

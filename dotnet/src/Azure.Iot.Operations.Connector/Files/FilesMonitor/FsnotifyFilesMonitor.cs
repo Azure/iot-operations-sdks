@@ -3,7 +3,7 @@
 
 namespace Azure.Iot.Operations.Connector.Files.FileMonitor
 {
-    internal class FilesMonitor
+    public class FsnotifyFilesMonitor
     {
         private readonly string _directory;
         private readonly string? _fileName;
@@ -14,13 +14,13 @@ namespace Azure.Iot.Operations.Connector.Files.FileMonitor
 
         private bool _startedObserving = false;
 
-        internal FilesMonitor(string directory, string? fileName)
+        public FsnotifyFilesMonitor(string directory, string? fileName)
         {
             _directory = directory;
             _fileName = fileName;
         }
 
-        internal void Start()
+        public void Start()
         {
             if (_startedObserving)
             {
@@ -53,12 +53,7 @@ namespace Azure.Iot.Operations.Connector.Files.FileMonitor
             _watcher.EnableRaisingEvents = true;
         }
 
-        private void OnChanged(object sender, FileSystemEventArgs e)
-        {
-            OnFileChanged?.Invoke(sender, new(e.FullPath, e.ChangeType));
-        }
-
-        internal void Stop()
+        public void Stop()
         {
             if (_watcher != null)
             {
@@ -69,6 +64,11 @@ namespace Azure.Iot.Operations.Connector.Files.FileMonitor
 
             _watcher?.Dispose();
             _startedObserving = false;
+        }
+
+        private void OnChanged(object sender, FileSystemEventArgs e)
+        {
+            OnFileChanged?.Invoke(sender, new(e.FullPath, e.ChangeType));
         }
     }
 }
