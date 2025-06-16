@@ -526,6 +526,25 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
             await leasedLockClient.DisposeAsync();
         }
 
+        [Fact]
+        public async Task AcquireLockWithTooShortLeaseDurationThrows()
+        {
+            // arrange
+            TimeSpan leaseDuration = TimeSpan.FromMicroseconds(1);
+            Mock<StateStoreClient> mockStateStoreClient = GetMockStateStoreClient();
+            using CancellationTokenSource tokenSource = new CancellationTokenSource();
+            var leasedLockClient = new LeasedLockClient(mockStateStoreClient.Object, "someLockName", "someValue");
+
+            // act/assert
+            await Assert.ThrowsAsync<ArgumentException>(async () => await leasedLockClient.TryAcquireLockAsync(
+                leaseDuration,
+                cancellationToken: tokenSource.Token));
+
+            await Assert.ThrowsAsync<ArgumentException>(async () => await leasedLockClient.AcquireLockAsync(
+                leaseDuration,
+                cancellationToken: tokenSource.Token));
+        }
+
         private static Mock<StateStoreClient> GetMockStateStoreClient()
         {
             return new Mock<StateStoreClient>();
