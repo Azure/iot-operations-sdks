@@ -41,6 +41,14 @@ namespace Azure.Iot.Operations.Connector.Files
         /// </inheritdoc>
         public event EventHandler<DeviceFileChangedEventArgs>? DeviceFileChanged;
 
+        /// <summary>
+        /// Instantiate this class with the provided style of file monitor.
+        /// </summary>
+        /// <param name="filesMonitorFactory">
+        /// The factory to provide all file monitors used to watch for device and/or asset changes. If not provided, an
+        /// instance of <see cref="FsnotifyFilesMonitorFactory"/> will be used. For operating systems where .NET's
+        /// <see cref="FileSystemWatcher"/> isn't sufficient, users can opt to poll for file changes instead using <see cref="PollingFilesMonitorFactory"/>.
+        /// </param>
         public AssetFileMonitor(IFilesMonitorFactory? filesMonitorFactory = null)
         {
             _filesMonitorFactory = filesMonitorFactory ?? new FsnotifyFilesMonitorFactory();
