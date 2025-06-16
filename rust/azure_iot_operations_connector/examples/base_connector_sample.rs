@@ -189,8 +189,10 @@ async fn run_dataset(mut dataset_client: DatasetClient) {
                                 log::error!("Error reporting message schema: {e}");
                             }
                         }
+                        dataset_valid = true;
                     },
                     DatasetNotification::UpdatedInvalid => {
+                        log::warn!("Dataset has invalid update. Wait for new dataset update.");
                         dataset_valid = false;
                     },
                     DatasetNotification::Deleted => {

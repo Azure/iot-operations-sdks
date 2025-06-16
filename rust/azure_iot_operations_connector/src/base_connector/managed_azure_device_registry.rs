@@ -1065,7 +1065,7 @@ impl AssetClient {
         )
         .map_err(|e| {
             log::error!(
-                "Invalid dataset destination for dataset {} on asset {:?}: {e:?}",
+                "Ignoring new Dataset {} on asset {:?}. Invalid dataset destination: {e:?}",
                 dataset_definition.name,
                 self.asset_ref
             );
@@ -1503,7 +1503,7 @@ impl DatasetClient {
             Ok(forwarder) => forwarder,
             Err(e) => {
                 log::error!(
-                    "Ignoring update. Invalid dataset destination for updated dataset: {:?} {e:?}",
+                    "Invalid dataset destination for updated dataset: {:?} {e:?}",
                     self.dataset_ref
                 );
 
