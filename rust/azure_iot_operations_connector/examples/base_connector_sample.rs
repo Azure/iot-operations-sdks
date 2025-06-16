@@ -17,8 +17,7 @@ use azure_iot_operations_connector::{
     base_connector::{
         self, BaseConnector,
         managed_azure_device_registry::{
-            AssetClient, AssetClientCreationObservation, DatasetClient,
-            DatasetClientCreationObservation, DeviceEndpointClient,
+            AssetClient, ClientNotification, DatasetClient, DeviceEndpointClient,
             DeviceEndpointClientCreationObservation,
         },
     },
@@ -65,9 +64,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 // This function runs in a loop, waiting for device creation notifications.
 async fn run_program(mut device_creation_observation: DeviceEndpointClientCreationObservation) {
     // Wait for a device creation notification
-    while let Some((device_endpoint_client, asset_creation_observation)) =
-        device_creation_observation.recv_notification().await
-    {
+    while let Some(device_endpoint_client) = device_creation_observation.recv_notification().await {
         log::info!("Device created: {device_endpoint_client:?}");
 
         // now we should update the status of the device
@@ -79,102 +76,67 @@ async fn run_program(mut device_creation_observation: DeviceEndpointClientCreati
 
         // Start handling the assets for this device endpoint
         // if we didn't accept the inbound endpoint, then we still want to run this to wait for updates
-        tokio::task::spawn(run_device(
-            device_endpoint_client,
-            asset_creation_observation,
-        ));
+        tokio::task::spawn(run_device(device_endpoint_client));
     }
 }
 
 // This function runs in a loop, waiting for asset creation notifications.
-async fn run_device(
-    mut device_endpoint_client: DeviceEndpointClient,
-    mut asset_creation_observation: AssetClientCreationObservation,
-) {
+async fn run_device(mut device_endpoint_client: DeviceEndpointClient) {
     loop {
-        tokio::select! {
-            biased;
-            // Listen for a device update notifications
-            res = device_endpoint_client.recv_update() => {
-                if let Some(()) = res {
-                    log::info!("Device updated: {device_endpoint_client:?}");
-                    // now we should update the status of the device
-                    let endpoint_status = generate_endpoint_status(&device_endpoint_client);
-
-                    device_endpoint_client
-                        .report_status(Ok(()), endpoint_status)
-                        .await;
-                } else {
-                    log::error!("No more Device Endpoint updates will be received");
-                    break;
-                }
+        match device_endpoint_client.recv_notification().await {
+            ClientNotification::Deleted => {
+                log::warn!("Device Endpoint deleted");
+                break;
             }
-            // Listen for a asset creation notifications
-            res = asset_creation_observation.recv_notification() => {
-                if let Some((asset_client, _asset_deletion_token, dataset_creation_observation)) = res {
-                    log::info!("Asset created: {asset_client:?}");
+            ClientNotification::Updated => {
+                log::info!("Device updated: {device_endpoint_client:?}");
+                // now we should update the status of the device
+                let endpoint_status = generate_endpoint_status(&device_endpoint_client);
 
-                    // now we should update the status of the asset
-                    let asset_status = generate_asset_status(&asset_client);
+                device_endpoint_client
+                    .report_status(Ok(()), endpoint_status)
+                    .await;
+            }
+            ClientNotification::Created(asset_client) => {
+                log::info!("Asset created: {asset_client:?}");
 
-                    asset_client.report_status(asset_status).await;
+                // now we should update the status of the asset
+                let asset_status = generate_asset_status(&asset_client);
 
-                    // Start handling the datasets for this asset
-                    // if we didn't accept the asset, then we still want to run this to wait for updates
-                    tokio::task::spawn(run_asset(
-                        asset_client,
-                        dataset_creation_observation,
-                    ));
-                } else {
-                    log::error!("asset_creation_observer has been dropped");
-                    break;
-                }
+                asset_client.report_status(asset_status).await;
+
+                // Start handling the datasets for this asset
+                // if we didn't accept the asset, then we still want to run this to wait for updates
+                tokio::task::spawn(run_asset(asset_client));
             }
         }
     }
-    panic!("asset_creation_observer has been dropped");
 }
 
 // This function runs in a loop, waiting for dataset creation notifications.
-async fn run_asset(
-    mut asset_client: AssetClient,
-    mut dataset_creation_observation: DatasetClientCreationObservation,
-) {
+async fn run_asset(mut asset_client: AssetClient) {
     loop {
-        tokio::select! {
-            biased;
-            // Listen for a asset update notifications
-            res = asset_client.recv_update() => {
-                if let Some(()) = res {
-                    log::info!("asset updated: {asset_client:?}");
-                    // now we should update the status of the asset
-                    let asset_status = generate_asset_status(&asset_client);
+        match asset_client.recv_notification().await {
+            ClientNotification::Updated => {
+                log::info!("asset updated: {asset_client:?}");
+                // now we should update the status of the asset
+                let asset_status = generate_asset_status(&asset_client);
 
-                    asset_client
-                        .report_status(asset_status)
-                        .await;
-                } else {
-                    log::error!("No more Asset updates will be received");
-                    break;
-                }
+                asset_client.report_status(asset_status).await;
             }
-            // Listen for a dataset creation notifications
-            res = dataset_creation_observation.recv_notification() => {
-                if let Some(dataset_client) = res {
-                    tokio::task::spawn(run_dataset(dataset_client));
-                } else {
-                    log::error!("asset_creation_observer has been dropped");
-                    break;
-                }
+            ClientNotification::Deleted => {
+                log::warn!("Asset has been deleted");
+                break;
+            }
+            ClientNotification::Created(dataset_client) => {
+                log::info!("Dataset Created: {dataset_client:?}");
+                tokio::task::spawn(run_dataset(dataset_client));
             }
         }
     }
-    panic!("asset_creation_observer has been dropped");
 }
 
 async fn run_dataset(mut dataset_client: DatasetClient) {
-    log::info!("new Dataset: {dataset_client:?}");
-
     // now we should update the status of the dataset and report the message schema
     dataset_client.report_status(Ok(())).await;
 
@@ -197,7 +159,7 @@ async fn run_dataset(mut dataset_client: DatasetClient) {
         tokio::select! {
             biased;
             // Listen for a dataset update notifications
-            res = dataset_client.recv_update() => {
+            res = dataset_client.recv_notification() => {
                 if let Some(()) = res {
                     log::info!("dataset updated: {dataset_client:?}");
                     // now we should update the status of the dataset and report the message schema
@@ -216,7 +178,7 @@ async fn run_dataset(mut dataset_client: DatasetClient) {
                         }
                     }
                 } else {
-                    log::error!("Dataset has been deleted. No more dataset updates will be received");
+                    log::warn!("Dataset has been deleted. No more dataset updates will be received");
                     break;
                 }
             }

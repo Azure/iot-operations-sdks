@@ -19,6 +19,9 @@
         /// <summary>Gets or sets the directory for receiving generated code.</summary>
         public required DirectoryInfo OutDir { get; set; }
 
+        /// <summary>Gets or sets a file defining how to resolve referenced identifiers in models.</summary>
+        public FileInfo? ResolverConfig { get; set; }
+
         /// <summary>Gets or sets a namespace for generated code.</summary>
         public string? GenNamespace { get; set; }
 

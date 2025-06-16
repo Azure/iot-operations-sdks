@@ -149,6 +149,11 @@ namespace Azure.Iot.Operations.Services.LeaderElection
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
 
+            if (electionTerm.TotalMilliseconds < 1)
+            {
+                throw new ArgumentException("Election term must be at least 1 millisecond.", nameof(electionTerm));
+            }
+
             options ??= new CampaignRequestOptions();
 
             var acquireLockOptions = new AcquireLockRequestOptions()
@@ -172,6 +177,12 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
+
+            if (electionTerm.TotalMilliseconds < 1)
+            {
+                throw new ArgumentException("Election term must be at least 1 millisecond.", nameof(electionTerm));
+            }
+
 
             options ??= new CampaignRequestOptions();
 

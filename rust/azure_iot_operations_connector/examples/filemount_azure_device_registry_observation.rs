@@ -78,7 +78,7 @@ async fn observation_runner(mut device_creation_observation: DeviceEndpointCreat
                             // Spawn a new task to handle asset deletion
                             tokio::spawn(async move {
                                 // Wait for the asset deletion token to be triggered
-                                asset_deletion_token.await;
+                                asset_deletion_token.cancelled().await;
                                 log::info!("Asset removed: {asset_ref:?}");
                             });
                         } else {

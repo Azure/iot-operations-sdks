@@ -412,6 +412,20 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
             await leaderElectionClient.DisposeAsync();
         }
 
+        [Fact]
+        public async Task CampaignWithTooShortTermLengthThrows()
+        {
+            // arrange
+            TimeSpan expectedDuration = TimeSpan.FromMicroseconds(1);
+            Mock<LeasedLockClient> mockedLeasedLockClient = GetMockLeasedLockClient();
+            using CancellationTokenSource tokenSource = new CancellationTokenSource();
+            var leaderElectionClient = new LeaderElectionClient(mockedLeasedLockClient.Object);
+
+            // act/assert
+            await Assert.ThrowsAsync<ArgumentException>(async () => await leaderElectionClient.TryCampaignAsync(expectedDuration, cancellationToken: tokenSource.Token));
+            await Assert.ThrowsAsync<ArgumentException>(async () => await leaderElectionClient.CampaignAsync(expectedDuration, cancellationToken: tokenSource.Token));
+        }
+
         private static Mock<LeasedLockClient> GetMockLeasedLockClient()
         {
             return new Mock<LeasedLockClient>();
