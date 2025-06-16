@@ -34,12 +34,12 @@ pub use client::{Client, ClientOptions, ClientOptionsBuilder};
 /// Represents an error that occurred in the Azure Device Registry Client implementation.
 #[derive(Debug, Error)]
 #[error(transparent)]
-pub struct Error<H>(#[from] ErrorKind<H>);
+pub struct Error<String>(#[from] ErrorKind<String>);
 
-impl<H> Error<H> {
+impl<String> Error<String> {
     /// Returns the [`ErrorKind`] of the error.
     #[must_use]
-    pub fn kind(&self) -> &ErrorKind<H> {
+    pub fn kind(&self) -> &ErrorKind<String> {
         &self.0
     }
 }
