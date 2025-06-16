@@ -14,7 +14,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(RestThermostatDatasetSamplerFactory.RestDatasetSourceFactoryProvider);
         services.AddSingleton(NoMessageSchemaProvider.NoMessageSchemaProviderFactory);
         services.AddSingleton(LeaderElectionConfigurationProvider.ConnectorLeaderElectionConfigurationProviderFactory);
-        services.AddSingleton<IAdrClientWrapperFactoryProvider>(AdrClientWrapperFactoryProvider.AdrClientWrapperFactory);
+        services.AddSingleton<IAdrClientWrapperFactoryProvider>(AdrClientWrapperFactoryProvider.Factory);
         services.AddHostedService<PollingTelemetryConnectorWorker>();
     })
     .Build();
