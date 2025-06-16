@@ -23,9 +23,9 @@ namespace Azure.Iot.Operations.Connector
 
         public event EventHandler<DeviceChangedEventArgs>? DeviceChanged;
 
-        public AdrClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient, string connectorClientId)
+        public AdrClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient)
         {
-            _client = new AdrServiceClient(applicationContext, mqttPubSubClient, connectorClientId);
+            _client = new AdrServiceClient(applicationContext, mqttPubSubClient);
             _client.OnReceiveAssetUpdateEventTelemetry += AssetUpdateReceived;
             _client.OnReceiveDeviceUpdateEventTelemetry += DeviceUpdateReceived;
             _monitor = new AssetFileMonitor();

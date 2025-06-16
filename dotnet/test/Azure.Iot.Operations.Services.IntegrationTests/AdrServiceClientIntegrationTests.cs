@@ -33,9 +33,9 @@ public class AdrServiceClientIntegrationTests
     public async Task CanGetDeviceAsync()
     {
         // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+        await using AdrServiceClient client = new(applicationContext, mqttClient);
 
         // Act
         var device = await client.GetDeviceAsync(TestDevice_1_Name, "my-rest-endpoint");
@@ -52,9 +52,9 @@ public class AdrServiceClientIntegrationTests
     public async Task GetDeviceThrowsAkriServiceErrorExceptionWhenDeviceNotFoundAsync()
     {
         // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+        await using AdrServiceClient client = new(applicationContext, mqttClient);
 
         // Act & Assert
         var exception = await Assert.ThrowsAsync<AkriServiceErrorException>(
@@ -70,9 +70,9 @@ public class AdrServiceClientIntegrationTests
     {
         // Arrange
         var expectedTime = DateTime.Parse("2023-10-01T00:00:00Z");
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+        await using AdrServiceClient client = new(applicationContext, mqttClient);
 
         var status = new DeviceStatus
         {
@@ -104,9 +104,9 @@ public class AdrServiceClientIntegrationTests
     public async Task TriggerDeviceTelemetryEventWhenObservedAsync()
     {
         // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+        await using AdrServiceClient client = new(applicationContext, mqttClient);
 
         var eventReceived = new TaskCompletionSource<bool>();
         client.OnReceiveDeviceUpdateEventTelemetry += (source, _) =>
@@ -138,9 +138,9 @@ public class AdrServiceClientIntegrationTests
     public async Task DoNotTriggerTelemetryEventAfterUnobserveDeviceAsync()
     {
         // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+        await using AdrServiceClient client = new(applicationContext, mqttClient);
 
         var firstEventReceived = new TaskCompletionSource<bool>();
         var secondEventReceived = new TaskCompletionSource<bool>();
@@ -205,9 +205,9 @@ public class AdrServiceClientIntegrationTests
     public async Task CanGetAssetAsync()
     {
         // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+        await using AdrServiceClient client = new(applicationContext, mqttClient);
 
         // Act
         var asset = await client.GetAssetAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
@@ -223,9 +223,9 @@ public class AdrServiceClientIntegrationTests
     public async Task CanUpdateAssetStatusAsync()
     {
         // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+        await using AdrServiceClient client = new(applicationContext, mqttClient);
 
         var expectedTime = DateTime.UtcNow;
 
@@ -244,9 +244,9 @@ public class AdrServiceClientIntegrationTests
     public async Task TriggerAssetTelemetryEventWhenObservedAsync()
     {
         // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+        await using AdrServiceClient client = new(applicationContext, mqttClient);
 
         var eventReceived = new TaskCompletionSource<bool>();
         client.OnReceiveAssetUpdateEventTelemetry += (source, _) =>
@@ -278,9 +278,9 @@ public class AdrServiceClientIntegrationTests
     public async Task DoNotTriggerTelemetryEventAfterUnobserveAssetAsync()
     {
         // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+        await using AdrServiceClient client = new(applicationContext, mqttClient);
 
         var firstEventReceived = new TaskCompletionSource<bool>();
         var secondEventReceived = new TaskCompletionSource<bool>();
@@ -346,9 +346,9 @@ public class AdrServiceClientIntegrationTests
     public async Task CanCreateOrUpdateDiscoveredAssetAsync()
     {
         // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+        await using AdrServiceClient client = new(applicationContext, mqttClient);
 
         var request = CreateCreateDetectedAssetRequest();
 
@@ -365,9 +365,9 @@ public class AdrServiceClientIntegrationTests
     public async Task CanCreateOrUpdateDiscoveredDeviceAsync()
     {
         // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+        await using AdrServiceClient client = new(applicationContext, mqttClient);
 
         var request = CreateCreateDiscoveredDeviceRequest();
 
@@ -386,9 +386,9 @@ public class AdrServiceClientIntegrationTests
     public async Task ReceiveTelemetryForProperDeviceUpdateWhenMultipleDevicesUpdated()
     {
         // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+        await using AdrServiceClient client = new(applicationContext, mqttClient);
 
         var receivedEvents = new Dictionary<string, Device>();
         var eventReceived = new TaskCompletionSource<bool>();
