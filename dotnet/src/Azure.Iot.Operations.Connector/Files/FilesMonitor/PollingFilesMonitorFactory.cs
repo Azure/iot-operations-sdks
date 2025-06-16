@@ -6,9 +6,16 @@ namespace Azure.Iot.Operations.Connector.Files.FilesMonitor
 {
     public class PollingFilesMonitorFactory : IFilesMonitorFactory
     {
+        private readonly TimeSpan _pollingInterval;
+
+        public PollingFilesMonitorFactory(TimeSpan? pollingInterval = null)
+        {
+            _pollingInterval = pollingInterval ?? TimeSpan.FromSeconds(1);
+        }
+
         public IFilesMonitor Create()
         {
-            return new PollingFilesMonitor();
+            return new PollingFilesMonitor(_pollingInterval);
         }
     }
 }
