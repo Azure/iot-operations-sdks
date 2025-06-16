@@ -13,9 +13,14 @@ use azure_iot_operations_services::azure_device_registry::{
 use super::ConnectorContext;
 
 /// Client exposing Azure Device Registry Discovery operations
-pub struct Client(pub(crate) Arc<ConnectorContext>);
+pub struct Client(Arc<ConnectorContext>);
 
 impl Client {
+    /// Creates a new Azure Device Registry Discovery [`Client`].
+    pub(crate) fn new(connector_context: Arc<ConnectorContext>) -> Self {
+        Self(connector_context)
+    }
+
     /// Creates or updates a discovered device in the Azure Device Registry service.
     ///
     /// If the specified discovered device does not yet exist, it will be created.
