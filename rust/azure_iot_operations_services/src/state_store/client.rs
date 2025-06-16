@@ -628,7 +628,7 @@ where
                                     }
 
                                     Err(DispatchError { data, kind: DispatchErrorKind::SendError }) => {
-                                        log::warn!("Key Notification Receiver has been dropped. Received Notification:: {data:?}");
+                                        log::warn!("Key Notification Receiver has been dropped. Received Notification: {data:?}");
 
                                     }
                                     Err(DispatchError { data, kind: DispatchErrorKind::NotFound(receiver_id) }) => {
