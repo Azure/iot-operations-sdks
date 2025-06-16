@@ -34,12 +34,12 @@ pub use client::{Client, ClientOptions, ClientOptionsBuilder};
 /// Represents an error that occurred in the Azure Device Registry Client implementation.
 #[derive(Debug, Error)]
 #[error(transparent)]
-pub struct Error<String>(#[from] ErrorKind<String>);
+pub struct Error(#[from] ErrorKind);
 
-impl<String> Error<String> {
+impl Error {
     /// Returns the [`ErrorKind`] of the error.
     #[must_use]
-    pub fn kind(&self) -> &ErrorKind<String> {
+    pub fn kind(&self) -> &ErrorKind {
         &self.0
     }
 }
@@ -48,7 +48,7 @@ impl<String> Error<String> {
 /// Represents the kinds of errors that occur in the Azure Device Registry Client implementation.
 #[derive(Error, Debug)]
 #[allow(clippy::large_enum_variant)]
-pub enum ErrorKind<String> {
+pub enum ErrorKind {
     /// An error occurred in the AIO Protocol. See [`AIOProtocolError`] for more information.
     #[error(transparent)]
     AIOProtocolError(#[from] AIOProtocolError),
@@ -60,7 +60,7 @@ pub enum ErrorKind<String> {
     ServiceError(#[from] base_client_gen::AkriServiceError),
     /// A Device or an asset may only have one observation at a time.
     #[error("Device or asset may only be observed once at a time")]
-    DuplicateObserve(#[from] dispatcher::RegisterError<String>),
+    DuplicateObserve(#[from] dispatcher::RegisterError),
     /// An error occurred while shutting down the Azure Device Registry Client.
     #[error("Shutdown error occurred with the following protocol errors: {0:?}")]
     ShutdownError(Vec<AIOProtocolError>),

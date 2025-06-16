@@ -11,7 +11,7 @@
 pub mod dispatcher {
     //! Provides a convenience for dispatching to a receiver based on an ID.
 
-    use std::{collections::HashMap, hash::Hash, sync::Mutex};
+    use std::{collections::HashMap, fmt::Debug, hash::Hash, sync::Mutex};
 
     use thiserror::Error;
     use tokio::sync::mpsc::{
@@ -22,34 +22,34 @@ pub mod dispatcher {
 
     /// Error when registering a new receiver
     #[derive(Error, Debug)]
-    pub enum RegisterError<H> {
+    pub enum RegisterError {
         #[error("receiver with id {0} already registered")]
-        AlreadyRegistered(H),
+        AlreadyRegistered(String),
     }
 
     /// Error when dispatching a message to a receiver
     #[derive(Error, Debug)]
-    pub enum DispatchError<T, H> {
+    pub enum DispatchError<T> {
         /// Error when trying to send a message to a receiver
         #[error(transparent)]
         SendError(#[from] SendError<T>),
         /// Error when trying to find a receiver by ID
-        #[error("receiver with id {:?} not found", 0.0)]
-        NotFound((H, T)),
+        #[error("receiver with id {} not found", 0.0)]
+        NotFound((String, T)),
     }
 
     /// Dispatches messages to receivers based on ID
     #[derive(Default)]
     pub struct Dispatcher<T, H>
     where
-        H: Eq + Hash + std::fmt::Display,
+        H: Eq + Hash + Debug,
     {
         tx_map: Mutex<HashMap<H, UnboundedSender<T>>>,
     }
 
     impl<T, H> Dispatcher<T, H>
     where
-        H: Eq + Hash + Clone + std::fmt::Display,
+        H: Eq + Hash + Debug,
     {
         /// Returns a new instance of Dispatcher
         pub fn new() -> Self {
@@ -61,10 +61,13 @@ pub mod dispatcher {
         /// Registers a new receiver with the given ID, returning the new receiver.
         ///
         /// Returns an error if a receiver with the same ID is already registered
-        pub fn register_receiver(&self, receiver_id: H) -> Result<Receiver<T>, RegisterError<H>> {
+        pub fn register_receiver(&self, receiver_id: H) -> Result<Receiver<T>, RegisterError> {
             let mut tx_map = self.tx_map.lock().unwrap();
             if tx_map.get(&receiver_id).is_some() {
-                return Err(RegisterError::AlreadyRegistered(receiver_id));
+                return Err(RegisterError::AlreadyRegistered(format!(
+                    "{:?}",
+                    receiver_id
+                )));
             }
             let (tx, rx) = unbounded_channel();
             tx_map.insert(receiver_id, tx);
@@ -87,16 +90,27 @@ pub mod dispatcher {
         }
 
         /// Dispatches a message to the receiver associated with the provided ID.
-        pub fn dispatch(&self, receiver_id: &H, message: T) -> Result<(), DispatchError<T, H>> {
+        pub fn dispatch(&self, receiver_id: &H, message: T) -> Result<(), DispatchError<T>> {
             if let Some(tx) = self.tx_map.lock().unwrap().get(receiver_id) {
                 Ok(tx.send(message)?)
             } else {
-                Err(DispatchError::NotFound((receiver_id.clone(), message)))
+                Err(DispatchError::NotFound((
+                    format!("{:?}", receiver_id),
+                    message,
+                )))
             }
         }
 
         /// Returns all currently tracked receiver ids
-        pub fn get_all_receiver_ids(&self) -> Vec<H> {
+        // pub fn get_all_receiver_ids(&self) -> Vec<H> {
+        //     let tx_map = self.tx_map.lock().unwrap();
+        //     tx_map.keys().cloned().collect()
+        // }
+
+        pub fn get_all_receiver_ids(&self) -> Vec<H>
+        where
+            H: Clone,
+        {
             let tx_map = self.tx_map.lock().unwrap();
             tx_map.keys().cloned().collect()
         }

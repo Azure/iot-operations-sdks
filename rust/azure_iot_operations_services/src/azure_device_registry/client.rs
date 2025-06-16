@@ -89,7 +89,7 @@ where
         application_context: ApplicationContext,
         client: C,
         options: ClientOptions,
-    ) -> Result<Self, Error<String>> {
+    ) -> Result<Self, Error> {
         // THIS IS A TEMPORARY FIX. WORKAROUND FOR THE FACT THAT CODEGEN PANICS ON INVALID CLIENT ID
         // INSTEAD OF RETURNING AN ERROR
         if !Self::is_valid_replacement(client.client_id()) {
@@ -285,7 +285,7 @@ where
     /// [`struct@Error`] of kind [`ShutdownError`](ErrorKind::ShutdownError)
     /// if any of the invoker unsubscribes fail or if the unsuback reason code doesn't indicate success.
     /// This will be a vector of any shutdown errors, all invokers will attempt to be shutdown.
-    pub async fn shutdown(&self) -> Result<(), Error<String>> {
+    pub async fn shutdown(&self) -> Result<(), Error> {
         // Notify the receiver loop to shutdown the telemetry receivers
         self.shutdown_notifier.notify_one();
 
@@ -570,7 +570,7 @@ where
         device_name: String,
         inbound_endpoint_name: String,
         timeout: Duration,
-    ) -> Result<Device, Error<String>> {
+    ) -> Result<Device, Error> {
         let get_device_request = base_client_gen::GetDeviceRequestBuilder::default()
             .topic_tokens(Self::get_base_service_topic_tokens(
                 device_name,
@@ -613,7 +613,7 @@ where
         device_name: String,
         inbound_endpoint_name: String,
         timeout: Duration,
-    ) -> Result<DeviceStatus, Error<String>> {
+    ) -> Result<DeviceStatus, Error> {
         let get_device_status_request = base_client_gen::GetDeviceStatusRequestBuilder::default()
             .topic_tokens(Self::get_base_service_topic_tokens(
                 device_name,
@@ -658,7 +658,7 @@ where
         inbound_endpoint_name: String,
         status: DeviceStatus,
         timeout: Duration,
-    ) -> Result<DeviceStatus, Error<String>> {
+    ) -> Result<DeviceStatus, Error> {
         let status_payload = base_client_gen::UpdateDeviceStatusRequestPayload {
             device_status_update: status.into(),
         };
@@ -711,7 +711,7 @@ where
         device_name: String,
         inbound_endpoint_name: String,
         timeout: Duration,
-    ) -> Result<DeviceUpdateObservation, Error<String>> {
+    ) -> Result<DeviceUpdateObservation, Error> {
         let receiver_id = Self::hash_device_endpoint(&device_name, &inbound_endpoint_name);
         let rx = self
             .device_update_notification_dispatcher
@@ -788,7 +788,7 @@ where
         device_name: String,
         inbound_endpoint_name: String,
         timeout: Duration,
-    ) -> Result<(), Error<String>> {
+    ) -> Result<(), Error> {
         let unobserve_payload =
             base_client_gen::SetNotificationPreferenceForDeviceUpdatesRequestPayload {
                 notification_preference_request: base_client_gen::NotificationPreference::Off,
@@ -861,7 +861,7 @@ where
         device: DiscoveredDevice,
         inbound_endpoint_type: String,
         timeout: Duration,
-    ) -> Result<(String, u64), Error<String>> {
+    ) -> Result<(String, u64), Error> {
         if device_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
                 "device_name must not be empty".to_string(),
@@ -942,7 +942,7 @@ where
         inbound_endpoint_name: String,
         asset_name: String,
         timeout: Duration,
-    ) -> Result<Asset, Error<String>> {
+    ) -> Result<Asset, Error> {
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
                 "asset_name must not be empty".to_string(),
@@ -999,7 +999,7 @@ where
         inbound_endpoint_name: String,
         asset_name: String,
         timeout: Duration,
-    ) -> Result<AssetStatus, Error<String>> {
+    ) -> Result<AssetStatus, Error> {
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
                 "asset_name must not be empty".to_string(),
@@ -1059,7 +1059,7 @@ where
         asset_name: String,
         status: AssetStatus,
         timeout: Duration,
-    ) -> Result<AssetStatus, Error<String>> {
+    ) -> Result<AssetStatus, Error> {
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
                 "asset_name must not be empty".to_string(),
@@ -1127,7 +1127,7 @@ where
         inbound_endpoint_name: String,
         asset_name: String,
         timeout: Duration,
-    ) -> Result<AssetUpdateObservation, Error<String>> {
+    ) -> Result<AssetUpdateObservation, Error> {
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
                 "asset_name must not be empty".to_string(),
@@ -1222,7 +1222,7 @@ where
         inbound_endpoint_name: String,
         asset_name: String,
         timeout: Duration,
-    ) -> Result<(), Error<String>> {
+    ) -> Result<(), Error> {
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
                 "asset_name must not be empty".to_string(),
@@ -1308,7 +1308,7 @@ where
         asset_name: String,
         asset: DiscoveredAsset,
         timeout: Duration,
-    ) -> Result<(String, u64), Error<String>> {
+    ) -> Result<(String, u64), Error> {
         // TODO: do we need to take device_name at all as an argument? It's in the DeviceRef in the DiscoveredAsset
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
