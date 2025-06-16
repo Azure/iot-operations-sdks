@@ -6,7 +6,7 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public interface IAdrClientWrapper
+    public interface IAdrClientWrapper : IAsyncDisposable
     {
         /// <summary>
         /// Executes whenever a asset is created, updated, or deleted.
@@ -121,6 +121,35 @@ namespace Azure.Iot.Operations.Connector
             string deviceName,
             string inboundEndpointName,
             DeviceStatus status,
+            TimeSpan? commandTimeout = null,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Creates or updates a discovered asset.
+        /// </summary>
+        /// <param name="deviceName">The name of the device.</param>
+        /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
+        /// <param name="request">The request containing discovered asset creation parameters.</param>
+        /// <param name="commandTimeout">Optional timeout for the command.</param>
+        /// <param name="cancellationToken">Optional cancellation token.</param>
+        /// <returns>A task that represents the asynchronous operation, containing the response for the created discovered asset.</returns>
+        Task<CreateOrUpdateDiscoveredAssetResponsePayload> CreateOrUpdateDiscoveredAssetAsync(string deviceName,
+            string inboundEndpointName,
+            CreateOrUpdateDiscoveredAssetRequest request,
+            TimeSpan? commandTimeout = null,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Creates or updates a discovered device.
+        /// </summary>
+        /// <param name="request">The request containing discovered device endpoint profile creation parameters.</param>
+        /// <param name="inboundEndpointType"></param>
+        /// <param name="commandTimeout">Optional timeout for the command.</param>
+        /// <param name="cancellationToken">Optional cancellation token.</param>
+        /// <returns>A task that represents the asynchronous operation, containing the response for the created discovered device endpoint profile.</returns>
+        Task<CreateOrUpdateDiscoveredDeviceResponsePayload> CreateOrUpdateDiscoveredDeviceAsync(
+            CreateOrUpdateDiscoveredDeviceRequestSchema request,
+            string inboundEndpointType,
             TimeSpan? commandTimeout = null,
             CancellationToken cancellationToken = default);
     }

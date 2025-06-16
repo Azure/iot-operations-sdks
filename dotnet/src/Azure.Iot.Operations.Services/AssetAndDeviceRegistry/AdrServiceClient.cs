@@ -3,16 +3,13 @@
 
 using System.Collections.Concurrent;
 using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using AkriServiceErrorException = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService.AkriServiceErrorException;
 using Asset = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.Asset;
 using AssetStatus = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.AssetStatus;
 using Device = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.Device;
 using DeviceStatus = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.DeviceStatus;
-using NotificationResponse = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.NotificationResponse;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 

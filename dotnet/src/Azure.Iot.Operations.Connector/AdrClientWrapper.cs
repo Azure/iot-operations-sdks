@@ -33,6 +33,16 @@ namespace Azure.Iot.Operations.Connector
             _monitor.AssetFileChanged += AssetFileChanged;
         }
 
+        public AdrClientWrapper(IAdrServiceClient adrServiceClient)
+        {
+            _client = adrServiceClient;
+            _client.OnReceiveAssetUpdateEventTelemetry += AssetUpdateReceived;
+            _client.OnReceiveDeviceUpdateEventTelemetry += DeviceUpdateReceived;
+            _monitor = new AssetFileMonitor();
+            _monitor.DeviceFileChanged += DeviceFileChanged;
+            _monitor.AssetFileChanged += AssetFileChanged;
+        }
+
         /// </inheritdoc>
         public void ObserveDevices()
         {
@@ -62,6 +72,7 @@ namespace Azure.Iot.Operations.Connector
             _monitor.ObserveAssets(deviceName, inboundEndpointName);
         }
 
+        //TODO "setnotificationpreference"
         /// </inheritdoc>
         public async Task UnobserveAssetsAsync(string deviceName, string inboundEndpointName, CancellationToken cancellationToken = default)
         {
@@ -150,6 +161,24 @@ namespace Azure.Iot.Operations.Connector
         public IEnumerable<string> GetDeviceNames()
         {
             return _monitor.GetDeviceNames();
+        }
+
+        /// </inheritdoc>
+        public Task<CreateOrUpdateDiscoveredAssetResponsePayload> CreateOrUpdateDiscoveredAssetAsync(string deviceName, string inboundEndpointName, CreateOrUpdateDiscoveredAssetRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return _client.CreateOrUpdateDiscoveredAssetAsync(deviceName, inboundEndpointName, request, commandTimeout, cancellationToken);
+        }
+
+        /// </inheritdoc>
+        public Task<CreateOrUpdateDiscoveredDeviceResponsePayload> CreateOrUpdateDiscoveredDeviceAsync(CreateOrUpdateDiscoveredDeviceRequestSchema request, string inboundEndpointType, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return _client.CreateOrUpdateDiscoveredDeviceAsync(request, inboundEndpointType, commandTimeout, cancellationToken);
+        }
+
+        /// </inheritdoc>
+        public ValueTask DisposeAsync()
+        {
+            return _client.DisposeAsync();
         }
 
         private Task DeviceUpdateReceived(string compositeDeviceName, Device device)

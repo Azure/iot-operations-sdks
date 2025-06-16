@@ -4,7 +4,6 @@
 using Azure.Iot.Operations.Connector.Files.FileMonitor;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Text;
 
 namespace Azure.Iot.Operations.Connector.Files
