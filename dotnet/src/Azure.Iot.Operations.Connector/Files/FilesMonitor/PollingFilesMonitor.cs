@@ -1,16 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Connector.Files.FilesMonitor
 {
+    /// <summary>
+    /// An implementation of <see cref="IFilesMonitor"/> that relies on the polling the state of the file system rather than
+    /// listening for notifications from the operating system.
+    /// </summary>
     public class PollingFilesMonitor : IFilesMonitor
     {
         private CancellationTokenSource? _observationTaskCancellationTokenSource;
@@ -29,7 +28,7 @@ namespace Azure.Iot.Operations.Connector.Files.FilesMonitor
             _pollingInterval = pollingInterval ?? TimeSpan.FromSeconds(10);
         }
 
-        public void Start(string directory, string? file = null) //TODO this impl ignores file. Needs fixing
+        public void Start(string directory, string? fileName = null)
         {
             if (_startedObserving)
             {
@@ -52,7 +51,10 @@ namespace Azure.Iot.Operations.Connector.Files.FilesMonitor
                                 // The folder was deleted, so all previously known files must have been deleted as well
                                 foreach (string filePath in _lastKnownDirectoryState.Keys)
                                 {
-                                    OnFileChanged?.Invoke(this, new FileChangedEventArgs(filePath, WatcherChangeTypes.Deleted));
+                                    if (fileName == null || filePath.Contains(fileName))
+                                    {
+                                        OnFileChanged?.Invoke(this, new FileChangedEventArgs(filePath, WatcherChangeTypes.Deleted));
+                                    }
                                 }
 
                                 _lastKnownDirectoryState.Clear();
@@ -74,7 +76,10 @@ namespace Azure.Iot.Operations.Connector.Files.FilesMonitor
                                 foreach (string filePathToRemove in filePathsToRemove)
                                 {
                                     _lastKnownDirectoryState.Remove(filePathToRemove);
-                                    OnFileChanged?.Invoke(this, new FileChangedEventArgs(filePathToRemove, WatcherChangeTypes.Deleted));
+                                    if (fileName == null || filePathsToRemove.Contains(fileName))
+                                    {
+                                        OnFileChanged?.Invoke(this, new FileChangedEventArgs(filePathToRemove, WatcherChangeTypes.Deleted));
+                                    }
                                 }
 
                                 // Check if any previously known files were updated or if any unknown files have been added to this directory
@@ -96,7 +101,10 @@ namespace Azure.Iot.Operations.Connector.Files.FilesMonitor
                                             if (!_lastKnownDirectoryState[filePath].SequenceEqual(contentsHash))
                                             {
                                                 _lastKnownDirectoryState[filePath] = contentsHash;
-                                                OnFileChanged?.Invoke(this, new FileChangedEventArgs(filePath, WatcherChangeTypes.Changed));
+                                                if (fileName == null || filePath.Contains(fileName))
+                                                {
+                                                    OnFileChanged?.Invoke(this, new FileChangedEventArgs(filePath, WatcherChangeTypes.Changed));
+                                                }
                                             }
                                         }
                                     }

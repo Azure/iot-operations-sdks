@@ -3,6 +3,9 @@
 
 namespace Azure.Iot.Operations.Connector.Files.FilesMonitor
 {
+    /// <summary>
+    /// An implementation of <see cref="IFilesMonitor"/> that relies on the operating system's Fsnotify.
+    /// </summary>
     public class FsnotifyFilesMonitor : IFilesMonitor
     {
         private FileSystemWatcher? _watcher;
