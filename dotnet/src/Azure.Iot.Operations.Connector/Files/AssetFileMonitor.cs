@@ -14,7 +14,7 @@ namespace Azure.Iot.Operations.Connector.Files
     /// <remarks>
     /// This class is only applicable for connector applications that have been deployed by the Akri operator.
     /// </remarks>
-    internal class AssetFileMonitor : IAssetFileMonitor
+    public class AssetFileMonitor : IAssetFileMonitor
     {
         // Environment variables set by operator when connector is deployed
         internal const string AdrResourcesNameMountPathEnvVar = "ADR_RESOURCES_NAME_MOUNT_PATH";

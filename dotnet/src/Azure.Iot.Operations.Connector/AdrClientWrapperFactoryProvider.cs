@@ -12,7 +12,7 @@ namespace Azure.Iot.Operations.Connector
 {
     public class AdrClientWrapperFactoryProvider : IAdrClientWrapperFactoryProvider
     {
-        public static Func<IServiceProvider, IAdrClientWrapperFactoryProvider> AdrClientWrapperFactory = service =>
+        public static Func<IServiceProvider, IAdrClientWrapperFactoryProvider> Factory = service =>
         {
             return new AdrClientWrapperFactoryProvider();
         };

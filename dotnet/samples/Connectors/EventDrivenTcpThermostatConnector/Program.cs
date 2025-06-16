@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector;
-using Azure.Iot.Operations.Connector.ConnectorConfigurations;
 using Azure.Iot.Operations.Protocol;
 using EventDrivenTcpThermostatConnector;
 
@@ -13,7 +12,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
         services.AddSingleton(NoMessageSchemaProvider.NoMessageSchemaProviderFactory);
         services.AddSingleton(LeaderElectionConfigurationProvider.ConnectorLeaderElectionConfigurationProviderFactory);
-        services.AddSingleton<IAdrClientWrapperFactoryProvider>(AdrClientWrapperFactoryProvider.AdrClientWrapperFactory);
+        services.AddSingleton<IAdrClientWrapperFactoryProvider>(CustomAdrClientWrapperFactoryProvider.Factory);
         services.AddHostedService<EventDrivenTcpThermostatConnectorWorker>();
     })
     .Build();
