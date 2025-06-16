@@ -113,10 +113,10 @@ async fn state_store_operations(client: state_store::Client<SessionManagedClient
 async fn exit(exit_handle: SessionExitHandle) {
     log::info!("Exiting session");
     match exit_handle.try_exit().await {
-        Ok(()) => log::error!("Session exited gracefully"),
+        Ok(()) => log::info!("Session exited gracefully"),
         Err(e) => {
             log::error!("Graceful session exit failed: {e}");
-            log::error!("Forcing session exit");
+            log::warn!("Forcing session exit");
             exit_handle.exit_force().await;
         }
     }

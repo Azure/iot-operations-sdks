@@ -1,0 +1,330 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "aioConnectorMetadataSchemaVersion": "1.0-preview",
+  "properties": {
+    "aioConnectorMetadataSchemaVersion": {
+      "type": "string",
+      "description": "The version of AIO connector metadata schema that this connector metadata file adheres to.",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9A-Za-z-][0-9A-Za-z-]*))*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$",
+      "default": "1.0-preview"
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the connector."
+    },
+    "description": {
+      "type": "string",
+      "description": "A brief (human-readable) description of the connector (preferably in English). This is seen when browsing connectors in the portal."
+    },
+    "version": {
+      "type": "string",
+      "description": "The version of this connector. This must use semantic versioning such as '1.2.3'",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
+      "default": "1.0.0"
+    },
+    "isPreview": {
+      "type": "boolean",
+      "description": "True if this connector is considered a preview version.",
+      "default": "false"
+    },
+    "maintainer": {
+      "type": "string",
+      "description": "A name and/or email of the maintainer of this connector."
+    },
+    "vendor": {
+      "type": "string",
+      "description": "A name and/or email of the vendor that distributes this connector."
+    },
+    "imageConfigurationSettings": {
+      "type": "object",
+      "description": "The container image details for this connector image.",
+      "properties": {
+        "imageName": {
+          "type": "string",
+          "description": "The container image name for the connector. For example: 'myconnector'"
+        },
+        "tag": {
+          "type": "string",
+          "description": "The tag of the container image for this connector"
+        },
+        "digest": {
+          "type": "string",
+          "description": "The digest of the container image for this connector"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "imageName",
+            "tag"
+          ]
+        },
+        {
+          "required": [
+            "imageName",
+            "digest"
+          ]
+        }
+      ]
+    },
+    "secrets": {
+      "type": "array",
+      "description": "The array of secrets that are required for the connector application to work. The secret will be mounted onto all connector instances deployed for this connector application",
+      "items": [
+        {
+          "type": "object",
+          "description": "A single secret that will be mounted onto all connector instances.",
+          "properties": {
+            "secretAlias": {
+              "type": "string",
+              "description": "The application-defined alias for the secret"
+            },
+            "secretDescription": {
+              "type": "string",
+              "description": "The description for this secret alias"
+            },
+            "isOptional": {
+              "type": "boolean",
+              "description": "If the secret is optional or mandatory",
+              "default": false
+            }
+          },
+          "required": [
+            "secretAlias"
+          ]
+        }
+      ]
+    },
+    "storageVolumes": {
+      "type": "array",
+      "description": "The array of storage volumes that are required for the connector application to work.",
+      "items": [
+        {
+          "type": "object",
+          "description": "A single storage volume is needed.",
+          "properties": {
+            "description": {
+              "type": "string",
+              "description": "The description for this storage volume"
+            },
+            "mountPath": {
+              "type": "string",
+              "description": "The mount path for this storage volume"
+            }
+          },
+          "required": [
+            "mountPath"
+          ]
+        }
+      ]
+    },
+    "supportedArchitectures": {
+      "type": "array",
+      "description": "The CPU architectures that this connector image was built for. At least one must be specified.",
+      "items": [
+        {
+          "type": "string",
+          "description": "One of the CPU architectures this connector image was built for. For example: 'linux/amd64', 'linux/arm64', or 'windows/amd64'"
+        }
+      ],
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "sourceCode": {
+      "type": "object",
+      "description": "Details about the source code that compiled this connector",
+      "properties": {
+        "language": {
+          "type": "string",
+          "description": "The programming language used to write this connector"
+        },
+        "languageVersion": {
+          "type": "string",
+          "description": "The version of the programming language used to write this connector"
+        },
+        "sdks": {
+          "type": "object",
+          "description": "Details about the versions of the AIO SDKs used to write this connector (if they were used)",
+          "properties": {
+            "mqttPackageVersion": {
+              "type": "string",
+              "description": "The version of the Azure IoT Operations MQTT package"
+            },
+            "protocolPackageVersion": {
+              "type": "string",
+              "description": "The version of the Azure IoT Operations protocol package"
+            },
+            "servicesPackageVersion": {
+              "type": "string",
+              "description": "The version of the Azure IoT Operations services package"
+            },
+            "connectorPackageVersion": {
+              "type": "string",
+              "description": "The version of the Azure IoT Operations connector package"
+            }
+          }
+        }
+      },
+      "required": [
+        "language",
+        "languageVersion"
+      ]
+    },
+    "aioMetadata": {
+      "type": "object",
+      "description": "The AIO requirements to run this connector",
+      "properties": {
+        "aioMinVersion": {
+          "type": "string",
+          "description": "The minimal (inclusive) version that can run this connector."
+        },
+        "aioMaxVersion": {
+          "type": "string",
+          "description": "The maximal (inclusive) version that can run this connector. If there is no known exact version, wildcards can be used such as '1.*.*'. Alternatively, not specifying an aioMaxVersion signals no upper bound"
+        }
+      }
+    },
+    "connectorConfigurationKeys": {
+      "type": "array",
+      "description": "The array of keys in the connector configuration",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "key": {
+              "description": "A key in the connector configuration key/value map.",
+              "type": "string"
+            },
+            "description": {
+              "description": "The description of this key.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "key"
+          ]
+        }
+      ]
+    },
+    "inboundEndpoints": {
+      "type": "array",
+      "description": "The array of inbound endpoints in a device that this connector will be deployed for.",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "endpointType": {
+              "description": "Type of connection endpoint. Formatted as ABC.XYZ. For example, 'Microsoft.Media'",
+              "pattern": "^[a-zA-Z]+\\.[a-zA-Z]+",
+              "type": "string"
+            },
+            "additionalConfigurationSchema": {
+              "$ref": "http://json-schema.org/draft-07/schema#"
+            },
+            "assetConfigurationSchemas": {
+              "type": "object",
+              "description": "The JSON schemas for the asset-level stringified JSON fields. A JSON schema must be provided for each field only if that field is used by this connector.",
+              "properties": {
+                "datasetConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
+                },
+                "datasetDataPointConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
+                },
+                "eventConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
+                },
+                "eventDataPointConfigSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
+                },
+                "streamConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
+                },
+                "managementGroupConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
+                },
+                "actionConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
+                }
+              }
+            },
+            "supportedAssetEventDestinations": {
+              "type": "array",
+              "description": "The array of destinations that this asset's events supports.",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Mqtt",
+                  "Storage"
+                ]
+              }
+            },
+            "defaultAssetEventDestinations": {
+              "type": "string",
+              "description": "The default destination that this asset's events will go to by default unless event-specific destinations are specified.",
+              "enum": [
+                "Mqtt",
+                "Storage"
+              ]
+            },
+            "supportedAssetDatasetDestinations": {
+              "type": "array",
+              "description": "The array of destinations that this asset's datasets supports.",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Mqtt",
+                  "BrokerStateStore",
+                  "Storage"
+                ]
+              }
+            },
+            "defaultAssetDatasetDestinations": {
+              "type": "string",
+              "description": "The default destination that this asset's datasets will go to by default unless dataset-specific destinations are specified.",
+              "enum": [
+                "Mqtt",
+                "BrokerStateStore",
+                "Storage"
+              ]
+            },
+            "supportedAssetStreamDestinations": {
+              "type": "array",
+              "description": "The array of destinations that this asset's streams supports.",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Mqtt",
+                  "Storage"
+                ]
+              }
+            },
+            "defaultAssetStreamDestinations": {
+              "type": "string",
+              "description": "The default destination that this asset's streams will go to by default unless stream-specific destinations are specified.",
+              "enum": [
+                "Mqtt",
+                "Storage"
+              ]
+            },
+            "version": {
+              "type": "string",
+              "description": "The version of the protocol of this inbound endpoint."
+            }
+          },
+          "required": [
+            "endpointType"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "name",
+    "version",
+    "supportedArchitectures",
+    "inboundEndpoints",
+    "imageConfigurationSettings"
+  ]
+}

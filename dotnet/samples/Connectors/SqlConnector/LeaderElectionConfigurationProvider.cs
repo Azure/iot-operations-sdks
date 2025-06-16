@@ -14,7 +14,7 @@ namespace SqlQualityAnalyzerConnectorApp
 
         public ConnectorLeaderElectionConfiguration GetLeaderElectionConfiguration()
         {
-            return new("some-http-leadership-position-id", TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(9));
+            return new("some-sql-leadership-position-id", TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(9));
         }
     }
 }

@@ -1,0 +1,33 @@
+apiVersion: akri.microsoft.com/v1beta1
+kind: ConnectorTemplate
+metadata:
+  name: base-connector-template
+  namespace: azure-iot-operations
+spec:
+  version: "1.0"
+  aioMetadata:
+    aioMaxVersion: "3.0"
+    aioMinVersion: "0.0"
+  diagnostics:
+    logs:
+      level: "info"
+  deviceInboundEndpointTypes:
+  - endpointType: rest-thermostat
+    version: "0.0.1"
+  runtimeConfiguration:
+    runtimeConfigurationType: managedConfiguration
+    managedConfigurationSettings:
+      managedConfigurationType: imageConfiguration
+      imageConfigurationSettings:
+        registrySettings:
+          registrySettingsType: containerRegistry
+          containerRegistrySettings:
+            registry: "<your acr>.azurecr.io"
+        imageName: "baseconnector"
+        imagePullPolicy: Always
+        replicas: 1
+        tagDigestSettings:
+          tagDigestType: tag
+          tag: "latest"
+  mqttConnectionConfiguration:
+    host: "aio-broker:18883"

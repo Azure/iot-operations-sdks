@@ -1,0 +1,267 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;3",
+    "dtmi:dtdl:extension:requirement;1"
+  ],
+  "@id": "dtmi:com:microsoft:akri:DeviceDiscoveryService;1",
+  "@type": [
+    "Interface",
+    "Mqtt"
+  ],
+  "commandTopic": "akri/discovery/resources/{ex:discoveryClientId}/{ex:inboundEndpointType}/{commandName}",
+  "payloadFormat": "Json/ecma/404",
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "createOrUpdateDiscoveredDevice",
+      "request": {
+        "name": "discoveredDeviceRequest",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "discoveredDeviceName",
+              "schema": "string"
+            },
+            {
+              "@type": [ "Field", "Required" ],
+              "name": "discoveredDevice",
+              "schema": "dtmi:com:microsoft:akri:DiscoveredDevice;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "name": "createOrUpdateDiscoveredDeviceResponse",
+        "schema": {
+          "@type": [ "Object", "Result" ],
+          "fields": [
+            {
+              "@type": [ "Field", "NormalResult" ],
+              "name": "discoveredDeviceResponse",
+              "schema": {
+                "@type": "Object",
+                "fields": [
+                  {
+                    "@type": [ "Field", "Required" ],
+                    "name": "discoveryId",
+                    "schema": "string"
+                  },
+                  {
+                    "@type": [ "Field", "Required" ],
+                    "name": "version",
+                    "schema": "unsignedLong"
+                  }
+                ]
+              }
+            },
+            {
+              "@type": [ "Field", "ErrorResult" ],
+              "name": "createOrUpdateDiscoveredDeviceError",
+              "schema": "dtmi:com:microsoft:akri:AkriServiceError;1"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "schemas": [
+    {
+      "@id": "dtmi:com:microsoft:akri:DiscoveredDevice;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": "Field",
+          "name": "attributes",
+          "schema": {
+            "@type": "Map",
+            "mapKey": {
+              "name": "attributeKey",
+              "schema": "string"
+            },
+            "mapValue": {
+              "name": "attributeValue",
+              "schema": "string"
+            }
+          }
+        },
+        {
+          "@type": "Field",
+          "name": "endpoints",
+          "schema": "dtmi:com:microsoft:akri:DiscoveredDeviceEndpoints;1"
+        },
+        {
+          "@type": "Field",
+          "name": "externalDeviceId",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "manufacturer",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "model",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "operatingSystem",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "operatingSystemVersion",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:DiscoveredDeviceEndpoints;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": "Field",
+          "@id": "dtmi:com:microsoft:akri:DiscoveredDeviceInboundEndpoints;1",
+          "name": "inbound",
+          "schema": {
+            "@type": "Map",
+            "mapKey": {
+              "name": "endpointName",
+              "schema": "string"
+            },
+            "mapValue": {
+              "@id": "dtmi:com:microsoft:akri:DiscoveredDeviceInboundEndpoint;1",
+              "name": "inboundEndpoint",
+              "schema": {
+                "@type": "Object",
+                "fields": [
+                  {
+                    "@type": "Field",
+                    "name": "additionalConfiguration",
+                    "schema": "string"
+                  },
+                  {
+                    "@type": [ "Field", "Required" ],
+                    "name": "address",
+                    "schema": "string"
+                  },
+                  {
+                    "@type": [ "Field", "Required" ],
+                    "name": "endpointType",
+                    "schema": "string"
+                  },
+                  {
+                    "@type": "Field",
+                    "name": "lastUpdatedOn",
+                    "schema": "dateTime"
+                  },
+                  {
+                    "@type": "Field",
+                    "name": "supportedAuthenticationMethods",
+                    "schema": {
+                      "@type": "Array",
+                      "elementSchema": "string"
+                    }
+                  },
+                  {
+                    "@type": "Field",
+                    "name": "version",
+                    "schema": "string"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "@type": "Field",
+          "@id": "dtmi:com:microsoft:akri:DiscoveredDeviceOutboundEndpoints;1",
+          "name": "outbound",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": ["Field", "Required"],
+                "@id": "dtmi:com:microsoft:akri:DiscoveredDeviceAssignedOutboundEndpoints;1",
+                "name": "assigned",
+                "schema": {
+                  "@type": "Map",
+                  "mapKey": {
+                    "name": "assignedOutboundEndpointName",
+                    "schema": "string"
+                  },
+                  "mapValue": {
+                    "name": "assignedOutboundEndpoint",
+                    "schema": "dtmi:com:microsoft:akri:DeviceOutboundEndpoint;1"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:DeviceOutboundEndpoint;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": ["Field", "Required"],
+          "name": "address",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "endpointType",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:AkriServiceError;1",
+      "@type": [ "Object", "Error" ],
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "code",
+          "schema": {
+            "@type": "Enum",
+            "valueSchema": "string",
+            "enumValues": [
+              {
+                "name": "BadRequest",
+                "enumValue": "BadRequest"
+              },
+              {
+                "name": "KubeError",
+                "enumValue": "KubeError"
+              },
+              {
+                "name": "InternalError",
+                "enumValue": "InternalError"
+              },
+              {
+                "name": "SerializationError",
+                "enumValue": "SerializationError"
+              }
+            ]
+          }
+        },
+        {
+          "@type": [ "Field", "Required", "ErrorMessage" ],
+          "name": "message",
+          "schema": "string"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "timestamp",
+          "schema": "dateTime"
+        }
+      ]
+    }
+  ]
+}
