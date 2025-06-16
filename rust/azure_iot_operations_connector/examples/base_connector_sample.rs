@@ -10,12 +10,12 @@
 //!
 //! To deploy and test this example, see instructions in `rust/azure_iot_operations_connector/README.md`
 
-use std::time::Duration;
+use std::{collections::HashMap, time::Duration};
 
 use azure_iot_operations_connector::{
     AdrConfigError, Data,
     base_connector::{
-        BaseConnector,
+        self, BaseConnector,
         managed_azure_device_registry::{
             AssetClient, ClientNotification, DatasetClient, DeviceEndpointClient,
             DeviceEndpointClientCreationObservation,
@@ -24,6 +24,7 @@ use azure_iot_operations_connector::{
     data_processor::derived_json,
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
+use azure_iot_operations_services::azure_device_registry;
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -47,12 +48,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let device_creation_observation =
         base_connector.create_device_endpoint_client_create_observation();
 
+    let adr_discovery_client = base_connector.discovery_client();
+
     // Run the Session and the Azure Device Registry operations concurrently
     let r = tokio::join!(
         run_program(device_creation_observation),
+        run_discovery(adr_discovery_client),
         base_connector.run(),
     );
     r.1?;
+    r.2?;
     Ok(())
 }
 
@@ -258,6 +263,53 @@ fn generate_asset_status(asset_client: &AssetClient) -> Result<(), AdrConfigErro
                 message: Some("asset manufacturer type is not supported".to_string()),
                 ..Default::default()
             })
+        }
+    }
+}
+
+/// NOTE: This is just showing that running discovery concurrently works. In a real world solution,
+/// this should be run in a loop and create the discovered devices through an actual disovery process
+/// instead of being hard-coded
+async fn run_discovery(
+    discovery_client: base_connector::adr_discovery::Client,
+) -> Result<(), Box<dyn std::error::Error>> {
+    let device_name = "my-thermostat".to_string();
+
+    let discovered_inbound_endpoints = HashMap::from([(
+        "inbound_endpoint1".to_string(),
+        azure_device_registry::models::DiscoveredInboundEndpoint {
+            address: "tcp://inbound/endpoint1".to_string(),
+            endpoint_type: "rest-thermostat".to_string(),
+            supported_authentication_methods: vec![],
+            version: Some("1.0.0".to_string()),
+            last_updated_on: Some(chrono::Utc::now()),
+            additional_configuration: None,
+        },
+    )]);
+    let device = azure_device_registry::models::DiscoveredDevice {
+        attributes: HashMap::default(),
+        endpoints: Some(azure_device_registry::models::DiscoveredDeviceEndpoints {
+            inbound: discovered_inbound_endpoints,
+            outbound: None,
+        }),
+        external_device_id: None,
+        manufacturer: Some("Contoso".to_string()),
+        model: Some("Device Model".to_string()),
+        operating_system: Some("MyOS".to_string()),
+        operating_system_version: Some("1.0.0".to_string()),
+    };
+
+    match discovery_client
+        .create_or_update_discovered_device(device_name, device, "rest-thermostat".to_string())
+        .await
+    {
+        Ok(response) => {
+            log::info!("Discovered device created or updated successfully: {response:?}");
+            Ok(())
+        }
+        Err(e) => {
+            log::error!("Error creating or updating discovered device: {e}");
+            Err(Box::new(e))
         }
     }
 }

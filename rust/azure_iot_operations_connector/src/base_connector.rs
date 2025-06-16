@@ -14,6 +14,7 @@ use managed_azure_device_registry::DeviceEndpointClientCreationObservation;
 
 use crate::filemount::connector_artifacts::ConnectorArtifacts;
 
+pub mod adr_discovery;
 pub mod managed_azure_device_registry;
 
 /// Context required to run the base connector operations
@@ -149,6 +150,16 @@ impl BaseConnector {
         &self,
     ) -> DeviceEndpointClientCreationObservation {
         DeviceEndpointClientCreationObservation::new(self.connector_context.clone())
+    }
+
+    /// Creates a handle to use the [`BaseConnector`]'s Azure Device Registry client for discovery operations.
+    pub fn discovery_client(&self) -> adr_discovery::Client {
+        adr_discovery::Client::new(self.connector_context.clone())
+    }
+
+    /// Returns a copy of the connector artifacts
+    pub fn connector_artifacts(&self) -> ConnectorArtifacts {
+        self.connector_context.connector_config.clone()
     }
 }
 
