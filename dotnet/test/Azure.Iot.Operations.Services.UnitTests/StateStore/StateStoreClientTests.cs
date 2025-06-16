@@ -954,6 +954,29 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
                     Times.Once());
         }
 
+        [Fact]
+        public async Task SetAsyncWithTooShortExpiryTimeThrows()
+        {
+            // arrange
+            ApplicationContext applicationContext = new ApplicationContext();
+            StateStoreKey key = new StateStoreKey("someKey");
+            StateStoreValue value = new StateStoreValue("someValue");
+            string clientId = "someClientId";
+
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
+            var mockMqttClient = GetMockMqttClient(clientId);
+
+            await using StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object, mockStateStoreGeneratedClient.Object);
+
+            StateStoreSetRequestOptions setOptions = new()
+            {
+                ExpiryTime = TimeSpan.FromMicroseconds(1),
+            };
+
+            // act/assert
+            await Assert.ThrowsAsync<ArgumentException>(async () => await stateStoreClient.SetAsync(key, value, setOptions));
+        }
+
         private static Mock<IMqttPubSubClient> GetMockMqttClient(string clientId)
         {
             var mockMqttClient = new Mock<IMqttPubSubClient>();

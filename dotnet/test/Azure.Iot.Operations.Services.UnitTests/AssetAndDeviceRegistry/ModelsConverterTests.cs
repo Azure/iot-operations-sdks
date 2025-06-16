@@ -283,6 +283,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                     },
                     DefaultDatasetsConfiguration = "{\"defaultKey\":\"defaultValue\"}",
                     DefaultEventsConfiguration = "{\"defaultEventKey\":\"defaultEventValue\"}",
+                    DefaultManagementGroupsConfiguration = "{\"defaultManagementGroupKey\":\"defaultManagementGroupValue\"}",
                     DiscoveredAssetRefs = ["discovered-asset-ref"]
                 },
                 Status = new AdrBaseService.AssetStatus
@@ -573,6 +574,11 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             Assert.Equal(QoS.Qos1, result.Specification.DefaultDatasetsDestinations[0].Configuration.Qos);
             Assert.Equal(Retain.Keep, result.Specification.DefaultDatasetsDestinations[0].Configuration.Retain);
             Assert.Equal((ulong)60, result.Specification.DefaultDatasetsDestinations[0].Configuration.Ttl);
+
+            Assert.NotNull(result.Specification.DefaultManagementGroupsConfiguration);
+            actualJson = JsonSerializer.Serialize(result.Specification.DefaultManagementGroupsConfiguration);
+            expectedJson = source.Specification.DefaultManagementGroupsConfiguration;
+            Assert.Equal(expectedJson, actualJson);
         }
 
         [Fact]
@@ -642,7 +648,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                                 Address = "mqtt://device:1883",
                                 Version = "1.0",
                                 EndpointType = "mqtt",
-                                AdditionalConfiguration = "mqtt-config-value",
+                                AdditionalConfiguration = "{\"someKey\":\"someValue\"}",
                                 Authentication = new AdrBaseService.AuthenticationSchema
                                 {
                                     Method = AdrBaseService.MethodSchema.Certificate,
@@ -783,7 +789,9 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             Assert.Equal("1.0", mqttEndpoint.Version);
             Assert.Equal("mqtt", mqttEndpoint.EndpointType);
             Assert.NotNull(mqttEndpoint.AdditionalConfiguration);
-            Assert.Equal("mqtt-config-value", mqttEndpoint.AdditionalConfiguration);
+            string actualJson = JsonSerializer.Serialize(mqttEndpoint.AdditionalConfiguration);
+            string expectedJson = source.Specification.Endpoints.Inbound["mqtt-endpoint"].AdditionalConfiguration!;
+            Assert.Equal(expectedJson, actualJson);
 
             // Verify MQTT endpoint authentication
             Assert.NotNull(mqttEndpoint.Authentication);

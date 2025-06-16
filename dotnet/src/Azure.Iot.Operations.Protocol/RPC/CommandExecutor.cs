@@ -40,6 +40,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         private bool _isDisposed;
 
+        /// <summary>
+        /// The timeout for all commands received by this executor.
+        /// </summary>
+        /// <remarks>
+        /// Note that a command invoker may also send a per-invocation timeout. When this happens, a command will timeout if it exceeds either
+        /// of these timeout values.
+        /// </remarks>
         public TimeSpan ExecutionTimeout { get; set; }
 
         public required Func<ExtendedRequest<TReq>, CancellationToken, Task<ExtendedResponse<TResp>>> OnCommandReceived { get; set; }

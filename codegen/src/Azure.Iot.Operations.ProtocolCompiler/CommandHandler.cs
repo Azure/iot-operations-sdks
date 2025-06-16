@@ -40,6 +40,11 @@
                     WarnOnSuspiciousOption("outDir", options.OutDir.Name);
                 }
 
+                if (options.ResolverConfig != null && !options.ResolverConfig.Exists)
+                {
+                    WarnOnSuspiciousOption("resolver", options.ResolverConfig.Name);
+                }
+
                 if (!SupportedLanguages.Contains(options.Lang))
                 {
                     Console.WriteLine($"language \"{options.Lang}\" not recognized.  Language must be {string.Join(" or ", SupportedLanguages.Select(l => $"'{l}'"))}");
@@ -99,7 +104,7 @@
 
                     string[] modelTexts = options.ModelFiles.Select(mf => mf.OpenText().ReadToEnd()).ToArray();
                     string[] modelNames = options.ModelFiles.Select(mf => mf.Name).ToArray();
-                    ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(modelTexts, modelNames, modelDtmi, Console.WriteLine);
+                    ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(modelTexts, modelNames, modelDtmi, options.ResolverConfig, Console.WriteLine);
 
                     if (contextualizedInterface.InterfaceId == null)
                     {

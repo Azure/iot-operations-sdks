@@ -190,8 +190,15 @@ namespace Azure.Iot.Operations.Services.StateStore
 
                 if (options.ExpiryTime != null)
                 {
+                    var expiryTimeMilliseconds = options.ExpiryTime.Value.TotalMilliseconds;
+
+                    if (expiryTimeMilliseconds < 1)
+                    {
+                        throw new ArgumentException("Expiry time must be at least 1 millisecond.");
+                    }
+
                     builder.Add(Resp3Protocol.BuildBlobString(Encoding.ASCII.GetBytes("PX")));
-                    builder.Add(Resp3Protocol.BuildBlobString(Encoding.ASCII.GetBytes("" + options.ExpiryTime.Value.TotalMilliseconds)));
+                    builder.Add(Resp3Protocol.BuildBlobString(Encoding.ASCII.GetBytes("" + expiryTimeMilliseconds)));
                 }
             }
 

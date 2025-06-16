@@ -27,7 +27,7 @@ $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommand
 $gen --modelFile ../dtdl/TelemetryComplexSchemas.json --outDir ./TelemetryComplexSchemasSample/telemetry_complex_schemas_gen --lang rust --sdkPath ../../../../rust
 
 [[ -d ./TelemetryPrimitiveSchemasSample ]] && rm -r ./TelemetryPrimitiveSchemasSample
-$gen --modelFile ../dtdl/TelemetryPrimitiveSchemas.json --outDir ./TelemetryPrimitiveSchemasSample/telemetry_primitive_schemas_gen --lang rust --sdkPath ../../../../rust
+$gen --modelFile ../dtdl/TelemetryPrimitiveSchemas.json --outDir ./TelemetryPrimitiveSchemasSample/telemetry_primitive_schemas_gen --resolver ../dtdl/resolver.json --lang rust --sdkPath ../../../../rust
 
 [[ -d ./TelemetryRawSingleSample ]] && rm -r ./TelemetryRawSingleSample
 $gen --modelFile ../dtdl/TelemetryRawSingle.json --outDir ./TelemetryRawSingleSample/telemetry_raw_single_gen --lang rust --sdkPath ../../../../rust
