@@ -12,7 +12,6 @@ using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Services.StateStore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Text;
 
 namespace Azure.Iot.Operations.Connector
@@ -26,6 +25,7 @@ namespace Azure.Iot.Operations.Connector
         private readonly IMqttClient _mqttClient;
         private readonly ApplicationContext _applicationContext;
         private readonly IAdrClientWrapperFactoryProvider _adrClientWrapperFactory;
+        protected IAdrClientWrapper? _adrClient;
         private readonly IMessageSchemaProvider _messageSchemaProviderFactory;
         private LeaderElectionClient? _leaderElectionClient;
         private readonly ConcurrentDictionary<string, DeviceContext> _devices = new();
@@ -162,7 +162,7 @@ namespace Azure.Iot.Operations.Connector
                     }
                 }
 
-                IAdrClientWrapper _adrClient = _adrClientWrapperFactory.CreateAdrClientWrapper(_applicationContext, _mqttClient);
+                _adrClient = _adrClientWrapperFactory.CreateAdrClientWrapper(_applicationContext, _mqttClient);
 
                 _adrClient.DeviceChanged += async (sender, args) =>
                 {
@@ -170,7 +170,7 @@ namespace Azure.Iot.Operations.Connector
                     if (args.ChangeType == ChangeType.Created)
                     {
                         _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was created", args.DeviceName, args.InboundEndpointName);
-                        DeviceAvailable(args, compoundDeviceName, _adrClient);
+                        DeviceAvailable(args, compoundDeviceName);
                         if (args.Device != null)
                         {
                             OnDeviceAvailable?.Invoke(this, new(args.Device, args.InboundEndpointName));
@@ -179,14 +179,14 @@ namespace Azure.Iot.Operations.Connector
                     else if (args.ChangeType == ChangeType.Deleted)
                     {
                         _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
-                        await DeviceUnavailableAsync(args, compoundDeviceName, false, _adrClient);
+                        await DeviceUnavailableAsync(args, compoundDeviceName, false);
                         OnDeviceUnavailable?.Invoke(this, new(args.DeviceName, args.InboundEndpointName));
                     }
                     else if (args.ChangeType == ChangeType.Updated)
                     {
                         _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was updated", args.DeviceName, args.InboundEndpointName);
-                        await DeviceUnavailableAsync(args, compoundDeviceName, true, _adrClient);
-                        DeviceAvailable(args, compoundDeviceName, _adrClient);
+                        await DeviceUnavailableAsync(args, compoundDeviceName, true);
+                        DeviceAvailable(args, compoundDeviceName);
                     }
                 };
 
@@ -371,7 +371,7 @@ namespace Azure.Iot.Operations.Connector
             _isDisposed = true;
         }
 
-        private void DeviceAvailable(DeviceChangedEventArgs args, string compoundDeviceName, IAdrClientWrapper adrClient)
+        private void DeviceAvailable(DeviceChangedEventArgs args, string compoundDeviceName)
         {
             if (args.Device == null)
             {
@@ -384,13 +384,13 @@ namespace Azure.Iot.Operations.Connector
                 {
                     Device = args.Device
                 };
-                adrClient.ObserveAssets(args.DeviceName, args.InboundEndpointName);
+                _adrClient!.ObserveAssets(args.DeviceName, args.InboundEndpointName);
             }
         }
 
-        private async Task DeviceUnavailableAsync(DeviceChangedEventArgs args, string compoundDeviceName, bool isUpdating, IAdrClientWrapper adrClient)
+        private async Task DeviceUnavailableAsync(DeviceChangedEventArgs args, string compoundDeviceName, bool isUpdating)
         {
-            await adrClient.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
+            await _adrClient!.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
 
             if (_devices.TryRemove(compoundDeviceName, out var deviceContext))
             {
