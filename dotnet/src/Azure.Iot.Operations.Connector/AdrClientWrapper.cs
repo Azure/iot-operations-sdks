@@ -33,12 +33,12 @@ namespace Azure.Iot.Operations.Connector
             _monitor.AssetFileChanged += AssetFileChanged;
         }
 
-        public AdrClientWrapper(IAdrServiceClient adrServiceClient)
+        public AdrClientWrapper(IAdrServiceClient adrServiceClient, IAssetFileMonitor? assetFileMonitor = null)
         {
             _client = adrServiceClient;
             _client.OnReceiveAssetUpdateEventTelemetry += AssetUpdateReceived;
             _client.OnReceiveDeviceUpdateEventTelemetry += DeviceUpdateReceived;
-            _monitor = new AssetFileMonitor();
+            _monitor = assetFileMonitor ?? new AssetFileMonitor();
             _monitor.DeviceFileChanged += DeviceFileChanged;
             _monitor.AssetFileChanged += AssetFileChanged;
         }
