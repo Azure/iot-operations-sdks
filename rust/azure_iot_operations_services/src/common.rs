@@ -78,10 +78,7 @@ pub mod dispatcher {
         pub fn register_receiver(&self, receiver_id: H) -> Result<Receiver<T>, RegisterError> {
             let mut tx_map = self.tx_map.lock().unwrap();
             if tx_map.get(&receiver_id).is_some() {
-                return Err(RegisterError::AlreadyRegistered(format!(
-                    "{:?}",
-                    receiver_id
-                )));
+                return Err(RegisterError::AlreadyRegistered(format!("{receiver_id:?}")));
             }
             let (tx, rx) = unbounded_channel();
             tx_map.insert(receiver_id, tx);
@@ -110,7 +107,7 @@ pub mod dispatcher {
             } else {
                 Err(DispatchError {
                     data: message,
-                    kind: DispatchErrorKind::NotFound(format!("{:?}", receiver_id)),
+                    kind: DispatchErrorKind::NotFound(format!("{receiver_id:?}")),
                 })
             }
         }
