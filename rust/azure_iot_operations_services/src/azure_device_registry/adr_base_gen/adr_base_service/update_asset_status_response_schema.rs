@@ -15,13 +15,13 @@ use super::asset_status::AssetStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct UpdateAssetStatusResponseSchema {
-    /// The 'updateAssetStatusError' Field.
+    /// Error details, if the asset status update failed.
     #[serde(rename = "updateAssetStatusError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub update_asset_status_error: Option<AkriServiceError>,
 
-    /// The 'updatedAssetStatus' Field.
+    /// The updated asset status.
     #[serde(rename = "updatedAssetStatus")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

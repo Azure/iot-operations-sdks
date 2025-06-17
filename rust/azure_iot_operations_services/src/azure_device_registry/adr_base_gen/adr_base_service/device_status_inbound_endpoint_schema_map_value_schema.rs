@@ -14,7 +14,7 @@ use super::config_error::ConfigError;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DeviceStatusInboundEndpointSchemaMapValueSchema {
-    /// The 'error' Field.
+    /// The last error that occurred while processing the endpoint.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub error: Option<ConfigError>,

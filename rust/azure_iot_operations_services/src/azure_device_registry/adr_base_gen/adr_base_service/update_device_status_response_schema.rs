@@ -15,13 +15,13 @@ use super::device_status::DeviceStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct UpdateDeviceStatusResponseSchema {
-    /// The 'updatedDeviceStatus' Field.
+    /// The updated device status containing the specific inbound endpoint status as specified by the request.
     #[serde(rename = "updatedDeviceStatus")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub updated_device_status: Option<DeviceStatus>,
 
-    /// The 'updateDeviceStatusError' Field.
+    /// Error details, if the device status update failed.
     #[serde(rename = "updateDeviceStatusError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

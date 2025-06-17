@@ -15,13 +15,13 @@ use super::asset_status::AssetStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct GetAssetStatusResponseSchema {
-    /// The 'assetStatus' Field.
+    /// The asset status
     #[serde(rename = "assetStatus")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub asset_status: Option<AssetStatus>,
 
-    /// The 'getAssetStatusError' Field.
+    /// Error details, if the asset status could not be retrieved.
     #[serde(rename = "getAssetStatusError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

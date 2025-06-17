@@ -14,7 +14,7 @@ use super::asset_management_group_action_status_schema_element_schema::AssetMana
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetManagementGroupStatusSchemaElementSchema {
-    /// The 'actions' Field.
+    /// Array of action statuses that describe the status of each action.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub actions: Option<Vec<AssetManagementGroupActionStatusSchemaElementSchema>>,

@@ -20,103 +20,103 @@ use super::event_stream_destination::EventStreamDestination;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DiscoveredAsset {
-    /// The 'assetTypeRefs' Field.
+    /// URIs or type definition IDs for the asset type.
     #[serde(rename = "assetTypeRefs")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub asset_type_refs: Option<Vec<String>>,
 
-    /// The 'attributes' Field.
+    /// A set of key-value pairs that contain custom attributes.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub attributes: Option<HashMap<String, String>>,
 
-    /// The 'datasets' Field.
+    /// Array of datasets that are part of the asset. Each data set spec describes the data points that make up the set.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub datasets: Option<Vec<DiscoveredAssetDataset>>,
 
-    /// The 'defaultDatasetsConfiguration' Field.
+    /// Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here.
     #[serde(rename = "defaultDatasetsConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub default_datasets_configuration: Option<String>,
 
-    /// The 'defaultDatasetsDestinations' Field.
+    /// Default destinations for a dataset.
     #[serde(rename = "defaultDatasetsDestinations")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub default_datasets_destinations: Option<Vec<DatasetDestination>>,
 
-    /// The 'defaultEventsConfiguration' Field.
+    /// Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here.
     #[serde(rename = "defaultEventsConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub default_events_configuration: Option<String>,
 
-    /// The 'defaultEventsDestinations' Field.
+    /// Default destinations for an event.
     #[serde(rename = "defaultEventsDestinations")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub default_events_destinations: Option<Vec<EventStreamDestination>>,
 
-    /// The 'defaultManagementGroupsConfiguration' Field.
+    /// Stringified JSON that contains connector-specific default configuration for all management groups. Each management group can have its own configuration that overrides the default settings here.
     #[serde(rename = "defaultManagementGroupsConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub default_management_groups_configuration: Option<String>,
 
-    /// The 'defaultStreamsConfiguration' Field.
+    /// Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here.
     #[serde(rename = "defaultStreamsConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub default_streams_configuration: Option<String>,
 
-    /// The 'defaultStreamsDestinations' Field.
+    /// Default destinations for a stream.
     #[serde(rename = "defaultStreamsDestinations")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub default_streams_destinations: Option<Vec<EventStreamDestination>>,
 
-    /// The 'deviceRef' Field.
+    /// Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use.
     #[serde(rename = "deviceRef")]
     pub device_ref: AssetDeviceRef,
 
-    /// The 'documentationUri' Field.
+    /// Asset documentation reference.
     #[serde(rename = "documentationUri")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub documentation_uri: Option<String>,
 
-    /// The 'events' Field.
+    /// Array of events that are part of the asset. Each event can have per-event configuration.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub events: Option<Vec<DiscoveredAssetEvent>>,
 
-    /// The 'hardwareRevision' Field.
+    /// Asset hardware revision number.
     #[serde(rename = "hardwareRevision")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub hardware_revision: Option<String>,
 
-    /// The 'managementGroups' Field.
+    /// Array of management groups that are part of the asset. Each management group can have a per-group configuration.
     #[serde(rename = "managementGroups")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub management_groups: Option<Vec<DiscoveredAssetManagementGroup>>,
 
-    /// Asset manufacturer name.
+    /// Asset manufacturer.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub manufacturer: Option<String>,
 
-    /// URI to the manufacturer of the asset.
+    /// Asset manufacturer URI.
     #[serde(rename = "manufacturerUri")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub manufacturer_uri: Option<String>,
 
-    /// Asset model name.
+    /// Asset model.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub model: Option<String>,
@@ -133,13 +133,13 @@ pub struct DiscoveredAsset {
     #[builder(default = "None")]
     pub serial_number: Option<String>,
 
-    /// Revision number of the software.
+    /// Asset software revision number.
     #[serde(rename = "softwareRevision")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub software_revision: Option<String>,
 
-    /// The 'streams' Field.
+    /// Array of streams that are part of the asset. Each stream can have per-stream configuration.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub streams: Option<Vec<DiscoveredAssetStream>>,
