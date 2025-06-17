@@ -41,7 +41,7 @@ Any AIO Protocol Error is considered a "network error" and retriable. This may n
 | Scenario that returns an error | Retry attempts | Retried Errors | Immediate Failure Errors | Logged? | Additional Behavior on failure | Notes |
 |-|-|-|-|-|-|-|
 |device/asset update observation|indefinite|Network Errors|Service Errors|Y|device/asset creation notification is dropped|It is not a problem to block other operations on these retries because they would also be affected by network issues.|
-|device/asset update unobservation|indefinite|Network Errors|Service Errors|Y|-|This is a cleanup action, so if it fails, we just log it.|
+|device/asset update unobservation|indefinite|Network Errors|Service Errors|Y||This is a cleanup action, so if it fails, we just log it.|
 |get device/asset definition, or get device/asset status|indefinite|Network Errors|Service Errors|Y|device/asset creation notification is dropped and device/asset update unobservation is called|It is not a problem to block other operations on these retries because they would also be affected by network issues.|
 |reporting status/message schema to ADR|10|Network Errors|Service Errors|N|Error returned to application/caller||
 |* Asset status is reported by the base connector|None (because underlying operation is already retried)|-|-|Y|||
