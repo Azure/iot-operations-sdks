@@ -1,18 +1,18 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-namespace Azure.Iot.Operations.Connector.Assets.FileMonitor
+namespace Azure.Iot.Operations.Connector.Files.FilesMonitor
 {
     /// <summary>
     /// EventArgs that contains context on what change happened to which file
     /// </summary>
-    internal class FileChangedEventArgs : EventArgs
+    public class FileChangedEventArgs : EventArgs
     {
-        internal WatcherChangeTypes ChangeType { get; init; }
+        public WatcherChangeTypes ChangeType { get; init; }
 
-        internal string FilePath { get; init; }
+        public string FilePath { get; init; }
 
-        internal string FileName
+        public string FileName
         {
             get
             {
@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.Connector.Assets.FileMonitor
             }
         }
 
-        internal FileChangedEventArgs(string filePath, WatcherChangeTypes changeType)
+        public FileChangedEventArgs(string filePath, WatcherChangeTypes changeType)
         {
             FilePath = filePath;
             ChangeType = changeType;
