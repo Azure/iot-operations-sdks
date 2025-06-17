@@ -40,19 +40,26 @@ impl ObservabilityArtifacts {
         let grpc_log_endpoint = std::env::var("OLTP_GRPC_LOG_ENDPOINT").ok();
         let grpc_trace_endpoint = std::env::var("OLTP_GRPC_TRACE_ENDPOINT").ok();
 
-        let grpc_metric_collector_1p_ca_mount = std::env::var("FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH")
-            .ok()
-            .map(PathBuf::from);
-        let grpc_log_collector_1p_ca_mount = std::env::var("FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH")
-            .ok()
-            .map(PathBuf::from);
+        let grpc_metric_collector_1p_ca_mount =
+            std::env::var("FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH")
+                .ok()
+                .map(PathBuf::from);
+        let grpc_log_collector_1p_ca_mount =
+            std::env::var("FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH")
+                .ok()
+                .map(PathBuf::from);
 
         let http_metric_endpoint = std::env::var("OLTP_HTTP_METRIC_ENDPOINT").ok();
         let http_log_endpoint = std::env::var("OLTP_HTTP_LOG_ENDPOINT").ok();
         let http_trace_endpoint = std::env::var("OLTP_HTTP_TRACE_ENDPOINT").ok();
 
         let metric_endpoint_3p = std::env::var("OTLP_METRIC_ENDPOINT_3P").ok();
-        let metric_export_interval_3p = std::env::var("OTLP_METRIC_EXPORT_INTERVAL_3P").map(|v| v.parse::<i32>()).ok().transpose().ok().flatten();
+        let metric_export_interval_3p = std::env::var("OTLP_METRIC_EXPORT_INTERVAL_3P")
+            .map(|v| v.parse::<i32>())
+            .ok()
+            .transpose()
+            .ok()
+            .flatten();
 
         // NOTE: Not going to put any validation here, as this is a stopgap implementation.
         // When finalized would want to validate the mount paths for certs, however many there
@@ -116,27 +123,63 @@ mod tests {
                 ("OLTP_GRPC_METRIC_ENDPOINT", Some("grpcs://metric.endpoint")),
                 ("OLTP_GRPC_LOG_ENDPOINT", Some("grpcs://log.endpoint")),
                 ("OLTP_GRPC_TRACE_ENDPOINT", Some("grpcs://trace.endpoint")),
-                ("FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH", Some("/path/to/metrics/ca")),
-                ("FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH", Some("/path/to/logs/ca")),
+                (
+                    "FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH",
+                    Some("/path/to/metrics/ca"),
+                ),
+                (
+                    "FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH",
+                    Some("/path/to/logs/ca"),
+                ),
                 ("OLTP_HTTP_METRIC_ENDPOINT", Some("https://metric.endpoint")),
                 ("OLTP_HTTP_LOG_ENDPOINT", Some("https://log.endpoint")),
                 ("OLTP_HTTP_TRACE_ENDPOINT", Some("https://trace.endpoint")),
-                ("OTLP_METRIC_ENDPOINT_3P", Some("https://3p.metric.endpoint")),
+                (
+                    "OTLP_METRIC_ENDPOINT_3P",
+                    Some("https://3p.metric.endpoint"),
+                ),
                 ("OTLP_METRIC_EXPORT_INTERVAL_3P", Some("30")),
             ],
             || {
                 let artifacts = ObservabilityArtifacts::new_from_deployment();
-                assert_eq!(artifacts.grpc_metric_endpoint, Some("grpcs://metric.endpoint".to_string()));
-                assert_eq!(artifacts.grpc_log_endpoint, Some("grpcs://log.endpoint".to_string()));
-                assert_eq!(artifacts.grpc_trace_endpoint, Some("grpcs://trace.endpoint".to_string()));
-                assert_eq!(artifacts.grpc_metric_collector_1p_ca_mount, Some(PathBuf::from("/path/to/metrics/ca")));
-                assert_eq!(artifacts.grpc_log_collector_1p_ca_mount, Some(PathBuf::from("/path/to/logs/ca")));
-                assert_eq!(artifacts.http_metric_endpoint, Some("https://metric.endpoint".to_string()));
-                assert_eq!(artifacts.http_log_endpoint, Some("https://log.endpoint".to_string()));
-                assert_eq!(artifacts.http_trace_endpoint, Some("https://trace.endpoint".to_string()));
-                assert_eq!(artifacts.metric_endpoint_3p, Some("https://3p.metric.endpoint".to_string()));
+                assert_eq!(
+                    artifacts.grpc_metric_endpoint,
+                    Some("grpcs://metric.endpoint".to_string())
+                );
+                assert_eq!(
+                    artifacts.grpc_log_endpoint,
+                    Some("grpcs://log.endpoint".to_string())
+                );
+                assert_eq!(
+                    artifacts.grpc_trace_endpoint,
+                    Some("grpcs://trace.endpoint".to_string())
+                );
+                assert_eq!(
+                    artifacts.grpc_metric_collector_1p_ca_mount,
+                    Some(PathBuf::from("/path/to/metrics/ca"))
+                );
+                assert_eq!(
+                    artifacts.grpc_log_collector_1p_ca_mount,
+                    Some(PathBuf::from("/path/to/logs/ca"))
+                );
+                assert_eq!(
+                    artifacts.http_metric_endpoint,
+                    Some("https://metric.endpoint".to_string())
+                );
+                assert_eq!(
+                    artifacts.http_log_endpoint,
+                    Some("https://log.endpoint".to_string())
+                );
+                assert_eq!(
+                    artifacts.http_trace_endpoint,
+                    Some("https://trace.endpoint".to_string())
+                );
+                assert_eq!(
+                    artifacts.metric_endpoint_3p,
+                    Some("https://3p.metric.endpoint".to_string())
+                );
                 assert_eq!(artifacts.metric_export_interval_3p, Some(30));
-            }
+            },
         );
     }
 }
