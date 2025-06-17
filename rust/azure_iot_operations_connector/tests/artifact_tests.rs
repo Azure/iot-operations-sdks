@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use azure_iot_operations_connector::filemount::connector_artifacts::{
+use azure_iot_operations_connector::deployment_artifacts::connector::{
     ConnectorArtifacts, LogLevel, Protocol, TlsMode,
 };
 use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};

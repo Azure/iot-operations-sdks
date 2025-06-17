@@ -3,48 +3,21 @@
 
 //! Types for extracting Connector configurations from an Akri deployment
 
-use std::env::{self, VarError};
-use std::ffi::OsString;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::{Path, PathBuf};
 use std::time::Duration;
 
+use azure_iot_operations_mqtt as aio_mqtt;
 use serde::Deserialize;
 use serde_json;
-use thiserror::Error;
 
-use azure_iot_operations_mqtt as aio_mqtt;
+use crate::deployment_artifacts::{
+    DeploymentArtifactError, DeploymentArtifactErrorRepr, string_from_environment,
+    valid_mount_pathbuf_from,
+};
 
 // TODO: Integrate ADR into this implementation
-
-/// Indicates an error occurred while parsing the artifacts in an Akri deployment
-#[derive(Error, Debug)]
-#[error(transparent)]
-pub struct DeploymentArtifactError(#[from] DeploymentArtifactErrorRepr);
-
-/// Represents the type of error encountered while parsing artifacts in an Akri deployment
-#[derive(Error, Debug)]
-enum DeploymentArtifactErrorRepr {
-    /// A required environment variable was not found
-    #[error("Required environment variable missing: {0}")]
-    EnvVarMissing(String),
-    /// The value contained in an environment variable was malformed
-    #[error("Environment variable value malformed: {0}")]
-    EnvVarValueMalformed(String),
-    /// A specified mount path could not be found in the filesystem
-    #[error("Specified mount path not found in filesystem: {0:?}")]
-    MountPathMissing(OsString),
-    /// A required file path could not be found in the filesystem
-    #[error("Required file path not found: {0:?}")]
-    FilePathMissing(OsString),
-    /// An error occurred while trying to read a file in the filesystem
-    #[error(transparent)]
-    FileReadError(#[from] std::io::Error),
-    /// JSON data could not be parsed
-    #[error(transparent)]
-    JsonParseError(#[from] serde_json::Error),
-}
 
 #[derive(Clone, Debug, PartialEq)]
 /// Values extracted from the artifacts in an Akri deployment.
@@ -446,100 +419,13 @@ pub enum LogLevel {
     Trace,
 }
 
-/// Helper function to get an environment variable as a string.
-fn string_from_environment(key: &str) -> Result<Option<String>, DeploymentArtifactErrorRepr> {
-    match env::var(key) {
-        Ok(value) => Ok(Some(value)),
-        Err(VarError::NotPresent) => Ok(None),
-        Err(VarError::NotUnicode(_)) => Err(DeploymentArtifactErrorRepr::EnvVarValueMalformed(
-            key.to_string(),
-        )),
-    }
-}
-
-/// Helper function to validate a mount path and return it as a `PathBuf`.
-fn valid_mount_pathbuf_from(mount_path_s: String) -> Result<PathBuf, DeploymentArtifactErrorRepr> {
-    let mount_path = PathBuf::from(mount_path_s);
-    if !mount_path.exists() {
-        return Err(DeploymentArtifactErrorRepr::MountPathMissing(
-            mount_path.into(),
-        ));
-    }
-    Ok(mount_path)
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    use tempfile::{NamedTempFile, TempDir};
+    use tempfile::NamedTempFile;
     use test_case::{test_case, test_matrix};
 
-    /// Simulates a file mount directory using a temporary directory.
-    struct TempMount {
-        dir: TempDir,
-    }
-
-    impl TempMount {
-        fn new(dir_name: &str) -> Self {
-            let dir = tempfile::TempDir::with_prefix(dir_name).unwrap();
-            Self { dir }
-            // TODO: Add symlink simulation. Currently this doesn't work, because
-            // trying to add a ".." file is interpreted as trying to go up a level
-            // in the directory structure.
-            //let ret = Self { dir };
-            // Create a ".." file to simulate a symlink in a mounted directory
-            //ret.add_file("..", "");
-            //ret
-        }
-
-        fn add_file(&self, file_name: &str, contents: &str) {
-            let file_path = self.dir.path().join(file_name);
-            std::fs::write(file_path, contents).unwrap();
-        }
-
-        fn remove_file(&self, file_name: &str) {
-            let file_path = self.dir.path().join(file_name);
-            std::fs::remove_file(file_path).unwrap();
-        }
-
-        fn path(&self) -> &Path {
-            self.dir.path()
-        }
-    }
-
-    /// Simulates persistent volume mounts using temporary directories.
-    /// An admittedly funny name.
-    struct TempPersistentVolumeManager {
-        volumes: Vec<TempMount>,
-    }
-
-    impl TempPersistentVolumeManager {
-        fn new() -> Self {
-            Self {
-                volumes: Vec::new(),
-            }
-        }
-
-        fn add_mount(&mut self, mount_name: &str) {
-            let mount = TempMount::new(mount_name);
-            self.volumes.push(mount);
-        }
-
-        fn index_file_contents(&self) -> String {
-            let mut contents = String::new();
-            for mount in &self.volumes {
-                contents.push_str(&format!("{}\n", mount.path().to_str().unwrap()));
-            }
-            contents
-        }
-
-        fn volume_path_bufs(&self) -> Vec<PathBuf> {
-            self.volumes
-                .iter()
-                .map(|m| m.path().to_path_buf())
-                .collect()
-        }
-    }
+    use crate::deployment_artifacts::test_utils::{TempMount, TempPersistentVolumeManager};
 
     const CONNECTOR_ID: &str = "connector_id";
 
