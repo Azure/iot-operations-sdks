@@ -15,7 +15,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
         services.AddSingleton(DatasetSamplerFactory.DatasetSamplerFactoryProvider);
         services.AddSingleton(MessageSchemaProvider.MessageSchemaProviderFactory);
-        services.AddSingleton<IAdrClientWrapper>((services) => new AdrClientWrapper(services.GetService<ApplicationContext>()!, services.GetService<IMqttClient>()!, connectorClientId));
+        services.AddSingleton<IAdrClientWrapperFactoryProvider>(AdrClientWrapperFactoryProvider.Factory);
         services.AddSingleton(LeaderElectionConfigurationProvider.ConnectorLeaderElectionConfigurationProviderFactory); // If no leader election is needed, delete this line
         services.AddHostedService<PollingTelemetryConnectorWorker>();
     })

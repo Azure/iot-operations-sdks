@@ -114,7 +114,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             return $"{deviceName}_{inboundEndpointName}";
         }
 
-        public EndpointCredentials GetEndpointCredentials(InboundEndpointSchemaMapValue inboundEndpoint)
+        public EndpointCredentials GetEndpointCredentials(string deviceName, string inboundEndpointName, InboundEndpointSchemaMapValue inboundEndpoint)
         {
             throw new NotImplementedException();
         }
