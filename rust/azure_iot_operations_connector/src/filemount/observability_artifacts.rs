@@ -8,6 +8,7 @@
 use std::path::PathBuf;
 
 /// Values extracted from the observability artifacts in an AIO deployment.
+#[derive(Debug, Clone, PartialEq)]
 pub struct ObservabilityArtifacts {
     /// OTEL grpc/grpcs metric endpoint.
     pub grpc_metric_endpoint: Option<String>,
