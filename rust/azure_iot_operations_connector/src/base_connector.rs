@@ -39,7 +39,7 @@ pub(crate) struct ConnectorContext {
 impl std::fmt::Debug for ConnectorContext {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ConnectorContext")
-            .field("connector_config", &self.connector_artifacts)
+            .field("connector_artifacts", &self.connector_artifacts)
             .field("debounce_duration", &self.debounce_duration)
             .field("default_timeout", &self.default_timeout)
             .finish()
