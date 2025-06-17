@@ -7,7 +7,7 @@ namespace Azure.Iot.Operations.Connector
     /// </summary>
     public class NoMessageSchemaProvider : IMessageSchemaProvider
     {
-        public static Func<IServiceProvider, IMessageSchemaProvider> NoMessageSchemaProviderFactory = service =>
+        public static Func<IServiceProvider, IMessageSchemaProvider> Factory = service =>
         {
             return new NoMessageSchemaProvider();
         };

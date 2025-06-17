@@ -8,7 +8,7 @@ namespace EventDrivenTelemetryConnector
 {
     internal class MessageSchemaProvider : IMessageSchemaProvider
     {
-        public static Func<IServiceProvider, IMessageSchemaProvider> MessageSchemaProviderFactory = service =>
+        public static Func<IServiceProvider, IMessageSchemaProvider> Factory = service =>
         {
             return new MessageSchemaProvider();
         };

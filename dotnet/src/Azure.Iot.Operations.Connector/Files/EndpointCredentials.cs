@@ -3,7 +3,7 @@
 
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-namespace Azure.Iot.Operations.Connector.Assets
+namespace Azure.Iot.Operations.Connector.Files
 {
     public class EndpointCredentials
     {

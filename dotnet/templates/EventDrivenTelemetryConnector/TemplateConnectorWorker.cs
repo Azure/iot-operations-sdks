@@ -26,10 +26,11 @@ namespace EventDrivenTelemetryConnector
             ILogger<ConnectorWorker> connectorLogger,
             IMqttClient mqttClient,
             IMessageSchemaProvider messageSchemaProviderFactory,
-            IAdrClientWrapper assetMonitor)
+            IAdrClientWrapperProvider adrClientWrapperFactory,
+            IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null)
         {
             _logger = logger;
-            _connector = new(applicationContext, connectorLogger, mqttClient, messageSchemaProviderFactory, assetMonitor);
+            _connector = new(applicationContext, connectorLogger, mqttClient, messageSchemaProviderFactory, adrClientWrapperFactory, leaderElectionConfigurationProvider);
             _connector.WhileAssetIsAvailable += WhileAssetAvailableAsync;
         }
 

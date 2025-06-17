@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector;
-using Azure.Iot.Operations.Connector.Assets;
+using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace RestThermostatConnector
 {
-    public class RestThermostatDatasetSamplerFactory : IDatasetSamplerFactory
+    public class RestThermostatDatasetSamplerProvider : IDatasetSamplerFactory
     {
-        public static Func<IServiceProvider, IDatasetSamplerFactory> RestDatasetSourceFactoryProvider = service =>
+        public static Func<IServiceProvider, IDatasetSamplerFactory> Factory = service =>
         {
-            return new RestThermostatDatasetSamplerFactory();
+            return new RestThermostatDatasetSamplerProvider();
         };
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace RestThermostatConnector
         /// <param name="dataset">The dataset that a sampler is needed for.</param>
         /// <param name="authentication">The authentication to use when connecting to the device with this asset.</param>
         /// <returns>The dataset sampler for the provided dataset.</returns>
-        public IDatasetSampler CreateDatasetSampler(Device device, string inboundEndpointName, string assetName, Asset asset, AssetDataset dataset, EndpointCredentials? credentials)
+        public IDatasetSampler CreateDatasetSampler(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset, AssetDataset dataset, EndpointCredentials? credentials)
         {
             if (dataset.Name.Equals("thermostat_status"))
             {
