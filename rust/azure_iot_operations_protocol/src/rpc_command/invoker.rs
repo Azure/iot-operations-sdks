@@ -12,7 +12,8 @@ use tokio::{
         Mutex, Notify,
         broadcast::{Sender, error::RecvError},
     },
-    task, time,
+    task::{self, JoinHandle},
+    time,
 };
 use uuid::Uuid;
 
@@ -1128,19 +1129,14 @@ where
         });
 
         // wait for pub to be completed and response to be received, immediately returning any errors returned.
-        let rsp_pub = match tokio::try_join!(pub_task, response_task) {
-            Ok((Ok(()), Ok(rsp_pub))) => rsp_pub,
+        let rsp_pub = match tokio::try_join!(flatten(pub_task), flatten(response_task)) {
+            Ok(((), rsp_pub)) => rsp_pub,
+            // Return any error that occurs
             Err(e) => {
-                // tasks can't panic
-                log::error!(
-                    "[{}] Error while sending command or receiving response: {e}",
-                    self.command_name
-                );
-                unreachable!()
+                return Err(e);
             }
-            // prioritize an error sending the request, but return either
-            Ok((Err(e), _) | (Ok(()), Err(e))) => return Err(e),
         };
+
         // validate and parse the response pub that is for this request
         let command_result: CommandResult<TResp> =
             rsp_pub.try_into().map_err(|mut e: AIOProtocolError| {
@@ -1333,6 +1329,21 @@ async fn drop_unsubscribe<C: ManagedClient + Clone + Send + Sync + 'static>(
 
     // If we successfully unsubscribed or did not need to, we can consider the invoker successfully shutdown
     *invoker_state_mutex_guard = State::ShutdownSuccessful;
+}
+
+/// convenience fn to flatten the result of a `JoinHandle`
+async fn flatten<T>(
+    handle: JoinHandle<Result<T, AIOProtocolError>>,
+) -> Result<T, AIOProtocolError> {
+    match handle.await {
+        Ok(Ok(result)) => Ok(result),
+        Ok(Err(e)) => Err(e),
+        Err(e) => {
+            // tasks can't panic
+            log::error!("Join Error: {e}");
+            unreachable!()
+        }
+    }
 }
 
 #[cfg(test)]
