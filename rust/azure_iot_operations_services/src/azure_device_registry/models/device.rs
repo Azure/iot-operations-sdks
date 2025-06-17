@@ -344,7 +344,7 @@ impl From<base_client_gen::AuthenticationSchema> for Authentication {
 #[derive(Clone, Debug, Default, PartialEq)]
 /// Represents the observed status of a Device in the ADR Service.
 pub struct DeviceStatus {
-    ///  Defines the status config properties.
+    ///  The configuration status of the device.
     pub config: Option<ConfigStatus>,
     /// Defines the device status for inbound/outbound endpoints.
     pub endpoints: HashMap<String, Option<ConfigError>>,
