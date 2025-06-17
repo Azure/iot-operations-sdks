@@ -17,8 +17,8 @@ use azure_iot_operations_connector::{
     base_connector::{
         self, BaseConnector,
         managed_azure_device_registry::{
-            AssetClient, ClientNotification, DatasetClient, DeviceEndpointClient,
-            DeviceEndpointClientCreationObservation,
+            AssetClient, ClientNotification, DatasetClient, DatasetNotification,
+            DeviceEndpointClient, DeviceEndpointClientCreationObservation,
         },
     },
     data_processor::derived_json,
@@ -64,15 +64,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 // This function runs in a loop, waiting for device creation notifications.
 async fn run_program(mut device_creation_observation: DeviceEndpointClientCreationObservation) {
     // Wait for a device creation notification
-    while let Some(device_endpoint_client) = device_creation_observation.recv_notification().await {
+    loop {
+        let device_endpoint_client = device_creation_observation.recv_notification().await;
         log::info!("Device created: {device_endpoint_client:?}");
 
         // now we should update the status of the device
         let endpoint_status = generate_endpoint_status(&device_endpoint_client);
 
-        device_endpoint_client
+        if let Err(e) = device_endpoint_client
             .report_status(Ok(()), endpoint_status)
-            .await;
+            .await
+        {
+            log::error!("Error reporting device endpoint status: {e}");
+        }
 
         // Start handling the assets for this device endpoint
         // if we didn't accept the inbound endpoint, then we still want to run this to wait for updates
@@ -93,9 +97,12 @@ async fn run_device(mut device_endpoint_client: DeviceEndpointClient) {
                 // now we should update the status of the device
                 let endpoint_status = generate_endpoint_status(&device_endpoint_client);
 
-                device_endpoint_client
+                if let Err(e) = device_endpoint_client
                     .report_status(Ok(()), endpoint_status)
-                    .await;
+                    .await
+                {
+                    log::error!("Error reporting device endpoint status: {e}");
+                }
             }
             ClientNotification::Created(asset_client) => {
                 log::info!("Asset created: {asset_client:?}");
@@ -103,7 +110,9 @@ async fn run_device(mut device_endpoint_client: DeviceEndpointClient) {
                 // now we should update the status of the asset
                 let asset_status = generate_asset_status(&asset_client);
 
-                asset_client.report_status(asset_status).await;
+                if let Err(e) = asset_client.report_status(asset_status).await {
+                    log::error!("Error reporting asset status: {e}");
+                }
 
                 // Start handling the datasets for this asset
                 // if we didn't accept the asset, then we still want to run this to wait for updates
@@ -122,7 +131,9 @@ async fn run_asset(mut asset_client: AssetClient) {
                 // now we should update the status of the asset
                 let asset_status = generate_asset_status(&asset_client);
 
-                asset_client.report_status(asset_status).await;
+                if let Err(e) = asset_client.report_status(asset_status).await {
+                    log::error!("Error reporting asset status: {e}");
+                }
             }
             ClientNotification::Deleted => {
                 log::warn!("Asset has been deleted");
@@ -138,7 +149,9 @@ async fn run_asset(mut asset_client: AssetClient) {
 
 async fn run_dataset(mut dataset_client: DatasetClient) {
     // now we should update the status of the dataset and report the message schema
-    dataset_client.report_status(Ok(())).await;
+    if let Err(e) = dataset_client.report_status(Ok(())).await {
+        log::error!("Error reporting dataset status: {e}");
+    }
 
     let sample_data = mock_received_data(0);
 
@@ -155,34 +168,45 @@ async fn run_dataset(mut dataset_client: DatasetClient) {
     let mut count = 0;
     // Timer will trigger the sampling of data
     let mut timer = tokio::time::interval(Duration::from_secs(10));
+    let mut dataset_valid = true;
     loop {
         tokio::select! {
             biased;
             // Listen for a dataset update notifications
             res = dataset_client.recv_notification() => {
-                if let Some(()) = res {
-                    log::info!("dataset updated: {dataset_client:?}");
-                    // now we should update the status of the dataset and report the message schema
-                    dataset_client.report_status(Ok(())).await;
-
-                    let sample_data = mock_received_data(0);
-
-                    let (_, message_schema) =
-                        derived_json::transform(sample_data, dataset_client.dataset_definition()).unwrap();
-                    match dataset_client.report_message_schema(message_schema).await {
-                        Ok(message_schema_reference) => {
-                            log::info!("Message Schema reported, reference returned: {message_schema_reference:?}");
+                match res {
+                    DatasetNotification::Updated => {
+                        log::info!("dataset updated: {dataset_client:?}");
+                        // now we should update the status of the dataset and report the message schema
+                        if let Err(e) = dataset_client.report_status(Ok(())).await {
+                            log::error!("Error reporting dataset status: {e}");
                         }
-                        Err(e) => {
-                            log::error!("Error reporting message schema: {e}");
+
+                        let sample_data = mock_received_data(0);
+
+                        let (_, message_schema) =
+                            derived_json::transform(sample_data, dataset_client.dataset_definition()).unwrap();
+                        match dataset_client.report_message_schema(message_schema).await {
+                            Ok(message_schema_reference) => {
+                                log::info!("Message Schema reported, reference returned: {message_schema_reference:?}");
+                            }
+                            Err(e) => {
+                                log::error!("Error reporting message schema: {e}");
+                            }
                         }
+                        dataset_valid = true;
+                    },
+                    DatasetNotification::UpdatedInvalid => {
+                        log::warn!("Dataset has invalid update. Wait for new dataset update.");
+                        dataset_valid = false;
+                    },
+                    DatasetNotification::Deleted => {
+                        log::warn!("Dataset has been deleted. No more dataset updates will be received");
+                        break;
                     }
-                } else {
-                    log::warn!("Dataset has been deleted. No more dataset updates will be received");
-                    break;
                 }
-            }
-            _ = timer.tick() => {
+            },
+            _ = timer.tick(), if dataset_valid => {
                 let sample_data = mock_received_data(count);
                 let (transformed_data, _) =
                     derived_json::transform(sample_data.clone(), dataset_client.dataset_definition())
