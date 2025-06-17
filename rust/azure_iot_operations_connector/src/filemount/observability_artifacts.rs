@@ -31,7 +31,7 @@ pub struct ObservabilityArtifacts {
     /// OTEL 3P metric endpoint.
     pub metric_endpoint_3p: Option<String>,
     /// OTEL 3P metric export interval.
-    pub metric_export_interval_3p: Option<i32>,
+    pub metric_export_interval_3p: Option<u32>,
 }
 
 impl ObservabilityArtifacts {
@@ -56,7 +56,7 @@ impl ObservabilityArtifacts {
 
         let metric_endpoint_3p = std::env::var("OTLP_METRIC_ENDPOINT_3P").ok();
         let metric_export_interval_3p = std::env::var("OTLP_METRIC_EXPORT_INTERVAL_3P")
-            .map(|v| v.parse::<i32>())
+            .map(|v| v.parse::<u32>())
             .ok()
             .transpose()
             .ok()
@@ -65,7 +65,7 @@ impl ObservabilityArtifacts {
         // NOTE: Not going to put any validation here, as this is a stopgap implementation.
         // When finalized would want to validate the mount paths for certs, however many there
         // end up being, and validating / restructuring for conditional presence of values
-        // (e.g. one implies the exitence of another, etc.)
+        // (e.g. one implies the existence of another, etc.)
 
         ObservabilityArtifacts {
             grpc_metric_endpoint,
