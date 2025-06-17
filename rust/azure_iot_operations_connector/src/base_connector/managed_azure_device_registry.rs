@@ -1185,7 +1185,7 @@ impl AssetClient {
 pub enum MessageSchemaError {
     /// An error occurred while putting the Schema in the Schema Registry
     #[error(transparent)]
-    SchemaRegistryError(#[from] schema_registry::Error),
+    PutSchemaError(#[from] schema_registry::Error),
     /// An error occurred while reporting the Schema to the Azure Device Registry Service.
     #[error(transparent)]
     AzureDeviceRegistryError(#[from] azure_device_registry::Error),
