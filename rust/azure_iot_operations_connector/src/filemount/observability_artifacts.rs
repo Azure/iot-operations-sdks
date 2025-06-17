@@ -36,9 +36,9 @@ pub struct ObservabilityArtifacts {
 impl ObservabilityArtifacts {
     /// Create an `ObservabilityArtifacts` instance from the environment variables in an AIO deployment.
     pub fn new_from_deployment() -> ObservabilityArtifacts {
-        let grpc_metric_endpoint = std::env::var("OLTP_GRPC_METRIC_ENDPOINT").ok();
-        let grpc_log_endpoint = std::env::var("OLTP_GRPC_LOG_ENDPOINT").ok();
-        let grpc_trace_endpoint = std::env::var("OLTP_GRPC_TRACE_ENDPOINT").ok();
+        let grpc_metric_endpoint = std::env::var("OTLP_GRPC_METRIC_ENDPOINT").ok();
+        let grpc_log_endpoint = std::env::var("OTLP_GRPC_LOG_ENDPOINT").ok();
+        let grpc_trace_endpoint = std::env::var("OTLP_GRPC_TRACE_ENDPOINT").ok();
 
         let grpc_metric_collector_1p_ca_mount =
             std::env::var("FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH")
@@ -49,9 +49,9 @@ impl ObservabilityArtifacts {
                 .ok()
                 .map(PathBuf::from);
 
-        let http_metric_endpoint = std::env::var("OLTP_HTTP_METRIC_ENDPOINT").ok();
-        let http_log_endpoint = std::env::var("OLTP_HTTP_LOG_ENDPOINT").ok();
-        let http_trace_endpoint = std::env::var("OLTP_HTTP_TRACE_ENDPOINT").ok();
+        let http_metric_endpoint = std::env::var("OTLP_HTTP_METRIC_ENDPOINT").ok();
+        let http_log_endpoint = std::env::var("OTLP_HTTP_LOG_ENDPOINT").ok();
+        let http_trace_endpoint = std::env::var("OTLP_HTTP_TRACE_ENDPOINT").ok();
 
         let metric_endpoint_3p = std::env::var("OTLP_METRIC_ENDPOINT_3P").ok();
         let metric_export_interval_3p = std::env::var("OTLP_METRIC_EXPORT_INTERVAL_3P")
@@ -89,14 +89,14 @@ mod tests {
     fn no_artifacts() {
         temp_env::with_vars(
             [
-                ("OLTP_GRPC_METRIC_ENDPOINT", None::<&str>),
-                ("OLTP_GRPC_LOG_ENDPOINT", None),
-                ("OLTP_GRPC_TRACE_ENDPOINT", None),
+                ("OTLP_GRPC_METRIC_ENDPOINT", None::<&str>),
+                ("OTLP_GRPC_LOG_ENDPOINT", None),
+                ("OTLP_GRPC_TRACE_ENDPOINT", None),
                 ("FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH", None),
                 ("FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH", None),
-                ("OLTP_HTTP_METRIC_ENDPOINT", None),
-                ("OLTP_HTTP_LOG_ENDPOINT", None),
-                ("OLTP_HTTP_TRACE_ENDPOINT", None),
+                ("OTLP_HTTP_METRIC_ENDPOINT", None),
+                ("OTLP_HTTP_LOG_ENDPOINT", None),
+                ("OTLP_HTTP_TRACE_ENDPOINT", None),
                 ("OTLP_METRIC_ENDPOINT_3P", None),
                 ("OTLP_METRIC_EXPORT_INTERVAL_3P", None),
             ],
@@ -120,9 +120,9 @@ mod tests {
     fn with_artifacts() {
         temp_env::with_vars(
             [
-                ("OLTP_GRPC_METRIC_ENDPOINT", Some("grpcs://metric.endpoint")),
-                ("OLTP_GRPC_LOG_ENDPOINT", Some("grpcs://log.endpoint")),
-                ("OLTP_GRPC_TRACE_ENDPOINT", Some("grpcs://trace.endpoint")),
+                ("OTLP_GRPC_METRIC_ENDPOINT", Some("grpcs://metric.endpoint")),
+                ("OTLP_GRPC_LOG_ENDPOINT", Some("grpcs://log.endpoint")),
+                ("OTLP_GRPC_TRACE_ENDPOINT", Some("grpcs://trace.endpoint")),
                 (
                     "FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH",
                     Some("/path/to/metrics/ca"),
@@ -131,9 +131,9 @@ mod tests {
                     "FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH",
                     Some("/path/to/logs/ca"),
                 ),
-                ("OLTP_HTTP_METRIC_ENDPOINT", Some("https://metric.endpoint")),
-                ("OLTP_HTTP_LOG_ENDPOINT", Some("https://log.endpoint")),
-                ("OLTP_HTTP_TRACE_ENDPOINT", Some("https://trace.endpoint")),
+                ("OTLP_HTTP_METRIC_ENDPOINT", Some("https://metric.endpoint")),
+                ("OTLP_HTTP_LOG_ENDPOINT", Some("https://log.endpoint")),
+                ("OTLP_HTTP_TRACE_ENDPOINT", Some("https://trace.endpoint")),
                 (
                     "OTLP_METRIC_ENDPOINT_3P",
                     Some("https://3p.metric.endpoint"),
