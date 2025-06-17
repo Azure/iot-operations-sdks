@@ -17,6 +17,7 @@ use azure_iot_operations_services::{
     schema_registry,
 };
 use chrono::{DateTime, Utc};
+use thiserror::Error;
 use tokio::sync::mpsc::{self, UnboundedReceiver, UnboundedSender};
 use tokio_retry2::{Retry, RetryError};
 use tokio_util::sync::CancellationToken;
@@ -68,20 +69,22 @@ impl DeviceEndpointClientCreationObservation {
         }
     }
 
-    /// Receives a notification for a newly created device endpoint or [`None`]
-    /// if there will be no more notifications. This notification includes the
-    /// [`DeviceEndpointClient`], which can be used to receive Assets related
-    /// to this Device Endpoint
-    pub async fn recv_notification(&mut self) -> Option<DeviceEndpointClient> {
+    /// Receives a notification for a newly created device endpoint. This
+    /// notification includes the [`DeviceEndpointClient`], which can be used
+    /// to receive Assets related to this Device Endpoint
+    ///
+    /// # Panics
+    /// If the `device_endpoint_create_observation` channel is closed, which should not be possible
+    pub async fn recv_notification(&mut self) -> DeviceEndpointClient {
         loop {
             // Get the notification
             let (device_endpoint_ref, asset_create_observation) = self
                 .device_endpoint_create_observation
                 .recv_notification()
-                .await?;
+                .await.expect("Device Endpoint Create Observation should never return None because the device_endpoint_create_observation struct holds the sending side of the channel");
 
             // and then get device update observation as well
-            let device_endpoint_update_observation =  match Retry::spawn(RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10), async || -> Result<azure_device_registry::DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
+            let device_endpoint_update_observation =  match Retry::spawn(RETRY_STRATEGY.map(tokio_retry2::strategy::jitter), async || -> Result<azure_device_registry::DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
                 self.connector_context
                     .azure_device_registry_client
                     .observe_device_update_notifications(
@@ -91,7 +94,7 @@ impl DeviceEndpointClientCreationObservation {
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await
-                    .map_err(|e| observe_error_into_retry_error(e, "Observe for Device Updates"))
+                    .map_err(|e| adr_error_into_retry_error(e, "Observe for Device Updates"))
             }).await {
                 Ok(device_update_observation) => device_update_observation,
                 Err(e) => {
@@ -134,7 +137,7 @@ impl DeviceEndpointClientCreationObservation {
 
             // get the device status
             let device_status = match Retry::spawn(
-                RETRY_STRATEGY,
+                RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
                 async || -> Result<adr_models::DeviceStatus, RetryError<azure_device_registry::Error>> {
                     self.connector_context
                         .azure_device_registry_client
@@ -159,32 +162,30 @@ impl DeviceEndpointClientCreationObservation {
             };
 
             // turn the device definition into a DeviceEndpointClient
-            return Some(
-                match DeviceEndpointClient::new(
-                    device,
-                    device_status,
-                    device_endpoint_ref.clone(),
-                    device_endpoint_update_observation,
-                    asset_create_observation,
-                    self.connector_context.clone(),
-                ) {
-                    Ok(managed_device) => managed_device,
-                    Err(e) => {
-                        // the device definition didn't include the inbound_endpoint, so it likely no longer exists
-                        // TODO: This won't be a possible failure point in the future once the service returns errors
-                        log::error!(
-                            "Dropping device endpoint create notification: {device_endpoint_ref:?}. {e}"
-                        );
-                        // unobserve as cleanup
-                        DeviceEndpointClient::unobserve_device(
-                            &self.connector_context,
-                            &device_endpoint_ref,
-                        )
-                        .await;
-                        continue;
-                    }
-                },
-            );
+            return match DeviceEndpointClient::new(
+                device,
+                device_status,
+                device_endpoint_ref.clone(),
+                device_endpoint_update_observation,
+                asset_create_observation,
+                self.connector_context.clone(),
+            ) {
+                Ok(managed_device) => managed_device,
+                Err(e) => {
+                    // the device definition didn't include the inbound_endpoint, so it likely no longer exists
+                    // TODO: This won't be a possible failure point in the future once the service returns errors
+                    log::error!(
+                        "Dropping device endpoint create notification: {device_endpoint_ref:?}. {e}"
+                    );
+                    // unobserve as cleanup
+                    DeviceEndpointClient::unobserve_device(
+                        &self.connector_context,
+                        &device_endpoint_ref,
+                    )
+                    .await;
+                    continue;
+                }
+            };
         }
     }
 }
@@ -242,13 +243,21 @@ impl DeviceEndpointClient {
     /// Used to report the status of a device and endpoint together,
     /// and then updates the `self.status` with the new status returned
     ///
+    /// # Errors
+    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    ///
     /// # Panics
     /// if the specification mutex has been poisoned, which should not be possible
     pub async fn report_status(
         &self,
         device_status: Result<(), AdrConfigError>,
         endpoint_status: Result<(), AdrConfigError>,
-    ) {
+    ) -> Result<(), azure_device_registry::Error> {
         // Create status
         let version = self.specification.read().unwrap().version;
         let status = adr_models::DeviceStatus {
@@ -269,15 +278,26 @@ impl DeviceEndpointClient {
             self.device_endpoint_ref
         );
         // send status update to the service
-        self.internal_report_status(status).await;
+        self.internal_report_status(status).await
     }
 
     /// Used to report the status of just the device,
     /// and then updates the [`DeviceEndpointClient`] with the new status returned
     ///
+    /// # Errors
+    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    ///
     /// # Panics
     /// if the status or specification mutexes have been poisoned, which should not be possible
-    pub async fn report_device_status(&self, device_status: Result<(), AdrConfigError>) {
+    pub async fn report_device_status(
+        &self,
+        device_status: Result<(), AdrConfigError>,
+    ) -> Result<(), azure_device_registry::Error> {
         // Create status with maintained endpoint status
         let version = self.specification.read().unwrap().version;
         let current_endpoints = self
@@ -300,14 +320,26 @@ impl DeviceEndpointClient {
             self.device_endpoint_ref
         );
         // send status update to the service
-        self.internal_report_status(status).await;
+        self.internal_report_status(status).await
     }
 
     /// Used to report the status of just the endpoint,
     /// and then updates the [`DeviceEndpointClient`] with the new status returned
+    ///
+    /// # Errors
+    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    ///
     /// # Panics
     /// if the status or specification mutexes have been poisoned, which should not be possible
-    pub async fn report_endpoint_status(&self, endpoint_status: Result<(), AdrConfigError>) {
+    pub async fn report_endpoint_status(
+        &self,
+        endpoint_status: Result<(), AdrConfigError>,
+    ) -> Result<(), azure_device_registry::Error> {
         // If the version of the current status config matches the current version, then include the existing config.
         // If there's no current config or the version doesn't match, don't report a status since the status for this version hasn't been reported yet
         let current_config = {
@@ -338,7 +370,7 @@ impl DeviceEndpointClient {
             self.device_endpoint_ref
         );
         // send status update to the service
-        self.internal_report_status(status).await;
+        self.internal_report_status(status).await
     }
 
     /// Used to receive notifications related to the Device/Inbound Endpoint
@@ -395,7 +427,7 @@ impl DeviceEndpointClient {
                     };
                     // Get asset update observation as well
                     let asset_update_observation =  match Retry::spawn(
-                        RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
+                        RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
                         async || -> Result<azure_device_registry::AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
                             self.connector_context
                                 .azure_device_registry_client
@@ -407,7 +439,7 @@ impl DeviceEndpointClient {
                                 )
                                 // retry on network errors, otherwise don't retry on config/dev errors
                                 .await
-                                .map_err(|e| observe_error_into_retry_error(e, "Observe for Asset Updates"))
+                                .map_err(|e| adr_error_into_retry_error(e, "Observe for Asset Updates"))
                     }).await {
                         Ok(asset_update_observation) => asset_update_observation,
                         Err(e) => {
@@ -437,7 +469,7 @@ impl DeviceEndpointClient {
                         Ok(asset) => {
                             // get the asset status
                             match Retry::spawn(
-                                RETRY_STRATEGY,
+                                RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
                                 async || -> Result<adr_models::AssetStatus, RetryError<azure_device_registry::Error>> {
                                     self.connector_context
                                         .azure_device_registry_client
@@ -503,9 +535,12 @@ impl DeviceEndpointClient {
     }
 
     /// Reports an already built status to the service, with retries, and then updates the device with the new status returned
-    async fn internal_report_status(&self, adr_device_status: adr_models::DeviceStatus) {
+    async fn internal_report_status(
+        &self,
+        adr_device_status: adr_models::DeviceStatus,
+    ) -> Result<(), azure_device_registry::Error> {
         // send status update to the service
-        match Retry::spawn(
+        let updated_device_status = Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
             async || -> Result<adr_models::DeviceStatus, RetryError<azure_device_registry::Error>> {
                 self.connector_context
@@ -520,21 +555,14 @@ impl DeviceEndpointClient {
                     .map_err(|e| adr_error_into_retry_error(e, "Update Device Status"))
             },
         )
-        .await
-        {
-            Ok(updated_device_status) => {
-                // update self with new returned status
-                let mut unlocked_status = self.status.write().unwrap(); // unwrap can't fail unless lock is poisoned
-                *unlocked_status = DeviceEndpointStatus::new(
-                        updated_device_status,
-                        &self.device_endpoint_ref.inbound_endpoint_name,
-                    );
-            }
-            Err(e) => {
-                // TODO: return an error for this scenario? Largely shouldn't be possible
-                log::error!("Failed to Update Device Status for {:?}: {e}", self.device_endpoint_ref);
-            }
-        };
+        .await?;
+        // update self with new returned status
+        let mut unlocked_status = self.status.write().unwrap(); // unwrap can't fail unless lock is poisoned
+        *unlocked_status = DeviceEndpointStatus::new(
+            updated_device_status,
+            &self.device_endpoint_ref.inbound_endpoint_name,
+        );
+        Ok(())
     }
 
     /// Internal convenience function to unobserve from a device's update notifications for cleanup
@@ -543,7 +571,7 @@ impl DeviceEndpointClient {
         device_endpoint_ref: &DeviceEndpointRef,
     ) {
         let _ = Retry::spawn(
-            RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
+            RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
             async || -> Result<(), RetryError<azure_device_registry::Error>> {
                 connector_context
                     .azure_device_registry_client
@@ -554,7 +582,7 @@ impl DeviceEndpointClient {
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await
-                    .map_err(|e| observe_error_into_retry_error(e, "Unobserve for Device Updates"))
+                    .map_err(|e| adr_error_into_retry_error(e, "Unobserve for Device Updates"))
             },
         )
         .await
@@ -644,14 +672,19 @@ impl AssetClient {
                     let adr_asset_status =
                         Self::internal_asset_status(&status, Err(e), specification_version);
                     // send status update to the service
-                    Self::internal_report_status(
+                    if let Err(e) = Self::internal_report_status(
                         adr_asset_status,
                         &connector_context,
                         &asset_ref,
                         &status,
                         "AssetClient::new default_dataset_destination",
                     )
-                    .await;
+                    .await
+                    {
+                        log::error!(
+                            "Failed to report default dataset destination error Asset status for new asset {asset_ref:?}: {e}"
+                        );
+                    }
                     // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
                     vec![]
                 }
@@ -705,9 +738,20 @@ impl AssetClient {
     /// Used to report the status of an Asset,
     /// and then updates the `self.status` with the new status returned
     ///
+    /// # Errors
+    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    ///
     /// # Panics
     /// if the specification or status mutexes have been poisoned, which should not be possible
-    pub async fn report_status(&self, status: Result<(), AdrConfigError>) {
+    pub async fn report_status(
+        &self,
+        status: Result<(), AdrConfigError>,
+    ) -> Result<(), azure_device_registry::Error> {
         let version = self.specification.read().unwrap().version;
         let new_status = Self::internal_asset_status(&self.status, status, version);
 
@@ -720,7 +764,7 @@ impl AssetClient {
             &self.status,
             "AssetClient::report_status",
         )
-        .await;
+        .await
     }
 
     /// Used to receive notifications related to the Asset from the Azure Device
@@ -797,14 +841,19 @@ impl AssetClient {
                             let adr_asset_status =
                                 Self::internal_asset_status(&self.status, Err(e), updated_asset.version);
                             // send status update to the service
-                            Self::internal_report_status(
+                            if let Err(e) = Self::internal_report_status(
                                 adr_asset_status,
                                 &self.connector_context,
                                 &self.asset_ref,
                                 &self.status,
                                 "AssetClient::recv_notification default_dataset_destination",
                             )
-                            .await;
+                            .await {
+                                log::error!(
+                                    "Failed to report default dataset destination error Asset status for updated asset {:?}: {e}",
+                                    self.asset_ref
+                                );
+                            }
                             // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
                             vec![]
                         }
@@ -966,9 +1015,9 @@ impl AssetClient {
         asset_ref: &AssetRef,
         asset_status_ref: &Arc<RwLock<adr_models::AssetStatus>>,
         log_identifier: &str,
-    ) {
+    ) -> Result<(), azure_device_registry::Error> {
         // send status update to the service
-        match Retry::spawn(
+        let updated_asset_status = Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
             async || -> Result<adr_models::AssetStatus, RetryError<azure_device_registry::Error>> {
                 connector_context
@@ -984,18 +1033,11 @@ impl AssetClient {
                     .map_err(|e| adr_error_into_retry_error(e, &format!("Update Asset Status for {log_identifier}")))
             },
         )
-        .await
-        {
-            Ok(updated_asset_status) => {
-                // update self with new returned status
-                let mut unlocked_status = asset_status_ref.write().unwrap(); // unwrap can't fail unless lock is poisoned
-                *unlocked_status = updated_asset_status;
-            }
-            Err(e) => {
-                // TODO: return an error for this scenario? Largely shouldn't be possible
-                log::error!("Failed to Update Asset Status for {asset_ref:?}: {e}");
-            }
-        };
+        .await?;
+        // update self with new returned status
+        let mut unlocked_status = asset_status_ref.write().unwrap(); // unwrap can't fail unless lock is poisoned
+        *unlocked_status = updated_asset_status;
+        Ok(())
     }
 
     /// Creates a new [`DatasetClient`] for the given dataset definition,
@@ -1023,7 +1065,7 @@ impl AssetClient {
         )
         .map_err(|e| {
             log::error!(
-                "Invalid dataset destination for dataset {} on asset {:?}: {e:?}",
+                "Ignoring new Dataset {} on asset {:?}. Invalid dataset destination: {e:?}",
                 dataset_definition.name,
                 self.asset_ref
             );
@@ -1057,13 +1099,9 @@ impl AssetClient {
             (dataset_definition, dataset_update_tx),
         );
 
-        if let Err(e) = self.dataset_creation_tx.send(new_dataset_client) {
-            // should only happen if the dataset creation observation is dropped. Should not be possible on AssetClient::new
-            log::warn!(
-                "New dataset {:?} received, but DatasetClientCreationObservation has been dropped",
-                e.0.dataset_ref()
-            );
-        }
+        // error is not possible since the receiving side of the channel is owned by the AssetClient
+        let _ = self.dataset_creation_tx.send(new_dataset_client);
+
         Ok(())
     }
 
@@ -1099,14 +1137,20 @@ impl AssetClient {
                 "Reporting status(es) for invalid dataset destination(s) for Asset {:?}",
                 self.asset_ref
             );
-            AssetClient::internal_report_status(
+            if let Err(e) = AssetClient::internal_report_status(
                 new_status,
                 &self.connector_context,
                 &self.asset_ref,
                 &self.status,
                 log_identifier,
             )
-            .await;
+            .await
+            {
+                log::error!(
+                    "Failed to report status(es) for invalid dataset destination(s) for Asset {:?}: {e}",
+                    self.asset_ref
+                );
+            }
         }
     }
 
@@ -1114,7 +1158,7 @@ impl AssetClient {
     async fn unobserve_asset(connector_context: &Arc<ConnectorContext>, asset_ref: &AssetRef) {
         // unobserve as cleanup
         let _ = Retry::spawn(
-            RETRY_STRATEGY.take(10),
+            RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
             async || -> Result<(), RetryError<azure_device_registry::Error>> {
                 connector_context
                     .azure_device_registry_client
@@ -1126,7 +1170,7 @@ impl AssetClient {
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await
-                    .map_err(|e| observe_error_into_retry_error(e, "Unobserve for Asset Updates"))
+                    .map_err(|e| adr_error_into_retry_error(e, "Unobserve for Asset Updates"))
             },
         )
         .await
@@ -1136,11 +1180,35 @@ impl AssetClient {
     }
 }
 
+/// Errors that can be returned when reporting a message schema for a dataset
+#[derive(Error, Debug)]
+pub enum MessageSchemaError {
+    /// An error occurred while putting the Schema in the Schema Registry
+    #[error(transparent)]
+    PutSchemaError(#[from] schema_registry::Error),
+    /// An error occurred while reporting the Schema to the Azure Device Registry Service.
+    #[error(transparent)]
+    AzureDeviceRegistryError(#[from] azure_device_registry::Error),
+}
+
 type DatasetUpdateNotification = (
     adr_models::Dataset,                         // new Dataset definition
     Vec<Arc<destination_endpoint::Destination>>, // new default dataset destinations
     tokio::sync::watch::Receiver<()>, // watch receiver for when the update notification should be released to the application
 );
+
+/// Notifications that can be received for a Dataset
+pub enum DatasetNotification {
+    /// Indicates that the Datasets's definition has been updated in place
+    Updated,
+    /// Indicates that the Dataset has been deleted.
+    Deleted,
+    /// Indicates that the Dataset received an update, but the update was not valid.
+    /// The definition is still updated in place, but the dataset should not be used until
+    /// there is a new update, otherwise the out of date definition will be used for
+    /// sending data to the destination.
+    UpdatedInvalid,
+}
 
 /// Azure Device Registry Dataset that includes additional functionality
 /// to report status, report message schema, receive Dataset updates,
@@ -1217,9 +1285,21 @@ impl DatasetClient {
     }
 
     /// Used to report the status of a dataset
+    ///
+    /// # Errors
+    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    ///
     /// # Panics
     /// if the asset status or specification mutexes have been poisoned, which should not be possible
-    pub async fn report_status(&self, status: Result<(), AdrConfigError>) {
+    pub async fn report_status(
+        &self,
+        status: Result<(), AdrConfigError>,
+    ) -> Result<(), azure_device_registry::Error> {
         // get current or cleared (if it's out of date) asset status as our base to modify only what we're explicitly trying to set
         let mut new_status = AssetClient::current_status_to_modify(
             &self.asset_status,
@@ -1255,17 +1335,24 @@ impl DatasetClient {
             &self.asset_status,
             "DatasetClient::report_status",
         )
-        .await;
+        .await
     }
 
     /// Used to report the message schema of a dataset
     ///
     /// # Errors
-    /// [`schema_registry::Error`] of kind [`InvalidArgument`](schema_registry::ErrorKind::InvalidArgument)
+    /// [`MessageSchemaError`] of kind [`SchemaRegistryError::InvalidArgument`](schema_registry::ErrorKind::InvalidArgument)
     /// if the content of the [`MessageSchema`] is empty or there is an error building the request
     ///
-    /// [`schema_registry::Error`] of kind [`ServiceError`](schema_registry::ErrorKind::ServiceError)
+    /// [`MessageSchemaError`] of kind [`SchemaRegistryError::ServiceError`](schema_registry::ErrorKind::ServiceError)
     /// if there is an error returned by the Schema Registry Service.
+    ///
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
     ///
     /// # Panics
     /// If the Schema Registry Service returns a schema without required values. This should get updated
@@ -1275,7 +1362,7 @@ impl DatasetClient {
     pub async fn report_message_schema(
         &mut self,
         message_schema: MessageSchema,
-    ) -> Result<adr_models::MessageSchemaReference, schema_registry::Error> {
+    ) -> Result<adr_models::MessageSchemaReference, MessageSchemaError> {
         // TODO: save message schema provided with message schema uri so it can be compared
         // send message schema to schema registry service
         let message_schema_reference = Retry::spawn(
@@ -1364,7 +1451,7 @@ impl DatasetClient {
             &self.asset_status,
             "DatasetClient::report_message_schema",
         )
-        .await;
+        .await?;
 
         self.forwarder
             .update_message_schema_reference(Some(message_schema_reference.clone()));
@@ -1373,8 +1460,20 @@ impl DatasetClient {
     }
 
     /// Used to send transformed data to the destination
+    /// Returns once the message has been sent successfully
+    ///
     /// # Errors
-    /// TODO
+    /// [`destination_endpoint::Error`] of kind [`MissingMessageSchema`](destination_endpoint::ErrorKind::MissingMessageSchema)
+    /// if the [`MessageSchema`] has not been reported yet. This is required before forwarding any data
+    ///
+    /// [`destination_endpoint::Error`] of kind [`DataValidationError`](destination_endpoint::ErrorKind::MqttTelemetryError)
+    /// if the [`Data`] isn't valid.
+    ///
+    /// [`destination_endpoint::Error`] of kind [`BrokerStateStoreError`](destination_endpoint::ErrorKind::BrokerStateStoreError)
+    /// if the destination is `BrokerStateStore` and there are any errors setting the data with the service
+    ///
+    /// [`destination_endpoint::Error`] of kind [`MqttTelemetryError`](destination_endpoint::ErrorKind::MqttTelemetryError)
+    /// if the destination is `Mqtt` and there are any errors sending the message to the broker
     pub async fn forward_data(&self, data: Data) -> Result<(), destination_endpoint::Error> {
         self.forwarder.send_data(data).await
     }
@@ -1384,34 +1483,43 @@ impl DatasetClient {
     /// updated in place. The function returns [`None`] if there will be no more
     /// notifications. This can occur if the Dataset has been deleted or the
     /// [`AssetClient`] that this [`DatasetClient`] is related to has been dropped.
-    pub async fn recv_notification(&mut self) -> Option<()> {
-        loop {
-            let (updated_dataset, default_destinations, mut watch_receiver) =
-                self.dataset_update_rx.recv().await?;
-            // wait until the update has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
-            watch_receiver.changed().await.ok()?;
-            // create new forwarder, in case destination has changed
-            self.forwarder = match destination_endpoint::Forwarder::new_dataset_forwarder(
-                &updated_dataset.destinations,
-                &self.asset_ref.inbound_endpoint_name,
-                &default_destinations,
-                self.connector_context.clone(),
-            ) {
-                Ok(forwarder) => forwarder,
-                Err(e) => {
-                    // TODO: we could delete the dataset here, but the current implementation would just wait for a new valid definition, which seems okay for now?
+    pub async fn recv_notification(&mut self) -> DatasetNotification {
+        let Some((updated_dataset, default_destinations, mut watch_receiver)) =
+            self.dataset_update_rx.recv().await
+        else {
+            return DatasetNotification::Deleted;
+        };
+        // wait until the update has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
+        if watch_receiver.changed().await.ok().is_none() {
+            return DatasetNotification::Deleted;
+        }
+        // create new forwarder, in case destination has changed
+        self.forwarder = match destination_endpoint::Forwarder::new_dataset_forwarder(
+            &updated_dataset.destinations,
+            &self.asset_ref.inbound_endpoint_name,
+            &default_destinations,
+            self.connector_context.clone(),
+        ) {
+            Ok(forwarder) => forwarder,
+            Err(e) => {
+                log::error!(
+                    "Invalid dataset destination for updated dataset: {:?} {e:?}",
+                    self.dataset_ref
+                );
+
+                if let Err(e) = self.report_status(Err(e)).await {
                     log::error!(
-                        "Ignoring update. Invalid dataset destination for updated dataset: {:?} {e:?}",
+                        "Failed to report status for updated dataset {:?}: {e}",
                         self.dataset_ref
                     );
-                    self.report_status(Err(e)).await;
-                    continue;
                 }
-            };
-            self.dataset_definition = updated_dataset;
-            break;
-        }
-        Some(())
+                // notify the application to not use this dataset until a new update is received
+                self.dataset_definition = updated_dataset;
+                return DatasetNotification::UpdatedInvalid;
+            }
+        };
+        self.dataset_definition = updated_dataset;
+        DatasetNotification::Updated
     }
 
     /// Returns a clone of this dataset's [`adr_models::MessageSchemaReference`] from
@@ -1771,30 +1879,6 @@ impl From<adr_models::Asset> for AssetSpecification {
     }
 }
 
-fn observe_error_into_retry_error(
-    e: azure_device_registry::Error,
-    operation_for_log: &str,
-) -> RetryError<azure_device_registry::Error> {
-    match e.kind() {
-        // network/retriable
-        azure_device_registry::ErrorKind::AIOProtocolError(_) => {
-            log::warn!("{operation_for_log} failed. Retrying: {e}");
-            RetryError::transient(e)
-        }
-        // indicates an error in the configuration, so we want to get a new notification instead of retrying this operation
-        azure_device_registry::ErrorKind::ServiceError(_)
-        // DuplicateObserve indicates an sdk bug where we called observe more than once. Not possible for unobserves.
-        // This should be moved to unreachable!() once we add logic for calling unobserve on deletion
-        | azure_device_registry::ErrorKind::DuplicateObserve(_) => RetryError::permanent(e),
-        _ => {
-            // InvalidRequestArgument shouldn't be possible since timeout is already validated
-            // ValidationError shouldn't be possible since we should never have an empty asset name. It's not possible to be returned for device observe calls.
-            // ShutdownError isn't possible for this fn to return
-            unreachable!()
-        }
-    }
-}
-
 fn adr_error_into_retry_error(
     e: azure_device_registry::Error,
     operation_for_log: &str,
@@ -1806,11 +1890,14 @@ fn adr_error_into_retry_error(
             RetryError::transient(e)
         }
         // indicates an error in the configuration, might be transient in the future depending on what it can indicate
-        azure_device_registry::ErrorKind::ServiceError(_) => RetryError::permanent(e),
+        azure_device_registry::ErrorKind::ServiceError(_)
+        // DuplicateObserve indicates an sdk bug where we called observe more than once. Only possible for unobserve calls.
+        // Because we unobserve on deletion, this should not happen, but because unobserve can possibly fail, don't panic on this
+        | azure_device_registry::ErrorKind::DuplicateObserve(_) => RetryError::permanent(e),
         _ => {
             // InvalidRequestArgument shouldn't be possible since timeout is already validated
             // ValidationError shouldn't be possible since we should never have an empty asset name. It's not possible to be returned for device calls.
-            // ObservationError, DuplicateObserve, and ShutdownError aren't possible for this fn to return
+            // ShutdownError isn't possible for this fn to return
             unreachable!()
         }
     }

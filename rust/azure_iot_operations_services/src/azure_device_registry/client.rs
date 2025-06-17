@@ -1254,7 +1254,7 @@ where
             .invoke(command_request)
             .await
             .map_err(ErrorKind::from)?
-            .map_err(ErrorKind::from)?;
+            .map_err(ErrorKind::from)?; // TODO: deregister on failure as well so that a new observation can be created later?
 
         // unobserve was successful, remove this asset from our dispatcher
         let receiver_id =
