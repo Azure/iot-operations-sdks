@@ -16,8 +16,9 @@ public class AdrClientServiceTests
     {
         // Arrange
         Mock<IMqttPubSubClient> mqttClient = new();
+        mqttClient.Setup(mock => mock.ClientId).Returns("ConnectorClientId");
         ApplicationContext applicationContext = new();
-        AdrServiceClient client = new(applicationContext, mqttClient.Object, "ConnectorClientId");
+        AdrServiceClient client = new(applicationContext, mqttClient.Object);
 
         // Act - Dispose
         await client.DisposeAsync();
@@ -34,8 +35,9 @@ public class AdrClientServiceTests
     {
         // Arrange
         Mock<IMqttPubSubClient> mqttClient = new();
+        mqttClient.Setup(mock => mock.ClientId).Returns("ConnectorClientId");
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient.Object, "ConnectorClientId");
+        await using AdrServiceClient client = new(applicationContext, mqttClient.Object);
 
         CancellationTokenSource cts = new CancellationTokenSource();
         cts.Cancel();

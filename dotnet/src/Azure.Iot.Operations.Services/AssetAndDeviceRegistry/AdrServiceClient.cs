@@ -3,20 +3,17 @@
 
 using System.Collections.Concurrent;
 using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using AkriServiceErrorException = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService.AkriServiceErrorException;
 using Asset = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.Asset;
 using AssetStatus = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.AssetStatus;
 using Device = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.Device;
 using DeviceStatus = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.DeviceStatus;
-using NotificationResponse = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.NotificationResponse;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
-public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string clientId) : IAdrServiceClient
+public class AdrServiceClient : IAdrServiceClient
 {
     private const string _connectorClientIdTokenKey = "connectorClientId";
     private const string _discoveryClientIdTokenKey = "discoveryClientId";
@@ -25,11 +22,24 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
     private const string _inboundEpTypeTokenKey = "inboundEndpointType";
     private const byte _dummyByte = 1;
     private static readonly TimeSpan _defaultTimeout = TimeSpan.FromSeconds(10);
-    private readonly AdrBaseServiceClientStub _adrBaseServiceClient = new(applicationContext, mqttClient);
-    private readonly DeviceDiscoveryServiceClientStub _deviceDiscoveryServiceClient = new(applicationContext, mqttClient);
+    private readonly string _connectorClientId;
+    private readonly IMqttPubSubClient _mqttClient;
+    private readonly ApplicationContext _applicationContext;
+    private readonly AdrBaseServiceClientStub _adrBaseServiceClient;
+    private readonly DeviceDiscoveryServiceClientStub _deviceDiscoveryServiceClient;
     private readonly ConcurrentDictionary<string, byte> _observedAssets = new();
     private readonly ConcurrentDictionary<string, byte> _observedEndpoints = new();
     private bool _disposed;
+
+    public AdrServiceClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+    {
+        _applicationContext = applicationContext;
+        _mqttClient = mqttClient;
+        _connectorClientId = mqttClient.ClientId ?? throw new ArgumentException("Must provide an MQTT client Id in the IMqttPubSubClient");
+
+        _adrBaseServiceClient = new(_applicationContext, _mqttClient);
+        _deviceDiscoveryServiceClient = new(_applicationContext, _mqttClient);
+    }
 
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
@@ -56,7 +66,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, clientId },
+            { _connectorClientIdTokenKey, _connectorClientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
@@ -92,7 +102,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, clientId },
+            { _connectorClientIdTokenKey, _connectorClientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
@@ -131,7 +141,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, clientId },
+            { _connectorClientIdTokenKey, _connectorClientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
@@ -158,7 +168,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, clientId },
+            { _connectorClientIdTokenKey, _connectorClientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
@@ -192,7 +202,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, clientId },
+            { _connectorClientIdTokenKey, _connectorClientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
@@ -222,7 +232,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, clientId },
+            { _connectorClientIdTokenKey, _connectorClientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
@@ -254,7 +264,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, clientId },
+            { _connectorClientIdTokenKey, _connectorClientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
@@ -283,7 +293,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, clientId },
+            { _connectorClientIdTokenKey, _connectorClientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
@@ -319,7 +329,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, clientId },
+            { _connectorClientIdTokenKey, _connectorClientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
@@ -350,7 +360,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _discoveryClientIdTokenKey, clientId },
+            { _discoveryClientIdTokenKey, _connectorClientId },
             { _inboundEpTypeTokenKey, inboundEndpointType },
         };
 

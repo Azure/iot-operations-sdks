@@ -12,10 +12,10 @@ IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddSingleton<ApplicationContext>();
-        services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
-        services.AddSingleton(MessageSchemaProvider.MessageSchemaProviderFactory);
-        services.AddSingleton<IAdrClientWrapper>((services) => new AdrClientWrapper(services.GetService<ApplicationContext>()!, services.GetService<IMqttClient>()!, connectorClientId));
-        services.AddSingleton(LeaderElectionConfigurationProvider.ConnectorLeaderElectionConfigurationProviderFactory); // If no leader election is needed, delete this line
+        services.AddSingleton(MqttSessionClientProvider.Factory);
+        services.AddSingleton(MessageSchemaProvider.Factory);
+        services.AddSingleton<IAdrClientWrapperProvider>(AdrClientWrapperProvider.Factory);
+        services.AddSingleton(LeaderElectionConfigurationProvider.Factory); // If no leader election is needed, delete this line
         services.AddHostedService<ConnectorWorker>();
     })
     .Build();

@@ -4,9 +4,9 @@
 
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-namespace Azure.Iot.Operations.Connector.Assets
+namespace Azure.Iot.Operations.Connector.Files
 {
-    public class AssetChangedEventArgs : EventArgs
+    public class AssetFileChangedEventArgs : EventArgs
     {
         public string DeviceName { get; set; }
 
@@ -14,9 +14,9 @@ namespace Azure.Iot.Operations.Connector.Assets
 
         public string AssetName { get; set; }
 
-        public AssetFileMonitorChangeType ChangeType { get; set; }
+        public FileChangeType ChangeType { get; set; }
 
-        internal AssetChangedEventArgs(string deviceName, string inboundEndpointName, string assetName, AssetFileMonitorChangeType changeType)
+        internal AssetFileChangedEventArgs(string deviceName, string inboundEndpointName, string assetName, FileChangeType changeType)
         {
             DeviceName = deviceName;
             AssetName = assetName;

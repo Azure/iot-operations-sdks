@@ -24,7 +24,8 @@ namespace Azure.Iot.Operations.Connector
         protected readonly ILogger<ConnectorWorker> _logger;
         private readonly IMqttClient _mqttClient;
         private readonly ApplicationContext _applicationContext;
-        protected readonly IAdrClientWrapper _assetMonitor;
+        private readonly IAdrClientWrapperProvider _adrClientWrapperFactory;
+        protected IAdrClientWrapper? _adrClient;
         private readonly IMessageSchemaProvider _messageSchemaProviderFactory;
         private LeaderElectionClient? _leaderElectionClient;
         private readonly ConcurrentDictionary<string, DeviceContext> _devices = new();
@@ -58,14 +59,14 @@ namespace Azure.Iot.Operations.Connector
             ILogger<ConnectorWorker> logger,
             IMqttClient mqttClient,
             IMessageSchemaProvider messageSchemaProviderFactory,
-            IAdrClientWrapper assetMonitor,
+            IAdrClientWrapperProvider adrClientWrapperFactory,
             IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null)
         {
             _applicationContext = applicationContext;
             _logger = logger;
             _mqttClient = mqttClient;
             _messageSchemaProviderFactory = messageSchemaProviderFactory;
-            _assetMonitor = assetMonitor;
+            _adrClientWrapperFactory = adrClientWrapperFactory;
             _leaderElectionConfiguration = leaderElectionConfigurationProvider?.GetLeaderElectionConfiguration();
         }
 
@@ -162,11 +163,13 @@ namespace Azure.Iot.Operations.Connector
                     }
                 }
 
-                _assetMonitor.DeviceChanged += OnDeviceChanged;
-                _assetMonitor.AssetChanged += OnAssetChanged;
+                _adrClient = _adrClientWrapperFactory.CreateAdrClientWrapper(_applicationContext, _mqttClient);
+
+                _adrClient.DeviceChanged += OnDeviceChanged;
+                _adrClient.AssetChanged += OnAssetChanged;
 
                 _logger.LogInformation("Starting to observe devices...");
-                _assetMonitor.ObserveDevices();
+                _adrClient.ObserveDevices();
 
                 try
                 {
@@ -180,17 +183,17 @@ namespace Azure.Iot.Operations.Connector
                         _logger.LogInformation("Connector app was cancelled. Shutting down now.");
 
                         // Don't propagate the user-provided cancellation token since it has already been cancelled.
-                        await _assetMonitor.UnobserveAllAsync(CancellationToken.None);
+                        await _adrClient.UnobserveAllAsync(CancellationToken.None);
                     }
                     else if (linkedToken.IsCancellationRequested)
                     {
                         _logger.LogInformation("Connector is no longer leader. Restarting to campaign for the leadership position.");
-                        await _assetMonitor.UnobserveAllAsync(cancellationToken);
+                        await _adrClient.UnobserveAllAsync(cancellationToken);
                     }
                 }
 
-                _assetMonitor.DeviceChanged -= OnDeviceChanged;
-                _assetMonitor.AssetChanged -= OnAssetChanged;
+                _adrClient.DeviceChanged -= OnDeviceChanged;
+                _adrClient.AssetChanged -= OnAssetChanged;
 
                 _logger.LogInformation("Stopping all tasks that run while an asset is available");
                 while (_assetTasks.Count > 1)
@@ -367,13 +370,13 @@ namespace Azure.Iot.Operations.Connector
             {
                 _logger.LogInformation("Asset with name {0} created on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
                 await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName);
-                _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
+                _adrClient!.ObserveAssets(args.DeviceName, args.InboundEndpointName);
             }
             else if (args.ChangeType == ChangeType.Deleted)
             {
                 _logger.LogInformation("Asset with name {0} deleted from endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
                 AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, false);
-                await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
+                await _adrClient!.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
             }
             else if (args.ChangeType == ChangeType.Updated)
             {
@@ -442,13 +445,13 @@ namespace Azure.Iot.Operations.Connector
                 {
                     Device = args.Device
                 };
-                _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
+                _adrClient!.ObserveAssets(args.DeviceName, args.InboundEndpointName);
             }
         }
 
         private async Task DeviceUnavailableAsync(DeviceChangedEventArgs args, string compoundDeviceName, bool isUpdating)
         {
-            await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
+            await _adrClient!.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
 
             if (_devices.TryRemove(compoundDeviceName, out var deviceContext))
             {
@@ -563,7 +566,7 @@ namespace Azure.Iot.Operations.Connector
                 {
                     try
                     {
-                        await WhileAssetIsAvailable.Invoke(new(device, inboundEndpointName, assetName, asset!), assetTaskCancellationTokenSource.Token);
+                        await WhileAssetIsAvailable.Invoke(new(deviceName, device, inboundEndpointName, assetName, asset!), assetTaskCancellationTokenSource.Token);
                     }
                     catch (OperationCanceledException)
                     {

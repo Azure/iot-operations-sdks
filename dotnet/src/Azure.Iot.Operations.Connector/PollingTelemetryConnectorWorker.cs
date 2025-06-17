@@ -1,7 +1,7 @@
 ﻿// Copyright(c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Connector.Assets;
+using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Microsoft.Extensions.Logging;
@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Connector
         private readonly Dictionary<string, Dictionary<string, Timer>> _assetsSamplingTimers = new();
         private readonly IDatasetSamplerFactory _datasetSamplerFactory;
 
-        public PollingTelemetryConnectorWorker(ApplicationContext applicationContext, ILogger<ConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IMessageSchemaProvider messageSchemaFactory, IAdrClientWrapper assetMonitor, IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null) : base(applicationContext, logger, mqttClient, messageSchemaFactory, assetMonitor, leaderElectionConfigurationProvider)
+        public PollingTelemetryConnectorWorker(ApplicationContext applicationContext, ILogger<ConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IMessageSchemaProvider messageSchemaFactory, IAdrClientWrapperProvider adrClientFactory, IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null) : base(applicationContext, logger, mqttClient, messageSchemaFactory, adrClientFactory, leaderElectionConfigurationProvider)
         {
             base.WhileAssetIsAvailable = WhileAssetAvailableAsync;
             _datasetSamplerFactory = datasetSamplerFactory;
@@ -37,10 +37,10 @@ namespace Azure.Iot.Operations.Connector
                     && args.Device.Endpoints.Inbound != null
                     && args.Device.Endpoints.Inbound.TryGetValue(args.InboundEndpointName, out var inboundEndpoint))
                 {
-                    credentials = _assetMonitor.GetEndpointCredentials(inboundEndpoint);
+                    credentials = _adrClient!.GetEndpointCredentials(args.DeviceName, args.InboundEndpointName, inboundEndpoint);
                 }
 
-                IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(args.Device, args.InboundEndpointName, args.AssetName, args.Asset, dataset, credentials);
+                IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(args.DeviceName, args.Device, args.InboundEndpointName, args.AssetName, args.Asset, dataset, credentials);
 
                 TimeSpan samplingInterval = await datasetSampler.GetSamplingIntervalAsync(dataset);
 

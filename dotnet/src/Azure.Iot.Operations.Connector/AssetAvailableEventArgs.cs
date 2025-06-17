@@ -10,6 +10,8 @@ namespace Azure.Iot.Operations.Connector
     /// </summary>
     public class AssetAvailableEventArgs : EventArgs
     {
+        public string DeviceName { get; }
+
         public Device Device { get; }
 
         public string InboundEndpointName { get; }
@@ -24,8 +26,9 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         public Asset Asset { get; }
 
-        internal AssetAvailableEventArgs(Device device, string inboundEndpointName, string assetName, Asset asset)
+        internal AssetAvailableEventArgs(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset)
         {
+            DeviceName = deviceName;
             Device = device;
             InboundEndpointName = inboundEndpointName;
             AssetName = assetName;
