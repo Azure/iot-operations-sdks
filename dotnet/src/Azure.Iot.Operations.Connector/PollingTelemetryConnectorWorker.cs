@@ -37,7 +37,7 @@ namespace Azure.Iot.Operations.Connector
                     && args.Device.Endpoints.Inbound != null
                     && args.Device.Endpoints.Inbound.TryGetValue(args.InboundEndpointName, out var inboundEndpoint))
                 {
-                    credentials = _adrClient!.GetEndpointCredentials(inboundEndpoint);
+                    credentials = _adrClient!.GetEndpointCredentials(args.DeviceName, args.InboundEndpointName, inboundEndpoint);
                 }
 
                 IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(args.Device, args.InboundEndpointName, args.AssetName, args.Asset, dataset, credentials);

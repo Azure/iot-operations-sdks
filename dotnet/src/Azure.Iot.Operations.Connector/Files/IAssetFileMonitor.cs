@@ -72,9 +72,11 @@ namespace Azure.Iot.Operations.Connector.Files
         /// <summary>
         /// Get the file-mounted credentials for the provided inbound endpoint.
         /// </summary>
+        /// <param name="deviceName">The name of the device whose inbound endpoint credentials should be retrieved.</param>
+        /// <param name="inboundEndpointName">The name of the inbound endpoint whose credentials should be retrieved.</param>
         /// <param name="inboundEndpoint">The endpoint whose credentials should be returned.</param>
         /// <returns>The credentials for the endpoint</returns>
-        EndpointCredentials GetEndpointCredentials(InboundEndpointSchemaMapValue inboundEndpoint);
+        EndpointCredentials GetEndpointCredentials(string deviceName, string inboundEndpointName, InboundEndpointSchemaMapValue inboundEndpoint);
 
         /// <summary>
         /// Stop all observation of assets and/or devices.

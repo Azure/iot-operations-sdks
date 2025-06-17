@@ -275,7 +275,7 @@ namespace Azure.Iot.Operations.Connector.Files
         }
 
         /// <inheritdoc/>
-        public EndpointCredentials GetEndpointCredentials(InboundEndpointSchemaMapValue inboundEndpoint)
+        public EndpointCredentials GetEndpointCredentials(string deviceName, string inboundEndpointName, InboundEndpointSchemaMapValue inboundEndpoint)
         {
             EndpointCredentials deviceCredentials = new();
 
@@ -299,8 +299,13 @@ namespace Azure.Iot.Operations.Connector.Files
                 deviceCredentials.ClientCertificate = _deviceEndpointCredentialsMountPath != null ? GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointCredentialsMountPath, inboundEndpoint.Authentication.X509Credentials.CertificateSecretName)) : null;
             }
 
-            //TODO CA certificate retrieval has not been set in stone yet
-
+            string compositeName = deviceName + "_" + inboundEndpointName;
+            if (_deviceEndpointTlsTrustBundleCertMountPath != null
+                && File.Exists(Path.Combine(_deviceEndpointTlsTrustBundleCertMountPath, compositeName)))
+            {
+                deviceCredentials.CaCertificate = GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointTlsTrustBundleCertMountPath, compositeName));
+            }
+            
             return deviceCredentials;
         }
 

@@ -13,8 +13,6 @@ using Azure.Iot.Operations.Services.LeaderElection;
 using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Services.StateStore;
 using Microsoft.Extensions.Logging;
-using System.Collections.Concurrent;
-using System.Text;
 
 namespace Azure.Iot.Operations.Connector
 {
@@ -194,8 +192,8 @@ namespace Azure.Iot.Operations.Connector
                     }
                 }
 
-                _assetMonitor.DeviceChanged -= OnDeviceChanged;
-                _assetMonitor.AssetChanged -= OnAssetChanged;
+                _adrClient.DeviceChanged -= OnDeviceChanged;
+                _adrClient.AssetChanged -= OnAssetChanged;
 
                 _logger.LogInformation("Stopping all tasks that run while an asset is available");
                 while (_assetTasks.Count > 1)
@@ -372,13 +370,13 @@ namespace Azure.Iot.Operations.Connector
             {
                 _logger.LogInformation("Asset with name {0} created on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
                 await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName);
-                _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
+                _adrClient!.ObserveAssets(args.DeviceName, args.InboundEndpointName);
             }
             else if (args.ChangeType == ChangeType.Deleted)
             {
                 _logger.LogInformation("Asset with name {0} deleted from endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
                 AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, false);
-                await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
+                await _adrClient!.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
             }
             else if (args.ChangeType == ChangeType.Updated)
             {
@@ -568,7 +566,7 @@ namespace Azure.Iot.Operations.Connector
                 {
                     try
                     {
-                        await WhileAssetIsAvailable.Invoke(new(device, inboundEndpointName, assetName, asset!), assetTaskCancellationTokenSource.Token);
+                        await WhileAssetIsAvailable.Invoke(new(deviceName, device, inboundEndpointName, assetName, asset!), assetTaskCancellationTokenSource.Token);
                     }
                     catch (OperationCanceledException)
                     {
