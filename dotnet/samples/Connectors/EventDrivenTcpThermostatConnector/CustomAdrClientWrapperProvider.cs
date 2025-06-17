@@ -14,11 +14,11 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
 namespace EventDrivenTcpThermostatConnector
 {
-    internal class CustomAdrClientWrapperFactoryProvider : IAdrClientWrapperFactoryProvider
+    internal class CustomAdrClientWrapperProvider : IAdrClientWrapperProvider
     {
-        public static Func<IServiceProvider, IAdrClientWrapperFactoryProvider> Factory = service =>
+        public static Func<IServiceProvider, IAdrClientWrapperProvider> Factory = service =>
         {
-            return new CustomAdrClientWrapperFactoryProvider();
+            return new CustomAdrClientWrapperProvider();
         };
 
         public IAdrClientWrapper CreateAdrClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient)

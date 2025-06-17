@@ -7,11 +7,11 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace PollingTelemetryConnectorTemplate
 {
-    public class DatasetSamplerFactory : IDatasetSamplerFactory
+    public class DatasetSamplerProvider : IDatasetSamplerFactory
     {
-        public static Func<IServiceProvider, IDatasetSamplerFactory> DatasetSamplerFactoryProvider = service =>
+        public static Func<IServiceProvider, IDatasetSamplerFactory> Factory = service =>
         {
-            return new DatasetSamplerFactory();
+            return new DatasetSamplerProvider();
         };
 
         public IDatasetSampler CreateDatasetSampler(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset, AssetDataset dataset, EndpointCredentials? endpointCredentials)

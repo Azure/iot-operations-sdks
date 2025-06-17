@@ -7,11 +7,11 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace RestThermostatConnector
 {
-    public class RestThermostatDatasetSamplerFactory : IDatasetSamplerFactory
+    public class RestThermostatDatasetSamplerProvider : IDatasetSamplerFactory
     {
-        public static Func<IServiceProvider, IDatasetSamplerFactory> RestDatasetSourceFactoryProvider = service =>
+        public static Func<IServiceProvider, IDatasetSamplerFactory> Factory = service =>
         {
-            return new RestThermostatDatasetSamplerFactory();
+            return new RestThermostatDatasetSamplerProvider();
         };
 
         /// <summary>

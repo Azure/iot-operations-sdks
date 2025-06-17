@@ -7,11 +7,11 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace SqlQualityAnalyzerConnectorApp
 {
-    public class SqlQualityAnalyzerDatasetSamplerFactory : IDatasetSamplerFactory
+    public class SqlQualityAnalyzerDatasetSamplerProvider : IDatasetSamplerFactory
     {
-        public static Func<IServiceProvider, IDatasetSamplerFactory> DatasetSamplerFactoryProvider = service =>
+        public static Func<IServiceProvider, IDatasetSamplerFactory> Factory = service =>
         {
-            return new SqlQualityAnalyzerDatasetSamplerFactory();
+            return new SqlQualityAnalyzerDatasetSamplerProvider();
         };
 
         public IDatasetSampler CreateDatasetSampler(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset, AssetDataset dataset, EndpointCredentials? deviceCredentials)

@@ -11,11 +11,11 @@ IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddSingleton<ApplicationContext>();
-        services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
-        services.AddSingleton(SqlQualityAnalyzerDatasetSamplerFactory.DatasetSamplerFactoryProvider);
-        services.AddSingleton(NoMessageSchemaProvider.NoMessageSchemaProviderFactory);
-        services.AddSingleton(LeaderElectionConfigurationProvider.ConnectorLeaderElectionConfigurationProviderFactory);
-        services.AddSingleton<IAdrClientWrapperFactoryProvider>(AdrClientWrapperFactoryProvider.Factory);
+        services.AddSingleton(MqttSessionClientProvider.Factory);
+        services.AddSingleton(SqlQualityAnalyzerDatasetSamplerProvider.Factory);
+        services.AddSingleton(NoMessageSchemaProvider.Factory);
+        services.AddSingleton(LeaderElectionConfigurationProvider.Factory);
+        services.AddSingleton<IAdrClientWrapperProvider>(AdrClientWrapperProvider.Factory);
         services.AddHostedService<PollingTelemetryConnectorWorker>();
     })
     .Build();

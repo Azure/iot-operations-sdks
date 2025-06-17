@@ -9,10 +9,10 @@ IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddSingleton<ApplicationContext>();
-        services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
-        services.AddSingleton(NoMessageSchemaProvider.NoMessageSchemaProviderFactory);
-        services.AddSingleton(LeaderElectionConfigurationProvider.ConnectorLeaderElectionConfigurationProviderFactory);
-        services.AddSingleton<IAdrClientWrapperFactoryProvider>(CustomAdrClientWrapperFactoryProvider.Factory);
+        services.AddSingleton(MqttSessionClientProvider.Factory);
+        services.AddSingleton(NoMessageSchemaProvider.Factory);
+        services.AddSingleton(LeaderElectionConfigurationProvider.Factory);
+        services.AddSingleton<IAdrClientWrapperProvider>(CustomAdrClientWrapperProvider.Factory);
         services.AddHostedService<EventDrivenTcpThermostatConnectorWorker>();
     })
     .Build();

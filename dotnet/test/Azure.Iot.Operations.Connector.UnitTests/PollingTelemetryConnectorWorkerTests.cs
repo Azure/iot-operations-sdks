@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             Environment.SetEnvironmentVariable(ConnectorFileMountSettings.ConnectorClientIdEnvVar, "someClientId");
         }
 
-        private class MockAdrClientFactory : IAdrClientWrapperFactoryProvider
+        private class MockAdrClientFactory : IAdrClientWrapperProvider
         {
             private readonly IAdrClientWrapper _mockAdrClientWrapper;
 

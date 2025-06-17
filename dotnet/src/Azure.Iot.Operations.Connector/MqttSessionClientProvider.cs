@@ -9,9 +9,9 @@ using System.Diagnostics;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public static class MqttSessionClientFactoryProvider
+    public static class MqttSessionClientProvider
     {
-        public static Func<IServiceProvider, IMqttClient> MqttSessionClientFactory = service =>
+        public static Func<IServiceProvider, IMqttClient> Factory = service =>
         {
             IConfiguration? config = service.GetService<IConfiguration>();
             bool mqttDiag = config!.GetValue<bool>("mqttDiag");

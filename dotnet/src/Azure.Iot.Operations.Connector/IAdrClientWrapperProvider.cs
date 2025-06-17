@@ -10,7 +10,7 @@ using Azure.Iot.Operations.Protocol;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public interface IAdrClientWrapperFactoryProvider
+    public interface IAdrClientWrapperProvider
     {
         IAdrClientWrapper CreateAdrClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient);
     }
