@@ -224,7 +224,7 @@ impl DeviceEndpointClient {
             specification: Arc::new(RwLock::new(DeviceSpecification::new(
                 device,
                 connector_context
-                    .connector_config
+                    .connector_artifacts
                     .device_endpoint_credentials_mount
                     .as_ref(),
                 &device_endpoint_ref.inbound_endpoint_name,
@@ -410,7 +410,7 @@ impl DeviceEndpointClient {
                     *unlocked_specification = DeviceSpecification::new(
                         updated_device,
                         self.connector_context
-                            .connector_config
+                            .connector_artifacts
                             .device_endpoint_credentials_mount
                             .as_ref(),
                         &self.device_endpoint_ref.inbound_endpoint_name,
