@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 use azure_iot_operations_connector::filemount::connector_artifacts::{
-    ConnectorArtifacts, LogLevel, Protocol, TlsMode,
+    ConnectorArtifacts, Protocol, TlsMode,
 };
 use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 use std::path::PathBuf;
@@ -69,7 +69,7 @@ fn local_connector_artifacts_tls() {
             // NOTE: These values come from the DIAGNOSTICS file
             assert!(cc.diagnostics.is_some());
             let diagnostics = cc.diagnostics.as_ref().unwrap();
-            assert!(matches!(diagnostics.logs.level, LogLevel::Trace));
+            assert_eq!(diagnostics.logs.level, "trace".to_string());
 
             // --- Convert the ConnectorConfiguration to MqttConnectionSettings ---
             let conversion_result = artifacts.to_mqtt_connection_settings("-id_suffix");
@@ -135,7 +135,7 @@ fn local_connector_artifacts_no_tls() {
             // NOTE: These values come from the DIAGNOSTICS file
             assert!(cc.diagnostics.is_some());
             let diagnostics = cc.diagnostics.as_ref().unwrap();
-            assert!(matches!(diagnostics.logs.level, LogLevel::Trace));
+            assert_eq!(diagnostics.logs.level, "trace".to_string());
 
             // --- Convert the ConnectorConfiguration to MqttConnectionSettings ---
             let conversion_result = artifacts.to_mqtt_connection_settings("-id_suffix");
