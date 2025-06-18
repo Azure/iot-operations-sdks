@@ -15,13 +15,13 @@ use super::discovered_device_response_schema::DiscoveredDeviceResponseSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct CreateOrUpdateDiscoveredDeviceResponseSchema {
-    /// The 'createOrUpdateDiscoveredDeviceError' Field.
+    /// Error details, if the discovered device creation or update failed.
     #[serde(rename = "createOrUpdateDiscoveredDeviceError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub create_or_update_discovered_device_error: Option<AkriServiceError>,
 
-    /// The 'discoveredDeviceResponse' Field.
+    /// The discovered device response.
     #[serde(rename = "discoveredDeviceResponse")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

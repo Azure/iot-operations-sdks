@@ -14,12 +14,12 @@ use super::code_schema::CodeSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AkriServiceError {
-    /// The 'code' Field.
+    /// The error code that identifies the error.
     pub code: CodeSchema,
 
-    /// The 'message' Field.
+    /// A human-readable description of the error.
     pub message: String,
 
-    /// The 'timestamp' Field.
+    /// The timestamp (in UTC) when the error occurred.
     pub timestamp: DateTime<Utc>,
 }
