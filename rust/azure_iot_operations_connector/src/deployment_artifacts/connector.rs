@@ -103,9 +103,12 @@ impl ConnectorArtifacts {
     pub fn new_from_deployment() -> Result<Self, DeploymentArtifactError> {
         // Azure Extension Resource ID
         let azure_extension_resource_id = string_from_environment("AZURE_EXTENSION_RESOURCEID")?
-            .ok_or(DeploymentArtifactErrorRepr::EnvVarMissing(
-                "AZURE_EXTENSION_RESOURCEID".to_string(),
-            ))?;
+            // TODO: Remove this bypass - this is a required field!
+            // This has been added for compat with older Akri images, remove ASAP
+            .unwrap_or(String::new());
+        // .ok_or(DeploymentArtifactErrorRepr::EnvVarMissing(
+        //     "AZURE_EXTENSION_RESOURCEID".to_string(),
+        // ))?;
         // Connector ID
         let connector_id = string_from_environment("CONNECTOR_ID")?.ok_or(
             DeploymentArtifactErrorRepr::EnvVarMissing("CONNECTOR_ID".to_string()),
@@ -927,7 +930,7 @@ mod tests {
         );
     }
 
-    #[test_case("AZURE_EXTENSION_RESOURCEID")]
+    //#[test_case("AZURE_EXTENSION_RESOURCEID")]    //TODO: re-enable test
     #[test_case("CONNECTOR_ID")]
     #[test_case("CONNECTOR_NAMESPACE")]
     #[test_case("CONNECTOR_CONFIGURATION_MOUNT_PATH")]
