@@ -27,9 +27,9 @@ namespace Yaml2Dtdl
     ""@context"": [
       ""dtmi:dtdl:context;4#limitless"",
       ""dtmi:dtdl:limits:onvif;1"",
+      ""dtmi:iotoperations:context;4"",
       ""dtmi:dtdl:extension:quantitativeTypes;2"",
-      ""dtmi:dtdl:extension:mqtt;4"",
-      ""dtmi:dtdl:extension:opcua;1"",
+      ""dtmi:dtdl:extension:mqtt;3"",
       ""dtmi:dtdl:extension:historization;2"",
       ""dtmi:dtdl:extension:requirement;1""
     ],
