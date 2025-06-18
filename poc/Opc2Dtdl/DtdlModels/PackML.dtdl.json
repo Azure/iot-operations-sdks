@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:PackML:PackMLAdminObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=5",
     "telemetryTopic": "opcua/PackML/PackMLAdminObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -204,6 +205,7 @@
     ],
     "@id": "dtmi:opcua:PackML:PackMLBaseObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=6",
     "commandTopic": "opcua/PackML/PackMLBaseObjectType/{commandName}",
     "telemetryTopic": "opcua/PackML/PackMLBaseObjectType/{telemetryName}/{senderId}",
@@ -490,6 +492,7 @@
     ],
     "@id": "dtmi:opcua:PackML:PackMLStatusObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=4",
     "commandTopic": "opcua/PackML/PackMLStatusObjectType/{commandName}",
     "telemetryTopic": "opcua/PackML/PackMLStatusObjectType/{telemetryName}/{senderId}",
@@ -710,31 +713,13 @@
     ],
     "@id": "dtmi:opcua:PackML:PackMLBaseStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=3",
     "commandTopic": "opcua/PackML/PackMLBaseStateMachineType/{commandName}",
-    "telemetryTopic": "opcua/PackML/PackMLBaseStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
     "contents": [
-      {
-        "@type": [ "Telemetry", "Qualified" ],
-        "name": "AvailableStates",
-        "namespace": "http://opcfoundation.org/UA/PackML",
-        "schema": {
-          "@type": "Array",
-          "elementSchema": "string"
-        }
-      },
-      {
-        "@type": [ "Telemetry", "Qualified" ],
-        "name": "AvailableTransitions",
-        "namespace": "http://opcfoundation.org/UA/PackML",
-        "schema": {
-          "@type": "Array",
-          "elementSchema": "string"
-        }
-      },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Abort",
@@ -801,9 +786,9 @@
     ],
     "@id": "dtmi:opcua:PackML:PackMLExecuteStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=1",
     "commandTopic": "opcua/PackML/PackMLExecuteStateMachineType/{commandName}",
-    "telemetryTopic": "opcua/PackML/PackMLExecuteStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -835,24 +820,6 @@
       }
     ],
     "contents": [
-      {
-        "@type": [ "Telemetry", "Qualified" ],
-        "name": "AvailableStates",
-        "namespace": "http://opcfoundation.org/UA/PackML",
-        "schema": {
-          "@type": "Array",
-          "elementSchema": "string"
-        }
-      },
-      {
-        "@type": [ "Telemetry", "Qualified" ],
-        "name": "AvailableTransitions",
-        "namespace": "http://opcfoundation.org/UA/PackML",
-        "schema": {
-          "@type": "Array",
-          "elementSchema": "string"
-        }
-      },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Hold",
@@ -1105,31 +1072,13 @@
     ],
     "@id": "dtmi:opcua:PackML:PackMLMachineStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=2",
     "commandTopic": "opcua/PackML/PackMLMachineStateMachineType/{commandName}",
-    "telemetryTopic": "opcua/PackML/PackMLMachineStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
     "contents": [
-      {
-        "@type": [ "Telemetry", "Qualified" ],
-        "name": "AvailableStates",
-        "namespace": "http://opcfoundation.org/UA/PackML",
-        "schema": {
-          "@type": "Array",
-          "elementSchema": "string"
-        }
-      },
-      {
-        "@type": [ "Telemetry", "Qualified" ],
-        "name": "AvailableTransitions",
-        "namespace": "http://opcfoundation.org/UA/PackML",
-        "schema": {
-          "@type": "Array",
-          "elementSchema": "string"
-        }
-      },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Reset",

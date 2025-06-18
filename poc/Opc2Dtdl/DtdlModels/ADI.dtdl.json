@@ -67,6 +67,7 @@
     ],
     "@id": "dtmi:opcua:ADI:AnalyserDeviceStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -226,6 +227,7 @@
     ],
     "@id": "dtmi:opcua:ADI:AnalyserChannelOperatingStateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:StateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1004",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -245,6 +247,7 @@
     ],
     "@id": "dtmi:opcua:ADI:AnalyserChannelLocalStateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:StateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1005",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -264,6 +267,7 @@
     ],
     "@id": "dtmi:opcua:ADI:AnalyserChannelMaintenanceStateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:StateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1006",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -283,6 +287,7 @@
     ],
     "@id": "dtmi:opcua:ADI:AnalyserChannelStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1007",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -404,6 +409,7 @@
     ],
     "@id": "dtmi:opcua:ADI:AnalyserChannelOperatingExecuteStateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:StateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=8964",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -423,6 +429,7 @@
     ],
     "@id": "dtmi:opcua:ADI:AnalyserChannel_OperatingModeSubStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1008",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -874,6 +881,7 @@
     ],
     "@id": "dtmi:opcua:ADI:AnalyserChannel_OperatingModeExecuteSubStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1009",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1597,6 +1605,7 @@
     ],
     "@id": "dtmi:opcua:ADI:AccessorySlotStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1018",
     "payloadFormat": "Json/ecma/404",
     "schemas": [

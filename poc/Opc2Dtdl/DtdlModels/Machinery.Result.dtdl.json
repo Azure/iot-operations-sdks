@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:Machinery_Result:ResultReadyEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=1002",
     "telemetryTopic": "opcua/Machinery_Result/ResultReadyEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -221,6 +222,7 @@
     ],
     "@id": "dtmi:opcua:Machinery_Result:ResultManagementType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=1004",
     "commandTopic": "opcua/Machinery_Result/ResultManagementType/{commandName}",
     "telemetryTopic": "opcua/Machinery_Result/ResultManagementType/{telemetryName}/{senderId}",
@@ -748,67 +750,12 @@
     ],
     "@id": "dtmi:opcua:Machinery_Result:ResultTransferType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=1003",
-    "commandTopic": "opcua/Machinery_Result/ResultTransferType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
-      {
-        "@id": "dtmi:opcua:Machinery_Result:ResultTransferType:dataType:BaseResultTransferOptionsDataType;1",
-        "@type": [ "Object", "Congruence" ],
-        "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=3005",
-        "fields": [
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "ResultId",
-            "schema": "string"
-          }
-        ]
-      }
     ],
     "contents": [
-      {
-        "@type": [ "Command", "Qualified" ],
-        "name": "GenerateFileForRead",
-        "namespace": "http://opcfoundation.org/UA/Machinery.Result",
-        "request": {
-          "@type": [ "CommandRequest", "Transparent" ],
-          "name": "input",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "GenerateOptions",
-                "schema": "dtmi:opcua:Machinery_Result:ResultTransferType:dataType:BaseResultTransferOptionsDataType;1"
-              }
-            ]
-          }
-        },
-        "response": {
-          "@type": [ "CommandResponse", "Transparent" ],
-          "name": "output",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "FileNodeId",
-                "schema": "string"
-              },
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "FileHandle",
-                "schema": "unsignedInteger"
-              },
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "CompletionStateMachine",
-                "schema": "string"
-              }
-            ]
-          }
-        }
-      }
     ]
   }
 ]

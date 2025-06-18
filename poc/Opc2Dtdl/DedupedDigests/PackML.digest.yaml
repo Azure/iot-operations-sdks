@@ -282,14 +282,6 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAVariable, PackML:167, PackML:AvailableStates, NodeId, 1, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-  - HasComponent:
-    - [ UAVariable, PackML:158, PackML:AvailableTransitions, NodeId, 1, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-  - HasComponent:
     - [ UAMethod, PackML:363, PackML:Clear ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
@@ -314,14 +306,6 @@ DefinedTypes:
 
   PackML:PackMLExecuteStateMachineType:
   - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
-  - HasComponent:
-    - [ UAVariable, PackML:125, PackML:AvailableStates, NodeId, 1, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-  - HasComponent:
-    - [ UAVariable, PackML:126, PackML:AvailableTransitions, NodeId, 1, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PackML:38, PackML:Complete ]
     - HasTypeDefinition:
@@ -485,14 +469,6 @@ DefinedTypes:
 
   PackML:PackMLMachineStateMachineType:
   - [ UAObjectType, PackML:2, PackML:PackMLMachineStateMachineType ]
-  - HasComponent:
-    - [ UAVariable, PackML:153, PackML:AvailableStates, NodeId, 1, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-  - HasComponent:
-    - [ UAVariable, PackML:154, PackML:AvailableTransitions, NodeId, 1, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PackML:55, PackML:Clearing ]
     - HasTypeDefinition:

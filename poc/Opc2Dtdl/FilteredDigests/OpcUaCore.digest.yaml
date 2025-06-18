@@ -2685,6 +2685,9 @@ DataTypes:
 
 DefinedTypes:
 
+  BaseObjectType:
+  - [ UAObjectType, 58, BaseObjectType ]
+
   FolderType:
   - [ UAObjectType, 61, FolderType ]
   - HasSubtype_reverse:

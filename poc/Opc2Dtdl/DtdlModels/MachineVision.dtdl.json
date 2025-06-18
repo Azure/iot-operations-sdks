@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:AcquisitionDoneEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1025",
     "commandTopic": "opcua/MachineVision/AcquisitionDoneEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/AcquisitionDoneEventType/{telemetryName}/{senderId}",
@@ -51,6 +52,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AcknowledgeableConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1033",
     "commandTopic": "opcua/MachineVision/VisionConditionType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/VisionConditionType/{telemetryName}/{senderId}",
@@ -337,6 +339,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:EnterStepSequenceEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1027",
     "commandTopic": "opcua/MachineVision/EnterStepSequenceEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/EnterStepSequenceEventType/{telemetryName}/{senderId}",
@@ -365,6 +368,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:JobStartedEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1013",
     "commandTopic": "opcua/MachineVision/JobStartedEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/JobStartedEventType/{telemetryName}/{senderId}",
@@ -405,6 +409,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:LeaveStepSequenceEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1029",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -424,6 +429,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:NextStepEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1028",
     "commandTopic": "opcua/MachineVision/NextStepEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/NextStepEventType/{telemetryName}/{senderId}",
@@ -452,6 +458,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ReadyEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1023",
     "commandTopic": "opcua/MachineVision/ReadyEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/ReadyEventType/{telemetryName}/{senderId}",
@@ -492,6 +499,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:RecipePreparedEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1022",
     "commandTopic": "opcua/MachineVision/RecipePreparedEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/RecipePreparedEventType/{telemetryName}/{senderId}",
@@ -583,6 +591,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ResultReadyEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1024",
     "commandTopic": "opcua/MachineVision/ResultReadyEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/ResultReadyEventType/{telemetryName}/{senderId}",
@@ -843,6 +852,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ErrorEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1019",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -862,6 +872,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ErrorResolvedEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1020",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -881,6 +892,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:StateChangedEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1018",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -900,6 +912,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1015",
     "commandTopic": "opcua/MachineVision/VisionEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/VisionEventType/{telemetryName}/{senderId}",
@@ -1138,6 +1151,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionSafetyEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1030",
     "commandTopic": "opcua/MachineVision/VisionSafetyEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/VisionSafetyEventType/{telemetryName}/{senderId}",
@@ -1173,6 +1187,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ConfigurationManagementType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1006",
     "commandTopic": "opcua/MachineVision/ConfigurationManagementType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/ConfigurationManagementType/{telemetryName}/{senderId}",
@@ -1532,6 +1547,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ConfigurationFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1011",
     "telemetryTopic": "opcua/MachineVision/ConfigurationFolderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1627,6 +1643,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ProductFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1010",
     "telemetryTopic": "opcua/MachineVision/ProductFolderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1692,6 +1709,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:RecipeFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1008",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1717,6 +1735,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ResultFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1016",
     "telemetryTopic": "opcua/MachineVision/ResultFolderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2029,6 +2048,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:RecipeManagementType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1004",
     "commandTopic": "opcua/MachineVision/RecipeManagementType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -2546,6 +2566,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:RecipeType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1002",
     "commandTopic": "opcua/MachineVision/RecipeType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/RecipeType/{telemetryName}/{senderId}",
@@ -2769,6 +2790,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ResultManagementType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1007",
     "commandTopic": "opcua/MachineVision/ResultManagementType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -3338,6 +3360,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:SafetyStateManagementType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1009",
     "commandTopic": "opcua/MachineVision/SafetyStateManagementType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/SafetyStateManagementType/{telemetryName}/{senderId}",
@@ -3409,6 +3432,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1021",
     "commandTopic": "opcua/MachineVision/VisionAutomaticModeStateMachineType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -3909,6 +3933,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1017",
     "commandTopic": "opcua/MachineVision/VisionStateMachineType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -4205,6 +4230,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1026",
     "commandTopic": "opcua/MachineVision/VisionStepModelStateMachineType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -4323,137 +4349,12 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ConfigurationTransferType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1012",
-    "commandTopic": "opcua/MachineVision/ConfigurationTransferType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
-      {
-        "@id": "dtmi:opcua:MachineVision:ConfigurationTransferType:dataType:ConfigurationTransferOptions;1",
-        "@type": [ "Object", "Congruence" ],
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3011",
-        "fields": [
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "InternalId",
-            "schema": "dtmi:opcua:MachineVision:ConfigurationTransferType:dataType:BinaryIdBaseDataType;1"
-          }
-        ]
-      },
-      {
-        "@id": "dtmi:opcua:MachineVision:ConfigurationTransferType:dataType:BinaryIdBaseDataType;1",
-        "@type": [ "Object", "Congruence" ],
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
-        "fields": [
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "Id",
-            "schema": "string"
-          },
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "Version",
-            "schema": "string"
-          },
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "Hash",
-            "schema": "bytes"
-          },
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "HashAlgorithm",
-            "schema": "string"
-          },
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "Description",
-            "schema": "string"
-          }
-        ]
-      }
     ],
     "contents": [
-      {
-        "@type": [ "Command", "Qualified" ],
-        "name": "GenerateFileForRead",
-        "namespace": "http://opcfoundation.org/UA/MachineVision",
-        "request": {
-          "@type": [ "CommandRequest", "Transparent" ],
-          "name": "input",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "GenerateOptions",
-                "schema": "dtmi:opcua:MachineVision:ConfigurationTransferType:dataType:ConfigurationTransferOptions;1"
-              }
-            ]
-          }
-        },
-        "response": {
-          "@type": [ "CommandResponse", "Transparent" ],
-          "name": "output",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "FileNodeId",
-                "schema": "string"
-              },
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "FileHandle",
-                "schema": "unsignedInteger"
-              },
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "CompletionStateMachine",
-                "schema": "string"
-              }
-            ]
-          }
-        }
-      },
-      {
-        "@type": [ "Command", "Qualified" ],
-        "name": "GenerateFileForWrite",
-        "namespace": "http://opcfoundation.org/UA/MachineVision",
-        "request": {
-          "@type": [ "CommandRequest", "Transparent" ],
-          "name": "input",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "GenerateOptions",
-                "schema": "dtmi:opcua:MachineVision:ConfigurationTransferType:dataType:ConfigurationTransferOptions;1"
-              }
-            ]
-          }
-        },
-        "response": {
-          "@type": [ "CommandResponse", "Transparent" ],
-          "name": "output",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "FileNodeId",
-                "schema": "string"
-              },
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "FileHandle",
-                "schema": "unsignedInteger"
-              }
-            ]
-          }
-        }
-      }
     ]
   },
   {
@@ -4468,137 +4369,12 @@
     ],
     "@id": "dtmi:opcua:MachineVision:RecipeTransferType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1014",
-    "commandTopic": "opcua/MachineVision/RecipeTransferType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
-      {
-        "@id": "dtmi:opcua:MachineVision:RecipeTransferType:dataType:RecipeTransferOptions;1",
-        "@type": [ "Object", "Congruence" ],
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3012",
-        "fields": [
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "InternalId",
-            "schema": "dtmi:opcua:MachineVision:RecipeTransferType:dataType:BinaryIdBaseDataType;1"
-          }
-        ]
-      },
-      {
-        "@id": "dtmi:opcua:MachineVision:RecipeTransferType:dataType:BinaryIdBaseDataType;1",
-        "@type": [ "Object", "Congruence" ],
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
-        "fields": [
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "Id",
-            "schema": "string"
-          },
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "Version",
-            "schema": "string"
-          },
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "Hash",
-            "schema": "bytes"
-          },
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "HashAlgorithm",
-            "schema": "string"
-          },
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "Description",
-            "schema": "string"
-          }
-        ]
-      }
     ],
     "contents": [
-      {
-        "@type": [ "Command", "Qualified" ],
-        "name": "GenerateFileForRead",
-        "namespace": "http://opcfoundation.org/UA/MachineVision",
-        "request": {
-          "@type": [ "CommandRequest", "Transparent" ],
-          "name": "input",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "generateOptions",
-                "schema": "dtmi:opcua:MachineVision:RecipeTransferType:dataType:RecipeTransferOptions;1"
-              }
-            ]
-          }
-        },
-        "response": {
-          "@type": [ "CommandResponse", "Transparent" ],
-          "name": "output",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "fileNodeId",
-                "schema": "string"
-              },
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "fileHandle",
-                "schema": "unsignedInteger"
-              },
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "completionStateMachine",
-                "schema": "string"
-              }
-            ]
-          }
-        }
-      },
-      {
-        "@type": [ "Command", "Qualified" ],
-        "name": "GenerateFileForWrite",
-        "namespace": "http://opcfoundation.org/UA/MachineVision",
-        "request": {
-          "@type": [ "CommandRequest", "Transparent" ],
-          "name": "input",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "GenerateOptions",
-                "schema": "dtmi:opcua:MachineVision:RecipeTransferType:dataType:RecipeTransferOptions;1"
-              }
-            ]
-          }
-        },
-        "response": {
-          "@type": [ "CommandResponse", "Transparent" ],
-          "name": "output",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "FileNodeId",
-                "schema": "string"
-              },
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "FileHandle",
-                "schema": "unsignedInteger"
-              }
-            ]
-          }
-        }
-      }
     ]
   },
   {
@@ -4613,79 +4389,12 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ResultTransferType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1039",
-    "commandTopic": "opcua/MachineVision/ResultTransferType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
-      {
-        "@id": "dtmi:opcua:MachineVision:ResultTransferType:dataType:ResultTransferOptions;1",
-        "@type": [ "Object", "Congruence" ],
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3022",
-        "fields": [
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "Id",
-            "schema": "dtmi:opcua:MachineVision:ResultTransferType:dataType:ResultIdDataType;1"
-          }
-        ]
-      },
-      {
-        "@id": "dtmi:opcua:MachineVision:ResultTransferType:dataType:ResultIdDataType;1",
-        "@type": [ "Object", "Congruence" ],
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
-        "fields": [
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "Id",
-            "schema": "string"
-          }
-        ]
-      }
     ],
     "contents": [
-      {
-        "@type": [ "Command", "Qualified" ],
-        "name": "GenerateFileForRead",
-        "namespace": "http://opcfoundation.org/UA/MachineVision",
-        "request": {
-          "@type": [ "CommandRequest", "Transparent" ],
-          "name": "input",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "GenerateOptions",
-                "schema": "dtmi:opcua:MachineVision:ResultTransferType:dataType:ResultTransferOptions;1"
-              }
-            ]
-          }
-        },
-        "response": {
-          "@type": [ "CommandResponse", "Transparent" ],
-          "name": "output",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "FileNodeId",
-                "schema": "string"
-              },
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "FileHandle",
-                "schema": "unsignedInteger"
-              },
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "CompletionStateMachine",
-                "schema": "string"
-              }
-            ]
-          }
-        }
-      }
     ]
   },
   {
@@ -4700,6 +4409,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionSystemType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1003",
     "telemetryTopic": "opcua/MachineVision/VisionSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",

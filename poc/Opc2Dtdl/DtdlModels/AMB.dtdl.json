@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:AMB:CalibrationDueConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:MaintenanceConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1005",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -30,6 +31,7 @@
     ],
     "@id": "dtmi:opcua:AMB:ExternalCheckConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:MaintenanceConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1015",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -49,6 +51,7 @@
     ],
     "@id": "dtmi:opcua:AMB:FlashUpdateInProgressConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:MaintenanceConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1007",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -68,6 +71,7 @@
     ],
     "@id": "dtmi:opcua:AMB:ImprovementConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:MaintenanceConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1018",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -87,6 +91,7 @@
     ],
     "@id": "dtmi:opcua:AMB:InspectionConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:MaintenanceConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1014",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -106,6 +111,7 @@
     ],
     "@id": "dtmi:opcua:AMB:RepairConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:MaintenanceConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1017",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -125,6 +131,7 @@
     ],
     "@id": "dtmi:opcua:AMB:ServicingConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:MaintenanceConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1016",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -144,6 +151,7 @@
     ],
     "@id": "dtmi:opcua:AMB:BadConfigurationConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:SystemConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1008",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -163,6 +171,7 @@
     ],
     "@id": "dtmi:opcua:AMB:ConnectionFailureConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:SystemConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -182,6 +191,7 @@
     ],
     "@id": "dtmi:opcua:AMB:FlashUpdateFailedConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:SystemConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1019",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -201,6 +211,7 @@
     ],
     "@id": "dtmi:opcua:AMB:OutOfResourcesConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:SystemConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1009",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -240,6 +251,7 @@
     ],
     "@id": "dtmi:opcua:AMB:OverTemperatureConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:SystemConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1004",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -259,6 +271,7 @@
     ],
     "@id": "dtmi:opcua:AMB:SelfTestFailureConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:SystemConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1006",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -278,6 +291,7 @@
     ],
     "@id": "dtmi:opcua:AMB:IMaintenanceEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1012",
     "commandTopic": "opcua/AMB/IMaintenanceEventType/{commandName}",
     "telemetryTopic": "opcua/AMB/IMaintenanceEventType/{telemetryName}/{senderId}",
@@ -400,6 +414,7 @@
     ],
     "@id": "dtmi:opcua:AMB:IRootCauseIndicationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1002",
     "commandTopic": "opcua/AMB/IRootCauseIndicationType/{commandName}",
     "telemetryTopic": "opcua/AMB/IRootCauseIndicationType/{telemetryName}/{senderId}",
@@ -448,6 +463,7 @@
     ],
     "@id": "dtmi:opcua:AMB:DocumentationLinksType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1011",
     "commandTopic": "opcua/AMB/DocumentationLinksType/{commandName}",
     "telemetryTopic": "opcua/AMB/DocumentationLinksType/{telemetryName}/{senderId}",
@@ -559,6 +575,7 @@
     ],
     "@id": "dtmi:opcua:AMB:MaintenanceEventStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1013",
     "payloadFormat": "Json/ecma/404",
     "schemas": [

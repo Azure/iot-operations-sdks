@@ -101,7 +101,7 @@
 
                     foreach (KeyValuePair<string, OpcUaDefinedType> definedType in opcUaDigest.DefinedTypes)
                     {
-                        if (FilteredContents(definedType.Value).Any())
+                        if (definedType.Value.NodeType == "UAObjectType")
                         {
                             outputFile.WriteLine();
                             outputFile.WriteLine($"  {definedType.Key}:");

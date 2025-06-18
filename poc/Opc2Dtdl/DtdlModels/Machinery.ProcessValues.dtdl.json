@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:Machinery_ProcessValues:ZeroPointAdjustmentEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.ProcessValues;i=1002",
     "commandTopic": "opcua/Machinery_ProcessValues/ZeroPointAdjustmentEventType/{commandName}",
     "telemetryTopic": "opcua/Machinery_ProcessValues/ZeroPointAdjustmentEventType/{telemetryName}/{senderId}",

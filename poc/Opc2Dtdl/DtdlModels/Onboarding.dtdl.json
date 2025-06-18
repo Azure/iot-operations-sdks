@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:Onboarding:DeviceRegistrarAdminType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding;i=1175",
     "commandTopic": "opcua/Onboarding/DeviceRegistrarAdminType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -121,6 +122,7 @@
     ],
     "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding;i=1259",
     "commandTopic": "opcua/Onboarding/DeviceRegistrarType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -547,6 +549,7 @@
     ],
     "@id": "dtmi:opcua:Onboarding:DeviceRegistrationAuditEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding;i=1517",
     "commandTopic": "opcua/Onboarding/DeviceRegistrationAuditEventType/{commandName}",
     "telemetryTopic": "opcua/Onboarding/DeviceRegistrationAuditEventType/{telemetryName}/{senderId}",
@@ -626,13 +629,6 @@
     "schemas": [
     ],
     "contents": [
-      {
-        "@type": [ "Property", "Qualified" ],
-        "name": "Status",
-        "namespace": "http://opcfoundation.org/UA/Onboarding",
-        "schema": "boolean",
-        "writable": false
-      },
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SoftwareRevision",

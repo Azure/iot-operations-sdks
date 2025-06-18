@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:CuttingTool:CuttingToolFileType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FileType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool;i=1003",
     "commandTopic": "opcua/CuttingTool/CuttingToolFileType/{commandName}",
     "telemetryTopic": "opcua/CuttingTool/CuttingToolFileType/{telemetryName}/{senderId}",

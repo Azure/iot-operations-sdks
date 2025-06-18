@@ -26,7 +26,7 @@ namespace Yaml2Dtdl
             this.definedType = definedType;
             this.typeConverter = new();
 
-            this.supertypeIds = new (definedType.Contents.Where(c => c.Relationship == "HasSubtype_reverse" && c.DefinedType.NodeType == "UAObjectType" && c.DefinedType.NodeId.Contains(':')).Select(c => TypeConverter.GetModelId(c.DefinedType)));
+            this.supertypeIds = new (definedType.Contents.Where(c => c.Relationship == "HasSubtype_reverse" && c.DefinedType.NodeType == "UAObjectType").Select(c => TypeConverter.GetModelId(c.DefinedType)));
             this.dtdlProperties = definedType.Contents.Where(c => c.Relationship == "HasProperty" && c.DefinedType.NodeType == "UAVariable").Select(c => new DtdlProperty(modelId, c.DefinedType, this.typeConverter, unitTypesDict)).ToList();
             this.dtdlTelemetries = definedType.Contents.Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAVariable").Select(c => new DtdlTelemetry(modelId, c.DefinedType, this.typeConverter, unitTypesDict)).ToList();
             this.dtdlCommands = definedType.Contents.Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAMethod").Select(c => new DtdlCommand(modelId, c.DefinedType, this.typeConverter)).ToList();

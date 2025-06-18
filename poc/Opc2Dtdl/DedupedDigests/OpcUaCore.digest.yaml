@@ -2685,6 +2685,9 @@ DataTypes:
 
 DefinedTypes:
 
+  BaseObjectType:
+  - [ UAObjectType, 58, BaseObjectType ]
+
   FolderType:
   - [ UAObjectType, 61, FolderType ]
   - HasSubtype_reverse:
@@ -3605,12 +3608,6 @@ DefinedTypes:
   TransparentRedundancyType:
   - [ UAObjectType, 2036, TransparentRedundancyType ]
   - HasProperty:
-    - [ UAVariable, 2038, RedundantServerArray, RedundantServerDataType, 1, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
-  - HasProperty:
     - [ UAVariable, 2037, CurrentServerId, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
@@ -3643,12 +3640,6 @@ DefinedTypes:
 
   NonTransparentBackupRedundancyType:
   - [ UAObjectType, 32411, NonTransparentBackupRedundancyType ]
-  - HasProperty:
-    - [ UAVariable, 32413, RedundantServerArray, RedundantServerDataType, 1, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
   - HasProperty:
     - [ UAVariable, 32415, Mode, RedundantServerMode, 0, 0 ]
     - HasModellingRule:
@@ -4603,18 +4594,6 @@ DefinedTypes:
   FiniteStateMachineType:
   - [ UAObjectType, 2771, FiniteStateMachineType ]
   - HasComponent:
-    - [ UAVariable, 2772, CurrentState, LocalizedText, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
-  - HasComponent:
-    - [ UAVariable, 2773, LastTransition, LocalizedText, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
-  - HasComponent:
     - [ UAVariable, 17635, AvailableStates, NodeId, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
@@ -5326,30 +5305,6 @@ DefinedTypes:
   ConditionType:
   - [ UAObjectType, 2782, ConditionType ]
   - HasProperty:
-    - [ UAVariable, 11112, ConditionClassId, NodeId, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
-  - HasProperty:
-    - [ UAVariable, 11113, ConditionClassName, LocalizedText, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
-  - HasProperty:
-    - [ UAVariable, 16363, ConditionSubClassId, NodeId, 1, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
-  - HasProperty:
-    - [ UAVariable, 16364, ConditionSubClassName, LocalizedText, 1, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
-  - HasProperty:
     - [ UAVariable, 9009, ConditionName, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
@@ -5453,12 +5408,6 @@ DefinedTypes:
   DialogConditionType:
   - [ UAObjectType, 2830, DialogConditionType ]
   - HasComponent:
-    - [ UAVariable, 9035, EnabledState, LocalizedText, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
-  - HasComponent:
     - [ UAVariable, 9055, DialogState, LocalizedText, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
@@ -5535,12 +5484,6 @@ DefinedTypes:
   AcknowledgeableConditionType:
   - [ UAObjectType, 2881, AcknowledgeableConditionType ]
   - HasComponent:
-    - [ UAVariable, 9073, EnabledState, LocalizedText, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
-  - HasComponent:
     - [ UAVariable, 9093, AckedState, LocalizedText, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
@@ -5587,12 +5530,6 @@ DefinedTypes:
 
   AlarmConditionType:
   - [ UAObjectType, 2915, AlarmConditionType ]
-  - HasComponent:
-    - [ UAVariable, 9118, EnabledState, LocalizedText, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
   - HasComponent:
     - [ UAVariable, 9160, ActiveState, LocalizedText, 0, 0 ]
     - HasModellingRule:
@@ -6089,12 +6026,6 @@ DefinedTypes:
   ExclusiveLimitAlarmType:
   - [ UAObjectType, 9341, ExclusiveLimitAlarmType ]
   - HasComponent:
-    - [ UAVariable, 9398, ActiveState, LocalizedText, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
-  - HasComponent:
     - [ UAObject, 9455, LimitState ]
     - HasTypeDefinition:
       - [ UAObjectType, 9318, ExclusiveLimitStateMachineType ]
@@ -6107,12 +6038,6 @@ DefinedTypes:
 
   NonExclusiveLimitAlarmType:
   - [ UAObjectType, 9906, NonExclusiveLimitAlarmType ]
-  - HasComponent:
-    - [ UAVariable, 9963, ActiveState, LocalizedText, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
   - HasComponent:
     - [ UAVariable, 10020, HighHighState, LocalizedText, 0, 0 ]
     - HasModellingRule:
@@ -6518,18 +6443,6 @@ DefinedTypes:
 
   ProgramStateMachineType:
   - [ UAObjectType, 2391, ProgramStateMachineType ]
-  - HasComponent:
-    - [ UAVariable, 3830, CurrentState, LocalizedText, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
-  - HasComponent:
-    - [ UAVariable, 3835, LastTransition, LocalizedText, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
   - HasProperty:
     - [ UAVariable, 2392, Creatable, Boolean, 0, 0 ]
   - HasProperty:
@@ -7897,12 +7810,6 @@ DefinedTypes:
 
   KeyCredentialDeletedAuditEventType:
   - [ UAObjectType, 18047, KeyCredentialDeletedAuditEventType ]
-  - HasProperty:
-    - [ UAVariable, 18064, ResourceUri, String, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 18011, KeyCredentialAuditEventType ]
 
@@ -9790,111 +9697,31 @@ DefinedTypes:
 
   PubSubDiagnosticsRootType:
   - [ UAObjectType, 19732, PubSubDiagnosticsRootType ]
-  - HasComponent:
-    - [ UAObject, 19777, LiveValues ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 58, BaseObjectType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 19677, PubSubDiagnosticsType ]
 
   PubSubDiagnosticsConnectionType:
   - [ UAObjectType, 19786, PubSubDiagnosticsConnectionType ]
-  - HasComponent:
-    - [ UAObject, 19831, LiveValues ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 58, BaseObjectType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 19677, PubSubDiagnosticsType ]
 
   PubSubDiagnosticsWriterGroupType:
   - [ UAObjectType, 19834, PubSubDiagnosticsWriterGroupType ]
-  - HasComponent:
-    - [ UAObject, 19848, Counters ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 58, BaseObjectType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
-  - HasComponent:
-    - [ UAObject, 19879, LiveValues ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 58, BaseObjectType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 19677, PubSubDiagnosticsType ]
 
   PubSubDiagnosticsReaderGroupType:
   - [ UAObjectType, 19903, PubSubDiagnosticsReaderGroupType ]
-  - HasComponent:
-    - [ UAObject, 19917, Counters ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 58, BaseObjectType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
-  - HasComponent:
-    - [ UAObject, 19948, LiveValues ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 58, BaseObjectType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 19677, PubSubDiagnosticsType ]
 
   PubSubDiagnosticsDataSetWriterType:
   - [ UAObjectType, 19968, PubSubDiagnosticsDataSetWriterType ]
-  - HasComponent:
-    - [ UAObject, 19982, Counters ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 58, BaseObjectType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
-  - HasComponent:
-    - [ UAObject, 20013, LiveValues ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 58, BaseObjectType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 19677, PubSubDiagnosticsType ]
 
   PubSubDiagnosticsDataSetReaderType:
   - [ UAObjectType, 20027, PubSubDiagnosticsDataSetReaderType ]
-  - HasComponent:
-    - [ UAObject, 20041, Counters ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 58, BaseObjectType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
-  - HasComponent:
-    - [ UAObject, 20072, LiveValues ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 58, BaseObjectType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 19677, PubSubDiagnosticsType ]
 
@@ -10609,24 +10436,6 @@ DefinedTypes:
 
   ApplicationConfigurationType:
   - [ UAObjectType, 25731, ApplicationConfigurationType ]
-  - HasProperty:
-    - [ UAVariable, 26850, ApplicationUri, UriString, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
-  - HasProperty:
-    - [ UAVariable, 26851, ProductUri, UriString, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
-  - HasProperty:
-    - [ UAVariable, 26852, ApplicationType, ApplicationType, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-      - HasTypeDefinition:
-        - [ UAObjectType, 77, ModellingRuleType ]
   - HasProperty:
     - [ UAVariable, 26849, Enabled, Boolean, 0, 0 ]
     - HasModellingRule:

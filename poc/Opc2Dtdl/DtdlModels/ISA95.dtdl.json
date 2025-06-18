@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:ISA95:ISA95ClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4957",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -30,6 +31,7 @@
     ],
     "@id": "dtmi:opcua:ISA95:ISA95ObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4958",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -49,6 +51,7 @@
     ],
     "@id": "dtmi:opcua:ISA95:ISA95TestSpecificationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4959",
     "payloadFormat": "Json/ecma/404",
     "schemas": [

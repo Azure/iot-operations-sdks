@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:Safety:SafetyConsumerParametersType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1006",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -30,6 +31,7 @@
     ],
     "@id": "dtmi:opcua:Safety:SafetyObjectsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1004",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -89,6 +91,7 @@
     ],
     "@id": "dtmi:opcua:Safety:SafetyPDUsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1007",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -108,6 +111,7 @@
     ],
     "@id": "dtmi:opcua:Safety:SafetyProviderParametersType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [

@@ -150,23 +150,5 @@ DefinedTypes:
 
   Machinery.Result:ResultTransferType:
   - [ UAObjectType, Machinery.Result:1003, Machinery.Result:ResultTransferType ]
-  - HasComponent:
-    - [ UAMethod, Machinery.Result:7001, Machinery.Result:GenerateFileForRead ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-    - HasProperty:
-      - [ UAVariable, Machinery.Result:6035, Machinery.Result:InputArguments, Argument, 1, 0 ]
-      - Arguments:
-          GenerateOptions: [ Machinery.Result:BaseResultTransferOptionsDataType, 0 ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
-    - HasProperty:
-      - [ UAVariable, Machinery.Result:6036, Machinery.Result:OutputArguments, Argument, 1, 0 ]
-      - Arguments:
-          FileNodeId: [ NodeId, 0 ]
-          FileHandle: [ UInt32, 0 ]
-          CompletionStateMachine: [ NodeId, 0 ]
-      - HasModellingRule:
-        - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 15744, TemporaryFileTransferType ]

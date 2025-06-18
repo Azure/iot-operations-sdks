@@ -9,8 +9,28 @@
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;1"
     ],
+    "@id": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "typeRef": "nsu=http://opcfoundation.org/UA;i=58",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:onvif;1",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;4",
+      "dtmi:dtdl:extension:opcua;1",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
     "@id": "dtmi:opcua:OpcUaCore:FolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=61",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -30,6 +50,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DataTypeSystemType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=75",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -49,6 +70,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DataTypeEncodingType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=76",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -68,6 +90,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ModellingRuleType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=77",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -87,6 +110,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ServerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2004",
     "commandTopic": "opcua/OpcUaCore/ServerType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/ServerType/{telemetryName}/{senderId}",
@@ -516,6 +540,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ServerCapabilitiesType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2013",
     "commandTopic": "opcua/OpcUaCore/ServerCapabilitiesType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/ServerCapabilitiesType/{telemetryName}/{senderId}",
@@ -739,6 +764,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ServerDiagnosticsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2020",
     "commandTopic": "opcua/OpcUaCore/ServerDiagnosticsType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/ServerDiagnosticsType/{telemetryName}/{senderId}",
@@ -1135,6 +1161,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:SessionsDiagnosticsSummaryType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2026",
     "telemetryTopic": "opcua/OpcUaCore/SessionsDiagnosticsSummaryType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1569,6 +1596,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:SessionDiagnosticsObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2029",
     "commandTopic": "opcua/OpcUaCore/SessionDiagnosticsObjectType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/SessionDiagnosticsObjectType/{telemetryName}/{senderId}",
@@ -2511,6 +2539,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:VendorServerInfoType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2033",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2530,6 +2559,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ServerRedundancyType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2034",
     "commandTopic": "opcua/OpcUaCore/ServerRedundancyType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/ServerRedundancyType/{telemetryName}/{senderId}",
@@ -2662,85 +2692,14 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:TransparentRedundancyType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:ServerRedundancyType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2036",
     "commandTopic": "opcua/OpcUaCore/TransparentRedundancyType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/TransparentRedundancyType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
-      {
-        "@id": "dtmi:opcua:OpcUaCore:TransparentRedundancyType:dataType:RedundantServerDataType;1",
-        "@type": [ "Object", "Congruence" ],
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=853",
-        "fields": [
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "ServerId",
-            "schema": "string"
-          },
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "ServiceLevel",
-            "schema": "unsignedByte"
-          },
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "ServerState",
-            "schema": "dtmi:opcua:OpcUaCore:TransparentRedundancyType:dataType:ServerState;1"
-          }
-        ]
-      },
-      {
-        "@id": "dtmi:opcua:OpcUaCore:TransparentRedundancyType:dataType:ServerState;1",
-        "@type": [ "Enum", "Congruence" ],
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=852",
-        "valueSchema": "integer",
-        "enumValues": [
-          {
-            "name": "Running",
-            "enumValue": 0
-          },
-          {
-            "name": "Failed",
-            "enumValue": 1
-          },
-          {
-            "name": "NoConfiguration",
-            "enumValue": 2
-          },
-          {
-            "name": "Suspended",
-            "enumValue": 3
-          },
-          {
-            "name": "Shutdown",
-            "enumValue": 4
-          },
-          {
-            "name": "Test",
-            "enumValue": 5
-          },
-          {
-            "name": "CommunicationFault",
-            "enumValue": 6
-          },
-          {
-            "name": "Unknown",
-            "enumValue": 7
-          }
-        ]
-      }
     ],
     "contents": [
-      {
-        "@type": [ "Property", "Qualified" ],
-        "name": "RedundantServerArray",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": {
-          "@type": "Array",
-          "elementSchema": "dtmi:opcua:OpcUaCore:TransparentRedundancyType:dataType:RedundantServerDataType;1"
-        },
-        "writable": false
-      },
       {
         "@type": [ "Property", "Qualified" ],
         "name": "CurrentServerId",
@@ -2762,6 +2721,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:NonTransparentRedundancyType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:ServerRedundancyType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2039",
     "commandTopic": "opcua/OpcUaCore/NonTransparentRedundancyType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/NonTransparentRedundancyType/{telemetryName}/{senderId}",
@@ -2793,6 +2753,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:NonTransparentNetworkRedundancyType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:NonTransparentRedundancyType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11945",
     "commandTopic": "opcua/OpcUaCore/NonTransparentNetworkRedundancyType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/NonTransparentNetworkRedundancyType/{telemetryName}/{senderId}",
@@ -2859,33 +2820,12 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:NonTransparentBackupRedundancyType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:NonTransparentRedundancyType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32411",
     "commandTopic": "opcua/OpcUaCore/NonTransparentBackupRedundancyType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/NonTransparentBackupRedundancyType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
-      {
-        "@id": "dtmi:opcua:OpcUaCore:NonTransparentBackupRedundancyType:dataType:RedundantServerDataType;1",
-        "@type": [ "Object", "Congruence" ],
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=853",
-        "fields": [
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "ServerId",
-            "schema": "string"
-          },
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "ServiceLevel",
-            "schema": "unsignedByte"
-          },
-          {
-            "@type": [ "Field", "Required" ],
-            "name": "ServerState",
-            "schema": "dtmi:opcua:OpcUaCore:NonTransparentBackupRedundancyType:dataType:ServerState;1"
-          }
-        ]
-      },
       {
         "@id": "dtmi:opcua:OpcUaCore:NonTransparentBackupRedundancyType:dataType:RedundantServerMode;1",
         "@type": [ "Enum", "Congruence" ],
@@ -2909,59 +2849,9 @@
             "enumValue": 3
           }
         ]
-      },
-      {
-        "@id": "dtmi:opcua:OpcUaCore:NonTransparentBackupRedundancyType:dataType:ServerState;1",
-        "@type": [ "Enum", "Congruence" ],
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=852",
-        "valueSchema": "integer",
-        "enumValues": [
-          {
-            "name": "Running",
-            "enumValue": 0
-          },
-          {
-            "name": "Failed",
-            "enumValue": 1
-          },
-          {
-            "name": "NoConfiguration",
-            "enumValue": 2
-          },
-          {
-            "name": "Suspended",
-            "enumValue": 3
-          },
-          {
-            "name": "Shutdown",
-            "enumValue": 4
-          },
-          {
-            "name": "Test",
-            "enumValue": 5
-          },
-          {
-            "name": "CommunicationFault",
-            "enumValue": 6
-          },
-          {
-            "name": "Unknown",
-            "enumValue": 7
-          }
-        ]
       }
     ],
     "contents": [
-      {
-        "@type": [ "Property", "Qualified" ],
-        "name": "RedundantServerArray",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": {
-          "@type": "Array",
-          "elementSchema": "dtmi:opcua:OpcUaCore:NonTransparentBackupRedundancyType:dataType:RedundantServerDataType;1"
-        },
-        "writable": false
-      },
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Mode",
@@ -2988,6 +2878,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:OperationLimitsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11564",
     "commandTopic": "opcua/OpcUaCore/OperationLimitsType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/OperationLimitsType/{telemetryName}/{senderId}",
@@ -3093,6 +2984,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:FileType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11575",
     "commandTopic": "opcua/OpcUaCore/FileType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/FileType/{telemetryName}/{senderId}",
@@ -3334,6 +3226,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AddressSpaceFileType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FileType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11595",
     "commandTopic": "opcua/OpcUaCore/AddressSpaceFileType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -3359,6 +3252,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:NamespaceMetadataType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11616",
     "commandTopic": "opcua/OpcUaCore/NamespaceMetadataType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/NamespaceMetadataType/{telemetryName}/{senderId}",
@@ -3623,6 +3517,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:NamespacesType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11645",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3648,6 +3543,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2041",
     "commandTopic": "opcua/OpcUaCore/BaseEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/BaseEventType/{telemetryName}/{senderId}",
@@ -3783,6 +3679,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2052",
     "commandTopic": "opcua/OpcUaCore/AuditEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditEventType/{telemetryName}/{senderId}",
@@ -3839,6 +3736,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditSecurityEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2058",
     "commandTopic": "opcua/OpcUaCore/AuditSecurityEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditSecurityEventType/{telemetryName}/{senderId}",
@@ -3867,6 +3765,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditChannelEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditSecurityEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2059",
     "commandTopic": "opcua/OpcUaCore/AuditChannelEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditChannelEventType/{telemetryName}/{senderId}",
@@ -3895,6 +3794,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditOpenSecureChannelEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditChannelEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2060",
     "commandTopic": "opcua/OpcUaCore/AuditOpenSecureChannelEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditOpenSecureChannelEventType/{telemetryName}/{senderId}",
@@ -4005,6 +3905,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditSessionEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditSecurityEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2069",
     "commandTopic": "opcua/OpcUaCore/AuditSessionEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditSessionEventType/{telemetryName}/{senderId}",
@@ -4033,6 +3934,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCreateSessionEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditSessionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2071",
     "commandTopic": "opcua/OpcUaCore/AuditCreateSessionEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditCreateSessionEventType/{telemetryName}/{senderId}",
@@ -4082,6 +3984,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditUrlMismatchEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditCreateSessionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2748",
     "commandTopic": "opcua/OpcUaCore/AuditUrlMismatchEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditUrlMismatchEventType/{telemetryName}/{senderId}",
@@ -4110,6 +4013,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditActivateSessionEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditSessionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2075",
     "commandTopic": "opcua/OpcUaCore/AuditActivateSessionEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditActivateSessionEventType/{telemetryName}/{senderId}",
@@ -4194,6 +4098,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCancelEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditSessionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2078",
     "commandTopic": "opcua/OpcUaCore/AuditCancelEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditCancelEventType/{telemetryName}/{senderId}",
@@ -4222,6 +4127,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCertificateEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditSecurityEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2080",
     "commandTopic": "opcua/OpcUaCore/AuditCertificateEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditCertificateEventType/{telemetryName}/{senderId}",
@@ -4250,6 +4156,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCertificateDataMismatchEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditCertificateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2082",
     "commandTopic": "opcua/OpcUaCore/AuditCertificateDataMismatchEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditCertificateDataMismatchEventType/{telemetryName}/{senderId}",
@@ -4285,6 +4192,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCertificateExpiredEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditCertificateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2085",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4304,6 +4212,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCertificateInvalidEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditCertificateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2086",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4323,6 +4232,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCertificateUntrustedEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditCertificateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2087",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4342,6 +4252,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCertificateRevokedEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditCertificateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2088",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4361,6 +4272,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCertificateMismatchEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditCertificateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2089",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4380,6 +4292,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditNodeManagementEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2090",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4399,6 +4312,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditAddNodesEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditNodeManagementEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2091",
     "commandTopic": "opcua/OpcUaCore/AuditAddNodesEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditAddNodesEventType/{telemetryName}/{senderId}",
@@ -4516,6 +4430,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditDeleteNodesEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditNodeManagementEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2093",
     "commandTopic": "opcua/OpcUaCore/AuditDeleteNodesEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditDeleteNodesEventType/{telemetryName}/{senderId}",
@@ -4564,6 +4479,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditAddReferencesEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditNodeManagementEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2095",
     "commandTopic": "opcua/OpcUaCore/AuditAddReferencesEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditAddReferencesEventType/{telemetryName}/{senderId}",
@@ -4676,6 +4592,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditDeleteReferencesEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditNodeManagementEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2097",
     "commandTopic": "opcua/OpcUaCore/AuditDeleteReferencesEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditDeleteReferencesEventType/{telemetryName}/{senderId}",
@@ -4739,6 +4656,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditUpdateEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2099",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4758,6 +4676,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditWriteUpdateEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditUpdateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2100",
     "commandTopic": "opcua/OpcUaCore/AuditWriteUpdateEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditWriteUpdateEventType/{telemetryName}/{senderId}",
@@ -4807,6 +4726,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryUpdateEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditUpdateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2104",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryUpdateEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditHistoryUpdateEventType/{telemetryName}/{senderId}",
@@ -4835,6 +4755,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2127",
     "commandTopic": "opcua/OpcUaCore/AuditUpdateMethodEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditUpdateMethodEventType/{telemetryName}/{senderId}",
@@ -4884,6 +4805,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:SystemEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2130",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4903,6 +4825,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DeviceFailureEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:SystemEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2131",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4922,6 +4845,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:SystemStatusChangeEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:SystemEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11446",
     "commandTopic": "opcua/OpcUaCore/SystemStatusChangeEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/SystemStatusChangeEventType/{telemetryName}/{senderId}",
@@ -4990,6 +4914,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:BaseModelChangeEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2132",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5009,6 +4934,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:GeneralModelChangeEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseModelChangeEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2133",
     "commandTopic": "opcua/OpcUaCore/GeneralModelChangeEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/GeneralModelChangeEventType/{telemetryName}/{senderId}",
@@ -5062,6 +4988,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:SemanticChangeEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2738",
     "commandTopic": "opcua/OpcUaCore/SemanticChangeEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/SemanticChangeEventType/{telemetryName}/{senderId}",
@@ -5110,6 +5037,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:EventQueueOverflowEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=3035",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5129,6 +5057,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ProgressEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11436",
     "commandTopic": "opcua/OpcUaCore/ProgressEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/ProgressEventType/{telemetryName}/{senderId}",
@@ -5164,6 +5093,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditClientEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23606",
     "commandTopic": "opcua/OpcUaCore/AuditClientEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditClientEventType/{telemetryName}/{senderId}",
@@ -5192,6 +5122,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditClientUpdateMethodResultEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditClientEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23926",
     "commandTopic": "opcua/OpcUaCore/AuditClientUpdateMethodResultEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditClientUpdateMethodResultEventType/{telemetryName}/{senderId}",
@@ -5248,6 +5179,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AggregateFunctionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2340",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5267,6 +5199,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:StateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2299",
     "telemetryTopic": "opcua/OpcUaCore/StateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -5299,24 +5232,13 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:StateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2771",
     "telemetryTopic": "opcua/OpcUaCore/FiniteStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
     "contents": [
-      {
-        "@type": [ "Telemetry", "Qualified" ],
-        "name": "CurrentState",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": "string"
-      },
-      {
-        "@type": [ "Telemetry", "Qualified" ],
-        "name": "LastTransition",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": "string"
-      },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AvailableStates",
@@ -5349,6 +5271,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:StateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2307",
     "commandTopic": "opcua/OpcUaCore/StateType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/StateType/{telemetryName}/{senderId}",
@@ -5377,6 +5300,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:InitialStateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:StateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2309",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5396,6 +5320,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:TransitionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2310",
     "commandTopic": "opcua/OpcUaCore/TransitionType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/TransitionType/{telemetryName}/{senderId}",
@@ -5424,6 +5349,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ChoiceStateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:StateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15109",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5443,6 +5369,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2311",
     "telemetryTopic": "opcua/OpcUaCore/TransitionEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -5481,6 +5408,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditUpdateStateEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2315",
     "commandTopic": "opcua/OpcUaCore/AuditUpdateStateEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditUpdateStateEventType/{telemetryName}/{senderId}",
@@ -5516,6 +5444,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:FileDirectoryType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=13353",
     "commandTopic": "opcua/OpcUaCore/FileDirectoryType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -5679,6 +5608,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15744",
     "commandTopic": "opcua/OpcUaCore/TemporaryFileTransferType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/TemporaryFileTransferType/{telemetryName}/{senderId}",
@@ -5827,6 +5757,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:FileTransferStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15803",
     "commandTopic": "opcua/OpcUaCore/FileTransferStateMachineType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -5936,6 +5867,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:RoleSetType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15607",
     "commandTopic": "opcua/OpcUaCore/RoleSetType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -6019,6 +5951,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:RoleType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15620",
     "commandTopic": "opcua/OpcUaCore/RoleType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/RoleType/{telemetryName}/{senderId}",
@@ -6317,6 +6250,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:RoleMappingRuleChangedAuditEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17641",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6336,6 +6270,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DictionaryEntryType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17589",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6361,6 +6296,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DictionaryFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17591",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6392,6 +6328,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:IrdiDictionaryEntryType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:DictionaryEntryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17598",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6411,6 +6348,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:UriDictionaryEntryType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:DictionaryEntryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17600",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6430,6 +6368,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17602",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6449,6 +6388,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:IOrderedObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23513",
     "commandTopic": "opcua/OpcUaCore/IOrderedObjectType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/IOrderedObjectType/{telemetryName}/{senderId}",
@@ -6477,6 +6417,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:OrderedListType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23518",
     "commandTopic": "opcua/OpcUaCore/OrderedListType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/OrderedListType/{telemetryName}/{senderId}",
@@ -6505,6 +6446,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:SyntaxReferenceEntryType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:DictionaryEntryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32439",
     "commandTopic": "opcua/OpcUaCore/SyntaxReferenceEntryType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/SyntaxReferenceEntryType/{telemetryName}/{senderId}",
@@ -6533,6 +6475,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:UnitType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32442",
     "commandTopic": "opcua/OpcUaCore/UnitType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/UnitType/{telemetryName}/{senderId}",
@@ -6575,6 +6518,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ServerUnitType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:UnitType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32447",
     "commandTopic": "opcua/OpcUaCore/ServerUnitType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/ServerUnitType/{telemetryName}/{senderId}",
@@ -6635,6 +6579,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AlternativeUnitType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:UnitType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32467",
     "commandTopic": "opcua/OpcUaCore/AlternativeUnitType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AlternativeUnitType/{telemetryName}/{senderId}",
@@ -6704,6 +6649,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:QuantityType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32475",
     "commandTopic": "opcua/OpcUaCore/QuantityType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/QuantityType/{telemetryName}/{senderId}",
@@ -6831,6 +6777,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:QuantitiesFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32502",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6850,6 +6797,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2782",
     "commandTopic": "opcua/OpcUaCore/ConditionType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/ConditionType/{telemetryName}/{senderId}",
@@ -6857,40 +6805,6 @@
     "schemas": [
     ],
     "contents": [
-      {
-        "@type": [ "Property", "Qualified" ],
-        "name": "ConditionClassId",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": "string",
-        "writable": false
-      },
-      {
-        "@type": [ "Property", "Qualified" ],
-        "name": "ConditionClassName",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": "string",
-        "writable": false
-      },
-      {
-        "@type": [ "Property", "Qualified" ],
-        "name": "ConditionSubClassId",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": {
-          "@type": "Array",
-          "elementSchema": "string"
-        },
-        "writable": false
-      },
-      {
-        "@type": [ "Property", "Qualified" ],
-        "name": "ConditionSubClassName",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": {
-          "@type": "Array",
-          "elementSchema": "string"
-        },
-        "writable": false
-      },
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ConditionName",
@@ -7041,6 +6955,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DialogConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2830",
     "commandTopic": "opcua/OpcUaCore/DialogConditionType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/DialogConditionType/{telemetryName}/{senderId}",
@@ -7092,12 +7007,6 @@
         "namespace": "http://opcfoundation.org/UA",
         "schema": "integer",
         "writable": false
-      },
-      {
-        "@type": [ "Telemetry", "Qualified" ],
-        "name": "EnabledState",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
@@ -7162,6 +7071,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AcknowledgeableConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2881",
     "commandTopic": "opcua/OpcUaCore/AcknowledgeableConditionType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AcknowledgeableConditionType/{telemetryName}/{senderId}",
@@ -7169,12 +7079,6 @@
     "schemas": [
     ],
     "contents": [
-      {
-        "@type": [ "Telemetry", "Qualified" ],
-        "name": "EnabledState",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": "string"
-      },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AckedState",
@@ -7249,6 +7153,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AcknowledgeableConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2915",
     "commandTopic": "opcua/OpcUaCore/AlarmConditionType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AlarmConditionType/{telemetryName}/{senderId}",
@@ -7304,12 +7209,6 @@
         "namespace": "http://opcfoundation.org/UA",
         "schema": "duration",
         "writable": false
-      },
-      {
-        "@type": [ "Telemetry", "Qualified" ],
-        "name": "EnabledState",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
@@ -7532,6 +7431,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AlarmGroupType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=16405",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -7551,6 +7451,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AlarmSuppressionGroupType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AlarmGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32064",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -7570,6 +7471,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ShelvedStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2929",
     "commandTopic": "opcua/OpcUaCore/ShelvedStateMachineType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/ShelvedStateMachineType/{telemetryName}/{senderId}",
@@ -7743,6 +7645,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:LimitAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2955",
     "commandTopic": "opcua/OpcUaCore/LimitAlarmType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/LimitAlarmType/{telemetryName}/{senderId}",
@@ -7876,6 +7779,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ExclusiveLimitStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=9318",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -7943,18 +7847,12 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ExclusiveLimitAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:LimitAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=9341",
-    "telemetryTopic": "opcua/OpcUaCore/ExclusiveLimitAlarmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
     "contents": [
-      {
-        "@type": [ "Telemetry", "Qualified" ],
-        "name": "ActiveState",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": "string"
-      },
       {
         "@type": [ "Relationship", "Qualified" ],
         "name": "LimitState",
@@ -7975,18 +7873,13 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:NonExclusiveLimitAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:LimitAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=9906",
     "telemetryTopic": "opcua/OpcUaCore/NonExclusiveLimitAlarmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
     "contents": [
-      {
-        "@type": [ "Telemetry", "Qualified" ],
-        "name": "ActiveState",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": "string"
-      },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "HighHighState",
@@ -8025,6 +7918,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:NonExclusiveLevelAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:NonExclusiveLimitAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=10060",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8044,6 +7938,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ExclusiveLevelAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:ExclusiveLimitAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=9482",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8063,6 +7958,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:NonExclusiveDeviationAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:NonExclusiveLimitAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=10368",
     "commandTopic": "opcua/OpcUaCore/NonExclusiveDeviationAlarmType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/NonExclusiveDeviationAlarmType/{telemetryName}/{senderId}",
@@ -8098,6 +7994,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:NonExclusiveRateOfChangeAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:NonExclusiveLimitAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=10214",
     "commandTopic": "opcua/OpcUaCore/NonExclusiveRateOfChangeAlarmType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/NonExclusiveRateOfChangeAlarmType/{telemetryName}/{senderId}",
@@ -8126,6 +8023,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ExclusiveDeviationAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:ExclusiveLimitAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=9764",
     "commandTopic": "opcua/OpcUaCore/ExclusiveDeviationAlarmType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/ExclusiveDeviationAlarmType/{telemetryName}/{senderId}",
@@ -8161,6 +8059,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ExclusiveRateOfChangeAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:ExclusiveLimitAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=9623",
     "commandTopic": "opcua/OpcUaCore/ExclusiveRateOfChangeAlarmType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/ExclusiveRateOfChangeAlarmType/{telemetryName}/{senderId}",
@@ -8189,6 +8088,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DiscreteAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=10523",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8208,6 +8108,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:DiscreteAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=10637",
     "commandTopic": "opcua/OpcUaCore/OffNormalAlarmType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/OffNormalAlarmType/{telemetryName}/{senderId}",
@@ -8236,6 +8137,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:SystemOffNormalAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11753",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8255,6 +8157,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:TripAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=10751",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8274,6 +8177,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:InstrumentDiagnosticAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=18347",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8293,6 +8197,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:SystemDiagnosticAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=18496",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8312,6 +8217,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:CertificateExpirationAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:SystemOffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=13225",
     "commandTopic": "opcua/OpcUaCore/CertificateExpirationAlarmType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/CertificateExpirationAlarmType/{telemetryName}/{senderId}",
@@ -8361,6 +8267,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DiscrepancyAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17080",
     "commandTopic": "opcua/OpcUaCore/DiscrepancyAlarmType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/DiscrepancyAlarmType/{telemetryName}/{senderId}",
@@ -8403,6 +8310,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11163",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8422,6 +8330,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ProcessConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11164",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8441,6 +8350,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:MaintenanceConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11165",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8460,6 +8370,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:SystemConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11166",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8479,6 +8390,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:SafetyConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17218",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8498,6 +8410,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:HighlyManagedAlarmConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17219",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8517,6 +8430,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:TrainingConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17220",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8536,6 +8450,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:StatisticalConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=18665",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8555,6 +8470,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:TestingConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17221",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8574,6 +8490,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2790",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8593,6 +8510,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionEnableEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2803",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8612,6 +8530,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionCommentEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2829",
     "commandTopic": "opcua/OpcUaCore/AuditConditionCommentEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditConditionCommentEventType/{telemetryName}/{senderId}",
@@ -8647,6 +8566,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionRespondEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=8927",
     "commandTopic": "opcua/OpcUaCore/AuditConditionRespondEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditConditionRespondEventType/{telemetryName}/{senderId}",
@@ -8675,6 +8595,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionAcknowledgeEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=8944",
     "commandTopic": "opcua/OpcUaCore/AuditConditionAcknowledgeEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditConditionAcknowledgeEventType/{telemetryName}/{senderId}",
@@ -8710,6 +8631,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionConfirmEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=8961",
     "commandTopic": "opcua/OpcUaCore/AuditConditionConfirmEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditConditionConfirmEventType/{telemetryName}/{senderId}",
@@ -8745,6 +8667,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionShelvingEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11093",
     "commandTopic": "opcua/OpcUaCore/AuditConditionShelvingEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditConditionShelvingEventType/{telemetryName}/{senderId}",
@@ -8773,6 +8696,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionSuppressionEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17225",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8792,6 +8716,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionSilenceEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17242",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8811,6 +8736,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionResetEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15013",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8830,6 +8756,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionOutOfServiceEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17259",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8849,6 +8776,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:RefreshStartEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:SystemEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2787",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8868,6 +8796,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:RefreshEndEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:SystemEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2788",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8887,6 +8816,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:RefreshRequiredEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:SystemEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2789",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8906,6 +8836,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AlarmMetricsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17279",
     "commandTopic": "opcua/OpcUaCore/AlarmMetricsType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AlarmMetricsType/{telemetryName}/{senderId}",
@@ -8980,6 +8911,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ProgramStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2391",
     "commandTopic": "opcua/OpcUaCore/ProgramStateMachineType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/ProgramStateMachineType/{telemetryName}/{senderId}",
@@ -9149,18 +9081,6 @@
         "namespace": "http://opcfoundation.org/UA",
         "schema": "unsignedInteger",
         "writable": false
-      },
-      {
-        "@type": [ "Telemetry", "Qualified" ],
-        "name": "CurrentState",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": "string"
-      },
-      {
-        "@type": [ "Telemetry", "Qualified" ],
-        "name": "LastTransition",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
@@ -9373,6 +9293,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ProgramTransitionEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2378",
     "telemetryTopic": "opcua/OpcUaCore/ProgramTransitionEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -9399,6 +9320,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditProgramTransitionEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditUpdateStateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11856",
     "commandTopic": "opcua/OpcUaCore/AuditProgramTransitionEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditProgramTransitionEventType/{telemetryName}/{senderId}",
@@ -9427,6 +9349,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ProgramTransitionAuditEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditUpdateStateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=3806",
     "telemetryTopic": "opcua/OpcUaCore/ProgramTransitionAuditEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -9453,6 +9376,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:HistoricalDataConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2318",
     "commandTopic": "opcua/OpcUaCore/HistoricalDataConfigurationType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/HistoricalDataConfigurationType/{telemetryName}/{senderId}",
@@ -9591,6 +9515,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:HistoricalEventConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32621",
     "commandTopic": "opcua/OpcUaCore/HistoricalEventConfigurationType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/HistoricalEventConfigurationType/{telemetryName}/{senderId}",
@@ -9672,6 +9597,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:HistoricalExternalEventSourceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32625",
     "commandTopic": "opcua/OpcUaCore/HistoricalExternalEventSourceType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/HistoricalExternalEventSourceType/{telemetryName}/{senderId}",
@@ -9987,6 +9913,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:HistoryServerCapabilitiesType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2330",
     "commandTopic": "opcua/OpcUaCore/HistoryServerCapabilitiesType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/HistoryServerCapabilitiesType/{telemetryName}/{senderId}",
@@ -10119,6 +10046,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryEventUpdateEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditHistoryUpdateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2999",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryEventUpdateEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditHistoryEventUpdateEventType/{telemetryName}/{senderId}",
@@ -10370,6 +10298,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryValueUpdateEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditHistoryUpdateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=3006",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryValueUpdateEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditHistoryValueUpdateEventType/{telemetryName}/{senderId}",
@@ -10449,6 +10378,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryAnnotationUpdateEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditHistoryUpdateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=19095",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryAnnotationUpdateEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditHistoryAnnotationUpdateEventType/{telemetryName}/{senderId}",
@@ -10543,6 +10473,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryDeleteEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditHistoryUpdateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=3012",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryDeleteEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditHistoryDeleteEventType/{telemetryName}/{senderId}",
@@ -10571,6 +10502,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryRawModifyDeleteEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditHistoryDeleteEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=3014",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryRawModifyDeleteEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditHistoryRawModifyDeleteEventType/{telemetryName}/{senderId}",
@@ -10623,6 +10555,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryAtTimeDeleteEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditHistoryDeleteEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=3019",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryAtTimeDeleteEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditHistoryAtTimeDeleteEventType/{telemetryName}/{senderId}",
@@ -10664,6 +10597,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryEventDeleteEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditHistoryDeleteEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=3022",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryEventDeleteEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditHistoryEventDeleteEventType/{telemetryName}/{senderId}",
@@ -10702,6 +10636,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryConfigurationChangeEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32758",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -10721,6 +10656,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryBulkInsertEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32803",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryBulkInsertEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuditHistoryBulkInsertEventType/{telemetryName}/{senderId}",
@@ -10763,6 +10699,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:TrustListType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FileType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=12522",
     "commandTopic": "opcua/OpcUaCore/TrustListType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/TrustListType/{telemetryName}/{senderId}",
@@ -10962,6 +10899,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:TrustListOutOfDateAlarmType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:SystemOffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=19297",
     "commandTopic": "opcua/OpcUaCore/TrustListOutOfDateAlarmType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/TrustListOutOfDateAlarmType/{telemetryName}/{senderId}",
@@ -11004,6 +10942,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:CertificateGroupType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=12555",
     "commandTopic": "opcua/OpcUaCore/CertificateGroupType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/CertificateGroupType/{telemetryName}/{senderId}",
@@ -11075,6 +11014,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:CertificateGroupFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=13813",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -11112,6 +11052,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:CertificateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=12556",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -11131,6 +11072,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ApplicationCertificateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:CertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=12557",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -11150,6 +11092,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:HttpsCertificateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:CertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=12558",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -11169,6 +11112,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:UserCredentialCertificateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:CertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15181",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -11188,6 +11132,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:RsaMinApplicationCertificateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:ApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=12559",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -11207,6 +11152,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:RsaSha256ApplicationCertificateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:ApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=12560",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -11226,6 +11172,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:EccApplicationCertificateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:ApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23537",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -11245,6 +11192,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:EccNistP256ApplicationCertificateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:EccApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23538",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -11264,6 +11212,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:EccNistP384ApplicationCertificateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:EccApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23539",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -11283,6 +11232,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:EccBrainpoolP256r1ApplicationCertificateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:EccApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23540",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -11302,6 +11252,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:EccBrainpoolP384r1ApplicationCertificateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:EccApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23541",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -11321,6 +11272,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:EccCurve25519ApplicationCertificateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:EccApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23542",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -11340,6 +11292,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:EccCurve448ApplicationCertificateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:EccApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23543",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -11359,6 +11312,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:TrustListUpdateRequestedAuditEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32260",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -11378,6 +11332,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:TrustListUpdatedAuditEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=12561",
     "commandTopic": "opcua/OpcUaCore/TrustListUpdatedAuditEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/TrustListUpdatedAuditEventType/{telemetryName}/{senderId}",
@@ -11406,6 +11361,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:TransactionDiagnosticsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32286",
     "commandTopic": "opcua/OpcUaCore/TransactionDiagnosticsType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/TransactionDiagnosticsType/{telemetryName}/{senderId}",
@@ -11500,6 +11456,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ApplicationConfigurationFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=16662",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -11519,6 +11476,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ServerConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=12581",
     "commandTopic": "opcua/OpcUaCore/ServerConfigurationType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/ServerConfigurationType/{telemetryName}/{senderId}",
@@ -11857,6 +11815,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:CertificateUpdateRequestedAuditEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32306",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -11876,6 +11835,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:CertificateUpdatedAuditEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=12620",
     "commandTopic": "opcua/OpcUaCore/CertificateUpdatedAuditEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/CertificateUpdatedAuditEventType/{telemetryName}/{senderId}",
@@ -11911,6 +11871,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:KeyCredentialConfigurationFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17496",
     "commandTopic": "opcua/OpcUaCore/KeyCredentialConfigurationFolderType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -11988,6 +11949,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:KeyCredentialConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=18001",
     "commandTopic": "opcua/OpcUaCore/KeyCredentialConfigurationType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/KeyCredentialConfigurationType/{telemetryName}/{senderId}",
@@ -12129,6 +12091,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:KeyCredentialAuditEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=18011",
     "commandTopic": "opcua/OpcUaCore/KeyCredentialAuditEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/KeyCredentialAuditEventType/{telemetryName}/{senderId}",
@@ -12157,6 +12120,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:KeyCredentialUpdatedAuditEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:KeyCredentialAuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=18029",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -12176,20 +12140,12 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:KeyCredentialDeletedAuditEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:KeyCredentialAuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=18047",
-    "commandTopic": "opcua/OpcUaCore/KeyCredentialDeletedAuditEventType/{commandName}",
-    "telemetryTopic": "opcua/OpcUaCore/KeyCredentialDeletedAuditEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
     "contents": [
-      {
-        "@type": [ "Property", "Qualified" ],
-        "name": "ResourceUri",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": "string",
-        "writable": false
-      }
     ]
   },
   {
@@ -12204,6 +12160,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuthorizationServicesConfigurationFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23556",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -12229,6 +12186,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuthorizationServiceConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17852",
     "commandTopic": "opcua/OpcUaCore/AuthorizationServiceConfigurationType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AuthorizationServiceConfigurationType/{telemetryName}/{senderId}",
@@ -12271,6 +12229,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AggregateConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11187",
     "commandTopic": "opcua/OpcUaCore/AggregateConfigurationType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AggregateConfigurationType/{telemetryName}/{senderId}",
@@ -12320,6 +12279,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubKeyServiceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15906",
     "commandTopic": "opcua/OpcUaCore/PubSubKeyServiceType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -12451,6 +12411,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:SecurityGroupFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15452",
     "commandTopic": "opcua/OpcUaCore/SecurityGroupFolderType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/SecurityGroupFolderType/{telemetryName}/{senderId}",
@@ -12617,6 +12578,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:SecurityGroupType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15471",
     "commandTopic": "opcua/OpcUaCore/SecurityGroupType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/SecurityGroupType/{telemetryName}/{senderId}",
@@ -12683,6 +12645,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubKeyPushTargetType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=25337",
     "commandTopic": "opcua/OpcUaCore/PubSubKeyPushTargetType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/PubSubKeyPushTargetType/{telemetryName}/{senderId}",
@@ -12899,6 +12862,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubKeyPushTargetFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=25346",
     "commandTopic": "opcua/OpcUaCore/PubSubKeyPushTargetFolderType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -13110,6 +13074,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PublishSubscribeType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:PubSubKeyServiceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=14416",
     "commandTopic": "opcua/OpcUaCore/PublishSubscribeType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/PublishSubscribeType/{telemetryName}/{senderId}",
@@ -14005,6 +13970,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FileType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=25482",
     "commandTopic": "opcua/OpcUaCore/PubSubConfigurationType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -14263,6 +14229,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PublishedDataSetType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=14509",
     "commandTopic": "opcua/OpcUaCore/PublishedDataSetType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/PublishedDataSetType/{telemetryName}/{senderId}",
@@ -14462,6 +14429,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ExtensionFieldsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15489",
     "commandTopic": "opcua/OpcUaCore/ExtensionFieldsType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/ExtensionFieldsType/{telemetryName}/{senderId}",
@@ -14557,6 +14525,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PublishedDataItemsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:PublishedDataSetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=14534",
     "commandTopic": "opcua/OpcUaCore/PublishedDataItemsType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/PublishedDataItemsType/{telemetryName}/{senderId}",
@@ -14769,6 +14738,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PublishedEventsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:PublishedDataSetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=14572",
     "commandTopic": "opcua/OpcUaCore/PublishedEventsType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/PublishedEventsType/{telemetryName}/{senderId}",
@@ -15033,6 +15003,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DataSetFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=14477",
     "commandTopic": "opcua/OpcUaCore/DataSetFolderType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -15721,6 +15692,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubConnectionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=14209",
     "commandTopic": "opcua/OpcUaCore/PubSubConnectionType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/PubSubConnectionType/{telemetryName}/{senderId}",
@@ -16485,6 +16457,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ConnectionTransportType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17721",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -16504,6 +16477,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubGroupType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=14232",
     "commandTopic": "opcua/OpcUaCore/PubSubGroupType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/PubSubGroupType/{telemetryName}/{senderId}",
@@ -16788,6 +16762,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:WriterGroupType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:PubSubGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17725",
     "commandTopic": "opcua/OpcUaCore/WriterGroupType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/WriterGroupType/{telemetryName}/{senderId}",
@@ -17028,6 +17003,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:WriterGroupTransportType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17997",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -17047,6 +17023,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:WriterGroupMessageType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17998",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -17066,6 +17043,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ReaderGroupType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:PubSubGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17999",
     "commandTopic": "opcua/OpcUaCore/ReaderGroupType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -17629,6 +17607,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ReaderGroupTransportType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21090",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -17648,6 +17627,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ReaderGroupMessageType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21091",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -17667,6 +17647,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DataSetWriterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15298",
     "commandTopic": "opcua/OpcUaCore/DataSetWriterType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/DataSetWriterType/{telemetryName}/{senderId}",
@@ -17792,6 +17773,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DataSetWriterTransportType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15305",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -17811,6 +17793,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DataSetWriterMessageType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21096",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -17830,6 +17813,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DataSetReaderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15306",
     "commandTopic": "opcua/OpcUaCore/DataSetReaderType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/DataSetReaderType/{telemetryName}/{senderId}",
@@ -18586,6 +18570,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DataSetReaderTransportType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15319",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -18605,6 +18590,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DataSetReaderMessageType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21104",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -18624,6 +18610,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:SubscribedDataSetType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15108",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -18643,6 +18630,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:TargetVariablesType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:SubscribedDataSetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15111",
     "commandTopic": "opcua/OpcUaCore/TargetVariablesType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/TargetVariablesType/{telemetryName}/{senderId}",
@@ -18841,6 +18829,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:SubscribedDataSetMirrorType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:SubscribedDataSetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15127",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -18860,6 +18849,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:SubscribedDataSetFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23795",
     "commandTopic": "opcua/OpcUaCore/SubscribedDataSetFolderType/{commandName}",
     "payloadFormat": "Json/ecma/404",
@@ -19164,6 +19154,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:StandaloneSubscribedDataSetType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23828",
     "commandTopic": "opcua/OpcUaCore/StandaloneSubscribedDataSetType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/StandaloneSubscribedDataSetType/{telemetryName}/{senderId}",
@@ -19349,6 +19340,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubStatusType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=14643",
     "commandTopic": "opcua/OpcUaCore/PubSubStatusType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/PubSubStatusType/{telemetryName}/{senderId}",
@@ -19414,6 +19406,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=19677",
     "commandTopic": "opcua/OpcUaCore/PubSubDiagnosticsType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/PubSubDiagnosticsType/{telemetryName}/{senderId}",
@@ -19504,17 +19497,12 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsRootType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=19732",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
     "contents": [
-      {
-        "@type": [ "Relationship", "Qualified" ],
-        "name": "LiveValues",
-        "namespace": "http://opcfoundation.org/UA",
-        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
-      }
     ]
   },
   {
@@ -19529,17 +19517,12 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsConnectionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=19786",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
     "contents": [
-      {
-        "@type": [ "Relationship", "Qualified" ],
-        "name": "LiveValues",
-        "namespace": "http://opcfoundation.org/UA",
-        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
-      }
     ]
   },
   {
@@ -19554,23 +19537,12 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsWriterGroupType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=19834",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
     "contents": [
-      {
-        "@type": [ "Relationship", "Qualified" ],
-        "name": "Counters",
-        "namespace": "http://opcfoundation.org/UA",
-        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
-      },
-      {
-        "@type": [ "Relationship", "Qualified" ],
-        "name": "LiveValues",
-        "namespace": "http://opcfoundation.org/UA",
-        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
-      }
     ]
   },
   {
@@ -19585,23 +19557,12 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsReaderGroupType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=19903",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
     "contents": [
-      {
-        "@type": [ "Relationship", "Qualified" ],
-        "name": "Counters",
-        "namespace": "http://opcfoundation.org/UA",
-        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
-      },
-      {
-        "@type": [ "Relationship", "Qualified" ],
-        "name": "LiveValues",
-        "namespace": "http://opcfoundation.org/UA",
-        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
-      }
     ]
   },
   {
@@ -19616,23 +19577,12 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsDataSetWriterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=19968",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
     "contents": [
-      {
-        "@type": [ "Relationship", "Qualified" ],
-        "name": "Counters",
-        "namespace": "http://opcfoundation.org/UA",
-        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
-      },
-      {
-        "@type": [ "Relationship", "Qualified" ],
-        "name": "LiveValues",
-        "namespace": "http://opcfoundation.org/UA",
-        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
-      }
     ]
   },
   {
@@ -19647,23 +19597,12 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsDataSetReaderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=20027",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
     "contents": [
-      {
-        "@type": [ "Relationship", "Qualified" ],
-        "name": "Counters",
-        "namespace": "http://opcfoundation.org/UA",
-        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
-      },
-      {
-        "@type": [ "Relationship", "Qualified" ],
-        "name": "LiveValues",
-        "namespace": "http://opcfoundation.org/UA",
-        "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
-      }
     ]
   },
   {
@@ -19678,6 +19617,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubCapabilitiesType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23832",
     "commandTopic": "opcua/OpcUaCore/PubSubCapabilitiesType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/PubSubCapabilitiesType/{telemetryName}/{senderId}",
@@ -19811,6 +19751,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubStatusEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:SystemEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15535",
     "commandTopic": "opcua/OpcUaCore/PubSubStatusEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/PubSubStatusEventType/{telemetryName}/{senderId}",
@@ -19881,6 +19822,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubTransportLimitsExceedEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:PubSubStatusEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15548",
     "commandTopic": "opcua/OpcUaCore/PubSubTransportLimitsExceedEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/PubSubTransportLimitsExceedEventType/{telemetryName}/{senderId}",
@@ -19916,6 +19858,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubCommunicationFailureEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:PubSubStatusEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15563",
     "commandTopic": "opcua/OpcUaCore/PubSubCommunicationFailureEventType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/PubSubCommunicationFailureEventType/{telemetryName}/{senderId}",
@@ -19944,6 +19887,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:UadpWriterGroupMessageType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:WriterGroupMessageType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21105",
     "commandTopic": "opcua/OpcUaCore/UadpWriterGroupMessageType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/UadpWriterGroupMessageType/{telemetryName}/{senderId}",
@@ -20075,6 +20019,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:UadpDataSetWriterMessageType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:DataSetWriterMessageType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21111",
     "commandTopic": "opcua/OpcUaCore/UadpDataSetWriterMessageType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/UadpDataSetWriterMessageType/{telemetryName}/{senderId}",
@@ -20156,6 +20101,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:UadpDataSetReaderMessageType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:DataSetReaderMessageType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21116",
     "commandTopic": "opcua/OpcUaCore/UadpDataSetReaderMessageType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/UadpDataSetReaderMessageType/{telemetryName}/{senderId}",
@@ -20324,6 +20270,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:JsonWriterGroupMessageType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:WriterGroupMessageType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21126",
     "commandTopic": "opcua/OpcUaCore/JsonWriterGroupMessageType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/JsonWriterGroupMessageType/{telemetryName}/{senderId}",
@@ -20388,6 +20335,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:JsonDataSetWriterMessageType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:DataSetWriterMessageType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21128",
     "commandTopic": "opcua/OpcUaCore/JsonDataSetWriterMessageType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/JsonDataSetWriterMessageType/{telemetryName}/{senderId}",
@@ -20472,6 +20420,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:JsonDataSetReaderMessageType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:DataSetReaderMessageType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21130",
     "commandTopic": "opcua/OpcUaCore/JsonDataSetReaderMessageType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/JsonDataSetReaderMessageType/{telemetryName}/{senderId}",
@@ -20599,6 +20548,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DatagramConnectionTransportType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:ConnectionTransportType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15064",
     "commandTopic": "opcua/OpcUaCore/DatagramConnectionTransportType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/DatagramConnectionTransportType/{telemetryName}/{senderId}",
@@ -20657,6 +20607,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DatagramWriterGroupTransportType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:WriterGroupTransportType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21133",
     "commandTopic": "opcua/OpcUaCore/DatagramWriterGroupTransportType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/DatagramWriterGroupTransportType/{telemetryName}/{senderId}",
@@ -20729,6 +20680,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:DatagramDataSetReaderTransportType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:DataSetReaderTransportType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24016",
     "commandTopic": "opcua/OpcUaCore/DatagramDataSetReaderTransportType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/DatagramDataSetReaderTransportType/{telemetryName}/{senderId}",
@@ -20780,6 +20732,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:BrokerConnectionTransportType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:ConnectionTransportType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15155",
     "commandTopic": "opcua/OpcUaCore/BrokerConnectionTransportType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/BrokerConnectionTransportType/{telemetryName}/{senderId}",
@@ -20815,6 +20768,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:BrokerWriterGroupTransportType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:WriterGroupTransportType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21136",
     "commandTopic": "opcua/OpcUaCore/BrokerWriterGroupTransportType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/BrokerWriterGroupTransportType/{telemetryName}/{senderId}",
@@ -20892,6 +20846,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:BrokerDataSetWriterTransportType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:DataSetWriterTransportType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21138",
     "commandTopic": "opcua/OpcUaCore/BrokerDataSetWriterTransportType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/BrokerDataSetWriterTransportType/{telemetryName}/{senderId}",
@@ -20983,6 +20938,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:BrokerDataSetReaderTransportType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:DataSetReaderTransportType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21142",
     "commandTopic": "opcua/OpcUaCore/BrokerDataSetReaderTransportType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/BrokerDataSetReaderTransportType/{telemetryName}/{senderId}",
@@ -21067,6 +21023,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:NetworkAddressType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21145",
     "telemetryTopic": "opcua/OpcUaCore/NetworkAddressType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -21093,6 +21050,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:NetworkAddressUrlType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:NetworkAddressType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21147",
     "telemetryTopic": "opcua/OpcUaCore/NetworkAddressUrlType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -21119,6 +21077,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AliasNameType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23455",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -21138,6 +21097,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:AliasNameCategoryType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23456",
     "commandTopic": "opcua/OpcUaCore/AliasNameCategoryType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/AliasNameCategoryType/{telemetryName}/{senderId}",
@@ -21227,6 +21187,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:UserManagementType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24264",
     "commandTopic": "opcua/OpcUaCore/UserManagementType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/UserManagementType/{telemetryName}/{senderId}",
@@ -21512,58 +21473,14 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ApplicationConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:ServerConfigurationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=25731",
     "commandTopic": "opcua/OpcUaCore/ApplicationConfigurationType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/ApplicationConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
-      {
-        "@id": "dtmi:opcua:OpcUaCore:ApplicationConfigurationType:dataType:ApplicationType;1",
-        "@type": [ "Enum", "Congruence" ],
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=307",
-        "valueSchema": "integer",
-        "enumValues": [
-          {
-            "name": "Server",
-            "enumValue": 0
-          },
-          {
-            "name": "Client",
-            "enumValue": 1
-          },
-          {
-            "name": "ClientAndServer",
-            "enumValue": 2
-          },
-          {
-            "name": "DiscoveryServer",
-            "enumValue": 3
-          }
-        ]
-      }
     ],
     "contents": [
-      {
-        "@type": [ "Property", "Qualified" ],
-        "name": "ApplicationUri",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": "string",
-        "writable": false
-      },
-      {
-        "@type": [ "Property", "Qualified" ],
-        "name": "ProductUri",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": "string",
-        "writable": false
-      },
-      {
-        "@type": [ "Property", "Qualified" ],
-        "name": "ApplicationType",
-        "namespace": "http://opcfoundation.org/UA",
-        "schema": "dtmi:opcua:OpcUaCore:ApplicationConfigurationType:dataType:ApplicationType;1",
-        "writable": false
-      },
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Enabled",
@@ -21585,6 +21502,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ProvisionableDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=26871",
     "commandTopic": "opcua/OpcUaCore/ProvisionableDeviceType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/ProvisionableDeviceType/{telemetryName}/{senderId}",
@@ -21732,6 +21650,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:IIetfBaseNetworkInterfaceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24148",
     "telemetryTopic": "opcua/OpcUaCore/IIetfBaseNetworkInterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -21833,6 +21752,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:IIeeeBaseEthernetPortType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24158",
     "telemetryTopic": "opcua/OpcUaCore/IIeeeBaseEthernetPortType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -21892,6 +21812,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:IIeeeAutoNegotiationStatusType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24233",
     "telemetryTopic": "opcua/OpcUaCore/IIeeeAutoNegotiationStatusType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -21946,6 +21867,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:IBaseEthernetCapabilitiesType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24167",
     "telemetryTopic": "opcua/OpcUaCore/IBaseEthernetCapabilitiesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -21972,6 +21894,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:IVlanIdType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=25218",
     "telemetryTopic": "opcua/OpcUaCore/IVlanIdType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -21998,6 +21921,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:ISrClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24169",
     "telemetryTopic": "opcua/OpcUaCore/ISrClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -22036,6 +21960,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:IIeeeBaseTsnStreamType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24173",
     "telemetryTopic": "opcua/OpcUaCore/IIeeeBaseTsnStreamType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -22117,6 +22042,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:IIeeeBaseTsnTrafficSpecificationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24179",
     "telemetryTopic": "opcua/OpcUaCore/IIeeeBaseTsnTrafficSpecificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -22172,6 +22098,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:IIeeeBaseTsnStatusStreamType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24183",
     "telemetryTopic": "opcua/OpcUaCore/IIeeeBaseTsnStatusStreamType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -22378,6 +22305,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:IIeeeTsnInterfaceConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24188",
     "telemetryTopic": "opcua/OpcUaCore/IIeeeTsnInterfaceConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -22410,6 +22338,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:IIeeeTsnInterfaceConfigurationTalkerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:IIeeeTsnInterfaceConfigurationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24191",
     "telemetryTopic": "opcua/OpcUaCore/IIeeeTsnInterfaceConfigurationTalkerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -22436,6 +22365,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:IIeeeTsnInterfaceConfigurationListenerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:IIeeeTsnInterfaceConfigurationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24195",
     "telemetryTopic": "opcua/OpcUaCore/IIeeeTsnInterfaceConfigurationListenerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -22462,6 +22392,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:IIeeeTsnMacAddressType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24199",
     "telemetryTopic": "opcua/OpcUaCore/IIeeeTsnMacAddressType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -22500,6 +22431,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:IIeeeTsnVlanTagType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24202",
     "telemetryTopic": "opcua/OpcUaCore/IIeeeTsnVlanTagType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -22532,6 +22464,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:IPriorityMappingEntryType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24205",
     "telemetryTopic": "opcua/OpcUaCore/IPriorityMappingEntryType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -22576,6 +22509,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:IetfBaseNetworkInterfaceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=25221",
     "telemetryTopic": "opcua/OpcUaCore/IetfBaseNetworkInterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -22677,6 +22611,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:PriorityMappingTableType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=25227",
     "commandTopic": "opcua/OpcUaCore/PriorityMappingTableType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/PriorityMappingTableType/{telemetryName}/{senderId}",
@@ -22793,6 +22728,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:LldpInformationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=18973",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -22830,6 +22766,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:LldpRemoteStatisticsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=18996",
     "telemetryTopic": "opcua/OpcUaCore/LldpRemoteStatisticsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -22880,6 +22817,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:LldpLocalSystemType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=19002",
     "commandTopic": "opcua/OpcUaCore/LldpLocalSystemType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/LldpLocalSystemType/{telemetryName}/{senderId}",
@@ -23031,6 +22969,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:LldpPortInformationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=19009",
     "commandTopic": "opcua/OpcUaCore/LldpPortInformationType/{commandName}",
     "telemetryTopic": "opcua/OpcUaCore/LldpPortInformationType/{telemetryName}/{senderId}",
@@ -23203,6 +23142,7 @@
     ],
     "@id": "dtmi:opcua:OpcUaCore:LldpRemoteSystemType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=19033",
     "telemetryTopic": "opcua/OpcUaCore/LldpRemoteSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",

@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:sercos:FunctionalGroupType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://sercos.org/UA;i=6012",
     "payloadFormat": "Json/ecma/404",
     "schemas": [

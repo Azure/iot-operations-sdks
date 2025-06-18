@@ -191,6 +191,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:LaserSystemMonitoringType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -240,6 +241,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:LaserSystemProductionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -265,6 +267,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:LaserSystemStatusType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1012",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -296,6 +299,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:LaserSystemType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1005",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -409,6 +413,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:RecipeSettingsAndOverviewType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1007",
     "commandTopic": "opcua/LaserSystems/RecipeSettingsAndOverviewType/{commandName}",
     "telemetryTopic": "opcua/LaserSystems/RecipeSettingsAndOverviewType/{telemetryName}/{senderId}",
@@ -484,6 +489,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:LaserSystemState_StateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1009",
     "commandTopic": "opcua/LaserSystems/LaserSystemState_StateMachineType/{commandName}",
     "telemetryTopic": "opcua/LaserSystems/LaserSystemState_StateMachineType/{telemetryName}/{senderId}",

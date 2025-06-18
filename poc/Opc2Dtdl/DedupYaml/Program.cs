@@ -88,14 +88,12 @@
                     {
                         if (content.Relationship == "HasSubtype_reverse")
                         {
-                            if (TryGetQualifiedNameFromDefinedType(content.DefinedType, out string superType))
-                            {
-                                superTypes.Add(superType);
-                            }
+                            string superType = GetQualifiedNameFromDefinedType(content.DefinedType);
+                            superTypes.Add(superType);
                         }
                     }
 
-                    TryGetQualifiedNameFromDefinedType(definedType.Value, out string objectType);
+                    string objectType = GetQualifiedNameFromDefinedType(definedType.Value);
 
                     objectTypeComponentsAndProperties[objectType] = componentsAndProperties;
                     objectTypeSupers[objectType] = superTypes;
@@ -103,16 +101,14 @@
             }
         }
 
-        private static bool TryGetQualifiedNameFromDefinedType(OpcUaDefinedType definedType, out string qualifiedName)
+        private static string GetQualifiedNameFromDefinedType(OpcUaDefinedType definedType)
         {
             if (!definedType.NodeId.Contains(':'))
             {
-                qualifiedName = string.Empty;
-                return false;
+                return definedType.BrowseName;
             }
 
-            qualifiedName = $"{definedType.NodeId.Substring(0, definedType.NodeId.IndexOf(':'))}:{definedType.BrowseName}";
-            return true;
+            return $"{definedType.NodeId.Substring(0, definedType.NodeId.IndexOf(':'))}:{definedType.BrowseName}";
         }
 
         private static bool DoesAncestorHaveComponentOrProperty(string objectType, string componentOrPropertyName, Dictionary<string, HashSet<string>> objectTypeComponentsAndProperties, Dictionary<string, List<string>> objectTypeSupers)
@@ -131,7 +127,7 @@
 
         private static IEnumerable<OpcUaContent> DedupedContents(OpcUaDefinedType definedType, Dictionary<string, HashSet<string>> objectTypeComponentsAndProperties, Dictionary<string, List<string>> objectTypeSupers)
         {
-            TryGetQualifiedNameFromDefinedType(definedType, out string objectType);
+            string objectType = GetQualifiedNameFromDefinedType(definedType);
 
             foreach (OpcUaContent content in definedType.Contents)
             {

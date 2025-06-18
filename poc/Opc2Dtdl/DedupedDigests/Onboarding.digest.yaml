@@ -203,10 +203,6 @@ DefinedTypes:
   Onboarding:DeviceSoftwareUpdatedAuditEventType:
   - [ UAObjectType, Onboarding:1552, Onboarding:DeviceSoftwareUpdatedAuditEventType ]
   - HasProperty:
-    - [ UAVariable, Onboarding:1563, Onboarding:Status, Boolean, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-  - HasProperty:
     - [ UAVariable, Onboarding:1568, Onboarding:SoftwareRevision, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
