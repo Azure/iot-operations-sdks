@@ -399,24 +399,8 @@ pub struct Diagnostics {
 /// Logging information
 #[derive(Debug, Deserialize, Clone, PartialEq)]
 pub struct Logs {
-    /// Level to log at
-    pub level: LogLevel,
-}
-
-/// Represents the logging level
-#[derive(Debug, Deserialize, Clone, PartialEq)]
-#[serde(rename_all = "lowercase")]
-pub enum LogLevel {
-    /// Info logging
-    Info,
-    /// Debug logging
-    Debug,
-    /// Warn logging
-    Warn,
-    /// Error logging
-    Error,
-    /// Trace logging
-    Trace,
+    /// The log level. Examples - 'debug', 'info', 'warn', 'error', 'trace'.
+    pub level: String,
 }
 
 #[cfg(test)]
