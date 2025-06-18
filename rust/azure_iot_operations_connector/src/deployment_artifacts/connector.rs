@@ -528,7 +528,7 @@ mod tests {
     use test_case::{test_case, test_matrix};
 
     /// Simulates a file mount directory using a temporary directory.
-    pub struct TempMount {
+    struct TempMount {
         dir: TempDir,
     }
 
@@ -562,7 +562,7 @@ mod tests {
 
     /// Simulates persistent volume mounts using temporary directories.
     /// An admittedly funny name.
-    pub struct TempPersistentVolumeManager {
+    struct TempPersistentVolumeManager {
         volumes: Vec<TempMount>,
     }
 
