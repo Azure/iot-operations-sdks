@@ -11,7 +11,7 @@
   "supportedArchitectures": ["linux/amd64"],
   "inboundEndpoints": [
     {
-      "endpointType": "Microsoft.Http:v1",
+      "endpointType": "Microsoft.Http",
       "version": "2.0",
       "configSchemas": {
         "datasetConfigSchema": {

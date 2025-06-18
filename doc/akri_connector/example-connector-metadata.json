@@ -59,7 +59,7 @@
   },
   "inboundEndpoints": [
     {
-      "endpointType": "Microsoft.Http:v1",
+      "endpointType": "Microsoft.Http",
       "version": "2.0",
       "asset": {
         "configurationSchemas": {
