@@ -334,7 +334,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Data",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",

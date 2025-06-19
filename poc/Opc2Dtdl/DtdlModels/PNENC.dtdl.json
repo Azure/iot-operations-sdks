@@ -705,7 +705,7 @@
         "target": "dtmi:opcua:PNENC:EncoderProbesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Sensor",
         "namespace": "http://opcfoundation.org/UA/PNENC",

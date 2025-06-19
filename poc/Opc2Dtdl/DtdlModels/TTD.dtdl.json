@@ -565,21 +565,21 @@
         "writable": true
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineStatistics",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "target": "dtmi:opcua:TTD:MachineStatisticsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Notification",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:NotificationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "RecipeManagement",
         "namespace": "http://opcfoundation.org/UA/TTD",

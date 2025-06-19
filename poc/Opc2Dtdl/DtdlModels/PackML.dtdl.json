@@ -461,21 +461,21 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Admin",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:PackML:PackMLAdminObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "BaseStateMachine",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:PackML:PackMLBaseStateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Status",
         "namespace": "http://opcfoundation.org/UA/PackML",
@@ -776,7 +776,7 @@
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineState",
         "namespace": "http://opcfoundation.org/UA/PackML",
@@ -1145,7 +1145,7 @@
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ExecuteState",
         "namespace": "http://opcfoundation.org/UA/PackML",

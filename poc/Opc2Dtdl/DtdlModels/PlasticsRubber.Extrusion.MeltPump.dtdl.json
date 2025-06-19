@@ -25,14 +25,14 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Drive",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.MeltPump",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MeltPressures",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.MeltPump",

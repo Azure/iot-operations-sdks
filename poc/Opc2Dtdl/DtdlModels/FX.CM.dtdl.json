@@ -509,7 +509,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConnectionManagerConfiguration",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
@@ -2039,14 +2039,14 @@
         "schema": "unsignedInteger"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConnectionConfigurationSetStateMachine",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:FX_CM:ConnectionConfigurationSetStateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -2080,7 +2080,7 @@
         "schema": "integer"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Endpoint1",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
@@ -2271,7 +2271,7 @@
         "schema": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifier;1"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConnectionEndpoint",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
@@ -2638,7 +2638,7 @@
         "target": "dtmi:opcua:FX_CM:ConnectionManagerCapabilitiesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConnectionConfigurationSets",
         "namespace": "http://opcfoundation.org/UA/FX.CM",

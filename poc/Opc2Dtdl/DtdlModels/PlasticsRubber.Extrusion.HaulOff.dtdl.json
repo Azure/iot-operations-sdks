@@ -37,7 +37,7 @@
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.HaulOff"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Drives",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.HaulOff",

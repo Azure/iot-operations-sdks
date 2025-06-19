@@ -380,7 +380,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Nodes",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -650,7 +650,7 @@
         "namespace": "http://opcfoundation.org/UA/PROFINET"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Alarms",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -671,7 +671,7 @@
         "target": "dtmi:opcua:PROFINET:PnIdentificationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Interfaces",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -896,7 +896,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Ports",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -1272,7 +1272,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Alarms",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -1627,7 +1627,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Alarms",
         "namespace": "http://opcfoundation.org/UA/PROFINET",

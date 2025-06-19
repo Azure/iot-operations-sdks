@@ -191,7 +191,7 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CurrentProcessValue",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
@@ -276,7 +276,7 @@
         "target": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryItemState",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
@@ -303,7 +303,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FormingPositions",
         "namespace": "http://opcfoundation.org/UA/MetalForming",

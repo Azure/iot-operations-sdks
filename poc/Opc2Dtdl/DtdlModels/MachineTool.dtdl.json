@@ -1170,7 +1170,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Equipment",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -1184,28 +1184,28 @@
         "target": "dtmi:opcua:OpcUaCore:FileDirectoryType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Monitoring",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:MonitoringType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Notification",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:NotificationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Production",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -1258,7 +1258,7 @@
         "target": "dtmi:opcua:MachineTool:ElementMonitoringType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineTool",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -1440,14 +1440,14 @@
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProductionPrograms",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:OrderedListType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "State",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -1746,7 +1746,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ActiveProgram",
         "namespace": "http://opcfoundation.org/UA/MachineTool",

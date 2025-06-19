@@ -18428,14 +18428,14 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "EventReporting",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
         "target": "dtmi:opcua:BACnet_V2:BACnetEventReportingType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FaultEvaluation",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -18878,14 +18878,14 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "EventReporting",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
         "target": "dtmi:opcua:BACnet_V2:BACnetEventReportingType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FaultEvaluation",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",

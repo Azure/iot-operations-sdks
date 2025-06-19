@@ -395,7 +395,7 @@
         "writable": true
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MaintenanceState",
         "namespace": "http://opcfoundation.org/UA/AMB",

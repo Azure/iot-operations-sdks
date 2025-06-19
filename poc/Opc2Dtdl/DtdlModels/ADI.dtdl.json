@@ -18,28 +18,28 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Status",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FactorySettings",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AnalyserStateMachine",
         "namespace": "http://opcfoundation.org/UA/ADI",
@@ -203,21 +203,21 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Status",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ChannelStateMachine",
         "namespace": "http://opcfoundation.org/UA/ADI",
@@ -316,7 +316,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "OperatingSubStateMachine",
         "namespace": "http://opcfoundation.org/UA/ADI",
@@ -475,7 +475,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "OperatingExecuteSubStateMachine",
         "namespace": "http://opcfoundation.org/UA/ADI",
@@ -1425,49 +1425,49 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Status",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AcquisitionSettings",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AcquisitionStatus",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AcquisitionData",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ChemometricModelSettings",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Context",
         "namespace": "http://opcfoundation.org/UA/ADI",
@@ -1757,7 +1757,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AccessorySlotStateMachine",
         "namespace": "http://opcfoundation.org/UA/ADI",
@@ -1952,21 +1952,21 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Status",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FactorySettings",
         "namespace": "http://opcfoundation.org/UA/ADI",

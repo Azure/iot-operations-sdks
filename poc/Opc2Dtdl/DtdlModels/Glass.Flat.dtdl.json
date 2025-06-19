@@ -1104,7 +1104,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConfigurationRules",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -1125,7 +1125,7 @@
         "target": "dtmi:opcua:Glass_Flat:ManualFolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Production",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -1183,7 +1183,7 @@
         "writable": true
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Plan",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -1292,14 +1292,14 @@
         "namespace": "http://opcfoundation.org/UA/Glass.Flat"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "InputMaterials",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Instruction",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -1313,14 +1313,14 @@
         "target": "dtmi:opcua:DI:LockingServicesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "OutputMaterials",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "State",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -1578,7 +1578,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProductionPlan",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -1709,7 +1709,7 @@
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "InitializingState",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",

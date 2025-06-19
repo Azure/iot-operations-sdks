@@ -1085,7 +1085,7 @@
         "target": "dtmi:opcua:Woodworking:WwEventsDispatcherType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ManufacturerSpecific",
         "namespace": "http://opcfoundation.org/UA/Woodworking",

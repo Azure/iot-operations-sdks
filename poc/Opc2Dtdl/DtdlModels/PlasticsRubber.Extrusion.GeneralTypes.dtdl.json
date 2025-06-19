@@ -123,7 +123,7 @@
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineInformation",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
@@ -533,7 +533,7 @@
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Drive",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
@@ -554,7 +554,7 @@
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollBendingType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Temperature",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",

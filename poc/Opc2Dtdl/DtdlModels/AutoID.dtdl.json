@@ -1155,7 +1155,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Images",
         "namespace": "http://opcfoundation.org/UA/AutoID",
@@ -1182,7 +1182,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Images",
         "namespace": "http://opcfoundation.org/UA/AutoID",

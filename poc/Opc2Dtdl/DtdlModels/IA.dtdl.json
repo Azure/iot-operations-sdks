@@ -282,28 +282,28 @@
         "writable": true
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CalibrationTargetCategory",
         "namespace": "http://opcfoundation.org/UA/IA",
         "target": "dtmi:opcua:IA:BaseCalibrationTargetCategoryType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CalibrationTargetFeatures",
         "namespace": "http://opcfoundation.org/UA/IA",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Identification",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "OperationalConditions",
         "namespace": "http://opcfoundation.org/UA/IA",
@@ -543,7 +543,7 @@
         "schema": "dtmi:opcua:IA:StacklightType:dataType:DeviceHealthEnumeration;1"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DeviceHealthAlarms",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -626,7 +626,7 @@
         "schema": "unsignedInteger"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AcousticSignals",
         "namespace": "http://opcfoundation.org/UA/IA",

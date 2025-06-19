@@ -205,21 +205,21 @@
         "target": "dtmi:opcua:OpcUaCore:OrderedListType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConditionData",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConsumptionData",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LaserSystemStatus",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
@@ -253,7 +253,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "RecipeSettingsAndOverviews",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
@@ -280,14 +280,14 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LaserSystemState",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:LaserSystems:LaserSystemState_StateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineToolsLaserStatus",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
@@ -314,28 +314,28 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Monitoring",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:LaserSystems:LaserSystemMonitoringType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Notification",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:NotificationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Production",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",

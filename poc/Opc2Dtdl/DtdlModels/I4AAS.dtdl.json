@@ -84,7 +84,7 @@
         "target": "dtmi:opcua:I4AAS:AASViewType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Asset",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -425,14 +425,14 @@
         "writable": true
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Administration",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASAdministrativeInformationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Identification",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -919,7 +919,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "File",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -1382,7 +1382,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Value",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -1409,14 +1409,14 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "First",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Second",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -1616,14 +1616,14 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Administration",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASAdministrativeInformationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Identification",
         "namespace": "http://opcfoundation.org/UA/I4AAS",

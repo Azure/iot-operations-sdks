@@ -4575,7 +4575,7 @@
         "target": "dtmi:opcua:MachineVision:SafetyStateManagementType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "VisionStateMachine",
         "namespace": "http://opcfoundation.org/UA/MachineVision",

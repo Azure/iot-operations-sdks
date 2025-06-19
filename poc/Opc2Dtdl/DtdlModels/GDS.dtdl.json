@@ -457,7 +457,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Applications",
         "namespace": "http://opcfoundation.org/UA/GDS",

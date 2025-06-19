@@ -346,7 +346,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DeviceHealthAlarms",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -973,7 +973,7 @@
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ImageHandlingAspects",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",

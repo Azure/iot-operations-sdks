@@ -1147,7 +1147,7 @@
         "target": "dtmi:opcua:ECM:EnergySavingModesContainerType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "EnergySavingModeStatus",
         "namespace": "http://opcfoundation.org/UA/ECM",

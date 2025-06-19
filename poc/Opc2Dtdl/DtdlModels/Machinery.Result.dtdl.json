@@ -725,7 +725,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Results",
         "namespace": "http://opcfoundation.org/UA/Machinery.Result",

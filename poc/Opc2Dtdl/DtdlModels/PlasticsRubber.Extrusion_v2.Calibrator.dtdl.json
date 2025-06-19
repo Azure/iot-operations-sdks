@@ -180,7 +180,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CalibrationZones",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",

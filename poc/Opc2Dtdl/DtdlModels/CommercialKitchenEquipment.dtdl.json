@@ -3182,7 +3182,7 @@
         "target": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineRecipeParameterType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Parameters",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3266,7 +3266,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CombiSteamer",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3336,7 +3336,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CookingKettle",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3439,7 +3439,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Parameters",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3619,7 +3619,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FryingPan",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3646,7 +3646,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "IceMachine",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3673,7 +3673,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MicrowaveCombiOven",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3817,7 +3817,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PastaCooker",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3873,7 +3873,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PressureCookingKettle",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",

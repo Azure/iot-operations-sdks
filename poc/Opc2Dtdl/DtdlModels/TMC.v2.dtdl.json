@@ -3510,14 +3510,14 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Data",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SubCarriers",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -4059,35 +4059,35 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Alarms",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Data",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Interlocks",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Measurements",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProcessControlLoops",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -4747,14 +4747,14 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Alarms",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Data",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -5306,7 +5306,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineModuleSpecification",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -5694,14 +5694,14 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Alarms",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Data",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -6478,7 +6478,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Data",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -7048,14 +7048,14 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DataSetFolder",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MechanicalAdjustments",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -7570,7 +7570,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Documentation",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -7921,7 +7921,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Carriers",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -8076,7 +8076,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LimitAlarms",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -9213,7 +9213,7 @@
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineModuleProductionOrders",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -9379,14 +9379,14 @@
         "target": "dtmi:opcua:TMC_v2:ControlModuleAggregatesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:TMC_v2:ControlModuleConfigurationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LiveStatus",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -9637,7 +9637,7 @@
         "target": "dtmi:opcua:TMC_v2:SensorFunctionType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Data",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -9664,42 +9664,42 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:TMC_v2:EquipmentModuleConfigurationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ControlModules",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LiveStatus",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:TMC_v2:EquipmentModuleLiveStatusType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProcessControlLoops",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProcessItems",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Setup",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -9735,91 +9735,91 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ControlModules",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DefectDetectionSensors",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "EquipmentModules",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LiveStatus",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MaterialBuffers",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MaterialLoadingPoints",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MaterialLocations",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MaterialOutputPoints",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MaterialRejectionPoints",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PastSpecificationRecords",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProcessControlLoops",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProcessItems",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -11484,21 +11484,21 @@
         "writable": true
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ControlValue",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:TMC_v2:ProcessControlItemType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ExternalAlarms",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProcessValue",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -12380,7 +12380,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProductionOrders",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -12552,7 +12552,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "UIResources",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",

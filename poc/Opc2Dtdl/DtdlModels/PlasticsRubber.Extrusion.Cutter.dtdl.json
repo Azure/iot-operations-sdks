@@ -237,7 +237,7 @@
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CuttingProducts",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",

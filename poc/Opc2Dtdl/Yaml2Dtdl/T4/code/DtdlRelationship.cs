@@ -7,6 +7,8 @@ namespace Yaml2Dtdl
     {
         private const string capabilityCotype = @", ""HasCapability""";
         private const string componentCotype = @", ""HasComponent""";
+        private const string folderType = "dtmi:opcua:OpcUaCore:FolderType";
+        private const string baseObjectType = "dtmi:opcua:OpcUaCore:BaseObjectType";
 
         private OpcUaDefinedType definedType;
 
@@ -36,9 +38,13 @@ namespace Yaml2Dtdl
 
         private string GetCotype()
         {
-            if (IsPlaceholder())
+            if (IsPlaceholder() || Target == folderType)
             {
                 return componentCotype;
+            }
+            else if (HasModellingRule(TypeConverter.ModelingRuleMandatoryNodeId) && Target != baseObjectType)
+            {
+                return capabilityCotype;
             }
             else
             {

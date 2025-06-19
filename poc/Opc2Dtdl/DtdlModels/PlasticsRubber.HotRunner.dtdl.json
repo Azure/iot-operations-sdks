@@ -272,14 +272,14 @@
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosticsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Identification",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:IdentificationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineConfiguration",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
@@ -293,14 +293,14 @@
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:MaintenanceInformationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Operation",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:OperationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Zones",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
@@ -715,7 +715,7 @@
         "schema": "unsignedShort"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Controller",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
@@ -729,7 +729,7 @@
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:HeatUpType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Temperature",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",

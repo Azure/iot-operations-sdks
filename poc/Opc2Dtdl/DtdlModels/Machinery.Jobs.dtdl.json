@@ -27,14 +27,14 @@
         "writable": true
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "JobOrderControl",
         "namespace": "http://opcfoundation.org/UA/Machinery.Jobs",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "JobOrderResults",
         "namespace": "http://opcfoundation.org/UA/Machinery.Jobs",

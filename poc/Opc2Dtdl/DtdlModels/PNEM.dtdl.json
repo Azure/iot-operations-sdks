@@ -776,7 +776,7 @@
         "target": "dtmi:opcua:PNEM:EnergySavingModesContainerType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "EnergySavingModeStatus",
         "namespace": "http://opcfoundation.org/UA/PNEM",

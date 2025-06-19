@@ -102,7 +102,7 @@
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_Calender:CouplingProductTensionsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Gaps",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calender",
@@ -130,7 +130,7 @@
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Rolls",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calender",

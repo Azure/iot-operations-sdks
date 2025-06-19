@@ -82,7 +82,7 @@
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Pelletizer:DiePlateType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Drive",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",

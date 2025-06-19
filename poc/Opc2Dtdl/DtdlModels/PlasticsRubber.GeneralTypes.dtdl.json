@@ -769,7 +769,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "User",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -2277,14 +2277,14 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ActiveJob",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobInformationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ActiveJobValues",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -2606,21 +2606,21 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MESMessage",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MESMessageType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProductionControl",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionControlType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "StandstillMessage",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -2705,7 +2705,7 @@
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Users",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -3392,7 +3392,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "TemperatureZones",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -4016,7 +4016,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ActiveProductionDatasetStatus",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -4037,7 +4037,7 @@
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetListsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProductionDatasetTransfer",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",

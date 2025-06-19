@@ -1895,7 +1895,7 @@
         "schema": "dtmi:opcua:MDIS:MDISInformationObjectType:dataType:MDISVersionDataType;1"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Signatures",
         "namespace": "http://opcfoundation.org/UA/MDIS",
