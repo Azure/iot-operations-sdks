@@ -663,7 +663,7 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SubscriberConfiguration",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:FX_CM:SubscriberConfigurationType"

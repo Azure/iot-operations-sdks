@@ -8350,7 +8350,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DefectReason",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:TMC_v2:DefectReasonType"
@@ -9631,7 +9631,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SensorFunction",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:TMC_v2:SensorFunctionType"

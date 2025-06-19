@@ -1,8 +1,8 @@
 ﻿<#@ template language="C#" linePragmas="false" #>
 <#@ import namespace="SpecMapper" #>
       {
-        "@type": [ "Relationship", "Qualified" ],
-<# if (!this.isPlaceholder) { #>
+        "@type": [ "Relationship"<#=this.GetCotype()#>, "Qualified" ],
+<# if (!this.IsPlaceholder()) { #>
         "maxMultiplicity": 1,
 <# } #>
         "name": "<#=TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName))#>",

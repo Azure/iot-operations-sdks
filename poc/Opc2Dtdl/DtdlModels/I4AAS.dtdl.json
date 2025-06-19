@@ -54,31 +54,31 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ConceptDictionary",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASConceptDictionaryType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataSpecification",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Submodel",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASSubmodelType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SubmodelReference",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "View",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASViewType"
@@ -143,7 +143,7 @@
         "writable": true
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataSpecification",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
@@ -829,7 +829,7 @@
         "writable": true
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Referable",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
@@ -887,13 +887,13 @@
         "writable": true
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataSpecification",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Qualifier",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASQualifierType"
@@ -991,7 +991,7 @@
         "writable": true
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SubmodelElement",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASSubmodelElementType"
@@ -1443,7 +1443,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataElement",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASSubmodelElementType"
@@ -1478,7 +1478,7 @@
         "writable": true
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SubmodelElement",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASSubmodelElementType"
@@ -1549,19 +1549,19 @@
         "writable": true
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataSpecification",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Qualifier",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASQualifierType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SubmodelElement",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASSubmodelElementType"
@@ -1650,13 +1650,13 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ConceptDescription",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataSpecification",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
@@ -1682,13 +1682,13 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataSpecification",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ConceptDescription",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
@@ -1714,13 +1714,13 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ConceptDescription",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataSpecification",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
@@ -1746,13 +1746,13 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataSpecification",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Referable",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"

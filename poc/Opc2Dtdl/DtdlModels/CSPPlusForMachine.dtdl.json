@@ -18,7 +18,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CommIfSection",
         "namespace": "http://opcfoundation.org/UA/CSPPlusForMachine",
         "target": "dtmi:opcua:DI:FunctionalGroupType"

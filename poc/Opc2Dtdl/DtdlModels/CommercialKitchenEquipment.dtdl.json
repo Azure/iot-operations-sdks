@@ -3176,7 +3176,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "RecipeName",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineRecipeParameterType"
@@ -3413,7 +3413,7 @@
         "schema": "integer"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CookingZone_No",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:CookingZoneParameterType"
@@ -3502,7 +3502,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FryerCup_No",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:FryerParameterType"
@@ -3557,7 +3557,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "GrillingZone_No",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType"
@@ -3729,7 +3729,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "MultiFunctionPan_No",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanParameterType"
@@ -3755,7 +3755,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Chamber_No",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:ChamberType"
@@ -3900,7 +3900,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Tray_No",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:TrayType"

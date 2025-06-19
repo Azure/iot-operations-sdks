@@ -3732,7 +3732,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Vibration",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:VibrationMeasurementType"
@@ -4075,19 +4075,19 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Drive",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:DrivePortType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "InletConnection",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:InletConnectionPortType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "OutletConnection",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:OutletConnectionPortType"
@@ -6252,7 +6252,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Marking",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"

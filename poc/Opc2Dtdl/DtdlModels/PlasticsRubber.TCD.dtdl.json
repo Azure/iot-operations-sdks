@@ -235,7 +235,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ExternalChannel_Nr",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_TCD:ExternalChannelType"

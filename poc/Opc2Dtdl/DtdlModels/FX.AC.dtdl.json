@@ -139,7 +139,7 @@
         "schema": "unsignedShort"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Clamp",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:ClampType"
@@ -1879,7 +1879,7 @@
         "namespace": "http://opcfoundation.org/UA/FX.AC"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ControlGroup",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:ControlGroupType"

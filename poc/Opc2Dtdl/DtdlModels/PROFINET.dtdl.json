@@ -1742,7 +1742,7 @@
         "schema": "boolean"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FeatureName",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:NetworkComponentFeatureType"
@@ -2096,7 +2096,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PnEquipments",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"

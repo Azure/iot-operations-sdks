@@ -38,7 +38,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ProfileId",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:POWERLINK:PowerlinkProtocolType"
@@ -99,7 +99,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DeviceProfileIdentifier",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "target": "dtmi:opcua:POWERLINK:PowerlinkDeviceProfileType"
@@ -145,13 +145,13 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CNIdentifier",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "target": "dtmi:opcua:POWERLINK:PowerlinkCnConnectionPointType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "MNIdentifier",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "target": "dtmi:opcua:POWERLINK:PowerlinkMnConnectionPointType"

@@ -1733,7 +1733,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Name_Nr",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
@@ -2875,7 +2875,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Material_Nr",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaterialType"
@@ -2952,7 +2952,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Name_Nr",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
@@ -3305,7 +3305,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Mould_Nr",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MouldType"
@@ -3428,7 +3428,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PowerUnit_Nr",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:PowerUnitType"
@@ -4469,7 +4469,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "TemperatureZone_Nr",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneType"
@@ -4840,7 +4840,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "User_Nr",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:UserType"

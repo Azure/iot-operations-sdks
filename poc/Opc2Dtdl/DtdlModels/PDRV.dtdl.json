@@ -302,7 +302,7 @@
         "target": "dtmi:opcua:PNENC:EncoderChannelType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "EncoderChannelAuxiliary",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PNENC:EncoderChannelType"
@@ -328,7 +328,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "EncoderChannelAuxiliary",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PNENC:EncoderChannelType"

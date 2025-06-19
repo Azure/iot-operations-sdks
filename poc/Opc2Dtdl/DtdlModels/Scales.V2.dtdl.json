@@ -608,7 +608,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Zones",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:ZoneType"
@@ -1626,7 +1626,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Recipe_No",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:RecipeType"
@@ -2197,7 +2197,7 @@
         "namespace": "http://opcfoundation.org/UA/Scales.V2"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ListOfWeighingRanges",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:WeighingRangeElementType"
@@ -2449,7 +2449,7 @@
         "schema": "integer"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Totalizer",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:TotalizerType"

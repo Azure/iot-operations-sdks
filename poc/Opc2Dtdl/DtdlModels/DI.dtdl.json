@@ -32,7 +32,7 @@
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "GroupIdentifier",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
@@ -503,7 +503,7 @@
         "schema": "dtmi:opcua:DI:DeviceType:dataType:DeviceHealthEnumeration;1"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CPIdentifier",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:ConnectionPointType"
@@ -757,7 +757,7 @@
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ObjectIdentifier",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
@@ -930,7 +930,7 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "GroupIdentifier",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
@@ -1019,7 +1019,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ProfileIdentifier",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:ProtocolType"
@@ -1059,7 +1059,7 @@
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ProfileIdentifier",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:ProtocolType"

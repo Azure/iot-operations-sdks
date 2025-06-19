@@ -96,91 +96,91 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ChokePlaceholder",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISChokeObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CIMVPlaceholder",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISCIMVObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CounterPlaceholder",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISCounterObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DigitalArbitrationPlaceholder",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISDigitalArbitrationObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DigitalOutPlaceholder",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISDigitalOutObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DigitalPlaceholder",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISDigitalInstrumentObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DiscreteArbitrationPlaceholder",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISDiscreteArbitrationObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DiscreteOutPlaceholder",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISDiscreteOutObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DiscretePlaceholder",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISDiscreteInstrumentObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ElectricChokePlaceholder",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISElectricChokeObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "InstrumentArbitrationPlaceholder",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISInstrumentArbitrationObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "InstrumentOutPlaceholder",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISInstrumentOutObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "InstrumentPlaceholder",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISInstrumentObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "MotorPlaceholder",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISMotorObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ValvePlaceholder",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISValveObjectType"

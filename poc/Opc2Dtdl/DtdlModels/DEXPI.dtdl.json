@@ -102,19 +102,19 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "MetaData",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:MetaDataType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "StructureItem",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:PlantStructureItemType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Plant",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:PlantType"
@@ -140,37 +140,37 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ActuatingSystem",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ActuatingSystemType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "InstrumentationLoopFunction",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:InstrumentationLoopFunctionType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PipingNetworkSystem",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:PipingNetworkSystemType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ProcessInstrumentationFunction",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ProcessInstrumentationFunctionType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ProcessSignalGeneratingSystem",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ProcessSignalGeneratingSystemType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "TaggedPlantItem",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:TaggedPlantItemType"
@@ -488,13 +488,13 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PrimaryElement",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:PrimaryElementType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Transmitter",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:TransmitterType"
@@ -706,19 +706,19 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ActuatingFunction",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ActuatingFunctionType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ProcessSignalGeneratingFunction",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ProcessSignalGeneratingFunctionType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SignalConveyingFunction",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:SignalConveyingFunctionType"
@@ -897,19 +897,19 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ActuatingFunction",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ActuatingFunctionType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ProcessSignalGeneratingFunction",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ProcessSignalGeneratingFunctionType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SignalConveyingFunction",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:SignalConveyingFunctionType"
@@ -1239,19 +1239,19 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ControlledActuator",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ControlledActuatorType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ShutOffValveReference",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ShutOffValveReferenceType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Positioner",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:PositionerType"
@@ -2608,7 +2608,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Displacer",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:DisplacerType"
@@ -2653,7 +2653,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Rotor",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:HeatExchangerRotorType"
@@ -2894,7 +2894,7 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Node",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:PipingNodeType"
@@ -2985,7 +2985,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Chamber",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ChamberType"
@@ -3024,7 +3024,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Displacer",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:DisplacerType"
@@ -3075,7 +3075,7 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CompressorEquipmentItem",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:CompressorEquipmentType"
@@ -3120,7 +3120,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Internal",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ColumnInternalsArrangementType"
@@ -3270,7 +3270,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FilterUnit",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:FilterUnitType"
@@ -3356,7 +3356,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "MixingElementAssembly",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:MixingElementAssemblyType"
@@ -3470,7 +3470,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Rotor",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:HeatExchangerRotorType"
@@ -3576,7 +3576,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Internal",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ColumnInternalsArrangementType"
@@ -3635,7 +3635,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Displacer",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:DisplacerType"
@@ -3674,7 +3674,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Internal",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ColumnInternalsArrangementType"
@@ -3842,7 +3842,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "TubeBundle",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:TubeBundleType"
@@ -3914,7 +3914,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Impeller",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ImpellerType"
@@ -3940,7 +3940,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Nozzle",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:NozzleType"
@@ -4018,7 +4018,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Impeller",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ImpellerType"
@@ -4439,7 +4439,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PumpEquipmentItem",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:PumpEquipmentType"
@@ -4492,7 +4492,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Impeller",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ImpellerType"
@@ -4617,7 +4617,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Rotor",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:AgitatorRotorType"
@@ -4656,7 +4656,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Impeller",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ImpellerType"
@@ -4689,7 +4689,7 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "TubeBundle",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:TubeBundleType"
@@ -4788,7 +4788,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ColumnSection",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:SubTaggedColumnSectionType"
@@ -4890,13 +4890,13 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Chamber",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:ChamberType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Nozzle",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:NozzleType"
@@ -4947,7 +4947,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FilterUnit",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:FilterUnitType"
@@ -4986,7 +4986,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Displacer",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:DisplacerType"
@@ -5482,13 +5482,13 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Segment",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:PipingNetworkSegmentType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PropertyBreak",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:PropertyBreakType"
@@ -5828,7 +5828,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Node",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:PipingNodeType"
@@ -6322,7 +6322,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Node",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:PipingNodeType"
@@ -6348,7 +6348,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Node",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:PipingNodeType"
@@ -7604,13 +7604,13 @@
         "schema": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:PipingNetworkSegmentSlopeClassification;1"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Item",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:PipingNetworkSegmentItemType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Connection",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:PipingConnectionType"
@@ -7765,7 +7765,7 @@
         "schema": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:PipingClassBreakClassification;1"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Node",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:PipingNodeType"
@@ -8318,7 +8318,7 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Node",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:PipingNodeType"
@@ -8404,7 +8404,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Node",
         "namespace": "http://opcfoundation.org/UA/DEXPI",
         "target": "dtmi:opcua:DEXPI:PipingNodeType"

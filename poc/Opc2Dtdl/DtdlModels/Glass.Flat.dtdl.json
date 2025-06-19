@@ -1078,7 +1078,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "LocalManuals",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
         "target": "dtmi:opcua:OpcUaCore:FileType"
@@ -1347,13 +1347,13 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "InputMaterial",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
         "target": "dtmi:opcua:Glass_Flat:BaseMaterialType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "OutputMaterial",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
         "target": "dtmi:opcua:Glass_Flat:AssemblyType"
@@ -1379,13 +1379,13 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "InputMaterial",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
         "target": "dtmi:opcua:Glass_Flat:BaseMaterialType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "OutputMaterial",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
         "target": "dtmi:opcua:Glass_Flat:GlassType"
@@ -1411,13 +1411,13 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "InputMaterial",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
         "target": "dtmi:opcua:Glass_Flat:BaseMaterialType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "OutputMaterial",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
         "target": "dtmi:opcua:Glass_Flat:BaseMaterialType"

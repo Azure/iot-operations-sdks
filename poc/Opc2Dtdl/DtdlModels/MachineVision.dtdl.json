@@ -1718,7 +1718,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Recipe",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:RecipeType"

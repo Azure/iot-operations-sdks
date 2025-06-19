@@ -870,7 +870,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Probex",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:PNENC:EncoderProbeType"

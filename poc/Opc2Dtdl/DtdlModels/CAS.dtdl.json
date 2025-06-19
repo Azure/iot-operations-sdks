@@ -198,7 +198,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Other",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:CAS:ElectricalQuantitiesType"
@@ -340,7 +340,7 @@
         "schema": "dtmi:opcua:CAS:FluidCircuitType:dataType:FluidTypeEnum;1"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Other",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:CAS:FluidQuantitiesType"
@@ -504,7 +504,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ComponentsGroup",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -614,13 +614,13 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Analysis",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:CAS:AnalysisType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PrefabAnalysis",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:OpcUaCore:FileType"
@@ -1259,7 +1259,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Event",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:OpcUaCore:ConditionType"
@@ -1742,7 +1742,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ComponentsGroup",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"

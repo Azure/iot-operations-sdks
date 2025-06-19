@@ -344,7 +344,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "InjectionUnit_Nr",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_IMM2MES:InjectionUnitType"

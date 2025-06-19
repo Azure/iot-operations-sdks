@@ -990,7 +990,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ServiceName",
         "namespace": "http://opcfoundation.org/UA/GDS",
         "target": "dtmi:opcua:GDS:KeyCredentialServiceType"

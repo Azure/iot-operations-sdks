@@ -76,7 +76,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DiePlate_Nr",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_Pelletizer:DiePlateType"
@@ -89,7 +89,7 @@
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "KnifePackage_Nr",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_Pelletizer:KnifePackageType"

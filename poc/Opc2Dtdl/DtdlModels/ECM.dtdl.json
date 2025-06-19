@@ -799,7 +799,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "EnergySavingModes",
         "namespace": "http://opcfoundation.org/UA/ECM",
         "target": "dtmi:opcua:ECM:EnergySavingModeType"

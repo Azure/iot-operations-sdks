@@ -652,7 +652,7 @@
         "namespace": "http://opcfoundation.org/UA/PAEFS"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Valve",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:CleaningUnitValveType"
@@ -1145,31 +1145,31 @@
         "namespace": "http://opcfoundation.org/UA/PAEFS"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Fan",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:FanType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FilterAidDevice",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:FilterAidDeviceType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FilterUnit",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:FilterUnitType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SafetySystem",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SafetySystemType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "TemperatureRegulator",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:TemperatureRegulatorType"
@@ -1341,19 +1341,19 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CleaningUnit",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:CleaningUnitType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DischargeSystem",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:DischargeSystemType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Separator",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SeparatorType"
@@ -1533,13 +1533,13 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Collector",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:CollectorType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Ionizer",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:IonizerType"
@@ -1849,7 +1849,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "HighVoltageUnit",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:HighVoltageUnitType"

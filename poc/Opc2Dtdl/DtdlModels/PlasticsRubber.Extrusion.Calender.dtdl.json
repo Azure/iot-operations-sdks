@@ -27,7 +27,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CouplingProductForce_Nr",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calender",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
@@ -62,7 +62,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CouplingProductTension_Nr",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calender",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"

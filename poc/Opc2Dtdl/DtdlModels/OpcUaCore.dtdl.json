@@ -1587,7 +1587,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ClientName",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:SessionDiagnosticsObjectType"
@@ -3535,7 +3535,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "NamespaceIdentifier",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:NamespaceMetadataType"
@@ -5749,7 +5749,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "TransferState",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:FileTransferStateMachineType"
@@ -5957,7 +5957,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "RoleName",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:RoleType"
@@ -6302,7 +6302,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DictionaryEntryName",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:DictionaryEntryType"
@@ -6328,13 +6328,13 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DictionaryFolderName",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:DictionaryFolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DictionaryEntryName",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:DictionaryEntryType"
@@ -12004,7 +12004,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ServiceName",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:KeyCredentialConfigurationType"
@@ -12241,7 +12241,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ServiceName",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:AuthorizationServiceConfigurationType"
@@ -12635,7 +12635,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SecurityGroupName",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:SecurityGroupType"
@@ -13131,7 +13131,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PushTargetName",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:PubSubKeyPushTargetType"
@@ -15757,7 +15757,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PublishedDataSetName",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:PublishedDataSetType"
@@ -19239,7 +19239,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "StandaloneSubscribedDataSetName",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:StandaloneSubscribedDataSetType"
@@ -21741,7 +21741,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ApplicationName",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:ApplicationConfigurationType"

@@ -68,7 +68,7 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CuttingProduct_Nr",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_Cutter:CuttingProductType"

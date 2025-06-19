@@ -790,7 +790,7 @@
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Additive_Y",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_LDS:AdditiveType"

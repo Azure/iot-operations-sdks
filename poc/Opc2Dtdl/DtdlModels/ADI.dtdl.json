@@ -46,13 +46,13 @@
         "target": "dtmi:opcua:ADI:AnalyserDeviceStateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ChannelIdentifier",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:ADI:AnalyserChannelType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "AccessorySlotIdentifier",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:ADI:AccessorySlotType"
@@ -224,13 +224,13 @@
         "target": "dtmi:opcua:ADI:AnalyserChannelStateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "StreamIdentifier",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:ADI:StreamType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "AccessorySlotIdentifier",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:ADI:AccessorySlotType"
@@ -1764,7 +1764,7 @@
         "target": "dtmi:opcua:ADI:AccessorySlotStateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "AccessoryIdentifier",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:ADI:AccessoryType"

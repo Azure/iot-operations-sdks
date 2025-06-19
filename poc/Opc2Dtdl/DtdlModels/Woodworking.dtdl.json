@@ -531,7 +531,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SubUnit",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"

@@ -10,6 +10,7 @@ namespace Yaml2Dtdl
     public class TypeConverter
     {
         public const string ModelingRuleOptionalNodeId = "80";
+        public const string ModelingRuleMandatoryNodeId = "78";
         public const string ModelingRuleOptionalPlaceholderNodeId = "11508";
         public const string ModelingRuleMandatoryPlaceholderNodeId = "11510";
 

@@ -736,7 +736,7 @@
         "schema": "dtmi:opcua:IA:StackElementLightType:dataType:SignalModeLight;1"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ControlChannel",
         "namespace": "http://opcfoundation.org/UA/IA",
         "target": "dtmi:opcua:IA:ControlChannelType"

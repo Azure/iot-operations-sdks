@@ -409,13 +409,13 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "InputChannelx",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
         "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "OutputChannelx",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
         "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelType"
@@ -634,13 +634,13 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ArrayFolder",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FolderName",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
         "target": "dtmi:opcua:DI:FunctionalGroupType"

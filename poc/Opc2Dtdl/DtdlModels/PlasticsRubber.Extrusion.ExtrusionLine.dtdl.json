@@ -735,7 +735,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "JobGroup_Nr",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupType"
@@ -1157,7 +1157,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Job_Nr",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobType"

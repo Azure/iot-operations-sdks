@@ -139,7 +139,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SercosProfileIdentifier",
         "namespace": "http://sercos.org/UA",
         "target": "dtmi:opcua:sercos:SercosProfileType"
@@ -165,7 +165,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SercosClassIdentifier",
         "namespace": "http://sercos.org/UA",
         "target": "dtmi:opcua:sercos:SercosClassType"
@@ -191,7 +191,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FunctionGroupIdentifier",
         "namespace": "http://sercos.org/UA",
         "target": "dtmi:opcua:sercos:SercosFunctionGroupType"

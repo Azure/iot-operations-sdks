@@ -238,7 +238,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FormingTool",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:MetalForming:FormingToolType"
@@ -264,13 +264,13 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CyclicProcessValue",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ProcessValue",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType"

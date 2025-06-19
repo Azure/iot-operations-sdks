@@ -56,7 +56,7 @@
         "writable": true
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Characteristics",
         "namespace": "http://opcfoundation.org/UA/GMS",
         "target": "dtmi:opcua:GMS:CharacteristicType"

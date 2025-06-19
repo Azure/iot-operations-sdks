@@ -216,13 +216,13 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "MotorIdentifier",
         "namespace": "http://opcfoundation.org/UA/Robotics",
         "target": "dtmi:opcua:Robotics:MotorType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "GearIdentifier",
         "namespace": "http://opcfoundation.org/UA/Robotics",
         "target": "dtmi:opcua:Robotics:GearType"

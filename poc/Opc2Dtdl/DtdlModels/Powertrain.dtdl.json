@@ -3313,31 +3313,31 @@
         "namespace": "http://opcfoundation.org/UA/FX.AC"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PtAnalogInputElectricalAttributes",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
         "target": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PtAnalogOutputElectricalAttributes",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
         "target": "dtmi:opcua:Powertrain:PtAnalogOutputElectricalAttributesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PtDigitalInputElectricalAttributes",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
         "target": "dtmi:opcua:Powertrain:PtDigitalInputElectricalAttributesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PtDigitalOutputElectricalAttributes",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
         "target": "dtmi:opcua:Powertrain:PtDigitalOutputElectricalAttributesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PtStandardAttributes",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
         "target": "dtmi:opcua:Powertrain:PtStandardAttributesType"

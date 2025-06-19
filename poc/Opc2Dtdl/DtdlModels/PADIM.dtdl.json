@@ -160,7 +160,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SignalIdentifier",
         "namespace": "http://opcfoundation.org/UA/PADIM",
         "target": "dtmi:opcua:PADIM:SignalType"
@@ -328,7 +328,7 @@
         "namespace": "http://opcfoundation.org/UA/PADIM"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SignalCalibrationIdentifier",
         "namespace": "http://opcfoundation.org/UA/PADIM",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
@@ -660,7 +660,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CalibrationPointIdentifier",
         "namespace": "http://opcfoundation.org/UA/PADIM",
         "target": "dtmi:opcua:PADIM:CalibrationPointType"

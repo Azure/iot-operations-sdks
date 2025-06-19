@@ -23,8 +23,10 @@ namespace Yaml2Dtdl
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("      {\r\n        \"@type\": [ \"Relationship\", \"Qualified\" ],\r\n");
- if (!this.isPlaceholder) { 
+            this.Write("      {\r\n        \"@type\": [ \"Relationship\"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.GetCotype()));
+            this.Write(", \"Qualified\" ],\r\n");
+ if (!this.IsPlaceholder()) { 
             this.Write("        \"maxMultiplicity\": 1,\r\n");
  } 
             this.Write("        \"name\": \"");
