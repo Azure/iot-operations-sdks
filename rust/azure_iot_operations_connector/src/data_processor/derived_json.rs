@@ -4,7 +4,6 @@
 //! Processor for generating [`MessageSchema`] for the JSON payload defined in a [`Data`].
 
 use azure_iot_operations_services::schema_registry::{Format, SchemaType};
-use jmespath::{self, JmespathError};
 use serde_json::{self, Value};
 
 use crate::{Data, MessageSchema, MessageSchemaBuilder, MessageSchemaBuilderError};
@@ -12,18 +11,14 @@ use crate::{Data, MessageSchema, MessageSchemaBuilder, MessageSchemaBuilderError
 /// An error that occurred during the transformation of data.
 #[derive(Debug, thiserror::Error)]
 #[error("{repr}")]
-pub struct TransformError {
+pub struct SchemaGenerationError {
     #[source]
-    repr: TransformErrorRepr,
-    /// The data that was being transformed when the error occurred.
-    pub data: Box<Data>, // NOTE: Use a Box to avoid large stack data in error
+    repr: SchemaGenerationErrorRepr,
 }
 
-/// Inner representation of a [`TransformError`].
+/// Inner representation of a [`SchemaGenerationError`].
 #[derive(Debug, thiserror::Error)]
-enum TransformErrorRepr {
-    #[error(transparent)]
-    Jmespath(#[from] JmespathError),
+enum SchemaGenerationErrorRepr {
     #[error(transparent)]
     Serde(#[from] serde_json::Error),
     #[error(transparent)]
@@ -39,17 +34,14 @@ enum TransformErrorRepr {
 ///   information is available to derive the type of the field.
 ///
 /// # Errors
-/// Returns a [`TransformError`] if there is an error during the transformation or schema generation.
-pub fn transform(data: Data) -> Result<MessageSchema, TransformError> {
+/// Returns a [`SchemaGenerationError`] if there is an error during the transformation or schema generation.
+pub fn create_schema(data: &Data) -> Result<MessageSchema, SchemaGenerationError> {
     // NOTE: We delegate to a function here that modifies the data in place so that the entire
     // `data` struct does not need to be reallocated, while also being able to return it as part
     // of an error if necessary.
-    match create_output_schema(&data) {
+    match create_output_schema(data) {
         Ok(message_schema) => Ok(message_schema),
-        Err(e) => Err(TransformError {
-            repr: e,
-            data: Box::new(data),
-        }),
+        Err(e) => Err(SchemaGenerationError { repr: e }),
     }
 }
 
@@ -57,7 +49,7 @@ pub fn transform(data: Data) -> Result<MessageSchema, TransformError> {
 ///
 /// Returns an error if the transformation or schema generation cannot be made.
 /// Input data will not be modified.
-fn create_output_schema(data: &Data) -> Result<MessageSchema, TransformErrorRepr> {
+fn create_output_schema(data: &Data) -> Result<MessageSchema, SchemaGenerationErrorRepr> {
     // Parse the input JSON from bytes
     let output_json: Value = serde_json::from_slice(&data.payload)?;
 
@@ -82,7 +74,7 @@ mod test {
     use super::*;
     use test_case::test_case;
 
-    struct TransformTestCase {
+    struct SchemaGenerationTestCase {
         input_json: Value,
         expected_output_json_schema: Value,
     }
@@ -111,7 +103,7 @@ mod test {
     }
 
     /// Test case for 1:1 transformation of JSON values
-    fn valid_testcase_1() -> TransformTestCase {
+    fn valid_testcase_1() -> SchemaGenerationTestCase {
         let input_json_str = r#"{
             "metadata": {
                 "factory": "home",
@@ -133,88 +125,55 @@ mod test {
         let input_json: Value = serde_json::from_str(input_json_str).unwrap();
 
         // Can derive string, boolean, integer, float, array and object types for the schema
-        let expected_output_json_schema_str = r#"{
+        let expected_json_schema_str = r#"{
             "$schema": "http://json-schema.org/draft-07/schema#",
             "type": "object",
             "properties": {
-                "factory": {
-                    "type": "string"
-                },
-                "temperature": {
-                    "type": "integer"
-                },
                 "active": {
                     "type": "boolean"
                 },
-                "days": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "location": {
+                "metadata": {
                     "type": "object",
                     "properties": {
-                        "latitude": {
-                            "type": "number"
+                        "active_on": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
                         },
-                        "longitude": {
-                            "type": "number"
+                        "coordinates": {
+                            "type": "object",
+                            "properties": {
+                                "latitude": {
+                                    "type": "number"
+                                },
+                                "longitude": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "factory": {
+                            "type": "string"
                         }
                     }
-                }
-            }
-        }"#;
-        let expected_output_json_schema: Value =
-            serde_json::from_str(expected_output_json_schema_str).unwrap();
-
-        TransformTestCase {
-            input_json,
-            expected_output_json_schema,
-        }
-    }
-
-    // Test case for transforming only a subset of values
-    fn valid_testcase_2() -> TransformTestCase {
-        let input_json_str = r#"{
-            "metadata": {
-                "factory": "home",
-                "active_on": [
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday"
-                ]
-            },
-            "temp": 10,
-            "active": true
-        }"#;
-        let input_json: Value = serde_json::from_str(input_json_str).unwrap();
-
-        let expected_output_json_schema_str = r#"{
-            "$schema": "http://json-schema.org/draft-07/schema#",
-            "type": "object",
-            "properties": {
-                "factory": {
-                    "type": "string"
                 },
-                "temperature": {
+                "temp": {
                     "type": "integer"
                 }
             }
         }"#;
-        let expected_output_json_schema: Value =
-            serde_json::from_str(expected_output_json_schema_str).unwrap();
 
-        TransformTestCase {
+        let expected_output_json_schema: Value =
+            serde_json::from_str(expected_json_schema_str).unwrap();
+
+        SchemaGenerationTestCase {
             input_json,
             expected_output_json_schema,
         }
     }
 
     /// Test case for transformation that involves overlapping values
-    fn valid_testcase_3() -> TransformTestCase {
+    fn valid_testcase_3() -> SchemaGenerationTestCase {
         let input_json_str = r#"{
             "metadata": {
                 "factory": "home",
@@ -232,81 +191,45 @@ mod test {
         let input_json: Value = serde_json::from_str(input_json_str).unwrap();
 
         // Can derive string, boolean, integer and array types for the schema
-        let expected_output_json_schema_str = r#"{
+        let expected_json_schema_str = r#"{
             "$schema": "http://json-schema.org/draft-07/schema#",
             "type": "object",
             "properties": {
-                "factory": {
-                    "type": "string"
-                },
-                "temperature": {
-                    "type": "integer"
-                },
                 "active": {
                     "type": "boolean"
                 },
-                "meta": {
+                "metadata": {
                     "type": "object",
                     "properties": {
-                        "factory": {
-                            "type": "string"
-                        },
                         "active_on": {
                             "type": "array",
                             "items": {
                                 "type": "string"
                             }
+                        },
+                        "factory": {
+                            "type": "string"
                         }
                     }
+                },
+                "temp": {
+                    "type": "integer"
                 }
             }
         }"#;
+
         let expected_output_json_schema: Value =
-            serde_json::from_str(expected_output_json_schema_str).unwrap();
+            serde_json::from_str(expected_json_schema_str).unwrap();
 
-        TransformTestCase {
-            input_json,
-            expected_output_json_schema,
-        }
-    }
-
-    // Test case containing datapoints that correspond to values that are not in the input
-    fn valid_testcase_5() -> TransformTestCase {
-        let input_json_str = r#"{
-            "factory": "home",
-            "temp": 10
-        }"#;
-        let input_json: Value = serde_json::from_str(input_json_str).unwrap();
-
-        // Metadata being null is not enough information to derive type information about the field
-        // and so it is simply inferred as being "true"
-        let expected_output_json_schema_str = r#"{
-            "$schema": "http://json-schema.org/draft-07/schema#",
-            "type": "object",
-            "properties": {
-                "factory": {
-                    "type": "string"
-                },
-                "temperature": {
-                    "type": "integer"
-                },
-                "metadata": true
-        }
-        }"#;
-        let expected_output_json_schema: Value =
-            serde_json::from_str(expected_output_json_schema_str).unwrap();
-
-        TransformTestCase {
+        SchemaGenerationTestCase {
             input_json,
             expected_output_json_schema,
         }
     }
 
     #[test_case(&valid_testcase_1(); "1:1 transformation")]
-    #[test_case(&valid_testcase_2(); "Subset transformation")]
     #[test_case(&valid_testcase_3(); "Overlapping transformation")]
-    #[test_case(&valid_testcase_5(); "Missing data source")]
-    fn valid_transform(test_case: &TransformTestCase) {
+    fn valid_create_schema(test_case: &SchemaGenerationTestCase) {
         let input_data = Data {
             payload: serde_json::to_vec(&test_case.input_json).unwrap(),
             content_type: "application/json".to_string(),
@@ -323,7 +246,7 @@ mod test {
             .build()
             .unwrap();
 
-        let output_message_schema = transform(input_data).unwrap();
+        let output_message_schema = create_schema(&input_data).unwrap();
 
         assert!(message_schema_eq(
             &output_message_schema,
@@ -341,8 +264,7 @@ mod test {
             timestamp: None,
         };
 
-        let r = transform(input_data.clone());
+        let r = create_schema(&input_data);
         assert!(r.is_err());
-        assert_eq!(*r.unwrap_err().data, input_data);
     }
 }

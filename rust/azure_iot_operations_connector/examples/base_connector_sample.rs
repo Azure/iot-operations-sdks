@@ -155,7 +155,7 @@ async fn run_dataset(mut dataset_client: DatasetClient) {
 
     let sample_data = mock_received_data(0);
 
-    let message_schema = derived_json::transform(sample_data).unwrap();
+    let message_schema = derived_json::create_schema(&sample_data).unwrap();
     match dataset_client.report_message_schema(message_schema).await {
         Ok(message_schema_reference) => {
             log::info!("Message Schema reported, reference returned: {message_schema_reference:?}");
@@ -184,7 +184,7 @@ async fn run_dataset(mut dataset_client: DatasetClient) {
                         let sample_data = mock_received_data(0);
 
                         let message_schema =
-                            derived_json::transform(sample_data).unwrap();
+                            derived_json::create_schema(&sample_data).unwrap();
                         match dataset_client.report_message_schema(message_schema).await {
                             Ok(message_schema_reference) => {
                                 log::info!("Message Schema reported, reference returned: {message_schema_reference:?}");
