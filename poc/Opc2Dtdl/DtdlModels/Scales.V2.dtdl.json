@@ -10,7 +10,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:ScaleAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=21",
     "commandTopic": "opcua/Scales_V2/ScaleAlarmType/{commandName}",
@@ -67,7 +67,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:ScaleEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=13",
     "commandTopic": "opcua/Scales_V2/ScaleEventType/{commandName}",

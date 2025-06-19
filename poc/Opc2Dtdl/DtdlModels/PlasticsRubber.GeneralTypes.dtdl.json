@@ -253,7 +253,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1052",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/HelpOffNormalAlarmType/{commandName}",
@@ -282,7 +282,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1070",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MonitoredParameterAlarmType/{telemetryName}/{senderId}",
@@ -309,7 +309,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MessageConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1004",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MessageConditionType/{commandName}",
@@ -352,7 +352,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:CycleParametersEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1038",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/CycleParametersEventType/{commandName}",
@@ -624,7 +624,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosisEndEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1060",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/DiagnosisEndEventType/{commandName}",
@@ -681,7 +681,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosisStepEndEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1062",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/DiagnosisStepEndEventType/{commandName}",
@@ -717,7 +717,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1011",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/LogbookEventType/{commandName}",
@@ -787,7 +787,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineModeChangeLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1014",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MachineModeChangeLogType/{commandName}",
@@ -855,7 +855,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MessageLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1042",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MessageLogType/{commandName}",
@@ -898,7 +898,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ParameterChangeLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1010",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ParameterChangeLogType/{commandName}",
@@ -955,7 +955,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetChangeLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1012",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionDatasetChangeLogType/{commandName}",
@@ -991,7 +991,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetFrozenLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1041",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionDatasetFrozenLogType/{commandName}",
@@ -1027,7 +1027,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionStatusChangeLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1044",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionStatusChangeLogType/{commandName}",
@@ -1095,7 +1095,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RemoteAccessLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1022",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/RemoteAccessLogType/{commandName}",
@@ -1154,7 +1154,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:SequenceChangeLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1043",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/SequenceChangeLogType/{commandName}",
@@ -1211,7 +1211,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:StandstillReasonLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1013",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/StandstillReasonLogType/{commandName}",
@@ -1240,7 +1240,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:UserFeedbackLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1046",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/UserFeedbackLogType/{commandName}",
@@ -1269,7 +1269,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:UserLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1015",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/UserLogType/{commandName}",
@@ -1314,7 +1314,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestAddMaterialEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1061",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/RequestAddMaterialEventType/{commandName}",
@@ -1343,7 +1343,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestCyclicJobListEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1028",
     "payloadFormat": "Json/ecma/404",
@@ -1363,7 +1363,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestCyclicJobWriteEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1025",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/RequestCyclicJobWriteEventType/{commandName}",
@@ -1392,7 +1392,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestJobListEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1027",
     "payloadFormat": "Json/ecma/404",
@@ -1412,7 +1412,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestProductionDatasetListEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1040",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/RequestProductionDatasetListEventType/{commandName}",
@@ -1448,7 +1448,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestProductionDatasetReadEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1006",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/RequestProductionDatasetReadEventType/{commandName}",
@@ -1504,7 +1504,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestProductionDatasetWriteEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=1007",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/RequestProductionDatasetWriteEventType/{commandName}",

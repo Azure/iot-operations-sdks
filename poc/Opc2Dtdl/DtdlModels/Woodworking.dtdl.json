@@ -10,7 +10,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Woodworking:WwBaseEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=13",
     "commandTopic": "opcua/Woodworking/WwBaseEventType/{commandName}",

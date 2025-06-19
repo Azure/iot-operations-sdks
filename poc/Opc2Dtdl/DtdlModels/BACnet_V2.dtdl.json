@@ -29407,7 +29407,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1001",
     "commandTopic": "opcua/BACnet_V2/BACnetNotificationType/{commandName}",
@@ -29509,7 +29509,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1028",
     "commandTopic": "opcua/BACnet_V2/BACnetEventNotificationType/{commandName}",
@@ -29538,7 +29538,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetBufferReadyNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1042",
     "commandTopic": "opcua/BACnet_V2/BACnetBufferReadyNotificationType/{commandName}",
@@ -31164,7 +31164,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfBitStringNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1037",
     "commandTopic": "opcua/BACnet_V2/BACnetChangeOfBitStringNotificationType/{commandName}",
@@ -31227,7 +31227,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfCharacterStringNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1047",
     "commandTopic": "opcua/BACnet_V2/BACnetChangeOfCharacterStringNotificationType/{commandName}",
@@ -31294,7 +31294,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfRealValueNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1039",
     "commandTopic": "opcua/BACnet_V2/BACnetChangeOfRealValueNotificationType/{commandName}",
@@ -31354,7 +31354,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1038",
     "commandTopic": "opcua/BACnet_V2/BACnetChangeOfStateNotificationType/{commandName}",
@@ -31967,7 +31967,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfValueNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1053",
     "commandTopic": "opcua/BACnet_V2/BACnetChangeOfValueNotificationType/{commandName}",
@@ -32044,7 +32044,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetCommandFailureNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1040",
     "commandTopic": "opcua/BACnet_V2/BACnetCommandFailureNotificationType/{commandName}",
@@ -32111,7 +32111,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetDoubleOutOfRangeNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1044",
     "commandTopic": "opcua/BACnet_V2/BACnetDoubleOutOfRangeNotificationType/{commandName}",
@@ -32185,7 +32185,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetFloatingLimitNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1041",
     "commandTopic": "opcua/BACnet_V2/BACnetFloatingLimitNotificationType/{commandName}",
@@ -32259,7 +32259,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetOutOfRangeNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1031",
     "commandTopic": "opcua/BACnet_V2/BACnetOutOfRangeNotificationType/{commandName}",
@@ -32333,7 +32333,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetSignedOutOfRangeNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1045",
     "commandTopic": "opcua/BACnet_V2/BACnetSignedOutOfRangeNotificationType/{commandName}",
@@ -32407,7 +32407,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetUnsignedOutOfRangeNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1046",
     "commandTopic": "opcua/BACnet_V2/BACnetUnsignedOutOfRangeNotificationType/{commandName}",
@@ -32481,7 +32481,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetUnsignedRangeNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1043",
     "commandTopic": "opcua/BACnet_V2/BACnetUnsignedRangeNotificationType/{commandName}",
@@ -32548,7 +32548,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetFaultNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1027",
     "commandTopic": "opcua/BACnet_V2/BACnetFaultNotificationType/{commandName}",
@@ -32676,7 +32676,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfReliabilityNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetFaultNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1036",
     "commandTopic": "opcua/BACnet_V2/BACnetChangeOfReliabilityNotificationType/{commandName}",
@@ -32705,7 +32705,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetFaultNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1035",
     "payloadFormat": "Json/ecma/404",
@@ -32725,7 +32725,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetFeedbackNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetFaultNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1034",
     "payloadFormat": "Json/ecma/404",
@@ -32745,7 +32745,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetLoopNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetFaultNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1033",
     "payloadFormat": "Json/ecma/404",
@@ -32765,7 +32765,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetSimpleNotificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:BACnet_V2:BACnetFaultNotificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1032",
     "payloadFormat": "Json/ecma/404",

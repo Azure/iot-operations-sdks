@@ -365,7 +365,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1006",
     "commandTopic": "opcua/FX_CM/ConnectionConfigurationSetEventType/{commandName}",
@@ -440,7 +440,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetProcessingFailedEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:FX_CM:ConnectionConfigurationSetEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1009",
     "payloadFormat": "Json/ecma/404",
@@ -460,7 +460,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetProcessingStartedEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:FX_CM:ConnectionConfigurationSetEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1007",
     "payloadFormat": "Json/ecma/404",
@@ -480,7 +480,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetProcessingSucceededEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:FX_CM:ConnectionConfigurationSetEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1008",
     "payloadFormat": "Json/ecma/404",

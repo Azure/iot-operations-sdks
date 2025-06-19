@@ -1149,7 +1149,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MTMessageEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2656",
     "commandTopic": "opcua/MTConnect_v2/MTMessageEventType/{commandName}",
@@ -1178,7 +1178,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MTConditionEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=4326",
     "commandTopic": "opcua/MTConnect_v2/MTConditionEventType/{commandName}",

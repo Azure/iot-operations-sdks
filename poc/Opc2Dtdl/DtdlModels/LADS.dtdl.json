@@ -370,7 +370,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:MaintenanceTaskType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:MaintenanceRequiredAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1028",
     "payloadFormat": "Json/ecma/404",

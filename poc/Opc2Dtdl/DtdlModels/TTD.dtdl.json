@@ -10,7 +10,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TTD:TTDResultReadyEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Machinery_Result:ResultReadyEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1006",
     "payloadFormat": "Json/ecma/404",

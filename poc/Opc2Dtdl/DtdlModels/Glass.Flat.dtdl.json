@@ -10,7 +10,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:GlassEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1030",
     "commandTopic": "opcua/Glass_Flat/GlassEventType/{commandName}",
@@ -60,7 +60,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:CommunicationErrorEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Glass_Flat:GlassEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1040",
     "payloadFormat": "Json/ecma/404",
@@ -80,7 +80,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:GlassMaterialEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Glass_Flat:GlassEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1031",
     "payloadFormat": "Json/ecma/404",
@@ -100,7 +100,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:MaterialExitEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Glass_Flat:GlassMaterialEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1025",
     "payloadFormat": "Json/ecma/404",
@@ -120,7 +120,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:MaterialMissingEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Glass_Flat:GlassMaterialEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1027",
     "payloadFormat": "Json/ecma/404",
@@ -140,7 +140,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:MaterialReceivedEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Glass_Flat:GlassMaterialEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1026",
     "payloadFormat": "Json/ecma/404",
@@ -160,7 +160,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:IntermediateStepEvent;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Glass_Flat:GlassEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1029",
     "commandTopic": "opcua/Glass_Flat/IntermediateStepEvent/{commandName}",
@@ -196,7 +196,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Glass_Flat:GlassEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1032",
     "commandTopic": "opcua/Glass_Flat/InterruptedEventType/{commandName}",
@@ -225,7 +225,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:EmergencyButtonPressedEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1038",
     "payloadFormat": "Json/ecma/404",
@@ -245,7 +245,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:MotorTemperatureTooHighEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1039",
     "payloadFormat": "Json/ecma/404",
@@ -265,7 +265,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:OpenSecurityFenceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1033",
     "payloadFormat": "Json/ecma/404",
@@ -285,7 +285,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:OutOfJobEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1036",
     "payloadFormat": "Json/ecma/404",
@@ -305,7 +305,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:ProcessParameterOutOfRangeType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1034",
     "payloadFormat": "Json/ecma/404",
@@ -325,7 +325,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:ToolMissingEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1035",
     "payloadFormat": "Json/ecma/404",
@@ -345,7 +345,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:JobMovedEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Glass_Flat:GlassEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1037",
     "commandTopic": "opcua/Glass_Flat/JobMovedEventType/{commandName}",

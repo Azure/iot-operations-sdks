@@ -10,7 +10,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Machinery_ProcessValues:ZeroPointAdjustmentEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.ProcessValues;i=1002",
     "commandTopic": "opcua/Machinery_ProcessValues/ZeroPointAdjustmentEventType/{commandName}",

@@ -49,18 +49,18 @@
 
             foreach (string sourceFilePath in Directory.GetFiles(sourceRoot, $"*{fileSuffix}"))
             {
-                Preload(deserializer, sourceFilePath, objectTypeComponentsAndProperties, objectTypeSupers);
+                Preload(sourceFilePath, objectTypeComponentsAndProperties, objectTypeSupers);
             }
 
             Console.WriteLine();
 
             foreach (string sourceFilePath in Directory.GetFiles(sourceRoot, $"*{fileSuffix}"))
             {
-                Dedup(deserializer, sourceFilePath, destRoot, objectTypeComponentsAndProperties, objectTypeSupers);
+                Dedup(sourceFilePath, destRoot, objectTypeComponentsAndProperties, objectTypeSupers);
             }
         }
 
-        private static void Preload(IDeserializer deserializer, string sourceFilePath, Dictionary<string, HashSet<string>> objectTypeComponentsAndProperties, Dictionary<string, List<string>> objectTypeSupers)
+        private static void Preload(string sourceFilePath, Dictionary<string, HashSet<string>> objectTypeComponentsAndProperties, Dictionary<string, List<string>> objectTypeSupers)
         {
             string yamlFileName = Path.GetFileName(sourceFilePath);
 
@@ -124,7 +124,6 @@
             return false;
         }
 
-
         private static IEnumerable<OpcUaContent> DedupedContents(OpcUaDefinedType definedType, Dictionary<string, HashSet<string>> objectTypeComponentsAndProperties, Dictionary<string, List<string>> objectTypeSupers)
         {
             string objectType = GetQualifiedNameFromDefinedType(definedType);
@@ -142,7 +141,7 @@
             }
         }
 
-        public static void Dedup(IDeserializer deserializer, string sourceFilePath, string destRoot, Dictionary<string, HashSet<string>> objectTypeComponentsAndProperties, Dictionary<string, List<string>> objectTypeSupers)
+        public static void Dedup(string sourceFilePath, string destRoot, Dictionary<string, HashSet<string>> objectTypeComponentsAndProperties, Dictionary<string, List<string>> objectTypeSupers)
         {
             string yamlFileName = Path.GetFileName(sourceFilePath);
 

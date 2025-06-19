@@ -10,7 +10,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:JobGroupStatusChangedEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine;i=1012",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/JobGroupStatusChangedEventType/{commandName}",
@@ -109,7 +109,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:JobStatusChangedEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine;i=1008",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/JobStatusChangedEventType/{commandName}",
@@ -215,7 +215,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:LotFinishedEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine;i=1010",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/LotFinishedEventType/{commandName}",
@@ -258,7 +258,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:RequestAddMaterialEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine;i=1006",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/RequestAddMaterialEventType/{commandName}",
@@ -287,7 +287,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:UnitFinishedEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine;i=1009",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_ExtrusionLine/UnitFinishedEventType/{commandName}",

@@ -110,7 +110,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PAEFS:CompressedAirSupplyInterruptedAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1032",
     "payloadFormat": "Json/ecma/404",
@@ -130,7 +130,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PAEFS:EndOfFilterRollAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1026",
     "payloadFormat": "Json/ecma/404",
@@ -150,7 +150,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PAEFS:MalfunctionAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1025",
     "payloadFormat": "Json/ecma/404",
@@ -170,7 +170,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PAEFS:SafetySystemTriggeredAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1041",
     "payloadFormat": "Json/ecma/404",
@@ -190,7 +190,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PAEFS:WashingAgentDrainMalfunctionAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1030",
     "payloadFormat": "Json/ecma/404",
@@ -210,7 +210,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PAEFS:WashingAgentInflowMalfunctionAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1029",
     "payloadFormat": "Json/ecma/404",
@@ -230,7 +230,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PAEFS:CleaningRecommendedConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AcknowledgeableConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1037",
     "commandTopic": "opcua/PAEFS/CleaningRecommendedConditionType/{commandName}",
@@ -259,7 +259,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PAEFS:MaintenanceRequestedConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AcknowledgeableConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1023",
     "commandTopic": "opcua/PAEFS/MaintenanceRequestedConditionType/{commandName}",
@@ -288,7 +288,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PAEFS:AirConnectionStatusChangedConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1040",
     "commandTopic": "opcua/PAEFS/AirConnectionStatusChangedConditionType/{commandName}",
@@ -341,7 +341,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PAEFS:CleaningUnitActiveConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1036",
     "commandTopic": "opcua/PAEFS/CleaningUnitActiveConditionType/{commandName}",
@@ -370,7 +370,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PAEFS:ContainerOpenConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1024",
     "commandTopic": "opcua/PAEFS/ContainerOpenConditionType/{commandName}",
@@ -399,7 +399,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PAEFS:DischargeContainerInstalledConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1038",
     "commandTopic": "opcua/PAEFS/DischargeContainerInstalledConditionType/{commandName}",
@@ -428,7 +428,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PAEFS:FilterAidDeviceStatusChangedConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1033",
     "commandTopic": "opcua/PAEFS/FilterAidDeviceStatusChangedConditionType/{commandName}",
@@ -481,7 +481,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PAEFS:MaintenanceSwitchConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1039",
     "commandTopic": "opcua/PAEFS/MaintenanceSwitchConditionType/{commandName}",
@@ -510,7 +510,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PAEFS:WashingAgentDrainOpenConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1028",
     "commandTopic": "opcua/PAEFS/WashingAgentDrainOpenConditionType/{commandName}",
@@ -539,7 +539,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PAEFS:WashingAgentInflowOpenConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1027",
     "commandTopic": "opcua/PAEFS/WashingAgentInflowOpenConditionType/{commandName}",
@@ -568,7 +568,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PAEFS:HighVoltageUnitSupplyActiveEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1031",
     "commandTopic": "opcua/PAEFS/HighVoltageUnitSupplyActiveEventType/{commandName}",

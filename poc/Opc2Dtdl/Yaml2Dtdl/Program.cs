@@ -77,12 +77,18 @@
                 Directory.CreateDirectory(destRoot);
             }
 
+            Dictionary<string, List<string>> objectTypeSupers = new();
+            foreach (string yamlFilePath in Directory.GetFiles(sourceRoot, $"*{sourceFileSuffix}"))
+            {
+                Preload(yamlFilePath, objectTypeSupers);
+            }
+
             foreach (string yamlFilePath in Directory.GetFiles(sourceRoot, $"*{sourceFileSuffix}"))
             {
                 string yamlFileName = Path.GetFileName(yamlFilePath);
                 string specName = yamlFileName.Substring(0, yamlFileName.Length - sourceFileSuffix.Length);
 
-                ConvertToDtdl(coreOpcUaDigest, deserializer, yamlFilePath, destRoot, specName, unitTypesDict);
+                ConvertToDtdl(coreOpcUaDigest, yamlFilePath, destRoot, specName, unitTypesDict, objectTypeSupers);
             }
 
             if (maxErrors == 0)
@@ -141,7 +147,61 @@
             }
         }
 
-        private static void ConvertToDtdl(OpcUaDigest coreOpcUaDigest, IDeserializer deserializer, string yamlFilePath, string destRoot, string specName, Dictionary<int, (string, string)> unitTypesDict)
+        private static void Preload(string sourceFilePath, Dictionary<string, List<string>> objectTypeSupers)
+        {
+            string yamlFileName = Path.GetFileName(sourceFilePath);
+
+            Console.WriteLine($"Preloading file {yamlFileName}");
+
+            string sourceFileText = File.ReadAllText(sourceFilePath);
+
+            OpcUaDigest opcUaDigest = deserializer.Deserialize<OpcUaDigest>(sourceFileText);
+
+            if (opcUaDigest.DefinedTypes != null)
+            {
+                foreach (KeyValuePair<string, OpcUaDefinedType> definedType in opcUaDigest.DefinedTypes)
+                {
+                    List<string> superTypes = new();
+                    foreach (OpcUaContent content in definedType.Value.Contents)
+                    {
+                        if (content.Relationship == "HasSubtype_reverse")
+                        {
+                            string superType = GetQualifiedNameFromDefinedType(content.DefinedType);
+                            superTypes.Add(superType);
+                        }
+                    }
+
+                    string objectType = GetQualifiedNameFromDefinedType(definedType.Value);
+
+                    objectTypeSupers[objectType] = superTypes;
+                }
+            }
+        }
+
+        private static string GetQualifiedNameFromDefinedType(OpcUaDefinedType definedType)
+        {
+            if (!definedType.NodeId.Contains(':'))
+            {
+                return definedType.BrowseName;
+            }
+
+            return $"{definedType.NodeId.Substring(0, definedType.NodeId.IndexOf(':'))}:{definedType.BrowseName}";
+        }
+
+        private static bool DoesAncestorHaveType(string objectType, string typeName, Dictionary<string, List<string>> objectTypeSupers)
+        {
+            foreach (string supertype in objectTypeSupers[objectType])
+            {
+                if (supertype == typeName || DoesAncestorHaveType(supertype, typeName, objectTypeSupers))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static void ConvertToDtdl(OpcUaDigest coreOpcUaDigest, string yamlFilePath, string destRoot, string specName, Dictionary<int, (string, string)> unitTypesDict, Dictionary<string, List<string>> objectTypeSupers)
         {
             Console.WriteLine($"Processing file {yamlFilePath}");
 
@@ -161,8 +221,9 @@
                     foreach (KeyValuePair<string, OpcUaDefinedType> definedType in opcUaDigest.DefinedTypes)
                     {
                         string modelId = TypeConverter.GetModelId(definedType.Value);
+                        bool isEvent = DoesAncestorHaveType(GetQualifiedNameFromDefinedType(definedType.Value), "BaseEventType", objectTypeSupers);
                         bool appendComma = ix < opcUaDigest.DefinedTypes.Count;
-                        DtdlInterface dtdlInterface = new DtdlInterface(modelId, definedType.Value, opcUaDigest.DataTypes, coreOpcUaDigest.DataTypes, unitTypesDict, appendComma);
+                        DtdlInterface dtdlInterface = new DtdlInterface(modelId, isEvent, definedType.Value, opcUaDigest.DataTypes, coreOpcUaDigest.DataTypes, unitTypesDict, appendComma);
                         string jsonText = dtdlInterface.TransformText();
 
                         outputFile.Write(jsonText);

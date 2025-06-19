@@ -10,7 +10,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AutoID:AutoIdDiagnosticsEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1010",
     "commandTopic": "opcua/AutoID/AutoIdDiagnosticsEventType/{commandName}",
@@ -39,7 +39,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AutoID:AutoIdAccessEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:AutoID:AutoIdDiagnosticsEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1015",
     "commandTopic": "opcua/AutoID/AutoIdAccessEventType/{commandName}",
@@ -161,7 +161,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AutoID:RfidAccessEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:AutoID:AutoIdAccessEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1016",
     "payloadFormat": "Json/ecma/404",
@@ -181,7 +181,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AutoID:AutoIdLogEntryEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:AutoID:AutoIdDiagnosticsEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1017",
     "payloadFormat": "Json/ecma/404",
@@ -201,7 +201,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AutoID:AutoIdPresenceEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:AutoID:AutoIdDiagnosticsEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1018",
     "commandTopic": "opcua/AutoID/AutoIdPresenceEventType/{commandName}",
@@ -230,7 +230,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AutoID:AutoIdScanEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1004",
     "commandTopic": "opcua/AutoID/AutoIdScanEventType/{commandName}",
@@ -466,7 +466,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AutoID:OcrScanEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:AutoID:AutoIdScanEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1005",
     "payloadFormat": "Json/ecma/404",
@@ -486,7 +486,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AutoID:OpticalScanEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:AutoID:AutoIdScanEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1009",
     "payloadFormat": "Json/ecma/404",
@@ -506,7 +506,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AutoID:OpticalVerifierScanEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:AutoID:OpticalScanEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1013",
     "payloadFormat": "Json/ecma/404",
@@ -526,7 +526,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AutoID:RfidScanEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:AutoID:AutoIdScanEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1006",
     "payloadFormat": "Json/ecma/404",
@@ -546,7 +546,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AutoID:RtlsLocationEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:AutoID:AutoIdScanEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1014",
     "payloadFormat": "Json/ecma/404",

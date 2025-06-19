@@ -7,6 +7,7 @@ namespace Yaml2Dtdl
     public partial class DtdlInterface
     {
         private string modelId;
+        private bool isEvent;
         private string topicBase;
         private OpcUaDefinedType definedType;
         private TypeConverter typeConverter;
@@ -19,9 +20,10 @@ namespace Yaml2Dtdl
         private int contentCount;
         private bool appendComma;
 
-        public DtdlInterface(string modelId, OpcUaDefinedType definedType, List<OpcUaDataType> dataTypes, List<OpcUaDataType> coreDataTypes, Dictionary<int, (string, string)> unitTypesDict, bool appendComma)
+        public DtdlInterface(string modelId, bool isEvent, OpcUaDefinedType definedType, List<OpcUaDataType> dataTypes, List<OpcUaDataType> coreDataTypes, Dictionary<int, (string, string)> unitTypesDict, bool appendComma)
         {
             this.modelId = modelId;
+            this.isEvent = isEvent;
             this.topicBase = modelId.Substring("dtmi:".Length).Replace(':', '/');
             this.definedType = definedType;
             this.typeConverter = new();

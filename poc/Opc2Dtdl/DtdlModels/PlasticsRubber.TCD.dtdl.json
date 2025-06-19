@@ -10,7 +10,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_TCD:TCDHelpOffNormalAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD;i=1009",
     "commandTopic": "opcua/PlasticsRubber_TCD/TCDHelpOffNormalAlarmType/{commandName}",

@@ -35,7 +35,9 @@ namespace Yaml2Dtdl
     ],
     ""@id"": """);
             this.Write(this.ToStringHelper.ToStringWithCulture(this.modelId));
-            this.Write(";1\",\r\n    \"@type\": [ \"Interface\", \"Mqtt\", \"Congruence\" ],\r\n");
+            this.Write(";1\",\r\n    \"@type\": [ \"Interface\"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.isEvent ? ", \"Event\"" : ""));
+            this.Write(", \"Mqtt\", \"Congruence\" ],\r\n");
  foreach (string supertypeId in this.supertypeIds) { 
             this.Write("    \"extends\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(supertypeId));

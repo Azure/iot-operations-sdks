@@ -190,7 +190,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineTool:AlertType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=39",
     "commandTopic": "opcua/MachineTool/AlertType/{commandName}",
@@ -219,7 +219,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineTool:InterruptionConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=19",
     "commandTopic": "opcua/MachineTool/InterruptionConditionType/{commandName}",
@@ -248,7 +248,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineTool:NotificationEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=35",
     "commandTopic": "opcua/MachineTool/NotificationEventType/{commandName}",
@@ -277,7 +277,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineTool:ProductionJobTransitionEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=31",
     "commandTopic": "opcua/MachineTool/ProductionJobTransitionEventType/{commandName}",
@@ -332,7 +332,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=27",
     "commandTopic": "opcua/MachineTool/ProductionPartTransitionEventType/{commandName}",
@@ -446,7 +446,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineTool:ProductionProgramTransitionEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=17",
     "commandTopic": "opcua/MachineTool/ProductionProgramTransitionEventType/{commandName}",

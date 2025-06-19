@@ -475,7 +475,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GDS:ApplicationRegistrationChangedAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS;i=26",
     "payloadFormat": "Json/ecma/404",
@@ -909,7 +909,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GDS:CertificateRequestedAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS;i=91",
     "commandTopic": "opcua/GDS/CertificateRequestedAuditEventType/{commandName}",
@@ -945,7 +945,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GDS:CertificateDeliveredAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS;i=109",
     "commandTopic": "opcua/GDS/CertificateDeliveredAuditEventType/{commandName}",
@@ -1187,7 +1187,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GDS:KeyCredentialRequestedAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:KeyCredentialAuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS;i=1039",
     "payloadFormat": "Json/ecma/404",
@@ -1207,7 +1207,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GDS:KeyCredentialDeliveredAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:KeyCredentialAuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS;i=1057",
     "payloadFormat": "Json/ecma/404",
@@ -1227,7 +1227,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GDS:KeyCredentialRevokedAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:KeyCredentialAuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS;i=1075",
     "payloadFormat": "Json/ecma/404",
@@ -1451,7 +1451,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GDS:AccessTokenIssuedAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS;i=975",
     "payloadFormat": "Json/ecma/404",

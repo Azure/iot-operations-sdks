@@ -11,7 +11,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "<#=this.modelId#>;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface"<#=this.isEvent ? ", \"Event\"" : ""#>, "Mqtt", "Congruence" ],
 <# foreach (string supertypeId in this.supertypeIds) { #>
     "extends": "<#=supertypeId#>;1",
 <# } #>

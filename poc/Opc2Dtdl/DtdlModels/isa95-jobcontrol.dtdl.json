@@ -10,7 +10,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderStatusEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1006",
     "commandTopic": "opcua/isa95_jobcontrol/ISA95JobOrderStatusEventType/{commandName}",

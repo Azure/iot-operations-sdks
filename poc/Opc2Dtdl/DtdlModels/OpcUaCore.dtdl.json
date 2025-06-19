@@ -3678,7 +3678,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2052",
     "commandTopic": "opcua/OpcUaCore/AuditEventType/{commandName}",
@@ -3735,7 +3735,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditSecurityEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2058",
     "commandTopic": "opcua/OpcUaCore/AuditSecurityEventType/{commandName}",
@@ -3764,7 +3764,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditChannelEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditSecurityEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2059",
     "commandTopic": "opcua/OpcUaCore/AuditChannelEventType/{commandName}",
@@ -3793,7 +3793,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditOpenSecureChannelEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditChannelEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2060",
     "commandTopic": "opcua/OpcUaCore/AuditOpenSecureChannelEventType/{commandName}",
@@ -3904,7 +3904,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditSessionEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditSecurityEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2069",
     "commandTopic": "opcua/OpcUaCore/AuditSessionEventType/{commandName}",
@@ -3933,7 +3933,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCreateSessionEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditSessionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2071",
     "commandTopic": "opcua/OpcUaCore/AuditCreateSessionEventType/{commandName}",
@@ -3983,7 +3983,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditUrlMismatchEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditCreateSessionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2748",
     "commandTopic": "opcua/OpcUaCore/AuditUrlMismatchEventType/{commandName}",
@@ -4012,7 +4012,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditActivateSessionEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditSessionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2075",
     "commandTopic": "opcua/OpcUaCore/AuditActivateSessionEventType/{commandName}",
@@ -4097,7 +4097,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCancelEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditSessionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2078",
     "commandTopic": "opcua/OpcUaCore/AuditCancelEventType/{commandName}",
@@ -4126,7 +4126,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCertificateEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditSecurityEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2080",
     "commandTopic": "opcua/OpcUaCore/AuditCertificateEventType/{commandName}",
@@ -4155,7 +4155,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCertificateDataMismatchEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditCertificateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2082",
     "commandTopic": "opcua/OpcUaCore/AuditCertificateDataMismatchEventType/{commandName}",
@@ -4191,7 +4191,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCertificateExpiredEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditCertificateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2085",
     "payloadFormat": "Json/ecma/404",
@@ -4211,7 +4211,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCertificateInvalidEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditCertificateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2086",
     "payloadFormat": "Json/ecma/404",
@@ -4231,7 +4231,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCertificateUntrustedEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditCertificateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2087",
     "payloadFormat": "Json/ecma/404",
@@ -4251,7 +4251,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCertificateRevokedEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditCertificateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2088",
     "payloadFormat": "Json/ecma/404",
@@ -4271,7 +4271,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditCertificateMismatchEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditCertificateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2089",
     "payloadFormat": "Json/ecma/404",
@@ -4291,7 +4291,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditNodeManagementEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2090",
     "payloadFormat": "Json/ecma/404",
@@ -4311,7 +4311,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditAddNodesEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditNodeManagementEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2091",
     "commandTopic": "opcua/OpcUaCore/AuditAddNodesEventType/{commandName}",
@@ -4429,7 +4429,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditDeleteNodesEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditNodeManagementEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2093",
     "commandTopic": "opcua/OpcUaCore/AuditDeleteNodesEventType/{commandName}",
@@ -4478,7 +4478,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditAddReferencesEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditNodeManagementEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2095",
     "commandTopic": "opcua/OpcUaCore/AuditAddReferencesEventType/{commandName}",
@@ -4591,7 +4591,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditDeleteReferencesEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditNodeManagementEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2097",
     "commandTopic": "opcua/OpcUaCore/AuditDeleteReferencesEventType/{commandName}",
@@ -4655,7 +4655,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditUpdateEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2099",
     "payloadFormat": "Json/ecma/404",
@@ -4675,7 +4675,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditWriteUpdateEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2100",
     "commandTopic": "opcua/OpcUaCore/AuditWriteUpdateEventType/{commandName}",
@@ -4725,7 +4725,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryUpdateEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2104",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryUpdateEventType/{commandName}",
@@ -4754,7 +4754,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2127",
     "commandTopic": "opcua/OpcUaCore/AuditUpdateMethodEventType/{commandName}",
@@ -4804,7 +4804,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:SystemEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2130",
     "payloadFormat": "Json/ecma/404",
@@ -4824,7 +4824,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:DeviceFailureEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:SystemEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2131",
     "payloadFormat": "Json/ecma/404",
@@ -4844,7 +4844,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:SystemStatusChangeEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:SystemEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11446",
     "commandTopic": "opcua/OpcUaCore/SystemStatusChangeEventType/{commandName}",
@@ -4913,7 +4913,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:BaseModelChangeEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2132",
     "payloadFormat": "Json/ecma/404",
@@ -4933,7 +4933,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:GeneralModelChangeEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseModelChangeEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2133",
     "commandTopic": "opcua/OpcUaCore/GeneralModelChangeEventType/{commandName}",
@@ -4987,7 +4987,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:SemanticChangeEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2738",
     "commandTopic": "opcua/OpcUaCore/SemanticChangeEventType/{commandName}",
@@ -5036,7 +5036,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:EventQueueOverflowEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=3035",
     "payloadFormat": "Json/ecma/404",
@@ -5056,7 +5056,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:ProgressEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11436",
     "commandTopic": "opcua/OpcUaCore/ProgressEventType/{commandName}",
@@ -5092,7 +5092,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditClientEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23606",
     "commandTopic": "opcua/OpcUaCore/AuditClientEventType/{commandName}",
@@ -5121,7 +5121,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditClientUpdateMethodResultEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditClientEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23926",
     "commandTopic": "opcua/OpcUaCore/AuditClientUpdateMethodResultEventType/{commandName}",
@@ -5368,7 +5368,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2311",
     "telemetryTopic": "opcua/OpcUaCore/TransitionEventType/{telemetryName}/{senderId}",
@@ -5407,7 +5407,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditUpdateStateEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2315",
     "commandTopic": "opcua/OpcUaCore/AuditUpdateStateEventType/{commandName}",
@@ -6249,7 +6249,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:RoleMappingRuleChangedAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17641",
     "payloadFormat": "Json/ecma/404",
@@ -6796,7 +6796,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:ConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2782",
     "commandTopic": "opcua/OpcUaCore/ConditionType/{commandName}",
@@ -6954,7 +6954,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:DialogConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2830",
     "commandTopic": "opcua/OpcUaCore/DialogConditionType/{commandName}",
@@ -7070,7 +7070,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AcknowledgeableConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2881",
     "commandTopic": "opcua/OpcUaCore/AcknowledgeableConditionType/{commandName}",
@@ -7152,7 +7152,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AcknowledgeableConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2915",
     "commandTopic": "opcua/OpcUaCore/AlarmConditionType/{commandName}",
@@ -7644,7 +7644,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:LimitAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2955",
     "commandTopic": "opcua/OpcUaCore/LimitAlarmType/{commandName}",
@@ -7846,7 +7846,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:ExclusiveLimitAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:LimitAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=9341",
     "payloadFormat": "Json/ecma/404",
@@ -7872,7 +7872,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:NonExclusiveLimitAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:LimitAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=9906",
     "telemetryTopic": "opcua/OpcUaCore/NonExclusiveLimitAlarmType/{telemetryName}/{senderId}",
@@ -7917,7 +7917,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:NonExclusiveLevelAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:NonExclusiveLimitAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=10060",
     "payloadFormat": "Json/ecma/404",
@@ -7937,7 +7937,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:ExclusiveLevelAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:ExclusiveLimitAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=9482",
     "payloadFormat": "Json/ecma/404",
@@ -7957,7 +7957,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:NonExclusiveDeviationAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:NonExclusiveLimitAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=10368",
     "commandTopic": "opcua/OpcUaCore/NonExclusiveDeviationAlarmType/{commandName}",
@@ -7993,7 +7993,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:NonExclusiveRateOfChangeAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:NonExclusiveLimitAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=10214",
     "commandTopic": "opcua/OpcUaCore/NonExclusiveRateOfChangeAlarmType/{commandName}",
@@ -8022,7 +8022,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:ExclusiveDeviationAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:ExclusiveLimitAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=9764",
     "commandTopic": "opcua/OpcUaCore/ExclusiveDeviationAlarmType/{commandName}",
@@ -8058,7 +8058,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:ExclusiveRateOfChangeAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:ExclusiveLimitAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=9623",
     "commandTopic": "opcua/OpcUaCore/ExclusiveRateOfChangeAlarmType/{commandName}",
@@ -8087,7 +8087,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:DiscreteAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=10523",
     "payloadFormat": "Json/ecma/404",
@@ -8107,7 +8107,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:DiscreteAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=10637",
     "commandTopic": "opcua/OpcUaCore/OffNormalAlarmType/{commandName}",
@@ -8136,7 +8136,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:SystemOffNormalAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11753",
     "payloadFormat": "Json/ecma/404",
@@ -8156,7 +8156,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:TripAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=10751",
     "payloadFormat": "Json/ecma/404",
@@ -8176,7 +8176,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:InstrumentDiagnosticAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=18347",
     "payloadFormat": "Json/ecma/404",
@@ -8196,7 +8196,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:SystemDiagnosticAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=18496",
     "payloadFormat": "Json/ecma/404",
@@ -8216,7 +8216,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:CertificateExpirationAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:SystemOffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=13225",
     "commandTopic": "opcua/OpcUaCore/CertificateExpirationAlarmType/{commandName}",
@@ -8266,7 +8266,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:DiscrepancyAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17080",
     "commandTopic": "opcua/OpcUaCore/DiscrepancyAlarmType/{commandName}",
@@ -8489,7 +8489,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2790",
     "payloadFormat": "Json/ecma/404",
@@ -8509,7 +8509,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionEnableEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2803",
     "payloadFormat": "Json/ecma/404",
@@ -8529,7 +8529,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionCommentEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2829",
     "commandTopic": "opcua/OpcUaCore/AuditConditionCommentEventType/{commandName}",
@@ -8565,7 +8565,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionRespondEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=8927",
     "commandTopic": "opcua/OpcUaCore/AuditConditionRespondEventType/{commandName}",
@@ -8594,7 +8594,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionAcknowledgeEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=8944",
     "commandTopic": "opcua/OpcUaCore/AuditConditionAcknowledgeEventType/{commandName}",
@@ -8630,7 +8630,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionConfirmEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=8961",
     "commandTopic": "opcua/OpcUaCore/AuditConditionConfirmEventType/{commandName}",
@@ -8666,7 +8666,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionShelvingEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11093",
     "commandTopic": "opcua/OpcUaCore/AuditConditionShelvingEventType/{commandName}",
@@ -8695,7 +8695,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionSuppressionEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17225",
     "payloadFormat": "Json/ecma/404",
@@ -8715,7 +8715,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionSilenceEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17242",
     "payloadFormat": "Json/ecma/404",
@@ -8735,7 +8735,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionResetEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15013",
     "payloadFormat": "Json/ecma/404",
@@ -8755,7 +8755,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditConditionOutOfServiceEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditConditionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17259",
     "payloadFormat": "Json/ecma/404",
@@ -8775,7 +8775,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:RefreshStartEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:SystemEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2787",
     "payloadFormat": "Json/ecma/404",
@@ -8795,7 +8795,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:RefreshEndEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:SystemEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2788",
     "payloadFormat": "Json/ecma/404",
@@ -8815,7 +8815,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:RefreshRequiredEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:SystemEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2789",
     "payloadFormat": "Json/ecma/404",
@@ -9292,7 +9292,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:ProgramTransitionEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2378",
     "telemetryTopic": "opcua/OpcUaCore/ProgramTransitionEventType/{telemetryName}/{senderId}",
@@ -9319,7 +9319,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditProgramTransitionEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateStateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11856",
     "commandTopic": "opcua/OpcUaCore/AuditProgramTransitionEventType/{commandName}",
@@ -9348,7 +9348,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:ProgramTransitionAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateStateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=3806",
     "telemetryTopic": "opcua/OpcUaCore/ProgramTransitionAuditEventType/{telemetryName}/{senderId}",
@@ -10045,7 +10045,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryEventUpdateEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditHistoryUpdateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2999",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryEventUpdateEventType/{commandName}",
@@ -10297,7 +10297,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryValueUpdateEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditHistoryUpdateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=3006",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryValueUpdateEventType/{commandName}",
@@ -10377,7 +10377,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryAnnotationUpdateEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditHistoryUpdateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=19095",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryAnnotationUpdateEventType/{commandName}",
@@ -10472,7 +10472,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryDeleteEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditHistoryUpdateEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=3012",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryDeleteEventType/{commandName}",
@@ -10501,7 +10501,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryRawModifyDeleteEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditHistoryDeleteEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=3014",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryRawModifyDeleteEventType/{commandName}",
@@ -10554,7 +10554,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryAtTimeDeleteEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditHistoryDeleteEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=3019",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryAtTimeDeleteEventType/{commandName}",
@@ -10596,7 +10596,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryEventDeleteEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditHistoryDeleteEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=3022",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryEventDeleteEventType/{commandName}",
@@ -10635,7 +10635,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryConfigurationChangeEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32758",
     "payloadFormat": "Json/ecma/404",
@@ -10655,7 +10655,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuditHistoryBulkInsertEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32803",
     "commandTopic": "opcua/OpcUaCore/AuditHistoryBulkInsertEventType/{commandName}",
@@ -10898,7 +10898,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:TrustListOutOfDateAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:SystemOffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=19297",
     "commandTopic": "opcua/OpcUaCore/TrustListOutOfDateAlarmType/{commandName}",
@@ -11311,7 +11311,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:TrustListUpdateRequestedAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32260",
     "payloadFormat": "Json/ecma/404",
@@ -11331,7 +11331,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:TrustListUpdatedAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=12561",
     "commandTopic": "opcua/OpcUaCore/TrustListUpdatedAuditEventType/{commandName}",
@@ -11814,7 +11814,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:CertificateUpdateRequestedAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32306",
     "payloadFormat": "Json/ecma/404",
@@ -11834,7 +11834,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:CertificateUpdatedAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=12620",
     "commandTopic": "opcua/OpcUaCore/CertificateUpdatedAuditEventType/{commandName}",
@@ -12090,7 +12090,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:KeyCredentialAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=18011",
     "commandTopic": "opcua/OpcUaCore/KeyCredentialAuditEventType/{commandName}",
@@ -12119,7 +12119,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:KeyCredentialUpdatedAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:KeyCredentialAuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=18029",
     "payloadFormat": "Json/ecma/404",
@@ -12139,7 +12139,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:KeyCredentialDeletedAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:KeyCredentialAuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=18047",
     "payloadFormat": "Json/ecma/404",
@@ -19750,7 +19750,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubStatusEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:SystemEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15535",
     "commandTopic": "opcua/OpcUaCore/PubSubStatusEventType/{commandName}",
@@ -19821,7 +19821,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubTransportLimitsExceedEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:PubSubStatusEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15548",
     "commandTopic": "opcua/OpcUaCore/PubSubTransportLimitsExceedEventType/{commandName}",
@@ -19857,7 +19857,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubCommunicationFailureEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:PubSubStatusEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15563",
     "commandTopic": "opcua/OpcUaCore/PubSubCommunicationFailureEventType/{commandName}",

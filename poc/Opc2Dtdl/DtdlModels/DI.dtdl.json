@@ -627,7 +627,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DI:DeviceHealthDiagnosticAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:InstrumentDiagnosticAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15143",
     "payloadFormat": "Json/ecma/404",
@@ -647,7 +647,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DI:FailureAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:DeviceHealthDiagnosticAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15292",
     "payloadFormat": "Json/ecma/404",
@@ -667,7 +667,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DI:CheckFunctionAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:DeviceHealthDiagnosticAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15441",
     "payloadFormat": "Json/ecma/404",
@@ -687,7 +687,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DI:OffSpecAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:DeviceHealthDiagnosticAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15590",
     "payloadFormat": "Json/ecma/404",
@@ -707,7 +707,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DI:MaintenanceRequiredAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:DI:DeviceHealthDiagnosticAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15739",
     "payloadFormat": "Json/ecma/404",

@@ -10,7 +10,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:ExternalAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:DiscreteAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1048",
     "commandTopic": "opcua/TMC_v2/ExternalAlarmType/{commandName}",
@@ -109,7 +109,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:LogbookEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1006",
     "payloadFormat": "Json/ecma/404",
@@ -129,7 +129,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:CarrierEnteredLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1085",
     "commandTopic": "opcua/TMC_v2/CarrierEnteredLogType/{commandName}",
@@ -158,7 +158,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:CarrierReleasedLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1087",
     "commandTopic": "opcua/TMC_v2/CarrierReleasedLogType/{commandName}",
@@ -187,7 +187,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:CarrierSublotsChangeLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1055",
     "commandTopic": "opcua/TMC_v2/CarrierSublotsChangeLogType/{commandName}",
@@ -428,7 +428,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MachineContextLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1089",
     "commandTopic": "opcua/TMC_v2/MachineContextLogType/{commandName}",
@@ -471,7 +471,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:ControlModeChangeLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MachineContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1010",
     "commandTopic": "opcua/TMC_v2/ControlModeChangeLogType/{commandName}",
@@ -551,7 +551,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationChangeLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MachineContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1022",
     "commandTopic": "opcua/TMC_v2/MachineModuleSpecificationChangeLogType/{commandName}",
@@ -853,7 +853,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MachineContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1011",
     "commandTopic": "opcua/TMC_v2/ProductionContextLogType/{commandName}",
@@ -889,7 +889,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:DataSetChangeLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1017",
     "commandTopic": "opcua/TMC_v2/DataSetChangeLogType/{commandName}",
@@ -962,7 +962,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:DefectDetectedLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1026",
     "commandTopic": "opcua/TMC_v2/DefectDetectedLogType/{commandName}",
@@ -1011,7 +1011,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:DetectionModeChangeLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1045",
     "commandTopic": "opcua/TMC_v2/DetectionModeChangeLogType/{commandName}",
@@ -1040,7 +1040,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:DowntimeLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1024",
     "commandTopic": "opcua/TMC_v2/DowntimeLogType/{commandName}",
@@ -1118,7 +1118,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MaterialContextLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1086",
     "commandTopic": "opcua/TMC_v2/MaterialContextLogType/{commandName}",
@@ -1154,7 +1154,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:IntegrityRejectedMaterialLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MaterialContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1039",
     "commandTopic": "opcua/TMC_v2/IntegrityRejectedMaterialLogType/{commandName}",
@@ -1385,7 +1385,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:LoadingPointUnloadedLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MaterialContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1032",
     "commandTopic": "opcua/TMC_v2/LoadingPointUnloadedLogType/{commandName}",
@@ -1616,7 +1616,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MaterialConsumedLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MaterialContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1033",
     "telemetryTopic": "opcua/TMC_v2/MaterialConsumedLogType/{telemetryName}/{senderId}",
@@ -1681,7 +1681,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MaterialDispensedLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MaterialContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1084",
     "telemetryTopic": "opcua/TMC_v2/MaterialDispensedLogType/{telemetryName}/{senderId}",
@@ -1746,7 +1746,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MaterialOutputProducedLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MaterialContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1030",
     "telemetryTopic": "opcua/TMC_v2/MaterialOutputProducedLogType/{telemetryName}/{senderId}",
@@ -1811,7 +1811,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MaterialRejectedLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MaterialContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1027",
     "telemetryTopic": "opcua/TMC_v2/MaterialRejectedLogType/{telemetryName}/{senderId}",
@@ -1876,7 +1876,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MaterialUnloadingRequiredLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MaterialContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1034",
     "commandTopic": "opcua/TMC_v2/MaterialUnloadingRequiredLogType/{commandName}",
@@ -2107,7 +2107,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:NewPresentedMaterialLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MaterialContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1038",
     "commandTopic": "opcua/TMC_v2/NewPresentedMaterialLogType/{commandName}",
@@ -2338,7 +2338,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:POStartedLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1091",
     "payloadFormat": "Json/ecma/404",
@@ -2358,7 +2358,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:POStoppedLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1092",
     "payloadFormat": "Json/ecma/404",
@@ -2378,7 +2378,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:ProcessItemResetLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1031",
     "commandTopic": "opcua/TMC_v2/ProcessItemResetLogType/{commandName}",
@@ -2450,7 +2450,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:RejectionModeChangeLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1029",
     "commandTopic": "opcua/TMC_v2/RejectionModeChangeLogType/{commandName}",
@@ -2479,7 +2479,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:StateChangeLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:ProductionContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1021",
     "commandTopic": "opcua/TMC_v2/StateChangeLogType/{commandName}",
@@ -2591,7 +2591,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:RootCauseGroupListChangeLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MachineContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1036",
     "commandTopic": "opcua/TMC_v2/RootCauseGroupListChangeLogType/{commandName}",
@@ -2655,7 +2655,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:RootCauseListChangeLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MachineContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1014",
     "commandTopic": "opcua/TMC_v2/RootCauseListChangeLogType/{commandName}",
@@ -2709,7 +2709,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:StopReasonListChangeLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:MachineContextLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1015",
     "commandTopic": "opcua/TMC_v2/StopReasonListChangeLogType/{commandName}",
@@ -2768,7 +2768,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:SubCarrierLoadedLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1078",
     "commandTopic": "opcua/TMC_v2/SubCarrierLoadedLogType/{commandName}",
@@ -2804,7 +2804,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:SubCarrierLoadingEndedLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1079",
     "commandTopic": "opcua/TMC_v2/SubCarrierLoadingEndedLogType/{commandName}",
@@ -2833,7 +2833,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:SubCarrierLoadingStartedLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1080",
     "commandTopic": "opcua/TMC_v2/SubCarrierLoadingStartedLogType/{commandName}",
@@ -2862,7 +2862,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:SubCarrierUnloadedLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1081",
     "commandTopic": "opcua/TMC_v2/SubCarrierUnloadedLogType/{commandName}",
@@ -2898,7 +2898,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:SubCarrierUnloadingEndedLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1082",
     "commandTopic": "opcua/TMC_v2/SubCarrierUnloadingEndedLogType/{commandName}",
@@ -2927,7 +2927,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:SubCarrierUnloadingStartedLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:TMC_v2:LogbookEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1083",
     "commandTopic": "opcua/TMC_v2/SubCarrierUnloadingStartedLogType/{commandName}",
@@ -2956,7 +2956,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:ProductionOrderTransitionLogType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1088",
     "commandTopic": "opcua/TMC_v2/ProductionOrderTransitionLogType/{commandName}",

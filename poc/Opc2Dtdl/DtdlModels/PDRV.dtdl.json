@@ -348,7 +348,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PDRV:DiagnosisAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1012",
     "commandTopic": "opcua/PDRV/DiagnosisAlarmType/{commandName}",
@@ -444,7 +444,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PDRV:AxisSwOvertravelEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PDRV:AxisEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1013",
     "commandTopic": "opcua/PDRV/AxisSwOvertravelEventType/{commandName}",
@@ -473,7 +473,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PDRV:AxisHwOvertravelEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PDRV:AxisEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1014",
     "commandTopic": "opcua/PDRV/AxisHwOvertravelEventType/{commandName}",
@@ -570,7 +570,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PDRV:TorqueLimitEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PDRV:AxisEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1016",
     "commandTopic": "opcua/PDRV/TorqueLimitEventType/{commandName}",
@@ -599,7 +599,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PDRV:MotorCurrentLimitEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PDRV:AxisEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1017",
     "commandTopic": "opcua/PDRV/MotorCurrentLimitEventType/{commandName}",
@@ -669,7 +669,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PDRV:ForceLimitEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PDRV:AxisEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1019",
     "commandTopic": "opcua/PDRV/ForceLimitEventType/{commandName}",
@@ -698,7 +698,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PDRV:AxisEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1001",
     "commandTopic": "opcua/PDRV/AxisEventType/{commandName}",

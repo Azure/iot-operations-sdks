@@ -10,7 +10,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:AcquisitionDoneEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1025",
     "commandTopic": "opcua/MachineVision/AcquisitionDoneEventType/{commandName}",
@@ -51,7 +51,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:VisionConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AcknowledgeableConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1033",
     "commandTopic": "opcua/MachineVision/VisionConditionType/{commandName}",
@@ -278,7 +278,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:VisionErrorConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineVision:VisionConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1035",
     "payloadFormat": "Json/ecma/404",
@@ -298,7 +298,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:VisionPersistentErrorConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineVision:VisionConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1036",
     "payloadFormat": "Json/ecma/404",
@@ -318,7 +318,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:VisionWarningConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineVision:VisionConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1034",
     "payloadFormat": "Json/ecma/404",
@@ -338,7 +338,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:EnterStepSequenceEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1027",
     "commandTopic": "opcua/MachineVision/EnterStepSequenceEventType/{commandName}",
@@ -367,7 +367,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:JobStartedEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1013",
     "commandTopic": "opcua/MachineVision/JobStartedEventType/{commandName}",
@@ -408,7 +408,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:LeaveStepSequenceEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1029",
     "payloadFormat": "Json/ecma/404",
@@ -428,7 +428,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:NextStepEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1028",
     "commandTopic": "opcua/MachineVision/NextStepEventType/{commandName}",
@@ -457,7 +457,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:ReadyEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1023",
     "commandTopic": "opcua/MachineVision/ReadyEventType/{commandName}",
@@ -498,7 +498,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:RecipePreparedEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1022",
     "commandTopic": "opcua/MachineVision/RecipePreparedEventType/{commandName}",
@@ -590,7 +590,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:ResultReadyEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1024",
     "commandTopic": "opcua/MachineVision/ResultReadyEventType/{commandName}",
@@ -851,7 +851,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:ErrorEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1019",
     "payloadFormat": "Json/ecma/404",
@@ -871,7 +871,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:ErrorResolvedEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1020",
     "payloadFormat": "Json/ecma/404",
@@ -891,7 +891,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:StateChangedEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1018",
     "payloadFormat": "Json/ecma/404",
@@ -911,7 +911,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:VisionEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1015",
     "commandTopic": "opcua/MachineVision/VisionEventType/{commandName}",
@@ -1110,7 +1110,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:VisionDiagnosticInfoEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineVision:VisionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1037",
     "payloadFormat": "Json/ecma/404",
@@ -1130,7 +1130,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:VisionInformationEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:MachineVision:VisionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1038",
     "payloadFormat": "Json/ecma/404",
@@ -1150,7 +1150,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:VisionSafetyEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1030",
     "commandTopic": "opcua/MachineVision/VisionSafetyEventType/{commandName}",

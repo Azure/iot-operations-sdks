@@ -590,7 +590,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AcknowledgeableConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1020",
     "telemetryTopic": "opcua/IJT_Base/JoiningSystemConditionType/{telemetryName}/{senderId}",
@@ -742,7 +742,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1006",
     "telemetryTopic": "opcua/IJT_Base/JoiningSystemEventType/{telemetryName}/{senderId}",
@@ -894,7 +894,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemResultReadyEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Machinery_Result:ResultReadyEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1007",
     "payloadFormat": "Json/ecma/404",

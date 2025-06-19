@@ -114,7 +114,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_LDS:AdditiveAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1002",
     "payloadFormat": "Json/ecma/404",
@@ -134,7 +134,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_LDS:ComponentAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1003",
     "payloadFormat": "Json/ecma/404",
@@ -154,7 +154,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_LDS:LDSCycleParametersEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1008",
     "commandTopic": "opcua/PlasticsRubber_LDS/LDSCycleParametersEventType/{commandName}",

@@ -548,7 +548,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Onboarding:DeviceRegistrationAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding;i=1517",
     "commandTopic": "opcua/Onboarding/DeviceRegistrationAuditEventType/{commandName}",
@@ -577,7 +577,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Onboarding:DeviceIdentityAcceptedAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Onboarding:DeviceRegistrationAuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding;i=1533",
     "commandTopic": "opcua/Onboarding/DeviceIdentityAcceptedAuditEventType/{commandName}",
@@ -620,7 +620,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Onboarding:DeviceSoftwareUpdatedAuditEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Onboarding:DeviceRegistrationAuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding;i=1552",
     "commandTopic": "opcua/Onboarding/DeviceSoftwareUpdatedAuditEventType/{commandName}",

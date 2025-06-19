@@ -10,7 +10,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Cutter:CutEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter;i=1002",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/CutEventType/{commandName}",

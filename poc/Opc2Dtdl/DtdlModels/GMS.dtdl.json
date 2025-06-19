@@ -10,7 +10,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GMS:SensorWarningAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:OpcUaCore:LimitAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1010",
     "commandTopic": "opcua/GMS/SensorWarningAlarmType/{commandName}",
@@ -39,7 +39,7 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GMS:IntermediateResultEventType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "extends": "dtmi:opcua:Machinery_Result:ResultReadyEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1001",
     "commandTopic": "opcua/GMS/IntermediateResultEventType/{commandName}",
