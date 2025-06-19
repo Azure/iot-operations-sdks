@@ -1,7 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use std::{time::Duration};
+//! # Connector Scaffolding Template
+//!
+//! This crate provides a scaffolding template for building edge applications targeting Azure IoT Operations.
+//! It demonstrates how to structure device, asset, and dataset handlers, focusing on the lifecycle of creation,
+//! updating, deletion and status reporting. The sample logic assumes periodic sampling of an endpoint at a fixed interval.
+//!
+//! ## Major Components and Flow
+//!
+//! ### Device Handler
+//! - Responsible for orchestrating asset creation by spawning new asset handlers.
+//! - On startup or configuration change, the device handler creates asset handlers for each asset defined in the configuration.
+//! - Handles updates to itself and propagates changes.
+//!
+//! ### Asset Handler
+//! - Responsible for orchestrating dataset creation by spawning new dataset handlers.
+//! - On creation, the asset handler sets up dataset handlers for each dataset associated with the asset.
+//! - Handles updates to its configuration or state and propagates changes to its datasets.
+//!
+//! ### Dataset Handler
+//! - Handles the ingestion, transformation, and forwarding of data samples collected by the asset handler.
+//! - Can report status for itself, the asset, or device endpoint.
+//!
+//! ### Status Reporting
+//! - Each handler (device, asset, dataset) is responsible for reporting its status back to Azure IoT Operations.
+//!
+//! ## Extending the Scaffold
+//! - Implement custom sampling logic in the dataset handler.
+//! - Extend dataset handlers for custom data processing or integration.
+//! - Integrate additional status reporting as needed.
+//!
+//! For more details, refer to the the [Azure IoT Operations SDK documentation](https://github.com/Azure/iot-operations-sdks).
+
+use std::time::Duration;
 
 use azure_iot_operations_connector::{
     AdrConfigError, Data,
@@ -28,8 +60,8 @@ const DEFAULT_SAMPLING_INTERVAL: Duration = Duration::from_millis(10000); // Def
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Initialize the logger
+    // TODO: Use a more sophisticated logger configuration in production
     env_logger::Builder::new()
-        // TODO: This should be set to Warn
         .filter_level(log::LevelFilter::Debug)
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
@@ -42,15 +74,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .filter_module("notify::inotify", log::LevelFilter::Off)
         .init();
 
-    log::info!("Starting connector scaffold");
+    log::info!("Starting connector");
 
-    // Create the appplication context
+    // Create the appplication context used by the AIO SDK
     let application_context = ApplicationContextBuilder::default().build()?;
 
-    // Create the Base Connector
+    // Create the Base Connector to handle device endpoints, assets, and datasets creation, update and deletion notifications plus status reporting.
     let base_connector = BaseConnector::new(application_context);
 
-    // TODO: Get the connector artifacts from the base connector
+    // Get the connector artifacts from the base connector, TODO: Use them as needed
     let _connector_artifacts = base_connector.connector_artifacts();
 
     // Create a device endpoint client creation observation
@@ -156,16 +188,6 @@ async fn device_handler(
         watch::channel(device_endpoint_status_reporter_tx.clone());
     let mut device_endpoint_status_reported = false;
 
-    // There are currently no fields in the device specification that require reporting so reporting Ok
-    log::info!("{device_endpoint_log_identifier} Reporting device status as OK");
-    match device_endpoint_client.report_device_status(Ok(())).await {
-        Ok(()) => {
-            log::debug!("{device_endpoint_log_identifier} Device status reported as OK");
-        }
-        Err(e) => {
-            log::error!("{device_endpoint_log_identifier} Failed to report device status: {e}");
-        }
-    }
     loop {
         select! {
             biased;
@@ -174,9 +196,10 @@ async fn device_handler(
                 match status_report {
                     Ok(()) => {
                         log::info!(
-                            "{device_endpoint_log_identifier} Reporting endpoint status as OK"
+                            "{device_endpoint_log_identifier} Reporting endpoint and device status as OK"
                         );
-                        match device_endpoint_client.report_endpoint_status(Ok(())).await {
+                        // TODO: Reporting Ok here for both device and endpoint status may not be the desired behavior.
+                        match device_endpoint_client.report_status(Ok(()), Ok(())).await {
                             Ok(()) => {
                                 log::debug!(
                                     "{device_endpoint_log_identifier} Endpoint status reported as OK"
@@ -219,7 +242,7 @@ async fn device_handler(
                         }
                     }
                 }
-                // Since the status is now reported, we will not run through this branch again
+                // Since the status is now reported, we will not run through this branch again until we need to report
                 device_endpoint_status_reported = true;
             }
             notification = device_endpoint_client.recv_notification() => match notification {
@@ -426,13 +449,13 @@ async fn handle_dataset(
     >,
 ) {
     // This boolean tracks if the endpoint is ready to be sampled.
-    let mut is_device_endpoint_ready = true; // This should be mutable
+    let mut is_device_endpoint_ready = true;
 
     // Extract the status reporter from the device endpoint watcher
     let mut device_endpoint_status_reporter_tx = device_endpoint_status_reporter_watcher_rx
         .borrow_and_update()
         .clone();
-    // Extract a copy of the dataset client 
+    // Extract a copy of the dataset client
     #[allow(clippy::never_loop)]
     let mut _local_device_endpoint_specification = loop {
         let local_device_endpoint_specification = dataset_client.device_specification();
@@ -451,9 +474,9 @@ async fn handle_dataset(
     };
 
     // Extract the asset status reporter from the asset watcher
-    let mut _asset_status_reporter_tx = asset_status_reporter_watcher_rx.borrow_and_update().clone();
-    
-    
+    let mut _asset_status_reporter_tx =
+        asset_status_reporter_watcher_rx.borrow_and_update().clone();
+
     #[allow(clippy::never_loop)]
     let mut _local_asset_specification = loop {
         let local_asset_specification = dataset_client.asset_specification();
@@ -479,7 +502,7 @@ async fn handle_dataset(
         let local_dataset_definition = dataset_client.dataset_definition().clone();
 
         // TODO: Verify the dataset definition is OK
-        
+
         // For this example, we will assume that the dataset definition is OK, see below for how to handle a bad update.
         break local_dataset_definition;
 
@@ -514,12 +537,12 @@ async fn handle_dataset(
         // }
     };
 
-    
     // This variable keeps track of the latest reported schema.
     let mut current_schema = None;
 
     let mut timer = tokio::time::interval(DEFAULT_SAMPLING_INTERVAL);
-    
+
+    // If the timer misses a tick, the next one will be immediate and the following one will be one sampling interval (in time) after that.
     timer.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
     loop {
         select! {
@@ -563,7 +586,7 @@ async fn handle_dataset(
                 match dataset_notification {
                     DatasetNotification::Updated => {
                         log::info!("{dataset_log_identifier} Dataset update notification received");
-                        
+
                         // TODO: Verify the dataset specification is OK and optionally send a report if needed
                         // If the dataset specification is not OK, we will set the boolean to false
                         is_dataset_asset_ready = true;
@@ -593,8 +616,8 @@ async fn handle_dataset(
                 // TODO: This should be replaced with the actual sampling logic.
                 let bytes = mock_sample();
 
-                // TODO: If there are any errors while sampling those should be returned.
-                
+                // TODO: If there are any errors while sampling those should be returned and statuses reported to appropriate channels (e.g., device endpoint, asset, dataset).
+
                 // Report Ok for the device endpoint status reporter if the sampling was successful (will differ depending on the sampling logic)
                 let _ = device_endpoint_status_reporter_tx.send(Ok(()));
 
