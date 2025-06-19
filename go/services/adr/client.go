@@ -23,13 +23,18 @@ const (
 )
 
 type (
-	Asset                          = adrbaseservice.Asset
-	AssetEndpointProfile           = adrbaseservice.Device
-	NotificationResponse           = adrbaseservice.NotificationPreferenceResponse
-	AssetStatus                    = adrbaseservice.AssetStatus
-	AssetEndpointProfileStatus     = adrbaseservice.DeviceStatus
-	DetectedAsset                  = adrbaseservice.DetectedAsset
-	DiscoveredAssetEndpointProfile = aeptypeservice.DiscoveredAssetEndpointProfile
+	Asset                             = adrbaseservice.Asset
+	Device                            = adrbaseservice.Device
+	DeviceEndpointSchema              = adrbaseservice.DeviceEndpointSchema
+	NotificationPreference            = adrbaseservice.NotificationPreference
+	NotificationPreferenceResponse    = adrbaseservice.NotificationPreferenceResponse
+	AssetStatus                       = adrbaseservice.AssetStatus
+	AssetEndpointProfileStatus        = adrbaseservice.DeviceStatus
+	DetectedAsset                     = adrbaseservice.DetectedAsset
+	CreateDetectedAssetResponseSchema = adrbaseservice.CreateDetectedAssetResponseSchema
+
+	DiscoveredAssetEndpointProfile                     = aeptypeservice.DiscoveredAssetEndpointProfile
+	CreateDiscoveredAssetEndpointProfileResponseSchema = aeptypeservice.CreateDiscoveredAssetEndpointProfileResponseSchema
 )
 
 // Error represents an error returned by the ADR service.
@@ -54,7 +59,7 @@ type Client struct {
 	mu             sync.RWMutex
 	listeners      protocol.Listeners
 	onAssetUpdate  func(aepName string, asset *Asset) error
-	onAepUpdate    func(aepName string, profile *AssetEndpointProfile) error
+	onAepUpdate    func(aepName string, profile *DeviceEndpointSchema) error
 }
 
 // ClientOption represents a single option for the client.
@@ -64,7 +69,7 @@ type ClientOption interface{ client(*ClientOptions) }
 type ClientOptions struct {
 	Logger        *slog.Logger
 	OnAssetUpdate func(string, *Asset) error
-	OnAepUpdate   func(string, *AssetEndpointProfile) error
+	OnAepUpdate   func(string, *DeviceEndpointSchema) error
 }
 
 type (
@@ -75,7 +80,7 @@ type (
 	}
 
 	withAepUpdateHandler struct {
-		fn func(string, *AssetEndpointProfile) error
+		fn func(string, *DeviceEndpointSchema) error
 	}
 )
 
@@ -136,7 +141,7 @@ func New(
 	aepUpdateReceiver, err := protocol.NewTelemetryReceiver(
 		app,
 		client,
-		protocol.JSON[AssetEndpointProfile]{},
+		protocol.JSON[DeviceEndpointSchema]{},
 		"adr/v1/assetendpointprofiles/{aepName}/update",
 		c.handleAepUpdateTelemetry,
 	)
@@ -162,7 +167,7 @@ func (c *Client) Close() {
 func (c *Client) ObserveAssetEndpointProfileUpdates(
 	ctx context.Context,
 	aepName string,
-) (*NotificationResponse, error) {
+) (NotificationPreferenceResponse, error) {
 	c.logger.Debug(
 		"Observing asset endpoint profile updates",
 		"aepName",
@@ -179,21 +184,21 @@ func (c *Client) ObserveAssetEndpointProfileUpdates(
 		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
-		return nil, translateError(err)
+		return 0, translateError(err)
 	}
 
 	c.mu.Lock()
 	c.observedAeps[aepName] = struct{}{}
 	c.mu.Unlock()
 
-	return &resp.Payload.NotificationPreferenceResponse, nil
+	return resp.Payload.NotificationPreferenceResponse, nil
 }
 
 // UnobserveAssetEndpointProfileUpdates stops observation of asset endpoint profile updates.
 func (c *Client) UnobserveAssetEndpointProfileUpdates(
 	ctx context.Context,
 	aepName string,
-) (*NotificationResponse, error) {
+) (NotificationPreferenceResponse, error) {
 	c.logger.Debug(
 		"Unobserving asset endpoint profile updates",
 		"aepName",
@@ -210,21 +215,21 @@ func (c *Client) UnobserveAssetEndpointProfileUpdates(
 		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
-		return nil, translateError(err)
+		return 0, translateError(err)
 	}
 
 	c.mu.Lock()
 	delete(c.observedAeps, aepName)
 	c.mu.Unlock()
 
-	return &resp.Payload.NotificationPreferenceResponse, nil
+	return resp.Payload.NotificationPreferenceResponse, nil
 }
 
 // ObserveAssetUpdates starts observation of asset updates.
 func (c *Client) ObserveAssetUpdates(
 	ctx context.Context,
 	aepName, assetName string,
-) (*NotificationResponse, error) {
+) (NotificationPreferenceResponse, error) {
 	c.logger.Debug(
 		"Observing asset updates",
 		"aepName",
@@ -240,14 +245,13 @@ func (c *Client) ObserveAssetUpdates(
 		},
 	}
 
-	// Use the appropriate command invoker
 	resp, err := c.adrBase.SetNotificationPreferenceForAssetUpdates(
 		ctx,
 		req,
 		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
-		return nil, translateError(err)
+		return 0, translateError(err)
 	}
 
 	key := aepName + "~" + assetName
@@ -255,14 +259,14 @@ func (c *Client) ObserveAssetUpdates(
 	c.observedAssets[key] = struct{}{}
 	c.mu.Unlock()
 
-	return &resp.Payload.NotificationPreferenceResponse, nil
+	return resp.Payload.NotificationPreferenceResponse, nil
 }
 
 // UnobserveAssetUpdates stops observation of asset updates.
 func (c *Client) UnobserveAssetUpdates(
 	ctx context.Context,
 	aepName, assetName string,
-) (*NotificationResponse, error) {
+) (NotificationPreferenceResponse, error) {
 	c.logger.Debug(
 		"Unobserving asset updates",
 		"aepName",
@@ -284,7 +288,7 @@ func (c *Client) UnobserveAssetUpdates(
 		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
-		return nil, translateError(err)
+		return 0, translateError(err)
 	}
 
 	key := aepName + "~" + assetName
@@ -292,14 +296,13 @@ func (c *Client) UnobserveAssetUpdates(
 	delete(c.observedAssets, key)
 	c.mu.Unlock()
 
-	return &resp.Payload.NotificationPreferenceResponse, nil
+	return resp.Payload.NotificationPreferenceResponse, nil
 }
 
-// GetAssetEndpointProfile retrieves an asset endpoint profile by name.
-func (c *Client) GetAssetEndpointProfile(
+func (c *Client) GetDevice(
 	ctx context.Context,
 	aepName string,
-) (*AssetEndpointProfile, error) {
+) (*Device, error) {
 	c.logger.Debug("Getting asset endpoint profile", "aepName", aepName)
 
 	resp, err := c.adrBase.GetDevice(
@@ -318,7 +321,7 @@ func (c *Client) UpdateAssetEndpointProfileStatus(
 	ctx context.Context,
 	aepName string,
 	status *AssetEndpointProfileStatus,
-) (*AssetEndpointProfile, error) {
+) (*AssetEndpointProfileStatus, error) {
 	c.logger.Debug("Updating asset endpoint profile status", "aepName", aepName)
 
 	req := adrbaseservice.UpdateDeviceStatusRequestPayload{
@@ -334,7 +337,7 @@ func (c *Client) UpdateAssetEndpointProfileStatus(
 		return nil, translateError(err)
 	}
 
-	return &resp.Payload.UpdatedDevice, nil
+	return resp.Payload.UpdatedDevice.Status, nil
 }
 
 // GetAsset retrieves an asset by name.
@@ -400,7 +403,7 @@ func (c *Client) CreateDetectedAsset(
 	ctx context.Context,
 	aepName string,
 	asset *DetectedAsset,
-) (*adrbaseservice.CreateDetectedAssetResponsePayload, error) {
+) (*CreateDetectedAssetResponseSchema, error) {
 	req := adrbaseservice.CreateDetectedAssetRequestPayload{
 		DetectedAsset: *asset,
 	}
@@ -415,7 +418,7 @@ func (c *Client) CreateDetectedAsset(
 	}
 
 	// Return the actual payload type instead of *NotificationResponse
-	return &resp.Payload, nil
+	return &resp.Payload.CreateDetectedAssetResponse, nil
 }
 
 // CreateDiscoveredAssetEndpointProfile creates a discovered asset endpoint profile.
@@ -423,7 +426,7 @@ func (c *Client) CreateDiscoveredAssetEndpointProfile(
 	ctx context.Context,
 	aepName string,
 	profile *DiscoveredAssetEndpointProfile,
-) (*aeptypeservice.CreateDiscoveredAssetEndpointProfileResponsePayload, error) {
+) (*CreateDiscoveredAssetEndpointProfileResponseSchema, error) {
 	c.logger.Debug(
 		"Creating discovered asset endpoint profile",
 		"aepName",
@@ -443,7 +446,7 @@ func (c *Client) CreateDiscoveredAssetEndpointProfile(
 		return nil, translateError(err)
 	}
 
-	return &resp.Payload, nil
+	return &resp.Payload.CreateDiscoveredAssetEndpointProfileResponse, nil
 }
 
 // handleAssetUpdateTelemetry processes asset update telemetry messages.
@@ -469,7 +472,7 @@ func (c *Client) handleAssetUpdateTelemetry(
 
 func (c *Client) handleAepUpdateTelemetry(
 	_ context.Context,
-	msg *protocol.TelemetryMessage[AssetEndpointProfile],
+	msg *protocol.TelemetryMessage[DeviceEndpointSchema],
 ) error {
 	aepName := msg.TopicTokens[aepNameTokenKey]
 
@@ -582,7 +585,7 @@ func WithAssetUpdateHandler(
 
 // WithAepUpdateHandler sets a handler for asset endpoint profile update events.
 func WithAepUpdateHandler(
-	handler func(aepName string, profile *AssetEndpointProfile) error,
+	handler func(aepName string, profile *DeviceEndpointSchema) error,
 ) ClientOption {
 	return withAepUpdateHandler{handler}
 }
