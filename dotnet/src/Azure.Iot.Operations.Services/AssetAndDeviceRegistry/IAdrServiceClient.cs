@@ -18,7 +18,7 @@ public interface IAdrServiceClient : IAsyncDisposable
     Task<SetNotificationPreferenceForDeviceUpdatesResponsePayload> SetNotificationPreferenceForDeviceUpdatesAsync(
         string deviceName,
         string inboundEndpointName,
-        Models.NotificationPreference notificationPreference,
+        NotificationPreference notificationPreference,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
@@ -35,7 +35,7 @@ public interface IAdrServiceClient : IAsyncDisposable
         string deviceName,
         string inboundEndpointName,
         string assetName,
-        Models.NotificationPreference notificationPreference,
+        NotificationPreference notificationPreference,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
@@ -146,7 +146,7 @@ public interface IAdrServiceClient : IAsyncDisposable
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates or updates a discovered device endpoint profile.
+    /// Creates or updates a discovered device.
     /// </summary>
     /// <param name="request">The request containing discovered device endpoint profile creation parameters.</param>
     /// <param name="inboundEndpointType"></param>
@@ -161,13 +161,13 @@ public interface IAdrServiceClient : IAsyncDisposable
 
     /// <summary>
     /// Event triggered when a device update telemetry event is received.
-    /// NOTE: This event starts triggering after the call to ObserveDeviceEndpointUpdatesAsync.
+    /// NOTE: This event starts triggering after the call to <see cref="SetNotificationPreferenceForDeviceUpdatesAsync(string, string, NotificationPreference, TimeSpan?, CancellationToken)"/>.
     /// </summary>
     event Func<string, Device, Task>? OnReceiveDeviceUpdateEventTelemetry;
 
     /// <summary>
     /// Event triggered when an asset update telemetry event is received.
-    /// NOTE: This event starts triggering after the call to ObserveAssetUpdatesAsync.
+    /// NOTE: This event starts triggering after the call to <see cref="SetNotificationPreferenceForAssetUpdatesAsync(string, string, string, NotificationPreference, TimeSpan?, CancellationToken)"/>.
     /// </summary>
     event Func<string, Asset, Task>? OnReceiveAssetUpdateEventTelemetry;
 }

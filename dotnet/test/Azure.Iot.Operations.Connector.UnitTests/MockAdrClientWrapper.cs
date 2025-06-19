@@ -1,12 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Azure.Iot.Operations.Connector.Assets;
+using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Moq;
 
@@ -34,9 +29,9 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             return mockClientWrapper.Object.GetAssetNames(deviceName, inboundEndpointName);
         }
 
-        public EndpointCredentials GetEndpointCredentials(InboundEndpointSchemaMapValue inboundEndpoint)
+        public EndpointCredentials GetEndpointCredentials(string deviceName, string inboundEndpointName, InboundEndpointSchemaMapValue inboundEndpoint)
         {
-            return mockClientWrapper.Object.GetEndpointCredentials(inboundEndpoint);
+            return mockClientWrapper.Object.GetEndpointCredentials(deviceName, inboundEndpointName, inboundEndpoint);
         }
 
         public IEnumerable<string> GetDeviceNames()
@@ -82,6 +77,21 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public Task<DeviceStatus> UpdateDeviceStatusAsync(string deviceName, string inboundEndpointName, DeviceStatus status, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
         {
             return mockClientWrapper.Object.UpdateDeviceStatusAsync(deviceName, inboundEndpointName, status, commandTimeout, cancellationToken);
+        }
+
+        public Task<CreateOrUpdateDiscoveredAssetResponsePayload> CreateOrUpdateDiscoveredAssetAsync(string deviceName, string inboundEndpointName, CreateOrUpdateDiscoveredAssetRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return mockClientWrapper.Object.CreateOrUpdateDiscoveredAssetAsync(deviceName, inboundEndpointName, request, commandTimeout, cancellationToken);
+        }
+
+        public Task<CreateOrUpdateDiscoveredDeviceResponsePayload> CreateOrUpdateDiscoveredDeviceAsync(CreateOrUpdateDiscoveredDeviceRequestSchema request, string inboundEndpointType, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return mockClientWrapper.Object.CreateOrUpdateDiscoveredDeviceAsync(request, inboundEndpointType, commandTimeout, cancellationToken);
+        }
+
+        public ValueTask DisposeAsync()
+        {
+            return ValueTask.CompletedTask;
         }
     }
 }

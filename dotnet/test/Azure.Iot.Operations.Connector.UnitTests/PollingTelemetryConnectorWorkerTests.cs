@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector.ConnectorConfigurations;
+using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Microsoft.Extensions.Logging;
@@ -20,6 +21,21 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             Environment.SetEnvironmentVariable(ConnectorFileMountSettings.ConnectorClientIdEnvVar, "someClientId");
         }
 
+        private class MockAdrClientFactory : IAdrClientWrapperProvider
+        {
+            private readonly IAdrClientWrapper _mockAdrClientWrapper;
+
+            public MockAdrClientFactory(IAdrClientWrapper mockAdrClientWrapper)
+            {
+                _mockAdrClientWrapper = mockAdrClientWrapper;
+            }
+
+            public IAdrClientWrapper CreateAdrClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient)
+            {
+                return _mockAdrClientWrapper;
+            }
+        }
+
         [Fact]
         public async Task ConnectSingleDeviceSingleAssetSingleDatasetSingleDatapointSingleDestination()
         {
@@ -28,7 +44,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAdrClientWrapper);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, new MockAdrClientFactory(mockAdrClientWrapper));
             _ = worker.StartAsync(CancellationToken.None);
 
             string deviceName = Guid.NewGuid().ToString();
@@ -120,7 +136,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAdrClientWrapper);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, new MockAdrClientFactory(mockAdrClientWrapper));
             _ = worker.StartAsync(CancellationToken.None);
 
             string deviceName = Guid.NewGuid().ToString();
@@ -229,7 +245,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAdrClientWrapper);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, new MockAdrClientFactory(mockAdrClientWrapper));
             _ = worker.StartAsync(CancellationToken.None);
 
             string deviceName = Guid.NewGuid().ToString();
@@ -335,7 +351,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAdrClientWrapper);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, new MockAdrClientFactory(mockAdrClientWrapper));
             _ = worker.StartAsync(CancellationToken.None);
 
             string device1Name = Guid.NewGuid().ToString();
@@ -493,7 +509,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAdrClientWrapper);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, new MockAdrClientFactory(mockAdrClientWrapper));
             _ = worker.StartAsync(CancellationToken.None);
 
             string deviceName = Guid.NewGuid().ToString();
@@ -595,7 +611,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAdrClientWrapper);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, new MockAdrClientFactory(mockAdrClientWrapper));
             _ = worker.StartAsync(CancellationToken.None);
 
             string deviceName = Guid.NewGuid().ToString();
@@ -697,7 +713,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAdrClientWrapper);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, new MockAdrClientFactory(mockAdrClientWrapper));
             _ = worker.StartAsync(CancellationToken.None);
 
             string deviceName = Guid.NewGuid().ToString();
@@ -805,7 +821,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAdrClientWrapper);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, new MockAdrClientFactory(mockAdrClientWrapper));
             _ = worker.StartAsync(CancellationToken.None);
 
             string deviceName = Guid.NewGuid().ToString();
@@ -897,7 +913,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAdrClientWrapper);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, new MockAdrClientFactory(mockAdrClientWrapper));
             _ = worker.StartAsync(CancellationToken.None);
 
             string deviceName = Guid.NewGuid().ToString();

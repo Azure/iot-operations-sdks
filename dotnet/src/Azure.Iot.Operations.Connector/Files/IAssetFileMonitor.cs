@@ -3,19 +3,19 @@
 
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-namespace Azure.Iot.Operations.Connector.Assets
+namespace Azure.Iot.Operations.Connector.Files
 {
-    internal interface IAssetFileMonitor
+    public interface IAssetFileMonitor
     {
         /// <summary>
         /// Executes whenever an asset is added to or removed from an existing device after observing asset changes with <see cref="ObserveAssets(string, string)"/>.
         /// </summary>
-        event EventHandler<AssetChangedEventArgs>? AssetFileChanged;
+        event EventHandler<AssetFileChangedEventArgs>? AssetFileChanged;
 
         /// <summary>
         /// Executes whenever a device file is created or deleted after observing device changes with <see cref="ObserveDevices"/>.
         /// </summary>
-        event EventHandler<DeviceChangedEventArgs>? DeviceFileChanged;
+        event EventHandler<DeviceFileChangedEventArgs>? DeviceFileChanged;
 
         /// <summary>
         /// Start observing changes to assets for the given endpoint within the given device.
@@ -72,9 +72,11 @@ namespace Azure.Iot.Operations.Connector.Assets
         /// <summary>
         /// Get the file-mounted credentials for the provided inbound endpoint.
         /// </summary>
+        /// <param name="deviceName">The name of the device whose inbound endpoint credentials should be retrieved.</param>
+        /// <param name="inboundEndpointName">The name of the inbound endpoint whose credentials should be retrieved.</param>
         /// <param name="inboundEndpoint">The endpoint whose credentials should be returned.</param>
         /// <returns>The credentials for the endpoint</returns>
-        EndpointCredentials GetEndpointCredentials(InboundEndpointSchemaMapValue inboundEndpoint);
+        EndpointCredentials GetEndpointCredentials(string deviceName, string inboundEndpointName, InboundEndpointSchemaMapValue inboundEndpoint);
 
         /// <summary>
         /// Stop all observation of assets and/or devices.

@@ -3,7 +3,7 @@
 
 using System;
 using System.Collections.Concurrent;
-using Azure.Iot.Operations.Connector.Assets;
+using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
@@ -23,12 +23,22 @@ namespace Azure.Iot.Operations.Connector
 
         public event EventHandler<DeviceChangedEventArgs>? DeviceChanged;
 
-        public AdrClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient, string connectorClientId)
+        public AdrClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient)
         {
-            _client = new AdrServiceClient(applicationContext, mqttPubSubClient, connectorClientId);
+            _client = new AdrServiceClient(applicationContext, mqttPubSubClient);
             _client.OnReceiveAssetUpdateEventTelemetry += AssetUpdateReceived;
             _client.OnReceiveDeviceUpdateEventTelemetry += DeviceUpdateReceived;
             _monitor = new AssetFileMonitor();
+            _monitor.DeviceFileChanged += DeviceFileChanged;
+            _monitor.AssetFileChanged += AssetFileChanged;
+        }
+
+        public AdrClientWrapper(IAdrServiceClient adrServiceClient, IAssetFileMonitor? assetFileMonitor = null)
+        {
+            _client = adrServiceClient;
+            _client.OnReceiveAssetUpdateEventTelemetry += AssetUpdateReceived;
+            _client.OnReceiveDeviceUpdateEventTelemetry += DeviceUpdateReceived;
+            _monitor = assetFileMonitor ?? new AssetFileMonitor();
             _monitor.DeviceFileChanged += DeviceFileChanged;
             _monitor.AssetFileChanged += AssetFileChanged;
         }
@@ -107,9 +117,9 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// </inheritdoc>
-        public EndpointCredentials GetEndpointCredentials(InboundEndpointSchemaMapValue inboundEndpoint)
+        public EndpointCredentials GetEndpointCredentials(string deviceName, string inboundEndpointName, InboundEndpointSchemaMapValue inboundEndpoint)
         {
-            return _monitor.GetEndpointCredentials(inboundEndpoint);
+            return _monitor.GetEndpointCredentials(deviceName, inboundEndpointName, inboundEndpoint);
         }
 
         /// </inheritdoc>
@@ -152,6 +162,24 @@ namespace Azure.Iot.Operations.Connector
             return _monitor.GetDeviceNames();
         }
 
+        /// </inheritdoc>
+        public Task<CreateOrUpdateDiscoveredAssetResponsePayload> CreateOrUpdateDiscoveredAssetAsync(string deviceName, string inboundEndpointName, CreateOrUpdateDiscoveredAssetRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return _client.CreateOrUpdateDiscoveredAssetAsync(deviceName, inboundEndpointName, request, commandTimeout, cancellationToken);
+        }
+
+        /// </inheritdoc>
+        public Task<CreateOrUpdateDiscoveredDeviceResponsePayload> CreateOrUpdateDiscoveredDeviceAsync(CreateOrUpdateDiscoveredDeviceRequestSchema request, string inboundEndpointType, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return _client.CreateOrUpdateDiscoveredDeviceAsync(request, inboundEndpointType, commandTimeout, cancellationToken);
+        }
+
+        /// </inheritdoc>
+        public ValueTask DisposeAsync()
+        {
+            return _client.DisposeAsync();
+        }
+
         private Task DeviceUpdateReceived(string compositeDeviceName, Device device)
         {
             string deviceName = compositeDeviceName.Split('_')[0];
@@ -166,14 +194,14 @@ namespace Azure.Iot.Operations.Connector
             return Task.CompletedTask;
         }
 
-        private async void AssetFileChanged(object? sender, Assets.AssetChangedEventArgs e)
+        private async void AssetFileChanged(object? sender, AssetFileChangedEventArgs e)
         {
-            if (e.ChangeType == AssetFileMonitorChangeType.Deleted)
+            if (e.ChangeType == FileChangeType.Deleted)
             {
                 await _client.SetNotificationPreferenceForAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName, NotificationPreference.Off);
                 AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Deleted, null));
             }
-            else if (e.ChangeType == AssetFileMonitorChangeType.Created)
+            else if (e.ChangeType == FileChangeType.Created)
             {
                 var notificationResponse = await _client.SetNotificationPreferenceForAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName, NotificationPreference.On);
 
@@ -197,14 +225,14 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private async void DeviceFileChanged(object? sender, Assets.DeviceChangedEventArgs e)
+        private async void DeviceFileChanged(object? sender, DeviceFileChangedEventArgs e)
         {
-            if (e.ChangeType == AssetFileMonitorChangeType.Deleted)
+            if (e.ChangeType == FileChangeType.Deleted)
             {
                 await _client.SetNotificationPreferenceForDeviceUpdatesAsync(e.DeviceName, e.InboundEndpointName, NotificationPreference.Off);
                 DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Deleted, null));
             }
-            else if (e.ChangeType == AssetFileMonitorChangeType.Created)
+            else if (e.ChangeType == FileChangeType.Created)
             {
                 var notificationResponse = await _client.SetNotificationPreferenceForDeviceUpdatesAsync(e.DeviceName, e.InboundEndpointName, NotificationPreference.On);
 

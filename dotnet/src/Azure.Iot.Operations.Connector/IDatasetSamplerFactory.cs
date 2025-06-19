@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Connector.Assets;
+using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
@@ -21,6 +21,6 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="dataset">The dataset that the returned sampler will sample.</param>
         /// <param name="endpointCredentials">The authentication to use when connecting to the endpoint with this asset.</param>
         /// <returns>The dataset sampler that will be used everytime this dataset needs to be sampled.</returns>
-        IDatasetSampler CreateDatasetSampler(Device device, string inboundEndpointName, string assetName, Asset asset, AssetDataset dataset, EndpointCredentials? endpointCredentials);
+        IDatasetSampler CreateDatasetSampler(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset, AssetDataset dataset, EndpointCredentials? endpointCredentials);
     }
 }
