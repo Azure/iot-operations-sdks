@@ -25,11 +25,11 @@ use tokio_util::sync::CancellationToken;
 use crate::{
     AdrConfigError, Data, DatasetRef, MessageSchema,
     base_connector::ConnectorContext,
-    destination_endpoint,
-    filemount::{
+    deployment_artifacts::{
         self,
         azure_device_registry::{AssetRef, DeviceEndpointRef},
     },
+    destination_endpoint,
 };
 
 /// Used as the strategy when using [`tokio_retry2::Retry`]
@@ -51,14 +51,14 @@ pub enum ClientNotification<T> {
 pub struct DeviceEndpointClientCreationObservation {
     connector_context: Arc<ConnectorContext>,
     device_endpoint_create_observation:
-        filemount::azure_device_registry::DeviceEndpointCreateObservation,
+        deployment_artifacts::azure_device_registry::DeviceEndpointCreateObservation,
 }
 impl DeviceEndpointClientCreationObservation {
     /// Creates a new [`DeviceEndpointClientCreationObservation`] that uses the given [`ConnectorContext`]
     pub(crate) fn new(connector_context: Arc<ConnectorContext>) -> Self {
         // TODO: handle unwrap in a better way
         let device_endpoint_create_observation =
-            filemount::azure_device_registry::DeviceEndpointCreateObservation::new(
+            deployment_artifacts::azure_device_registry::DeviceEndpointCreateObservation::new(
                 connector_context.debounce_duration,
             )
             .unwrap();
@@ -206,7 +206,7 @@ pub struct DeviceEndpointClient {
     #[getter(skip)]
     device_update_observation: azure_device_registry::DeviceUpdateObservation,
     #[getter(skip)]
-    asset_create_observation: filemount::azure_device_registry::AssetCreateObservation,
+    asset_create_observation: deployment_artifacts::azure_device_registry::AssetCreateObservation,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
 }
@@ -216,7 +216,7 @@ impl DeviceEndpointClient {
         device_status: adr_models::DeviceStatus,
         device_endpoint_ref: DeviceEndpointRef,
         device_update_observation: azure_device_registry::DeviceUpdateObservation,
-        asset_create_observation: filemount::azure_device_registry::AssetCreateObservation,
+        asset_create_observation: deployment_artifacts::azure_device_registry::AssetCreateObservation,
         connector_context: Arc<ConnectorContext>,
         // TODO: This won't need to return an error once the service properly sends errors if the endpoint doesn't exist
     ) -> Result<Self, String> {
@@ -224,7 +224,7 @@ impl DeviceEndpointClient {
             specification: Arc::new(RwLock::new(DeviceSpecification::new(
                 device,
                 connector_context
-                    .connector_config
+                    .connector_artifacts
                     .device_endpoint_credentials_mount
                     .as_ref(),
                 &device_endpoint_ref.inbound_endpoint_name,
@@ -410,7 +410,7 @@ impl DeviceEndpointClient {
                     *unlocked_specification = DeviceSpecification::new(
                         updated_device,
                         self.connector_context
-                            .connector_config
+                            .connector_artifacts
                             .device_endpoint_credentials_mount
                             .as_ref(),
                         &self.device_endpoint_ref.inbound_endpoint_name,

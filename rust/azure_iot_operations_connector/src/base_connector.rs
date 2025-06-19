@@ -12,7 +12,7 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_services::{azure_device_registry, schema_registry, state_store};
 use managed_azure_device_registry::DeviceEndpointClientCreationObservation;
 
-use crate::filemount::connector_artifacts::ConnectorArtifacts;
+use crate::deployment_artifacts::connector::ConnectorArtifacts;
 
 pub mod adr_discovery;
 pub mod managed_azure_device_registry;
@@ -23,8 +23,8 @@ pub(crate) struct ConnectorContext {
     pub(crate) application_context: ApplicationContext,
     /// Used to create new envoys
     pub(crate) managed_client: SessionManagedClient,
-    /// Connector configuration if needed by any dependent operations
-    connector_config: ConnectorArtifacts,
+    /// Connector artifacts if needed by any dependent operations
+    connector_artifacts: ConnectorArtifacts,
     /// Debounce duration for filemount operations for the connector
     debounce_duration: Duration,
     /// Default timeout for connector operations
@@ -39,7 +39,7 @@ pub(crate) struct ConnectorContext {
 impl std::fmt::Debug for ConnectorContext {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ConnectorContext")
-            .field("connector_config", &self.connector_config)
+            .field("connector_artifacts", &self.connector_artifacts)
             .field("debounce_duration", &self.debounce_duration)
             .field("default_timeout", &self.default_timeout)
             .finish()
@@ -61,18 +61,18 @@ impl BaseConnector {
     pub fn new(application_context: ApplicationContext) -> Self {
         // if any of these operations fail, wait and try again in case connector configuration has changed
         let (
-            connector_config,
+            connector_artifacts,
             azure_device_registry_client,
             schema_registry_client,
             state_store_client,
             session,
         ) = operation_with_retries::<(_, _, _, _, _), String>(|| {
-            // Get Connector Configuration
-            let connector_config =
+            // Get Connector Artifacts
+            let connector_artifacts =
                 ConnectorArtifacts::new_from_deployment().map_err(|e| e.to_string())?;
 
             // Create Session
-            let mqtt_connection_settings = connector_config
+            let mqtt_connection_settings = connector_artifacts
                 .clone()
                 .to_mqtt_connection_settings("0")
                 .map_err(|e| e.to_string())?;
@@ -111,7 +111,7 @@ impl BaseConnector {
             .map_err(|e| e.to_string())?;
 
             Ok((
-                connector_config,
+                connector_artifacts,
                 azure_device_registry_client,
                 schema_registry_client,
                 state_store_client,
@@ -125,7 +125,7 @@ impl BaseConnector {
                 default_timeout: Duration::from_secs(10),  // TODO: come from somewhere
                 application_context,
                 managed_client: session.create_managed_client(),
-                connector_config,
+                connector_artifacts,
                 azure_device_registry_client,
                 schema_registry_client,
                 state_store_client: Arc::new(state_store_client),
@@ -159,7 +159,7 @@ impl BaseConnector {
 
     /// Returns a copy of the connector artifacts
     pub fn connector_artifacts(&self) -> ConnectorArtifacts {
-        self.connector_context.connector_config.clone()
+        self.connector_context.connector_artifacts.clone()
     }
 }
 
