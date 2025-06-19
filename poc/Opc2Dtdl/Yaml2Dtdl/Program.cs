@@ -59,7 +59,7 @@
             Dictionary<int, (string, string)> unitTypesDict = File.ReadAllLines(unitTypesFile).Select(l => l.Split(',')).ToDictionary(v => int.Parse(v[0]), v => (v[1], v[2]));
 
             Resolver resolver = new Resolver(resolverConfig);
-            ParsingOptions parsingOptions = new ParsingOptions() { DtmiResolver = resolver.Resolve, AllowUndefinedExtensions = WhenToAllow.Always };
+            ParsingOptions parsingOptions = new ParsingOptions() { DtmiResolver = resolver.Resolve, AllowUndefinedExtensions = WhenToAllow.Never };
             parsingOptions.ExtensionLimitContexts.Add(new Dtmi("dtmi:dtdl:limits:onvif"));
             ModelParser modelParser = new ModelParser(parsingOptions);
 
