@@ -96,54 +96,63 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AdditionalMeasuringDevices",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ElectricalEnergy",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FluidEnergy",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineConfiguration",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineInformation",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineInformationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Maintenance",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PressureAir",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ProductionDatasetManagement",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StartDevice",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
@@ -179,12 +188,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Maintenance",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StartTempering",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
@@ -288,18 +299,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ContactForce",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DistanceLeft",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DistanceRight",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
@@ -345,6 +359,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ElectricalCurrent",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
@@ -505,36 +520,42 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CrossAxisLeft",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CrossAxisRight",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Drive",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PeripheralDevices",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollPeripheralDevicesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RollBending",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollBendingType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Temperature",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZoneType"

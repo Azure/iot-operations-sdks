@@ -19,24 +19,28 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Status",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FactorySettings",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AnalyserStateMachine",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:ADI:AnalyserDeviceStateMachineType"
@@ -75,90 +79,105 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Powerup",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Operating",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Local",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Maintenance",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Shutdown",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PowerupToOperatingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OperatingToLocalTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OperatingToMaintenanceTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LocalToOperatingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LocalToMaintenanceTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MaintenanceToOperatingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MaintenanceToLocalTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OperatingToShutdownTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LocalToShutdownTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MaintenanceToShutdownTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
@@ -185,18 +204,21 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Status",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ChannelStateMachine",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:ADI:AnalyserChannelStateMachineType"
@@ -295,102 +317,119 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OperatingSubStateMachine",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:ADI:AnalyserChannel_OperatingModeSubStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LocalSubStateMachine",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:FiniteStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MaintenanceSubStateMachine",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:FiniteStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SlaveMode",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Operating",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:ADI:AnalyserChannelOperatingStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Local",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:ADI:AnalyserChannelLocalStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Maintenance",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:ADI:AnalyserChannelMaintenanceStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SlaveModeToOperatingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OperatingToLocalTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OperatingToMaintenanceTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LocalToOperatingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LocalToMaintenanceTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MaintenanceToOperatingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MaintenanceToLocalTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OperatingToSlaveModeTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LocalToSlaveModeTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MaintenanceToSlaveModeTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
@@ -437,432 +476,504 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OperatingExecuteSubStateMachine",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:ADI:AnalyserChannel_OperatingModeExecuteSubStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Stopped",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Resetting",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Idle",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Starting",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Execute",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:ADI:AnalyserChannelOperatingExecuteStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Completing",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Complete",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Suspending",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Suspended",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Unsuspending",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Holding",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Held",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Unholding",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Stopping",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Aborting",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Aborted",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Clearing",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StoppedToResettingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ResettingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ResettingToIdleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "IdleToStartingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StartingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StartingToExecuteTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExecuteToCompletingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CompletingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CompletingToCompleteTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CompleteToStoppedTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExecuteToHoldingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HoldingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HoldingToHeldTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HeldToUnholdingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "UnholdingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "UnholdingToHoldingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "UnholdingToExecuteTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExecuteToSuspendingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SuspendingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SuspendingToSuspendedTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SuspendedToUnsuspendingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "UnsuspendingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "UnsuspendingToSuspendingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "UnsuspendingToExecuteTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StoppingToStoppedTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AbortingToAbortedTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AbortedToClearingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ClearingToStoppedTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ResettingToStoppingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "IdleToStoppingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StartingToStoppingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExecuteToStoppingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CompletingToStoppingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CompleteToStoppingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SuspendingToStoppingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SuspendedToStoppingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "UnsuspendingToStoppingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HoldingToStoppingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HeldToStoppingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "UnholdingToStoppingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StoppedToAbortingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ResettingToAbortingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "IdleToAbortingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StartingToAbortingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExecuteToAbortingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CompletingToAbortingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CompleteToAbortingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SuspendingToAbortingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SuspendedToAbortingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "UnsuspendingToAbortingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HoldingToAbortingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HeldToAbortingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "UnholdingToAbortingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StoppingToAbortingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
@@ -889,348 +1000,406 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SelectExecutionCycle",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WaitForCalibrationTrigger",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExtractCalibrationSample",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PrepareCalibrationSample",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AnalyseCalibrationSample",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WaitForValidationTrigger",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExtractValidationSample",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PrepareValidationSample",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AnalyseValidationSample",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WaitForSampleTrigger",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExtractSample",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PrepareSample",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AnalyseSample",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WaitForDiagnosticTrigger",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Diagnostic",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WaitForCleaningTrigger",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Cleaning",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PublishResults",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EjectGrabSample",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CleanupSamplingSystem",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SelectExecutionCycleToWaitForCalibrationTriggerTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WaitForCalibrationTriggerToExtractCalibrationSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExtractCalibrationSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExtractCalibrationSampleToPrepareCalibrationSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PrepareCalibrationSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PrepareCalibrationSampleToAnalyseCalibrationSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AnalyseCalibrationSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AnalyseCalibrationSampleToPublishResultsTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SelectExecutionCycleToWaitForValidationTriggerTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WaitForValidationTriggerToExtractValidationSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExtractValidationSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExtractValidationSampleToPrepareValidationSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PrepareValidationSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PrepareValidationSampleToAnalyseValidationSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AnalyseValidationSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AnalyseValidationSampleToPublishResultsTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SelectExecutionCycleToWaitForSampleTriggerTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WaitForSampleTriggerToExtractSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExtractSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExtractSampleToPrepareSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PrepareSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PrepareSampleToAnalyseSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AnalyseSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AnalyseSampleToPublishResultsTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SelectExecutionCycleToWaitForDiagnosticTriggerTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WaitForDiagnosticTriggerToDiagnosticTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DiagnosticTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DiagnosticToPublishResultsTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SelectExecutionCycleToWaitForCleaningTriggerTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WaitForCleaningTriggerToCleaningTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CleaningTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CleaningToPublishResultsTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PublishResultsToCleanupSamplingSystemTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PublishResultsToEjectGrabSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EjectGrabSampleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EjectGrabSampleToCleanupSamplingSystemTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CleanupSamplingSystemTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CleanupSamplingSystemToSelectExecutionCycleTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
@@ -1257,42 +1426,49 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Status",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AcquisitionSettings",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AcquisitionStatus",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AcquisitionData",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ChemometricModelSettings",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Context",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
@@ -1319,6 +1495,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FactorySettings",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
@@ -1581,6 +1758,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AccessorySlotStateMachine",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:ADI:AccessorySlotStateMachineType"
@@ -1613,108 +1791,126 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Powerup",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Empty",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Inserting",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Installed",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Removing",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Shutdown",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PowerupToEmptyTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EmptyToInsertingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InsertingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InsertingToRemovingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InsertingToInstalledTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InstalledToRemovingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RemovingTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RemovingToEmptyTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EmptyToShutdownTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InsertingToShutdownTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InstalledToShutdownTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RemovingToShutdownTransition",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
@@ -1757,18 +1953,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Status",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FactorySettings",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"

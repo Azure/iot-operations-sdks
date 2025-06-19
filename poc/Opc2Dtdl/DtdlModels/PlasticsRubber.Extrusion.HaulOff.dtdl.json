@@ -38,18 +38,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Drives",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.HaulOff",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DrivesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Force",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.HaulOff",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TemperatureZones",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.HaulOff",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZonesType"

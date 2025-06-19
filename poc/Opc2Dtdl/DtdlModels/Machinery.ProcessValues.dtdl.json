@@ -67,12 +67,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DeviationAlarm",
         "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
         "target": "dtmi:opcua:OpcUaCore:ExclusiveDeviationAlarmType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LimitAlarm",
         "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
         "target": "dtmi:opcua:OpcUaCore:ExclusiveLimitAlarmType"

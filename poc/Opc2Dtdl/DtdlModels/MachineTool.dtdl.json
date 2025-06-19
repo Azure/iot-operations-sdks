@@ -507,6 +507,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Location",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
@@ -616,6 +617,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ToolLife",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
@@ -807,6 +809,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ChannelModifiers",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:ChannelModifierType"
@@ -1030,6 +1033,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Tools",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:ToolListType"
@@ -1056,6 +1060,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SoftwareIdentification",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
@@ -1139,6 +1144,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Obligation",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:ObligationType"
@@ -1165,36 +1171,42 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Equipment",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:EquipmentType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FileSystem",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:FileDirectoryType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Monitoring",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:MonitoringType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Notification",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:NotificationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Production",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:ProductionType"
@@ -1247,12 +1259,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineTool",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:MachineOperationMonitoringType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Stacklight",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:IA:BasicStacklightType"
@@ -1279,12 +1293,14 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Messages",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:MessagesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Prognoses",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:PrognosisListType"
@@ -1418,18 +1434,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PartSets",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ProductionPrograms",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:OrderedListType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "State",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:ProductionJobStateMachineType"
@@ -1484,6 +1503,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PartsPerRun",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
@@ -1597,6 +1617,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "State",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:ProductionPartStateMachineType"
@@ -1639,6 +1660,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "State",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:ProductionProgramStateMachineType"
@@ -1725,18 +1747,21 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ActiveProgram",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:ProductionActiveProgramType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ProductionPlan",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:ProductionJobListType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Statistics",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:ProductionStatisticsType"
@@ -2236,6 +2261,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MaintenanceMode",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:MaintenanceModeStateMachineType"
@@ -2262,30 +2288,35 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Inspection",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Other",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Repair",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Service",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Upgrade",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:StateType"
@@ -2312,90 +2343,105 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Aborted",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AbortedToInitializing",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Ended",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EndedToInitializing",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Initializing",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InitializingToAborted",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InitializingToRunning",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Interrupted",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InterruptedToAborted",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InterruptedToRunning",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Running",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RunningToAborted",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RunningToEnded",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RunningToInterrupted",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RunningToRunning",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"

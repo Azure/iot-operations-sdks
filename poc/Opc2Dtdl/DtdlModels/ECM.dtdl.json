@@ -1141,18 +1141,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EnergySavingModes",
         "namespace": "http://opcfoundation.org/UA/ECM",
         "target": "dtmi:opcua:ECM:EnergySavingModesContainerType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EnergySavingModeStatus",
         "namespace": "http://opcfoundation.org/UA/ECM",
         "target": "dtmi:opcua:ECM:EnergySavingModeStatusType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/ECM",
         "target": "dtmi:opcua:DI:LockingServicesType"

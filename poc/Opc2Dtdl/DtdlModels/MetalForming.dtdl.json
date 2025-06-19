@@ -192,6 +192,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CurrentProcessValue",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType"
@@ -276,6 +277,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryItemState",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:Machinery:MachineryItemState_StateMachineType"
@@ -302,6 +304,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FormingPositions",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:MetalForming:FormingPositionsType"
@@ -328,30 +331,35 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "BDC",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Retract",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Start",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TDC",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Touch",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"

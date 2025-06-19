@@ -23,7 +23,11 @@ namespace Yaml2Dtdl
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("      {\r\n        \"@type\": [ \"Relationship\", \"Qualified\" ],\r\n        \"name\": \"");
+            this.Write("      {\r\n        \"@type\": [ \"Relationship\", \"Qualified\" ],\r\n");
+ if (!this.isPlaceholder) { 
+            this.Write("        \"maxMultiplicity\": 1,\r\n");
+ } 
+            this.Write("        \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName))));
             this.Write("\",\r\n        \"namespace\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));

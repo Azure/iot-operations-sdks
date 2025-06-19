@@ -428,6 +428,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ConnectionPoint",
         "namespace": "http://opcfoundation.org/UA/AMLLibs",
         "target": "dtmi:opcua:AMLLibs:PortConnector"

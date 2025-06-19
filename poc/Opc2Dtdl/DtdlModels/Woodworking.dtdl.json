@@ -238,18 +238,21 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Flags",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Overview",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Values",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
@@ -495,12 +498,14 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Machine",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SubUnits",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
@@ -1074,18 +1079,21 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Events",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:Woodworking:WwEventsDispatcherType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ManufacturerSpecific",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "State",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"

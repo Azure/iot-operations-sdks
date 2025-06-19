@@ -381,6 +381,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Nodes",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnEquipmentContainerType"
@@ -650,30 +651,35 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Alarms",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Assets",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnAssetContainerType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "IM",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnIdentificationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Interfaces",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnInterfaceContainerType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Modules",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnRealModuleContainerType"
@@ -700,6 +706,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ARs",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnApplicationRelationContainerType"
@@ -890,12 +897,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Ports",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnPortContainerType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Statistic",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnPortStatisticType"
@@ -1007,6 +1016,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Submodules",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnExpectedSubmoduleContainerType"
@@ -1263,18 +1273,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Alarms",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "IM",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnIdentificationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Submodules",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnRealSubmoduleContainerType"
@@ -1358,6 +1371,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "State",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnSubmoduleStateType"
@@ -1614,12 +1628,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Alarms",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "IM",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnIdentificationType"
@@ -1928,6 +1944,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Modules",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnExpectedModuleContainerType"
@@ -2613,6 +2630,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Statistic",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnPortStatisticType"

@@ -45,30 +45,35 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Control",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Diagnostics",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SdoServices",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Status",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "target": "dtmi:opcua:DI:FunctionalGroupType"

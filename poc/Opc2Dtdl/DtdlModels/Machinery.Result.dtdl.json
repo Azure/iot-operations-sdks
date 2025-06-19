@@ -726,12 +726,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Results",
         "namespace": "http://opcfoundation.org/UA/Machinery.Result",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ResultTransfer",
         "namespace": "http://opcfoundation.org/UA/Machinery.Result",
         "target": "dtmi:opcua:Machinery_Result:ResultTransferType"

@@ -2455,12 +2455,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PtInputInterfaceAttributes",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
         "target": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PtMotorDutyAttributes",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
         "target": "dtmi:opcua:Powertrain:PtMotorDutyAttributesType"
@@ -3342,72 +3344,84 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DeviceHealthAlarms",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DeviceTypeImage",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Documentation",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DocumentationFiles",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ImageSet",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ProtocolSupport",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PtAmbientAttributes",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
         "target": "dtmi:opcua:Powertrain:PtAmbientAttributesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PtAuxiliarySupplyAttributes",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
         "target": "dtmi:opcua:Powertrain:PtAuxiliarySupplyAttributesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PtCertificateAttributes",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
         "target": "dtmi:opcua:Powertrain:PtCertificateAttributesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PtHardwareAttributes",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
         "target": "dtmi:opcua:Powertrain:PtHardwareAttributesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PtMechanicalStrengthAttributes",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
         "target": "dtmi:opcua:Powertrain:PtMechanicalStrengthAttributesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PtProtectionClassAttributes",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
         "target": "dtmi:opcua:Powertrain:PtProtectionClassAttributesType"

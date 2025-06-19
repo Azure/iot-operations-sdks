@@ -98,12 +98,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TicketAuthorities",
         "namespace": "http://opcfoundation.org/UA/Onboarding",
         "target": "dtmi:opcua:OpcUaCore:TrustListType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DeviceIdentityAuthorities",
         "namespace": "http://opcfoundation.org/UA/Onboarding",
         "target": "dtmi:opcua:OpcUaCore:TrustListType"
@@ -531,6 +533,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Administration",
         "namespace": "http://opcfoundation.org/UA/Onboarding",
         "target": "dtmi:opcua:Onboarding:DeviceRegistrarAdminType"

@@ -770,18 +770,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EnergySavingModes",
         "namespace": "http://opcfoundation.org/UA/PNEM",
         "target": "dtmi:opcua:PNEM:EnergySavingModesContainerType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EnergySavingModeStatus",
         "namespace": "http://opcfoundation.org/UA/PNEM",
         "target": "dtmi:opcua:PNEM:EnergySavingModeStatusType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/PNEM",
         "target": "dtmi:opcua:DI:LockingServicesType"

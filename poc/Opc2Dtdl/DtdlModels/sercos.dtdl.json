@@ -99,18 +99,21 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ProfileSet",
         "namespace": "http://sercos.org/UA",
         "target": "dtmi:opcua:sercos:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ClassSet",
         "namespace": "http://sercos.org/UA",
         "target": "dtmi:opcua:sercos:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FunctionGroupSet",
         "namespace": "http://sercos.org/UA",
         "target": "dtmi:opcua:sercos:FunctionalGroupType"

@@ -19,60 +19,70 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InjectionUnits",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_IMM2MES:InjectionUnitsType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Jobs",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobsType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineConfiguration",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineInformation",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineInformationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineMESConfiguration",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineMESConfigurationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineMESStatus",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineMESStatusType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineStatus",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineStatusType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Moulds",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MouldsType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PowerUnits",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:PowerUnitsType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ProductionDatasetManagement",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType"
@@ -416,6 +426,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TemperatureZones",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZonesType"

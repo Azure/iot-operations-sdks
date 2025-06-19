@@ -19,6 +19,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Identification",
         "namespace": "http://opcfoundation.org/UA/Machinery_Example",
         "target": "dtmi:opcua:Machinery:MachineryComponentIdentificationType"
@@ -45,6 +46,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"

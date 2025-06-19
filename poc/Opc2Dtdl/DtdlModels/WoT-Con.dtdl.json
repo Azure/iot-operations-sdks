@@ -92,6 +92,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WoTFile",
         "namespace": "http://opcfoundation.org/UA/WoT-Con",
         "target": "dtmi:opcua:WoT_Con:WoTAssetFileType"
@@ -118,6 +119,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WoTFile",
         "namespace": "http://opcfoundation.org/UA/WoT-Con",
         "target": "dtmi:opcua:WoT_Con:WoTAssetFileType"

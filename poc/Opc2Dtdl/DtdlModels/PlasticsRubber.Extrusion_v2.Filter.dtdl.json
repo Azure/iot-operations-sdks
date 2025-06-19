@@ -38,6 +38,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Drive",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
@@ -50,36 +51,42 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HydraulicPressure",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MeltPressureZones",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MeltTemperatureZones",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SpecificWasteOutput",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TemperatureZones",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionTemperatureZonesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WasteOutput",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"

@@ -161,12 +161,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LoadCurrent",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LoadPower",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
@@ -264,36 +266,42 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Diagnostics",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosticsType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Identification",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:IdentificationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineConfiguration",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MaintenanceInformation",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:MaintenanceInformationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Operation",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:OperationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Zones",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:ZonesType"
@@ -320,18 +328,21 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CoolingFan",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Heating",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SafetyTest",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
@@ -705,24 +716,28 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Controller",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:ControllerType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HeatUp",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:HeatUpType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Temperature",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:HRDTemperatureType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TemperatureRiseMonitoring",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:TemperatureRiseMonitoringType"

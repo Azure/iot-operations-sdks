@@ -435,120 +435,140 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Executing",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromExecutingToExecuting",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromExecutingToNotAvailable",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromExecutingToNotExecuting",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromExecutingToOutOfService",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromNotAvailableToExecuting",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromNotAvailableToNotAvailable",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromNotAvailableToNotExecuting",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromNotAvailableToOutOfService",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromNotExecutingToExecuting",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromNotExecutingToNotAvailable",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromNotExecutingToNotExecuting",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromNotExecutingToOutOfService",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromOutOfServiceToExecuting",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromOutOfServiceToNotAvailable",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromOutOfServiceToNotExecuting",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromOutOfServiceToOutOfService",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "NotAvailable",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "NotExecuting",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OutOfService",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:StateType"
@@ -584,120 +604,140 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromMaintenanceToMaintenance",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromMaintenanceToNone",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromMaintenanceToProcessing",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromMaintenanceToSetup",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromNoneToMaintenance",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromNoneToNone",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromNoneToProcessing",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromNoneToSetup",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromProcessingToMaintenance",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromProcessingToNone",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromProcessingToProcessing",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromProcessingToSetup",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromSetupToMaintenance",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromSetupToNone",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromSetupToProcessing",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromSetupToSetup",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Maintenance",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "None",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Processing",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Setup",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:StateType"

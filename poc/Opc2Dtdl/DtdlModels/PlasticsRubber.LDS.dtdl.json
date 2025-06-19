@@ -91,12 +91,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AdditiveFraction",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AdditiveStrokeVolume",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
@@ -462,18 +464,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Identification",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:IdentificationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineConfiguration",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Operation",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_LDS:OperationType"
@@ -792,24 +797,28 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Component_A",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_LDS:ComponentType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Component_B",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_LDS:ComponentType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DeliveryFlowrate",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DeliveryPressure",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"

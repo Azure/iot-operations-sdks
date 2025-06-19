@@ -283,24 +283,28 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CalibrationTargetCategory",
         "namespace": "http://opcfoundation.org/UA/IA",
         "target": "dtmi:opcua:IA:BaseCalibrationTargetCategoryType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CalibrationTargetFeatures",
         "namespace": "http://opcfoundation.org/UA/IA",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Identification",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OperationalConditions",
         "namespace": "http://opcfoundation.org/UA/IA",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -471,12 +475,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StackLevel",
         "namespace": "http://opcfoundation.org/UA/IA",
         "target": "dtmi:opcua:IA:StackLevelType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StackRunning",
         "namespace": "http://opcfoundation.org/UA/IA",
         "target": "dtmi:opcua:IA:StackRunningType"
@@ -538,6 +544,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DeviceHealthAlarms",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -620,6 +627,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AcousticSignals",
         "namespace": "http://opcfoundation.org/UA/IA",
         "target": "dtmi:opcua:OpcUaCore:OrderedListType"

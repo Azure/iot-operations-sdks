@@ -1523,12 +1523,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Configurations",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:ConfigurationFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ConfigurationTransfer",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:ConfigurationTransferType"
@@ -2536,18 +2538,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Products",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:ProductFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Recipes",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:RecipeFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RecipeTransfer",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:RecipeTransferType"
@@ -2772,6 +2777,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Handle",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:FileType"
@@ -3336,12 +3342,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Results",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:ResultFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ResultTransfer",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:ResultTransferType"
@@ -3777,144 +3785,168 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ContinuousExecution",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ContinuousExecutionStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ContinuousExecutionToReadyAbort",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ContinuousExecutionToReadyAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ContinuousExecutionToReadyStop",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Initialized",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InitializedStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InitializedToReadyAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InitializedToReadyProduct",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InitializedToReadyRecipe",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Ready",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReadyStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReadyToContinuousExecution",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReadyToContinuousExecutionAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReadyToInitializedAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReadyToInitializedProduct",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReadyToInitializedRecipe",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReadyToSingleExecution",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReadyToSingleExecutionAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SingleExecution",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SingleExecutionStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SingleExecutionToReadyAbort",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SingleExecutionToReadyAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SingleExecutionToReadyStop",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
@@ -4056,162 +4088,189 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AutomaticModeStateMachine",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Error",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ErrorStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ErrorToHalted",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ErrorToHaltedAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ErrorToOperationalAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ErrorToPreoperational",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ErrorToPreoperationalAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Halted",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HaltedStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HaltedToPreoperational",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HaltedToPreoperationalAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Operational",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OperationalToErrorAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OperationalToHalted",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OperationalToHaltedAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OperationalToPreoperational",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OperationalToPreoperationalAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Preoperational",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PreoperationalStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PreoperationalToErrorAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PreoperationalToHalted",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PreoperationalToHaltedAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PreoperationalToInitialized",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PreoperationalToInitializedAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PreoperationalToOperational",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PreoperationalToOperationalAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
@@ -4277,60 +4336,70 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Entry",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EntryToExitAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EntryToWaitAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Exit",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Step",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StepToExitAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StepToWaitAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Wait",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WaitToStep",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WaitToStepAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
@@ -4479,30 +4548,35 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ConfigurationManagement",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:ConfigurationManagementType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RecipeManagement",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:RecipeManagementType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ResultManagement",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:ResultManagementType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SafetyStateManagement",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:SafetyStateManagementType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "VisionStateMachine",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionStateMachineType"

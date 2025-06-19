@@ -522,12 +522,14 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Accessories",
         "namespace": "http://opcfoundation.org/UA/GMS",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AdditionalSensor",
         "namespace": "http://opcfoundation.org/UA/GMS",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -590,6 +592,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ResultManagement",
         "namespace": "http://opcfoundation.org/UA/GMS",
         "target": "dtmi:opcua:GMS:GMSResultManagementType"
@@ -616,12 +619,14 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LoadingMonitoring",
         "namespace": "http://opcfoundation.org/UA/GMS",
         "target": "dtmi:opcua:GMS:LoadingMonitoringType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ToolMonitoring",
         "namespace": "http://opcfoundation.org/UA/GMS",
         "target": "dtmi:opcua:GMS:ToolMonitoringType"
@@ -866,6 +871,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CorrectionsFolder",
         "namespace": "http://opcfoundation.org/UA/GMS",
         "target": "dtmi:opcua:OpcUaCore:FolderType"

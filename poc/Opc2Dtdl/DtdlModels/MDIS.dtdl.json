@@ -764,12 +764,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MotorOperationsCount",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISCounterObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TotalMotorRuntime",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISCounterObjectType"
@@ -1894,12 +1896,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Signatures",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TimeSynchronization",
         "namespace": "http://opcfoundation.org/UA/MDIS",
         "target": "dtmi:opcua:MDIS:MDISTimeSyncObjectType"

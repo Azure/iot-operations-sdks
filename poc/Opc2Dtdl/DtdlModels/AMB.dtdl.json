@@ -396,6 +396,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MaintenanceState",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "target": "dtmi:opcua:AMB:MaintenanceEventStateMachineType"
@@ -583,36 +584,42 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Executing",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Finished",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromExecutingToFinished",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromFinishedToPlanned",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromPlannedToExecuting",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Planned",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"

@@ -498,30 +498,35 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ServerCapabilities",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:ServerCapabilitiesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ServerDiagnostics",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:ServerDiagnosticsType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "VendorServerInfo",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:VendorServerInfoType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ServerRedundancy",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:ServerRedundancyType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Namespaces",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:NamespacesType"
@@ -728,24 +733,28 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OperationLimits",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:OperationLimitsType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ModellingRules",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AggregateFunctions",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RoleSet",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:RoleSetType"
@@ -1143,6 +1152,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SessionsDiagnosticsSummary",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:SessionsDiagnosticsSummaryType"
@@ -3499,6 +3509,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "NamespaceFile",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:AddressSpaceFileType"
@@ -5771,84 +5782,98 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Idle",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReadPrepare",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReadTransfer",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ApplyWrite",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Error",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "IdleToReadPrepare",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReadPrepareToReadTransfer",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReadTransferToIdle",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "IdleToApplyWrite",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ApplyWriteToIdle",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReadPrepareToError",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReadTransferToError",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ApplyWriteToError",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ErrorToIdle",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
@@ -6555,12 +6580,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AlternativeUnits",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CoherentUnit",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:UnitType"
@@ -6759,6 +6786,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ServerUnits",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
@@ -7407,12 +7435,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ShelvingState",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:ShelvedStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FirstInGroup",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:AlarmGroupType"
@@ -7579,54 +7609,63 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Unshelved",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TimedShelved",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OneShotShelved",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "UnshelvedToTimedShelved",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "UnshelvedToOneShotShelved",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TimedShelvedToUnshelved",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TimedShelvedToOneShotShelved",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OneShotShelvedToUnshelved",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OneShotShelvedToTimedShelved",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
@@ -7787,48 +7826,56 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HighHigh",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "High",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Low",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LowLow",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LowLowToLow",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LowToLowLow",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HighHighToHigh",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HighToHighHigh",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
@@ -7855,6 +7902,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LimitState",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:ExclusiveLimitStateMachineType"
@@ -9197,84 +9245,98 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FinalResultData",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Halted",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Ready",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Running",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Suspended",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HaltedToReady",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReadyToRunning",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RunningToHalted",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RunningToReady",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RunningToSuspended",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SuspendedToRunning",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SuspendedToHalted",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SuspendedToReady",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReadyToHalted",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
@@ -9491,12 +9553,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AggregateConfiguration",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:AggregateConfigurationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AggregateFunctions",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -9579,6 +9643,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EventTypes",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -10028,6 +10093,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AggregateFunctions",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -10984,18 +11050,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TrustList",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TrustListType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CertificateExpired",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:CertificateExpirationAlarmType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TrustListOutOfDate",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TrustListOutOfDateAlarmType"
@@ -11022,18 +11091,21 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DefaultApplicationGroup",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:CertificateGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DefaultHttpsGroup",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:CertificateGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DefaultUserTokenGroup",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:CertificateGroupType"
@@ -11791,12 +11863,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CertificateGroups",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:CertificateGroupFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TransactionDiagnostics",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:TransactionDiagnosticsType"
@@ -12387,12 +12461,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SecurityGroups",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:SecurityGroupFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "KeyPushTargets",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:PubSubKeyPushTargetFolderType"
@@ -13916,42 +13992,49 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PublishedDataSets",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:DataSetFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SubscribedDataSets",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:SubscribedDataSetFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PubSubConfiguration",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:PubSubConfigurationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Status",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:PubSubStatusType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Diagnostics",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsRootType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PubSubCapablities",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:PubSubCapabilitiesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DataSetClasses",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -14411,6 +14494,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExtensionFields",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:ExtensionFieldsType"
@@ -16421,24 +16505,28 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Address",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:NetworkAddressType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TransportSettings",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:ConnectionTransportType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Status",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:PubSubStatusType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Diagnostics",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsConnectionType"
@@ -16744,6 +16832,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Status",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:PubSubStatusType"
@@ -16973,18 +17062,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TransportSettings",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:WriterGroupTransportType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MessageSettings",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:WriterGroupMessageType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Diagnostics",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsWriterGroupType"
@@ -17577,18 +17669,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Diagnostics",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsReaderGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TransportSettings",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:ReaderGroupTransportType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MessageSettings",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:ReaderGroupMessageType"
@@ -17737,24 +17832,28 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TransportSettings",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:DataSetWriterTransportType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MessageSettings",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:DataSetWriterMessageType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Status",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:PubSubStatusType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Diagnostics",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsDataSetWriterType"
@@ -18528,30 +18627,35 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TransportSettings",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:DataSetReaderTransportType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MessageSettings",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:DataSetReaderMessageType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Status",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:PubSubStatusType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Diagnostics",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsDataSetReaderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SubscribedDataSet",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:SubscribedDataSetType"
@@ -19322,6 +19426,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SubscribedDataSet",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:SubscribedDataSetType"
@@ -19473,12 +19578,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Counters",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LiveValues",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
@@ -20589,6 +20696,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DiscoveryAddress",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:NetworkAddressType"
@@ -20662,6 +20770,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Address",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:NetworkAddressType"
@@ -20714,6 +20823,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Address",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:NetworkAddressType"
@@ -22736,18 +22846,21 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RemoteStatistics",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:LldpRemoteStatisticsType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LocalSystemData",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:LldpLocalSystemType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Ports",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -23124,6 +23237,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RemoteSystemsData",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:FolderType"

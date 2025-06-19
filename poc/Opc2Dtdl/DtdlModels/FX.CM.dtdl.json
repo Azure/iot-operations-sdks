@@ -348,6 +348,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CommunicationModelConfig",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:FX_CM:CommunicationModelConfigurationType"
@@ -509,6 +510,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ConnectionManagerConfiguration",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:FX_CM:ConnectionManagerConfigurationType"
@@ -2038,12 +2040,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ConnectionConfigurationSetStateMachine",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:FX_CM:ConnectionConfigurationSetStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:LockingServicesType"
@@ -2077,12 +2081,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Endpoint1",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Endpoint2",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType"
@@ -2266,6 +2272,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ConnectionEndpoint",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:FX_CM:ConnectionEndpointParameterType"
@@ -2625,18 +2632,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Capabilities",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:FX_CM:ConnectionManagerCapabilitiesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ConnectionConfigurationSets",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ConnectionManagerConfiguration",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:FX_CM:ConnectionManagerConfigurationType"
@@ -2786,42 +2796,49 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Error",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ErrorToProcessing",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Processing",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ProcessingToError",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ProcessingToReady",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Ready",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReadyToProcessing",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"

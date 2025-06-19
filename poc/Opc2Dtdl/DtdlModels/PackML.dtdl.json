@@ -462,18 +462,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Admin",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:PackML:PackMLAdminObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "BaseStateMachine",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:PackML:PackMLBaseStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Status",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:PackML:PackMLStatusObjectType"
@@ -732,42 +735,49 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Aborted",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AbortedToCleared",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Aborting",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AbortingToAborted",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Cleared",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ClearedToAborting",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineState",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:PackML:PackMLMachineStateMachineType"
@@ -874,186 +884,217 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Complete",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CompleteToResetting",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Completing",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CompletingToComplete",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Execute",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExecuteToCompleting",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExecuteToHolding",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExecuteToSuspending",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Held",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HeldToUnholding",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Holding",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "HoldingToHeld",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Idle",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "IdleToStarting",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Resetting",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ResettingToIdle",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Starting",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StartingToExecute",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StartingToHolding",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Suspended",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SuspendedToHolding",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SuspendedToUnsuspending",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Suspending",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SuspendingToHolding",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SuspendingToSuspended",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Unholding",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "UnholdingToExecute",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "UnholdingToHolding",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Unsuspending",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "UnsuspendingToExecute",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "UnsuspendingToHolding",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
@@ -1091,54 +1132,63 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Clearing",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ClearingToStopped",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExecuteState",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:PackML:PackMLExecuteStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Running",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RunningToStopping",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Stopped",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StoppedToRunning",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Stopping",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "StoppingToStopped",
         "namespace": "http://opcfoundation.org/UA/PackML",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"

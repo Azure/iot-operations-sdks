@@ -113,24 +113,28 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SignalSet",
         "namespace": "http://opcfoundation.org/UA/PADIM",
         "target": "dtmi:opcua:PADIM:SignalSetType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DeviceHealthAlarms",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SubDevices",
         "namespace": "http://opcfoundation.org/UA/PADIM",
         "target": "dtmi:opcua:DI:ConfigurableObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DeviceConditionSet",
         "namespace": "http://opcfoundation.org/UA/PADIM",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
@@ -256,6 +260,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SignalSet",
         "namespace": "http://opcfoundation.org/UA/PADIM",
         "target": "dtmi:opcua:PADIM:SignalSetType"
@@ -330,6 +335,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SignalConditionSet",
         "namespace": "http://opcfoundation.org/UA/PADIM",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
@@ -738,12 +744,14 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "GeneralDeviceConditions",
         "namespace": "http://opcfoundation.org/UA/PADIM",
         "target": "dtmi:opcua:PADIM:GeneralDeviceConditionSetType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DeviceComponentConditions",
         "namespace": "http://opcfoundation.org/UA/PADIM",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
@@ -785,6 +793,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CalibrationPointSet",
         "namespace": "http://opcfoundation.org/UA/PADIM",
         "target": "dtmi:opcua:PADIM:CalibrationPointSetType"

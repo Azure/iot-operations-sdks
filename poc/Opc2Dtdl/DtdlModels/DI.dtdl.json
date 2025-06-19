@@ -19,12 +19,14 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ParameterSet",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MethodSet",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
@@ -37,12 +39,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Identification",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:LockingServicesType"
@@ -263,6 +267,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DeviceHealthAlarms",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -289,30 +294,35 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DeviceTypeImage",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Documentation",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DocumentationFiles",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ProtocolSupport",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ImageSet",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -500,30 +510,35 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DeviceHealthAlarms",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DeviceTypeImage",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Documentation",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ProtocolSupport",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ImageSet",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -736,6 +751,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SupportedTypes",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -1010,6 +1026,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:LockingServicesType"
@@ -1036,6 +1053,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "NetworkAddress",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
@@ -1353,36 +1371,42 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Loading",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:SoftwareLoadingType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PrepareForUpdate",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:PrepareForUpdateStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Installation",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:InstallationStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PowerCycle",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:PowerCycleStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Confirmation",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:ConfirmationStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Parameters",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType"
@@ -1451,12 +1475,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CurrentVersion",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:SoftwareVersionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FileTransfer",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType"
@@ -1621,12 +1647,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PendingVersion",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:SoftwareVersionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FallbackVersion",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:SoftwareVersionType"
@@ -1759,6 +1787,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FileSystem",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FileDirectoryType"
@@ -1882,54 +1911,63 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Idle",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Preparing",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PreparedForUpdate",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Resuming",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "IdleToPreparing",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PreparingToIdle",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PreparingToPreparedForUpdate",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PreparedForUpdateToResuming",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ResumingToIdle",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
@@ -2034,42 +2072,49 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Idle",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Installing",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Error",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "IdleToInstalling",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InstallingToIdle",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InstallingToError",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ErrorToIdle",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
@@ -2096,24 +2141,28 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "NotWaitingForPowerCycle",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WaitingForPowerCycle",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "NotWaitingForPowerCycleToWaitingForPowerCycle",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WaitingForPowerCycleToNotWaitingForPowerCycle",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
@@ -2153,24 +2202,28 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "NotWaitingForConfirm",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WaitingForConfirm",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "NotWaitingForConfirmToWaitingForConfirm",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "WaitingForConfirmToNotWaitingForConfirm",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"

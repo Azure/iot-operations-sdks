@@ -62,6 +62,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DescriptorFile",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:OpcUaCore:FileType"
@@ -951,36 +952,42 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Assets",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ComponentCapabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:AutomationComponentCapabilitiesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Descriptors",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FunctionalEntities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PublisherCapabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:PublisherCapabilitiesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SubscriberCapabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType"
@@ -1105,6 +1112,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Connectors",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -1529,54 +1537,63 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Capabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:FunctionalEntityCapabilitiesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ConfigurationData",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:ConfigurationDataFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ConnectionEndpoints",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:ConnectionEndpointsFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ControlGroups",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:ControlGroupsFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InputData",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:InputsFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OperationalHealthAlarms",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OutputData",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:OutputsFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PublisherCapabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:PublisherCapabilitiesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SubscriberCapabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType"
@@ -1869,18 +1886,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ListOfRelated",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ListToBlock",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:ControlItemFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ListToRestrict",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:ControlItemFolderType"
@@ -2181,6 +2201,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:DI:LockingServicesType"
@@ -2207,6 +2228,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SubscriberCapabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType"
@@ -2233,6 +2255,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PublisherCapabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:PublisherCapabilitiesType"
@@ -2494,54 +2517,63 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Capabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:FunctionalEntityCapabilitiesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ConfigurationData",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:ConfigurationDataFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ConnectionEndpoints",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:ConnectionEndpointsFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ControlGroups",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:ControlGroupsFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InputData",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:InputsFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OperationalHealthAlarms",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "OutputData",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:OutputsFolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PublisherCapabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:PublisherCapabilitiesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SubscriberCapabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType"
@@ -2893,12 +2925,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Connectors",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DeviceHealthAlarms",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"

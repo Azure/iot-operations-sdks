@@ -335,12 +335,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Data",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
         "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelDataType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Quality",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
         "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelQualityType"
@@ -645,24 +647,28 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Input",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
         "target": "dtmi:opcua:PNGSDGM:GsdGenIoDataType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
         "target": "dtmi:opcua:DI:LockingServicesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Output",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
         "target": "dtmi:opcua:PNGSDGM:GsdGenIoDataType"

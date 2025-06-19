@@ -401,12 +401,14 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Input",
         "namespace": "http://opcfoundation.org/UA/PNRIO",
         "target": "dtmi:opcua:PNRIO:PnIoTelegramType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Output",
         "namespace": "http://opcfoundation.org/UA/PNRIO",
         "target": "dtmi:opcua:PNRIO:PnIoTelegramType"
@@ -722,6 +724,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/PNRIO",
         "target": "dtmi:opcua:DI:LockingServicesType"
@@ -1084,6 +1087,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/PNRIO",
         "target": "dtmi:opcua:DI:LockingServicesType"

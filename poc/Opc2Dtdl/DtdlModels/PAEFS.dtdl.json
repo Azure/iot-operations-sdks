@@ -69,30 +69,35 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Airflow",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "GasQuality",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Humidity",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Pressure",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Temperature",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
@@ -654,30 +659,35 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AirConsumption",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CleaningInterval",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FilterCleaningEffect",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReservoirPressure",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
@@ -740,6 +750,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CollectorOutput",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
@@ -773,6 +784,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CurrentConsumption",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
@@ -829,18 +841,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AirConsumption",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FillingLevel",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -883,18 +898,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PowerConsumption",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RotationalSpeed",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
@@ -999,30 +1017,35 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AirConsumption",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DosageAmount",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FillingLevel",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PowerConsumption",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
@@ -1153,36 +1176,42 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AirConsumption",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AirIntakeConnection",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:AirConnectionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AirOutletConnection",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:AirConnectionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PowerConsumption",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PressureLoss",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
@@ -1331,54 +1360,63 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AirConsumption",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Airflow",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointReadType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AirIntakeConnection",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:AirConnectionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AirOutletConnection",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:AirConnectionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PowerConsumption",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Pressure",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointReadType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PressureLoss",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RotationalSpeed",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointReadType"
@@ -1528,6 +1566,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "IonizerOutput",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
@@ -1570,6 +1609,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -1621,12 +1661,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Signal",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType"
@@ -1711,24 +1753,28 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FilterMediumState",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Humidity",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Temperature",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
@@ -1889,18 +1935,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PowerConsumption",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Temperature",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"

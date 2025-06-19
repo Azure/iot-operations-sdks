@@ -137,60 +137,70 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExternalChannels",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_TCD:ExternalChannelsType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ExternalSensor",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_TCD:ExternalSensorType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FlowRate",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LeakStopper",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_TCD:LeakStopperType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MaintenanceInformation",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_TCD:MaintenanceInformationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MouldEvacuation",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_TCD:MouldEvacuationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PressureDifference",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PumpSpeed",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Temperature",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TemperatureDifference",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
@@ -301,24 +311,28 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FlowRate",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PressureDifference",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Temperature",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TemperatureDifference",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
@@ -389,6 +403,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ClosedLoopControl",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ClosedLoopControlType"
@@ -446,24 +461,28 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Cooling",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Fluid",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Heating",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Pump",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
@@ -734,30 +753,35 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DeviceZone",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_TCD:DeviceZoneType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Identification",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:IdentificationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineConfiguration",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Operation",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_TCD:OperationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "TCDSpecification",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
         "target": "dtmi:opcua:PlasticsRubber_TCD:TCDSpecificationType"

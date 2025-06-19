@@ -166,6 +166,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FillingProductInformation",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:AutomaticFillingProductType"
@@ -322,6 +323,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Products",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -403,12 +405,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:DI:LockingServicesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Statistic",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:StatisticType"
@@ -611,6 +615,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LastItem",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:WeighingItemType"
@@ -963,6 +968,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ReportFile",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:OpcUaCore:FileType"
@@ -1223,6 +1229,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Material",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:MaterialType"
@@ -1535,6 +1542,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Material",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:MaterialType"
@@ -1726,12 +1734,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RecipeElements",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RecipeFile",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:OpcUaCore:FileType"
@@ -1843,6 +1853,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LastItem",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:WeighingItemType"
@@ -1975,6 +1986,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -2032,6 +2044,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -2191,30 +2204,35 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ProductionOutput",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:StatisticType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ProductionPreset",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:ProductionPresetType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "State",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:PackML:PackMLBaseStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SubDevices",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:DI:ConfigurableObjectType"
@@ -2438,6 +2456,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MasterTotalizer",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:TotalizerType"
@@ -2793,12 +2812,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Recipes",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:RecipeManagementType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SupportedMaterial",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:MaterialType"
@@ -3212,30 +3233,35 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ProductionOutput",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:StatisticType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ProductionPreset",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:ProductionPresetType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SubDevices",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:DI:ConfigurableObjectType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SystemState",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:PackML:PackMLBaseStateMachineType"
@@ -3485,6 +3511,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ZoneStatistic",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
         "target": "dtmi:opcua:Scales_V2:StatisticCounterType"

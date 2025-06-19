@@ -1435,18 +1435,21 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Closed",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Completed",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromCompletedToClosed",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
@@ -1473,24 +1476,28 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromHeldToSuspended",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromSuspendedToHeld",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Held",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Suspended",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
@@ -2453,114 +2460,133 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Aborted",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AllowedToStart",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Ended",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromAllowedToStartToAborted",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromAllowedToStartToAllowedToStart",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromAllowedToStartToNotAllowedToStart",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromAllowedToStartToRunning",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromInterruptedToAborted",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromInterruptedToEnded",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromInterruptedToRunning",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromNotAllowedToStartToAborted",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromNotAllowedToStartToAllowedToStart",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromNotAllowedToStartToNotAllowedToStart",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromRunningToAborted",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromRunningToEnded",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromRunningToInterrupted",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Interrupted",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "NotAllowedToStart",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Running",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
@@ -2587,24 +2613,28 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AllowedToStartSubstates",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95PrepareStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EndedSubstates",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95EndedStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "InterruptedSubstates",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95InterruptedStateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "NotAllowedToStartSubstates",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95PrepareStateMachineType"
@@ -2631,48 +2661,56 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLoadedToReady",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLoadedToWaiting",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromReadyToLoaded",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromReadyToWaiting",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromWaitingToReady",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Loaded",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Ready",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Waiting",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"

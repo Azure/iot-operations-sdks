@@ -1115,18 +1115,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Diagnostics",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "IOData",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RuntimeParameters",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
@@ -1153,6 +1156,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Images",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -1179,6 +1183,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Images",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "target": "dtmi:opcua:OpcUaCore:FolderType"

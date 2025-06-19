@@ -199,30 +199,35 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ActivityData",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:OrderedListType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ConditionData",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ConsumptionData",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LaserSystemStatus",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:LaserSystems:LaserSystemStatusType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Stacklight",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:IA:BasicStacklightType"
@@ -249,6 +254,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "RecipeSettingsAndOverviews",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -275,12 +281,14 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LaserSystemState",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:LaserSystems:LaserSystemState_StateMachineType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineToolsLaserStatus",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:MachineTool:LaserMonitoringType"
@@ -307,24 +315,28 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Monitoring",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:LaserSystems:LaserSystemMonitoringType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Notification",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:NotificationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Production",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:LaserSystems:LaserSystemProductionType"
@@ -506,432 +518,504 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EnergySaving",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Error",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromEnergySavingToEnergySaving",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromEnergySavingToError",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromEnergySavingToIdle",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromEnergySavingToLaserOn",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromEnergySavingToLaserReady",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromEnergySavingToMaintenance",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromEnergySavingToOff",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromEnergySavingToSetUp",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromErrorToEnergySaving",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromErrorToError",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromErrorToIdle",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromErrorToLaserOn",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromErrorToLaserReady",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromErrorToMaintenance",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromErrorToOff",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromErrorToSetUp",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromIdleToEnergySaving",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromIdleToError",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromIdleToIdle",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromIdleToLaserOn",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromIdleToLaserReady",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromIdleToMaintenance",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromIdleToOff",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromIdleToSetUp",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLaserOnToEnergySaving",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLaserOnToError",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLaserOnToIdle",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLaserOnToLaserOn",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLaserOnToLaserReady",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLaserOnToMaintenance",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLaserOnToOff",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLaserOnToSetUp",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLaserReadyToEnergySaving",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLaserReadyToError",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLaserReadyToIdle",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLaserReadyToLaserOn",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLaserReadyToLaserReady",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLaserReadyToMaintenance",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLaserReadyToOff",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromLaserReadyToSetUp",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromMaintenanceToEnergySaving",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromMaintenanceToError",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromMaintenanceToIdle",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromMaintenanceToLaserOn",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromMaintenanceToLaserReady",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromMaintenanceToMaintenance",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromMaintenanceToOff",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromMaintenanceToSetUp",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromOffToEnergySaving",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromOffToError",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromOffToIdle",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromOffToLaserOn",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromOffToLaserReady",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromOffToMaintenance",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromOffToOff",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromOffToSetUp",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromSetUpToEnergySaving",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromSetUpToError",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromSetUpToIdle",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromSetUpToLaserOn",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromSetUpToLaserReady",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromSetUpToMaintenance",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromSetUpToOff",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "FromSetUpToSetUp",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Idle",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LaserOn",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LaserReady",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Maintenance",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Off",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SetUp",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:StateType"

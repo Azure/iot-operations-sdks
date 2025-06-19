@@ -656,6 +656,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SubDevices",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -714,6 +715,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ServiceProvider",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
         "target": "dtmi:opcua:FDI7:ServerCommunicationFFH1ServiceType"
@@ -740,6 +742,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ServiceProvider",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
         "target": "dtmi:opcua:FDI7:ServerCommunicationFFHSEServiceType"
@@ -766,6 +769,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ServiceProvider",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
         "target": "dtmi:opcua:FDI7:ServerCommunicationPROFIBUSServiceType"
@@ -792,6 +796,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ServiceProvider",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
         "target": "dtmi:opcua:FDI7:ServerCommunicationPROFINETServiceType"
@@ -818,6 +823,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ServiceProvider",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
         "target": "dtmi:opcua:FDI7:ServerCommunicationHARTServiceType"
@@ -844,6 +850,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ServiceProvider",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
         "target": "dtmi:opcua:FDI7:ServerCommunicationISA100_WirelessServiceType"
@@ -879,6 +886,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ServiceProvider",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
         "target": "dtmi:opcua:FDI7:ServerCommunicationGENERICServiceType"

@@ -54,60 +54,70 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Monitoring",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:DI:LockingServicesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "PNSignals",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Maintenance",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "LimitSupervision",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Logbook",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PNENC:LogbookType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CharacteristicsConverter",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Safety",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CharacteristicsMotorAndControl",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "VelocityProfile",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -174,18 +184,21 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "CharacteristicsMechanics",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "MotionProgram",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Homing",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -269,18 +282,21 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EncoderChannelMotor",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PNENC:EncoderChannelType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Homing",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EncoderChannelMechanic",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PNENC:EncoderChannelType"
@@ -319,18 +335,21 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EncoderChannelMechanic",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PNENC:EncoderChannelType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "EncoderChannelMotor",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PNENC:EncoderChannelType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Homing",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
@@ -511,48 +530,56 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "STO",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyFunctionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SS1",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyFunctionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SS2",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyFunctionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SOS",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyFunctionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SLS",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyFunctionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SDI",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyFunctionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SLA",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyFunctionType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SLP",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyFunctionType"

@@ -671,42 +671,49 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AxisConfig",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:PNENC:EncoderAxisConfigType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ControlConfig",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:PNENC:EncoderControlConfigType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:DI:LockingServicesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Logbook",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:PNENC:LogbookType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Probes",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:PNENC:EncoderProbesType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Sensor",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:PNENC:EncoderSensorType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "SensorConfig",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:PNENC:EncoderSensorConfigType"
@@ -909,6 +916,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:DI:LockingServicesType"

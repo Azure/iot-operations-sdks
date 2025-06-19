@@ -85,12 +85,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Asset",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASAssetType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "DerivedFrom",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
@@ -148,12 +150,14 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "AssetIdentificationModel",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "BillOfMaterial",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
@@ -422,30 +426,35 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Administration",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASAdministrativeInformationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Identification",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASIdentifierType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "UnitId",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ValueId",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ValueList",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:ValueListType"
@@ -623,6 +632,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ValueId",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
@@ -910,6 +920,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "File",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:OpcUaCore:FileType"
@@ -987,6 +998,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Asset",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
@@ -1049,6 +1061,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "File",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:OpcUaCore:FileType"
@@ -1087,6 +1100,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ValueId",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
@@ -1227,6 +1241,7 @@
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "ValueId",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
@@ -1368,6 +1383,7 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Value",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
@@ -1394,12 +1410,14 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "First",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Second",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
@@ -1599,12 +1617,14 @@
     "contents": [
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Administration",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASAdministrativeInformationType"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
         "name": "Identification",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
         "target": "dtmi:opcua:I4AAS:AASIdentifierType"
