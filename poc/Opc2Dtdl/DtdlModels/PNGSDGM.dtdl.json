@@ -646,7 +646,7 @@
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
@@ -660,7 +660,7 @@
         "target": "dtmi:opcua:PNGSDGM:GsdGenIoDataType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",

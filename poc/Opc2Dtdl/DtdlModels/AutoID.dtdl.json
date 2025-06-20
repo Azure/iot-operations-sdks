@@ -1114,21 +1114,21 @@
         "namespace": "http://opcfoundation.org/UA/AutoID"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Diagnostics",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "IOData",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "RuntimeParameters",
         "namespace": "http://opcfoundation.org/UA/AutoID",

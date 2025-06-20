@@ -965,7 +965,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Health",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
@@ -979,7 +979,7 @@
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Maintenance",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -3175,7 +3175,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AssetManagement",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",

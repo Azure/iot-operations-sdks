@@ -1529,7 +1529,7 @@
         "target": "dtmi:opcua:MachineVision:ConfigurationFolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConfigurationTransfer",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -2551,7 +2551,7 @@
         "target": "dtmi:opcua:MachineVision:RecipeFolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "RecipeTransfer",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -2776,7 +2776,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Handle",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -3348,7 +3348,7 @@
         "target": "dtmi:opcua:MachineVision:ResultFolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ResultTransfer",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -3791,7 +3791,7 @@
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ContinuousExecutionStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -3826,7 +3826,7 @@
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "InitializedStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -3861,7 +3861,7 @@
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ReadyStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -3924,7 +3924,7 @@
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SingleExecutionStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -4087,7 +4087,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AutomaticModeStateMachine",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -4101,7 +4101,7 @@
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ErrorStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -4150,7 +4150,7 @@
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "HaltedStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -4220,7 +4220,7 @@
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PreoperationalStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",

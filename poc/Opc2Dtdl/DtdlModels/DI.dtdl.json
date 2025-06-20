@@ -18,14 +18,14 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ParameterSet",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MethodSet",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -38,14 +38,14 @@
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Identification",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -1025,7 +1025,7 @@
         "target": "dtmi:opcua:DI:ProtocolType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -1377,35 +1377,35 @@
         "target": "dtmi:opcua:DI:SoftwareLoadingType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PrepareForUpdate",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:PrepareForUpdateStateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Installation",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:InstallationStateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PowerCycle",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:PowerCycleStateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Confirmation",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:ConfirmationStateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Parameters",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -1786,7 +1786,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FileSystem",
         "namespace": "http://opcfoundation.org/UA/DI",

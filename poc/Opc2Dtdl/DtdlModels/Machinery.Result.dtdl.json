@@ -732,7 +732,7 @@
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ResultTransfer",
         "namespace": "http://opcfoundation.org/UA/Machinery.Result",

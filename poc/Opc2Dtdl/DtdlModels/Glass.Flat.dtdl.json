@@ -1183,7 +1183,7 @@
         "writable": true
       },
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Plan",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -1306,7 +1306,7 @@
         "target": "dtmi:opcua:Glass_Flat:InstructionType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",

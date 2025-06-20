@@ -978,7 +978,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "EPCISStream",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",

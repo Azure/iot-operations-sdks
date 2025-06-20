@@ -404,7 +404,7 @@
         "schema": "boolean"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
@@ -967,7 +967,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ReportFile",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
@@ -1740,7 +1740,7 @@
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "RecipeFile",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
@@ -2224,7 +2224,7 @@
         "target": "dtmi:opcua:Scales_V2:ProductionPresetType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "State",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
@@ -3260,7 +3260,7 @@
         "target": "dtmi:opcua:DI:ConfigurableObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SystemState",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",

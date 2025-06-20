@@ -506,7 +506,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Location",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -616,7 +616,7 @@
         "schema": "boolean"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ToolLife",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -1059,7 +1059,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SoftwareIdentification",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -1177,7 +1177,7 @@
         "target": "dtmi:opcua:MachineTool:EquipmentType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FileSystem",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -1433,7 +1433,7 @@
         "schema": "unsignedInteger"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PartSets",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -1502,7 +1502,7 @@
         "schema": "unsignedInteger"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PartsPerRun",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -1616,7 +1616,7 @@
         "schema": "dtmi:opcua:MachineTool:ProductionPartType:dataType:ProcessIrregularity;1"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "State",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -1659,7 +1659,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "State",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -2260,7 +2260,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MaintenanceMode",
         "namespace": "http://opcfoundation.org/UA/MachineTool",

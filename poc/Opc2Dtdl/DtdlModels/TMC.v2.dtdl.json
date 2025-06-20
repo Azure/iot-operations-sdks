@@ -4094,7 +4094,7 @@
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "StateMachine",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -4761,7 +4761,7 @@
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "StateMachine",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -5708,7 +5708,7 @@
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "StateMachine",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -6485,7 +6485,7 @@
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "StateMachine",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -7928,7 +7928,7 @@
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "StateMachine",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -8615,7 +8615,7 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AbortedSubstate",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -8757,21 +8757,21 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CompleteSubstate",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:StateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ExecuteSubstate",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:StateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "IdleSubstate",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -8823,7 +8823,7 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "StoppedSubstate",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
@@ -12579,42 +12579,42 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ControlPanelVURO",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ControlPanelVURW",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "KPIVU",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LoopVUReferences",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "OverVU",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ZoomedVU",
         "namespace": "http://opcfoundation.org/UA/TMC.v2",

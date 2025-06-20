@@ -761,21 +761,21 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Design",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:DesignType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Implementation",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:ImplementationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SystemRequirements",
         "namespace": "http://opcfoundation.org/UA/Pumps",
@@ -2085,49 +2085,49 @@
         "schema": "double"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "InstallationNpshCurve",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PumpCurve",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PumpEfficiencyCurve",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PumpH_Q_Curve",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PumpNpshCurve",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PumpPowerInputCurve",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "StablePumpH_Q_Curve",
         "namespace": "http://opcfoundation.org/UA/Pumps",
@@ -2287,154 +2287,154 @@
         "schema": "string"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Arrangements",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Certificates",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CircuitDiagram",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ComponentsList",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Detail",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DuringMaintenanceServicesRendered",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ImplementationDescription",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Layout",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Location",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LogicDiagram",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LubricationMap",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MaintenanceManual",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "OperationManual",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PersonnelRecording",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PipeAndInstrumentDiagram",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ScopeOfWork",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SingleLineDiagram",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SparePartReference",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Staff",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "TechnicalData",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "TestProgramReport",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "UnitMaintenanceReport",
         "namespace": "http://opcfoundation.org/UA/Pumps",
@@ -3338,28 +3338,28 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "BreakdownMaintenance",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:BreakdownMaintenanceType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConditionBasedMaintenance",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:ConditionBasedMaintenanceType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "GeneralMaintenance",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:GeneralMaintenanceType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PreventiveMaintenance",
         "namespace": "http://opcfoundation.org/UA/Pumps",
@@ -3943,49 +3943,49 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "BypassActuation",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:ActuationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Control",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:ControlType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Measurements",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:MeasurementsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MultiPump",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:MultiPumpType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PumpActuation",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:PumpActuationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Signals",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:SignalsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ThrottleValveActuation",
         "namespace": "http://opcfoundation.org/UA/Pumps",
@@ -5338,49 +5338,49 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SupervisionAuxiliaryDevice",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:SupervisionAuxiliaryDeviceType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SupervisionElectronics",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:SupervisionElectronicsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SupervisionHardware",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:SupervisionHardwareType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SupervisionMechanics",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:SupervisionMechanicsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SupervisionProcessFluid",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:SupervisionProcessFluidType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SupervisionPumpOperation",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:SupervisionPumpOperationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SupervisionSoftware",
         "namespace": "http://opcfoundation.org/UA/Pumps",
@@ -6337,14 +6337,14 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Design",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:DriveDesignType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Measurements",
         "namespace": "http://opcfoundation.org/UA/Pumps",
@@ -6371,28 +6371,28 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Design",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:InletConnectionDesignType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Implementation",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:InletConnectionImplementationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Measurements",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:InletConnectionMeasurementsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SystemRequirements",
         "namespace": "http://opcfoundation.org/UA/Pumps",
@@ -6419,28 +6419,28 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Design",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:OutletConnectionDesignType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Implementation",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:OutletConnectionImplementationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Measurements",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:OutletConnectionMeasurementsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SystemRequirements",
         "namespace": "http://opcfoundation.org/UA/Pumps",
@@ -6467,42 +6467,42 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:Pumps:ConfigurationGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Documentation",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:DocumentationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Events",
         "namespace": "http://opcfoundation.org/UA/Pumps",
         "target": "dtmi:opcua:Pumps:SupervisionType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Maintenance",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:Pumps:MaintenanceGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Operational",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:Pumps:OperationalGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Ports",
         "namespace": "http://opcfoundation.org/UA/Pumps",

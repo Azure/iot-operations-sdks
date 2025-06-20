@@ -1154,7 +1154,7 @@
         "target": "dtmi:opcua:ECM:EnergySavingModeStatusType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/ECM",

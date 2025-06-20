@@ -60,7 +60,7 @@
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/PDRV",
@@ -190,7 +190,7 @@
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MotionProgram",
         "namespace": "http://opcfoundation.org/UA/PDRV",

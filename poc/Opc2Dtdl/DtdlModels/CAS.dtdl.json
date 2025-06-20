@@ -24,7 +24,7 @@
         "namespace": "http://opcfoundation.org/UA/CAS"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "OutputFile",
         "namespace": "http://opcfoundation.org/UA/CAS",
@@ -51,28 +51,28 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Airnets",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:CAS:AirnetsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Components",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:CAS:ComponentsGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Identification",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:CAS:CASIdentificationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MCS",
         "namespace": "http://opcfoundation.org/UA/CAS",
@@ -793,7 +793,7 @@
         "target": "dtmi:opcua:CAS:CommunicationSettingsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConfigurationFile",
         "namespace": "http://opcfoundation.org/UA/CAS",
@@ -1748,84 +1748,84 @@
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ChargingSystems",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Compressors",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CondensateDrains",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CondensateSeparators",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Converters",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CoolingSystems",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Dryers",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Filters",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "HeatRecoverySystems",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Receivers",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Sensors",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Valves",
         "namespace": "http://opcfoundation.org/UA/CAS",
@@ -1905,7 +1905,7 @@
         "target": "dtmi:opcua:CAS:AirnetComponentsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -1919,7 +1919,7 @@
         "target": "dtmi:opcua:CAS:ElectricalCircuitType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Operational",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -1969,7 +1969,7 @@
         "target": "dtmi:opcua:CAS:FluidQuantitiesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -1983,7 +1983,7 @@
         "target": "dtmi:opcua:CAS:FluidCircuitType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Design",
         "namespace": "http://opcfoundation.org/UA/CAS",
@@ -1997,14 +1997,14 @@
         "target": "dtmi:opcua:CAS:ElectricalCircuitType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Events",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:CAS:EventsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Operational",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -2018,7 +2018,7 @@
         "target": "dtmi:opcua:CAS:FluidCircuitType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Statistics",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -2225,14 +2225,14 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Calibration",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:CAS:CalibrationType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Maintenance",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -2299,14 +2299,14 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Analyses",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:CAS:AnalysesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Configuration",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -2320,21 +2320,21 @@
         "target": "dtmi:opcua:CAS:ElectricalCircuitType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Events",
         "namespace": "http://opcfoundation.org/UA/CAS",
         "target": "dtmi:opcua:CAS:EventsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Operational",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:CAS:OperationalType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Statistics",
         "namespace": "http://opcfoundation.org/UA/DI",

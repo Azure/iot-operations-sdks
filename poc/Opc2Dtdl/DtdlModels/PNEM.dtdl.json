@@ -783,7 +783,7 @@
         "target": "dtmi:opcua:PNEM:EnergySavingModeStatusType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/PNEM",

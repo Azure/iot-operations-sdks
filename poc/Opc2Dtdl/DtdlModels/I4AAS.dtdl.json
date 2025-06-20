@@ -919,7 +919,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "File",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -1060,7 +1060,7 @@
         "writable": true
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "File",
         "namespace": "http://opcfoundation.org/UA/I4AAS",

@@ -133,7 +133,7 @@
         "target": "dtmi:opcua:DI:ConfigurableObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DeviceConditionSet",
         "namespace": "http://opcfoundation.org/UA/PADIM",
@@ -334,7 +334,7 @@
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SignalConditionSet",
         "namespace": "http://opcfoundation.org/UA/PADIM",
@@ -750,7 +750,7 @@
         "target": "dtmi:opcua:PADIM:GeneralDeviceConditionSetType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DeviceComponentConditions",
         "namespace": "http://opcfoundation.org/UA/PADIM",

@@ -323,14 +323,14 @@
         "target": "dtmi:opcua:ADI:AnalyserChannel_OperatingModeSubStateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LocalSubStateMachine",
         "namespace": "http://opcfoundation.org/UA/ADI",
         "target": "dtmi:opcua:OpcUaCore:FiniteStateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MaintenanceSubStateMachine",
         "namespace": "http://opcfoundation.org/UA/ADI",
@@ -1494,7 +1494,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FactorySettings",
         "namespace": "http://opcfoundation.org/UA/ADI",

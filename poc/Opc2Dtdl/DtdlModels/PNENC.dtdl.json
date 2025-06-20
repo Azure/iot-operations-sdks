@@ -684,7 +684,7 @@
         "target": "dtmi:opcua:PNENC:EncoderControlConfigType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/PNENC",
@@ -915,7 +915,7 @@
         "namespace": "http://opcfoundation.org/UA/PNENC"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Lock",
         "namespace": "http://opcfoundation.org/UA/PNENC",

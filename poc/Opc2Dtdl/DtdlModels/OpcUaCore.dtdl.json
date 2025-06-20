@@ -6579,7 +6579,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AlternativeUnits",
         "namespace": "http://opcfoundation.org/UA",
@@ -6785,7 +6785,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ServerUnits",
         "namespace": "http://opcfoundation.org/UA",
@@ -7434,7 +7434,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ShelvingState",
         "namespace": "http://opcfoundation.org/UA",
@@ -9244,7 +9244,7 @@
         "namespace": "http://opcfoundation.org/UA"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FinalResultData",
         "namespace": "http://opcfoundation.org/UA",
@@ -19577,14 +19577,14 @@
         "namespace": "http://opcfoundation.org/UA"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Counters",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LiveValues",
         "namespace": "http://opcfoundation.org/UA",

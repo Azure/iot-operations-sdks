@@ -444,7 +444,7 @@
         "target": "dtmi:opcua:Glass_Flat_v2:ConfigurationRulesType"
       },
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FileSystem",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",

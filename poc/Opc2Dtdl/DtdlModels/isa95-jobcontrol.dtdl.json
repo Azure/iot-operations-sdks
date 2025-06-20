@@ -2612,28 +2612,28 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AllowedToStartSubstates",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95PrepareStateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "EndedSubstates",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95EndedStateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "InterruptedSubstates",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95InterruptedStateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "NotAllowedToStartSubstates",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",

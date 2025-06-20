@@ -61,7 +61,7 @@
         "writable": true
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DescriptorFile",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
@@ -979,14 +979,14 @@
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PublisherCapabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:PublisherCapabilitiesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SubscriberCapabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
@@ -1543,7 +1543,7 @@
         "target": "dtmi:opcua:FX_AC:FunctionalEntityCapabilitiesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConfigurationData",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
@@ -1585,14 +1585,14 @@
         "target": "dtmi:opcua:FX_AC:OutputsFolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PublisherCapabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:PublisherCapabilitiesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SubscriberCapabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
@@ -2227,7 +2227,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SubscriberCapabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
@@ -2254,7 +2254,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PublisherCapabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
@@ -2523,7 +2523,7 @@
         "target": "dtmi:opcua:FX_AC:FunctionalEntityCapabilitiesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConfigurationData",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
@@ -2565,14 +2565,14 @@
         "target": "dtmi:opcua:FX_AC:OutputsFolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PublisherCapabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
         "target": "dtmi:opcua:FX_AC:PublisherCapabilitiesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SubscriberCapabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
