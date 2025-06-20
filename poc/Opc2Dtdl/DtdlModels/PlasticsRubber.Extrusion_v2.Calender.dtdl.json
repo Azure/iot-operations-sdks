@@ -109,21 +109,21 @@
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:GapsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "HorizontalPosition",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProductForce",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProductTension",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",
@@ -137,7 +137,7 @@
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:RollsType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "VerticalPosition",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",

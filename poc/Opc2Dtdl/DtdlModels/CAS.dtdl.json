@@ -51,7 +51,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "HasComponent", "Qualified" ],
+        "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Airnets",
         "namespace": "http://opcfoundation.org/UA/CAS",
@@ -1898,7 +1898,7 @@
         "target": "dtmi:opcua:CAS:FluidQuantitiesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Components",
         "namespace": "http://opcfoundation.org/UA/Machinery",

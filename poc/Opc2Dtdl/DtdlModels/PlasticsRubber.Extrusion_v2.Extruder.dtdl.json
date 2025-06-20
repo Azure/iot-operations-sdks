@@ -199,7 +199,7 @@
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionTemperatureZonesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Throughput",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",

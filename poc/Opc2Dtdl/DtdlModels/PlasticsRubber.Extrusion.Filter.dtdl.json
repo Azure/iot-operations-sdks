@@ -50,7 +50,7 @@
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_Filter:FilterPackageType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "HydraulicPressure",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",
@@ -71,7 +71,7 @@
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SpecificWasteOutput",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",
@@ -85,7 +85,7 @@
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZonesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "WasteOutput",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",

@@ -509,7 +509,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConnectionManagerConfiguration",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
@@ -2631,7 +2631,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Capabilities",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
@@ -2645,7 +2645,7 @@
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConnectionManagerConfiguration",
         "namespace": "http://opcfoundation.org/UA/FX.CM",

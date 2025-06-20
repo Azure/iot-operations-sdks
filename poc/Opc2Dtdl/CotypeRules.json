@@ -17,9 +17,12 @@
   {
     "targetExact": [
       "dtmi:opcua:OpcUaCore:FolderType",
-      "dtmi:opcua:OpcUaCore:FileType",
       "dtmi:opcua:OpcUaCore:FileDirectoryType"
     ],
+    "cotype": "HasComponent"
+  },
+  {
+    "target": "dtmi:opcua:OpcUaCore:FileType",
     "cotype": "HasComponent"
   },
   {
@@ -29,38 +32,50 @@
   {
     "target": [
       "dtmi:opcua:OpcUaCore:StateMachineType",
-      "dtmi:opcua:OpcUaCore:TemporaryFileTransferType"
+      "dtmi:opcua:OpcUaCore:TemporaryFileTransferType",
+      "dtmi:opcua:OpcUaCore:RoleSetType"
     ],
     "cotype": "HasCapability"
   },
   {
-    "target": "dtmi:opcua:Machinery:MachineComponentsType",
+    "targetExact": [
+      "*ComponentType",
+      "*ComponentsType"
+    ],
+    "cotype": "HasComponent"
+  },
+  {
+    "targetExact": [
+      "*DiagnosticsType"
+    ],
+    "cotype": "HasCapability"
+  },
+  {
+    "target": [
+      "*CapabilityType",
+      "*CapabilitiesType",
+      "*FunctionalGroupType"
+    ],
+    "cotype": "HasCapability"
+  },
+  {
+    "target": "*GroupType",
+    "cotype": "HasComponent"
+  },
+  {
+    "source": "*DeviceType",
+    "target": [
+      "*ServiceType",
+      "*ParameterType"
+    ],
     "cotype": "HasComponent"
   },
   {
     "target": [
-      "dtmi:opcua:DI:FunctionalGroupType",
       "dtmi:opcua:DI:TopologyElementType",
       "dtmi:opcua:DI:LockingServicesType"
     ],
     "cotype": "HasCapability"
-  },
-  {
-    "target": [
-      "dtmi:opcua:FX_AC:PublisherCapabilitiesType",
-      "dtmi:opcua:FX_AC:SubscriberCapabilitiesType"
-    ],
-    "cotype": "HasCapability"
-  },
-  {
-    "source": "dtmi:opcua:FDI7:ServerCommunicationDeviceType",
-    "target": "dtmi:opcua:FDI7:ServerCommunicationServiceType",
-    "cotype": "HasComponent"
-  },
-  {
-    "source": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType",
-    "target": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType",
-    "cotype": "HasComponent"
   },
   {
     "targetExact": [

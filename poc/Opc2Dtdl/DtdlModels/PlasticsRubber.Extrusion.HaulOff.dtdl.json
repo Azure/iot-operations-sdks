@@ -44,7 +44,7 @@
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DrivesType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Force",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.HaulOff",

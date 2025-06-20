@@ -1536,7 +1536,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Capabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
@@ -2516,7 +2516,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Capabilities",
         "namespace": "http://opcfoundation.org/UA/FX.AC",

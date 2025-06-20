@@ -86,7 +86,6 @@
             }
 
             CotypeRuleEngine cotypeRuleEngine = new CotypeRuleEngine(objectTypeIdSupers, cotypeRulesFile);
-            cotypeRuleEngine.Display();
 
             foreach (string yamlFilePath in Directory.GetFiles(sourceRoot, $"*{sourceFileSuffix}"))
             {
@@ -95,6 +94,9 @@
 
                 ConvertToDtdl(coreOpcUaDigest, yamlFilePath, destRoot, specName, unitTypesDict, objectTypeIdSupers, cotypeRuleEngine);
             }
+
+            Console.WriteLine();
+            cotypeRuleEngine.DisplayStats();
 
             if (maxErrors == 0)
             {

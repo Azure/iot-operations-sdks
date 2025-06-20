@@ -91,7 +91,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "WoTFile",
         "namespace": "http://opcfoundation.org/UA/WoT-Con",
@@ -118,7 +118,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "WoTFile",
         "namespace": "http://opcfoundation.org/UA/WoT-Con",

@@ -75,14 +75,29 @@ namespace Yaml2Dtdl
             }
 
             string typeId = TypeConverter.GetModelId(definedType);
-            return ruleTypeIds.Any(t => t == typeId || (!exact && DoesAncestorHaveType(typeId, t)));
+            return ruleTypeIds.Any(t => DoesRuleTypeMatchId(t, typeId) || (!exact && DoesAncestorHaveType(typeId, t)));
         }
 
-        private bool DoesAncestorHaveType(string objectTypeId, string keyTypeId)
+        private static bool DoesRuleTypeMatchId(string ruleType, string typeId)
+        {
+            if (ruleType.Contains('*'))
+            {
+                int starIx = ruleType.IndexOf("*");
+                string prefix = ruleType.Substring(0, starIx);
+                string suffix = ruleType.Substring(starIx + 1);
+                return typeId.StartsWith(prefix) && typeId.EndsWith(suffix);
+            }
+            else
+            {
+                return ruleType == typeId;
+            }
+        }
+
+        private bool DoesAncestorHaveType(string objectTypeId, string ruleType)
         {
             foreach (string supertype in objectTypeIdSupers[objectTypeId])
             {
-                if (supertype == keyTypeId || DoesAncestorHaveType(supertype, keyTypeId))
+                if (DoesRuleTypeMatchId(ruleType, supertype) || DoesAncestorHaveType(supertype, ruleType))
                 {
                     return true;
                 }

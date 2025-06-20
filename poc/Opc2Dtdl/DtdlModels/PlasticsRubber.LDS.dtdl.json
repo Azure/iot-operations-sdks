@@ -796,14 +796,14 @@
         "target": "dtmi:opcua:PlasticsRubber_LDS:AdditiveType"
       },
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Component_A",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_LDS:ComponentType"
       },
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Component_B",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",

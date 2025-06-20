@@ -251,7 +251,7 @@
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProductSpeed",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",

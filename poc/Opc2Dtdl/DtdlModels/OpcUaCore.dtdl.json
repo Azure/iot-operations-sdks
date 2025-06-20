@@ -753,7 +753,7 @@
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "RoleSet",
         "namespace": "http://opcfoundation.org/UA",
@@ -3508,7 +3508,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "NamespaceFile",
         "namespace": "http://opcfoundation.org/UA",
@@ -7441,7 +7441,7 @@
         "target": "dtmi:opcua:OpcUaCore:ShelvedStateMachineType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FirstInGroup",
         "namespace": "http://opcfoundation.org/UA",
@@ -11049,7 +11049,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "TrustList",
         "namespace": "http://opcfoundation.org/UA",
@@ -11090,21 +11090,21 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DefaultApplicationGroup",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:CertificateGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DefaultHttpsGroup",
         "namespace": "http://opcfoundation.org/UA",
         "target": "dtmi:opcua:OpcUaCore:CertificateGroupType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DefaultUserTokenGroup",
         "namespace": "http://opcfoundation.org/UA",
@@ -11869,7 +11869,7 @@
         "target": "dtmi:opcua:OpcUaCore:CertificateGroupFolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "TransactionDiagnostics",
         "namespace": "http://opcfoundation.org/UA",
@@ -14005,7 +14005,7 @@
         "target": "dtmi:opcua:OpcUaCore:SubscribedDataSetFolderType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PubSubConfiguration",
         "namespace": "http://opcfoundation.org/UA",
@@ -14026,7 +14026,7 @@
         "target": "dtmi:opcua:OpcUaCore:PubSubDiagnosticsRootType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PubSubCapablities",
         "namespace": "http://opcfoundation.org/UA",
@@ -17075,7 +17075,7 @@
         "target": "dtmi:opcua:OpcUaCore:WriterGroupMessageType"
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Diagnostics",
         "namespace": "http://opcfoundation.org/UA",
@@ -17668,7 +17668,7 @@
         }
       },
       {
-        "@type": [ "Relationship", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Diagnostics",
         "namespace": "http://opcfoundation.org/UA",
