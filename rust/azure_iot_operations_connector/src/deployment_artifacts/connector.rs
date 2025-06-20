@@ -927,7 +927,7 @@ mod tests {
         );
     }
 
-    #[test_case("AZURE_EXTENSION_RESOURCEID")] //TODO: re-enable test
+    #[test_case("AZURE_EXTENSION_RESOURCEID")]
     #[test_case("CONNECTOR_ID")]
     #[test_case("CONNECTOR_NAMESPACE")]
     #[test_case("CONNECTOR_CONFIGURATION_MOUNT_PATH")]
