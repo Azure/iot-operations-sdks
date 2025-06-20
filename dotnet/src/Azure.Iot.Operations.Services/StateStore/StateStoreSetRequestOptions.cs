@@ -8,8 +8,18 @@ namespace Azure.Iot.Operations.Services.StateStore
     /// <summary>
     /// The optional parameters for a Set request to the State Store
     /// </summary>
-    public class StateStoreSetRequestOptions
+    public class StateStoreSetRequestOptions 
     {
+        /**
+         * persistance q's 
+         * 
+         * We set same user prop in MQTT packet for saving DSS key vs saving the message that carried that request?
+         * 
+         * Allowed values for the user property? Disk only?
+         * 
+         * Looks like persistance can be enabled at CONNECT, SUBSCRIBE and/or PUBLISH time?
+         * 
+         */
         /// <summary>
         /// The condition by which this operation will execute. By default, it will execute unconditionally.
         /// </summary>
