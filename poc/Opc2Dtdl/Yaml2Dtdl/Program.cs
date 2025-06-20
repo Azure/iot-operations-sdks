@@ -24,6 +24,7 @@
         private static string sourceRoot = string.Empty;
         private static string destRoot = string.Empty;
         private static string unitTypesFile = string.Empty;
+        private static string cotypeRulesFile = string.Empty;
         private static string resolverConfig = string.Empty;
 
         static Program()
@@ -43,18 +44,19 @@
 
         static void Main(string[] args)
         {
-            if (args.Length < 4)
+            if (args.Length < 5)
             {
-                Console.WriteLine("usage: Yaml2Dtdl <SOURCE_ROOT> <DEST_ROOT> <UNIT_TYPES> <RESOLVER> [ <MAX_ERRORS> ]");
+                Console.WriteLine("usage: Yaml2Dtdl <SOURCE_ROOT> <DEST_ROOT> <UNIT_TYPES> <COTYPE_RULES> <RESOLVER> [ <MAX_ERRORS> ]");
                 return;
             }
 
             sourceRoot = args[0];
             destRoot = args[1];
             unitTypesFile = args[2];
-            resolverConfig = args[3];
+            cotypeRulesFile = args[3];
+            resolverConfig = args[4];
 
-            int maxErrors = args.Length > 4 ? int.Parse(args[4]) : defaultMaxErrors;
+            int maxErrors = args.Length > 5 ? int.Parse(args[5]) : defaultMaxErrors;
 
             Dictionary<int, (string, string)> unitTypesDict = File.ReadAllLines(unitTypesFile).Select(l => l.Split(',')).ToDictionary(v => int.Parse(v[0]), v => (v[1], v[2]));
 
@@ -77,18 +79,21 @@
                 Directory.CreateDirectory(destRoot);
             }
 
-            Dictionary<string, List<string>> objectTypeSupers = new();
+            Dictionary<string, List<string>> objectTypeIdSupers = new();
             foreach (string yamlFilePath in Directory.GetFiles(sourceRoot, $"*{sourceFileSuffix}"))
             {
-                Preload(yamlFilePath, objectTypeSupers);
+                Preload(yamlFilePath, objectTypeIdSupers);
             }
+
+            CotypeRuleEngine cotypeRuleEngine = new CotypeRuleEngine(objectTypeIdSupers, cotypeRulesFile);
+            cotypeRuleEngine.Display();
 
             foreach (string yamlFilePath in Directory.GetFiles(sourceRoot, $"*{sourceFileSuffix}"))
             {
                 string yamlFileName = Path.GetFileName(yamlFilePath);
                 string specName = yamlFileName.Substring(0, yamlFileName.Length - sourceFileSuffix.Length);
 
-                ConvertToDtdl(coreOpcUaDigest, yamlFilePath, destRoot, specName, unitTypesDict, objectTypeSupers);
+                ConvertToDtdl(coreOpcUaDigest, yamlFilePath, destRoot, specName, unitTypesDict, objectTypeIdSupers, cotypeRuleEngine);
             }
 
             if (maxErrors == 0)
@@ -147,7 +152,7 @@
             }
         }
 
-        private static void Preload(string sourceFilePath, Dictionary<string, List<string>> objectTypeSupers)
+        private static void Preload(string sourceFilePath, Dictionary<string, List<string>> objectTypeIdSupers)
         {
             string yamlFileName = Path.GetFileName(sourceFilePath);
 
@@ -161,38 +166,19 @@
             {
                 foreach (KeyValuePair<string, OpcUaDefinedType> definedType in opcUaDigest.DefinedTypes)
                 {
-                    List<string> superTypes = new();
-                    foreach (OpcUaContent content in definedType.Value.Contents)
-                    {
-                        if (content.Relationship == "HasSubtype_reverse")
-                        {
-                            string superType = GetQualifiedNameFromDefinedType(content.DefinedType);
-                            superTypes.Add(superType);
-                        }
-                    }
+                    List<string> superTypeIds = definedType.Value.Contents.Where(c => c.Relationship == "HasSubtype_reverse").Select(c => TypeConverter.GetModelId(c.DefinedType)).ToList();
+                    string objectTypeId = TypeConverter.GetModelId(definedType.Value);
 
-                    string objectType = GetQualifiedNameFromDefinedType(definedType.Value);
-
-                    objectTypeSupers[objectType] = superTypes;
+                    objectTypeIdSupers[objectTypeId] = superTypeIds;
                 }
             }
         }
 
-        private static string GetQualifiedNameFromDefinedType(OpcUaDefinedType definedType)
+        private static bool DoesAncestorHaveType(string objectTypeId, string keyTypeId, Dictionary<string, List<string>> objectTypeIdSupers)
         {
-            if (!definedType.NodeId.Contains(':'))
+            foreach (string supertype in objectTypeIdSupers[objectTypeId])
             {
-                return definedType.BrowseName;
-            }
-
-            return $"{definedType.NodeId.Substring(0, definedType.NodeId.IndexOf(':'))}:{definedType.BrowseName}";
-        }
-
-        private static bool DoesAncestorHaveType(string objectType, string typeName, Dictionary<string, List<string>> objectTypeSupers)
-        {
-            foreach (string supertype in objectTypeSupers[objectType])
-            {
-                if (supertype == typeName || DoesAncestorHaveType(supertype, typeName, objectTypeSupers))
+                if (supertype == keyTypeId || DoesAncestorHaveType(supertype, keyTypeId, objectTypeIdSupers))
                 {
                     return true;
                 }
@@ -201,7 +187,7 @@
             return false;
         }
 
-        private static void ConvertToDtdl(OpcUaDigest coreOpcUaDigest, string yamlFilePath, string destRoot, string specName, Dictionary<int, (string, string)> unitTypesDict, Dictionary<string, List<string>> objectTypeSupers)
+        private static void ConvertToDtdl(OpcUaDigest coreOpcUaDigest, string yamlFilePath, string destRoot, string specName, Dictionary<int, (string, string)> unitTypesDict, Dictionary<string, List<string>> objectTypeIdSupers, CotypeRuleEngine cotypeRuleEngine)
         {
             Console.WriteLine($"Processing file {yamlFilePath}");
 
@@ -221,9 +207,9 @@
                     foreach (KeyValuePair<string, OpcUaDefinedType> definedType in opcUaDigest.DefinedTypes)
                     {
                         string modelId = TypeConverter.GetModelId(definedType.Value);
-                        bool isEvent = DoesAncestorHaveType(GetQualifiedNameFromDefinedType(definedType.Value), "BaseEventType", objectTypeSupers);
+                        bool isEvent = DoesAncestorHaveType(TypeConverter.GetModelId(definedType.Value), "dtmi:opcua:OpcUaCore:BaseEventType", objectTypeIdSupers);
                         bool appendComma = ix < opcUaDigest.DefinedTypes.Count;
-                        DtdlInterface dtdlInterface = new DtdlInterface(modelId, isEvent, definedType.Value, opcUaDigest.DataTypes, coreOpcUaDigest.DataTypes, unitTypesDict, appendComma);
+                        DtdlInterface dtdlInterface = new DtdlInterface(modelId, isEvent, definedType.Value, opcUaDigest.DataTypes, coreOpcUaDigest.DataTypes, unitTypesDict, cotypeRuleEngine, appendComma);
                         string jsonText = dtdlInterface.TransformText();
 
                         outputFile.Write(jsonText);

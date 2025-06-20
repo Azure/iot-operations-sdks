@@ -9,13 +9,13 @@ namespace Yaml2Dtdl
 
     public class TypeConverter
     {
-        public const string ModelingRuleOptionalNodeId = "80";
-        public const string ModelingRuleMandatoryNodeId = "78";
-        public const string ModelingRuleOptionalPlaceholderNodeId = "11508";
-        public const string ModelingRuleMandatoryPlaceholderNodeId = "11510";
-
         private const string coreSpecName = "OpcUaCore";
         private const string defaultType = "string";
+
+        public static readonly string ModelingRuleOptionalNodeId = ((int)ModellingRule.Optional).ToString();
+        public static readonly string ModelingRuleMandatoryNodeId = ((int)ModellingRule.Mandatory).ToString();
+        public static readonly string ModelingRuleOptionalPlaceholderNodeId = ((int)ModellingRule.OptionalPlaceholder).ToString();
+        public static readonly string ModelingRuleMandatoryPlaceholderNodeId = ((int)ModellingRule.MandatoryPlaceholder).ToString();
 
         // Per https://reference.opcfoundation.org/Core/Part6/v104/docs/5
         // and https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v4/DTDL.v4.md#primitive-schema

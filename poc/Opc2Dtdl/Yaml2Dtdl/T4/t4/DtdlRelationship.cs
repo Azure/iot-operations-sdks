@@ -30,9 +30,9 @@ namespace Yaml2Dtdl
             this.Write("        \"maxMultiplicity\": 1,\r\n");
  } 
             this.Write("        \"name\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName))));
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.StripAngles(TypeConverter.Dequalify(relationshipDefinedType.BrowseName))));
             this.Write("\",\r\n        \"namespace\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));
+            this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(relationshipDefinedType))));
             this.Write("\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Target != null ? "," : ""));
             this.Write("\r\n");

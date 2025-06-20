@@ -714,7 +714,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ServiceProvider",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -741,7 +741,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ServiceProvider",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -768,7 +768,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ServiceProvider",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -795,7 +795,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ServiceProvider",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -822,7 +822,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ServiceProvider",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -849,7 +849,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ServiceProvider",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -885,7 +885,7 @@
         "writable": false
       },
       {
-        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ServiceProvider",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",

@@ -1,0 +1,23 @@
+[
+  {
+    "modellingRule": [ "OptionalPlaceholder", "MandatoryPlaceholder" ],
+    "cotype": "HasComponent"
+  },
+  {
+    "targetExact": "dtmi:opcua:OpcUaCore:FolderType",
+    "cotype": "HasComponent"
+  },
+  {
+    "targetExact": "dtmi:opcua:OpcUaCore:BaseObjectType",
+    "cotype": null
+  },
+  {
+    "source": "dtmi:opcua:FDI7:ServerCommunicationDeviceType",
+    "target": "dtmi:opcua:FDI7:ServerCommunicationServiceType",
+    "cotype": "HasComponent"
+  },
+  {
+    "modellingRule": "Mandatory",
+    "cotype": "HasCapability"
+  }
+]

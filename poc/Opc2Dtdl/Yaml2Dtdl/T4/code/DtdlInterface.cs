@@ -20,7 +20,7 @@ namespace Yaml2Dtdl
         private int contentCount;
         private bool appendComma;
 
-        public DtdlInterface(string modelId, bool isEvent, OpcUaDefinedType definedType, List<OpcUaDataType> dataTypes, List<OpcUaDataType> coreDataTypes, Dictionary<int, (string, string)> unitTypesDict, bool appendComma)
+        public DtdlInterface(string modelId, bool isEvent, OpcUaDefinedType definedType, List<OpcUaDataType> dataTypes, List<OpcUaDataType> coreDataTypes, Dictionary<int, (string, string)> unitTypesDict, CotypeRuleEngine cotypeRuleEngine, bool appendComma)
         {
             this.modelId = modelId;
             this.isEvent = isEvent;
@@ -32,7 +32,7 @@ namespace Yaml2Dtdl
             this.dtdlProperties = definedType.Contents.Where(c => c.Relationship == "HasProperty" && c.DefinedType.NodeType == "UAVariable").Select(c => new DtdlProperty(modelId, c.DefinedType, this.typeConverter, unitTypesDict)).ToList();
             this.dtdlTelemetries = definedType.Contents.Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAVariable").Select(c => new DtdlTelemetry(modelId, c.DefinedType, this.typeConverter, unitTypesDict)).ToList();
             this.dtdlCommands = definedType.Contents.Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAMethod").Select(c => new DtdlCommand(modelId, c.DefinedType, this.typeConverter)).ToList();
-            this.dtdlRelationships = definedType.Contents.Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAObject").Select(c => new DtdlRelationship(c.DefinedType)).ToList();
+            this.dtdlRelationships = definedType.Contents.Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAObject").Select(c => new DtdlRelationship(definedType, c.DefinedType, cotypeRuleEngine)).ToList();
             this.contentCount = dtdlProperties.Count + dtdlTelemetries.Count + dtdlCommands.Count + dtdlRelationships.Count;
 
             this.appendComma = appendComma;

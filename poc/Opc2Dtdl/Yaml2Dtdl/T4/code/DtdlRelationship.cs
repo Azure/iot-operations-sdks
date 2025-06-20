@@ -5,51 +5,32 @@ namespace Yaml2Dtdl
 
     public partial class DtdlRelationship
     {
-        private const string capabilityCotype = @", ""HasCapability""";
-        private const string componentCotype = @", ""HasComponent""";
-        private const string folderType = "dtmi:opcua:OpcUaCore:FolderType";
-        private const string baseObjectType = "dtmi:opcua:OpcUaCore:BaseObjectType";
-
-        private OpcUaDefinedType definedType;
+        private OpcUaDefinedType sourceDefinedType;
+        private OpcUaDefinedType relationshipDefinedType;
+        private OpcUaDefinedType? targetDefinedType;
+        private CotypeRuleEngine cotypeRuleEngine;
 
         public string? Target { get; }
 
-        public DtdlRelationship(OpcUaDefinedType definedType)
+        public DtdlRelationship(OpcUaDefinedType sourceDefinedType, OpcUaDefinedType relationshipDefinedType, CotypeRuleEngine cotypeRuleEngine)
         {
-            this.definedType = definedType;
+            this.sourceDefinedType = sourceDefinedType;
+            this.relationshipDefinedType = relationshipDefinedType;
+            this.targetDefinedType = relationshipDefinedType.Contents.FirstOrDefault(c => c.Relationship == "HasTypeDefinition")?.DefinedType;
+            this.cotypeRuleEngine = cotypeRuleEngine;
 
-            this.Target = GetTarget();
+            this.Target = this.targetDefinedType != null ? TypeConverter.GetModelId(this.targetDefinedType) : null;
         }
 
-        private string? GetTarget()
-        {
-            OpcUaDefinedType? typeDefinition = definedType.Contents.FirstOrDefault(c => c.Relationship == "HasTypeDefinition")?.DefinedType;
-            if (typeDefinition == null)
-            {
-                return null;
-            }
-
-            return TypeConverter.GetModelId(typeDefinition);
-        }
-
-        private bool HasModellingRule(string modellingRuleNodeId) => definedType.Contents.Any(c => c.Relationship == "HasModellingRule" && c.DefinedType.NodeId == modellingRuleNodeId);
+        private bool HasModellingRule(string modellingRuleNodeId) => relationshipDefinedType.Contents.Any(c => c.Relationship == "HasModellingRule" && c.DefinedType.NodeId == modellingRuleNodeId);
 
         private bool IsPlaceholder() => HasModellingRule(TypeConverter.ModelingRuleOptionalPlaceholderNodeId) || HasModellingRule(TypeConverter.ModelingRuleMandatoryPlaceholderNodeId);
 
         private string GetCotype()
         {
-            if (IsPlaceholder() || Target == folderType)
-            {
-                return componentCotype;
-            }
-            else if (HasModellingRule(TypeConverter.ModelingRuleMandatoryNodeId) && Target != baseObjectType)
-            {
-                return capabilityCotype;
-            }
-            else
-            {
-                return string.Empty;
-            }
+            string? cotype = cotypeRuleEngine.GetCotype(sourceDefinedType, relationshipDefinedType, targetDefinedType);
+
+            return cotype != null ? $", \"{cotype}\"" : string.Empty;
         }
     }
 }
