@@ -7,34 +7,38 @@ import "github.com/Azure/iot-operations-sdks/go/services/adr"
 ## Index
 
 - [type Asset](<#Asset>)
-- [type AssetEndpointProfile](<#AssetEndpointProfile>)
 - [type AssetEndpointProfileStatus](<#AssetEndpointProfileStatus>)
 - [type AssetStatus](<#AssetStatus>)
 - [type Client](<#Client>)
   - [func New\(app \*protocol.Application, client protocol.MqttClient, opt ...ClientOption\) \(c \*Client, err error\)](<#New>)
   - [func \(c \*Client\) Close\(\)](<#Client.Close>)
-  - [func \(c \*Client\) CreateDetectedAsset\(ctx context.Context, aepName string, asset \*DetectedAsset\) \(\*adrbaseservice.CreateDetectedAssetResponsePayload, error\)](<#Client.CreateDetectedAsset>)
-  - [func \(c \*Client\) CreateDiscoveredAssetEndpointProfile\(ctx context.Context, aepName string, profile \*DiscoveredAssetEndpointProfile\) \(\*aeptypeservice.CreateDiscoveredAssetEndpointProfileResponsePayload, error\)](<#Client.CreateDiscoveredAssetEndpointProfile>)
+  - [func \(c \*Client\) CreateDetectedAsset\(ctx context.Context, aepName string, asset \*DetectedAsset\) \(\*CreateDetectedAssetResponseSchema, error\)](<#Client.CreateDetectedAsset>)
+  - [func \(c \*Client\) CreateDiscoveredAssetEndpointProfile\(ctx context.Context, aepName string, profile \*DiscoveredAssetEndpointProfile\) \(\*CreateDiscoveredAssetEndpointProfileResponseSchema, error\)](<#Client.CreateDiscoveredAssetEndpointProfile>)
   - [func \(c \*Client\) GetAsset\(ctx context.Context, aepName, assetName string\) \(\*Asset, error\)](<#Client.GetAsset>)
-  - [func \(c \*Client\) GetAssetEndpointProfile\(ctx context.Context, aepName string\) \(\*AssetEndpointProfile, error\)](<#Client.GetAssetEndpointProfile>)
-  - [func \(c \*Client\) ObserveAssetEndpointProfileUpdates\(ctx context.Context, aepName string\) \(\*NotificationResponse, error\)](<#Client.ObserveAssetEndpointProfileUpdates>)
-  - [func \(c \*Client\) ObserveAssetUpdates\(ctx context.Context, aepName, assetName string\) \(\*NotificationResponse, error\)](<#Client.ObserveAssetUpdates>)
+  - [func \(c \*Client\) GetDevice\(ctx context.Context, aepName string\) \(\*Device, error\)](<#Client.GetDevice>)
+  - [func \(c \*Client\) ObserveAssetEndpointProfileUpdates\(ctx context.Context, aepName string\) \(NotificationPreferenceResponse, error\)](<#Client.ObserveAssetEndpointProfileUpdates>)
+  - [func \(c \*Client\) ObserveAssetUpdates\(ctx context.Context, aepName, assetName string\) \(NotificationPreferenceResponse, error\)](<#Client.ObserveAssetUpdates>)
   - [func \(c \*Client\) Start\(ctx context.Context\) error](<#Client.Start>)
-  - [func \(c \*Client\) UnobserveAssetEndpointProfileUpdates\(ctx context.Context, aepName string\) \(\*NotificationResponse, error\)](<#Client.UnobserveAssetEndpointProfileUpdates>)
-  - [func \(c \*Client\) UnobserveAssetUpdates\(ctx context.Context, aepName, assetName string\) \(\*NotificationResponse, error\)](<#Client.UnobserveAssetUpdates>)
-  - [func \(c \*Client\) UpdateAssetEndpointProfileStatus\(ctx context.Context, aepName string, status \*AssetEndpointProfileStatus\) \(\*AssetEndpointProfile, error\)](<#Client.UpdateAssetEndpointProfileStatus>)
+  - [func \(c \*Client\) UnobserveAssetEndpointProfileUpdates\(ctx context.Context, aepName string\) \(NotificationPreferenceResponse, error\)](<#Client.UnobserveAssetEndpointProfileUpdates>)
+  - [func \(c \*Client\) UnobserveAssetUpdates\(ctx context.Context, aepName, assetName string\) \(NotificationPreferenceResponse, error\)](<#Client.UnobserveAssetUpdates>)
+  - [func \(c \*Client\) UpdateAssetEndpointProfileStatus\(ctx context.Context, aepName string, status \*AssetEndpointProfileStatus\) \(\*AssetEndpointProfileStatus, error\)](<#Client.UpdateAssetEndpointProfileStatus>)
   - [func \(c \*Client\) UpdateAssetStatus\(ctx context.Context, aepName string, asset \*Asset\) \(\*Asset, error\)](<#Client.UpdateAssetStatus>)
 - [type ClientOption](<#ClientOption>)
-  - [func WithAepUpdateHandler\(handler func\(aepName string, profile \*AssetEndpointProfile\) error\) ClientOption](<#WithAepUpdateHandler>)
+  - [func WithAepUpdateHandler\(handler func\(aepName string, profile \*DeviceEndpointSchema\) error\) ClientOption](<#WithAepUpdateHandler>)
   - [func WithAssetUpdateHandler\(handler func\(aepName string, asset \*Asset\) error\) ClientOption](<#WithAssetUpdateHandler>)
   - [func WithLogger\(logger \*slog.Logger\) ClientOption](<#WithLogger>)
 - [type ClientOptions](<#ClientOptions>)
   - [func \(o \*ClientOptions\) Apply\(opts \[\]ClientOption, rest ...ClientOption\)](<#ClientOptions.Apply>)
+- [type CreateDetectedAssetResponseSchema](<#CreateDetectedAssetResponseSchema>)
+- [type CreateDiscoveredAssetEndpointProfileResponseSchema](<#CreateDiscoveredAssetEndpointProfileResponseSchema>)
 - [type DetectedAsset](<#DetectedAsset>)
+- [type Device](<#Device>)
+- [type DeviceEndpointSchema](<#DeviceEndpointSchema>)
 - [type DiscoveredAssetEndpointProfile](<#DiscoveredAssetEndpointProfile>)
 - [type Error](<#Error>)
   - [func \(e \*Error\) Error\(\) string](<#Error.Error>)
-- [type NotificationResponse](<#NotificationResponse>)
+- [type NotificationPreference](<#NotificationPreference>)
+- [type NotificationPreferenceResponse](<#NotificationPreferenceResponse>)
 
 
 <a name="Asset"></a>
@@ -46,17 +50,8 @@ import "github.com/Azure/iot-operations-sdks/go/services/adr"
 type Asset = adrbaseservice.Asset
 ```
 
-<a name="AssetEndpointProfile"></a>
-## type [AssetEndpointProfile](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L27>)
-
-
-
-```go
-type AssetEndpointProfile = adrbaseservice.Device
-```
-
 <a name="AssetEndpointProfileStatus"></a>
-## type [AssetEndpointProfileStatus](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L30>)
+## type [AssetEndpointProfileStatus](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L32>)
 
 
 
@@ -65,7 +60,7 @@ type AssetEndpointProfileStatus = adrbaseservice.DeviceStatus
 ```
 
 <a name="AssetStatus"></a>
-## type [AssetStatus](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L29>)
+## type [AssetStatus](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L31>)
 
 
 
@@ -74,7 +69,7 @@ type AssetStatus = adrbaseservice.AssetStatus
 ```
 
 <a name="Client"></a>
-## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L48-L58>)
+## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L53-L63>)
 
 Client manages interactions with the Azure Device Registry.
 
@@ -85,7 +80,7 @@ type Client struct {
 ```
 
 <a name="New"></a>
-### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L83-L87>)
+### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L88-L92>)
 
 ```go
 func New(app *protocol.Application, client protocol.MqttClient, opt ...ClientOption) (c *Client, err error)
@@ -94,7 +89,7 @@ func New(app *protocol.Application, client protocol.MqttClient, opt ...ClientOpt
 New creates a new ADR client.
 
 <a name="Client.Close"></a>
-### func \(\*Client\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L157>)
+### func \(\*Client\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L162>)
 
 ```go
 func (c *Client) Close()
@@ -103,25 +98,25 @@ func (c *Client) Close()
 Close all underlying resources.
 
 <a name="Client.CreateDetectedAsset"></a>
-### func \(\*Client\) [CreateDetectedAsset](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L399-L403>)
+### func \(\*Client\) [CreateDetectedAsset](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L402-L406>)
 
 ```go
-func (c *Client) CreateDetectedAsset(ctx context.Context, aepName string, asset *DetectedAsset) (*adrbaseservice.CreateDetectedAssetResponsePayload, error)
+func (c *Client) CreateDetectedAsset(ctx context.Context, aepName string, asset *DetectedAsset) (*CreateDetectedAssetResponseSchema, error)
 ```
 
 CreateDetectedAsset creates a detected asset.
 
 <a name="Client.CreateDiscoveredAssetEndpointProfile"></a>
-### func \(\*Client\) [CreateDiscoveredAssetEndpointProfile](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L422-L426>)
+### func \(\*Client\) [CreateDiscoveredAssetEndpointProfile](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L425-L429>)
 
 ```go
-func (c *Client) CreateDiscoveredAssetEndpointProfile(ctx context.Context, aepName string, profile *DiscoveredAssetEndpointProfile) (*aeptypeservice.CreateDiscoveredAssetEndpointProfileResponsePayload, error)
+func (c *Client) CreateDiscoveredAssetEndpointProfile(ctx context.Context, aepName string, profile *DiscoveredAssetEndpointProfile) (*CreateDiscoveredAssetEndpointProfileResponseSchema, error)
 ```
 
 CreateDiscoveredAssetEndpointProfile creates a discovered asset endpoint profile.
 
 <a name="Client.GetAsset"></a>
-### func \(\*Client\) [GetAsset](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L341-L344>)
+### func \(\*Client\) [GetAsset](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L344-L347>)
 
 ```go
 func (c *Client) GetAsset(ctx context.Context, aepName, assetName string) (*Asset, error)
@@ -129,35 +124,35 @@ func (c *Client) GetAsset(ctx context.Context, aepName, assetName string) (*Asse
 
 GetAsset retrieves an asset by name.
 
-<a name="Client.GetAssetEndpointProfile"></a>
-### func \(\*Client\) [GetAssetEndpointProfile](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L299-L302>)
+<a name="Client.GetDevice"></a>
+### func \(\*Client\) [GetDevice](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L302-L305>)
 
 ```go
-func (c *Client) GetAssetEndpointProfile(ctx context.Context, aepName string) (*AssetEndpointProfile, error)
+func (c *Client) GetDevice(ctx context.Context, aepName string) (*Device, error)
 ```
 
-GetAssetEndpointProfile retrieves an asset endpoint profile by name.
+
 
 <a name="Client.ObserveAssetEndpointProfileUpdates"></a>
-### func \(\*Client\) [ObserveAssetEndpointProfileUpdates](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L162-L165>)
+### func \(\*Client\) [ObserveAssetEndpointProfileUpdates](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L167-L170>)
 
 ```go
-func (c *Client) ObserveAssetEndpointProfileUpdates(ctx context.Context, aepName string) (*NotificationResponse, error)
+func (c *Client) ObserveAssetEndpointProfileUpdates(ctx context.Context, aepName string) (NotificationPreferenceResponse, error)
 ```
 
 ObserveAssetEndpointProfileUpdates starts observation of asset endpoint profile updates.
 
 <a name="Client.ObserveAssetUpdates"></a>
-### func \(\*Client\) [ObserveAssetUpdates](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L224-L227>)
+### func \(\*Client\) [ObserveAssetUpdates](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L229-L232>)
 
 ```go
-func (c *Client) ObserveAssetUpdates(ctx context.Context, aepName, assetName string) (*NotificationResponse, error)
+func (c *Client) ObserveAssetUpdates(ctx context.Context, aepName, assetName string) (NotificationPreferenceResponse, error)
 ```
 
 ObserveAssetUpdates starts observation of asset updates.
 
 <a name="Client.Start"></a>
-### func \(\*Client\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L152>)
+### func \(\*Client\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L157>)
 
 ```go
 func (c *Client) Start(ctx context.Context) error
@@ -166,34 +161,34 @@ func (c *Client) Start(ctx context.Context) error
 Start starts the client and its listeners.
 
 <a name="Client.UnobserveAssetEndpointProfileUpdates"></a>
-### func \(\*Client\) [UnobserveAssetEndpointProfileUpdates](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L193-L196>)
+### func \(\*Client\) [UnobserveAssetEndpointProfileUpdates](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L198-L201>)
 
 ```go
-func (c *Client) UnobserveAssetEndpointProfileUpdates(ctx context.Context, aepName string) (*NotificationResponse, error)
+func (c *Client) UnobserveAssetEndpointProfileUpdates(ctx context.Context, aepName string) (NotificationPreferenceResponse, error)
 ```
 
 UnobserveAssetEndpointProfileUpdates stops observation of asset endpoint profile updates.
 
 <a name="Client.UnobserveAssetUpdates"></a>
-### func \(\*Client\) [UnobserveAssetUpdates](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L262-L265>)
+### func \(\*Client\) [UnobserveAssetUpdates](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L266-L269>)
 
 ```go
-func (c *Client) UnobserveAssetUpdates(ctx context.Context, aepName, assetName string) (*NotificationResponse, error)
+func (c *Client) UnobserveAssetUpdates(ctx context.Context, aepName, assetName string) (NotificationPreferenceResponse, error)
 ```
 
 UnobserveAssetUpdates stops observation of asset updates.
 
 <a name="Client.UpdateAssetEndpointProfileStatus"></a>
-### func \(\*Client\) [UpdateAssetEndpointProfileStatus](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L317-L321>)
+### func \(\*Client\) [UpdateAssetEndpointProfileStatus](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L320-L324>)
 
 ```go
-func (c *Client) UpdateAssetEndpointProfileStatus(ctx context.Context, aepName string, status *AssetEndpointProfileStatus) (*AssetEndpointProfile, error)
+func (c *Client) UpdateAssetEndpointProfileStatus(ctx context.Context, aepName string, status *AssetEndpointProfileStatus) (*AssetEndpointProfileStatus, error)
 ```
 
 UpdateAssetEndpointProfileStatus updates the status of an asset endpoint profile.
 
 <a name="Client.UpdateAssetStatus"></a>
-### func \(\*Client\) [UpdateAssetStatus](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L364-L368>)
+### func \(\*Client\) [UpdateAssetStatus](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L367-L371>)
 
 ```go
 func (c *Client) UpdateAssetStatus(ctx context.Context, aepName string, asset *Asset) (*Asset, error)
@@ -202,7 +197,7 @@ func (c *Client) UpdateAssetStatus(ctx context.Context, aepName string, asset *A
 UpdateAssetStatus updates the status of an asset.
 
 <a name="ClientOption"></a>
-## type [ClientOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L61>)
+## type [ClientOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L66>)
 
 ClientOption represents a single option for the client.
 
@@ -213,16 +208,16 @@ type ClientOption interface {
 ```
 
 <a name="WithAepUpdateHandler"></a>
-### func [WithAepUpdateHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L584-L586>)
+### func [WithAepUpdateHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L587-L589>)
 
 ```go
-func WithAepUpdateHandler(handler func(aepName string, profile *AssetEndpointProfile) error) ClientOption
+func WithAepUpdateHandler(handler func(aepName string, profile *DeviceEndpointSchema) error) ClientOption
 ```
 
 WithAepUpdateHandler sets a handler for asset endpoint profile update events.
 
 <a name="WithAssetUpdateHandler"></a>
-### func [WithAssetUpdateHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L577-L579>)
+### func [WithAssetUpdateHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L580-L582>)
 
 ```go
 func WithAssetUpdateHandler(handler func(aepName string, asset *Asset) error) ClientOption
@@ -231,7 +226,7 @@ func WithAssetUpdateHandler(handler func(aepName string, asset *Asset) error) Cl
 WithAssetUpdateHandler sets a handler for asset update events.
 
 <a name="WithLogger"></a>
-### func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L572>)
+### func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L575>)
 
 ```go
 func WithLogger(logger *slog.Logger) ClientOption
@@ -240,7 +235,7 @@ func WithLogger(logger *slog.Logger) ClientOption
 WithLogger enables logging with the provided slog logger.
 
 <a name="ClientOptions"></a>
-## type [ClientOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L64-L68>)
+## type [ClientOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L69-L73>)
 
 ClientOptions are the resolved options for the client.
 
@@ -248,12 +243,12 @@ ClientOptions are the resolved options for the client.
 type ClientOptions struct {
     Logger        *slog.Logger
     OnAssetUpdate func(string, *Asset) error
-    OnAepUpdate   func(string, *AssetEndpointProfile) error
+    OnAepUpdate   func(string, *DeviceEndpointSchema) error
 }
 ```
 
 <a name="ClientOptions.Apply"></a>
-### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L544-L547>)
+### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L547-L550>)
 
 ```go
 func (o *ClientOptions) Apply(opts []ClientOption, rest ...ClientOption)
@@ -261,8 +256,26 @@ func (o *ClientOptions) Apply(opts []ClientOption, rest ...ClientOption)
 
 Apply resolves the provided list of options.
 
+<a name="CreateDetectedAssetResponseSchema"></a>
+## type [CreateDetectedAssetResponseSchema](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L34>)
+
+
+
+```go
+type CreateDetectedAssetResponseSchema = adrbaseservice.CreateDetectedAssetResponseSchema
+```
+
+<a name="CreateDiscoveredAssetEndpointProfileResponseSchema"></a>
+## type [CreateDiscoveredAssetEndpointProfileResponseSchema](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L37>)
+
+
+
+```go
+type CreateDiscoveredAssetEndpointProfileResponseSchema = aeptypeservice.CreateDiscoveredAssetEndpointProfileResponseSchema
+```
+
 <a name="DetectedAsset"></a>
-## type [DetectedAsset](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L31>)
+## type [DetectedAsset](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L33>)
 
 
 
@@ -270,8 +283,26 @@ Apply resolves the provided list of options.
 type DetectedAsset = adrbaseservice.DetectedAsset
 ```
 
+<a name="Device"></a>
+## type [Device](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L27>)
+
+
+
+```go
+type Device = adrbaseservice.Device
+```
+
+<a name="DeviceEndpointSchema"></a>
+## type [DeviceEndpointSchema](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L28>)
+
+
+
+```go
+type DeviceEndpointSchema = adrbaseservice.DeviceEndpointSchema
+```
+
 <a name="DiscoveredAssetEndpointProfile"></a>
-## type [DiscoveredAssetEndpointProfile](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L32>)
+## type [DiscoveredAssetEndpointProfile](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L36>)
 
 
 
@@ -280,7 +311,7 @@ type DiscoveredAssetEndpointProfile = aeptypeservice.DiscoveredAssetEndpointProf
 ```
 
 <a name="Error"></a>
-## type [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L36-L41>)
+## type [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L41-L46>)
 
 Error represents an error returned by the ADR service.
 
@@ -294,7 +325,7 @@ type Error struct {
 ```
 
 <a name="Error.Error"></a>
-### func \(\*Error\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L43>)
+### func \(\*Error\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L48>)
 
 ```go
 func (e *Error) Error() string
@@ -302,13 +333,22 @@ func (e *Error) Error() string
 
 
 
-<a name="NotificationResponse"></a>
-## type [NotificationResponse](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L28>)
+<a name="NotificationPreference"></a>
+## type [NotificationPreference](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L29>)
 
 
 
 ```go
-type NotificationResponse = adrbaseservice.NotificationPreferenceResponse
+type NotificationPreference = adrbaseservice.NotificationPreference
+```
+
+<a name="NotificationPreferenceResponse"></a>
+## type [NotificationPreferenceResponse](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/adr/client.go#L30>)
+
+
+
+```go
+type NotificationPreferenceResponse = adrbaseservice.NotificationPreferenceResponse
 ```
 
 Generated by [gomarkdoc](<https://github.com/princjef/gomarkdoc>)
