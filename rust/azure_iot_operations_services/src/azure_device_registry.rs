@@ -109,7 +109,7 @@ impl AssetUpdateObservation {
 #[derive(Clone, Debug, Default, PartialEq)]
 /// Represents the configuration status.
 pub struct ConfigStatus {
-    /// Error details for status.
+    /// The last error that occurred while processing the configuration.
     pub error: Option<ConfigError>,
     /// A timestamp indicating the last time the configuration has been modified from the perspective of the current actual (Edge) state of the CRD.
     pub last_transition_time: Option<DateTime<Utc>>,

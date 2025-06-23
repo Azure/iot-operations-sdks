@@ -404,7 +404,7 @@ namespace Azure.Iot.Operations.Connector
                         {
                             try
                             {
-                                await WhileDeviceIsAvailable.Invoke(new(args.Device, args.InboundEndpointName), deviceTaskCancellationTokenSource.Token);
+                                await WhileDeviceIsAvailable.Invoke(new(args.Device, args.InboundEndpointName, _leaderElectionClient), deviceTaskCancellationTokenSource.Token);
                             }
                             catch (OperationCanceledException)
                             {
@@ -486,13 +486,13 @@ namespace Azure.Iot.Operations.Connector
                 return;
             }
 
-            if (asset == null || asset.Datasets == null)
+            if (asset.Datasets == null)
             {
                 _logger.LogInformation($"Asset with name {assetName} has no datasets to sample");
             }
             else
             {
-                foreach (var dataset in asset!.Datasets!)
+                foreach (var dataset in asset.Datasets)
                 {
                     // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
                     var datasetMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, dataset.Name!, dataset);
@@ -521,7 +521,7 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            if (asset == null || asset!.Events == null)
+            if (asset.Events == null)
             {
                 _logger.LogInformation($"Asset with name {assetName} has no events to listen for");
             }
@@ -530,7 +530,7 @@ namespace Azure.Iot.Operations.Connector
                 foreach (var assetEvent in asset!.Events)
                 {
                     // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
-                    var eventMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, assetEvent!.Name!, assetEvent);
+                    var eventMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, assetEvent.Name, assetEvent);
                     if (eventMessageSchema != null)
                     {
                         try
@@ -566,7 +566,7 @@ namespace Azure.Iot.Operations.Connector
                 {
                     try
                     {
-                        await WhileAssetIsAvailable.Invoke(new(deviceName, device, inboundEndpointName, assetName, asset!), assetTaskCancellationTokenSource.Token);
+                        await WhileAssetIsAvailable.Invoke(new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient), assetTaskCancellationTokenSource.Token);
                     }
                     catch (OperationCanceledException)
                     {

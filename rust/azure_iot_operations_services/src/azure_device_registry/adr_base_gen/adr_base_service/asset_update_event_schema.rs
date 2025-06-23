@@ -14,10 +14,10 @@ use super::asset::Asset;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetUpdateEventSchema {
-    /// The 'asset' Field.
+    /// The updated asset resource.
     pub asset: Asset,
 
-    /// The 'assetName' Field.
+    /// The name of the asset that was updated.
     #[serde(rename = "assetName")]
     pub asset_name: String,
 }

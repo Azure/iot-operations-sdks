@@ -14,10 +14,10 @@ use super::device::Device;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DeviceUpdateEventSchema {
-    /// The 'device' Field.
+    /// The updated device resource, containing the specific inbound endpoint details as specified in the topic.
     pub device: Device,
 
-    /// The 'deviceName' Field.
+    /// The name of the device that was updated.
     #[serde(rename = "deviceName")]
     pub device_name: String,
 }
