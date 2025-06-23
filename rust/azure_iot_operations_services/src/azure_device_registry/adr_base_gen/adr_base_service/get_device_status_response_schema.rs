@@ -15,13 +15,13 @@ use super::device_status::DeviceStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct GetDeviceStatusResponseSchema {
-    /// The 'deviceStatus' Field.
+    /// The device status, containing the specific inbound endpoint status as specified by the request.
     #[serde(rename = "deviceStatus")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub device_status: Option<DeviceStatus>,
 
-    /// The 'getDeviceStatusError' Field.
+    /// Error details, if the device status could not be retrieved.
     #[serde(rename = "getDeviceStatusError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

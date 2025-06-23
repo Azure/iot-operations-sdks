@@ -13,10 +13,10 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DiscoveredDeviceResponseSchema {
-    /// The 'discoveryId' Field.
+    /// The unique identifier for the discovered device.
     #[serde(rename = "discoveryId")]
     pub discovery_id: String,
 
-    /// The 'version' Field.
+    /// The version of the discovered device resource.
     pub version: u64,
 }

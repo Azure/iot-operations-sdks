@@ -15,37 +15,37 @@ use super::event_stream_destination::EventStreamDestination;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DiscoveredAssetEvent {
-    /// The 'dataPoints' Field.
+    /// Array of data points that are part of the event. Each data point can have per-data-point configuration.
     #[serde(rename = "dataPoints")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub data_points: Option<Vec<DiscoveredAssetEventDataPoint>>,
 
-    /// The 'destinations' Field.
+    /// Destinations for an event.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub destinations: Option<Vec<EventStreamDestination>>,
 
-    /// The 'eventConfiguration' Field.
+    /// Stringified JSON that contains connector-specific configuration for the specific event.
     #[serde(rename = "eventConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub event_configuration: Option<String>,
 
-    /// The 'eventNotifier' Field.
+    /// The address of the notifier of the event in the discovered asset (e.g. URL) so that a client can access the notifier on the asset.
     #[serde(rename = "eventNotifier")]
     pub event_notifier: String,
 
-    /// The 'lastUpdatedOn' Field.
+    /// UTC timestamp indicating when the event was added or modified.
     #[serde(rename = "lastUpdatedOn")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub last_updated_on: Option<DateTime<Utc>>,
 
-    /// The 'name' Field.
+    /// The name of the event.
     pub name: String,
 
-    /// The 'typeRef' Field.
+    /// URI or type definition ID.
     #[serde(rename = "typeRef")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

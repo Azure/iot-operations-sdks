@@ -17,19 +17,32 @@
     {
       "@type": "Command",
       "name": "getDevice",
+      "description": "Retrieve a device by device name and inbound endpoint name.",
       "response": {
         "name": "getDeviceResponse",
+        "description": "Response containing the device resource or error details if the device could not be retrieved.",
         "schema": {
-          "@type": [ "Object", "Result" ],
+          "@type": [
+            "Object",
+            "Result"
+          ],
           "fields": [
             {
-              "@type": ["Field", "NormalResult"],
+              "@type": [
+                "Field",
+                "NormalResult"
+              ],
               "name": "device",
+              "description": "The device resource, containing the specific inbound endpoint details as specified by the request.",
               "schema": "dtmi:com:microsoft:akri:Device;1"
             },
             {
-              "@type": ["Field", "ErrorResult"],
+              "@type": [
+                "Field",
+                "ErrorResult"
+              ],
               "name": "getDeviceError",
+              "description": "Error details, if the device could not be retrieved.",
               "schema": "dtmi:com:microsoft:akri:AkriServiceError;1"
             }
           ]
@@ -39,19 +52,32 @@
     {
       "@type": "Command",
       "name": "getDeviceStatus",
+      "description": "Retrieve the status of a device by device name and inbound endpoint name.",
       "response": {
         "name": "getDeviceStatusResponse",
+        "description": "Response containing the device status or error details if the status could not be retrieved.",
         "schema": {
-          "@type": [ "Object", "Result" ],
+          "@type": [
+            "Object",
+            "Result"
+          ],
           "fields": [
             {
-              "@type": ["Field", "NormalResult"],
+              "@type": [
+                "Field",
+                "NormalResult"
+              ],
               "name": "deviceStatus",
+              "description": "The device status, containing the specific inbound endpoint status as specified by the request.",
               "schema": "dtmi:com:microsoft:akri:DeviceStatus;1"
             },
             {
-              "@type": ["Field", "ErrorResult"],
+              "@type": [
+                "Field",
+                "ErrorResult"
+              ],
               "name": "getDeviceStatusError",
+              "description": "Error details, if the device status could not be retrieved.",
               "schema": "dtmi:com:microsoft:akri:AkriServiceError;1"
             }
           ]
@@ -61,23 +87,37 @@
     {
       "@type": "Command",
       "name": "getAsset",
+      "description": "Retrieve an asset by asset name.",
       "request": {
         "name": "assetName",
+        "description": "The name of the asset to retrieve.",
         "schema": "string"
       },
       "response": {
         "name": "getAssetResponse",
+        "description": "Response containing the asset resource or error details if the asset could not be retrieved.",
         "schema": {
-          "@type": [ "Object", "Result" ],
+          "@type": [
+            "Object",
+            "Result"
+          ],
           "fields": [
             {
-              "@type": ["Field", "NormalResult"],
+              "@type": [
+                "Field",
+                "NormalResult"
+              ],
               "name": "asset",
+              "description": "The asset resource",
               "schema": "dtmi:com:microsoft:akri:Asset;1"
             },
             {
-              "@type": ["Field", "ErrorResult"],
+              "@type": [
+                "Field",
+                "ErrorResult"
+              ],
               "name": "getAssetError",
+              "description": "Error details, if the asset could not be retrieved.",
               "schema": "dtmi:com:microsoft:akri:AkriServiceError;1"
             }
           ]
@@ -87,23 +127,37 @@
     {
       "@type": "Command",
       "name": "getAssetStatus",
+      "description": "Retrieve the status of an asset by asset name.",
       "request": {
         "name": "assetName",
+        "description": "The name of the asset to retrieve the status for.",
         "schema": "string"
       },
       "response": {
         "name": "getAssetStatusResponse",
+        "description": "Response containing the asset status or error details if the status could not be retrieved.",
         "schema": {
-          "@type": [ "Object", "Result" ],
+          "@type": [
+            "Object",
+            "Result"
+          ],
           "fields": [
             {
-              "@type": ["Field", "NormalResult"],
+              "@type": [
+                "Field",
+                "NormalResult"
+              ],
               "name": "assetStatus",
+              "description": "The asset status",
               "schema": "dtmi:com:microsoft:akri:AssetStatus;1"
             },
             {
-              "@type": ["Field", "ErrorResult"],
+              "@type": [
+                "Field",
+                "ErrorResult"
+              ],
               "name": "getAssetStatusError",
+              "description": "Error details, if the asset status could not be retrieved.",
               "schema": "dtmi:com:microsoft:akri:AkriServiceError;1"
             }
           ]
@@ -113,23 +167,37 @@
     {
       "@type": "Command",
       "name": "updateDeviceStatus",
+      "description": "Update the status of a device by device name and inbound endpoint name.",
       "request": {
         "name": "deviceStatusUpdate",
+        "description": "The device status to update. Fields omitted in the request will be removed. The specified inbound endpoint status will be added or updated in the inbound endpoints map.",
         "schema": "dtmi:com:microsoft:akri:DeviceStatus;1"
       },
       "response": {
         "name": "updateDeviceStatusResponse",
+        "description": "Response containing the updated device status or error details if the update failed.",
         "schema": {
-          "@type": [ "Object", "Result" ],
+          "@type": [
+            "Object",
+            "Result"
+          ],
           "fields": [
             {
-              "@type": ["Field", "NormalResult"],
+              "@type": [
+                "Field",
+                "NormalResult"
+              ],
               "name": "updatedDeviceStatus",
+              "description": "The updated device status containing the specific inbound endpoint status as specified by the request.",
               "schema": "dtmi:com:microsoft:akri:DeviceStatus;1"
             },
             {
-              "@type": ["Field", "ErrorResult"],
+              "@type": [
+                "Field",
+                "ErrorResult"
+              ],
               "name": "updateDeviceStatusError",
+              "description": "Error details, if the device status update failed.",
               "schema": "dtmi:com:microsoft:akri:AkriServiceError;1"
             }
           ]
@@ -139,19 +207,29 @@
     {
       "@type": "Command",
       "name": "updateAssetStatus",
+      "description": "Update the status of an asset by asset name.",
       "request": {
         "name": "assetStatusUpdate",
+        "description": "The asset status update request.",
         "schema": {
           "@type": "Object",
           "fields": [
             {
-              "@type": ["Field", "Required"],
+              "@type": [
+                "Field",
+                "Required"
+              ],
               "name": "assetName",
+              "description": "The name of the asset to update the status for.",
               "schema": "string"
             },
             {
-              "@type": ["Field", "Required"],
+              "@type": [
+                "Field",
+                "Required"
+              ],
               "name": "assetStatus",
+              "description": "The asset status to update. Fields omitted in the request will be removed.",
               "schema": "dtmi:com:microsoft:akri:AssetStatus;1"
             }
           ]
@@ -159,17 +237,29 @@
       },
       "response": {
         "name": "updateAssetStatusResponse",
+        "description": "Response containing the updated asset status or error details if the update failed.",
         "schema": {
-          "@type": [ "Object", "Result" ],
+          "@type": [
+            "Object",
+            "Result"
+          ],
           "fields": [
             {
-              "@type": ["Field", "NormalResult"],
+              "@type": [
+                "Field",
+                "NormalResult"
+              ],
               "name": "updatedAssetStatus",
+              "description": "The updated asset status.",
               "schema": "dtmi:com:microsoft:akri:AssetStatus;1"
             },
             {
-              "@type": ["Field", "ErrorResult"],
+              "@type": [
+                "Field",
+                "ErrorResult"
+              ],
               "name": "updateAssetStatusError",
+              "description": "Error details, if the asset status update failed.",
               "schema": "dtmi:com:microsoft:akri:AkriServiceError;1"
             }
           ]
@@ -179,17 +269,26 @@
     {
       "@type": "Telemetry",
       "name": "deviceUpdateEvent",
+      "description": "Telemetry event emitted when a device is updated, containing the relevant inbound endpoint details as specified in the topic.",
       "schema": {
         "@type": "Object",
         "fields": [
           {
-            "@type": ["Field", "Required"],
+            "@type": [
+              "Field",
+              "Required"
+            ],
             "name": "deviceName",
+            "description": "The name of the device that was updated.",
             "schema": "string"
           },
           {
-            "@type": ["Field", "Required"],
+            "@type": [
+              "Field",
+              "Required"
+            ],
             "name": "device",
+            "description": "The updated device resource, containing the specific inbound endpoint details as specified in the topic.",
             "schema": "dtmi:com:microsoft:akri:Device;1"
           }
         ]
@@ -198,17 +297,26 @@
     {
       "@type": "Telemetry",
       "name": "assetUpdateEvent",
+      "description": "Telemetry event emitted when an asset is updated.",
       "schema": {
         "@type": "Object",
         "fields": [
           {
-            "@type": ["Field", "Required"],
+            "@type": [
+              "Field",
+              "Required"
+            ],
             "name": "assetName",
+            "description": "The name of the asset that was updated.",
             "schema": "string"
           },
           {
-            "@type": ["Field", "Required"],
+            "@type": [
+              "Field",
+              "Required"
+            ],
             "name": "asset",
+            "description": "The updated asset resource.",
             "schema": "dtmi:com:microsoft:akri:Asset;1"
           }
         ]
@@ -217,23 +325,37 @@
     {
       "@type": "Command",
       "name": "setNotificationPreferenceForDeviceUpdates",
+      "description": "Set the notification preference for device updates. This command allows the connector application to subscribe to per-device inbound endpoint updates.",
       "request": {
         "name": "notificationPreferenceRequest",
+        "description": "The request to set the notification preference for device updates.",
         "schema": "dtmi:com:microsoft:akri:NotificationPreference;1"
       },
       "response": {
         "name": "notificationPreferenceResponse",
+        "description": "Response containing the result of setting the notification preference for device updates or error details if the operation failed.",
         "schema": {
-          "@type": [ "Object", "Result" ],
+          "@type": [
+            "Object",
+            "Result"
+          ],
           "fields": [
             {
-              "@type": ["Field", "NormalResult"],
+              "@type": [
+                "Field",
+                "NormalResult"
+              ],
               "name": "responsePayload",
+              "description": "The response payload indicating that the operation was successful.",
               "schema": "string"
             },
             {
-              "@type": ["Field", "ErrorResult"],
+              "@type": [
+                "Field",
+                "ErrorResult"
+              ],
               "name": "setNotificationPreferenceForDeviceUpdatesError",
+              "description": "Error details, if setting the notification preference for device updates failed.",
               "schema": "dtmi:com:microsoft:akri:AkriServiceError;1"
             }
           ]
@@ -243,19 +365,29 @@
     {
       "@type": "Command",
       "name": "setNotificationPreferenceForAssetUpdates",
+      "description": "Set the notification preference for asset updates. This command allows the connector application to subscribe to per-asset updates.",
       "request": {
         "name": "notificationPreferenceRequest",
+        "description": "The request to set the notification preference for asset updates.",
         "schema": {
           "@type": "Object",
           "fields": [
             {
-              "@type": ["Field", "Required"],
+              "@type": [
+                "Field",
+                "Required"
+              ],
               "name": "assetName",
+              "description": "The name of the asset to set the notification preference for.",
               "schema": "string"
             },
             {
-              "@type": ["Field", "Required"],
+              "@type": [
+                "Field",
+                "Required"
+              ],
               "name": "notificationPreference",
+              "description": "The notification preference to set for the asset updates.",
               "schema": "dtmi:com:microsoft:akri:NotificationPreference;1"
             }
           ]
@@ -263,17 +395,29 @@
       },
       "response": {
         "name": "notificationPreferenceResponse",
+        "description": "Response containing the result of setting the notification preference for asset updates or error details if the operation failed.",
         "schema": {
-          "@type": [ "Object", "Result" ],
+          "@type": [
+            "Object",
+            "Result"
+          ],
           "fields": [
             {
-              "@type": ["Field", "NormalResult"],
+              "@type": [
+                "Field",
+                "NormalResult"
+              ],
               "name": "responsePayload",
+              "description": "The response payload indicating that the operation was successful.",
               "schema": "string"
             },
             {
-              "@type": ["Field", "ErrorResult"],
+              "@type": [
+                "Field",
+                "ErrorResult"
+              ],
               "name": "setNotificationPreferenceForAssetUpdatesError",
+              "description": "Error details, if setting the notification preference for asset updates failed.",
               "schema": "dtmi:com:microsoft:akri:AkriServiceError;1"
             }
           ]
@@ -283,19 +427,29 @@
     {
       "@type": "Command",
       "name": "createOrUpdateDiscoveredAsset",
+      "description": "Create or update a discovered asset resource.",
       "request": {
         "name": "discoveredAssetRequest",
+        "description": "The request to create or update a discovered asset.",
         "schema": {
           "@type": "Object",
           "fields": [
             {
-              "@type": ["Field", "Required"],
+              "@type": [
+                "Field",
+                "Required"
+              ],
               "name": "discoveredAssetName",
+              "description": "The name of the discovered asset to create or update. This field is used to perform deduplication of discovered assets.",
               "schema": "string"
             },
             {
-              "@type": ["Field", "Required"],
+              "@type": [
+                "Field",
+                "Required"
+              ],
               "name": "discoveredAsset",
+              "description": "The discovered asset resource to create or update. Fields omitted in the request will be removed.",
               "schema": "dtmi:com:microsoft:akri:DiscoveredAsset;1"
             }
           ]
@@ -303,31 +457,51 @@
       },
       "response": {
         "name": "createOrUpdateDiscoveredAssetResponse",
+        "description": "Response containing the discovered asset response or error details if the operation failed.",
         "schema": {
-          "@type": [ "Object", "Result" ],
+          "@type": [
+            "Object",
+            "Result"
+          ],
           "fields": [
             {
-              "@type": ["Field", "NormalResult"],
+              "@type": [
+                "Field",
+                "NormalResult"
+              ],
               "name": "discoveredAssetResponse",
+              "description": "The discovered asset response.",
               "schema": {
                 "@type": "Object",
                 "fields": [
                   {
-                    "@type": [ "Field", "Required" ],
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
                     "name": "discoveryId",
+                    "description": "The unique identifier for the discovered asset.",
                     "schema": "string"
                   },
                   {
-                    "@type": [ "Field", "Required" ],
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
                     "name": "version",
+                    "description": "The version of the discovered asset resource.",
                     "schema": "unsignedLong"
                   }
                 ]
               }
             },
             {
-              "@type": ["Field", "ErrorResult"],
+              "@type": [
+                "Field",
+                "ErrorResult"
+              ],
               "name": "createOrUpdateDiscoveredAssetError",
+              "description": "Error details, if the discovered asset creation or update failed.",
               "schema": "dtmi:com:microsoft:akri:AkriServiceError;1"
             }
           ]
@@ -342,13 +516,19 @@
       "description": "A reference to the Device and Endpoint within the device (connection information) used by brokers to connect that provides data points for this asset.",
       "fields": [
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "deviceName",
           "description": "Name of the device resource.",
           "schema": "string"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "endpointName",
           "description": "The name of endpoint to use.",
           "schema": "string"
@@ -360,7 +540,10 @@
       "@type": "Object",
       "fields": [
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "address",
           "description": "The endpoint address to connect to.",
           "schema": "string"
@@ -378,13 +561,19 @@
       "@type": "Object",
       "fields": [
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "configuration",
           "description": "The destination configuration.",
           "schema": "dtmi:com:microsoft:akri:DestinationConfiguration;1"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "target",
           "description": "The target destination.",
           "schema": "dtmi:com:microsoft:akri:DatasetTarget;1"
@@ -396,13 +585,19 @@
       "@type": "Object",
       "fields": [
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "configuration",
           "description": "The destination configuration.",
           "schema": "dtmi:com:microsoft:akri:DestinationConfiguration;1"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "target",
           "description": "The target destination.",
           "schema": "dtmi:com:microsoft:akri:EventStreamTarget;1"
@@ -487,19 +682,28 @@
       "description": "The message schema reference object.",
       "fields": [
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "schemaName",
           "description": "The reference to the message schema name.",
           "schema": "string"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "schemaRegistryNamespace",
           "description": "The reference to the message schema registry namespace.",
           "schema": "string"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "schemaVersion",
           "description": "The reference to the message schema version.",
           "schema": "string"
@@ -513,6 +717,7 @@
         {
           "@type": "Field",
           "name": "error",
+          "description": "The last error that occurred while processing the configuration.",
           "schema": "dtmi:com:microsoft:akri:ConfigError;1"
         },
         {
@@ -699,7 +904,10 @@
                           "schema": "string"
                         },
                         {
-                          "@type": [ "Field", "Required" ],
+                          "@type": [
+                            "Field",
+                            "Required"
+                          ],
                           "name": "address",
                           "description": "The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).",
                           "schema": "string"
@@ -712,7 +920,10 @@
                             "@type": "Object",
                             "fields": [
                               {
-                                "@type": [ "Field", "Required" ],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "name": "method",
                                 "description": "Defines the method to authenticate the user of the client at the server.",
                                 "schema": {
@@ -742,13 +953,19 @@
                                   "@type": "Object",
                                   "fields": [
                                     {
-                                      "@type": [ "Field", "Required" ],
+                                      "@type": [
+                                        "Field",
+                                        "Required"
+                                      ],
                                       "name": "usernameSecretName",
                                       "description": "The name of the secret containing the username.",
                                       "schema": "string"
                                     },
                                     {
-                                      "@type": [ "Field", "Required" ],
+                                      "@type": [
+                                        "Field",
+                                        "Required"
+                                      ],
                                       "name": "passwordSecretName",
                                       "description": "The name of the secret containing the password.",
                                       "schema": "string"
@@ -764,7 +981,10 @@
                                   "@type": "Object",
                                   "fields": [
                                     {
-                                      "@type": [ "Field", "Required" ],
+                                      "@type": [
+                                        "Field",
+                                        "Required"
+                                      ],
                                       "name": "certificateSecretName",
                                       "description": "The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).",
                                       "schema": "string"
@@ -776,7 +996,10 @@
                           }
                         },
                         {
-                          "@type": [ "Field", "Required" ],
+                          "@type": [
+                            "Field",
+                            "Required"
+                          ],
                           "@id": "dtmi:com:microsoft:akri:DeviceInboundEndpointType;1",
                           "name": "endpointType",
                           "description": "Type of connection endpoint.",
@@ -817,7 +1040,10 @@
                   "@type": "Object",
                   "fields": [
                     {
-                      "@type": ["Field", "Required"],
+                      "@type": [
+                        "Field",
+                        "Required"
+                      ],
                       "name": "assigned",
                       "description": "Device messaging endpoint model.",
                       "schema": {
@@ -911,6 +1137,7 @@
         {
           "@type": "Field",
           "name": "config",
+          "description": "The configuration status of the device.",
           "schema": "dtmi:com:microsoft:akri:ConfigStatus;1"
         },
         {
@@ -940,6 +1167,7 @@
                         {
                           "@type": "Field",
                           "name": "error",
+                          "description": "The last error that occurred while processing the endpoint.",
                           "schema": "dtmi:com:microsoft:akri:ConfigError;1"
                         }
                       ]
@@ -1007,13 +1235,19 @@
                           "schema": "string"
                         },
                         {
-                          "@type": ["Field", "Required"],
+                          "@type": [
+                            "Field",
+                            "Required"
+                          ],
                           "name": "dataSource",
                           "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset.",
                           "schema": "string"
                         },
                         {
-                          "@type": ["Field", "Required"],
+                          "@type": [
+                            "Field",
+                            "Required"
+                          ],
                           "name": "name",
                           "description": "The name of the data point.",
                           "schema": "string"
@@ -1050,7 +1284,10 @@
                   }
                 },
                 {
-                  "@type": ["Field", "Required"],
+                  "@type": [
+                    "Field",
+                    "Required"
+                  ],
                   "name": "name",
                   "description": "Name of the dataset.",
                   "schema": "string"
@@ -1123,7 +1360,10 @@
           "schema": "string"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "deviceRef",
           "description": "Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use.",
           "schema": "dtmi:com:microsoft:akri:AssetDeviceRef;1"
@@ -1182,13 +1422,19 @@
                           "schema": "string"
                         },
                         {
-                          "@type": ["Field", "Required"],
+                          "@type": [
+                            "Field",
+                            "Required"
+                          ],
                           "name": "dataSource",
                           "description": "The address of the source of the data in the event (e.g. URL) so that a client can access the data source on the asset.",
                           "schema": "string"
                         },
                         {
-                          "@type": ["Field", "Required"],
+                          "@type": [
+                            "Field",
+                            "Required"
+                          ],
                           "name": "name",
                           "description": "The name of the data point.",
                           "schema": "string"
@@ -1213,13 +1459,19 @@
                   "schema": "string"
                 },
                 {
-                  "@type": ["Field", "Required"],
+                  "@type": [
+                    "Field",
+                    "Required"
+                  ],
                   "name": "eventNotifier",
                   "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.",
                   "schema": "string"
                 },
                 {
-                  "@type": ["Field", "Required"],
+                  "@type": [
+                    "Field",
+                    "Required"
+                  ],
                   "name": "name",
                   "description": "The name of the event.",
                   "schema": "string"
@@ -1279,19 +1531,28 @@
                           "schema": "string"
                         },
                         {
-                          "@type": ["Field", "Required"],
+                          "@type": [
+                            "Field",
+                            "Required"
+                          ],
                           "name": "actionType",
                           "description": "Type of the action.",
                           "schema": "dtmi:com:microsoft:akri:AssetManagementGroupActionType;1"
                         },
                         {
-                          "@type": ["Field", "Required"],
+                          "@type": [
+                            "Field",
+                            "Required"
+                          ],
                           "name": "name",
                           "description": "Name of the action.",
                           "schema": "string"
                         },
                         {
-                          "@type": ["Field", "Required"],
+                          "@type": [
+                            "Field",
+                            "Required"
+                          ],
                           "name": "targetUri",
                           "description": "The target URI on which a client can invoke the specific action.",
                           "schema": "string"
@@ -1337,7 +1598,10 @@
                   "schema": "string"
                 },
                 {
-                  "@type": ["Field", "Required"],
+                  "@type": [
+                    "Field",
+                    "Required"
+                  ],
                   "name": "name",
                   "description": "Name of the management group.",
                   "schema": "string"
@@ -1408,7 +1672,10 @@
                   }
                 },
                 {
-                  "@type": ["Field", "Required"],
+                  "@type": [
+                    "Field",
+                    "Required"
+                  ],
                   "name": "name",
                   "description": "Name of the stream definition.",
                   "schema": "string"
@@ -1450,7 +1717,7 @@
         {
           "@type": "Field",
           "name": "config",
-          "description": "Defines the asset status config properties.",
+          "description": "The configuration status of the asset.",
           "schema": "dtmi:com:microsoft:akri:ConfigStatus;1"
         },
         {
@@ -1487,6 +1754,7 @@
                   "@type": "Field",
                   "@id": "dtmi:com:microsoft:akri:AssetManagementGroupActionStatus;1",
                   "name": "actions",
+                  "description": "Array of action statuses that describe the status of each action.",
                   "schema": {
                     "@type": "Array",
                     "elementSchema": {
@@ -1495,10 +1763,14 @@
                         {
                           "@type": "Field",
                           "name": "error",
+                          "description": "The last error that occurred while processing the action.",
                           "schema": "dtmi:com:microsoft:akri:ConfigError;1"
                         },
                         {
-                          "@type": ["Field", "Required"],
+                          "@type": [
+                            "Field",
+                            "Required"
+                          ],
                           "name": "name",
                           "description": "The name of the action. Must be unique within the status.managementGroup[i].actions array. This name is used to correlate between the spec and status management group action information.",
                           "schema": "string"
@@ -1520,7 +1792,10 @@
                   }
                 },
                 {
-                  "@type": ["Field", "Required"],
+                  "@type": [
+                    "Field",
+                    "Required"
+                  ],
                   "name": "name",
                   "description": "The name of the managementgroup. Must be unique within the status.managementGroup array. This name is used to correlate between the spec and status management group information.",
                   "schema": "string"
@@ -1548,7 +1823,7 @@
         {
           "@type": "Field",
           "name": "error",
-          "description": "The configuration error",
+          "description": "The last error that occurred while processing the dataset/event/stream.",
           "schema": "dtmi:com:microsoft:akri:ConfigError;1"
         },
         {
@@ -1558,8 +1833,12 @@
           "schema": "dtmi:com:microsoft:akri:MessageSchemaReference;1"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "name",
+          "description": "The name of the dataset/event/stream. Must be unique within the status.datasets[i]/events[i]/streams[i] array. This name is used to correlate between the spec and status dataset/event/stream information.",
           "schema": "string"
         }
       ]
@@ -1571,6 +1850,7 @@
         {
           "@type": "Field",
           "name": "assetTypeRefs",
+          "description": "URIs or type definition IDs for the asset type.",
           "schema": {
             "@type": "Array",
             "elementSchema": "string"
@@ -1579,6 +1859,7 @@
         {
           "@type": "Field",
           "name": "attributes",
+          "description": "A set of key-value pairs that contain custom attributes.",
           "schema": {
             "@type": "Map",
             "mapKey": {
@@ -1594,6 +1875,7 @@
         {
           "@type": "Field",
           "name": "datasets",
+          "description": "Array of datasets that are part of the asset. Each data set spec describes the data points that make up the set.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:DiscoveredAssetDataset;1"
@@ -1602,11 +1884,13 @@
         {
           "@type": "Field",
           "name": "defaultDatasetsConfiguration",
+          "description": "Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "defaultDatasetsDestinations",
+          "description": "Default destinations for a dataset.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:DatasetDestination;1"
@@ -1615,11 +1899,13 @@
         {
           "@type": "Field",
           "name": "defaultEventsConfiguration",
+          "description": "Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "defaultEventsDestinations",
+          "description": "Default destinations for an event.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
@@ -1628,34 +1914,43 @@
         {
           "@type": "Field",
           "name": "defaultManagementGroupsConfiguration",
+          "description": "Stringified JSON that contains connector-specific default configuration for all management groups. Each management group can have its own configuration that overrides the default settings here.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "defaultStreamsConfiguration",
+          "description": "Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "defaultStreamsDestinations",
+          "description": "Default destinations for a stream.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
           }
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "deviceRef",
+          "description": "Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use.",
           "schema": "dtmi:com:microsoft:akri:AssetDeviceRef;1"
         },
         {
           "@type": "Field",
           "name": "documentationUri",
+          "description": "Asset documentation reference.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "events",
+          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:DiscoveredAssetEvent;1"
@@ -1664,11 +1959,13 @@
         {
           "@type": "Field",
           "name": "hardwareRevision",
+          "description": "Asset hardware revision number.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "managementGroups",
+          "description": "Array of management groups that are part of the asset. Each management group can have a per-group configuration.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:DiscoveredAssetManagementGroup;1"
@@ -1677,19 +1974,19 @@
         {
           "@type": "Field",
           "name": "manufacturer",
-          "description": "Asset manufacturer name.",
+          "description": "Asset manufacturer.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "manufacturerUri",
-          "description": "URI to the manufacturer of the asset.",
+          "description": "Asset manufacturer URI.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "model",
-          "description": "Asset model name.",
+          "description": "Asset model.",
           "schema": "string"
         },
         {
@@ -1707,12 +2004,13 @@
         {
           "@type": "Field",
           "name": "softwareRevision",
-          "description": "Revision number of the software.",
+          "description": "Asset software revision number.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "streams",
+          "description": "Array of streams that are part of the asset. Each stream can have per-stream configuration.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:DiscoveredAssetStream;1"
@@ -1727,6 +2025,7 @@
         {
           "@type": "Field",
           "name": "dataPoints",
+          "description": "Array of data points that are part of the dataset. Each data point can have per-data-point configuration.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:DiscoveredAssetDatasetDataPoint;1"
@@ -1735,16 +2034,19 @@
         {
           "@type": "Field",
           "name": "dataSource",
+          "description": "Name of the data source within a dataset.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "datasetConfiguration",
+          "description": "Stringified JSON that contains connector-specific properties that describes configuration for the specific dataset.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "destinations",
+          "description": "Destinations for a dataset.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:DatasetDestination;1"
@@ -1753,16 +2055,22 @@
         {
           "@type": "Field",
           "name": "lastUpdatedOn",
+          "description": "Timestamp (in UTC) indicating when the dataset was added or modified.",
           "schema": "dateTime"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "name",
+          "description": "Name of the dataset.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "typeRef",
+          "description": "URI or type definition ID.",
           "schema": "string"
         }
       ]
@@ -1774,26 +2082,34 @@
         {
           "@type": "Field",
           "name": "dataPointConfiguration",
+          "description": "Stringified JSON that contains connector-specific configuration for the data point.",
           "schema": "string"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "dataSource",
+          "description": "The address of the source of the data in the discovered asset (e.g. URL) so that a client can access the data source on the asset.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "lastUpdatedOn",
+          "description": "UTC timestamp indicating when the data point was added or modified.",
           "schema": "dateTime"
         },
         {
           "@type": "Field",
           "name": "name",
+          "description": "The name of the data point.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "typeRef",
+          "description": "URI or type definition ID.",
           "schema": "string"
         }
       ]
@@ -1805,6 +2121,7 @@
         {
           "@type": "Field",
           "name": "dataPoints",
+          "description": "Array of data points that are part of the event. Each data point can have per-data-point configuration.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:DiscoveredAssetEventDataPoint;1"
@@ -1813,6 +2130,7 @@
         {
           "@type": "Field",
           "name": "destinations",
+          "description": "Destinations for an event.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
@@ -1821,26 +2139,37 @@
         {
           "@type": "Field",
           "name": "eventConfiguration",
+          "description": "Stringified JSON that contains connector-specific configuration for the specific event.",
           "schema": "string"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "eventNotifier",
+          "description": "The address of the notifier of the event in the discovered asset (e.g. URL) so that a client can access the notifier on the asset.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "lastUpdatedOn",
+          "description": "UTC timestamp indicating when the event was added or modified.",
           "schema": "dateTime"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "name",
+          "description": "The name of the event.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "typeRef",
+          "description": "URI or type definition ID.",
           "schema": "string"
         }
       ]
@@ -1852,21 +2181,28 @@
         {
           "@type": "Field",
           "name": "dataPointConfiguration",
+          "description": "Stringified JSON that contains connector-specific configuration for the data point.",
           "schema": "string"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "dataSource",
+          "description": "The address of the source of the data in the discovered asset (e.g. URL) so that a client can access the data source on the asset.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "lastUpdatedOn",
+          "description": "UTC timestamp indicating when the data point was added or modified.",
           "schema": "dateTime"
         },
         {
           "@type": "Field",
           "name": "name",
+          "description": "The name of the data point.",
           "schema": "string"
         }
       ]
@@ -1878,6 +2214,7 @@
         {
           "@type": "Field",
           "name": "actions",
+          "description": "Array of actions that are part of the management group. Each action can have an individual configuration.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:DiscoveredAssetManagementGroupAction;1"
@@ -1886,31 +2223,40 @@
         {
           "@type": "Field",
           "name": "defaultTimeOutInSeconds",
+          "description": "Default response timeout for all actions that are part of the management group.",
           "schema": "unsignedInteger"
         },
         {
           "@type": "Field",
           "name": "defaultTopic",
+          "description": "Default MQTT topic path on which a client will receive the request for all actions that are part of the management group.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "lastUpdatedOn",
+          "description": "Timestamp (in UTC) indicating when the management group was added or modified.",
           "schema": "dateTime"
         },
         {
           "@type": "Field",
           "name": "managementGroupConfiguration",
+          "description": "Stringified JSON that contains connector-specific configuration for the management group.",
           "schema": "string"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "name",
+          "description": "Name of the management group.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "typeRef",
+          "description": "URI or type definition ID.",
           "schema": "string"
         }
       ]
@@ -1922,41 +2268,58 @@
         {
           "@type": "Field",
           "name": "actionConfiguration",
+          "description": "Configuration for the action.",
           "schema": "string"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "actionType",
+          "description": "Type of the action.",
           "schema": "dtmi:com:microsoft:akri:AssetManagementGroupActionType;1"
         },
         {
           "@type": "Field",
           "name": "lastUpdatedOn",
+          "description": "Timestamp (in UTC) indicating when the management action was added or modified.",
           "schema": "dateTime"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "name",
+          "description": "Name of the action.",
           "schema": "string"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "targetUri",
+          "description": "The target URI on which a client can invoke the specific action.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "timeOutInSeconds",
+          "description": "Response timeout for the action.",
           "schema": "unsignedInteger"
         },
         {
           "@type": "Field",
           "name": "topic",
+          "description": "The MQTT topic path on which a client will receive the request for the action.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "typeRef",
+          "description": "URI or type definition ID.",
           "schema": "string"
         }
       ]
@@ -1968,6 +2331,7 @@
         {
           "@type": "Field",
           "name": "destinations",
+          "description": "Destinations for a stream.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
@@ -1976,21 +2340,28 @@
         {
           "@type": "Field",
           "name": "lastUpdatedOn",
+          "description": "Timestamp (in UTC) indicating when the stream was added or modified.",
           "schema": "dateTime"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "name",
+          "description": "Name of the stream definition.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "streamConfiguration",
+          "description": "Stringified JSON that contains connector-specific configuration that describes configuration for the specific stream.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "typeRef",
+          "description": "URI or type definition ID.",
           "schema": "string"
         }
       ]
@@ -2012,11 +2383,18 @@
     },
     {
       "@id": "dtmi:com:microsoft:akri:AkriServiceError;1",
-      "@type": [ "Object", "Error" ],
+      "@type": [
+        "Object",
+        "Error"
+      ],
       "fields": [
         {
-          "@type": [ "Field", "Required" ],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "code",
+          "description": "The error code that identifies the error.",
           "schema": {
             "@type": "Enum",
             "valueSchema": "string",
@@ -2041,13 +2419,22 @@
           }
         },
         {
-          "@type": [ "Field", "Required", "ErrorMessage" ],
+          "@type": [
+            "Field",
+            "Required",
+            "ErrorMessage"
+          ],
           "name": "message",
+          "description": "A human-readable description of the error.",
           "schema": "string"
         },
         {
-          "@type": [ "Field", "Required" ],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "timestamp",
+          "description": "The timestamp (in UTC) when the error occurred.",
           "schema": "dateTime"
         }
       ]

@@ -13,10 +13,10 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DeviceOutboundEndpoint {
-    /// The 'address' Field.
+    /// The endpoint address to connect to.
     pub address: String,
 
-    /// The 'endpointType' Field.
+    /// Type of connection used for the messaging endpoint.
     #[serde(rename = "endpointType")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
