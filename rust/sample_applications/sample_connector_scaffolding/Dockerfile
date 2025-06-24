@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 # Use distroless/debug for the debug image in order to keep it as close to the
 # final image as possible; this also acts as the "build" stage for tasks that
 # cannot be completed in the final image

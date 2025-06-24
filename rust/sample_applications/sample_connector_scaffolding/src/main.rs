@@ -498,7 +498,7 @@ async fn handle_dataset(
     let mut is_dataset_reported = false;
     // Extract the dataset definition from the dataset client
     #[allow(clippy::never_loop)]
-    let mut local_dataset_definition = loop {
+    let mut _local_dataset_definition = loop {
         let local_dataset_definition = dataset_client.dataset_definition().clone();
 
         // TODO: Verify the dataset definition is OK
@@ -592,7 +592,7 @@ async fn handle_dataset(
                         is_dataset_asset_ready = true;
 
                         // Update the local dataset definition
-                        local_dataset_definition = dataset_client.dataset_definition().clone();
+                        _local_dataset_definition = dataset_client.dataset_definition().clone();
 
                         // Reset the dataset reported flag
                         is_dataset_reported = false;
@@ -629,9 +629,8 @@ async fn handle_dataset(
                     timestamp: Some(HybridLogicalClock::new()),
                 };
 
-                // TODO: Update to pass-through
                 // Transform the data and infer the message schema using the derived_json module. This works for JSON data only.
-                let Ok((data, message_schema)) = derived_json::transform(data, &local_dataset_definition) else {
+                let Ok(message_schema) = derived_json::create_schema(&data) else {
                     log::error!("{dataset_log_identifier} Failed to transform data");
 
                     // Report a status error of the dataset.
@@ -639,7 +638,7 @@ async fn handle_dataset(
                         message: Some("Failed to transform data".to_string()),
                         ..Default::default()
                     })).await {
-                        Ok(()) => log::error!("{dataset_log_identifier} Dataset status reported as error"),
+                        Ok(()) => log::debug!("{dataset_log_identifier} Dataset status reported as error"),
                         Err(e) => log::error!("{dataset_log_identifier} Failed to report dataset status: {e}"),
                     }
                     // If we fail to report the message schema, we will not be able to forward it
@@ -671,7 +670,7 @@ async fn handle_dataset(
                             current_schema = Some(message_schema);
                         }
                         Err(e) => {
-                            log::debug!("{dataset_log_identifier} Failed to report message schema, attempting in next interval: {e}");
+                            log::error!("{dataset_log_identifier} Failed to report message schema, attempting in next interval: {e}");
                             // If we fail to report the message schema, we will not be able to forward the data
                             continue;
                         }
