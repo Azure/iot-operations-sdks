@@ -28,6 +28,13 @@ namespace Azure.Iot.Operations.Services.StateStore
         /// </summary>
         public HybridLogicalClock? FencingToken { get; set; }
 
+        /// <summary>
+        /// If true, the AIO state store will persist this key-value entry.
+        /// </summary>
+        /// <remarks>
+        /// If a persisted key-value entry is deleted with <see cref="IStateStoreClient.DeleteAsync(StateStoreKey, StateStoreDeleteRequestOptions?, TimeSpan?, CancellationToken)"/>,
+        /// its persistence will also be deleted automatically by the state store.
+        /// </remarks>
         public bool PersistEntry { get; set; }
     }
 }

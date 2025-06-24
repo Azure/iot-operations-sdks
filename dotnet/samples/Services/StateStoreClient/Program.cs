@@ -23,6 +23,13 @@ try
 {
     string stateStoreKey = "someKey";
     string stateStoreValue = "someValue";
+    StateStoreSetRequestOptions setOptions = new()
+    {
+        // You can optionally persist state store entries so that the state store recovers them
+        // upon a device restart
+        PersistEntry = true
+    };
+
     StateStoreSetResponse setResponse =
         await stateStoreClient.SetAsync(stateStoreKey, stateStoreValue);
 
