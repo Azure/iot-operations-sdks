@@ -472,7 +472,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 message.Payload = payloadContext.SerializedPayload;
                 message.PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator;
                 message.ContentType = payloadContext.ContentType;
-                message.AioPersistence = metadata?.PersistResponse ?? false;
+
+                if (metadata != null && metadata.PersistResponse)
+                {
+                    message.AioPersistence = true;
+                }
             }
 
             message.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{CommandVersion.MajorProtocolVersion}.{CommandVersion.MinorProtocolVersion}");
