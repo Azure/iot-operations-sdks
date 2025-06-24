@@ -545,6 +545,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     ResponseTopic = responseTopic,
                     CorrelationData = requestGuid.ToByteArray(),
                     MessageExpiryInterval = (uint)reifiedCommandTimeout.TotalSeconds,
+                    AioPersistence = metadata?.PersistCommand ?? false,
                 };
 
                 string? clientId = _mqttClient.ClientId;

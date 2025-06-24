@@ -4,6 +4,8 @@
 using System.Buffers;
 using System.Diagnostics;
 using System.Globalization;
+using System.Text;
+using System.Text.Json;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
@@ -722,6 +724,54 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             await Assert.ThrowsAsync<OperationCanceledException>(async () => await echoCommand.StartAsync(cancellationToken: cts.Token));
             await Assert.ThrowsAsync<OperationCanceledException>(async () => await echoCommand.StopAsync(cancellationToken: cts.Token));
+        }
+
+        [Fact]
+        public async Task CommandExecutor_CommandResponseWithPersistence()
+        {
+            MockMqttPubSubClient mock = new();
+            TaskCompletionSource commandExecutedTcs = new();
+            await using EchoCommandExecutor executor = new(new ApplicationContext(), mock)
+            {
+                RequestTopicPattern = "mock/echo",
+                OnCommandReceived = async (reqMd, ct) =>
+                {
+                    commandExecutedTcs.SetResult();
+                    return await Task.FromResult(new ExtendedResponse<string>()
+                    {
+                        Response = reqMd.Request + reqMd.Request,
+                        ResponseMetadata = new()
+                        {
+                            PersistResponse = true
+                        }
+                    });
+                },
+                ExecutionTimeout = TimeSpan.FromSeconds(10),
+            };
+
+            await executor.StartAsync();
+
+            var commandInvocationMessage = new MqttApplicationMessage("mock/echo", MqttQualityOfServiceLevel.AtLeastOnce)
+            {
+                ResponseTopic = "response/mock/echo",
+                MessageExpiryInterval = 100,
+                CorrelationData = Guid.NewGuid().ToByteArray(),
+                Payload = new(Encoding.UTF8.GetBytes(JsonSerializer.Serialize("{\"someKey\":\"someValue\"}"))),
+            };
+
+            await mock.SimulateNewMessage(commandInvocationMessage, 0);
+
+            await commandExecutedTcs.Task;
+
+            // Wait until the command response is "sent"
+            CancellationTokenSource cts = new CancellationTokenSource();
+            cts.CancelAfter(TimeSpan.FromSeconds(1));
+            while (mock.MessagesPublished.Count < 1)
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(10), cts.Token);
+            }
+
+            Assert.True(mock.MessagesPublished[0].AioPersistence);
         }
     }
 }

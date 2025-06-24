@@ -12,6 +12,8 @@ namespace Azure.Iot.Operations.Protocol.Models
 {
     public class MqttApplicationMessage(string topic, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce)
     {
+        private const string AioPersistenceFlag = "aio-persistence";
+
         /// <summary>
         ///     Gets or sets the content type.
         ///     The content type must be a UTF-8 encoded string. The content type value identifies the kind of UTF-8 encoded
@@ -141,6 +143,45 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     Hint: MQTT 5 feature only.
         /// </summary>
         public List<MqttUserProperty>? UserProperties { get; set; }
+
+        /// <summary>
+        /// If set, this message will be persisted by the AIO MQTT broker.
+        /// </summary>
+        /// <remarks>
+        /// This feature is only applicable with the AIO MQTT broker.
+        /// </remarks>
+        public bool AioPersistence
+        {
+            get
+            {
+                if (UserProperties == null)
+                {
+                    return false;
+                }
+
+                foreach (MqttUserProperty userProperty in UserProperties)
+                {
+                    if (userProperty.Name.Equals(AioPersistenceFlag, StringComparison.Ordinal))
+                    {
+                        if (userProperty.Value.Equals("true", StringComparison.Ordinal))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                return false;
+            }
+            set
+            {
+                UserProperties ??= new();
+                UserProperties.Add(new(AioPersistenceFlag, value ? "true" : "false"));
+            }
+        }
 
         public void AddUserProperty(string key, string value)
         {

@@ -185,7 +185,11 @@ namespace Azure.Iot.Operations.Services.StateStore
             byte[] requestPayload = StateStorePayloadParser.BuildSetRequestPayload(key, value, options);
             Trace.TraceInformation($"SET {Encoding.ASCII.GetString(key.Bytes)}");
 
-            CommandRequestMetadata requestMetadata = new CommandRequestMetadata();
+            CommandRequestMetadata requestMetadata = new CommandRequestMetadata()
+            {
+                PersistCommand = options.PersistEntry
+            };
+
             if (options.FencingToken != null)
             {
                 requestMetadata.UserData.TryAdd(FencingTokenUserPropertyKey, options.FencingToken.EncodeToString());
