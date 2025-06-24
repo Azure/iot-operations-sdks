@@ -12,7 +12,8 @@ use tokio::{
         Mutex, Notify,
         broadcast::{Sender, error::RecvError},
     },
-    task, time,
+    task::{self, JoinHandle},
+    time,
 };
 use uuid::Uuid;
 
@@ -158,6 +159,34 @@ where
     pub custom_user_data: Vec<(String, String)>,
     /// Timestamp of the command response.
     pub timestamp: Option<HybridLogicalClock>,
+}
+
+/// Helper function to return the application error code and payload, if present in `custom_user_data`.
+///
+/// Returns a [`(Option<String>, Option<String>)`] tuple where:
+/// - the first element is the application error code (or [`None`] if not present), and
+/// - the second element is the application error payload (or [`None`] if not present).
+#[must_use]
+pub fn application_error_headers(
+    custom_user_data: &Vec<(String, String)>,
+) -> (Option<String>, Option<String>) {
+    const APPLICATION_ERROR_CODE_HEADER: &str = "AppErrCode";
+    const APPLICATION_ERROR_PAYLOAD_HEADER: &str = "AppErrPayload";
+
+    let mut app_error_code: Option<String> = None;
+    let mut app_error_payload: Option<String> = None;
+
+    for (key, value) in custom_user_data {
+        if key == APPLICATION_ERROR_CODE_HEADER {
+            app_error_code = Some(value.clone());
+        }
+
+        if key == APPLICATION_ERROR_PAYLOAD_HEADER {
+            app_error_payload = Some(value.clone());
+        }
+    }
+
+    (app_error_code, app_error_payload)
 }
 
 /// Represents an error reported by a remote executor
@@ -1003,123 +1032,144 @@ where
             )
             .await;
 
-        match publish_result {
-            Ok(publish_completion_token) => {
-                // Wait for and handle the puback
-                match publish_completion_token.await {
-                    // if puback is Ok, continue and wait for the response
-                    Ok(()) => {}
+        // Await for publish to complete in a task that concurrently polls the response_rx
+        // so that the response_tx won't lag if the puback takes long to return
+        // TODO: this could be fixed more elegantly by using a dispatcher instead of a broadcast channel for the response_tx/rx
+        let pub_task = tokio::task::spawn({
+            let command_name = self.command_name.clone();
+            async move {
+                match publish_result {
+                    Ok(publish_completion_token) => {
+                        // Wait for and handle the puback
+                        match publish_completion_token.await {
+                            // if puback is Ok, continue and wait for the response
+                            Ok(()) => Ok(()),
+                            Err(e) => {
+                                log::error!("[ERROR] puback error: {e}");
+                                Err(AIOProtocolError::new_mqtt_error(
+                                    Some("MQTT Error on command invoke puback".to_string()),
+                                    Box::new(e),
+                                    Some(command_name),
+                                ))
+                            }
+                        }
+                    }
                     Err(e) => {
-                        log::error!("[ERROR] puback error: {e}");
-                        return Err(AIOProtocolError::new_mqtt_error(
-                            Some("MQTT Error on command invoke puback".to_string()),
+                        log::error!("[ERROR] client error while publishing: {e}");
+                        Err(AIOProtocolError::new_mqtt_error(
+                            Some("Client error on command invoker request publish".to_string()),
                             Box::new(e),
-                            Some(self.command_name.clone()),
-                        ));
+                            Some(command_name),
+                        ))
                     }
                 }
             }
-            Err(e) => {
-                log::error!("[ERROR] client error while publishing: {e}");
-                return Err(AIOProtocolError::new_mqtt_error(
-                    Some("Client error on command invoker request publish".to_string()),
-                    Box::new(e),
-                    Some(self.command_name.clone()),
-                ));
-            }
-        }
-
-        // Wait for a response where the correlation id matches
-        loop {
-            // wait for incoming pub
-            match response_rx.recv().await {
-                Ok(rsp_pub) => {
-                    if let Some(rsp_pub) = rsp_pub {
-                        // check correlation id for match, otherwise loop again
-                        if let Some(ref rsp_properties) = rsp_pub.properties {
-                            if let Some(ref response_correlation_data) =
-                                rsp_properties.correlation_data
-                            {
-                                if *response_correlation_data == correlation_data {
-                                    // This is implicit validation of the correlation data - if it's malformed it won't match the request
-                                    // This is the response for this request, validate and parse it and send it back to the application
-                                    let command_result: CommandResult<TResp> =
-                                        rsp_pub.try_into().map_err(|mut e: AIOProtocolError| {
-                                            // Add command name to the error
-                                            e.command_name = Some(self.command_name.clone());
-                                            e
-                                        })?;
-
-                                    match command_result {
-                                        CommandResult::Ok(response) => {
-                                            // Update application HLC
-                                            if let Some(hlc) = &response.timestamp {
-                                                self.application_hlc.update(hlc).map_err(|e| {
-                                                    let mut aio_error: AIOProtocolError = e.into();
-                                                    aio_error.command_name =
-                                                        Some(self.command_name.clone());
-                                                    aio_error
-                                                })?;
-                                            }
-                                            return Ok(response);
-                                        }
-                                        CommandResult::Err(remote_e) => {
-                                            // Update application HLC
-                                            if let Some(hlc) = &remote_e.timestamp {
-                                                self.application_hlc.update(hlc).map_err(|e| {
-                                                    let mut aio_error: AIOProtocolError = e.into();
-                                                    aio_error.command_name =
-                                                        Some(self.command_name.clone());
-                                                    aio_error
-                                                })?;
-                                            }
-                                            // Convert into AIOProtocolError and return
-                                            let mut aio_e: AIOProtocolError = remote_e.into();
-                                            aio_e.command_name = Some(self.command_name.clone());
-                                            return Err(aio_e);
+        });
+        // task to receive incoming responses and check for the one that is for this request
+        let response_task = tokio::task::spawn({
+            let command_name = self.command_name.clone();
+            async move {
+                loop {
+                    // wait for incoming pub
+                    match response_rx.recv().await {
+                        Ok(rsp_pub) => {
+                            if let Some(rsp_pub) = rsp_pub {
+                                // check correlation id for match, otherwise loop again
+                                if let Some(ref rsp_properties) = rsp_pub.properties {
+                                    if let Some(ref response_correlation_data) =
+                                        rsp_properties.correlation_data
+                                    {
+                                        if *response_correlation_data == correlation_data {
+                                            // This is implicit validation of the correlation data - if it's malformed it won't match the request
+                                            // This is the response for this request, stop listening for more responses and validate and parse it and send it back to the application
+                                            return Ok(rsp_pub);
                                         }
                                     }
                                 }
+                            } else {
+                                log::error!(
+                                    "Command Invoker has been shutdown and will no longer receive a response"
+                                );
+                                return Err(AIOProtocolError::new_cancellation_error(
+                                    false,
+                                    None,
+                                    Some(
+                                        "Command Invoker has been shutdown and will no longer receive a response"
+                                            .to_string(),
+                                    ),
+                                    Some(command_name),
+                                ));
                             }
+                            // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
                         }
-                    } else {
-                        log::error!(
-                            "Command Invoker has been shutdown and will no longer receive a response"
-                        );
-                        return Err(AIOProtocolError::new_cancellation_error(
-                        false,
-                        None,
-                        Some(
-                            "Command Invoker has been shutdown and will no longer receive a response"
-                                .to_string(),
-                        ),
-                        Some(self.command_name.clone()),
-                    ));
+                        Err(RecvError::Lagged(e)) => {
+                            log::error!(
+                                "[ERROR] Invoker response receiver lagged. Response may not be received. Number of skipped messages: {e}"
+                            );
+                            // Keep waiting for response even though it may have gotten overwritten.
+                            continue;
+                        }
+                        Err(RecvError::Closed) => {
+                            log::error!(
+                                "[ERROR] MQTT Receiver has been cleaned up and will no longer send a response"
+                            );
+                            return Err(AIOProtocolError::new_cancellation_error(
+                                false,
+                                None,
+                                Some(
+                                    "MQTT Receiver has been cleaned up and will no longer send a response"
+                                        .to_string(),
+                                ),
+                                Some(command_name),
+                            ));
+                        }
                     }
+                }
+            }
+        });
 
-                    // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
+        // wait for pub to be completed and response to be received, immediately returning any errors returned.
+        let rsp_pub = match tokio::try_join!(flatten(pub_task), flatten(response_task)) {
+            Ok(((), rsp_pub)) => rsp_pub,
+            // Return any error that occurs
+            Err(e) => {
+                return Err(e);
+            }
+        };
+
+        // validate and parse the response pub that is for this request
+        let command_result: CommandResult<TResp> =
+            rsp_pub.try_into().map_err(|mut e: AIOProtocolError| {
+                // Add command name to the error
+                e.command_name = Some(self.command_name.clone());
+                e
+            })?;
+
+        match command_result {
+            CommandResult::Ok(response) => {
+                // Update application HLC
+                if let Some(hlc) = &response.timestamp {
+                    self.application_hlc.update(hlc).map_err(|e| {
+                        let mut aio_error: AIOProtocolError = e.into();
+                        aio_error.command_name = Some(self.command_name.clone());
+                        aio_error
+                    })?;
                 }
-                Err(RecvError::Lagged(e)) => {
-                    log::error!(
-                        "[ERROR] Invoker response receiver lagged. Response may not be received: {e}"
-                    );
-                    // Keep waiting for response even though it may have gotten overwritten.
-                    continue;
+                Ok(response)
+            }
+            CommandResult::Err(remote_e) => {
+                // Update application HLC
+                if let Some(hlc) = &remote_e.timestamp {
+                    self.application_hlc.update(hlc).map_err(|e| {
+                        let mut aio_error: AIOProtocolError = e.into();
+                        aio_error.command_name = Some(self.command_name.clone());
+                        aio_error
+                    })?;
                 }
-                Err(RecvError::Closed) => {
-                    log::error!(
-                        "[ERROR] MQTT Receiver has been cleaned up and will no longer send a response"
-                    );
-                    return Err(AIOProtocolError::new_cancellation_error(
-                        false,
-                        None,
-                        Some(
-                            "MQTT Receiver has been cleaned up and will no longer send a response"
-                                .to_string(),
-                        ),
-                        Some(self.command_name.clone()),
-                    ));
-                }
+                // Convert into AIOProtocolError and return
+                let mut aio_e: AIOProtocolError = remote_e.into();
+                aio_e.command_name = Some(self.command_name.clone());
+                Err(aio_e)
             }
         }
     }
@@ -1279,6 +1329,21 @@ async fn drop_unsubscribe<C: ManagedClient + Clone + Send + Sync + 'static>(
 
     // If we successfully unsubscribed or did not need to, we can consider the invoker successfully shutdown
     *invoker_state_mutex_guard = State::ShutdownSuccessful;
+}
+
+/// convenience fn to flatten the result of a `JoinHandle`
+async fn flatten<T>(
+    handle: JoinHandle<Result<T, AIOProtocolError>>,
+) -> Result<T, AIOProtocolError> {
+    match handle.await {
+        Ok(Ok(result)) => Ok(result),
+        Ok(Err(e)) => Err(e),
+        Err(e) => {
+            // tasks can't panic
+            log::error!("Join Error: {e}");
+            unreachable!()
+        }
+    }
 }
 
 #[cfg(test)]
@@ -1989,6 +2054,54 @@ mod tests {
             .build();
 
         assert!(request_builder_result.is_err());
+    }
+
+    /// Tests success: application_error_headers() returns no Application Error Code and Payload since custom_user_data has none.
+    #[tokio::test]
+    async fn test_no_app_error_code_and_payload() {
+        let user_data: Vec<(String, String)> = Vec::new();
+
+        let (application_error_code, application_error_payload) =
+            application_error_headers(&user_data);
+        assert!(application_error_code.is_none());
+        assert!(application_error_payload.is_none());
+    }
+
+    /// Tests success: custom_user_data contains both Application Error Code and Payload.
+    #[tokio::test]
+    async fn test_response_with_app_error_code_and_payload() {
+        let error_code_content = "5888";
+        let error_payload_content = "5888 is a fictitious error code";
+
+        let custom_user_data = vec![
+            ("AppErrCode".into(), error_code_content.into()),
+            ("AppErrPayload".into(), error_payload_content.into()),
+        ];
+
+        assert_eq!(custom_user_data.len(), 2);
+
+        let (application_error_code, application_error_payload) =
+            application_error_headers(&custom_user_data);
+        assert_eq!(application_error_code, Some(error_code_content.into()));
+        assert_eq!(
+            application_error_payload,
+            Some(error_payload_content.into())
+        );
+    }
+
+    /// Tests success: custom_user_data contains Application Error Code, but no Payload.
+    #[tokio::test]
+    async fn test_response_with_app_error_code_but_no_payload() {
+        let error_code_content = "5888";
+
+        let custom_user_data = vec![("AppErrCode".into(), error_code_content.into())];
+
+        assert_eq!(custom_user_data.len(), 1);
+
+        let (application_error_code, application_error_payload) =
+            application_error_headers(&custom_user_data);
+        assert_eq!(application_error_code, Some(error_code_content.into()));
+        assert!(application_error_payload.is_none());
     }
 }
 
