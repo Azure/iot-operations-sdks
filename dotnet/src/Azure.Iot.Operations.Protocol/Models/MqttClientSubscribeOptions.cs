@@ -62,24 +62,10 @@ namespace Azure.Iot.Operations.Protocol.Models
         {
             get
             {
-                if (UserProperties == null)
+                if (UserProperties != null
+                    && UserProperties.TryGetProperty(AioPersistenceFlag, out string? value))
                 {
-                    return false;
-                }
-
-                foreach (MqttUserProperty userProperty in UserProperties)
-                {
-                    if (userProperty.Name.Equals(AioPersistenceFlag, StringComparison.Ordinal))
-                    {
-                        if (userProperty.Value.Equals("true", StringComparison.Ordinal))
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
+                    return value!.Equals("true", StringComparison.Ordinal);
                 }
 
                 return false;
