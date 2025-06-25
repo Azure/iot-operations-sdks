@@ -145,7 +145,8 @@ namespace Azure.Iot.Operations.Protocol.Models
         public List<MqttUserProperty>? UserProperties { get; set; }
 
         /// <summary>
-        /// If set, this message will be persisted by the AIO MQTT broker.
+        /// If set, this message will be persisted by the AIO MQTT broker. This is only applicable
+        /// for retained messages. If this value is set to true, <see cref="Retain"/> must also be set to true.
         /// </summary>
         /// <remarks>
         /// This feature is only applicable with the AIO MQTT broker.
