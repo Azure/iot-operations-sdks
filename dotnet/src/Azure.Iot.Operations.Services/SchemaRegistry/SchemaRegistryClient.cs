@@ -59,7 +59,6 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
         SchemaType schemaType = SchemaType.MessageSchema,
         string version = "1",
         Dictionary<string, string>? tags = null,
-        bool persistSchema = false,
         TimeSpan? timeout = null,
         CancellationToken cancellationToken = default)
     {
@@ -67,15 +66,6 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
         { 
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
-
-            CommandRequestMetadata? metadata = null;
-            if (persistSchema)
-            {
-                metadata = new CommandRequestMetadata()
-                {
-                    PersistCommand = true,
-                };
-            }
 
             return (await _clientStub.PutAsync(
                 new PutRequestPayload()
@@ -88,7 +78,7 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
                         Tags = tags,
                         SchemaType = schemaType
                     }
-                }, metadata, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
+                }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
         }
         catch (AkriMqttException e) when (e.Kind == AkriMqttErrorKind.UnknownError)
         {

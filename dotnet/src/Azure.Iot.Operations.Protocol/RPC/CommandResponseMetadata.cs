@@ -47,14 +47,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public Dictionary<string, string> UserData { get; set; } = new();
 
         /// <summary>
-        /// If true, this command response will be persisted by the AIO MQTT broker upon receiving it.
-        /// </summary>
-        /// <remarks>
-        /// This feature is only applicable with the AIO MQTT broker.
-        /// </remarks>
-        public bool PersistResponse { get; set; }
-
-        /// <summary>
         /// Construct CommandResponseMetadata in user code, presumably within an execution function that will include the metadata in its return value.
         /// </summary>
         /// <remarks>

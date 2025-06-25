@@ -65,13 +65,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </remarks>
         public MqttPayloadFormatIndicator PayloadFormatIndicator { get; internal set; }
 
-        /// <summary>
-        /// If true, this command will be persisted by the AIO MQTT broker upon receiving it.
-        /// </summary>
-        /// <remarks>
-        /// This feature is only applicable with the AIO MQTT broker.
-        /// </remarks>
-        public bool PersistCommand { get; set; }
+        // Deliberately internal because DSS client uses this property to persist k/v pairs, but we don't expect users to want to persist commands in general
+        internal bool PersistCommand { get; set; } 
 
         /// <summary>
         /// Construct CommandRequestMetadata in user code, for passing to a command invocation.
