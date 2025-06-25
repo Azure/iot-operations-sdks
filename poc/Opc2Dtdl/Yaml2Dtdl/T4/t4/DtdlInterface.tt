@@ -1,6 +1,7 @@
 ﻿<#@ template language="C#" linePragmas="false" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
+<#@ import namespace="SpecMapper" #>
 <# int ix; #>
   {
     "@context": [
@@ -13,7 +14,10 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "<#=this.modelId#>;1",
-    "@type": [ "Interface"<#=this.isEvent ? ", \"Event\"" : ""#>, "Mqtt", "Congruence" ],
+    "@type": [ "Interface"<#=this.isArticle ? ", \"Article\"" : ""#><#=this.isEvent ? ", \"Event\"" : ""#>, "Mqtt", "Congruence" ],
+<# if (this.isArticle) { #>
+    "ontology": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(this.definedType))#>",
+<# } #>
 <# if (this.definedType.DisplayName != null && this.definedType.DisplayName != string.Empty) { #>
     "displayName": "<#=this.definedType.DisplayName#>",
 <# } #>

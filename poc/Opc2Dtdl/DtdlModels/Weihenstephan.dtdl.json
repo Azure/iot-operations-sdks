@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Weihenstephan:WSMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Weihenstephan",
     "displayName": "WSMachineType",
     "description": "Definition of a machine according to the Weihenstephan standards",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -32,7 +33,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Weihenstephan:WSBaseObjectType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Weihenstephan",
     "displayName": "WSBaseObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan;i=1001",
@@ -53,7 +55,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Weihenstephan:WSAlarmType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Weihenstephan",
     "displayName": "WSAlarmType",
     "extends": "dtmi:opcua:Weihenstephan:WSBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan;i=1002",
@@ -74,7 +77,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Weihenstephan:WSWarningType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Weihenstephan",
     "displayName": "WSWarningType",
     "extends": "dtmi:opcua:Weihenstephan:WSBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan;i=1003",
@@ -95,7 +99,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Weihenstephan:WSBaseStateMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Weihenstephan",
     "displayName": "WSBaseStateMachineType",
     "extends": "dtmi:opcua:PackML:PackMLBaseStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan;i=1004",
@@ -116,7 +121,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Weihenstephan:WSExecuteStateMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Weihenstephan",
     "displayName": "WSExecuteStateMachineType",
     "extends": "dtmi:opcua:PackML:PackMLExecuteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan;i=1005",
@@ -137,7 +143,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Weihenstephan:WSHeldStateMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Weihenstephan",
     "displayName": "WSHeldStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan;i=1006",
@@ -158,7 +165,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Weihenstephan:WSSuspendedStateMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Weihenstephan",
     "displayName": "WSSuspendedStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan;i=1007",

@@ -1485,7 +1485,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   Onboarding:DeviceRegistrationAuditEventType:
-  - [ UAObjectType, Onboarding:1517, Onboarding:DeviceRegistrationAuditEventType ]
+  - [ UAObjectType, Onboarding:1517, Onboarding:DeviceRegistrationAuditEventType, Abstract ]
   - DisplayName: "DeviceRegistrationAuditEventType"
   - HasProperty:
     - [ UAVariable, Onboarding:1532, Onboarding:ProductInstanceUri, UriString, 0, 0 ]
@@ -1495,12 +1495,12 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Onboarding:1517, Onboarding:DeviceRegistrationAuditEventType ]
+      - [ UAObjectType, Onboarding:1517, Onboarding:DeviceRegistrationAuditEventType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2052, AuditEventType ]
 
   Onboarding:DeviceIdentityAcceptedAuditEventType:
-  - [ UAObjectType, Onboarding:1533, Onboarding:DeviceIdentityAcceptedAuditEventType ]
+  - [ UAObjectType, Onboarding:1533, Onboarding:DeviceIdentityAcceptedAuditEventType, Abstract ]
   - DisplayName: "DeviceIdentityAcceptedAuditEventType"
   - HasProperty:
     - [ UAVariable, Onboarding:1549, Onboarding:Certificate, ByteString, 0, 0 ]
@@ -1510,7 +1510,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Onboarding:1533, Onboarding:DeviceIdentityAcceptedAuditEventType ]
+      - [ UAObjectType, Onboarding:1533, Onboarding:DeviceIdentityAcceptedAuditEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, Onboarding:1550, Onboarding:Ticket, EncodedTicket, 0, 0 ]
     - DisplayName: "Ticket"
@@ -1519,7 +1519,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Onboarding:1533, Onboarding:DeviceIdentityAcceptedAuditEventType ]
+      - [ UAObjectType, Onboarding:1533, Onboarding:DeviceIdentityAcceptedAuditEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, Onboarding:1551, Onboarding:Composite, EncodedTicket, 0, 0 ]
     - DisplayName: "Composite"
@@ -1528,12 +1528,12 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Onboarding:1533, Onboarding:DeviceIdentityAcceptedAuditEventType ]
+      - [ UAObjectType, Onboarding:1533, Onboarding:DeviceIdentityAcceptedAuditEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Onboarding:1517, Onboarding:DeviceRegistrationAuditEventType ]
+    - [ UAObjectType, Onboarding:1517, Onboarding:DeviceRegistrationAuditEventType, Abstract ]
 
   Onboarding:DeviceSoftwareUpdatedAuditEventType:
-  - [ UAObjectType, Onboarding:1552, Onboarding:DeviceSoftwareUpdatedAuditEventType ]
+  - [ UAObjectType, Onboarding:1552, Onboarding:DeviceSoftwareUpdatedAuditEventType, Abstract ]
   - DisplayName: "DeviceSoftwareUpdatedAuditEventType"
   - HasProperty:
     - [ UAVariable, Onboarding:1563, Onboarding:Status, Boolean, 0, 0 ]
@@ -1543,7 +1543,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Onboarding:1552, Onboarding:DeviceSoftwareUpdatedAuditEventType ]
+      - [ UAObjectType, Onboarding:1552, Onboarding:DeviceSoftwareUpdatedAuditEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, Onboarding:1568, Onboarding:SoftwareRevision, String, 0, 0 ]
     - DisplayName: "SoftwareRevision"
@@ -1552,6 +1552,6 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Onboarding:1552, Onboarding:DeviceSoftwareUpdatedAuditEventType ]
+      - [ UAObjectType, Onboarding:1552, Onboarding:DeviceSoftwareUpdatedAuditEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Onboarding:1517, Onboarding:DeviceRegistrationAuditEventType ]
+    - [ UAObjectType, Onboarding:1517, Onboarding:DeviceRegistrationAuditEventType, Abstract ]

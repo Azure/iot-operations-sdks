@@ -356,7 +356,7 @@ DataTypes:
 DefinedTypes:
 
   PlasticsRubber.Extrusion.Cutter:CutEventType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.Cutter:1002, PlasticsRubber.Extrusion.Cutter:CutEventType ]
+  - [ UAObjectType, PlasticsRubber.Extrusion.Cutter:1002, PlasticsRubber.Extrusion.Cutter:CutEventType, Abstract ]
   - DisplayName: "CutEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.Cutter:6002, PlasticsRubber.Extrusion.Cutter:ActualOutput, UInt64, 0, 0 ]

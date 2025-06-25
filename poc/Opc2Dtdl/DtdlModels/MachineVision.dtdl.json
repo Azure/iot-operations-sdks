@@ -4799,7 +4799,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MachineVision:VisionSystemType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MachineVision",
     "displayName": "VisionSystemType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1003",

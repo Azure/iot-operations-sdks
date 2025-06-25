@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_CM:AssetVerificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "AssetVerificationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1247",
@@ -250,7 +251,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_CM:AutomationComponentConfigurationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "AutomationComponentConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1246",
@@ -534,7 +536,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_CM:IConnectionManagerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "IConnectionManagerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1019",
@@ -584,7 +587,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_CM:PubSubCommunicationFlowConfigurationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "PubSubCommunicationFlowConfigurationType",
     "extends": "dtmi:opcua:FX_CM:CommunicationFlowConfigurationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1014",
@@ -750,7 +754,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "PubSubCommunicationModelConfigurationType",
     "extends": "dtmi:opcua:FX_CM:CommunicationModelConfigurationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1042",
@@ -1717,7 +1722,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "ConnectionConfigurationSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1012",
@@ -2168,7 +2174,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "ConnectionConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1013",
@@ -2610,7 +2617,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionManagerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "ConnectionManagerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1002",

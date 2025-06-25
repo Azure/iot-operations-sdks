@@ -451,7 +451,7 @@ DefinedTypes:
     - [ UAObjectType, 2955, LimitAlarmType ]
 
   GMS:IntermediateResultEventType:
-  - [ UAObjectType, GMS:1001, GMS:IntermediateResultEventType ]
+  - [ UAObjectType, GMS:1001, GMS:IntermediateResultEventType, Abstract ]
   - DisplayName: "IntermediateResultEventType"
   - HasComponent:
     - [ UAObject, GMS:5033, GMS:<Characteristics> ]

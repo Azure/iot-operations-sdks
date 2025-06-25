@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MTChannelType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MTChannelType",
     "description": "A Channel of a sensor. See ChannelType in type specifications. channel represents each sensing element connected to a sensor unit.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -184,7 +185,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MTDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MTDeviceType",
     "description": "See DeviceType.tex. The primary container element for each piece of equipment. device is organized within the devices container.",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
@@ -226,7 +228,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MTCompositionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MTCompositionType",
     "description": "The mtmodel{MTCompositionType} represents all composition entities. The specification of how to form the gls{BrowseName} is specified in Section~ref{sec:browse-name-rules}. The data items are added to the relationship where the gls{MTDataItem} to gls{Composition} relationship is represented by the gls{BrowseName} Composition property of the data item. The data items are added to the gls{Composition} by their glspl{BrowseName}. An XML element used to describe the lowest level structural building blocks contained within a component element.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -308,7 +311,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MTSensorConfigurationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MTSensorConfigurationType",
     "description": "An MTConnect Sensor Configuration associated with the Component. See SensorConfigurationType in type-specifications. An element that can contain descriptive content defining the configuration information for sensor.",
     "extends": "dtmi:opcua:MTConnect_v2:MTConfigurationType;1",
@@ -428,7 +432,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ActuatorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ActuatorType",
     "description": "the information for an apparatus for moving or controlling a mechanism or system Redefined as a piece of equipment with the ability to be represented as a lower level component of a parent component element or as a composition element. See actuator type",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
@@ -450,7 +455,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AuxiliariesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AuxiliariesType",
     "description": "p {padding:0px; margin:0px;} &#160; An XML container used to organize information for lower level elements representing functional sub-systems that provide supplementary or extended capabilities for a piece of equipment, but they are not required for the basic operation of the equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
@@ -472,7 +478,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:BarFeederType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "BarFeederType",
     "description": "a unit involved in delivering bar stock to a piece of equipment. barfeeder is an XML container that represents the information for a unit involved in delivering bar stock to a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:AuxiliariesType;1",
@@ -494,7 +501,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:EnvironmentalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "EnvironmentalType",
     "description": "the information for a unit or function involved in monitoring, managing, or conditioning the environment around or within a piece of equipment. environmental is an XML container that represents the information for a unit or function involved in monitoring, managing, or conditioning the environment around or within a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:AuxiliariesType;1",
@@ -516,7 +524,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:LoaderType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "LoaderType",
     "description": "the information for a unit comprised of all the parts involved in moving and distributing materials, parts, tooling, and other items to or from a piece of equipment loader is an XML container that represents the information for a unit comprised of all the parts involved in moving and distributing materials, parts, tooling, and other items to or from a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:AuxiliariesType;1",
@@ -538,7 +547,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:SensorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "SensorType",
     "description": "the information for a piece of equipment that responds to a physical stimulus and transmits a resulting impulse or value from a sensing unit The sensor unit is modeled as a lower level component called sensor.",
     "extends": "dtmi:opcua:MTConnect_v2:AuxiliariesType;1",
@@ -560,7 +570,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ToolingDeliveryType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ToolingDeliveryType",
     "description": "a unit involved in managing, positioning, storing, and delivering tooling within a piece of equipment. toolingdelivery is an XML container that represents the information for a unit involved in managing, positioning, storing, and delivering tooling within a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:AuxiliariesType;1",
@@ -582,7 +593,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:WasteDisposalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "WasteDisposalType",
     "description": "the information for a unit comprised of all the parts involved in removing manufacturing byproducts from a piece of equipment wastedisposal is an XML container that represents the information for a unit comprised of all the parts involved in removing manufacturing byproducts from a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:AuxiliariesType;1",
@@ -604,7 +616,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AxesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AxesType",
     "description": "Organizes parts of the device that perform linear or rotational motion An XML container used to organize the structural element of a piece of equipment that perform linear or rotational motion.",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
@@ -626,7 +639,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:LinearType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "LinearType",
     "description": "the movement of a physical piece of equipment, or a portion of the equipment, in a straight line. A linear axis represents the movement of a physical piece of equipment, or a portion of the equipment, in a straight line.",
     "extends": "dtmi:opcua:MTConnect_v2:AxesType;1",
@@ -648,7 +662,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:RotaryType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "RotaryType",
     "description": "rotary movement of a physical piece of equipment or a portion of the equipment. A rotary axis represents any non-linear or rotary movement of a physical piece of equipment or a portion of the equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:AxesType;1",
@@ -670,7 +685,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ChuckType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ChuckType",
     "description": "provides the information about a mechanism that holds a part or stock material in place Chuck is an XML container that provides the information about a mechanism that holds a part or stock material in place.",
     "extends": "dtmi:opcua:MTConnect_v2:RotaryType;1",
@@ -692,7 +708,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ControllerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ControllerType",
     "description": "intelligent or computational function within a piece of equipment An XML container used to organize information about an intelligent or computational function within a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
@@ -714,7 +731,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PathType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PathType",
     "description": "information for an independent operation or function within a mtuatype{ControllerType} path is an XML container that represents the information for an independent operation or function within a controller.",
     "extends": "dtmi:opcua:MTConnect_v2:ControllerType;1",
@@ -736,7 +754,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:DoorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "DoorType",
     "description": "the information for a mechanical mechanism or closure that can cover, for example, a physical access portal into a piece of equipment door component is an XML container that represents the information for a mechanical mechanism or closure that can cover.",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
@@ -758,7 +777,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:InterfacesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "InterfacesType",
     "description": "An XML container that organizes information used to coordinate actions and activities between pieces of equipment that communicate information between each other.",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
@@ -780,7 +800,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:BarFeederInterfaceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "BarFeederInterfaceType",
     "description": "information used to coordinate the operations between a Bar Feeder and another piece of equipment barfeederinterface provides the set of information used to coordinate the operations between a Bar Feeder and another piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:InterfacesType;1",
@@ -802,7 +823,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ChuckInterfaceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ChuckInterfaceType",
     "description": "information used to coordinate the operations between two pieces of equipment, one of which controls the operation of a chuck chuckinterface provides the set of information used to coordinate the operations between two pieces of equipment, one of which controls the operation of a chuck.",
     "extends": "dtmi:opcua:MTConnect_v2:InterfacesType;1",
@@ -824,7 +846,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:DoorInterfaceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "DoorInterfaceType",
     "description": "information used to coordinate the operations between two pieces of equipment, one of which controls the operation of a door doorinterface provides the set of information used to coordinate the operations between two pieces of equipment, one of which controls the operation of a door.",
     "extends": "dtmi:opcua:MTConnect_v2:InterfacesType;1",
@@ -846,7 +869,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MaterialHandlerInterfaceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MaterialHandlerInterfaceType",
     "description": "set of information used to coordinate the operations between a piece of equipment and another associated piece of equipment used to automatically handle various types of materials or services associated with the original piece of equipment materialhandlerinterface provides the set of information used to coordinate the operations between a piece of equipment and another associated piece of equipment used to automatically handle various types of materials or services associated with the original piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:InterfacesType;1",
@@ -868,7 +892,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ResourcesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ResourcesType",
     "description": "An XML container used to organize information for lower level elements representing types of items, materials, and personnel that support the operation of a piece of equipment or work to be performed at a location. resources also represents materials or other items consumed or transformed by a piece of equipment for production of parts or other types of goods.",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
@@ -890,7 +915,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MaterialsType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MaterialsType",
     "description": "information about materials or other items consumed or used by the piece of equipment for production of parts, materials, or other types of goods materials is an XML container that provides information about materials or other items consumed or used by the piece of equipment for production of parts, materials, or other types of goods.",
     "extends": "dtmi:opcua:MTConnect_v2:ResourcesType;1",
@@ -912,7 +938,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:StockType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "StockType",
     "description": "the information for the material that is used in a manufacturing process and to which work is applied in a machine or piece of equipment to produce parts. stock is an XML container that represents the information for the material that is used in a manufacturing process and to which work is applied in a machine or piece of equipment to produce parts.",
     "extends": "dtmi:opcua:MTConnect_v2:MaterialsType;1",
@@ -934,7 +961,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PersonnelType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PersonnelType",
     "description": "personnel is an XML container that provides information about an individual or individuals who either control, support, or otherwise interface with a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:ResourcesType;1",
@@ -956,7 +984,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:SystemsType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "SystemsType",
     "description": "major sub-systems that are permanently integrated into a piece of equipment An XML container used to organize information for lower level elements representing the major sub-systems that are permanently integrated into a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
@@ -978,7 +1007,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:CoolantType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "CoolantType",
     "description": "a system comprised of all the parts involved in distribution and management of fluids that remove heat from a piece of equipment. coolant is an XML container that represents the information for a system comprised of all the parts involved in distribution and management of fluids that remove heat from a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
@@ -1000,7 +1030,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:DielectricType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "DielectricType",
     "description": "a system that manages a chemical mixture used in a manufacturing process being performed at that piece of equipment. dielectric is an XML container that represents the information for a system that manages a chemical mixture used in a manufacturing process being performed at that piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
@@ -1022,7 +1053,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ElectricType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ElectricType",
     "description": "represents the information for the main power supply for device piece of equipment and the distribution of that power throughout the equipment. electric is an XML container that represents the information for the main power supply for device piece of equipment and the distribution of that power throughout the equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
@@ -1044,7 +1076,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:EnclosureType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "EnclosureType",
     "description": "a structure used to contain or isolate a piece of equipment or area. enclosure is an XML container that represents the information for a structure used to contain or isolate a piece of equipment or area.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
@@ -1066,7 +1099,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:FeederType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "FeederType",
     "description": "the information for a system that manages the delivery of materials within a piece of equipment. feeder is an XML container that represents the information for a system that manages the delivery of materials within a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
@@ -1088,7 +1122,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:HydraulicType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "HydraulicType",
     "description": "system comprised of all the parts involved in moving and distributing pressurized liquid throughout the piece of equipment. hydraulic is an XML container that represents the information for a system comprised of all the parts involved in moving and distributing pressurized liquid throughout the piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
@@ -1110,7 +1145,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:LubricationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "LubricationType",
     "description": "a system comprised of all the parts involved in distribution and management of fluids used to lubricate portions of the piece of equipment. lubrication is an XML container that represents the information for a system comprised of all the parts involved in distribution and management of fluids used to lubricate portions of the piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
@@ -1132,7 +1168,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PneumaticType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PneumaticType",
     "description": "a system comprised of all the parts involved in moving and distributing pressurized gas throughout the piece of equipment. pneumatic is an XML container that represents the information for a system comprised of all the parts involved in moving and distributing pressurized gas throughout the piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
@@ -1154,7 +1191,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ProcessPowerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ProcessPowerType",
     "description": "the information for a power source associated with a piece of equipment that supplies energy to the manufacturing process separate from the Electric system processpower is an XML container that represents the information for a power source associated with a piece of equipment that supplies energy to the manufacturing process separate from the electric system.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
@@ -1176,7 +1214,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ProtectiveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ProtectiveType",
     "description": "the information for those functions that detect or prevent harm or damage to equipment or personnel. Protective is an XML container that represents the information for those functions that detect or prevent harm or damage to equipment or personnel.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
@@ -1470,7 +1509,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MTConditionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MTConditionType",
     "description": "An mtmodel{MTConditionType} instance will be created for event MTConnect gls{MTDataItem} with a gls{category} of mtmodel{CONDITION}. The gls{BrowseName} of the condition uses the same naming convention as the MTConnect gls{MTDataItem} types with gls{MTCondition} appended as a suffix. For example the condition with gls{type} of mtmodel{TEMPERATURE} will have the browse name of mtmodel{TemperatureCondition} as opposed to the mtuatype{MTSampleType} of mtmodel{Temperature}. An XML element which provides the information and data reported from a piece of equipment for those dataitem elements defined with a category attribute of condition category in the mtconnectdevices document.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -1650,7 +1690,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MTMessageClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MTMessageClassType",
     "description": "Any text string of information to be transferred from a piece of equipment to a client software application.",
     "extends": "dtmi:opcua:MTConnect_v2:MTEventClassType;1",
@@ -1694,7 +1735,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AccelerationClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AccelerationClassType",
     "description": "Rate of change of velocity. $frac{MILLIMETER}{SECOND^{2}}$ The measurement of the rate of change of velocity.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -1716,7 +1758,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AccumulatedTimeClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AccumulatedTimeClassType",
     "description": "The measurement of accumulated time for an activity or event. $SECOND$ The measurement of accumulated time for an activity or event.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -1738,7 +1781,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AmperageClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AmperageClassType",
     "description": "The measurement of electrical current. $AMPERE$ DEPRECATED in Version 1.6. Replaced by amperageac sample and amperagedc sample.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -1760,7 +1804,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AngleClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AngleClassType",
     "description": "The measurement of angular position. $DEGREE$ The measurement of angular position.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -1782,7 +1827,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AngularAccelerationClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AngularAccelerationClassType",
     "description": "Rate of change of angular velocity. $frac{DEGREE}{SECOND^{2}}$ The measurement rate of change of angular velocity.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -1804,7 +1850,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AngularVelocityClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AngularVelocityClassType",
     "description": "Rate of change of angular position. $frac{DEGREE}{SECOND}$ The measurement of the rate of change of angular position.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -1826,7 +1873,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AxisFeedrateClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AxisFeedrateClassType",
     "description": "The feedrate of a linear axis. $frac{MILLIMETER}{SECOND}$ The measurement of the feedrate of a linear axis.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -1848,7 +1896,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ClockTimeClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ClockTimeClassType",
     "description": "The value provided by a timing device at a specific point in time. $TIMESTAMP$ The value provided by a timing device at a specific point in time.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -1870,7 +1919,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ConcentrationClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ConcentrationClassType",
     "description": "Percentage of one component within a mixture of components. $PERCENT$ The measurement of the percentage of one component within a mixture of components",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -1892,7 +1942,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ConductivityClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ConductivityClassType",
     "description": "The ability of a material to conduct electricity. $frac{SIEMENS}{METER}$ The measurement of the ability of a material to conduct electricity.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -1914,7 +1965,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:DisplacementClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "DisplacementClassType",
     "description": "The change in position of an object. $MILLIMETER$ The measurement of the change in position of an object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -1936,7 +1988,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ElectricalEnergyClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ElectricalEnergyClassType",
     "description": "The measurement of electrical energy consumption by a component. $WATT times SECOND$ The measurement of electrical energy consumption by a component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -1958,7 +2011,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:EquipmentTimerClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "EquipmentTimerClassType",
     "description": "The measurement of the amount of time a mtmodel{SECOND} piece of equipment or a sub-part of a piece of equipment has performed specific activities. Often used to determine when maintenance may be required for the equipment. Multiple subTypes of mtmodel{EQUIPMENT_TIMER} MAY be defined. A subType MUST always be specified. $SECOND$ The measurement of the amount of time a piece of equipment or a sub-part of a piece of equipment has performed specific activities.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -1980,7 +2034,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:FillLevelClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "FillLevelClassType",
     "description": "The measurement of the amount of a substance remaining compared to the planned maximum amount of that substance. $PERCENT$ The measurement of the amount of a substance remaining compared to the planned maximum amount of that substance.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2002,7 +2057,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:FlowClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "FlowClassType",
     "description": "The rate of flow of a fluid. $frac{LITER}{SECOND}$ The measurement of the rate of flow of a fluid.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2024,7 +2080,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:FrequencyClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "FrequencyClassType",
     "description": "The measurement of the number of occurrences of a repeating event per unit time. $HERTZ$ The measurement of the number of occurrences of a repeating event per unit time.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2046,7 +2103,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:LengthClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "LengthClassType",
     "description": "The length of an object. $MILLIMETER$ The measurement of the length of an object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2068,7 +2126,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:LinearForceClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "LinearForceClassType",
     "description": "The measure of the push or pull introduced by an actuator or exerted on an object. $NEWTON$ The measurement of the push or pull introduced by an actuator or exerted on an object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2090,7 +2149,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:LoadClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "LoadClassType",
     "description": "The measurement of the actual versus the standard rating of a piece of equipment. $PERCENT$ The measurement of the actual versus the standard rating of a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2112,7 +2172,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MassClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MassClassType",
     "description": "The measurement of the mass of an object(s) or an amount of material. $KILOGRAM$ The measurement of the mass of an object(s) or an amount of material.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2134,7 +2195,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PathFeedrateClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PathFeedrateClassType",
     "description": "The feedrate for the axes, or a single axis, associated with a mtmodel{Path} component a vector. $frac{MILLIMETER}{SECOND}$ The measurement of the feedrate for the axes, or a single axis, associated with a path component-a vector.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2156,7 +2218,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PathPositionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PathPositionClassType",
     "description": "A measured or calculated position of a control point associated with a mtmodel{Controller} element, or PATH element if provided, of a piece of equipment. The control point MUST be reported as a set of space-delimited floating-point numbers representing a point in 3-D space. The position of the control point MUST be reported in units of mtmodel{MILLIMETER} and listed in order of X, Y, and Z referenced to the coordinate system of the piece of equipment. $MILLIMETER (mathbb{R}^{3})$ A measured or calculated position of a control point associated with a controller element, or path element if provided, of a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2178,7 +2241,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PHClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PHClassType",
     "description": "The measure of the acidity or alkalinity. $PH$ A measure of the acidity or alkalinity of a solution.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2200,7 +2264,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PositionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PositionClassType",
     "description": "A calculated or measured position related to a Component element. mtmodel{POSITION} SHOULD be further defined withacoordinateSytemattribute. If a coordinateSystem attribute is not specified, the position of the control point MUST be reported in mtmodel{MACHINE} coordinates. $MILLIMETER$ A measured or calculated position of a component element as reported by a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2222,7 +2287,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PowerFactorClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PowerFactorClassType",
     "description": "The measurement of the ratio of real power flowing to a load to the apparent power in that AC circuit. $PERCENT$ The measurement of the ratio of real power flowing to a load to the apparent power in that AC circuit.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2244,7 +2310,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PressureClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PressureClassType",
     "description": "The force per unit area exerted by a gas or liquid. $PASCAL$ The measurement of force per unit area exerted by a gas or liquid.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2266,7 +2333,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ProcessTimerClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ProcessTimerClassType",
     "description": "The measurement of the amount of time a piece of equipment has performed different types of activities associated with the process being performed at that piece of equipment. Multiple subtypes of mtmodel{PROCESS_TIMER} may be defined. Typically, mtmodel{PROCESS_TIMER} SHOULD be modeled as a data item for the Device element, but MAY be modeled for either a Controller or Path Structural Element in the XML document. A gls{subType} MUST always be specified. $SECOND$ The measurement of the amount of time a piece of equipment has performed different types of activities associated with the process being performed at that piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2288,7 +2356,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ResistenceClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ResistenceClassType",
     "description": "The degree to which a substance opposes the passage of an electric current. $OHM$",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2310,7 +2379,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:RotaryVelocityClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "RotaryVelocityClassType",
     "description": "The rotational speed of a rotary axis. $frac{REVOLUTION}{MINUTE}$ The measurement of the rotational speed of a rotary axis.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2332,7 +2402,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:SoundLevelClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "SoundLevelClassType",
     "description": "Measurement of a sound level or sound pressure level relative to atmospheric pressure. $DECIBEL$ The measurement of a sound level or sound pressure level relative to atmospheric pressure.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2354,7 +2425,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:StrainClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "StrainClassType",
     "description": "The amount of deformation per unit length of an object when a load is applied. $PERCENT$ The measurement of the amount of deformation per unit length of an object when a load is applied.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2376,7 +2448,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:TemperatureClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "TemperatureClassType",
     "description": "The measurement of temperature. $CELSIUS$ The measurement of temperature.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2398,7 +2471,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:TensionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "TensionClassType",
     "description": "A measurement of a force that stretches or elongates an object. $NEWTON$ The measurement of a force that stretches or elongates an object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2420,7 +2494,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:TiltClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "TiltClassType",
     "description": "A measurement of angular displacement. $MICRO cdot RADIAN$ The measurement of angular displacement.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2442,7 +2517,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:TorqueClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "TorqueClassType",
     "description": "The turning force exerted on an object or by an object. $NEWTON times METER$ The measurement of the turning force exerted on an object or by an object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2464,7 +2540,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:VelocityClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "VelocityClassType",
     "description": "The rate of change of position. $frac{MILLIMETER}{SECOND}$ The measurement of the rate of change of position of a component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2486,7 +2563,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ViscosityClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ViscosityClassType",
     "description": "A measurement of a fluid’s resistance to flow. $PASCAL times SECOND$. The measurement of a fluids resistance to flow.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2508,7 +2586,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:VoltageClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "VoltageClassType",
     "description": "The measurement of electrical potential between two points. $VOLT$ DEPRECATED in Version 1.6. Replaced by voltageac sample and voltagedc sample.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2530,7 +2609,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:VoltAmpereClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "VoltAmpereClassType",
     "description": "The measure of the apparent power in an electrical circuit, equal to the product of root-mean-square (RMS) voltage and RMS current (commonly referred to as VA). $VOLT times AMPERE$ The measurement of the apparent power in an electrical circuit, equal to the product of root-mean-square (RMS) voltage and RMS current (commonly referred to as VA).",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2552,7 +2632,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:VoltAmpereReactiveClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "VoltAmpereReactiveClassType",
     "description": "The measurement of reactive power in an AC electrical circuit (commonly referred to as VAR). $VOLT times AMPERE (Reactive)$ The measurement of reactive power in an AC electrical circuit (commonly referred to as VAR).",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2574,7 +2655,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:WattageClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "WattageClassType",
     "description": "The measurement of power flowing through or dissipated by an electrical circuit or piece of equipment. $WATT$ The measurement of power flowing through or dissipated by an electrical circuit or piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
@@ -2618,7 +2700,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ActuatorStateClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ActuatorStateClassType",
     "description": "Represents the operational state of an apparatus for moving or controlling. Represents the operational state of an apparatus for moving or controlling a mechanism or system.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -2653,7 +2736,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AvailabilityClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AvailabilityClassType",
     "description": "Represents the Agent's ability to communicate with the data source. This MUST be provided for a Device Element and MAY be provided for any other Structural Element. Represents the agent's ability to communicate with the data source.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -2688,7 +2772,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AxisCouplingClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AxisCouplingClassType",
     "description": "Describes the way the axes will be associated to each other. This is used in conjunction with mtmodel{COUPLED_AXES} to indicate the way they are interacting. The coupling MUST be viewed from the perspective of a specific axis. Therefore, a mtmodel{MASTER} coupling indicates that this axis is the master for the mtmodel{COUPLED_AXES}. Describes the way the axes will be associated to each other. This is used in conjunction with coupledaxes event to indicate the way they are interacting.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -2723,7 +2808,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AxisInterlockClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AxisInterlockClassType",
     "description": "An indicator of the state of the axis lockout function when power has been removed and the axis is allowed to move freely. An indicator of the state of the axis lockout function when power has been removed and the axis is allowed to move freely.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -2758,7 +2844,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AxisStateClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AxisStateClassType",
     "description": "An indicator of the controlled state of a mtmodel{LINEAR} or mtmodel{ROTARY} component representing an axis. An indicator of the controlled state of a linear or rotary component representing an axis.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -2793,7 +2880,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ChuckInterlockClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ChuckInterlockClassType",
     "description": "An indication of the state of an interlock function or control logic state intended to prevent the associated mtmodel{Chuck} composition or function from being operated. An indication of the state of an interlock function or control logic state intended to prevent the associated chuck component from being operated.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -2828,7 +2916,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ChuckStateClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ChuckStateClassType",
     "description": "An indication of the operating state of a mechanism that holds a part or stock material during a manufacturing process. It may also represent a mechanism that holds any other mechanism in place within a piece of equipment. An indication of the operating state of a mechanism that holds a part or stock material during a manufacturing process. It may also represent a mechanism that holds any other mechanism in place within a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -2863,7 +2952,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:CloseChuckClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "CloseChuckClassType",
     "description": "Service to close a chuck. Service to close a chuck.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -2898,7 +2988,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:CloseDoorClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "CloseDoorClassType",
     "description": "Service to close a door. Service to close a door.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -2933,7 +3024,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:CompositionStateClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "CompositionStateClassType",
     "description": "An indication of the operating condition of a mechanism represented by a mtmodel{Composition} type element. A gls{subType} MUST always be specified. A mtmodel{compositionId} MUST always be specified. An indication of the operating condition of a mechanism represented by a composition type element.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -2968,7 +3060,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ControllerModeClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ControllerModeClassType",
     "description": "The current mode of the mtmodel{Controller} component. The current operating mode of the controller component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3003,7 +3096,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ControllerModeOverrideClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ControllerModeOverrideClassType",
     "description": "A setting or operator selection that changes the behavior of a piece of equipment. A setting or operator selection that changes the behavior of a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3038,7 +3132,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:DirectionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "DirectionClassType",
     "description": "The direction of motion. A gls{subType} MUST always be specified. The direction of motion.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3073,7 +3168,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:DoorStateClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "DoorStateClassType",
     "description": "The opened or closed state of the door. The operational state of a door type component or composition element.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3108,7 +3204,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:EmergencyStopClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "EmergencyStopClassType",
     "description": "The current state of the emergency stop signal. The current state of the emergency stop signal for a piece of equipment, controller path, or any other component or subsystem of a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3143,7 +3240,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:EndOfBarClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "EndOfBarClassType",
     "description": "An indication of whether the end of a piece of bar stock being feed by a bar feeder has been reached. An indication of whether the end of a piece of bar stock being feed by a bar feeder has been reached.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3178,7 +3276,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:EquipmentModeClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "EquipmentModeClassType",
     "description": "An indication that a piece of equipment, or a sub-part of a piece of equipment, is performing specific types of activities. A gls{subType} MUST always be specified. An indication that a piece of equipment, or a sub-part of a piece of equipment, is performing specific types of activities.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3213,7 +3312,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ExecutionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ExecutionClassType",
     "description": "The execution status of the mtmodel{Controller} or mtmodel{Path}. The execution status of the controller.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3248,7 +3348,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:FunctionalModeClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "FunctionalModeClassType",
     "description": "The current intended production status of the device or component. Typically, the texttt{FUNCTIONAL_MODE} SHOULD be modeled as a data item for the Device element, but MAY be modeled for any Structural Element in the XML document. The current intended production status of the device or component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3283,7 +3384,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:InterfaceStateClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "InterfaceStateClassType",
     "description": "The current functional or operational state of an Interface type element indicating whether the Interface is active or not currently functioning. An indication of the operational state of an interface component component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3318,7 +3420,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MaterialChangeClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MaterialChangeClassType",
     "description": "Service to change the type of material or product being loaded or fed to a piece of equipment. Service to change the type of material or product being loaded or fed to a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3353,7 +3456,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MaterialFeedClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MaterialFeedClassType",
     "description": "Service to advance material or feed product to a piece of equipment from a continuous or bulk source. Service to advance material or feed product to a piece of equipment from a continuous or bulk source.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3388,7 +3492,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MaterialLoadClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MaterialLoadClassType",
     "description": "Service to load a piece of material or product. Service to load a piece of material or product.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3423,7 +3528,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MaterialRetractClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MaterialRetractClassType",
     "description": "Service to remove or retract material or product. Service to remove or retract material or product.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3458,7 +3564,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MaterialUnloadClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MaterialUnloadClassType",
     "description": "Service to unload a piece of material or product. Service to unload a piece of material or product.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3493,7 +3600,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:OpenChuckClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "OpenChuckClassType",
     "description": "Service to open a chuck. Service to open a chuck.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3528,7 +3636,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:OpenDoorClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "OpenDoorClassType",
     "description": "Service to open a door. Service to open a door.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3563,7 +3672,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PartChangeClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PartChangeClassType",
     "description": "Service to change the part or product associated with a piece of equipment to a different part or product. Service to change the part or product associated with a piece of equipment to a different part or product.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3598,7 +3708,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PathModeClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PathModeClassType",
     "description": "Describes the operational relationship between a mtmodel{PATH} textit{Structural Element} and another mtmodel{PATH} textit{Structural Element} for pieces of equipment comprised of multiple logical groupings of controlled axes or other logical operations. Describes the operational relationship between a path structural element and another path structural element for pieces of equipment comprised of multiple logical groupings of controlled axes or other logical operations.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3633,7 +3744,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PowerStateClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PowerStateClassType",
     "description": "The indication of the status of the source of energy for a textit{Structural Element} to allow it to perform its intended function or the state of an enabling signal providing permission for the textit{Structural Element} to perform its functions. DEPRECATION WARNING: texttt{PowerState} may be deprecated in the future. The indication of the status of the source of energy for a structural element to allow it to perform its intended function or the state of an enabling signal providing permission for the structural element to perform its functions.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3668,7 +3780,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ProgramEditClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ProgramEditClassType",
     "description": "An indication of the status of the mtmodel{Controller} component’s program editing mode. On many controls, a program can be edited while another program is currently being executed. An indication of the status of the controller components program editing mode. On many controls, a program can be edited while another program is currently being executed.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3703,7 +3816,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:RotaryModeClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "RotaryModeClassType",
     "description": "The current operating mode for a mtmodel{Rotary} type axis. The current operating mode for a rotary type axis.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3738,7 +3852,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:SpindleInterlockClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "SpindleInterlockClassType",
     "description": "An indication of the status of the spindle for a piece of equipment when power has been removed and it is free to rotate. An indication of the status of the spindle for a piece of equipment when power has been removed and it is free to rotate.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
@@ -3795,7 +3910,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AxisFeedrateOverrideClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AxisFeedrateOverrideClassType",
     "description": "The value of a signal or calculation issued to adjust the feedrate of an individual linear type axis. The value provided for mtmodel{AXIS_FEEDRATE_OVERRIDE} is expressed as a percentage of the designated feedrate for the axis. When mtmodel{AXIS_FEEDRATE_OVERRIDE} is applied, the resulting commanded feedrate for the axis is limited to the value of the original feedrate multiplied by the value of the mtmodel{AXIS_FEEDRATE_OVERRIDE}. There MAY be different subtypes of mtmodel{AXIS_FEEDRATE_OVERRIDE}; each representing an override value for a designated subtype of feedrate depending on the state of operation of the axis. The subtypes of operation of an axis are currently defined as mtmodel{PROGRAMMED}, mtmodel{JOG}, and mtmodel{RAPID}. The value of a signal or calculation issued to adjust the feedrate of an individual linear type axis.",
     "extends": "dtmi:opcua:MTConnect_v2:MTNumericEventClassType;1",
@@ -3817,7 +3933,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:BlockCountClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "BlockCountClassType",
     "description": "The total count of the number of blocks of program code that have been executed since execution started. mtmodel{BLOCK_COUNT} counts blocks of program code executed regardless of program structure (e.g., looping or branching within the program). The starting value for mtmodel{BLOCK_COUNT} MAY be established by an initial value provided in the Constraint element defined for the data item. The total count of the number of blocks of program code that have been executed since execution started.",
     "extends": "dtmi:opcua:MTConnect_v2:MTNumericEventClassType;1",
@@ -3839,7 +3956,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:HardnessClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "HardnessClassType",
     "description": "The measurement of the hardness of a material. The measurement does not provide a unit. A gls{subType} MUST always be specified to designate the hardness scale associated with the measurement. The measurement of the hardness of a material.",
     "extends": "dtmi:opcua:MTConnect_v2:MTNumericEventClassType;1",
@@ -3861,7 +3979,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:LineNumberClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "LineNumberClassType",
     "description": "A reference to the position of a block of program code within a control program. The line number MAY represent either an absolute position starting with the first line of the program or an incremental position relative to the occurrence of the last mtmodel{LINE_LABEL}. mtmodel{LINE_NUMBER} does not change subject to any looping or branching in a control program. A gls{subType} MUST be defined. A reference to the position of a block of program code within a control program.",
     "extends": "dtmi:opcua:MTConnect_v2:MTNumericEventClassType;1",
@@ -3883,7 +4002,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PartCountClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PartCountClassType",
     "description": "The current count of parts produced as represented by the Controller. The valid data value MUST be an integer value. The count of parts produced.",
     "extends": "dtmi:opcua:MTConnect_v2:MTNumericEventClassType;1",
@@ -3905,7 +4025,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PathFeedrateOverrideClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PathFeedrateOverrideClassType",
     "description": "The value of a signal or calculation issued to adjust the feedrate for the axes associated with a path component that may represent a single axis or the coordinated movement of multiple axes.",
     "extends": "dtmi:opcua:MTConnect_v2:MTNumericEventClassType;1",
@@ -3927,7 +4048,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:RotaryVelocityOverrideClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "RotaryVelocityOverrideClassType",
     "description": "A command issued to adjust the programmed velocity for a Rotary type axis. This command represents a percentage change to the velocity calculated by a logic or motion program or set by a switch for a Rotary type axis. mtmodel{ROTARY_VELOCITY_OVERRIDE} is expressed as a percentage of the programmed mtmodel{ROTARY_VELOCITY}. The value of a command issued to adjust the programmed velocity for a rotary type axis. This command represents a percentage change to the velocity calculated by a logic or motion program or set by a switch for a rotary type axis.",
     "extends": "dtmi:opcua:MTConnect_v2:MTNumericEventClassType;1",
@@ -3971,7 +4093,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AssetChangedClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AssetChangedClassType",
     "description": "The value of the cdata for the event MUST be the assetid of the asset that has been added or changed. There will not be a separate message for new assets.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -3993,7 +4116,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AssetRemovedClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AssetRemovedClassType",
     "description": "The value of the cdata for the event MUST be the assetid of the asset that has been removed. The asset will still be visible if requested with the includeremoved parameter as described in the protocol section. When assets are removed they are not moved to the beginning of the most recently modified list.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4015,7 +4139,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:BlockClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "BlockClassType",
     "description": "The line of code or command being executed by a mtmodel{Controller} mtterm{Structural Element}. The value reported for mtmodel{Block} MUST include the entire expression for a line of program code, including all parameters. The line of code or command being executed by a controller structural element.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4037,7 +4162,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:CoupledAxesClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "CoupledAxesClassType",
     "description": "Refers to the set of associated axes. The valid data value for mtmodel{COUPLED_AXES} SHOULD be a space-delimited set of axes reported as the value of the name attribute for each axis. If name is not available, the piece of equipment MUST report the value of the nativeName attribute for each axis. Refers to the set of associated axes.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4059,7 +4185,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:LineClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "LineClassType",
     "description": "DEPRECATED in Version 1.4.0.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4081,7 +4208,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:LineLabelClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "LineLabelClassType",
     "description": "An optional identifier for a mtmodel{BLOCK} of code in a mtmodel{PROGRAM}. An optional identifier for a block event of code in a program event.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4103,7 +4231,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MaterialClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MaterialClassType",
     "description": "The identifier of a material used or consumed in the manufacturing process. The identifier of a material used or consumed in the manufacturing process.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4125,7 +4254,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MessageClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MessageClassType",
     "description": "Any text string of information to be transferred from a piece of equipment to a client software application.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4147,7 +4277,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:OperatorIdClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "OperatorIdClassType",
     "description": "The identifier of the person currently responsible for operating the piece of equipment. DEPRECATION WARNING: May be deprecated in the future. See mtmodel{USER} below. The identifier of the person currently responsible for operating the piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4169,7 +4300,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PalletIdClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PalletIdClassType",
     "description": "The identifier for a pallet. The identifier for a pallet.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4191,7 +4323,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PartIdClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PartIdClassType",
     "description": "An identifier of a part in a manufacturing operation. An identifier of a part in a manufacturing operation.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4213,7 +4346,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PartNumberClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PartNumberClassType",
     "description": "An identifier of a part or product moving through the manufacturing process. An identifier of a part or product moving through the manufacturing process. The valid data value must be a text string.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4235,7 +4369,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ProgramClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ProgramClassType",
     "description": "The name of the logic or motion program being executed by the mtmodel{Controller} or mtmodel{Path} component. The name of the logic or motion program being executed by the controller component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4257,7 +4392,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ProgramCommentClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ProgramCommentClassType",
     "description": "A comment or non-executable statement in the control program. A comment or non-executable statement in the control program. The valid data value must be a text string.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4279,7 +4415,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ProgramEditNameClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ProgramEditNameClassType",
     "description": "The name of the program being edited. This is used in conjunction with mtmodel{PROGRAM_EDIT} when in mtmodel{ACTIVE} state. The name of the program being edited. This is used in conjunction with programedit event when in active value state. The valid data value must be a text string.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4301,7 +4438,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ProgramHeaderClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ProgramHeaderClassType",
     "description": "The non-executable header section of the control program. The non-executable header section of the control program.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4323,7 +4461,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:SerialNumberClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "SerialNumberClassType",
     "description": "The serial number associated with a mtmodel{Component}, mtmodel{Asset}, or mtmodel{Device}. The serial number associated with a component, asset mtconnectassets, or device. The valid data value must be a text string.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4345,7 +4484,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ToolAssetIdClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ToolAssetIdClassType",
     "description": "The identifier of an individual tool asset The identifier of an individual tool asset.The valid data value must be a text string.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4367,7 +4507,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ToolNumberClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ToolNumberClassType",
     "description": "The identifier of a tool provided by the piece of equipment controller. The identifier assigned by the controller component to a cutting tool when in use by a piece of equipment. The valid data value must be a text string.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4389,7 +4530,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ToolOffsetClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ToolOffsetClassType",
     "description": "A reference to the tool offset variables applied to the active cutting tool associated with a Path in a Controller type component. The valid data value MUST be a text string. The reported value returned for mtmodel{TOOL_OFFSET} identifies the location in a table or list where the actual tool offset values are stored. A gls{subType} MUST always be specified. A reference to the tool offset variables applied to the active cutting tool associated with a path in a controller type component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4411,7 +4553,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:UserClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "UserClassType",
     "description": "The identifier of the person currently responsible for operating the piece of equipment. A gls{subType} MUST always be specified. The identifier of the person currently responsible for operating the piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4433,7 +4576,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:WireClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "WireClassType",
     "description": "The identifier for the type of wire used as the cutting mechanism in Electrical Discharge Machining or similar processes. A string like piece or filament of relatively rigid or flexible material provided in a variety of diameters.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4455,7 +4599,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:WorkholdingClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "WorkholdingClassType",
     "description": "The identifier for the workholding currently in use.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4477,7 +4622,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:WorkOffsetClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "WorkOffsetClassType",
     "description": "A reference to the offset variables for a work piece or part associated with a Path in a Controller type component. The valid data value MUST be a text string. The reported value returned for mtmodel{WORK_OFFSET} identifies the location in a table or list where the actual tool offset values are stored. A reference to the offset variables for a work piece or part associated with a path in a controller type component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
@@ -4499,7 +4645,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ActuatorClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ActuatorClassType",
     "description": "Redefined as a piece of equipment with the ability to be represented as a lower level component of a parent component element or as a composition element. See actuator type",
     "extends": "dtmi:opcua:MTConnect_v2:MTConditionClassType;1",
@@ -4521,7 +4668,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:CommunicationsClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "CommunicationsClassType",
     "description": "An indication that the piece of equipment has experienced a communications failure.",
     "extends": "dtmi:opcua:MTConnect_v2:MTConditionClassType;1",
@@ -4543,7 +4691,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:DataRangeClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "DataRangeClassType",
     "description": "An indication that the value of the data associated with a measured value or a calculation is outside of an expected range.",
     "extends": "dtmi:opcua:MTConnect_v2:MTConditionClassType;1",
@@ -4565,7 +4714,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:HardwareClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "HardwareClassType",
     "description": "An indication of a fault associated with the hardware subsystem of the structural element.",
     "extends": "dtmi:opcua:MTConnect_v2:MTConditionClassType;1",
@@ -4587,7 +4737,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:LogicProgramClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "LogicProgramClassType",
     "description": "An indication that an error occurred in the logic program or programmable logic controller (PLC) associated with a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTConditionClassType;1",
@@ -4609,7 +4760,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MotionProgramClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MotionProgramClassType",
     "description": "An indication that an error occurred in the motion program associated with a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTConditionClassType;1",
@@ -4631,7 +4783,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:SystemClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "SystemClassType",
     "description": "A general purpose indication associated with an electronic component of a piece of equipment or a controller that represents a fault that is not associated with the operator, program, or hardware.",
     "extends": "dtmi:opcua:MTConnect_v2:MTConditionClassType;1",
@@ -4675,7 +4828,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AbsoluteSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AbsoluteSubClassType",
     "description": "The magnitude or measurement of a type irrespective of its relation to other values. The position of a block of program code relative to the beginning of the control program.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -4697,7 +4851,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ActionSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ActionSubClassType",
     "description": "An indication of the operating state or value of a type. An indication of the operating state of a mechanism represented by a composition type component. The operating state indicates whether the composition element is activated or disabled. The valid data value must be active value or inactive value.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -4719,7 +4874,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ActualSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ActualSubClassType",
     "description": "The measured value of the a type. The measured value of the data item type given by a sensor or encoder.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -4741,7 +4897,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AllSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AllSubClassType",
     "description": "The count of all the parts produced. If the subtype is not given, this is the default.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -4763,7 +4920,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AlternatingSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AlternatingSubClassType",
     "description": "The measurement of a type occurring in turn repeatedly. The measurement of alternating voltage or current. If not specified further in statistic, defaults to RMS voltage.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -4785,7 +4943,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AScaleSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AScaleSubClassType",
     "description": "A Scale weighting factor for the measurement of sound level.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -4807,7 +4966,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:AuxiliarySubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "AuxiliarySubClassType",
     "description": "Example: When multiple locations on a piece of bar stock are referenced as the indication for the mtmodel{END_OF_BAR}, the additional location(s) MUST be designated as mtmodel{AUXILIARY} indication(s) for the mtmodel{END_OF_BAR}. When multiple locations on a piece of bar stock are referenced as the indication for the endofbar event, the additional location(s) must be designated as auxiliary subtype indication(s) for the endofbar event.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -4829,7 +4989,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:BadSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "BadSubClassType",
     "description": "Indicates the count of incorrect parts produced. Indicates the count of incorrect parts produced.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -4851,7 +5012,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:BrinellSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "BrinellSubClassType",
     "description": "A scale to measure the resistance to deformation of a surface. A scale to measure the resistance to deformation of a surface.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -4873,7 +5035,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:BScaleSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "BScaleSubClassType",
     "description": "B Scale weighting factor for the measurement of sound level.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -4895,7 +5058,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:CommandedSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "CommandedSubClassType",
     "description": "The value as specified by the Controller type component. A value specified by the controller type component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -4917,7 +5081,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ControlSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ControlSubClassType",
     "description": "The state of the enabling signal or control logic that enables or disables the function or operation of the textit{Structural Element}. The state of the enabling signal or control logic that enables or disables the function or operation of the structural element.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -4939,7 +5104,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:CScaleSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "CScaleSubClassType",
     "description": "C Scale weighting factor for the measurement of sound level.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -4961,7 +5127,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:DelaySubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "DelaySubClassType",
     "description": "Measurement of the time that a piece of equipment is waiting for an event or an action to occur. A piece of equipment waiting for an event or an action to occur.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -4983,7 +5150,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:DirectSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "DirectSubClassType",
     "description": "Measurement of DC current or voltage. The measurement of DC current or voltage.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5005,7 +5173,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:DryRunSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "DryRunSubClassType",
     "description": "A setting or operator selection used to execute a test mode to confirm the execution of machine functions.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5027,7 +5196,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:DScaleSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "DScaleSubClassType",
     "description": "D Scale weighting factor for the measurement of sound level.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5049,7 +5219,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:FixtureSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "FixtureSubClassType",
     "description": "Fixture denotes a specifc type of a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5071,7 +5242,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:GoodSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "GoodSubClassType",
     "description": "Indicates the count of correct parts made. Indicates the count of correct parts made.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5093,7 +5265,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:IncrementalSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "IncrementalSubClassType",
     "description": "A small change which could be either positive or negative in a Type's value or function. Example: The position of a block of program code relative to the occurrence of the last mtmodel{LINE_LABEL} encountered in the control program. The position of a block of program code relative to the occurrence of the last linelabel event encountered in the control program.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5115,7 +5288,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:JobSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "JobSubClassType",
     "description": "The value of a signal or calculation issued to adjust the feedrate of the axes associated with a Path component when the axes, or a single axis, are being operated in a manual mode or method (jogging).",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5137,7 +5311,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:KineticSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "KineticSubClassType",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2520",
@@ -5158,7 +5333,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:LateralSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "LateralSubClassType",
     "description": "An indication of the position of a mechanism that may move in a lateral direction. The mechanism is represented by a mtmodel{Composition} type component. An indication of the position of a mechanism that may move in a lateral direction. The mechanism is represented by a composition type component. The position information indicates whether the composition element is positioned to the right, to the left, or is in transition. The valid data value must be right value, left value, or transitioning value.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5180,7 +5356,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:LeebSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "LeebSubClassType",
     "description": "A scale to measure the elasticity of a surface. A scale to measure the elasticity of a surface.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5202,7 +5379,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:LengthSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "LengthSubClassType",
     "description": "The measurement or extent of something from end to end. The measurement of the length of an object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5224,7 +5402,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:LinearSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "LinearSubClassType",
     "description": "The direction of motion. A linear axis represents the movement of a physical piece of equipment, or a portion of the equipment, in a straight line.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5246,7 +5425,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:LineSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "LineSubClassType",
     "description": "The state of the power source for the textit{Structural Element}. DEPRECATED in Version 1.4.0.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5268,7 +5448,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:LoadedSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "LoadedSubClassType",
     "description": "An indication that the sub-parts of a piece of equipment are under load. Subparts of a piece of equipment are under load.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5290,7 +5471,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MachineAxisLockSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MachineAxisLockSubClassType",
     "description": "A setting or operator selection that changes the behavior of the controller on a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5312,7 +5494,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MaintenanceSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MaintenanceSubClassType",
     "description": "The identifier of the person currently responsible for performing maintenance on the piece of equipment. Action related to maintenance on the piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5334,7 +5517,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ManualUnclampSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ManualUnclampSubClassType",
     "description": "An indication of the state of an operator controlled interlock that can inhibit the ability to initiate an unclamp action of an electronically controlled chuck.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5356,7 +5540,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MaximumSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MaximumSubClassType",
     "description": "Maximum or peak value recorded for the data item during the calculation period. The upper limit of data reported for a data item.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5378,7 +5563,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MinimumSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MinimumSubClassType",
     "description": "Minimum value recorded for the data item during the calculation period. The lower limit of data reported for a data item.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5400,7 +5586,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MohsSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MohsSubClassType",
     "description": "A scale to measure the resistance to scratching of a surface. A scale to measure the resistance to scratching of a surface.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5422,7 +5609,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MoleSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MoleSubClassType",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2546",
@@ -5443,7 +5631,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:MotionSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MotionSubClassType",
     "description": "An indication of the open or closed state of a mechanism. The mechanism is represented by a mtmodel{Composition} type component. An indication of the open or closed state of a mechanism. The mechanism is represented by a composition type component. The operating state indicates whether the state of the composition element is open, closed, or unlatched. The valid data value must be open value, unlatched value, or closed value.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5465,7 +5654,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:NoScaleSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "NoScaleSubClassType",
     "description": "No weighting factor on the frequency scale for the measurement of sound level.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5487,7 +5677,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:OperatingSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "OperatingSubClassType",
     "description": "An indication that the major sub-parts of a piece of equipment are powered or performing any activity whether producing a part or product or not. Example: For traditional machine tools, this includes when the piece of equipment is mtmodel{WORKING} or it is idle. A piece of equipment are powered or performing any activity.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5509,7 +5700,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:OperatorSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "OperatorSubClassType",
     "description": "The identifier of the person currently responsible for operating the piece of equipment. The identifier of the person currently responsible for operating the piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5531,7 +5723,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:OptionalStopSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "OptionalStopSubClassType",
     "description": "A setting or operator selection that changes the behavior of the controller on a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5553,7 +5746,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:OverrideSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "OverrideSubClassType",
     "description": "The operator's overridden value. DEPRECATED: The operators overridden value.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5575,7 +5769,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PoweredSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PoweredSubClassType",
     "description": "An indication that primary power is applied to the piece of equipment and, as a minimum, the controller or logic portion of the piece of equipment is powered and functioning or components that are required to remain on are powered. Primary power is applied to the piece of equipment and, as a minimum, the controller or logic portion of the piece of equipment is powered and functioning or components that are required to remain on are powered.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5597,7 +5792,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:PrimarySubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "PrimarySubClassType",
     "description": "Specific applications MAY reference one or more locations on a piece of bar stock as the indication for the mtmodel{END_OF_BAR}. The main or most important location MUST be designated as the mtmodel{PRIMARY} indication for the mtmodel{END_OF_BAR}. Specific applications MAY reference one or more locations on a piece of bar stock as the indication for the endofbar event. The main or most important location must be designated as the primary subtype indication for the endofbar event. If no subtype is specified, primary subtype must be the default endofbar event indication.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5619,7 +5815,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ProbeSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ProbeSubClassType",
     "description": "The position provided by a measurement probe. The position provided by a measurement probe.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5641,7 +5838,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ProcessSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ProcessSubClassType",
     "description": "The measurement of the time from the beginning of production of a part or product on a piece of equipment until the time that production is complete for that part or product on that piece of equipment. This includes the time that the piece of equipment is running, producing parts or products, or in the process of producing parts. The measurement of the time from the beginning of production of a part or product on a piece of equipment until the time that production is complete for that part or product on that piece of equipment. This includes the time that the piece of equipment is running, producing parts or products, or in the process of producing parts.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5663,7 +5861,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ProgrammedSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ProgrammedSubClassType",
     "description": "The value of a signal or calculation issued to adjust the feedrate of the axes associated with a mtmodel{Path} component when the axes, or a single axis, are operating as specified by a logic or motion program or set by a switch. The value of a signal or calculation specified by a logic or motion program or set by a switch.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5685,7 +5884,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:RadialSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "RadialSubClassType",
     "description": "A reference to a radial type tool offset variable. A reference to a radial type tool offset variable.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5707,7 +5907,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:RapidSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "RapidSubClassType",
     "description": "The value of a signal or calculation issued to adjust the feedrate of the axes associated with a mtmodel{Path} component when the axes, or a single axis, are being operated in a rapid positioning mode or method (rapid). The value of a signal or calculation issued to adjust the feedrate of a component or composition that is operating in a rapid positioning mode.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5729,7 +5930,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:RelativeSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "RelativeSubClassType",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2574",
@@ -5750,7 +5952,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:RemainingSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "RemainingSubClassType",
     "description": "The remaining amount of the type specified. Remaining measure of an object or an action.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5772,7 +5975,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:RequestSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "RequestSubClassType",
     "description": "mtmodel{Request} subtype identifies if the data item defined for MTConnect Interaction Model cite{MTCPart5} represents a request. A subtype of an interface dataitem type to communicate a request.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5794,7 +5998,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ResponseSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ResponseSubClassType",
     "description": "mtmodel{Response} subtype identifies if the data item defined for MTConnect Interaction Model cite{MTCPart5} represents a response. A subtype of an interface dataitem type to communicate a response.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5816,7 +6021,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:RockwellSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "RockwellSubClassType",
     "description": "A scale to measure the resistance to deformation of a surface. A scale to measure the resistance to deformation of a surface.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5838,7 +6044,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:RotarySubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "RotarySubClassType",
     "description": "The rotational direction of a rotary motion using the right hand rule convention. A rotary axis represents any non-linear or rotary movement of a physical piece of equipment or a portion of the equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5860,7 +6067,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:SetUpSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "SetUpSubClassType",
     "description": "The identifier of the person currently responsible for operating the piece of equipment. A structural element is being prepared or modified to begin production of product.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5882,7 +6090,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ShoreSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ShoreSubClassType",
     "description": "A scale to measure the resistance to deformation of a surface. A scale to measure the resistance to deformation of a surface.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5904,7 +6113,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:StandardSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "StandardSubClassType",
     "description": "The standard or original value of an object. The standard or original length of an object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5926,7 +6136,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:SwitchedSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "SwitchedSubClassType",
     "description": "An indication of the activation state of a mechanism represented by a mtmodel{Composition} type component. The activation state indicates whether the mtmodel{Composition} element is activated or not. An indication of the activation state of a mechanism represented by a composition type component. The activation state indicates whether the composition element is activated or not. The valid data value must be on value or off value.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5948,7 +6159,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:TargetSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "TargetSubClassType",
     "description": "Indicates the number of parts that are projected or planned to be produced. The desired measure or count for a data item value.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5970,7 +6182,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ToolChangeStopSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ToolChangeStopSubClassType",
     "description": "A setting or operator selection that changes the behavior of the controller on a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -5992,7 +6205,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ToolEdgeSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ToolEdgeSubClassType",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2598",
@@ -6013,7 +6227,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ToolGroupSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ToolGroupSubClassType",
     "description": "The tool group a specific tool is assigned to in the part program. An identifier for the tool group associated with a specific tool. Commonly used to designate spare tools.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -6035,7 +6250,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:ToolSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ToolSubClassType",
     "description": "coordinate system referenced to the tool or to the end effector attached to the mechanical interface. Ref:ISO 9787:2013",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -6057,7 +6273,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:UasbleSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "UasbleSubClassType",
     "description": "The remaining useable value of an object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -6079,7 +6296,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:VerticalSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "VerticalSubClassType",
     "description": "An indication of the position of a mechanism that may move in a vertical direction. An indication of the position of a mechanism that may move in a vertical direction. The mechanism is represented by a composition type component. The position information indicates whether the composition element is positioned to the top, to the bottom, or is in transition. The valid data value must be up value, down value, or transitioning value.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -6101,7 +6319,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:VickersSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "VickersSubClassType",
     "description": "A scale to measure the resistance to deformation of a surface. A scale to measure the resistance to deformation of a surface.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -6123,7 +6342,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:VolumeSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "VolumeSubClassType",
     "description": "A measurement of space accupied by a physical object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -6145,7 +6365,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:WeightSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "WeightSubClassType",
     "description": "A physical object's relative mass. The total weight of the Cutting Tool in grams. The force exerted by the mass of the Cutting Tool.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -6167,7 +6388,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:WorkingSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "WorkingSubClassType",
     "description": "An indication that a piece of equipment is performing any activity. A piece of equipment performing any activity, the equipment is active and performing a function under load or not.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
@@ -6189,7 +6411,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MTConnect_v2:WorkpieceSubClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "WorkpieceSubClassType",
     "description": "A physical object being or to be worked on with a tool or machine. An object or material on which a form of work is performed.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",

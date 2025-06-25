@@ -79,7 +79,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GMS:MultiSensorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/GMS",
     "displayName": "MultiSensorType",
     "extends": "dtmi:opcua:MachineTool:MultiToolType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1012",
@@ -142,7 +143,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GMS:SensorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/GMS",
     "displayName": "SensorType",
     "extends": "dtmi:opcua:MachineTool:ToolType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1007",
@@ -408,7 +410,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GMS:CorrectionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/GMS",
     "displayName": "CorrectionType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1005",
@@ -561,7 +564,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GMS:GMSEquipmentType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/GMS",
     "displayName": "GMSEquipmentType",
     "extends": "dtmi:opcua:MachineTool:EquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1003",
@@ -598,7 +602,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GMS:GMSIdentificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/GMS",
     "displayName": "GMSIdentificationType",
     "extends": "dtmi:opcua:MachineTool:MachineToolIdentificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1011",
@@ -637,7 +642,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GMS:GMSType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/GMS",
     "displayName": "GMSType",
     "extends": "dtmi:opcua:MachineTool:MachineToolType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1002",
@@ -666,7 +672,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GMS:GMSMonitoringType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/GMS",
     "displayName": "GMSMonitoringType",
     "extends": "dtmi:opcua:MachineTool:MonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1004",
@@ -703,7 +710,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GMS:GMSJobType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/GMS",
     "displayName": "GMSJobType",
     "extends": "dtmi:opcua:MachineTool:ProductionJobType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1016",
@@ -791,7 +799,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GMS:GMSPartType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/GMS",
     "displayName": "GMSPartType",
     "extends": "dtmi:opcua:MachineTool:ProductionPartType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1017",
@@ -876,7 +885,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GMS:CalibrationPrognosisType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/GMS",
     "displayName": "CalibrationPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1019",
@@ -971,7 +981,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GMS:RotaryTableType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/GMS",
     "displayName": "RotaryTableType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1018",
@@ -1010,7 +1021,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GMS:SensorExchangeRackType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/GMS",
     "displayName": "SensorExchangeRackType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1015",
@@ -1041,7 +1053,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:GMS:TipExchangeRackType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/GMS",
     "displayName": "TipExchangeRackType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS;i=1022",

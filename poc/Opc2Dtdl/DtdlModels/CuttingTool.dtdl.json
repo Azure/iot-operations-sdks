@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CuttingTool:CuttingToolFileType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CuttingTool",
     "displayName": "CuttingToolFileType",
     "extends": "dtmi:opcua:OpcUaCore:FileType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool;i=1003",
@@ -64,7 +65,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CuttingTool:ToolMeasuringMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CuttingTool",
     "displayName": "ToolMeasuringMachineType",
     "extends": "dtmi:opcua:GMS:GMSType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool;i=1021",
@@ -85,7 +87,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CuttingTool:ToolManufacturingMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CuttingTool",
     "displayName": "ToolManufacturingMachineType",
     "extends": "dtmi:opcua:MachineTool:MachineToolType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool;i=1025",

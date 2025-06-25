@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IA:AcousticSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IA",
     "displayName": "AcousticSignalType",
     "description": "Represents an acoustic signal.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -73,7 +74,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IA:DynamicCalibrationTargetCategoryType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IA",
     "displayName": "DynamicCalibrationTargetCategoryType",
     "description": "Characterizes a calibration target to be used together with a measurement instrument, that determines the values to be calibrated. It can be a piece created during the normal production process or an item specifically created for calibration purposes. The calibration target represents an individual piece or item, that is, if a new piece should be used or item is created, a new Object of this ObjectType is created.",
     "extends": "dtmi:opcua:IA:BaseCalibrationTargetCategoryType;1",
@@ -95,7 +97,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IA:OneTimeCalibrationTargetCategoryType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IA",
     "displayName": "OneTimeCalibrationTargetCategoryType",
     "description": "Categorizes a calibration target to be used only once, for example because the calibration destroys the target. Typically, Objects of this ObjectType do not represent one individual calibration target, but a batch of calibration targets with the same characteristics.",
     "extends": "dtmi:opcua:IA:BaseCalibrationTargetCategoryType;1",
@@ -117,7 +120,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IA:ReusableCalibrationTargetCategoryType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IA",
     "displayName": "ReusableCalibrationTargetCategoryType",
     "description": "Categorizes a calibration target to be reused several times. For example, a calibration target like a meter, that is bought specifically for calibration and not destroyed by an individual usage is of this category.",
     "extends": "dtmi:opcua:IA:BaseCalibrationTargetCategoryType;1",
@@ -139,7 +143,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IA:ReusableDeviceCalibrationTargetCategoryType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IA",
     "displayName": "ReusableDeviceCalibrationTargetCategoryType",
     "description": "Categorizes a calibration target to be a reusable device that produces a certain environment like pressure that can be used for calibration.",
     "extends": "dtmi:opcua:IA:ReusableCalibrationTargetCategoryType;1",
@@ -276,7 +281,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IA:CalibrationTargetType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IA",
     "displayName": "CalibrationTargetType",
     "description": "Provides information about a calibration target.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -574,7 +580,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IA:StacklightType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IA",
     "displayName": "StacklightType",
     "description": "Entry point to a stacklight with the possibility to show the stacklight’s health status.",
     "extends": "dtmi:opcua:IA:BasicStacklightType;1",
@@ -695,7 +702,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IA:StackElementAcousticType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IA",
     "displayName": "StackElementAcousticType",
     "description": "Represents an acoustic element in a stacklight.",
     "extends": "dtmi:opcua:IA:StackElementType;1",
@@ -743,7 +751,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IA:StackElementLightType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IA",
     "displayName": "StackElementLightType",
     "description": "Represents a lamp element in a stacklight.",
     "extends": "dtmi:opcua:IA:StackElementType;1",

@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LaserSystems:ActivityDataMonitoringType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LaserSystems",
     "displayName": "ActivityDataMonitoringType",
     "extends": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1008",
@@ -70,7 +71,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LaserSystems:ConditionDataMonitoringType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LaserSystems",
     "displayName": "ConditionDataMonitoringType",
     "extends": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1006",
@@ -143,7 +145,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LaserSystems:ConsumptionDataMonitoringType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LaserSystems",
     "displayName": "ConsumptionDataMonitoringType",
     "extends": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1004",
@@ -188,7 +191,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LaserSystems:LaserSystemOperationCounterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LaserSystems",
     "displayName": "LaserSystemOperationCounterType",
     "extends": "dtmi:opcua:Machinery:MachineryOperationCounterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1010",
@@ -336,7 +340,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LaserSystems:LaserSystemType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LaserSystems",
     "displayName": "LaserSystemType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1005",
@@ -389,7 +394,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LaserSystems:LaserSystemMaintenancePrognosisType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LaserSystems",
     "displayName": "LaserSystemMaintenancePrognosisType",
     "extends": "dtmi:opcua:MachineTool:MaintenancePrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1013",
@@ -427,7 +433,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LaserSystems:LaserSystemUtilityChangePrognosisType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LaserSystems",
     "displayName": "LaserSystemUtilityChangePrognosisType",
     "extends": "dtmi:opcua:MachineTool:UtilityChangePrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1014",
@@ -465,7 +472,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LaserSystems:RecipeSettingsAndOverviewType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LaserSystems",
     "displayName": "RecipeSettingsAndOverviewType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1007",

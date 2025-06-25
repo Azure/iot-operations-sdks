@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Mining_TransportDumping_RearDumpTruck:RearDumpTruckType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Mining.TransportDumping.RearDumpTruck",
     "displayName": "RearDumpTruckType",
     "extends": "dtmi:opcua:Mining_General:MiningEquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.TransportDumping.RearDumpTruck;i=1002",

@@ -1488,7 +1488,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   BACnet_V2:BACnetEventAlgorithmType:
-  - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+  - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
   - DisplayName: "BACnetEventAlgorithmType"
   - HasProperty:
     - [ UAVariable, BACnet_V2:6415, BACnet_V2:TimeDelay, UInt32, 0, 3 ]
@@ -1498,7 +1498,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+      - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6416, BACnet_V2:TimeDelayNormal, UInt32, 0, 3 ]
     - DisplayName: "TimeDelayNormal"
@@ -1507,7 +1507,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+      - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
@@ -1515,7 +1515,7 @@ DefinedTypes:
   - [ UAObjectType, BACnet_V2:101005, BACnet_V2:BACnetBufferReadyAlgorithmType ]
   - DisplayName: "BACnetBufferReadyAlgorithmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:106051, BACnet_V2:PreviousCount, UInt32, 0, 3 ]
     - DisplayName: "PreviousCount"
@@ -1548,7 +1548,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, BACnet_V2:101003, BACnet_V2:BACnetChangeOfBitStringAlgorithmType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
 
   BACnet_V2:BACnetChangeOfCharacterStringAlgorithmType:
   - [ UAObjectType, BACnet_V2:101034, BACnet_V2:BACnetChangeOfCharacterStringAlgorithmType ]
@@ -1563,7 +1563,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, BACnet_V2:101034, BACnet_V2:BACnetChangeOfCharacterStringAlgorithmType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
 
   BACnet_V2:BACnetChangeOfLifeSafetyAlgorithmType:
   - [ UAObjectType, BACnet_V2:101028, BACnet_V2:BACnetChangeOfLifeSafetyAlgorithmType ]
@@ -1578,7 +1578,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, BACnet_V2:101028, BACnet_V2:BACnetChangeOfLifeSafetyAlgorithmType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
   - HasComponent:
     - [ UAVariable, BACnet_V2:106312, BACnet_V2:LifeSafetyAlarmValues, BACnet_V2:BACnetLifeSafetyState, 1, 3 ]
     - DisplayName: "LifeSafetyAlarmValues"
@@ -1602,13 +1602,13 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, BACnet_V2:1010, BACnet_V2:BACnetChangeOfStateAlgorithmType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
 
   BACnet_V2:BACnetChangeOfStatusFlagsAlgorithmType:
   - [ UAObjectType, BACnet_V2:101030, BACnet_V2:BACnetChangeOfStatusFlagsAlgorithmType ]
   - DisplayName: "BACnetChangeOfStatusFlagsAlgorithmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6364, BACnet_V2:SelectedFlags, BACnet_V2:BACnetStatusFlags, 0, 3 ]
     - DisplayName: "SelectedFlags"
@@ -1623,7 +1623,7 @@ DefinedTypes:
   - [ UAObjectType, BACnet_V2:101004, BACnet_V2:BACnetChangeOfValueAlgorithmType ]
   - DisplayName: "BACnetChangeOfValueAlgorithmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:106049, BACnet_V2:Bitmask, OptionSet, 0, 3 ]
     - DisplayName: "Bitmask"
@@ -1647,7 +1647,7 @@ DefinedTypes:
   - [ UAObjectType, BACnet_V2:1029, BACnet_V2:BACnetCommandFailureAlgorithmType ]
   - DisplayName: "BACnetCommandFailureAlgorithmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6017, BACnet_V2:FeedbackValueRef, BACnet_V2:BACnetDeviceObjectPropertyReference, 0, 3 ]
     - DisplayName: "FeedbackValueRef"
@@ -1662,7 +1662,7 @@ DefinedTypes:
   - [ UAObjectType, BACnet_V2:101031, BACnet_V2:BACnetDoubleOutOfRangeAlgorithmType ]
   - DisplayName: "BACnetDoubleOutOfRangeAlgorithmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6022, BACnet_V2:Deadband, Double, 0, 3 ]
     - DisplayName: "Deadband"
@@ -1704,7 +1704,7 @@ DefinedTypes:
   - [ UAObjectType, BACnet_V2:101002, BACnet_V2:BACnetFloatingLimitAlgorithmType ]
   - DisplayName: "BACnetFloatingLimitAlgorithmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:106326, BACnet_V2:Deadband, Float, 0, 3 ]
     - DisplayName: "Deadband"
@@ -1782,13 +1782,13 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, BACnet_V2:1009, BACnet_V2:BACnetOutOfRangeAlgorithmType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
 
   BACnet_V2:BACnetSignedOutOfRangeAlgorithmType:
   - [ UAObjectType, BACnet_V2:101032, BACnet_V2:BACnetSignedOutOfRangeAlgorithmType ]
   - DisplayName: "BACnetSignedOutOfRangeAlgorithmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6365, BACnet_V2:Deadband, Integer, 0, 3 ]
     - DisplayName: "Deadband"
@@ -1830,7 +1830,7 @@ DefinedTypes:
   - [ UAObjectType, BACnet_V2:101033, BACnet_V2:BACnetUnsignedOutOfRangeAlgorithmType ]
   - DisplayName: "BACnetUnsignedOutOfRangeAlgorithmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6369, BACnet_V2:Deadband, UInteger, 0, 3 ]
     - DisplayName: "Deadband"
@@ -1872,7 +1872,7 @@ DefinedTypes:
   - [ UAObjectType, BACnet_V2:101029, BACnet_V2:BACnetUnsignedRangeAlgorithmType ]
   - DisplayName: "BACnetUnsignedRangeAlgorithmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+    - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6362, BACnet_V2:HighLimit, UInteger, 0, 3 ]
     - DisplayName: "HighLimit"
@@ -1982,7 +1982,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType ]
+      - [ UAObjectType, BACnet_V2:1026, BACnet_V2:BACnetEventAlgorithmType, Abstract ]
     - HasComponent_reverse:
       - [ UAObjectType, BACnet_V2:1003, BACnet_V2:BACnetEventReportingType ]
     - HasProperty:
@@ -2040,7 +2040,7 @@ DefinedTypes:
       - [ UAObjectType, BACnet_V2:101016, BACnet_V2:BACnetIntrinsicReportingTrendLogType ]
 
   BACnet_V2:BACnetFaultAlgorithmType:
-  - [ UAObjectType, BACnet_V2:101025, BACnet_V2:BACnetFaultAlgorithmType ]
+  - [ UAObjectType, BACnet_V2:101025, BACnet_V2:BACnetFaultAlgorithmType, Abstract ]
   - DisplayName: "BACnetFaultAlgorithmType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
@@ -2058,7 +2058,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, BACnet_V2:101009, BACnet_V2:BACnetFaultCharacterStringAlgorithmType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:101025, BACnet_V2:BACnetFaultAlgorithmType ]
+    - [ UAObjectType, BACnet_V2:101025, BACnet_V2:BACnetFaultAlgorithmType, Abstract ]
 
   BACnet_V2:BACnetFaultStateAlgorithmType:
   - [ UAObjectType, BACnet_V2:101011, BACnet_V2:BACnetFaultStateAlgorithmType ]
@@ -2073,13 +2073,13 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, BACnet_V2:101011, BACnet_V2:BACnetFaultStateAlgorithmType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:101025, BACnet_V2:BACnetFaultAlgorithmType ]
+    - [ UAObjectType, BACnet_V2:101025, BACnet_V2:BACnetFaultAlgorithmType, Abstract ]
 
   BACnet_V2:BACnetFaultStatusFlagsAlgorithmType:
   - [ UAObjectType, BACnet_V2:101012, BACnet_V2:BACnetFaultStatusFlagsAlgorithmType ]
   - DisplayName: "BACnetFaultStatusFlagsAlgorithmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:101025, BACnet_V2:BACnetFaultAlgorithmType ]
+    - [ UAObjectType, BACnet_V2:101025, BACnet_V2:BACnetFaultAlgorithmType, Abstract ]
 
   BACnet_V2:BACnetFaultEvaluationType:
   - [ UAObjectType, BACnet_V2:1025, BACnet_V2:BACnetFaultEvaluationType ]
@@ -2090,7 +2090,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, BACnet_V2:101025, BACnet_V2:BACnetFaultAlgorithmType ]
+      - [ UAObjectType, BACnet_V2:101025, BACnet_V2:BACnetFaultAlgorithmType, Abstract ]
     - HasComponent_reverse:
       - [ UAObjectType, BACnet_V2:1025, BACnet_V2:BACnetFaultEvaluationType ]
     - HasProperty:
@@ -2229,7 +2229,7 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 11508, OptionalPlaceholder ]
         - HasTypeDefinition:
-          - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+          - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
         - HasProperty:
           - [ UAVariable, BACnet_V2:6232, BACnet_V2:Object_Identifier, BACnet_V2:BACnetObjectIdentifier, 0, 3 ]
           - DisplayName: "Object_Identifier"
@@ -2534,7 +2534,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   BACnet_V2:BACnetObjectType:
-  - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+  - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
   - DisplayName: "BACnetObjectType"
   - HasProperty:
     - [ UAVariable, BACnet_V2:6072, BACnet_V2:Object_Identifier, BACnet_V2:BACnetObjectIdentifier, 0, 3 ]
@@ -2544,7 +2544,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+      - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6069, BACnet_V2:Profile_Name, String, 0, 3 ]
     - DisplayName: "Profile_Name"
@@ -2553,15 +2553,15 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+      - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   BACnet_V2:BACnetAnalogType:
-  - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType ]
+  - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType, Abstract ]
   - DisplayName: "BACnetAnalogType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6068, BACnet_V2:COV_Increment, Float, 0, 3 ]
     - DisplayName: "COV_Increment"
@@ -2570,7 +2570,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType ]
+      - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType, Abstract ]
   - HasComponent:
     - [ UAObject, BACnet_V2:5001, BACnet_V2:EventReporting ]
     - DisplayName: "EventReporting"
@@ -2723,7 +2723,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAObject, BACnet_V2:105068, BACnet_V2:EventAlgorithm ]
     - HasComponent_reverse:
-      - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType ]
+      - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType, Abstract ]
     - HasProperty:
       - [ UAVariable, BACnet_V2:6010, BACnet_V2:Notification_Class, UInt32, 0, 3 ]
       - DisplayName: "Notification_Class"
@@ -2755,7 +2755,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAObjectType, BACnet_V2:101025, BACnet_V2:BACnetFaultAlgorithmType ]
+        - [ UAObjectType, BACnet_V2:101025, BACnet_V2:BACnetFaultAlgorithmType, Abstract ]
       - HasProperty:
         - [ UAVariable, BACnet_V2:6379, BACnet_V2:Object_Identifier, BACnet_V2:BACnetObjectIdentifier, 0, 3 ]
         - DisplayName: "Object_Identifier"
@@ -2768,7 +2768,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, BACnet_V2:105097, BACnet_V2:FaultEvaluation ]
     - HasComponent_reverse:
-      - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType ]
+      - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType, Abstract ]
     - HasProperty:
       - [ UAVariable, BACnet_V2:6380, BACnet_V2:Reliability, BACnet_V2:BACnetReliability, 0, 3 ]
       - DisplayName: "Reliability"
@@ -2786,7 +2786,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType ]
+      - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType, Abstract ]
   - HasComponent:
     - [ UAVariable, BACnet_V2:6002, BACnet_V2:Present_Value, Float, 0, 3 ]
     - DisplayName: "Present_Value"
@@ -2804,7 +2804,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, BACnet_V2:6002, BACnet_V2:Present_Value, Float, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType ]
+      - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6409, BACnet_V2:Resolution, Float, 0, 3 ]
     - DisplayName: "Resolution"
@@ -2813,7 +2813,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType ]
+      - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6024, BACnet_V2:Status_Flags, BACnet_V2:BACnetStatusFlags, 0, 3 ]
     - DisplayName: "Status_Flags"
@@ -2822,13 +2822,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType ]
+      - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType, Abstract ]
 
   BACnet_V2:BACnetAnalogInputType:
   - [ UAObjectType, BACnet_V2:1005, BACnet_V2:BACnetAnalogInputType ]
   - DisplayName: "BACnetAnalogInputType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType ]
+    - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6037, BACnet_V2:Device_Type, String, 0, 3 ]
     - DisplayName: "Device_Type"
@@ -2843,7 +2843,7 @@ DefinedTypes:
   - [ UAObjectType, BACnet_V2:1006, BACnet_V2:BACnetAnalogOutputType ]
   - DisplayName: "BACnetAnalogOutputType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType ]
+    - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6045, BACnet_V2:Device_Type, String, 0, 3 ]
     - DisplayName: "Device_Type"
@@ -2876,7 +2876,7 @@ DefinedTypes:
   - [ UAObjectType, BACnet_V2:1007, BACnet_V2:BACnetAnalogValueType ]
   - DisplayName: "BACnetAnalogValueType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType ]
+    - [ UAObjectType, BACnet_V2:1004, BACnet_V2:BACnetAnalogType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6071, BACnet_V2:Priority_Array, BACnet_V2:BACnetPriorityValue, 1, 3 ]
     - DisplayName: "Priority_Array"
@@ -2897,10 +2897,10 @@ DefinedTypes:
       - [ UAObjectType, BACnet_V2:1007, BACnet_V2:BACnetAnalogValueType ]
 
   BACnet_V2:BACnetBinaryType:
-  - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType ]
+  - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType, Abstract ]
   - DisplayName: "BACnetBinaryType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
   - HasComponent:
     - [ UAObject, BACnet_V2:5007, BACnet_V2:ChangeOfState ]
     - DisplayName: "ChangeOfState"
@@ -2927,7 +2927,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, BACnet_V2:5007, BACnet_V2:ChangeOfState ]
     - HasComponent_reverse:
-      - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType ]
+      - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType, Abstract ]
     - HasComponent:
       - [ UAMethod, BACnet_V2:7002, BACnet_V2:Reset ]
       - DisplayName: "Reset"
@@ -2961,7 +2961,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, BACnet_V2:5008, BACnet_V2:ElapsedActiveTime ]
     - HasComponent_reverse:
-      - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType ]
+      - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType, Abstract ]
     - HasComponent:
       - [ UAMethod, BACnet_V2:7004, BACnet_V2:Reset ]
       - DisplayName: "Reset"
@@ -3022,7 +3022,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, BACnet_V2:105092, BACnet_V2:EventReporting ]
     - HasComponent_reverse:
-      - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType ]
+      - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType, Abstract ]
     - HasProperty:
       - [ UAVariable, BACnet_V2:106268, BACnet_V2:Notification_Class, UInt32, 0, 3 ]
       - DisplayName: "Notification_Class"
@@ -3049,7 +3049,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, BACnet_V2:1025, BACnet_V2:BACnetFaultEvaluationType ]
     - HasComponent_reverse:
-      - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType ]
+      - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType, Abstract ]
     - HasProperty:
       - [ UAVariable, BACnet_V2:6381, BACnet_V2:Reliability, BACnet_V2:BACnetReliability, 0, 3 ]
       - DisplayName: "Reliability"
@@ -3067,7 +3067,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType ]
+      - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType, Abstract ]
   - HasComponent:
     - [ UAVariable, BACnet_V2:6019, BACnet_V2:Present_Value, Boolean, 0, 3 ]
     - DisplayName: "Present_Value"
@@ -3085,7 +3085,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, BACnet_V2:6019, BACnet_V2:Present_Value, Boolean, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType ]
+      - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType, Abstract ]
     - HasProperty:
       - [ UAVariable, BACnet_V2:6021, BACnet_V2:TrueState, LocalizedText, 0, 0 ]
       - DisplayName: "TrueState"
@@ -3103,13 +3103,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType ]
+      - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType, Abstract ]
 
   BACnet_V2:BACnetBinaryInputType:
   - [ UAObjectType, BACnet_V2:1013, BACnet_V2:BACnetBinaryInputType ]
   - DisplayName: "BACnetBinaryInputType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType ]
+    - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6032, BACnet_V2:Device_Type, String, 0, 3 ]
     - DisplayName: "Device_Type"
@@ -3232,7 +3232,7 @@ DefinedTypes:
   - [ UAObjectType, BACnet_V2:1014, BACnet_V2:BACnetBinaryOutputType ]
   - DisplayName: "BACnetBinaryOutputType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType ]
+    - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6033, BACnet_V2:Device_Type, String, 0, 3 ]
     - DisplayName: "Device_Type"
@@ -3400,7 +3400,7 @@ DefinedTypes:
   - [ UAObjectType, BACnet_V2:1015, BACnet_V2:BACnetBinaryValueType ]
   - DisplayName: "BACnetBinaryValueType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType ]
+    - [ UAObjectType, BACnet_V2:1012, BACnet_V2:BACnetBinaryType, Abstract ]
   - HasComponent:
     - [ UAObject, BACnet_V2:5074, BACnet_V2:EventReporting ]
     - DisplayName: "EventReporting"
@@ -3570,7 +3570,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAMethod, BACnet_V2:7005, BACnet_V2:AddDateListElements ]
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6076, BACnet_V2:Date_List, BACnet_V2:BACnetCalendarEntry, 1, 3 ]
     - DisplayName: "Date_List"
@@ -3628,7 +3628,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, BACnet_V2:1048, BACnet_V2:BACnetNotifierType ]
+      - [ UAObjectType, BACnet_V2:1048, BACnet_V2:BACnetNotifierType, Abstract ]
     - HasNotifier_reverse:
       - [ UAObjectType, BACnet_V2:1011, BACnet_V2:BACnetDeviceType ]
     - HasProperty:
@@ -3801,9 +3801,9 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, BACnet_V2:105086, BACnet_V2:BackupRestore ]
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
   - GeneratesEvent:
-    - [ UAObjectType, BACnet_V2:1001, BACnet_V2:BACnetNotificationType ]
+    - [ UAObjectType, BACnet_V2:1001, BACnet_V2:BACnetNotificationType, Abstract ]
   - HasComponent:
     - [ UAMethod, BACnet_V2:7013, BACnet_V2:CreateObject ]
     - DisplayName: "CreateObject"
@@ -4104,7 +4104,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 11508, OptionalPlaceholder ]
       - HasTypeDefinition:
-        - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+        - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
       - HasProperty:
         - [ UAVariable, BACnet_V2:6231, BACnet_V2:Object_Identifier, BACnet_V2:BACnetObjectIdentifier, 0, 3 ]
         - DisplayName: "Object_Identifier"
@@ -4242,7 +4242,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 11508, OptionalPlaceholder ]
       - HasTypeDefinition:
-        - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType ]
+        - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType, Abstract ]
       - HasProperty:
         - [ UAVariable, BACnet_V2:6079, BACnet_V2:Node_Type, BACnet_V2:BACnetNodeType, 0, 3 ]
         - DisplayName: "Node_Type"
@@ -4400,7 +4400,7 @@ DefinedTypes:
   - [ UAObjectType, BACnet_V2:101006, BACnet_V2:BACnetEventEnrollmentType ]
   - DisplayName: "BACnetEventEnrollmentType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:106062, BACnet_V2:Event_State, BACnet_V2:BACnetEventState, 0, 3 ]
     - DisplayName: "Event_State"
@@ -4565,10 +4565,10 @@ DefinedTypes:
       - [ UAObjectType, BACnet_V2:101006, BACnet_V2:BACnetEventEnrollmentType ]
 
   BACnet_V2:BACnetLogType:
-  - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType ]
+  - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType, Abstract ]
   - DisplayName: "BACnetLogType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:106211, BACnet_V2:Buffer_Size, UInt32, 0, 0 ]
     - DisplayName: "Buffer_Size"
@@ -4577,7 +4577,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType ]
+      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:106206, BACnet_V2:Enable, Boolean, 0, 3 ]
     - DisplayName: "Enable"
@@ -4586,7 +4586,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType ]
+      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType, Abstract ]
   - HasComponent:
     - [ UAObject, BACnet_V2:105076, BACnet_V2:EventReporting ]
     - DisplayName: "EventReporting"
@@ -4694,7 +4694,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAObject, BACnet_V2:105077, BACnet_V2:EventAlgorithm ]
     - HasComponent_reverse:
-      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType ]
+      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType, Abstract ]
     - HasProperty:
       - [ UAVariable, BACnet_V2:106225, BACnet_V2:Notification_Class, UInt32, 0, 3 ]
       - DisplayName: "Notification_Class"
@@ -4721,7 +4721,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, BACnet_V2:1025, BACnet_V2:BACnetFaultEvaluationType ]
     - HasComponent_reverse:
-      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType ]
+      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType, Abstract ]
     - HasProperty:
       - [ UAVariable, BACnet_V2:6378, BACnet_V2:Reliability, BACnet_V2:BACnetReliability, 0, 3 ]
       - DisplayName: "Reliability"
@@ -4739,7 +4739,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType ]
+      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:106284, BACnet_V2:Records_Since_Notification, UInt32, 0, 3 ]
     - DisplayName: "Records_Since_Notification"
@@ -4748,7 +4748,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType ]
+      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:106208, BACnet_V2:Start_Time, BACnet_V2:BACnetDateTime, 0, 3 ]
     - DisplayName: "Start_Time"
@@ -4757,7 +4757,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType ]
+      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6333, BACnet_V2:Status_Flags, BACnet_V2:BACnetStatusFlags, 0, 3 ]
     - DisplayName: "Status_Flags"
@@ -4766,7 +4766,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType ]
+      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:106209, BACnet_V2:Stop_Time, BACnet_V2:BACnetDateTime, 0, 3 ]
     - DisplayName: "Stop_Time"
@@ -4775,7 +4775,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType ]
+      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:106210, BACnet_V2:Stop_When_Full, Boolean, 0, 0 ]
     - DisplayName: "Stop_When_Full"
@@ -4784,7 +4784,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType ]
+      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:106214, BACnet_V2:Total_Record_Count, UInt32, 0, 0 ]
     - DisplayName: "Total_Record_Count"
@@ -4793,16 +4793,16 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType ]
+      - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType, Abstract ]
 
   BACnet_V2:BACnetEventLogType:
   - [ UAObjectType, BACnet_V2:101018, BACnet_V2:BACnetEventLogType ]
   - DisplayName: "BACnetEventLogType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType ]
+    - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType, Abstract ]
 
   BACnet_V2:BACnetTrendLogBaseType:
-  - [ UAObjectType, BACnet_V2:101026, BACnet_V2:BACnetTrendLogBaseType ]
+  - [ UAObjectType, BACnet_V2:101026, BACnet_V2:BACnetTrendLogBaseType, Abstract ]
   - DisplayName: "BACnetTrendLogBaseType"
   - HasProperty:
     - [ UAVariable, BACnet_V2:6334, BACnet_V2:Align_Intervals, Boolean, 0, 3 ]
@@ -4812,9 +4812,9 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:101026, BACnet_V2:BACnetTrendLogBaseType ]
+      - [ UAObjectType, BACnet_V2:101026, BACnet_V2:BACnetTrendLogBaseType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType ]
+    - [ UAObjectType, BACnet_V2:101014, BACnet_V2:BACnetLogType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6335, BACnet_V2:Interval_Offset, UInteger, 0, 3 ]
     - DisplayName: "Interval_Offset"
@@ -4823,7 +4823,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:101026, BACnet_V2:BACnetTrendLogBaseType ]
+      - [ UAObjectType, BACnet_V2:101026, BACnet_V2:BACnetTrendLogBaseType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6336, BACnet_V2:Log_Interval, UInteger, 0, 3 ]
     - DisplayName: "Log_Interval"
@@ -4832,7 +4832,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:101026, BACnet_V2:BACnetTrendLogBaseType ]
+      - [ UAObjectType, BACnet_V2:101026, BACnet_V2:BACnetTrendLogBaseType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6337, BACnet_V2:Logging_Type, BACnet_V2:BACnetLoggingType, 0, 3 ]
     - DisplayName: "Logging_Type"
@@ -4841,7 +4841,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:101026, BACnet_V2:BACnetTrendLogBaseType ]
+      - [ UAObjectType, BACnet_V2:101026, BACnet_V2:BACnetTrendLogBaseType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6338, BACnet_V2:Trigger, Boolean, 0, 3 ]
     - DisplayName: "Trigger"
@@ -4850,13 +4850,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:101026, BACnet_V2:BACnetTrendLogBaseType ]
+      - [ UAObjectType, BACnet_V2:101026, BACnet_V2:BACnetTrendLogBaseType, Abstract ]
 
   BACnet_V2:BACnetTrendLogMultipleType:
   - [ UAObjectType, BACnet_V2:101027, BACnet_V2:BACnetTrendLogMultipleType ]
   - DisplayName: "BACnetTrendLogMultipleType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:101026, BACnet_V2:BACnetTrendLogBaseType ]
+    - [ UAObjectType, BACnet_V2:101026, BACnet_V2:BACnetTrendLogBaseType, Abstract ]
   - HasComponent:
     - [ UAVariable, BACnet_V2:106291, BACnet_V2:Log_Buffer ]
     - DisplayName: "Log_Buffer"
@@ -4916,7 +4916,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, BACnet_V2:101017, BACnet_V2:BACnetTrendLogType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:101026, BACnet_V2:BACnetTrendLogBaseType ]
+    - [ UAObjectType, BACnet_V2:101026, BACnet_V2:BACnetTrendLogBaseType, Abstract ]
 
   BACnet_V2:BACnetClockAlignedTrendLogType:
   - [ UAObjectType, BACnet_V2:101015, BACnet_V2:BACnetClockAlignedTrendLogType ]
@@ -4964,7 +4964,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, BACnet_V2:101001, BACnet_V2:BACnetLoopType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
   - HasComponent:
     - [ UAVariable, BACnet_V2:6386, BACnet_V2:Bias, Float, 0, 3 ]
     - DisplayName: "Bias"
@@ -5300,10 +5300,10 @@ DefinedTypes:
       - [ UAObjectType, BACnet_V2:101001, BACnet_V2:BACnetLoopType ]
 
   BACnet_V2:BACnetMultiStateType:
-  - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType ]
+  - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType, Abstract ]
   - DisplayName: "BACnetMultiStateType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
   - HasComponent:
     - [ UAObject, BACnet_V2:5009, BACnet_V2:EventReporting ]
     - DisplayName: "EventReporting"
@@ -5348,7 +5348,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, BACnet_V2:5009, BACnet_V2:EventReporting ]
     - HasComponent_reverse:
-      - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType ]
+      - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType, Abstract ]
     - HasProperty:
       - [ UAVariable, BACnet_V2:6119, BACnet_V2:Notification_Class, UInt32, 0, 3 ]
       - DisplayName: "Notification_Class"
@@ -5375,7 +5375,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, BACnet_V2:1025, BACnet_V2:BACnetFaultEvaluationType ]
     - HasComponent_reverse:
-      - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType ]
+      - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType, Abstract ]
     - HasProperty:
       - [ UAVariable, BACnet_V2:6374, BACnet_V2:Reliability, BACnet_V2:BACnetReliability, 0, 3 ]
       - DisplayName: "Reliability"
@@ -5393,7 +5393,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType ]
+      - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType, Abstract ]
   - HasComponent:
     - [ UAVariable, BACnet_V2:6106, BACnet_V2:Present_Value, UInteger, 0, 3 ]
     - DisplayName: "Present_Value"
@@ -5409,7 +5409,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, BACnet_V2:6106, BACnet_V2:Present_Value, UInteger, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType ]
+      - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6135, BACnet_V2:Status_Flags, BACnet_V2:BACnetStatusFlags, 0, 3 ]
     - DisplayName: "Status_Flags"
@@ -5418,13 +5418,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType ]
+      - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType, Abstract ]
 
   BACnet_V2:BACnetMultiStateInputType:
   - [ UAObjectType, BACnet_V2:1019, BACnet_V2:BACnetMultiStateInputType ]
   - DisplayName: "BACnetMultiStateInputType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType ]
+    - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6122, BACnet_V2:Device_Type, String, 0, 3 ]
     - DisplayName: "Device_Type"
@@ -5574,7 +5574,7 @@ DefinedTypes:
   - [ UAObjectType, BACnet_V2:1020, BACnet_V2:BACnetMultiStateOutputType ]
   - DisplayName: "BACnetMultiStateOutputType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType ]
+    - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6123, BACnet_V2:Device_Type, String, 0, 3 ]
     - DisplayName: "Device_Type"
@@ -5715,7 +5715,7 @@ DefinedTypes:
   - [ UAObjectType, BACnet_V2:1021, BACnet_V2:BACnetMultiStateValueType ]
   - DisplayName: "BACnetMultiStateValueType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType ]
+    - [ UAObjectType, BACnet_V2:1018, BACnet_V2:BACnetMultiStateType, Abstract ]
   - HasComponent:
     - [ UAObject, BACnet_V2:5078, BACnet_V2:EventReporting ]
     - DisplayName: "EventReporting"
@@ -5871,10 +5871,10 @@ DefinedTypes:
       - [ UAObjectType, BACnet_V2:1021, BACnet_V2:BACnetMultiStateValueType ]
 
   BACnet_V2:BACnetNotifierType:
-  - [ UAObjectType, BACnet_V2:1048, BACnet_V2:BACnetNotifierType ]
+  - [ UAObjectType, BACnet_V2:1048, BACnet_V2:BACnetNotifierType, Abstract ]
   - DisplayName: "BACnetNotifierType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6201, BACnet_V2:Recipient_List, BACnet_V2:BACnetDestination, 0, 3 ]
     - DisplayName: "Recipient_List"
@@ -5883,7 +5883,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1048, BACnet_V2:BACnetNotifierType ]
+      - [ UAObjectType, BACnet_V2:1048, BACnet_V2:BACnetNotifierType, Abstract ]
 
   BACnet_V2:BACnetNotificationClassType:
   - [ UAObjectType, BACnet_V2:1024, BACnet_V2:BACnetNotificationClassType ]
@@ -5916,13 +5916,13 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, BACnet_V2:1024, BACnet_V2:BACnetNotificationClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1048, BACnet_V2:BACnetNotifierType ]
+    - [ UAObjectType, BACnet_V2:1048, BACnet_V2:BACnetNotifierType, Abstract ]
 
   BACnet_V2:BACnetObjectTypeUnknown:
   - [ UAObjectType, BACnet_V2:101024, BACnet_V2:BACnetObjectTypeUnknown ]
   - DisplayName: "BACnetObjectTypeUnknown"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
   - HasComponent:
     - [ UAVariable, BACnet_V2:106084, BACnet_V2:Object_Type, BACnet_V2:BACnetObjectTypeEnum, 0, 3 ]
     - DisplayName: "Object_Type"
@@ -5966,7 +5966,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAMethod, BACnet_V2:107014, BACnet_V2:AddObjectPropertyReferences ]
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6182, BACnet_V2:Effective_Period, BACnet_V2:BACnetDateRange, 0, 3 ]
     - DisplayName: "Effective_Period"
@@ -6160,7 +6160,7 @@ DefinedTypes:
       - [ UAObjectType, BACnet_V2:1022, BACnet_V2:BACnetScheduleType ]
 
   BACnet_V2:BACnetStructuredViewType:
-  - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType ]
+  - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType, Abstract ]
   - DisplayName: "BACnetStructuredViewType"
   - HasComponent:
     - [ UAObject, BACnet_V2:5044, BACnet_V2:<BACnetObject> ]
@@ -6168,9 +6168,9 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+      - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
     - HasComponent_reverse:
-      - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType ]
+      - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType, Abstract ]
     - HasProperty:
       - [ UAVariable, BACnet_V2:6237, BACnet_V2:Object_Identifier, BACnet_V2:BACnetObjectIdentifier, 0, 3 ]
       - DisplayName: "Object_Identifier"
@@ -6186,9 +6186,9 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType ]
+      - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType, Abstract ]
     - HasComponent_reverse:
-      - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType ]
+      - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType, Abstract ]
     - HasProperty:
       - [ UAVariable, BACnet_V2:6081, BACnet_V2:Node_Type, BACnet_V2:BACnetNodeType, 0, 3 ]
       - DisplayName: "Node_Type"
@@ -6217,7 +6217,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, BACnet_V2:5043, BACnet_V2:<BACnetStructuredView> ]
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType ]
+    - [ UAObjectType, BACnet_V2:1002, BACnet_V2:BACnetObjectType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6238, BACnet_V2:Node_Subtype, String, 0, 3 ]
     - DisplayName: "Node_Subtype"
@@ -6226,7 +6226,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType ]
+      - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6057, BACnet_V2:Node_Type, BACnet_V2:BACnetNodeType, 0, 3 ]
     - DisplayName: "Node_Type"
@@ -6235,7 +6235,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType ]
+      - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6078, BACnet_V2:Subordinate_Annotations, String, 1, 3 ]
     - DisplayName: "Subordinate_Annotations"
@@ -6244,7 +6244,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType ]
+      - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6077, BACnet_V2:Subordinate_List, BACnet_V2:BACnetDeviceObjectPropertyReference, 1, 3 ]
     - DisplayName: "Subordinate_List"
@@ -6253,7 +6253,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType ]
+      - [ UAObjectType, BACnet_V2:1049, BACnet_V2:BACnetStructuredViewType, Abstract ]
 
   BACnet_V2:BACnetTimeManagementType:
   - [ UAObjectType, BACnet_V2:101019, BACnet_V2:BACnetTimeManagementType ]
@@ -6427,7 +6427,7 @@ DefinedTypes:
     - [ UAObjectType, BACnet_V2:101019, BACnet_V2:BACnetTimeManagementType ]
 
   BACnet_V2:BACnetNotificationType:
-  - [ UAObjectType, BACnet_V2:1001, BACnet_V2:BACnetNotificationType ]
+  - [ UAObjectType, BACnet_V2:1001, BACnet_V2:BACnetNotificationType, Abstract ]
   - DisplayName: "BACnetNotificationType"
   - HasProperty:
     - [ UAVariable, BACnet_V2:6322, BACnet_V2:From_State, BACnet_V2:BACnetEventState, 0, 3 ]
@@ -6437,7 +6437,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1001, BACnet_V2:BACnetNotificationType ]
+      - [ UAObjectType, BACnet_V2:1001, BACnet_V2:BACnetNotificationType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6132, BACnet_V2:Notification_Class, UInt32, 0, 3 ]
     - DisplayName: "Notification_Class"
@@ -6446,7 +6446,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1001, BACnet_V2:BACnetNotificationType ]
+      - [ UAObjectType, BACnet_V2:1001, BACnet_V2:BACnetNotificationType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6133, BACnet_V2:Notify_Type, BACnet_V2:BACnetNotifyType, 0, 3 ]
     - DisplayName: "Notify_Type"
@@ -6455,7 +6455,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1001, BACnet_V2:BACnetNotificationType ]
+      - [ UAObjectType, BACnet_V2:1001, BACnet_V2:BACnetNotificationType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6698, BACnet_V2:To_State, BACnet_V2:BACnetEventState, 0, 3 ]
     - DisplayName: "To_State"
@@ -6464,7 +6464,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, BACnet_V2:1001, BACnet_V2:BACnetNotificationType ]
+      - [ UAObjectType, BACnet_V2:1001, BACnet_V2:BACnetNotificationType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2915, AlarmConditionType ]
   - GeneratesEvent_reverse:
@@ -6474,7 +6474,7 @@ DefinedTypes:
   - [ UAObjectType, BACnet_V2:1028, BACnet_V2:BACnetEventNotificationType ]
   - DisplayName: "BACnetEventNotificationType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1001, BACnet_V2:BACnetNotificationType ]
+    - [ UAObjectType, BACnet_V2:1001, BACnet_V2:BACnetNotificationType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6136, BACnet_V2:Event_Values ]
     - DisplayName: "Event_Values"
@@ -6928,7 +6928,7 @@ DefinedTypes:
   - [ UAObjectType, BACnet_V2:1027, BACnet_V2:BACnetFaultNotificationType ]
   - DisplayName: "BACnetFaultNotificationType"
   - HasSubtype_reverse:
-    - [ UAObjectType, BACnet_V2:1001, BACnet_V2:BACnetNotificationType ]
+    - [ UAObjectType, BACnet_V2:1001, BACnet_V2:BACnetNotificationType, Abstract ]
   - HasProperty:
     - [ UAVariable, BACnet_V2:6134, BACnet_V2:Reliability, BACnet_V2:BACnetReliability, 0, 3 ]
     - DisplayName: "Reliability"

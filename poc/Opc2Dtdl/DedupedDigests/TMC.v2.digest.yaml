@@ -408,7 +408,7 @@ DefinedTypes:
     - [ UAObjectType, 10523, DiscreteAlarmType ]
 
   TMC.v2:LogbookEventType:
-  - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType ]
+  - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType, Abstract ]
   - DisplayName: "LogbookEventType"
   - Description: "Subtypes of LogbookEvent Type provide detailed information on the event they are triggered by."
   - HasSubtype_reverse:
@@ -419,7 +419,7 @@ DefinedTypes:
   - DisplayName: "CarrierEnteredLogType"
   - Description: "The CarrierEnteredLogType event is generated when a carrier is identified by the underlying system."
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType ]
+    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, TMC.v2:13587, TMC.v2:CarrierID, String, 0, 0 ]
     - DisplayName: "CarrierID"
@@ -438,7 +438,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType ]
+    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType, Abstract ]
 
   TMC.v2:CarrierSublotsChangeLogType:
   - [ UAObjectType, TMC.v2:1055, TMC.v2:CarrierSublotsChangeLogType ]
@@ -451,7 +451,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType ]
+    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, TMC.v2:8874, TMC.v2:Sublots, TMC.v2:MaterialSublotType, 1, 0 ]
     - DisplayName: "Sublots"
@@ -460,7 +460,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
 
   TMC.v2:MachineContextLogType:
-  - [ UAObjectType, TMC.v2:1089, TMC.v2:MachineContextLogType ]
+  - [ UAObjectType, TMC.v2:1089, TMC.v2:MachineContextLogType, Abstract ]
   - DisplayName: "MachineContextLogType"
   - Description: "The MachineContextLogType payload contains machine status context to the derived event types."
   - HasProperty:
@@ -470,7 +470,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType ]
+    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, TMC.v2:12091, TMC.v2:StateMachineStateNumber, UInt32, 0, 0 ]
     - DisplayName: "StateMachineStateNumber"
@@ -501,7 +501,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1089, TMC.v2:MachineContextLogType ]
+    - [ UAObjectType, TMC.v2:1089, TMC.v2:MachineContextLogType, Abstract ]
 
   TMC.v2:MachineModuleSpecificationChangeLogType:
   - [ UAObjectType, TMC.v2:1022, TMC.v2:MachineModuleSpecificationChangeLogType ]
@@ -562,10 +562,10 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1089, TMC.v2:MachineContextLogType ]
+    - [ UAObjectType, TMC.v2:1089, TMC.v2:MachineContextLogType, Abstract ]
 
   TMC.v2:ProductionContextLogType:
-  - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType ]
+  - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType, Abstract ]
   - DisplayName: "ProductionContextLogType"
   - Description: "The ProductionContextLogType payload contains production status context to the derived event types."
   - HasProperty:
@@ -581,14 +581,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1089, TMC.v2:MachineContextLogType ]
+    - [ UAObjectType, TMC.v2:1089, TMC.v2:MachineContextLogType, Abstract ]
 
   TMC.v2:DataSetChangeLogType:
   - [ UAObjectType, TMC.v2:1017, TMC.v2:DataSetChangeLogType ]
   - DisplayName: "DataSetChangeLogType"
   - Description: "The DataSetChangeLogType event is generated when the dataset changes."
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType ]
+    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType, Abstract ]
   - HasProperty:
     - [ UAVariable, TMC.v2:6179, TMC.v2:NewDataSetEntries, TMC.v2:DataSetEntryType, 1, 0 ]
     - DisplayName: "NewDataSetEntries"
@@ -619,7 +619,7 @@ DefinedTypes:
   - DisplayName: "DefectDetectedLogType"
   - Description: "The DefectDetectedLogType event is generated when a defect is detected. Multiple defect detections can be grouped to generate a lower number of messages that is supported by the underlying system."
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType ]
+    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType, Abstract ]
   - HasProperty:
     - [ UAVariable, TMC.v2:6277, TMC.v2:DefectEU, EUInformation, 1, 0 ]
     - DisplayName: "DefectEU"
@@ -650,14 +650,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType ]
+    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType, Abstract ]
 
   TMC.v2:DowntimeLogType:
   - [ UAObjectType, TMC.v2:1024, TMC.v2:DowntimeLogType ]
   - DisplayName: "DowntimeLogType"
   - Description: "The DowntimeLogType event is generated when a downtime event finishes and the machine restarts."
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType ]
+    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType, Abstract ]
   - HasProperty:
     - [ UAVariable, TMC.v2:6252, TMC.v2:Duration, Duration, 0, 0 ]
     - DisplayName: "Duration"
@@ -678,11 +678,11 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
 
   TMC.v2:MaterialContextLogType:
-  - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType ]
+  - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType, Abstract ]
   - DisplayName: "MaterialContextLogType"
   - Description: "The MaterialContextLogType payload contains the location of material production and consumption context to the derived event types."
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType ]
+    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType, Abstract ]
   - HasProperty:
     - [ UAVariable, TMC.v2:9265, TMC.v2:MaterialPointID, String, 0, 0 ]
     - DisplayName: "MaterialPointID"
@@ -708,7 +708,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType ]
+    - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType, Abstract ]
 
   TMC.v2:LoadingPointUnloadedLogType:
   - [ UAObjectType, TMC.v2:1032, TMC.v2:LoadingPointUnloadedLogType ]
@@ -722,7 +722,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType ]
+    - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType, Abstract ]
 
   TMC.v2:MaterialConsumedLogType:
   - [ UAObjectType, TMC.v2:1033, TMC.v2:MaterialConsumedLogType ]
@@ -753,7 +753,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType ]
+    - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType, Abstract ]
 
   TMC.v2:MaterialDispensedLogType:
   - [ UAObjectType, TMC.v2:1084, TMC.v2:MaterialDispensedLogType ]
@@ -784,7 +784,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType ]
+    - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType, Abstract ]
 
   TMC.v2:MaterialOutputProducedLogType:
   - [ UAObjectType, TMC.v2:1030, TMC.v2:MaterialOutputProducedLogType ]
@@ -815,7 +815,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType ]
+    - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType, Abstract ]
 
   TMC.v2:MaterialRejectedLogType:
   - [ UAObjectType, TMC.v2:1027, TMC.v2:MaterialRejectedLogType ]
@@ -846,7 +846,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType ]
+    - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType, Abstract ]
 
   TMC.v2:MaterialUnloadingRequiredLogType:
   - [ UAObjectType, TMC.v2:1034, TMC.v2:MaterialUnloadingRequiredLogType ]
@@ -860,7 +860,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType ]
+    - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType, Abstract ]
 
   TMC.v2:NewPresentedMaterialLogType:
   - [ UAObjectType, TMC.v2:1038, TMC.v2:NewPresentedMaterialLogType ]
@@ -874,21 +874,21 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType ]
+    - [ UAObjectType, TMC.v2:1086, TMC.v2:MaterialContextLogType, Abstract ]
 
   TMC.v2:POStartedLogType:
   - [ UAObjectType, TMC.v2:1091, TMC.v2:POStartedLogType ]
   - DisplayName: "POStartedLogType"
   - Description: "The POStartedLogType event is generated when a PO is started."
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType ]
+    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType, Abstract ]
 
   TMC.v2:POStoppedLogType:
   - [ UAObjectType, TMC.v2:1092, TMC.v2:POStoppedLogType ]
   - DisplayName: "POStoppedLogType"
   - Description: "The POStoppedLogType event is generated when the running production order changes in a machine module."
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType ]
+    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType, Abstract ]
 
   TMC.v2:ProcessItemResetLogType:
   - [ UAObjectType, TMC.v2:1031, TMC.v2:ProcessItemResetLogType ]
@@ -925,7 +925,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType ]
+    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType, Abstract ]
   - HasComponent:
     - [ UAVariable, TMC.v2:8989, TMC.v2:SamplingRate, Double, 0, 0 ]
     - DisplayName: "SamplingRate"
@@ -956,7 +956,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType ]
+    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType, Abstract ]
 
   TMC.v2:StateChangeLogType:
   - [ UAObjectType, TMC.v2:1021, TMC.v2:StateChangeLogType ]
@@ -975,7 +975,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType ]
+    - [ UAObjectType, TMC.v2:1011, TMC.v2:ProductionContextLogType, Abstract ]
 
   TMC.v2:RootCauseGroupListChangeLogType:
   - [ UAObjectType, TMC.v2:1036, TMC.v2:RootCauseGroupListChangeLogType ]
@@ -994,7 +994,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1089, TMC.v2:MachineContextLogType ]
+    - [ UAObjectType, TMC.v2:1089, TMC.v2:MachineContextLogType, Abstract ]
 
   TMC.v2:RootCauseListChangeLogType:
   - [ UAObjectType, TMC.v2:1014, TMC.v2:RootCauseListChangeLogType ]
@@ -1013,7 +1013,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1089, TMC.v2:MachineContextLogType ]
+    - [ UAObjectType, TMC.v2:1089, TMC.v2:MachineContextLogType, Abstract ]
 
   TMC.v2:StopReasonListChangeLogType:
   - [ UAObjectType, TMC.v2:1015, TMC.v2:StopReasonListChangeLogType ]
@@ -1032,7 +1032,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1089, TMC.v2:MachineContextLogType ]
+    - [ UAObjectType, TMC.v2:1089, TMC.v2:MachineContextLogType, Abstract ]
 
   TMC.v2:SubCarrierLoadedLogType:
   - [ UAObjectType, TMC.v2:1078, TMC.v2:SubCarrierLoadedLogType ]
@@ -1051,7 +1051,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType ]
+    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType, Abstract ]
 
   TMC.v2:SubCarrierLoadingEndedLogType:
   - [ UAObjectType, TMC.v2:1079, TMC.v2:SubCarrierLoadingEndedLogType ]
@@ -1064,7 +1064,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType ]
+    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType, Abstract ]
 
   TMC.v2:SubCarrierLoadingStartedLogType:
   - [ UAObjectType, TMC.v2:1080, TMC.v2:SubCarrierLoadingStartedLogType ]
@@ -1077,7 +1077,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType ]
+    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType, Abstract ]
 
   TMC.v2:SubCarrierUnloadedLogType:
   - [ UAObjectType, TMC.v2:1081, TMC.v2:SubCarrierUnloadedLogType ]
@@ -1096,7 +1096,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType ]
+    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType, Abstract ]
 
   TMC.v2:SubCarrierUnloadingEndedLogType:
   - [ UAObjectType, TMC.v2:1082, TMC.v2:SubCarrierUnloadingEndedLogType ]
@@ -1109,7 +1109,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType ]
+    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType, Abstract ]
 
   TMC.v2:SubCarrierUnloadingStartedLogType:
   - [ UAObjectType, TMC.v2:1083, TMC.v2:SubCarrierUnloadingStartedLogType ]
@@ -1122,7 +1122,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType ]
+    - [ UAObjectType, TMC.v2:1006, TMC.v2:LogbookEventType, Abstract ]
 
   TMC.v2:ProductionOrderTransitionLogType:
   - [ UAObjectType, TMC.v2:1088, TMC.v2:ProductionOrderTransitionLogType ]
@@ -3498,7 +3498,7 @@ DefinedTypes:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   TMC.v2:TMCDeviceType:
-  - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType ]
+  - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType, Abstract ]
   - DisplayName: "TMCDeviceType"
   - Description: "The TMCDeviceType ObjectType is used to include UIInfo and specify which DeviceType components are mandatory when used in compliance with TMC."
   - HasComponent:
@@ -3549,7 +3549,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType ]
+    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType, Abstract ]
 
   TMC.v2:AnalogInputType:
   - [ UAObjectType, TMC.v2:1063, TMC.v2:AnalogInputType ]
@@ -3663,7 +3663,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType ]
+    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType, Abstract ]
 
   TMC.v2:EquipmentModuleType:
   - [ UAObjectType, TMC.v2:1071, TMC.v2:EquipmentModuleType ]
@@ -3718,7 +3718,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType ]
+    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType, Abstract ]
 
   TMC.v2:MachineModuleType:
   - [ UAObjectType, TMC.v2:1004, TMC.v2:MachineModuleType ]
@@ -3859,7 +3859,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType ]
+    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType, Abstract ]
 
   TMC.v2:MaterialLoadingPointType:
   - [ UAObjectType, TMC.v2:1003, TMC.v2:MaterialLoadingPointType ]
@@ -4019,7 +4019,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType ]
+    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType, Abstract ]
 
   TMC.v2:MaterialOutputPointType:
   - [ UAObjectType, TMC.v2:1037, TMC.v2:MaterialOutputPointType ]
@@ -4111,7 +4111,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType ]
+    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType, Abstract ]
 
   TMC.v2:MaterialRejectionPointType:
   - [ UAObjectType, TMC.v2:1023, TMC.v2:MaterialRejectionPointType ]
@@ -4210,7 +4210,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType ]
+    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType, Abstract ]
 
   TMC.v2:MaterialStorageBufferType:
   - [ UAObjectType, TMC.v2:1035, TMC.v2:MaterialStorageBufferType ]
@@ -4318,7 +4318,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType ]
+    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType, Abstract ]
 
   TMC.v2:ProcessControlLoopType:
   - [ UAObjectType, TMC.v2:1049, TMC.v2:ProcessControlLoopType ]
@@ -4369,7 +4369,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType ]
+    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType, Abstract ]
 
   TMC.v2:ProductionOrderOrchestrationLayerType:
   - [ UAObjectType, TMC.v2:1073, TMC.v2:ProductionOrderOrchestrationLayerType ]
@@ -4602,7 +4602,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType ]
+    - [ UAObjectType, TMC.v2:1090, TMC.v2:TMCDeviceType, Abstract ]
 
   TMC.v2:UIInformationType:
   - [ UAObjectType, TMC.v2:1020, TMC.v2:UIInformationType ]

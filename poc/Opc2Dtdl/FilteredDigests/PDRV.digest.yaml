@@ -162,7 +162,7 @@ DataTypes:
 DefinedTypes:
 
   PDRV:DriveAxisType:
-  - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
+  - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType, Abstract ]
   - DisplayName: "DriveAxisType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
@@ -264,7 +264,7 @@ DefinedTypes:
   - [ UAObjectType, PDRV:1002, PDRV:VelocityDriveAxisType ]
   - DisplayName: "VelocityDriveAxisType"
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
+    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType, Abstract ]
   - HasComponent:
     - [ UAObject, PDRV:5014, PDRV:Monitoring ]
     - DisplayName: "Monitoring"
@@ -291,7 +291,7 @@ DefinedTypes:
   - [ UAObjectType, PDRV:1005, PDRV:FrequencyDriveAxisType ]
   - DisplayName: "FrequencyDriveAxisType"
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
+    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType, Abstract ]
   - HasComponent:
     - [ UAObject, PDRV:5017, PDRV:Monitoring ]
     - DisplayName: "Monitoring"
@@ -318,7 +318,7 @@ DefinedTypes:
   - [ UAObjectType, PDRV:1006, PDRV:PositioningDriveAxisType ]
   - DisplayName: "PositioningDriveAxisType"
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
+    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType, Abstract ]
   - HasComponent:
     - [ UAObject, PDRV:5021, PDRV:LimitSupervision ]
     - DisplayName: "LimitSupervision"
@@ -409,7 +409,7 @@ DefinedTypes:
   - [ UAObjectType, PDRV:1008, PDRV:VelocityServoDriveAxisType ]
   - DisplayName: "VelocityServoDriveAxisType"
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
+    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType, Abstract ]
   - HasComponent:
     - [ UAObject, PDRV:5028, PDRV:Monitoring ]
     - DisplayName: "Monitoring"
@@ -457,7 +457,7 @@ DefinedTypes:
   - [ UAObjectType, PDRV:1009, PDRV:PositionServoDriveAxisType ]
   - DisplayName: "PositionServoDriveAxisType"
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
+    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType, Abstract ]
   - HasComponent:
     - [ UAObject, PDRV:5033, PDRV:<EncoderChannelAuxiliary> ]
     - DisplayName: "<EncoderChannelAuxiliary>"
@@ -530,7 +530,7 @@ DefinedTypes:
   - [ UAObjectType, PDRV:1013, PDRV:AxisSwOvertravelEventType ]
   - DisplayName: "AxisSwOvertravelEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
+    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, PDRV:6147, PDRV:IsUpperSwLimit, Boolean, 0, 0 ]
     - DisplayName: "IsUpperSwLimit"
@@ -541,7 +541,7 @@ DefinedTypes:
   - [ UAObjectType, PDRV:1014, PDRV:AxisHwOvertravelEventType ]
   - DisplayName: "AxisHwOvertravelEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
+    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, PDRV:6148, PDRV:IsUpperHwLimit, Boolean, 0, 0 ]
     - DisplayName: "IsUpperHwLimit"
@@ -614,7 +614,7 @@ DefinedTypes:
   - [ UAObjectType, PDRV:1016, PDRV:TorqueLimitEventType ]
   - DisplayName: "TorqueLimitEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
+    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, PDRV:6270, PDRV:TorqueLimit, Float, 0, 0 ]
     - DisplayName: "TorqueLimit"
@@ -630,7 +630,7 @@ DefinedTypes:
   - [ UAObjectType, PDRV:1017, PDRV:MotorCurrentLimitEventType ]
   - DisplayName: "MotorCurrentLimitEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
+    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, PDRV:6164, PDRV:MotorCurrentLimitHigh, Float, 0, 0 ]
     - DisplayName: "MotorCurrentLimitHigh"
@@ -667,7 +667,7 @@ DefinedTypes:
   - [ UAObjectType, PDRV:1019, PDRV:ForceLimitEventType ]
   - DisplayName: "ForceLimitEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
+    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, PDRV:6201, PDRV:ForceLimit, Float, 0, 0 ]
     - DisplayName: "ForceLimit"
@@ -680,7 +680,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
 
   PDRV:AxisEventType:
-  - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
+  - [ UAObjectType, PDRV:1001, PDRV:AxisEventType, Abstract ]
   - DisplayName: "AxisEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]

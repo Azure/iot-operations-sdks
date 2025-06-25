@@ -95,14 +95,14 @@ DefinedTypes:
     - [ UAVariableType, 17497, AnalogUnitType ]
 
   DI:UIElementType:
-  - [ UAVariableType, DI:6246, DI:UIElementType ]
+  - [ UAVariableType, DI:6246, DI:UIElementType, Abstract ]
   - DisplayName: "UIElementType"
   - Description: "The base type for all UI Element Types."
   - HasSubtype_reverse:
     - [ UAVariableType, 63, BaseDataVariableType ]
 
   DI:TopologyElementType:
-  - [ UAObjectType, DI:1001, DI:TopologyElementType ]
+  - [ UAObjectType, DI:1001, DI:TopologyElementType, Abstract ]
   - DisplayName: "TopologyElementType"
   - Description: "Defines the basic information components for all configurable elements in a device topology"
   - HasComponent:
@@ -124,7 +124,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:1001, DI:TopologyElementType ]
+      - [ UAObjectType, DI:1001, DI:TopologyElementType, Abstract ]
   - HasComponent:
     - [ UAObject, DI:5003, DI:MethodSet ]
     - DisplayName: "MethodSet"
@@ -134,7 +134,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:1001, DI:TopologyElementType ]
+      - [ UAObjectType, DI:1001, DI:TopologyElementType, Abstract ]
   - HasComponent:
     - [ UAObject, DI:6567, DI:<GroupIdentifier> ]
     - DisplayName: "<GroupIdentifier>"
@@ -144,7 +144,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:1001, DI:TopologyElementType ]
+      - [ UAObjectType, DI:1001, DI:TopologyElementType, Abstract ]
   - HasComponent:
     - [ UAObject, DI:6014, DI:Identification ]
     - DisplayName: "Identification"
@@ -154,7 +154,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:1001, DI:TopologyElementType ]
+      - [ UAObjectType, DI:1001, DI:TopologyElementType, Abstract ]
   - HasComponent:
     - [ UAObject, DI:6161, DI:Lock ]
     - DisplayName: "Lock"
@@ -283,12 +283,12 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:1001, DI:TopologyElementType ]
+      - [ UAObjectType, DI:1001, DI:TopologyElementType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DI:IVendorNameplateType:
-  - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+  - [ UAObjectType, DI:15035, DI:IVendorNameplateType, Abstract ]
   - DisplayName: "IVendorNameplateType"
   - HasProperty:
     - [ UAVariable, DI:15036, DI:Manufacturer, LocalizedText, 0, 0 ]
@@ -298,7 +298,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+      - [ UAObjectType, DI:15035, DI:IVendorNameplateType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15037, DI:ManufacturerUri, String, 0, 0 ]
     - DisplayName: "ManufacturerUri"
@@ -307,7 +307,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+      - [ UAObjectType, DI:15035, DI:IVendorNameplateType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15038, DI:Model, LocalizedText, 0, 0 ]
     - DisplayName: "Model"
@@ -316,7 +316,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+      - [ UAObjectType, DI:15035, DI:IVendorNameplateType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15039, DI:HardwareRevision, String, 0, 0 ]
     - DisplayName: "HardwareRevision"
@@ -325,7 +325,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+      - [ UAObjectType, DI:15035, DI:IVendorNameplateType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15040, DI:SoftwareRevision, String, 0, 0 ]
     - DisplayName: "SoftwareRevision"
@@ -334,7 +334,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+      - [ UAObjectType, DI:15035, DI:IVendorNameplateType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15041, DI:DeviceRevision, String, 0, 0 ]
     - DisplayName: "DeviceRevision"
@@ -343,7 +343,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+      - [ UAObjectType, DI:15035, DI:IVendorNameplateType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15042, DI:ProductCode, String, 0, 0 ]
     - DisplayName: "ProductCode"
@@ -352,7 +352,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+      - [ UAObjectType, DI:15035, DI:IVendorNameplateType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15043, DI:DeviceManual, String, 0, 0 ]
     - DisplayName: "DeviceManual"
@@ -361,7 +361,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+      - [ UAObjectType, DI:15035, DI:IVendorNameplateType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15044, DI:DeviceClass, String, 0, 0 ]
     - DisplayName: "DeviceClass"
@@ -370,7 +370,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+      - [ UAObjectType, DI:15035, DI:IVendorNameplateType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15045, DI:SerialNumber, String, 0, 0 ]
     - DisplayName: "SerialNumber"
@@ -379,7 +379,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+      - [ UAObjectType, DI:15035, DI:IVendorNameplateType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15046, DI:ProductInstanceUri, String, 0, 0 ]
     - DisplayName: "ProductInstanceUri"
@@ -388,7 +388,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+      - [ UAObjectType, DI:15035, DI:IVendorNameplateType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15047, DI:RevisionCounter, Int32, 0, 0 ]
     - DisplayName: "RevisionCounter"
@@ -397,7 +397,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+      - [ UAObjectType, DI:15035, DI:IVendorNameplateType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:23, DI:SoftwareReleaseDate, DateTime, 0, 0 ]
     - DisplayName: "SoftwareReleaseDate"
@@ -406,7 +406,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+      - [ UAObjectType, DI:15035, DI:IVendorNameplateType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:24, DI:PatchIdentifiers, String, 1, 0 ]
     - DisplayName: "PatchIdentifiers"
@@ -415,12 +415,12 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+      - [ UAObjectType, DI:15035, DI:IVendorNameplateType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   DI:ITagNameplateType:
-  - [ UAObjectType, DI:15048, DI:ITagNameplateType ]
+  - [ UAObjectType, DI:15048, DI:ITagNameplateType, Abstract ]
   - DisplayName: "ITagNameplateType"
   - HasProperty:
     - [ UAVariable, DI:15049, DI:AssetId, String, 0, 0 ]
@@ -430,7 +430,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15048, DI:ITagNameplateType ]
+      - [ UAObjectType, DI:15048, DI:ITagNameplateType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15050, DI:ComponentName, LocalizedText, 0, 0 ]
     - DisplayName: "ComponentName"
@@ -439,12 +439,12 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15048, DI:ITagNameplateType ]
+      - [ UAObjectType, DI:15048, DI:ITagNameplateType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   DI:IDeviceHealthType:
-  - [ UAObjectType, DI:15051, DI:IDeviceHealthType ]
+  - [ UAObjectType, DI:15051, DI:IDeviceHealthType, Abstract ]
   - DisplayName: "IDeviceHealthType"
   - HasComponent:
     - [ UAVariable, DI:15052, DI:DeviceHealth, DI:DeviceHealthEnumeration, 0, 0 ]
@@ -454,7 +454,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:15051, DI:IDeviceHealthType ]
+      - [ UAObjectType, DI:15051, DI:IDeviceHealthType, Abstract ]
   - HasComponent:
     - [ UAObject, DI:15053, DI:DeviceHealthAlarms ]
     - DisplayName: "DeviceHealthAlarms"
@@ -463,12 +463,12 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:15051, DI:IDeviceHealthType ]
+      - [ UAObjectType, DI:15051, DI:IDeviceHealthType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   DI:ISupportInfoType:
-  - [ UAObjectType, DI:15054, DI:ISupportInfoType ]
+  - [ UAObjectType, DI:15054, DI:ISupportInfoType, Abstract ]
   - DisplayName: "ISupportInfoType"
   - HasComponent:
     - [ UAObject, DI:15055, DI:DeviceTypeImage ]
@@ -487,7 +487,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:15054, DI:ISupportInfoType ]
+      - [ UAObjectType, DI:15054, DI:ISupportInfoType, Abstract ]
   - HasComponent:
     - [ UAObject, DI:15057, DI:Documentation ]
     - DisplayName: "Documentation"
@@ -505,7 +505,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:15054, DI:ISupportInfoType ]
+      - [ UAObjectType, DI:15054, DI:ISupportInfoType, Abstract ]
   - HasComponent:
     - [ UAObject, DI:27, DI:DocumentationFiles ]
     - DisplayName: "DocumentationFiles"
@@ -703,7 +703,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:15054, DI:ISupportInfoType ]
+      - [ UAObjectType, DI:15054, DI:ISupportInfoType, Abstract ]
   - HasComponent:
     - [ UAObject, DI:15059, DI:ProtocolSupport ]
     - DisplayName: "ProtocolSupport"
@@ -721,7 +721,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:15054, DI:ISupportInfoType ]
+      - [ UAObjectType, DI:15054, DI:ISupportInfoType, Abstract ]
   - HasComponent:
     - [ UAObject, DI:15061, DI:ImageSet ]
     - DisplayName: "ImageSet"
@@ -739,12 +739,12 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:15054, DI:ISupportInfoType ]
+      - [ UAObjectType, DI:15054, DI:ISupportInfoType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   DI:ComponentType:
-  - [ UAObjectType, DI:15063, DI:ComponentType ]
+  - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
   - DisplayName: "ComponentType"
   - HasProperty:
     - [ UAVariable, DI:15086, DI:Manufacturer, LocalizedText, 0, 0 ]
@@ -754,7 +754,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15063, DI:ComponentType ]
+      - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15087, DI:ManufacturerUri, String, 0, 0 ]
     - DisplayName: "ManufacturerUri"
@@ -763,7 +763,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15063, DI:ComponentType ]
+      - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15088, DI:Model, LocalizedText, 0, 0 ]
     - DisplayName: "Model"
@@ -772,7 +772,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15063, DI:ComponentType ]
+      - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15089, DI:HardwareRevision, String, 0, 0 ]
     - DisplayName: "HardwareRevision"
@@ -781,7 +781,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15063, DI:ComponentType ]
+      - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15090, DI:SoftwareRevision, String, 0, 0 ]
     - DisplayName: "SoftwareRevision"
@@ -790,7 +790,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15063, DI:ComponentType ]
+      - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15091, DI:DeviceRevision, String, 0, 0 ]
     - DisplayName: "DeviceRevision"
@@ -799,7 +799,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15063, DI:ComponentType ]
+      - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15092, DI:ProductCode, String, 0, 0 ]
     - DisplayName: "ProductCode"
@@ -808,7 +808,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15063, DI:ComponentType ]
+      - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15093, DI:DeviceManual, String, 0, 0 ]
     - DisplayName: "DeviceManual"
@@ -817,7 +817,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15063, DI:ComponentType ]
+      - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15094, DI:DeviceClass, String, 0, 0 ]
     - DisplayName: "DeviceClass"
@@ -826,7 +826,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15063, DI:ComponentType ]
+      - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15095, DI:SerialNumber, String, 0, 0 ]
     - DisplayName: "SerialNumber"
@@ -835,7 +835,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15063, DI:ComponentType ]
+      - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15096, DI:ProductInstanceUri, String, 0, 0 ]
     - DisplayName: "ProductInstanceUri"
@@ -844,7 +844,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15063, DI:ComponentType ]
+      - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15097, DI:RevisionCounter, Int32, 0, 0 ]
     - DisplayName: "RevisionCounter"
@@ -853,7 +853,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15063, DI:ComponentType ]
+      - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15098, DI:AssetId, String, 0, 0 ]
     - DisplayName: "AssetId"
@@ -862,7 +862,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15063, DI:ComponentType ]
+      - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15099, DI:ComponentName, LocalizedText, 0, 0 ]
     - DisplayName: "ComponentName"
@@ -871,16 +871,16 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:15063, DI:ComponentType ]
+      - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
   - HasInterface:
-    - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+    - [ UAObjectType, DI:15035, DI:IVendorNameplateType, Abstract ]
   - HasInterface:
-    - [ UAObjectType, DI:15048, DI:ITagNameplateType ]
+    - [ UAObjectType, DI:15048, DI:ITagNameplateType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1001, DI:TopologyElementType ]
+    - [ UAObjectType, DI:1001, DI:TopologyElementType, Abstract ]
 
   DI:DeviceType:
-  - [ UAObjectType, DI:1002, DI:DeviceType ]
+  - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - DisplayName: "DeviceType"
   - Description: "Defines the basic information components for all configurable elements in a device topology"
   - HasProperty:
@@ -892,7 +892,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15100, DI:ManufacturerUri, String, 0, 0 ]
     - DisplayName: "ManufacturerUri"
@@ -901,7 +901,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:6004, DI:Model, LocalizedText, 0, 0 ]
     - DisplayName: "Model"
@@ -911,7 +911,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:6008, DI:HardwareRevision, String, 0, 0 ]
     - DisplayName: "HardwareRevision"
@@ -921,7 +921,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:6007, DI:SoftwareRevision, String, 0, 0 ]
     - DisplayName: "SoftwareRevision"
@@ -931,7 +931,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:6006, DI:DeviceRevision, String, 0, 0 ]
     - DisplayName: "DeviceRevision"
@@ -941,7 +941,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15101, DI:ProductCode, String, 0, 0 ]
     - DisplayName: "ProductCode"
@@ -950,7 +950,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:6005, DI:DeviceManual, String, 0, 0 ]
     - DisplayName: "DeviceManual"
@@ -960,7 +960,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:6470, DI:DeviceClass, String, 0, 0 ]
     - DisplayName: "DeviceClass"
@@ -969,7 +969,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:6001, DI:SerialNumber, String, 0, 0 ]
     - DisplayName: "SerialNumber"
@@ -979,7 +979,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:15102, DI:ProductInstanceUri, String, 0, 0 ]
     - DisplayName: "ProductInstanceUri"
@@ -988,7 +988,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:6002, DI:RevisionCounter, Int32, 0, 0 ]
     - DisplayName: "RevisionCounter"
@@ -998,7 +998,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasComponent:
     - [ UAObject, DI:6571, DI:<CPIdentifier> ]
     - DisplayName: "<CPIdentifier>"
@@ -1013,11 +1013,11 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, DI:6571, DI:<CPIdentifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
+      - [ UAObjectType, DI:6308, DI:ConnectionPointType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasComponent:
     - [ UAVariable, DI:6208, DI:DeviceHealth, DI:DeviceHealthEnumeration, 0, 0 ]
     - DisplayName: "DeviceHealth"
@@ -1026,7 +1026,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasComponent:
     - [ UAObject, DI:15105, DI:DeviceHealthAlarms ]
     - DisplayName: "DeviceHealthAlarms"
@@ -1035,7 +1035,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasComponent:
     - [ UAObject, DI:6209, DI:DeviceTypeImage ]
     - DisplayName: "DeviceTypeImage"
@@ -1055,7 +1055,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasComponent:
     - [ UAObject, DI:6211, DI:Documentation ]
     - DisplayName: "Documentation"
@@ -1075,7 +1075,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasComponent:
     - [ UAObject, DI:6213, DI:ProtocolSupport ]
     - DisplayName: "ProtocolSupport"
@@ -1095,7 +1095,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasComponent:
     - [ UAObject, DI:6215, DI:ImageSet ]
     - DisplayName: "ImageSet"
@@ -1115,13 +1115,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:1002, DI:DeviceType ]
+      - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - HasInterface:
-    - [ UAObjectType, DI:15054, DI:ISupportInfoType ]
+    - [ UAObjectType, DI:15054, DI:ISupportInfoType, Abstract ]
   - HasInterface:
-    - [ UAObjectType, DI:15051, DI:IDeviceHealthType ]
+    - [ UAObjectType, DI:15051, DI:IDeviceHealthType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, DI:ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
 
   DI:SoftwareType:
   - [ UAObjectType, DI:15106, DI:SoftwareType ]
@@ -1154,10 +1154,10 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, DI:15106, DI:SoftwareType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, DI:ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
 
   DI:BlockType:
-  - [ UAObjectType, DI:1003, DI:BlockType ]
+  - [ UAObjectType, DI:1003, DI:BlockType, Abstract ]
   - DisplayName: "BlockType"
   - Description: "Adds the concept of Blocks needed for block-oriented FieldDevices"
   - HasProperty:
@@ -1169,7 +1169,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:1003, DI:BlockType ]
+      - [ UAObjectType, DI:1003, DI:BlockType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:6010, DI:ActualMode, LocalizedText, 0, 0 ]
     - DisplayName: "ActualMode"
@@ -1179,7 +1179,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:1003, DI:BlockType ]
+      - [ UAObjectType, DI:1003, DI:BlockType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:6011, DI:PermittedMode, LocalizedText, 1, 0 ]
     - DisplayName: "PermittedMode"
@@ -1189,7 +1189,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:1003, DI:BlockType ]
+      - [ UAObjectType, DI:1003, DI:BlockType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:6012, DI:NormalMode, LocalizedText, 1, 0 ]
     - DisplayName: "NormalMode"
@@ -1199,7 +1199,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:1003, DI:BlockType ]
+      - [ UAObjectType, DI:1003, DI:BlockType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:6013, DI:TargetMode, LocalizedText, 1, 0 ]
     - DisplayName: "TargetMode"
@@ -1209,12 +1209,12 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:1003, DI:BlockType ]
+      - [ UAObjectType, DI:1003, DI:BlockType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1001, DI:TopologyElementType ]
+    - [ UAObjectType, DI:1001, DI:TopologyElementType, Abstract ]
 
   DI:DeviceHealthDiagnosticAlarmType:
-  - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
+  - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType, Abstract ]
   - DisplayName: "DeviceHealthDiagnosticAlarmType"
   - HasSubtype_reverse:
     - [ UAObjectType, 18347, InstrumentDiagnosticAlarmType ]
@@ -1223,25 +1223,25 @@ DefinedTypes:
   - [ UAObjectType, DI:15292, DI:FailureAlarmType ]
   - DisplayName: "FailureAlarmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
+    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType, Abstract ]
 
   DI:CheckFunctionAlarmType:
   - [ UAObjectType, DI:15441, DI:CheckFunctionAlarmType ]
   - DisplayName: "CheckFunctionAlarmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
+    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType, Abstract ]
 
   DI:OffSpecAlarmType:
   - [ UAObjectType, DI:15590, DI:OffSpecAlarmType ]
   - DisplayName: "OffSpecAlarmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
+    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType, Abstract ]
 
   DI:MaintenanceRequiredAlarmType:
   - [ UAObjectType, DI:15739, DI:MaintenanceRequiredAlarmType ]
   - DisplayName: "MaintenanceRequiredAlarmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
+    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType, Abstract ]
 
   DI:ConfigurableObjectType:
   - [ UAObjectType, DI:1004, DI:ConfigurableObjectType ]
@@ -1270,53 +1270,53 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DI:BaseLifetimeIndicationType:
-  - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
+  - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType, Abstract ]
   - DisplayName: "BaseLifetimeIndicationType"
   - Description: "Base indication type not further defining a semantic"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DI:TimeIndicationType:
-  - [ UAObjectType, DI:474, DI:TimeIndicationType ]
+  - [ UAObjectType, DI:474, DI:TimeIndicationType, Abstract ]
   - DisplayName: "TimeIndicationType"
   - Description: "Indicates the time the entity has been in use or can still be used"
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType, Abstract ]
 
   DI:NumberOfPartsIndicationType:
-  - [ UAObjectType, DI:475, DI:NumberOfPartsIndicationType ]
+  - [ UAObjectType, DI:475, DI:NumberOfPartsIndicationType, Abstract ]
   - DisplayName: "NumberOfPartsIndicationType"
   - Description: "Indicates the total number of parts that have been produced or can still be produced."
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType, Abstract ]
 
   DI:NumberOfUsagesIndicationType:
-  - [ UAObjectType, DI:476, DI:NumberOfUsagesIndicationType ]
+  - [ UAObjectType, DI:476, DI:NumberOfUsagesIndicationType, Abstract ]
   - DisplayName: "NumberOfUsagesIndicationType"
   - Description: "Indicates counting the process steps the entity has been used or can still be used for (for example usages of a punching tool)."
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType, Abstract ]
 
   DI:LengthIndicationType:
-  - [ UAObjectType, DI:477, DI:LengthIndicationType ]
+  - [ UAObjectType, DI:477, DI:LengthIndicationType, Abstract ]
   - DisplayName: "LengthIndicationType"
   - Description: "Indicates the abraded length, for example of a drill."
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType, Abstract ]
 
   DI:DiameterIndicationType:
-  - [ UAObjectType, DI:478, DI:DiameterIndicationType ]
+  - [ UAObjectType, DI:478, DI:DiameterIndicationType, Abstract ]
   - DisplayName: "DiameterIndicationType"
   - Description: "Indicates the abraded diameter, for example of a drill."
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType, Abstract ]
 
   DI:SubstanceVolumeIndicationType:
-  - [ UAObjectType, DI:479, DI:SubstanceVolumeIndicationType ]
+  - [ UAObjectType, DI:479, DI:SubstanceVolumeIndicationType, Abstract ]
   - DisplayName: "SubstanceVolumeIndicationType"
   - Description: "Indicates the volume of a substance, for example of a liquid."
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType, Abstract ]
 
   DI:FunctionalGroupType:
   - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
@@ -1331,7 +1331,7 @@ DefinedTypes:
       - DisplayName: "UIElement"
       - Description: "A user interface element assigned to this group."
       - HasTypeDefinition:
-        - [ UAVariableType, DI:6246, DI:UIElementType ]
+        - [ UAVariableType, DI:6246, DI:UIElementType, Abstract ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
@@ -1347,7 +1347,7 @@ DefinedTypes:
     - DisplayName: "UIElement"
     - Description: "A user interface element assigned to this group."
     - HasTypeDefinition:
-      - [ UAVariableType, DI:6246, DI:UIElementType ]
+      - [ UAVariableType, DI:6246, DI:UIElementType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
@@ -1363,7 +1363,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DI:IOperationCounterType:
-  - [ UAObjectType, DI:480, DI:IOperationCounterType ]
+  - [ UAObjectType, DI:480, DI:IOperationCounterType, Abstract ]
   - DisplayName: "IOperationCounterType"
   - Description: "Interface defining counters for the duration of operation"
   - HasProperty:
@@ -1375,7 +1375,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:480, DI:IOperationCounterType ]
+      - [ UAObjectType, DI:480, DI:IOperationCounterType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:482, DI:OperationDuration, Duration, 0, 0 ]
     - DisplayName: "OperationDuration"
@@ -1385,7 +1385,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:480, DI:IOperationCounterType ]
+      - [ UAObjectType, DI:480, DI:IOperationCounterType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:483, DI:OperationCycleCounter, UInteger, 0, 0 ]
     - DisplayName: "OperationCycleCounter"
@@ -1395,7 +1395,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:480, DI:IOperationCounterType ]
+      - [ UAObjectType, DI:480, DI:IOperationCounterType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
@@ -1545,7 +1545,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DI:ConnectionPointType:
-  - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
+  - [ UAObjectType, DI:6308, DI:ConnectionPointType, Abstract ]
   - DisplayName: "ConnectionPointType"
   - Description: "Represents the interface (interface card) of a Device to a Network."
   - HasComponent:
@@ -1557,7 +1557,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
+      - [ UAObjectType, DI:6308, DI:ConnectionPointType, Abstract ]
   - HasComponent:
     - [ UAObject, DI:6499, DI:<ProfileIdentifier> ]
     - DisplayName: "<ProfileIdentifier>"
@@ -1566,9 +1566,9 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
+      - [ UAObjectType, DI:6308, DI:ConnectionPointType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1001, DI:TopologyElementType ]
+    - [ UAObjectType, DI:1001, DI:TopologyElementType, Abstract ]
 
   DI:TransferServicesType:
   - [ UAObjectType, DI:6526, DI:TransferServicesType ]
@@ -1786,7 +1786,7 @@ DefinedTypes:
     - [ UAObject, DI:2, DI:Loading ]
     - DisplayName: "Loading"
     - HasTypeDefinition:
-      - [ UAObjectType, DI:135, DI:SoftwareLoadingType ]
+      - [ UAObjectType, DI:135, DI:SoftwareLoadingType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
@@ -2073,7 +2073,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DI:SoftwareLoadingType:
-  - [ UAObjectType, DI:135, DI:SoftwareLoadingType ]
+  - [ UAObjectType, DI:135, DI:SoftwareLoadingType, Abstract ]
   - DisplayName: "SoftwareLoadingType"
   - HasComponent:
     - [ UAVariable, DI:136, DI:UpdateKey, String, 0, 0 ]
@@ -2083,12 +2083,12 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:135, DI:SoftwareLoadingType ]
+      - [ UAObjectType, DI:135, DI:SoftwareLoadingType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DI:PackageLoadingType:
-  - [ UAObjectType, DI:137, DI:PackageLoadingType ]
+  - [ UAObjectType, DI:137, DI:PackageLoadingType, Abstract ]
   - DisplayName: "PackageLoadingType"
   - HasComponent:
     - [ UAObject, DI:139, DI:CurrentVersion ]
@@ -2125,7 +2125,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:137, DI:PackageLoadingType ]
+      - [ UAObjectType, DI:137, DI:PackageLoadingType, Abstract ]
   - HasComponent:
     - [ UAObject, DI:140, DI:FileTransfer ]
     - DisplayName: "FileTransfer"
@@ -2233,7 +2233,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:137, DI:PackageLoadingType ]
+      - [ UAObjectType, DI:137, DI:PackageLoadingType, Abstract ]
   - HasComponent:
     - [ UAVariable, DI:151, DI:ErrorMessage, LocalizedText, 0, 0 ]
     - DisplayName: "ErrorMessage"
@@ -2242,7 +2242,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, DI:137, DI:PackageLoadingType ]
+      - [ UAObjectType, DI:137, DI:PackageLoadingType, Abstract ]
   - HasProperty:
     - [ UAVariable, DI:152, DI:WriteBlockSize, UInt32, 0, 0 ]
     - DisplayName: "WriteBlockSize"
@@ -2251,9 +2251,9 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, DI:137, DI:PackageLoadingType ]
+      - [ UAObjectType, DI:137, DI:PackageLoadingType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:135, DI:SoftwareLoadingType ]
+    - [ UAObjectType, DI:135, DI:SoftwareLoadingType, Abstract ]
 
   DI:DirectLoadingType:
   - [ UAObjectType, DI:153, DI:DirectLoadingType ]
@@ -2277,7 +2277,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, DI:153, DI:DirectLoadingType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:137, DI:PackageLoadingType ]
+    - [ UAObjectType, DI:137, DI:PackageLoadingType, Abstract ]
 
   DI:CachedLoadingType:
   - [ UAObjectType, DI:171, DI:CachedLoadingType ]
@@ -2386,7 +2386,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DI:171, DI:CachedLoadingType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:137, DI:PackageLoadingType ]
+    - [ UAObjectType, DI:137, DI:PackageLoadingType, Abstract ]
 
   DI:FileSystemLoadingType:
   - [ UAObjectType, DI:192, DI:FileSystemLoadingType ]
@@ -2570,7 +2570,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DI:192, DI:FileSystemLoadingType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:135, DI:SoftwareLoadingType ]
+    - [ UAObjectType, DI:135, DI:SoftwareLoadingType, Abstract ]
 
   DI:SoftwareVersionType:
   - [ UAObjectType, DI:212, DI:SoftwareVersionType ]

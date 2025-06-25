@@ -149,7 +149,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:POWERLINK:PowerlinkDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/POWERLINK",
     "displayName": "PowerlinkDeviceType",
     "description": "example for a DeviceType that only implements POWERLINK Managing Node (MN) and/or POWERLINK Controlled Node (CN) interfaces",
     "extends": "dtmi:opcua:DI:DeviceType;1",

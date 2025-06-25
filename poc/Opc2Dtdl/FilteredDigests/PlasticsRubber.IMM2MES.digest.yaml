@@ -436,7 +436,7 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1008, PlasticsRubber.GeneralTypes:ProductionDatasetManagementType ]
 
   PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType:
-  - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+  - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
   - DisplayName: "InjectionUnitCycleParametersType"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6118, PlasticsRubber.IMM2MES:BackPressure, Double, 0, 0 ]

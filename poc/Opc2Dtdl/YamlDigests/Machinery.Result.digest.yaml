@@ -289,7 +289,7 @@ DefinedTypes:
     - [ UAVariableType, 63, BaseDataVariableType ]
 
   Machinery.Result:ResultReadyEventType:
-  - [ UAObjectType, Machinery.Result:1002, Machinery.Result:ResultReadyEventType ]
+  - [ UAObjectType, Machinery.Result:1002, Machinery.Result:ResultReadyEventType, Abstract ]
   - DisplayName: "ResultReadyEventType"
   - Description: "Provides information of a complete or partial result."
   - HasComponent:
@@ -300,7 +300,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Machinery.Result:1002, Machinery.Result:ResultReadyEventType ]
+      - [ UAObjectType, Machinery.Result:1002, Machinery.Result:ResultReadyEventType, Abstract ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - DisplayName: "ResultMetaData"
@@ -653,7 +653,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Machinery.Result:1004, Machinery.Result:ResultManagementType ]
   - GeneratesEvent:
-    - [ UAObjectType, Machinery.Result:1002, Machinery.Result:ResultReadyEventType ]
+    - [ UAObjectType, Machinery.Result:1002, Machinery.Result:ResultReadyEventType, Abstract ]
   - HasComponent:
     - [ UAObject, Machinery.Result:5011, Machinery.Result:Results ]
     - DisplayName: "Results"

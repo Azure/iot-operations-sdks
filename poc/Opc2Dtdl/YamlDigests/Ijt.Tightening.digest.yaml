@@ -340,7 +340,7 @@ DataTypes:
 DefinedTypes:
 
   IJT.Tightening:ITighteningToolParametersType:
-  - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
+  - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType, Abstract ]
   - DisplayName: "ITighteningToolParametersType"
   - Description: "This interface is inherited from 0:BaseInterfaceType to add additional parameters of a tool in a tightening system. It shall be added to 2:Parameters object of the tool instance."
   - HasComponent:
@@ -352,7 +352,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2376, MultiStateDiscreteType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
+      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Tightening:6006, IJT.Tightening:EnumStrings, LocalizedText, 1, 0 ]
       - DisplayName: "EnumStrings"
@@ -371,7 +371,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2376, MultiStateDiscreteType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
+      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Tightening:6015, IJT.Tightening:EnumStrings, LocalizedText, 1, 0 ]
       - DisplayName: "EnumStrings"
@@ -390,7 +390,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2376, MultiStateDiscreteType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
+      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Tightening:6017, IJT.Tightening:EnumStrings, LocalizedText, 1, 0 ]
       - DisplayName: "EnumStrings"
@@ -420,7 +420,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, IJT.Tightening:6022, IJT.Tightening:MaxSpeed, Double, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
+      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType, Abstract ]
     - HasComponent:
       - [ UAVariable, IJT.Tightening:6026, IJT.Base:PhysicalQuantity, Byte, 0, 0 ]
       - DisplayName: "PhysicalQuantity"
@@ -460,7 +460,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, IJT.Tightening:6020, IJT.Tightening:MaxTorque, Double, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
+      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType, Abstract ]
     - HasComponent:
       - [ UAVariable, IJT.Tightening:6029, IJT.Base:PhysicalQuantity, Byte, 0, 0 ]
       - DisplayName: "PhysicalQuantity"
@@ -500,7 +500,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, IJT.Tightening:6021, IJT.Tightening:MinTorque, Double, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
+      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType, Abstract ]
     - HasComponent:
       - [ UAVariable, IJT.Tightening:6025, IJT.Base:PhysicalQuantity, Byte, 0, 0 ]
       - DisplayName: "PhysicalQuantity"
@@ -529,7 +529,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
+      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
@@ -550,4 +550,4 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, IJT.Tightening:6018, IJT.Tightening:ShutOffMethod, Byte, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
+      - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType, Abstract ]

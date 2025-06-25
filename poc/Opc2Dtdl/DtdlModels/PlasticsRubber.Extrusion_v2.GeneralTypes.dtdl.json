@@ -749,7 +749,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionMachineryItemState_StateMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
     "displayName": "ExtrusionMachineryItemState_StateMachineType",
     "extends": "dtmi:opcua:Machinery:MachineryItemState_StateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes;i=1010",

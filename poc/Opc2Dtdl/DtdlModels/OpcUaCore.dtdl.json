@@ -51,7 +51,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:DataTypeSystemType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "DataTypeSystemType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=75",
@@ -72,7 +73,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:DataTypeEncodingType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "DataTypeEncodingType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=76",
@@ -93,7 +95,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:ModellingRuleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "ModellingRuleType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=77",
@@ -114,7 +117,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:ServerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "ServerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2004",
@@ -2866,7 +2870,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:TransparentRedundancyType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "TransparentRedundancyType",
     "extends": "dtmi:opcua:OpcUaCore:ServerRedundancyType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2036",
@@ -2897,7 +2902,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:NonTransparentRedundancyType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "NonTransparentRedundancyType",
     "extends": "dtmi:opcua:OpcUaCore:ServerRedundancyType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2039",
@@ -2931,7 +2937,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:NonTransparentNetworkRedundancyType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "NonTransparentNetworkRedundancyType",
     "extends": "dtmi:opcua:OpcUaCore:NonTransparentRedundancyType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=11945",
@@ -3002,7 +3009,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:NonTransparentBackupRedundancyType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "NonTransparentBackupRedundancyType",
     "extends": "dtmi:opcua:OpcUaCore:NonTransparentRedundancyType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32411",
@@ -5532,7 +5540,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AggregateFunctionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "AggregateFunctionType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2340",
@@ -5714,7 +5723,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:ChoiceStateType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "ChoiceStateType",
     "extends": "dtmi:opcua:OpcUaCore:StateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15109",
@@ -6770,7 +6780,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:IrdiDictionaryEntryType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "IrdiDictionaryEntryType",
     "extends": "dtmi:opcua:OpcUaCore:DictionaryEntryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17598",
@@ -6791,7 +6802,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:UriDictionaryEntryType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "UriDictionaryEntryType",
     "extends": "dtmi:opcua:OpcUaCore:DictionaryEntryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17600",
@@ -6895,7 +6907,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:SyntaxReferenceEntryType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "SyntaxReferenceEntryType",
     "extends": "dtmi:opcua:OpcUaCore:DictionaryEntryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32439",
@@ -6973,7 +6986,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:ServerUnitType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "ServerUnitType",
     "extends": "dtmi:opcua:OpcUaCore:UnitType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32447",
@@ -7041,7 +7055,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AlternativeUnitType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "AlternativeUnitType",
     "extends": "dtmi:opcua:OpcUaCore:UnitType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32467",
@@ -7116,7 +7131,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:QuantityType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "QuantityType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32475",
@@ -7253,7 +7269,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:QuantitiesFolderType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "QuantitiesFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32502",
@@ -7991,7 +8008,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AlarmSuppressionGroupType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "AlarmSuppressionGroupType",
     "extends": "dtmi:opcua:OpcUaCore:AlarmGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32064",
@@ -9504,7 +9522,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AlarmMetricsType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "AlarmMetricsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17279",
@@ -9589,7 +9608,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:ProgramStateMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "ProgramStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2391",
@@ -10116,7 +10136,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:HistoricalDataConfigurationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "HistoricalDataConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2318",
@@ -10272,7 +10293,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:HistoricalEventConfigurationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "HistoricalEventConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32621",
@@ -10361,7 +10383,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:HistoricalExternalEventSourceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "HistoricalExternalEventSourceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=32625",
@@ -10693,7 +10716,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:HistoryServerCapabilitiesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "HistoryServerCapabilitiesType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=2330",
@@ -11968,7 +11992,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:HttpsCertificateType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "HttpsCertificateType",
     "extends": "dtmi:opcua:OpcUaCore:CertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=12558",
@@ -11989,7 +12014,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:UserCredentialCertificateType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "UserCredentialCertificateType",
     "extends": "dtmi:opcua:OpcUaCore:CertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15181",
@@ -12010,7 +12036,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:RsaMinApplicationCertificateType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "RsaMinApplicationCertificateType",
     "extends": "dtmi:opcua:OpcUaCore:ApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=12559",
@@ -12031,7 +12058,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:RsaSha256ApplicationCertificateType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "RsaSha256ApplicationCertificateType",
     "extends": "dtmi:opcua:OpcUaCore:ApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=12560",
@@ -12052,7 +12080,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:EccApplicationCertificateType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "EccApplicationCertificateType",
     "extends": "dtmi:opcua:OpcUaCore:ApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23537",
@@ -12073,7 +12102,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:EccNistP256ApplicationCertificateType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "EccNistP256ApplicationCertificateType",
     "extends": "dtmi:opcua:OpcUaCore:EccApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23538",
@@ -12094,7 +12124,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:EccNistP384ApplicationCertificateType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "EccNistP384ApplicationCertificateType",
     "extends": "dtmi:opcua:OpcUaCore:EccApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23539",
@@ -12115,7 +12146,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:EccBrainpoolP256r1ApplicationCertificateType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "EccBrainpoolP256r1ApplicationCertificateType",
     "extends": "dtmi:opcua:OpcUaCore:EccApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23540",
@@ -12136,7 +12168,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:EccBrainpoolP384r1ApplicationCertificateType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "EccBrainpoolP384r1ApplicationCertificateType",
     "extends": "dtmi:opcua:OpcUaCore:EccApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23541",
@@ -12157,7 +12190,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:EccCurve25519ApplicationCertificateType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "EccCurve25519ApplicationCertificateType",
     "extends": "dtmi:opcua:OpcUaCore:EccApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23542",
@@ -12178,7 +12212,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:EccCurve448ApplicationCertificateType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "EccCurve448ApplicationCertificateType",
     "extends": "dtmi:opcua:OpcUaCore:EccApplicationCertificateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23543",
@@ -12354,7 +12389,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:ApplicationConfigurationFolderType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "ApplicationConfigurationFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=16662",
@@ -12375,7 +12411,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:ServerConfigurationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "ServerConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=12581",
@@ -12798,7 +12835,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:KeyCredentialConfigurationFolderType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "KeyCredentialConfigurationFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17496",
@@ -13103,7 +13141,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AuthorizationServicesConfigurationFolderType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "AuthorizationServicesConfigurationFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23556",
@@ -13233,7 +13272,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubKeyServiceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "PubSubKeyServiceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15906",
@@ -14072,7 +14112,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:PublishSubscribeType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "PublishSubscribeType",
     "extends": "dtmi:opcua:OpcUaCore:PubSubKeyServiceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=14416",
@@ -15586,7 +15627,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:PublishedDataItemsType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "PublishedDataItemsType",
     "extends": "dtmi:opcua:OpcUaCore:PublishedDataSetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=14534",
@@ -15805,7 +15847,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:PublishedEventsType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "PublishedEventsType",
     "extends": "dtmi:opcua:OpcUaCore:PublishedDataSetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=14572",
@@ -16788,7 +16831,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:PubSubConnectionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "PubSubConnectionType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=14209",
@@ -17905,7 +17949,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:WriterGroupType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "WriterGroupType",
     "extends": "dtmi:opcua:OpcUaCore:PubSubGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17725",
@@ -18206,7 +18251,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:ReaderGroupType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "ReaderGroupType",
     "extends": "dtmi:opcua:OpcUaCore:PubSubGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=17999",
@@ -18834,7 +18880,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:DataSetWriterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "DataSetWriterType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15298",
@@ -19017,7 +19064,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:DataSetReaderType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "DataSetReaderType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15306",
@@ -19878,7 +19926,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:TargetVariablesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "TargetVariablesType",
     "extends": "dtmi:opcua:OpcUaCore:SubscribedDataSetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15111",
@@ -20084,7 +20133,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:SubscribedDataSetMirrorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "SubscribedDataSetMirrorType",
     "extends": "dtmi:opcua:OpcUaCore:SubscribedDataSetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15127",
@@ -21214,7 +21264,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:UadpWriterGroupMessageType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "UadpWriterGroupMessageType",
     "extends": "dtmi:opcua:OpcUaCore:WriterGroupMessageType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21105",
@@ -21354,7 +21405,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:UadpDataSetWriterMessageType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "UadpDataSetWriterMessageType",
     "extends": "dtmi:opcua:OpcUaCore:DataSetWriterMessageType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21111",
@@ -21442,7 +21494,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:UadpDataSetReaderMessageType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "UadpDataSetReaderMessageType",
     "extends": "dtmi:opcua:OpcUaCore:DataSetReaderMessageType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21116",
@@ -21623,7 +21676,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:JsonWriterGroupMessageType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "JsonWriterGroupMessageType",
     "extends": "dtmi:opcua:OpcUaCore:WriterGroupMessageType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21126",
@@ -21691,7 +21745,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:JsonDataSetWriterMessageType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "JsonDataSetWriterMessageType",
     "extends": "dtmi:opcua:OpcUaCore:DataSetWriterMessageType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21128",
@@ -21779,7 +21834,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:JsonDataSetReaderMessageType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "JsonDataSetReaderMessageType",
     "extends": "dtmi:opcua:OpcUaCore:DataSetReaderMessageType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21130",
@@ -21912,7 +21968,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:DatagramConnectionTransportType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "DatagramConnectionTransportType",
     "extends": "dtmi:opcua:OpcUaCore:ConnectionTransportType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15064",
@@ -21978,7 +22035,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:DatagramWriterGroupTransportType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "DatagramWriterGroupTransportType",
     "extends": "dtmi:opcua:OpcUaCore:WriterGroupTransportType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21133",
@@ -22060,7 +22118,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:DatagramDataSetReaderTransportType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "DatagramDataSetReaderTransportType",
     "extends": "dtmi:opcua:OpcUaCore:DataSetReaderTransportType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24016",
@@ -22118,7 +22177,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:BrokerConnectionTransportType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "BrokerConnectionTransportType",
     "extends": "dtmi:opcua:OpcUaCore:ConnectionTransportType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=15155",
@@ -22157,7 +22217,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:BrokerWriterGroupTransportType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "BrokerWriterGroupTransportType",
     "extends": "dtmi:opcua:OpcUaCore:WriterGroupTransportType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21136",
@@ -22241,7 +22302,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:BrokerDataSetWriterTransportType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "BrokerDataSetWriterTransportType",
     "extends": "dtmi:opcua:OpcUaCore:DataSetWriterTransportType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21138",
@@ -22341,7 +22403,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:BrokerDataSetReaderTransportType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "BrokerDataSetReaderTransportType",
     "extends": "dtmi:opcua:OpcUaCore:DataSetReaderTransportType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21142",
@@ -22462,7 +22525,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:NetworkAddressUrlType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "NetworkAddressUrlType",
     "extends": "dtmi:opcua:OpcUaCore:NetworkAddressType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=21147",
@@ -22491,7 +22555,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AliasNameType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "AliasNameType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23455",
@@ -22512,7 +22577,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:AliasNameCategoryType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "AliasNameCategoryType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=23456",
@@ -22606,7 +22672,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:UserManagementType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "UserManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=24264",
@@ -22938,7 +23005,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:ProvisionableDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "ProvisionableDeviceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=26871",
@@ -24021,7 +24089,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:IetfBaseNetworkInterfaceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "IetfBaseNetworkInterfaceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=25221",
@@ -24132,7 +24201,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:PriorityMappingTableType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "PriorityMappingTableType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=25227",
@@ -24254,7 +24324,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:LldpInformationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "LldpInformationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=18973",
@@ -24519,7 +24590,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:LldpPortInformationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "LldpPortInformationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=19009",
@@ -24706,7 +24778,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OpcUaCore:LldpRemoteSystemType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA",
     "displayName": "LldpRemoteSystemType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA;i=19033",

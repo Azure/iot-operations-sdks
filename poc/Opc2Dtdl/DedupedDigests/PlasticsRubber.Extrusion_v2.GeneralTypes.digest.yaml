@@ -338,7 +338,7 @@ DataTypes:
 DefinedTypes:
 
   PlasticsRubber.Extrusion_v2.GeneralTypes:ExtrusionDeviceType:
-  - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1002, PlasticsRubber.Extrusion_v2.GeneralTypes:ExtrusionDeviceType ]
+  - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1002, PlasticsRubber.Extrusion_v2.GeneralTypes:ExtrusionDeviceType, Abstract ]
   - DisplayName: "ExtrusionDeviceType"
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.GeneralTypes:5023, PlasticsRubber.Extrusion_v2.GeneralTypes:AdditionalMeasuringDevices ]

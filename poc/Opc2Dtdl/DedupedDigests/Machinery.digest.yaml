@@ -48,7 +48,7 @@ DataTypes:
 DefinedTypes:
 
   Machinery:IMachineTagNameplateType:
-  - [ UAObjectType, Machinery:1011, Machinery:IMachineTagNameplateType ]
+  - [ UAObjectType, Machinery:1011, Machinery:IMachineTagNameplateType, Abstract ]
   - DisplayName: "IMachineTagNameplateType"
   - Description: "Interface containing information of the identification of a machine set by the customer"
   - HasProperty:
@@ -61,7 +61,7 @@ DefinedTypes:
     - [ UAObjectType, DI:15048, DI:ITagNameplateType ]
 
   Machinery:IMachineryItemVendorNameplateType:
-  - [ UAObjectType, Machinery:1003, Machinery:IMachineryItemVendorNameplateType ]
+  - [ UAObjectType, Machinery:1003, Machinery:IMachineryItemVendorNameplateType, Abstract ]
   - DisplayName: "IMachineryItemVendorNameplateType"
   - Description: "Interface containing identification and nameplate information for a MachineryItem provided by the vendor"
   - HasProperty:
@@ -86,14 +86,14 @@ DefinedTypes:
     - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
 
   Machinery:IMachineVendorNameplateType:
-  - [ UAObjectType, Machinery:1010, Machinery:IMachineVendorNameplateType ]
+  - [ UAObjectType, Machinery:1010, Machinery:IMachineVendorNameplateType, Abstract ]
   - DisplayName: "IMachineVendorNameplateType"
   - Description: "Interface containing identification and nameplate information for a machine provided by the machine vendor"
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1003, Machinery:IMachineryItemVendorNameplateType ]
+    - [ UAObjectType, Machinery:1003, Machinery:IMachineryItemVendorNameplateType, Abstract ]
 
   Machinery:MachineryItemIdentificationType:
-  - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
+  - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType, Abstract ]
   - DisplayName: "MachineryItemIdentificationType"
   - Description: "Contains information about the identification and nameplate of a MachineryItem"
   - HasProperty:
@@ -198,7 +198,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
+    - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType, Abstract ]
 
   Machinery:MachineryComponentIdentificationType:
   - [ UAObjectType, Machinery:1005, Machinery:MachineryComponentIdentificationType ]
@@ -211,7 +211,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
+    - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType, Abstract ]
 
   Machinery:MachineryOperationCounterType:
   - [ UAObjectType, Machinery:1009, Machinery:MachineryOperationCounterType ]

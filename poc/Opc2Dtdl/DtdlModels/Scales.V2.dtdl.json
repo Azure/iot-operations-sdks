@@ -175,7 +175,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:MaterialAutomaticType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "MaterialAutomaticType",
     "description": "Represents a material in a recipe that will be filled automatically.",
     "extends": "dtmi:opcua:Scales_V2:MaterialType;1",
@@ -580,7 +581,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:CatchweigherProductType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "CatchweigherProductType",
     "description": "Represents a product of a Catchweigher.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
@@ -721,7 +723,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:AutomaticWeightPriceLabelerProductType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "AutomaticWeightPriceLabelerProductType",
     "description": "Represents a product of a automatic weight-price-labeler.",
     "extends": "dtmi:opcua:Scales_V2:CatchweigherProductType;1",
@@ -752,7 +755,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:CheckweigherProductType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "CheckweigherProductType",
     "description": "Represents a product of a Checkweigher.",
     "extends": "dtmi:opcua:Scales_V2:CatchweigherProductType;1",
@@ -797,7 +801,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:ContinuousProductType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "ContinuousProductType",
     "description": "Represents a product of a continuous scale.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
@@ -844,7 +849,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:PieceCountingProductType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "PieceCountingProductType",
     "description": "Represents a product of a piece counting scale.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
@@ -1070,7 +1076,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:RecipeProductType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "RecipeProductType",
     "description": "Represents a product of a recipe scale.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
@@ -1139,7 +1146,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:SimpleProductType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "SimpleProductType",
     "description": "Represents a product of a simple scale.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
@@ -1178,7 +1186,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:TotalizingHopperProductType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "TotalizingHopperProductType",
     "description": "Represents a product of a totalizing hopper scale.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
@@ -1217,7 +1226,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:VehicleProductType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "VehicleProductType",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=832",
@@ -1454,7 +1464,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:ActivationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "ActivationType",
     "description": "Represents an activation step in a recipe.",
     "extends": "dtmi:opcua:Scales_V2:RecipeElementType;1",
@@ -1558,7 +1569,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:AnalogConditionSleepType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "AnalogConditionSleepType",
     "description": "Represents a condition sleep step in a recipe.",
     "extends": "dtmi:opcua:Scales_V2:ConditionSleepType;1",
@@ -1625,7 +1637,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:EdgeTriggeredSleepType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "EdgeTriggeredSleepType",
     "description": "Represents a condition sleep step in a recipe.",
     "extends": "dtmi:opcua:Scales_V2:ConditionSleepType;1",
@@ -1675,7 +1688,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:TimerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "TimerType",
     "description": "TimerType represents a timer step in a recipe. The recipe waits until at least Duration has passed from now.",
     "extends": "dtmi:opcua:Scales_V2:RecipeElementType;1",
@@ -1706,7 +1720,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:UserInstructionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "UserInstructionType",
     "description": "UserInstructionType represents a recipe step that requires user interaction. The recipe scale display instruction (a text and/or some application- specific symbols) on an HMI and waits until the user acknowledged the instruction.",
     "extends": "dtmi:opcua:Scales_V2:RecipeElementType;1",
@@ -1745,7 +1760,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:WeighingType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "WeighingType",
     "description": "Represents a weighing process in a recipe. The process can be an automatic or manual filling process.",
     "extends": "dtmi:opcua:Scales_V2:RecipeElementType;1",
@@ -2044,7 +2060,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:AcceptedStatisticCounterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "AcceptedStatisticCounterType",
     "extends": "dtmi:opcua:Scales_V2:StatisticCounterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=1027",
@@ -2065,7 +2082,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:RejectedStatisticCounterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "RejectedStatisticCounterType",
     "extends": "dtmi:opcua:Scales_V2:StatisticCounterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=1028",
@@ -2136,7 +2154,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:CheckweigherStatisticType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "CheckweigherStatisticType",
     "extends": "dtmi:opcua:Scales_V2:StatisticType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=48",
@@ -2157,7 +2176,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:FloatingStatisticType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "FloatingStatisticType",
     "description": "Container for the different statisticvalues. All variables are optional, so that the statistics can be instantiated application-specific. Should be used for application-specific statistics.",
     "extends": "dtmi:opcua:Scales_V2:StatisticType;1",
@@ -2189,7 +2209,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:FeederModuleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "FeederModuleType",
     "description": "Represents a feeder system. A feeder system is a subdevice of an automatic scale for conveying the product to or from the WeighingBridge.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
@@ -2288,7 +2309,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:PrinterModuleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "PrinterModuleType",
     "description": "Represents a printing device. A printing device is a subdevice of a scale, that prints labels or other documents releated to the scale or the measurement results.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
@@ -2575,7 +2597,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:AutomaticFillingScaleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "AutomaticFillingScaleType",
     "description": "Represents an automatic filling scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
@@ -2641,7 +2664,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:CatchweigherType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "CatchweigherType",
     "description": "Represents a Catchweigher. It has no method or properties defined.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
@@ -2663,7 +2687,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:AutomaticWeightPriceLabelerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "AutomaticWeightPriceLabelerType",
     "description": "Represents an automatic weight-price-labeler.",
     "extends": "dtmi:opcua:Scales_V2:CatchweigherType;1",
@@ -2685,7 +2710,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:CheckweigherType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "CheckweigherType",
     "description": "Represents a Checkweigher.",
     "extends": "dtmi:opcua:Scales_V2:CatchweigherType;1",
@@ -2716,7 +2742,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:ContinuousScaleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "ContinuousScaleType",
     "description": "Represents a continuous scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
@@ -2832,7 +2859,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:LossInWeightScaleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "LossInWeightScaleType",
     "description": "Represents a loss in weight scale.",
     "extends": "dtmi:opcua:Scales_V2:ContinuousScaleType;1",
@@ -2922,7 +2950,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:PieceCountingScaleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "PieceCountingScaleType",
     "description": "Represents a piece counting scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
@@ -3029,7 +3058,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:RecipeScaleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "RecipeScaleType",
     "description": "RecipeScaleType represents a recipe scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
@@ -3238,7 +3268,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:SimpleScaleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "SimpleScaleType",
     "description": "Represents a simple scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
@@ -3260,7 +3291,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:HopperScaleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "HopperScaleType",
     "description": "Represents a hopper scale.",
     "extends": "dtmi:opcua:Scales_V2:SimpleScaleType;1",
@@ -3337,7 +3369,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:LaboratoryScaleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "LaboratoryScaleType",
     "description": "Represents a laboratory scale.",
     "extends": "dtmi:opcua:Scales_V2:SimpleScaleType;1",
@@ -3518,7 +3551,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:WeighingModuleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "WeighingModuleType",
     "description": "Represents a weighing bridge.",
     "extends": "dtmi:opcua:Scales_V2:SimpleScaleType;1",
@@ -3540,7 +3574,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:TotalizingHopperScaleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "TotalizingHopperScaleType",
     "description": "Represents a totalizing hopper scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
@@ -3562,7 +3597,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:VehicleScaleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "VehicleScaleType",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=834",
@@ -3644,7 +3680,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:ScaleSystemType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "ScaleSystemType",
     "description": "Represents a scale system and contains one or more scales.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
@@ -3888,7 +3925,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scales_V2:PriceItemType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "PriceItemType",
     "extends": "dtmi:opcua:Scales_V2:WeighingItemType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=833",

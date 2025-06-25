@@ -172,7 +172,7 @@ DefinedTypes:
     - [ UAVariableType, DI:6246, DI:UIElementType ]
 
   FDI5:ActionType:
-  - [ UAObjectType, FDI5:11, FDI5:ActionType ]
+  - [ UAObjectType, FDI5:11, FDI5:ActionType, Abstract ]
   - DisplayName: "ActionType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
@@ -274,7 +274,7 @@ DefinedTypes:
     - [ UAObject, FDI5:181, FDI5:<ActionIdentifier> ]
     - DisplayName: "<ActionIdentifier>"
     - HasTypeDefinition:
-      - [ UAObjectType, FDI5:11, FDI5:ActionType ]
+      - [ UAObjectType, FDI5:11, FDI5:ActionType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:

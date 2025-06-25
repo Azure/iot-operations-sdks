@@ -356,13 +356,13 @@ DataTypes:
 DefinedTypes:
 
   PlasticsRubber.Extrusion.Cutter:CutEventType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.Cutter:1002, PlasticsRubber.Extrusion.Cutter:CutEventType ]
+  - [ UAObjectType, PlasticsRubber.Extrusion.Cutter:1002, PlasticsRubber.Extrusion.Cutter:CutEventType, Abstract ]
   - DisplayName: "CutEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.Cutter:6002, PlasticsRubber.Extrusion.Cutter:ActualOutput, UInt64, 0, 0 ]
     - DisplayName: "ActualOutput"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.Cutter:1002, PlasticsRubber.Extrusion.Cutter:CutEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.Cutter:1002, PlasticsRubber.Extrusion.Cutter:CutEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -373,7 +373,7 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.Cutter:6001, PlasticsRubber.Extrusion.Cutter:CuttingProductId, String, 0, 0 ]
     - DisplayName: "CuttingProductId"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.Cutter:1002, PlasticsRubber.Extrusion.Cutter:CutEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.Cutter:1002, PlasticsRubber.Extrusion.Cutter:CutEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -386,7 +386,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.Cutter:1002, PlasticsRubber.Extrusion.Cutter:CutEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.Cutter:1002, PlasticsRubber.Extrusion.Cutter:CutEventType, Abstract ]
   - GeneratesEvent_reverse:
     - [ UAObjectType, PlasticsRubber.Extrusion.Cutter:1005, PlasticsRubber.Extrusion.Cutter:Cutter_InterfaceType ]
 
@@ -636,7 +636,7 @@ DefinedTypes:
   - [ UAObjectType, PlasticsRubber.Extrusion.Cutter:1005, PlasticsRubber.Extrusion.Cutter:Cutter_InterfaceType ]
   - DisplayName: "Cutter_InterfaceType"
   - GeneratesEvent:
-    - [ UAObjectType, PlasticsRubber.Extrusion.Cutter:1002, PlasticsRubber.Extrusion.Cutter:CutEventType ]
+    - [ UAObjectType, PlasticsRubber.Extrusion.Cutter:1002, PlasticsRubber.Extrusion.Cutter:CutEventType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
   - HasComponent:

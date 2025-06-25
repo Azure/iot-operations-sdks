@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Mining_TransportDumping_ArmouredFaceConveyor:AFCType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Mining.TransportDumping.ArmouredFaceConveyor",
     "displayName": "AFCType",
     "description": "The AFCType ObjectType describes a armoured face conveyor for longwall mining operations",
     "extends": "dtmi:opcua:Mining_General:MiningEquipmentType;1",

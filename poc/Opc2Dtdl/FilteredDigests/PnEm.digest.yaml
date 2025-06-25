@@ -124,7 +124,7 @@ DataTypes:
 DefinedTypes:
 
   PNEM:IEnergyProfileD0Type:
-  - [ UAObjectType, PNEM:1011, PNEM:IEnergyProfileD0Type ]
+  - [ UAObjectType, PNEM:1011, PNEM:IEnergyProfileD0Type, Abstract ]
   - DisplayName: "IEnergyProfileD0Type"
   - HasComponent:
     - [ UAVariable, PNEM:6102, PNEM:DcCurrent, Float, 0, 3 ]
@@ -141,7 +141,7 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   PNEM:IEnergyProfileE0Type:
-  - [ UAObjectType, PNEM:1007, PNEM:IEnergyProfileE0Type ]
+  - [ UAObjectType, PNEM:1007, PNEM:IEnergyProfileE0Type, Abstract ]
   - DisplayName: "IEnergyProfileE0Type"
   - HasComponent:
     - [ UAVariable, PNEM:6060, PNEM:AcCurrent, PNEM:AcPeDataType, 0, 3 ]
@@ -158,7 +158,7 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   PNEM:IEnergyProfileE1Type:
-  - [ UAObjectType, PNEM:1008, PNEM:IEnergyProfileE1Type ]
+  - [ UAObjectType, PNEM:1008, PNEM:IEnergyProfileE1Type, Abstract ]
   - DisplayName: "IEnergyProfileE1Type"
   - HasComponent:
     - [ UAVariable, PNEM:6064, PNEM:AcActivePowerTotal, Float, 0, 3 ]
@@ -175,7 +175,7 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   PNEM:IEnergyProfileE2Type:
-  - [ UAObjectType, PNEM:1009, PNEM:IEnergyProfileE2Type ]
+  - [ UAObjectType, PNEM:1009, PNEM:IEnergyProfileE2Type, Abstract ]
   - DisplayName: "IEnergyProfileE2Type"
   - HasComponent:
     - [ UAVariable, PNEM:6076, PNEM:AcActiveEnergyTotalExportLp, Float, 0, 3 ]
@@ -214,7 +214,7 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   PNEM:IEnergyProfileE3Type:
-  - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
+  - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type, Abstract ]
   - DisplayName: "IEnergyProfileE3Type"
   - HasComponent:
     - [ UAVariable, PNEM:6086, PNEM:AcActiveEnergyTotalExportHp, Double, 0, 3 ]

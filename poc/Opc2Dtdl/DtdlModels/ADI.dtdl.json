@@ -1729,7 +1729,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ADI:SpectrometerDeviceStreamType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "SpectrometerDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1030",
@@ -1758,7 +1759,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ADI:MassSpectrometerDeviceStreamType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "MassSpectrometerDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1031",
@@ -1779,7 +1781,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ADI:ParticleSizeMonitorDeviceStreamType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "ParticleSizeMonitorDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1032",
@@ -1800,7 +1803,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ADI:AcousticSpectrometerDeviceStreamType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "AcousticSpectrometerDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1033",
@@ -1821,7 +1825,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ADI:ChromatographDeviceStreamType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "ChromatographDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1034",
@@ -1842,7 +1847,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ADI:MNRDeviceStreamType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "MNRDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1035",
@@ -1863,7 +1869,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ADI:SpectrometerDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "SpectrometerDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1011",
@@ -1884,7 +1891,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ADI:ParticleSizeMonitorDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "ParticleSizeMonitorDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1012",
@@ -1905,7 +1913,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ADI:ChromatographDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "ChromatographDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1013",
@@ -1926,7 +1935,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ADI:MassSpectrometerDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "MassSpectrometerDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1014",
@@ -1947,7 +1957,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ADI:AcousticSpectrometerDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "AcousticSpectrometerDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1015",
@@ -1968,7 +1979,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ADI:NMRDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "NMRDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1016",
@@ -2284,7 +2296,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ADI:DetectorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "DetectorType",
     "extends": "dtmi:opcua:ADI:AccessoryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=9350",
@@ -2305,7 +2318,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ADI:SmartSamplingSystemType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "SmartSamplingSystemType",
     "extends": "dtmi:opcua:ADI:AccessoryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=9359",
@@ -2326,7 +2340,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ADI:SourceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "SourceType",
     "extends": "dtmi:opcua:ADI:AccessoryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=9368",
@@ -2347,7 +2362,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ADI:GcOvenType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "GcOvenType",
     "extends": "dtmi:opcua:ADI:AccessoryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1020",

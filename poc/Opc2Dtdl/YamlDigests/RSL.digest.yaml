@@ -39,7 +39,7 @@ DefinedTypes:
     - [ UAVariableType, 18779, OrientationType ]
 
   RSL:RelativeValueType:
-  - [ UAVariableType, RSL:2002, RSL:RelativeValueType ]
+  - [ UAVariableType, RSL:2002, RSL:RelativeValueType, Abstract ]
   - DisplayName: "RelativeValueType"
   - HasComponent:
     - [ UAVariable, RSL:6001, RSL:Base, NodeId, 0, 3 ]
@@ -49,12 +49,12 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAVariableType, RSL:2002, RSL:RelativeValueType ]
+      - [ UAVariableType, RSL:2002, RSL:RelativeValueType, Abstract ]
   - HasSubtype_reverse:
     - [ UAVariableType, 63, BaseDataVariableType ]
 
   RSL:SpatialLocationType:
-  - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
+  - [ UAVariableType, RSL:2003, RSL:SpatialLocationType, Abstract ]
   - DisplayName: "SpatialLocationType"
   - HasComponent:
     - [ UAVariable, RSL:6002, RSL:Base, NodeId, 0, 3 ]
@@ -64,7 +64,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
+      - [ UAVariableType, RSL:2003, RSL:SpatialLocationType, Abstract ]
   - HasComponent:
     - [ UAVariable, RSL:6004, RSL:Orientation ]
     - DisplayName: "Orientation"
@@ -73,7 +73,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
+      - [ UAVariableType, RSL:2003, RSL:SpatialLocationType, Abstract ]
   - HasComponent:
     - [ UAVariable, RSL:6003, RSL:Position ]
     - DisplayName: "Position"
@@ -82,9 +82,9 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
+      - [ UAVariableType, RSL:2003, RSL:SpatialLocationType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAVariableType, RSL:2002, RSL:RelativeValueType ]
+    - [ UAVariableType, RSL:2002, RSL:RelativeValueType, Abstract ]
 
   RSL:CartesianFrameAngleOrientationType:
   - [ UAVariableType, RSL:2004, RSL:CartesianFrameAngleOrientationType, 3DFrame, 0, 0 ]
@@ -99,7 +99,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAVariableType, RSL:2004, RSL:CartesianFrameAngleOrientationType, 3DFrame, 0, 0 ]
   - HasSubtype_reverse:
-    - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
+    - [ UAVariableType, RSL:2003, RSL:SpatialLocationType, Abstract ]
   - HasComponent:
     - [ UAVariable, RSL:6006, RSL:Orientation, 3DOrientation, 0, 3 ]
     - DisplayName: "Orientation"
@@ -222,7 +222,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
-        - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
+        - [ UAVariableType, RSL:2003, RSL:SpatialLocationType, Abstract ]
       - HasComponent:
         - [ UAVariable, RSL:6039, RSL:Base, NodeId, 0, 3 ]
         - DisplayName: "Base"
@@ -262,7 +262,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
+      - [ UAVariableType, RSL:2003, RSL:SpatialLocationType, Abstract ]
     - HasComponent:
       - [ UAVariable, RSL:6026, RSL:Base, NodeId, 0, 3 ]
       - DisplayName: "Base"
@@ -292,7 +292,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
-        - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
+        - [ UAVariableType, RSL:2003, RSL:SpatialLocationType, Abstract ]
       - HasComponent_reverse:
         - [ UAObject, RSL:5004, RSL:AlternativeFrames ]
       - HasComponent:
@@ -319,7 +319,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
-        - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
+        - [ UAVariableType, RSL:2003, RSL:SpatialLocationType, Abstract ]
       - HasComponent_reverse:
         - [ UAObject, RSL:5002, RSL:AttachPoints ]
       - HasComponent:
@@ -363,7 +363,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
-        - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
+        - [ UAVariableType, RSL:2003, RSL:SpatialLocationType, Abstract ]
       - HasComponent_reverse:
         - [ UAObject, RSL:5003, RSL:InternalFrames ]
       - HasComponent:
@@ -383,7 +383,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
+      - [ UAVariableType, RSL:2003, RSL:SpatialLocationType, Abstract ]
     - HasComponent:
       - [ UAVariable, RSL:6015, RSL:Base, NodeId, 0, 3 ]
       - DisplayName: "Base"

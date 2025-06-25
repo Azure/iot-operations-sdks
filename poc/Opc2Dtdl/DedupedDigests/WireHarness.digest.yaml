@@ -886,7 +886,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   WireHarness:ProductFinishedEventType:
-  - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType ]
+  - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType, Abstract ]
   - DisplayName: "ProductFinishedEventType"
   - HasProperty:
     - [ UAVariable, WireHarness:6078, WireHarness:EndTime, DateTime, 0, 3 ]
@@ -932,7 +932,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
 
   WireHarness:RunCompleteEventType:
-  - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType ]
+  - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType, Abstract ]
   - DisplayName: "RunCompleteEventType"
   - HasProperty:
     - [ UAVariable, WireHarness:6056, WireHarness:EndTime, DateTime, 0, 3 ]

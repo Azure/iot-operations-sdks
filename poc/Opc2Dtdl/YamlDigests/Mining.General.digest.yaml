@@ -54,7 +54,7 @@ DataTypes:
 DefinedTypes:
 
   Mining.General:StructuredArrayItemType:
-  - [ UAVariableType, Mining.General:2002, Mining.General:StructuredArrayItemType ]
+  - [ UAVariableType, Mining.General:2002, Mining.General:StructuredArrayItemType, Abstract ]
   - DisplayName: "StructuredArrayItemType"
   - HasProperty:
     - [ UAVariable, Mining.General:6008, Mining.General:EngineeringUnits, EUInformation, 0, 3 ]
@@ -65,7 +65,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAVariableType, Mining.General:2002, Mining.General:StructuredArrayItemType ]
+      - [ UAVariableType, Mining.General:2002, Mining.General:StructuredArrayItemType, Abstract ]
   - HasProperty:
     - [ UAVariable, Mining.General:6007, Mining.General:EURange, Range, 0, 3 ]
     - DisplayName: "EURange"
@@ -74,7 +74,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAVariableType, Mining.General:2002, Mining.General:StructuredArrayItemType ]
+      - [ UAVariableType, Mining.General:2002, Mining.General:StructuredArrayItemType, Abstract ]
   - HasProperty:
     - [ UAVariable, Mining.General:6018, Mining.General:InstrumentRange, Range, 0, 3 ]
     - DisplayName: "InstrumentRange"
@@ -83,7 +83,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAVariableType, Mining.General:2002, Mining.General:StructuredArrayItemType ]
+      - [ UAVariableType, Mining.General:2002, Mining.General:StructuredArrayItemType, Abstract ]
   - HasSubtype_reverse:
     - [ UAVariableType, 2365, DataItemType ]
 
@@ -110,7 +110,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAVariableType, Mining.General:2003, Mining.General:LongwallShieldOffsetArrayItemType, Mining.General:LongwallShieldOffsetDataType, 1, 0 ]
   - HasSubtype_reverse:
-    - [ UAVariableType, Mining.General:2002, Mining.General:StructuredArrayItemType ]
+    - [ UAVariableType, Mining.General:2002, Mining.General:StructuredArrayItemType, Abstract ]
 
   Mining.General:MiningEquipmentIdentificationType:
   - [ UAObjectType, Mining.General:1003, Mining.General:MiningEquipmentIdentificationType ]
@@ -241,7 +241,7 @@ DefinedTypes:
       - [ UAObjectType, Mining.General:1003, Mining.General:MiningEquipmentIdentificationType ]
 
   Mining.General:MiningEquipmentType:
-  - [ UAObjectType, Mining.General:1002, Mining.General:MiningEquipmentType ]
+  - [ UAObjectType, Mining.General:1002, Mining.General:MiningEquipmentType, Abstract ]
   - DisplayName: "MiningEquipmentType"
   - Description: "The MiningEquipmentType ObjectType describes the abstract blueprint for any type of mining field equipment or machinery"
   - HasAddIn:
@@ -253,7 +253,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, Mining.General:1002, Mining.General:MiningEquipmentType ]
+      - [ UAObjectType, Mining.General:1002, Mining.General:MiningEquipmentType, Abstract ]
   - HasAddIn:
     - [ UAObject, Mining.General:5005, Mining.General:MiningEquipmentIdentification ]
     - DisplayName: "MiningEquipmentIdentification"
@@ -302,7 +302,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, Mining.General:5005, Mining.General:MiningEquipmentIdentification ]
     - HasAddIn_reverse:
-      - [ UAObjectType, Mining.General:1002, Mining.General:MiningEquipmentType ]
+      - [ UAObjectType, Mining.General:1002, Mining.General:MiningEquipmentType, Abstract ]
     - HasProperty:
       - [ UAVariable, Mining.General:6030, DI:Model, LocalizedText, 0, 0 ]
       - DisplayName: "Model"

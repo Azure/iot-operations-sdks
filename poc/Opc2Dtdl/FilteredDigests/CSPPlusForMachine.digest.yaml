@@ -48,7 +48,7 @@ DataTypes:
 DefinedTypes:
 
   CSPPlusForMachine:CsppMachineType:
-  - [ UAObjectType, CSPPlusForMachine:1001, CSPPlusForMachine:CsppMachineType ]
+  - [ UAObjectType, CSPPlusForMachine:1001, CSPPlusForMachine:CsppMachineType, Abstract ]
   - DisplayName: "CsppMachineType"
   - HasComponent:
     - [ UAObject, CSPPlusForMachine:5001, DI:ParameterSet ]

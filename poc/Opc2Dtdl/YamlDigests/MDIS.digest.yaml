@@ -137,7 +137,7 @@ DefinedTypes:
       - [ UAVariableType, MDIS:1290, MDIS:MDISVersionVariableType, MDIS:MDISVersionDataType, 0, 0 ]
 
   MDIS:MDISBaseObjectType:
-  - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+  - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - DisplayName: "MDISBaseObjectType"
   - Description: "The definition of a MDIS base Object type from which all other object types are derived"
   - HasSubtype_reverse:
@@ -150,14 +150,14 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+      - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasComponent:
     - [ UAMethod, MDIS:195, MDIS:EnableDisable ]
     - DisplayName: "EnableDisable"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+      - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
     - HasProperty:
       - [ UAVariable, MDIS:196, MDIS:InputArguments, Argument, 1, 0 ]
       - DisplayName: "InputArguments"
@@ -177,7 +177,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+      - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasComponent:
     - [ UAVariable, MDIS:1165, MDIS:FaultCode, UInt32, 0, 0 ]
     - DisplayName: "FaultCode"
@@ -186,7 +186,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+      - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasProperty:
     - [ UAVariable, MDIS:197, MDIS:TagId, String, 0, 0 ]
     - DisplayName: "Tag ID"
@@ -196,7 +196,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+      - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasComponent:
     - [ UAVariable, MDIS:497, MDIS:Warning, Boolean, 0, 0 ]
     - DisplayName: "Warning"
@@ -205,7 +205,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+      - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasComponent:
     - [ UAVariable, MDIS:1166, MDIS:WarningCode, UInt32, 0, 0 ]
     - DisplayName: "WarningCode"
@@ -214,14 +214,14 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+      - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
 
   MDIS:MDISAggregateObjectType:
-  - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+  - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
   - DisplayName: "MDISAggregateObjectType"
   - Description: "The definition of a MDIS standard Aggregate Object"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasComponent:
     - [ UAObject, MDIS:1437, MDIS:<ChokePlaceholder> ]
     - DisplayName: "<ChokePlaceholder>"
@@ -230,7 +230,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
     - HasComponent:
       - [ UAMethod, MDIS:1459, MDIS:Abort ]
       - DisplayName: "Abort"
@@ -311,7 +311,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
     - HasComponent:
       - [ UAMethod, MDIS:15381, MDIS:Abort ]
       - DisplayName: "Abort"
@@ -486,7 +486,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, MDIS:15098, MDIS:MDISCounterObjectType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
     - HasComponent:
       - [ UAVariable, MDIS:15383, MDIS:Count, Number, 0, 0 ]
       - DisplayName: "Count"
@@ -504,7 +504,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, MDIS:15015, MDIS:MDISDigitalArbitrationObjectType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
     - HasComponent:
       - [ UAVariable, MDIS:15253, MDIS:ArbitrationMode, MDIS:ArbitrationModeEnum, 0, 0 ]
       - DisplayName: "ArbitrationMode"
@@ -558,7 +558,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, MDIS:1230, MDIS:MDISDigitalOutObjectType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
     - HasComponent:
       - [ UAVariable, MDIS:1393, MDIS:Fault, Boolean, 0, 0 ]
       - DisplayName: "Fault"
@@ -603,7 +603,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, MDIS:889, MDIS:MDISDigitalInstrumentObjectType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
     - HasComponent:
       - [ UAVariable, MDIS:1348, MDIS:Fault, Boolean, 0, 0 ]
       - DisplayName: "Fault"
@@ -630,7 +630,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, MDIS:15032, MDIS:MDISDiscreteArbitrationObjectType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
     - HasComponent:
       - [ UAVariable, MDIS:15268, MDIS:ArbitrationMode, MDIS:ArbitrationModeEnum, 0, 0 ]
       - DisplayName: "ArbitrationMode"
@@ -684,7 +684,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, MDIS:1242, MDIS:MDISDiscreteOutObjectType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
     - HasComponent:
       - [ UAVariable, MDIS:1405, MDIS:Fault, Boolean, 0, 0 ]
       - DisplayName: "Fault"
@@ -729,7 +729,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, MDIS:1214, MDIS:MDISDiscreteInstrumentObjectType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
     - HasComponent:
       - [ UAVariable, MDIS:1358, MDIS:Fault, Boolean, 0, 0 ]
       - DisplayName: "Fault"
@@ -756,7 +756,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, MDIS:15076, MDIS:MDISElectricChokeObjectType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
     - HasComponent:
       - [ UAMethod, MDIS:15289, MDIS:Abort ]
       - DisplayName: "Abort"
@@ -819,7 +819,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, MDIS:15547, MDIS:MDISInstrumentArbitrationObjectType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
     - HasComponent:
       - [ UAVariable, MDIS:15237, MDIS:ArbitrationMode, MDIS:ArbitrationModeEnum, 0, 0 ]
       - DisplayName: "ArbitrationMode"
@@ -891,7 +891,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, MDIS:1254, MDIS:MDISInstrumentOutObjectType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
     - HasComponent:
       - [ UAVariable, MDIS:1368, MDIS:Fault, Boolean, 0, 0 ]
       - DisplayName: "Fault"
@@ -954,7 +954,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, MDIS:971, MDIS:MDISInstrumentObjectType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
     - HasComponent:
       - [ UAVariable, MDIS:1325, MDIS:Fault, Boolean, 0, 0 ]
       - DisplayName: "Fault"
@@ -999,7 +999,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, MDIS:1279, MDIS:InterlockVariableType, Boolean, 0, 0 ]
     - HasInterlock_reverse:
-      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
   - HasComponent:
     - [ UAObject, MDIS:15290, MDIS:<MotorPlaceholder> ]
     - DisplayName: "<MotorPlaceholder>"
@@ -1008,7 +1008,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, MDIS:15190, MDIS:MDISMotorObjectType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
     - HasComponent:
       - [ UAVariable, MDIS:15291, MDIS:Fault, Boolean, 0, 0 ]
       - DisplayName: "Fault"
@@ -1044,7 +1044,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, MDIS:794, MDIS:MDISValveObjectType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+      - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
     - HasComponent:
       - [ UAVariable, MDIS:1417, MDIS:Fault, Boolean, 0, 0 ]
       - DisplayName: "Fault"
@@ -1091,7 +1091,7 @@ DefinedTypes:
   - DisplayName: "MDISChokeObjectType"
   - Description: "The definition of a MDIS standard Choke Object"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasInterlock:
     - [ UAVariable, MDIS:1281, MDIS:<InterlockPlaceholder>, Boolean, 0, 0 ]
     - DisplayName: "<InterlockPlaceholder>"
@@ -1281,7 +1281,7 @@ DefinedTypes:
   - DisplayName: "MDISCIMVObjectType"
   - Description: "The definition of a MDIS standard CIMV Object"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasInterlock:
     - [ UAVariable, MDIS:15177, MDIS:<InterlockPlaceholder>, Boolean, 0, 0 ]
     - DisplayName: "<InterlockPlaceholder>"
@@ -1736,7 +1736,7 @@ DefinedTypes:
   - DisplayName: "MDISDigitalInstrumentObjectType"
   - Description: "The definition of a MDIS standard Digital Instrument"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasComponent:
     - [ UAVariable, MDIS:970, MDIS:State, Boolean, 0, 0 ]
     - DisplayName: "State"
@@ -1829,7 +1829,7 @@ DefinedTypes:
   - DisplayName: "MDISDiscreteInstrumentObjectType"
   - Description: "The definition of a MDIS standard Discrete Instrument"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasComponent:
     - [ UAVariable, MDIS:1223, MDIS:State, UInt32, 0, 0 ]
     - DisplayName: "State"
@@ -1922,7 +1922,7 @@ DefinedTypes:
   - DisplayName: "MDISElectricChokeObjectType"
   - Description: "The definition of a MDIS standard Electric Choke Object"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasInterlock:
     - [ UAVariable, MDIS:15095, MDIS:<InterlockPlaceholder>, Boolean, 0, 0 ]
     - DisplayName: "<InterlockPlaceholder>"
@@ -2028,7 +2028,7 @@ DefinedTypes:
   - DisplayName: "MDISInstrumentObjectType"
   - Description: "The definition of a MDIS standard Instrument"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasComponent:
     - [ UAVariable, MDIS:1058, MDIS:HHlimit, Boolean, 0, 0 ]
     - DisplayName: "HHlimit"
@@ -2220,7 +2220,7 @@ DefinedTypes:
   - DisplayName: "MDISMotorObjectType"
   - Description: "The definition of a MDIS standard Motor Object"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasInterlock:
     - [ UAVariable, MDIS:15211, MDIS:<InterlockPlaceholder>, Boolean, 0, 0 ]
     - DisplayName: "<InterlockPlaceholder>"
@@ -2344,7 +2344,7 @@ DefinedTypes:
   - DisplayName: "MDISValveObjectType"
   - Description: "The definition of a MDIS standard Valve Object"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasInterlock:
     - [ UAVariable, MDIS:1280, MDIS:<InterlockPlaceholder>, Boolean, 0, 0 ]
     - DisplayName: "<InterlockPlaceholder>"

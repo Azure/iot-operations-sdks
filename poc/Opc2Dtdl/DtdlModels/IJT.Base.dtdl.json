@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:AcceptedEntityConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "AcceptedEntityConditionClassType",
     "description": "Indicates that an entity is accepted.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -32,7 +33,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:AddedEntityConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "AddedEntityConditionClassType",
     "description": "Indicates that an entity is added.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -54,7 +56,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:AssetConnectedConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "AssetConnectedConditionClassType",
     "description": "Indicates that the asset is connected.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -76,7 +79,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:AssetDisabledConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "AssetDisabledConditionClassType",
     "description": "Indicates that the asset is disabled.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -98,7 +102,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:AssetDisconnectedConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "AssetDisconnectedConditionClassType",
     "description": "Indicates that the asset is disconnected.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -120,7 +125,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:AssetEnabledConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "AssetEnabledConditionClassType",
     "description": "Indicates that the asset is enabled.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -142,7 +148,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:AssetLocationConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "AssetLocationConditionClassType",
     "description": "Indicates a change in the asset location.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -164,7 +171,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:CertificateConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "CertificateConditionClassType",
     "description": "Indicates a change in the certificate.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -186,7 +194,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:ConfigurationChangeConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "ConfigurationChangeConditionClassType",
     "description": "Indicates a change in the configuration.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -208,7 +217,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:DataValidationFailureConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "DataValidationFailureConditionClassType",
     "description": "Indicates a failure in the data validation.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -230,7 +240,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:ErrorConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "ErrorConditionClassType",
     "description": "Indicates an error in the system.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -252,7 +263,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:ExpiredEntityConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "ExpiredEntityConditionClassType",
     "description": "Indicates that an entity is expired.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -274,7 +286,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:HardwareConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "HardwareConditionClassType",
     "description": "Indicates a change in the hardware entity.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -296,7 +309,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:IncompatibleEntityConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "IncompatibleEntityConditionClassType",
     "description": "Indicates that an entity is incompatible.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -318,7 +332,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:InputValidationFailureConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "InputValidationFailureConditionClassType",
     "description": "Indicates a failure in the input validation.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -340,7 +355,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:InvalidEntityConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "InvalidEntityConditionClassType",
     "description": "Indicates that an entity is invalid.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -362,7 +378,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemUserLoggedInConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "JoiningSystemUserLoggedInConditionClassType",
     "description": "Indicates that a joining system user has logged-in.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -384,7 +401,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemUserLoggedOutConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "JoiningSystemUserLoggedOutConditionClassType",
     "description": "Indicates that a joining system user logged-out.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -406,7 +424,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:LicenseConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "LicenseConditionClassType",
     "description": "Indicates a change in the license.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -428,7 +447,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:LocationInZoneConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "LocationInZoneConditionClassType",
     "description": "Indicates the change of the entity location from out-of-zone to in-zone.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -450,7 +470,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:LocationOutOfZoneConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "LocationOutOfZoneConditionClassType",
     "description": "Indicates the change in the entity location from in-zone to out-of-zone.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -472,7 +493,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:MissingEntityConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "MissingEntityConditionClassType",
     "description": "Indicates that an entity is missing.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -494,7 +516,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:ReceivedEntityConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "ReceivedEntityConditionClassType",
     "description": "Indicates that an entity is received.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -516,7 +539,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:RejectedEntityConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "RejectedEntityConditionClassType",
     "description": "Indicates that an entity is rejected.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -538,7 +562,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:RemovedEntityConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "RemovedEntityConditionClassType",
     "description": "Indicates that an entity is removed.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -560,7 +585,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:SoftwareConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "SoftwareConditionClassType",
     "description": "Indicates a change in the software entity.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -582,7 +608,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:ThresholdViolationConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "ThresholdViolationConditionClassType",
     "description": "Indicates that a threshold is violated.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -604,7 +631,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:ThresholdViolationResolvedConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "ThresholdViolationResolvedConditionClassType",
     "description": "Indicates that a violated threshold is resolved.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -626,7 +654,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:UpdatedEntityConditionClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "UpdatedEntityConditionClassType",
     "description": "Indicates that an entity is updated.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
@@ -1395,7 +1424,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemIdentificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "JoiningSystemIdentificationType",
     "description": "It provides identification parameters of the joining system.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
@@ -1518,7 +1548,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningProcessManagementType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "JoiningProcessManagementType",
     "description": "The JoiningProcessManagementType provides access to various joining processes in a joining system.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -2467,7 +2498,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemAssetMethodSetType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "JoiningSystemAssetMethodSetType",
     "description": "The JoiningSystemAssetMethodSetType provides a set of methods for various assets in a joining system.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -3407,7 +3439,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "JoiningSystemType",
     "description": "The JoiningSystemType provides the overview of the information exposed from a given joining system.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -3446,7 +3479,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:JointManagementType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "JointManagementType",
     "description": "The JointManagementType provides access to the Joint and associated information.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -4370,7 +4404,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemResultManagementType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IJT.Base",
     "displayName": "JoiningSystemResultManagementType",
     "description": "The JoiningSystemResultManagementType is a subtype of ResultManagementType and provides mechanism to access results generated by the underlying joining system.",
     "extends": "dtmi:opcua:Machinery_Result:ResultManagementType;1",

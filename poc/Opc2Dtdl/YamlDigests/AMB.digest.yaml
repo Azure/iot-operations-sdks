@@ -21,105 +21,105 @@ DataTypes:
 DefinedTypes:
 
   AMB:CalibrationDueConditionClassType:
-  - [ UAObjectType, AMB:1005, AMB:CalibrationDueConditionClassType ]
+  - [ UAObjectType, AMB:1005, AMB:CalibrationDueConditionClassType, Abstract ]
   - DisplayName: "CalibrationDueConditionClassType"
   - Description: "Calibration is due"
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
   AMB:ExternalCheckConditionClassType:
-  - [ UAObjectType, AMB:1015, AMB:ExternalCheckConditionClassType ]
+  - [ UAObjectType, AMB:1015, AMB:ExternalCheckConditionClassType, Abstract ]
   - DisplayName: "ExternalCheckConditionClassType"
   - Description: "An external check maintenance activity"
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
   AMB:FlashUpdateInProgressConditionClassType:
-  - [ UAObjectType, AMB:1007, AMB:FlashUpdateInProgressConditionClassType ]
+  - [ UAObjectType, AMB:1007, AMB:FlashUpdateInProgressConditionClassType, Abstract ]
   - DisplayName: "FlashUpdateInProgressConditionClassType"
   - Description: "Flash update in progress"
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
   AMB:ImprovementConditionClassType:
-  - [ UAObjectType, AMB:1018, AMB:ImprovementConditionClassType ]
+  - [ UAObjectType, AMB:1018, AMB:ImprovementConditionClassType, Abstract ]
   - DisplayName: "ImprovementConditionClassType"
   - Description: "An improvement maintenance activity"
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
   AMB:InspectionConditionClassType:
-  - [ UAObjectType, AMB:1014, AMB:InspectionConditionClassType ]
+  - [ UAObjectType, AMB:1014, AMB:InspectionConditionClassType, Abstract ]
   - DisplayName: "InspectionConditionClassType"
   - Description: "An inspection maintenance activity"
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
   AMB:RepairConditionClassType:
-  - [ UAObjectType, AMB:1017, AMB:RepairConditionClassType ]
+  - [ UAObjectType, AMB:1017, AMB:RepairConditionClassType, Abstract ]
   - DisplayName: "RepairConditionClassType"
   - Description: "A repair maintenance activity"
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
   AMB:ServicingConditionClassType:
-  - [ UAObjectType, AMB:1016, AMB:ServicingConditionClassType ]
+  - [ UAObjectType, AMB:1016, AMB:ServicingConditionClassType, Abstract ]
   - DisplayName: "ServicingConditionClassType"
   - Description: "A servicing maintenance activity"
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
   AMB:BadConfigurationConditionClassType:
-  - [ UAObjectType, AMB:1008, AMB:BadConfigurationConditionClassType ]
+  - [ UAObjectType, AMB:1008, AMB:BadConfigurationConditionClassType, Abstract ]
   - DisplayName: "BadConfigurationConditionClassType"
   - Description: "Configuration is bad"
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
   AMB:ConnectionFailureConditionClassType:
-  - [ UAObjectType, AMB:1003, AMB:ConnectionFailureConditionClassType ]
+  - [ UAObjectType, AMB:1003, AMB:ConnectionFailureConditionClassType, Abstract ]
   - DisplayName: "ConnectionFailureConditionClassType"
   - Description: "One or more connections have failed"
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
   AMB:FlashUpdateFailedConditionClassType:
-  - [ UAObjectType, AMB:1019, AMB:FlashUpdateFailedConditionClassType ]
+  - [ UAObjectType, AMB:1019, AMB:FlashUpdateFailedConditionClassType, Abstract ]
   - DisplayName: "FlashUpdateFailedConditionClassType"
   - Description: "Flash update has failed"
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
   AMB:OutOfResourcesConditionClassType:
-  - [ UAObjectType, AMB:1009, AMB:OutOfResourcesConditionClassType ]
+  - [ UAObjectType, AMB:1009, AMB:OutOfResourcesConditionClassType, Abstract ]
   - DisplayName: "OutOfResourcesConditionClassType"
   - Description: "Out of resources issues"
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
   AMB:OutOfMemoryConditionClassType:
-  - [ UAObjectType, AMB:1010, AMB:OutOfMemoryConditionClassType ]
+  - [ UAObjectType, AMB:1010, AMB:OutOfMemoryConditionClassType, Abstract ]
   - DisplayName: "OutOfMemoryConditionClassType"
   - Description: "Out of memory issues"
   - HasSubtype_reverse:
-    - [ UAObjectType, AMB:1009, AMB:OutOfResourcesConditionClassType ]
+    - [ UAObjectType, AMB:1009, AMB:OutOfResourcesConditionClassType, Abstract ]
 
   AMB:OverTemperatureConditionClassType:
-  - [ UAObjectType, AMB:1004, AMB:OverTemperatureConditionClassType ]
+  - [ UAObjectType, AMB:1004, AMB:OverTemperatureConditionClassType, Abstract ]
   - DisplayName: "OverTemperatureConditionClassType"
   - Description: "Over temperature"
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
   AMB:SelfTestFailureConditionClassType:
-  - [ UAObjectType, AMB:1006, AMB:SelfTestFailureConditionClassType ]
+  - [ UAObjectType, AMB:1006, AMB:SelfTestFailureConditionClassType, Abstract ]
   - DisplayName: "SelfTestFailureConditionClassType"
   - Description: "Self-Test failure"
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
   AMB:IMaintenanceEventType:
-  - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
+  - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType, Abstract ]
   - DisplayName: "IMaintenanceEventType"
   - Description: "Information on maintenance activities, should by applied to conditions (ConditionType or subtypes)"
   - HasProperty:
@@ -131,7 +131,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, AMB:6036, AMB:EstimatedDowntime, Duration, 0, 3 ]
     - DisplayName: "EstimatedDowntime"
@@ -141,7 +141,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, AMB:6041, AMB:MaintenanceMethod, AMB:MaintenanceMethodEnum, 0, 3 ]
     - DisplayName: "MaintenanceMethod"
@@ -151,7 +151,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType, Abstract ]
   - HasComponent:
     - [ UAObject, AMB:5014, AMB:MaintenanceState ]
     - DisplayName: "MaintenanceState"
@@ -179,7 +179,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, AMB:5014, AMB:MaintenanceState ]
     - HasComponent_reverse:
-      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, AMB:6037, AMB:MaintenanceSupplier, AMB:NameNodeIdDataType, 0, 3 ]
     - DisplayName: "MaintenanceSupplier"
@@ -189,7 +189,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, AMB:6039, AMB:PartsOfAssetReplaced, AMB:NameNodeIdDataType, 1, 3 ]
     - DisplayName: "PartsOfAssetReplaced"
@@ -199,7 +199,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, AMB:6040, AMB:PartsOfAssetServiced, AMB:NameNodeIdDataType, 1, 3 ]
     - DisplayName: "PartsOfAssetServiced"
@@ -209,7 +209,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, AMB:6035, AMB:PlannedDate, UtcTime, 0, 3 ]
     - DisplayName: "PlannedDate"
@@ -219,7 +219,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, AMB:6038, AMB:QualificationOfPersonnel, AMB:NameNodeIdDataType, 0, 3 ]
     - DisplayName: "QualificationOfPersonnel"
@@ -229,12 +229,12 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
+      - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   AMB:IRootCauseIndicationType:
-  - [ UAObjectType, AMB:1002, AMB:IRootCauseIndicationType ]
+  - [ UAObjectType, AMB:1002, AMB:IRootCauseIndicationType, Abstract ]
   - DisplayName: "IRootCauseIndicationType"
   - Description: "Information on the root cause of conditions, should be applied to alarms (AlarmType or subtypes)"
   - HasProperty:
@@ -246,7 +246,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, AMB:1002, AMB:IRootCauseIndicationType ]
+      - [ UAObjectType, AMB:1002, AMB:IRootCauseIndicationType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 

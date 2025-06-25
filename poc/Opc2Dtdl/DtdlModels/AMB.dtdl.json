@@ -521,7 +521,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMB:DocumentationLinksType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMB",
     "displayName": "DocumentationLinksType",
     "description": "AddIn to link documentation provided by the manufacturer and / or end-user.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",

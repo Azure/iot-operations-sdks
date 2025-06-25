@@ -114,7 +114,7 @@ DataTypes:
 DefinedTypes:
 
   isa95-jobcontrol:ISA95JobOrderStatusEventType:
-  - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+  - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
   - DisplayName: "ISA95JobOrderStatusEventType"
   - HasProperty:
     - [ UAVariable, isa95-jobcontrol:6047, isa95-jobcontrol:JobOrder, isa95-jobcontrol:ISA95JobOrderDataType, 0, 3 ]

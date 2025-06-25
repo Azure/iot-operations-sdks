@@ -76,7 +76,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ISA95:QualificationTestSpecificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "QualificationTestSpecificationType",
     "description": "This ObjectType indicates the existence of a test specification.",
     "extends": "dtmi:opcua:ISA95:ISA95TestSpecificationType;1",
@@ -98,7 +99,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ISA95:PersonnelClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "PersonnelClassType",
     "description": "This ObjectType indicates a grouping of persons with similar characteristics for a definite purpose such as manufacturing operations definition, scheduling, capability and performance",
     "extends": "dtmi:opcua:ISA95:ISA95ClassType;1",
@@ -120,7 +122,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ISA95:PersonType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "PersonType",
     "description": "This ObjectType indicates a specifically identified individual",
     "extends": "dtmi:opcua:ISA95:ISA95ObjectType;1",
@@ -142,7 +145,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ISA95:PhysicalAssetCapabilityTestSpecificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "PhysicalAssetCapabilityTestSpecificationType",
     "description": "This ObjectType indicates the existence of a test specification.",
     "extends": "dtmi:opcua:ISA95:ISA95TestSpecificationType;1",
@@ -164,7 +168,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ISA95:PhysicalAssetClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "PhysicalAssetClassType",
     "description": "This ObjectType indicates a grouping of equipment with similar characteristics for a definite purpose such as manufacturing operations definition, scheduling, capability and performance",
     "extends": "dtmi:opcua:ISA95:ISA95ClassType;1",
@@ -186,7 +191,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ISA95:PhysicalAssetType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "PhysicalAssetType",
     "description": "This ObjectType defines a piece of equipment",
     "extends": "dtmi:opcua:ISA95:ISA95ObjectType;1",
@@ -216,7 +222,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ISA95:EquipmentCapabilityTestSpecificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "EquipmentCapabilityTestSpecificationType",
     "description": "This ObjectType indicates the existence of a test specification.",
     "extends": "dtmi:opcua:ISA95:ISA95TestSpecificationType;1",
@@ -238,7 +245,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ISA95:EquipmentClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "EquipmentClassType",
     "description": "This ObjectType indicates a grouping of equipment with similar characteristics for a definite purpose such as manufacturing operations definition, scheduling, capability and performance",
     "extends": "dtmi:opcua:ISA95:ISA95ClassType;1",
@@ -260,7 +268,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ISA95:EquipmentType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "EquipmentType",
     "description": "This ObjectType defines a piece of equipment",
     "extends": "dtmi:opcua:ISA95:ISA95ObjectType;1",
@@ -290,7 +299,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ISA95:MaterialTestSpecificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "MaterialTestSpecificationType",
     "description": "This ObjectType indicates the existence of a test specification.",
     "extends": "dtmi:opcua:ISA95:ISA95TestSpecificationType;1",
@@ -312,7 +322,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ISA95:MaterialClassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "MaterialClassType",
     "extends": "dtmi:opcua:ISA95:ISA95ClassType;1",
     "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5209",
@@ -333,7 +344,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ISA95:MaterialDefinitionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "MaterialDefinitionType",
     "extends": "dtmi:opcua:ISA95:ISA95ClassType;1",
     "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5219",
@@ -354,7 +366,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ISA95:MaterialLotType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "MaterialLotType",
     "extends": "dtmi:opcua:ISA95:ISA95ObjectType;1",
     "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5232",
@@ -375,7 +388,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:ISA95:MaterialSublotType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "MaterialSublotType",
     "extends": "dtmi:opcua:ISA95:ISA95ObjectType;1",
     "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5259",

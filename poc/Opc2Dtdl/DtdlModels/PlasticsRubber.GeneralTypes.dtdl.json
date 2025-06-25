@@ -140,7 +140,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ActiveCyclicJobValuesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
     "displayName": "ActiveCyclicJobValuesType",
     "description": "Values of the active job for cyclic production",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:ActiveJobValuesType;1",
@@ -2260,7 +2261,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:CyclicJobInformationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
     "displayName": "CyclicJobInformationType",
     "description": "Information about a cyclic production job",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobInformationType;1",
@@ -4010,7 +4012,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ElectricDriveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
     "displayName": "ElectricDriveType",
     "description": "Information on an electric drive",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:PowerUnitType;1",
@@ -4032,7 +4035,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:HydraulicUnitType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
     "displayName": "HydraulicUnitType",
     "description": "Information on an hydraulic unit",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:PowerUnitType;1",
@@ -4958,7 +4962,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneCycleParametersType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
     "displayName": "TemperatureZoneCycleParametersType",
     "description": "Information on the production cycle related to a temperature zone",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -5287,7 +5292,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:BarrelTemperatureZoneType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
     "displayName": "BarrelTemperatureZoneType",
     "description": "Information about a temperature zone on a barrel",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneType;1",
@@ -5320,7 +5326,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MouldTemperatureZoneType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
     "displayName": "MouldTemperatureZoneType",
     "description": "Information about a temperature zone in a mould",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneType;1",

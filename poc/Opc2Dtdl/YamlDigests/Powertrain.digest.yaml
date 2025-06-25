@@ -342,7 +342,7 @@ DefinedTypes:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetAttributesType:
-  - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+  - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
   - DisplayName: "PtAssetAttributesType"
   - Description: "Provides attributes to the respective asset in a modular manner"
   - HasProperty:
@@ -351,7 +351,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+      - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
@@ -402,7 +402,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:1008, Powertrain:PtBleedAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtBrakeAttributesType:
   - [ UAObjectType, Powertrain:16609, Powertrain:PtBrakeAttributesType ]
@@ -857,7 +857,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:16609, Powertrain:PtBrakeAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
   - HasProperty:
     - [ UAVariable, Powertrain:16612, Powertrain:SafetyPropertySupported, Boolean, 0, 0 ]
     - DisplayName: "SafetyPropertySupported"
@@ -897,10 +897,10 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:1004, Powertrain:PtCapacitanceAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtCommonAssetAttributesType:
-  - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+  - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
   - DisplayName: "PtCommonAssetAttributesType"
   - Description: "Provides attributes which apply to any or many of powertrain assets"
   - HasProperty:
@@ -909,9 +909,9 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+      - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtAmbientAttributesType:
   - [ UAObjectType, Powertrain:16875, Powertrain:PtAmbientAttributesType ]
@@ -1015,7 +1015,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:16875, Powertrain:PtAmbientAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
   - HasComponent:
     - [ UAVariable, Powertrain:6382, Powertrain:TemperatureMax, Float, 0, 0 ]
     - DisplayName: "TemperatureMax"
@@ -1146,7 +1146,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:16907, Powertrain:PtAnalogInputElectricalAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
   - HasProperty:
     - [ UAVariable, Powertrain:16911, Powertrain:Resolution, Int32, 0, 0 ]
     - DisplayName: "Resolution"
@@ -1241,7 +1241,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:16913, Powertrain:PtAnalogOutputElectricalAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
 
   Powertrain:PtAuxiliarySupplyAttributesType:
   - [ UAObjectType, Powertrain:16928, Powertrain:PtAuxiliarySupplyAttributesType ]
@@ -1309,7 +1309,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:16928, Powertrain:PtAuxiliarySupplyAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
   - HasComponent:
     - [ UAVariable, Powertrain:16936, Powertrain:SupplyVoltageAc, Float, 0, 0 ]
     - DisplayName: "SupplyVoltageAc"
@@ -1368,7 +1368,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:16960, Powertrain:PtCertificateAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
 
   Powertrain:PtCommunicationInterfaceAttributesType:
   - [ UAObjectType, Powertrain:16963, Powertrain:PtCommunicationInterfaceAttributesType ]
@@ -1454,7 +1454,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:16963, Powertrain:PtCommunicationInterfaceAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
   - HasComponent:
     - [ UAVariable, Powertrain:6412, Powertrain:SafetyProtocolTypes, UInt16, 1, 0 ]
     - DisplayName: "SafetyProtocolTypes"
@@ -1522,7 +1522,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:16970, Powertrain:PtCoolingAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
 
   Powertrain:PtDigitalInputElectricalAttributesType:
   - [ UAObjectType, Powertrain:17000, Powertrain:PtDigitalInputElectricalAttributesType ]
@@ -1572,7 +1572,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:17000, Powertrain:PtDigitalInputElectricalAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
   - HasProperty:
     - [ UAVariable, Powertrain:6421, Powertrain:SafetyPropertySupported, Boolean, 0, 0 ]
     - DisplayName: "SafetyPropertySupported"
@@ -1649,7 +1649,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:17009, Powertrain:PtDigitalOutputElectricalAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
   - HasProperty:
     - [ UAVariable, Powertrain:6423, Powertrain:SafetyPropertySupported, Boolean, 0, 0 ]
     - DisplayName: "SafetyPropertySupported"
@@ -1681,7 +1681,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:17144, Powertrain:PtFunctionalSafetyAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
   - HasProperty:
     - [ UAVariable, Powertrain:6433, Powertrain:SafetyAssessor, String, 0, 0 ]
     - DisplayName: "SafetyAssessor"
@@ -1785,7 +1785,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:17024, Powertrain:PtFuseAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
   - HasComponent:
     - [ UAVariable, Powertrain:6444, Powertrain:VoltageRated, Float, 0, 0 ]
     - DisplayName: "VoltageRated"
@@ -1898,7 +1898,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:16973, Powertrain:PtHardwareAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
   - HasComponent:
     - [ UAVariable, Powertrain:16993, Powertrain:Weight, Float, 0, 0 ]
     - DisplayName: "Weight"
@@ -2101,7 +2101,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:17046, Powertrain:PtInputInterfaceAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
 
   Powertrain:PtMechanicalStrengthAttributesType:
   - [ UAObjectType, Powertrain:17136, Powertrain:PtMechanicalStrengthAttributesType ]
@@ -2115,7 +2115,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:17136, Powertrain:PtMechanicalStrengthAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
   - HasProperty:
     - [ UAVariable, Powertrain:17138, Powertrain:Shock, String, 1, 0 ]
     - DisplayName: "Shock"
@@ -2345,7 +2345,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:17085, Powertrain:PtOutputInterfaceAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
 
   Powertrain:PtProtectionClassAttributesType:
   - [ UAObjectType, Powertrain:17140, Powertrain:PtProtectionClassAttributesType ]
@@ -2395,7 +2395,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:17140, Powertrain:PtProtectionClassAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
 
   Powertrain:PtSafetyFunctionsAttributesType:
   - [ UAObjectType, Powertrain:17149, Powertrain:PtSafetyFunctionsAttributesType ]
@@ -2490,7 +2490,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:17149, Powertrain:PtSafetyFunctionsAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
   - HasComponent:
     - [ UAVariable, Powertrain:6667, Powertrain:SafetyFunctions, UInt16, 0, 0 ]
     - DisplayName: "SafetyFunctions"
@@ -2540,7 +2540,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:17156, Powertrain:PtStandardAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType, Abstract ]
   - HasProperty:
     - [ UAVariable, Powertrain:17158, Powertrain:Standards, String, 1, 0 ]
     - DisplayName: "Standards"
@@ -2608,7 +2608,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:16847, Powertrain:PtContactorAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtDcBusAttributesType:
   - [ UAObjectType, Powertrain:16798, Powertrain:PtDcBusAttributesType ]
@@ -2658,7 +2658,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:16798, Powertrain:PtDcBusAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtElectronicOverloadRelayAttributesType:
   - [ UAObjectType, Powertrain:1014, Powertrain:PtElectronicOverloadRelayAttributesType ]
@@ -2761,7 +2761,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:1014, Powertrain:PtElectronicOverloadRelayAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtEncoderAttributesType:
   - [ UAObjectType, Powertrain:16553, Powertrain:PtEncoderAttributesType ]
@@ -2829,7 +2829,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:16553, Powertrain:PtEncoderAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtEncoderLinearAttributesType:
   - [ UAObjectType, Powertrain:1024, Powertrain:PtEncoderLinearAttributesType ]
@@ -3212,7 +3212,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Powertrain:6492, Powertrain:EncoderSignal, UInt16, 0, 0 ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtEncoderInterfaceProtocolAttributesType:
   - [ UAObjectType, Powertrain:16605, Powertrain:PtEncoderInterfaceProtocolAttributesType ]
@@ -3253,7 +3253,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:16605, Powertrain:PtEncoderInterfaceProtocolAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtGearAttributesType:
   - [ UAObjectType, Powertrain:16503, Powertrain:PtGearAttributesType ]
@@ -3420,7 +3420,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:16503, Powertrain:PtGearAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
   - HasComponent:
     - [ UAVariable, Powertrain:16526, Powertrain:SpeedRated, Float, 0, 0 ]
     - DisplayName: "SpeedRated"
@@ -3578,7 +3578,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:16806, Powertrain:PtInputConverterAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
   - HasProperty:
     - [ UAVariable, Powertrain:6222, Powertrain:RegenerativeFeedbackSupported, Boolean, 0, 0 ]
     - DisplayName: "RegenerativeFeedbackSupported"
@@ -3718,7 +3718,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:16827, Powertrain:PtInputFilterAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtMotorAttributesType:
   - [ UAObjectType, Powertrain:16383, Powertrain:PtMotorAttributesType ]
@@ -3759,7 +3759,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:16383, Powertrain:PtMotorAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtMotorLinearAttributesType:
   - [ UAObjectType, Powertrain:1012, Powertrain:PtMotorLinearAttributesType ]
@@ -3934,7 +3934,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:16499, Powertrain:PtMotorDutyAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtMotorManagementDeviceAttributesType:
   - [ UAObjectType, Powertrain:1023, Powertrain:PtMotorManagementDeviceAttributesType ]
@@ -4145,7 +4145,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:1023, Powertrain:PtMotorManagementDeviceAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtMotorRatedAttributesType:
   - [ UAObjectType, Powertrain:16399, Powertrain:PtMotorRatedAttributesType ]
@@ -4330,7 +4330,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:16399, Powertrain:PtMotorRatedAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtMotorLinearRatedAttributesType:
   - [ UAObjectType, Powertrain:1018, Powertrain:PtMotorLinearRatedAttributesType ]
@@ -4640,7 +4640,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:16854, Powertrain:PtMotorStarterAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
   - HasComponent:
     - [ UAVariable, Powertrain:6394, Powertrain:TripClass, UInt16, 0, 0 ]
     - DisplayName: "TripClass"
@@ -4726,7 +4726,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:16818, Powertrain:PtOutputConverterAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtOutputFilterAttributesType:
   - [ UAObjectType, Powertrain:16838, Powertrain:PtOutputFilterAttributesType ]
@@ -4785,7 +4785,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:16838, Powertrain:PtOutputFilterAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtPrechargeAttributesType:
   - [ UAObjectType, Powertrain:1010, Powertrain:PtPrechargeAttributesType ]
@@ -4915,7 +4915,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Powertrain:6191, Powertrain:PreChargeType, UInt16, 0, 0 ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtReactorAttributesType:
   - [ UAObjectType, Powertrain:1006, Powertrain:PtReactorAttributesType ]
@@ -4946,7 +4946,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:1006, Powertrain:PtReactorAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtSoftStarterAttributesType:
   - [ UAObjectType, Powertrain:1019, Powertrain:PtSoftStarterAttributesType ]
@@ -4995,7 +4995,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:1019, Powertrain:PtSoftStarterAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
 
   Powertrain:PtTemperatureSensorAttributesType:
   - [ UAObjectType, Powertrain:16708, Powertrain:PtTemperatureSensorAttributesType ]
@@ -5027,7 +5027,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Powertrain:16708, Powertrain:PtTemperatureSensorAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
   - HasComponent:
     - [ UAVariable, Powertrain:16735, Powertrain:TemperatureMax, Float, 0, 0 ]
     - DisplayName: "TemperatureMax"
@@ -5338,7 +5338,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Powertrain:16747, Powertrain:PtVibrationSensorAttributesType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+    - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType, Abstract ]
   - HasComponent:
     - [ UAVariable, Powertrain:6573, Powertrain:Resolution, Float, 0, 0 ]
     - DisplayName: "Resolution"

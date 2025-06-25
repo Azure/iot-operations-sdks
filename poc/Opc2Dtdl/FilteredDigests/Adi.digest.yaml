@@ -83,7 +83,7 @@ DataTypes:
 DefinedTypes:
 
   ADI:AnalyserDeviceType:
-  - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType ]
+  - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType, Abstract ]
   - DisplayName: "AnalyserDeviceType"
   - HasComponent:
     - [ UAObject, ADI:5001, DI:ParameterSet ]
@@ -1321,37 +1321,37 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType ]
+    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType, Abstract ]
 
   ADI:ParticleSizeMonitorDeviceType:
   - [ UAObjectType, ADI:1012, ADI:ParticleSizeMonitorDeviceType ]
   - DisplayName: "ParticleSizeMonitorDeviceType"
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType ]
+    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType, Abstract ]
 
   ADI:ChromatographDeviceType:
   - [ UAObjectType, ADI:1013, ADI:ChromatographDeviceType ]
   - DisplayName: "ChromatographDeviceType"
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType ]
+    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType, Abstract ]
 
   ADI:MassSpectrometerDeviceType:
   - [ UAObjectType, ADI:1014, ADI:MassSpectrometerDeviceType ]
   - DisplayName: "MassSpectrometerDeviceType"
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType ]
+    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType, Abstract ]
 
   ADI:AcousticSpectrometerDeviceType:
   - [ UAObjectType, ADI:1015, ADI:AcousticSpectrometerDeviceType ]
   - DisplayName: "AcousticSpectrometerDeviceType"
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType ]
+    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType, Abstract ]
 
   ADI:NMRDeviceType:
   - [ UAObjectType, ADI:1016, ADI:NMRDeviceType ]
   - DisplayName: "NMRDeviceType"
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType ]
+    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType, Abstract ]
 
   ADI:AccessorySlotType:
   - [ UAObjectType, ADI:1017, ADI:AccessorySlotType ]

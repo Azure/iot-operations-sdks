@@ -4396,14 +4396,14 @@ DefinedTypes:
     - [ UAObjectType, DI:1006, DI:ProtocolType ]
 
   POWERLINK:PowerlinkConnectionPointType:
-  - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
+  - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType, Abstract ]
   - DisplayName: "PowerlinkConnectionPointType"
   - Description: "defines the POWERLINK Objects, which are common for both POWERLINK Managing Node and POWERLINK Controlled Node"
   - HasComponent:
     - [ UAObject, POWERLINK:59, DI:<ProfileId> ]
     - DisplayName: "<ProfileId>"
     - HasComponent_reverse:
-      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
+      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
@@ -4412,7 +4412,7 @@ DefinedTypes:
     - [ UAObject, POWERLINK:63, POWERLINK:Configuration ]
     - DisplayName: "Configuration"
     - HasComponent_reverse:
-      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
+      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
@@ -6820,7 +6820,7 @@ DefinedTypes:
     - [ UAObject, POWERLINK:65, POWERLINK:Control ]
     - DisplayName: "Control"
     - HasComponent_reverse:
-      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
+      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - Organizes:
@@ -7804,7 +7804,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAVariable, POWERLINK:2405, POWERLINK:Status_U32, UInt32, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
+      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType, Abstract ]
     - Organizes:
       - [ UAVariable, POWERLINK:769, POWERLINK:ERR_ErrorRegister_U8, POWERLINK:ErrorRegisterBits, 0, 0 ]
       - DisplayName: "ERR_ErrorRegister_U8"
@@ -8006,7 +8006,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasComponent_reverse:
-      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
+      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - Organizes:
@@ -8543,7 +8543,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
+      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType, Abstract ]
     - HasComponent:
       - [ UAMethod, POWERLINK:1366, POWERLINK:ReadByIndex ]
       - DisplayName: "ReadByIndex"
@@ -8621,7 +8621,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
+      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType, Abstract ]
     - Organizes:
       - [ UAVariable, POWERLINK:138, POWERLINK:NMT_EPLNodeID_REC, Byte, 0, 0 ]
       - DisplayName: "NMT_EPLNodeID_REC"
@@ -12876,7 +12876,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAVariable, POWERLINK:486, POWERLINK:ReasmMaxSize_U16, UInt16, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
+      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType, Abstract ]
     - HasComponent:
       - [ UAVariable, POWERLINK:602, POWERLINK:PDL_MnExpAppSwDateList_AU32, UInt32, 1, 3 ]
       - DisplayName: "PDL_MnExpAppSwDateList_AU32"
@@ -14106,7 +14106,7 @@ DefinedTypes:
       - Organizes_reverse:
         - [ UAObject, POWERLINK:66, POWERLINK:SdoServices ]
     - HasComponent_reverse:
-      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
+      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType, Abstract ]
     - Organizes:
       - [ UAMethod, POWERLINK:1081, POWERLINK:WriteByIndex ]
       - DisplayName: "WriteByIndex"
@@ -14702,7 +14702,7 @@ DefinedTypes:
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
+      - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType, Abstract ]
 
   POWERLINK:PowerlinkCnConnectionPointType:
   - [ UAObjectType, POWERLINK:4, POWERLINK:PowerlinkCnConnectionPointType ]
@@ -22427,7 +22427,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAVariable, POWERLINK:1487, POWERLINK:SDO_SequLayerTimeout_U32, UInt32, 0, 3 ]
   - HasSubtype_reverse:
-    - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
+    - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType, Abstract ]
 
   POWERLINK:PowerlinkMnConnectionPointType:
   - [ UAObjectType, POWERLINK:5, POWERLINK:PowerlinkMnConnectionPointType ]
@@ -34230,7 +34230,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAVariable, POWERLINK:1807, POWERLINK:SDO_SequLayerTimeout_U32, UInt32, 0, 3 ]
   - HasSubtype_reverse:
-    - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
+    - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType, Abstract ]
 
   POWERLINK:PowerlinkDeviceType:
   - [ UAObjectType, POWERLINK:2, POWERLINK:PowerlinkDeviceType ]

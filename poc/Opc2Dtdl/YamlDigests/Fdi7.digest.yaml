@@ -642,7 +642,7 @@ DefinedTypes:
     - [ UAObjectType, DI:1002, DI:DeviceType ]
 
   FDI7:ServerCommunicationDeviceType:
-  - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType ]
+  - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType, Abstract ]
   - DisplayName: "ServerCommunicationDeviceType"
   - HasComponent:
     - [ UAObject, FDI7:96, DI:MethodSet ]
@@ -751,7 +751,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType ]
+      - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, FDI7:15001, FDI7:ListOfCommunicationProfiles, String, 1, 0 ]
     - DisplayName: "ListOfCommunicationProfiles"
@@ -760,7 +760,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType ]
+      - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1002, DI:DeviceType ]
 
@@ -1013,7 +1013,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, FDI7:324, FDI7:ServerCommunicationFFH1DeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType ]
+    - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType, Abstract ]
 
   FDI7:ServerCommunicationFFHSEDeviceType:
   - [ UAObjectType, FDI7:452, FDI7:ServerCommunicationFFHSEDeviceType ]
@@ -1259,7 +1259,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, FDI7:452, FDI7:ServerCommunicationFFHSEDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType ]
+    - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType, Abstract ]
 
   FDI7:ServerCommunicationPROFIBUSDeviceType:
   - [ UAObjectType, FDI7:580, FDI7:ServerCommunicationPROFIBUSDeviceType ]
@@ -1499,7 +1499,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, FDI7:580, FDI7:ServerCommunicationPROFIBUSDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType ]
+    - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType, Abstract ]
 
   FDI7:ServerCommunicationPROFINETDeviceType:
   - [ UAObjectType, FDI7:705, FDI7:ServerCommunicationPROFINETDeviceType ]
@@ -1745,7 +1745,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, FDI7:705, FDI7:ServerCommunicationPROFINETDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType ]
+    - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType, Abstract ]
 
   FDI7:ServerCommunicationHARType:
   - [ UAObjectType, FDI7:830, FDI7:ServerCommunicationHARType ]
@@ -1981,7 +1981,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, FDI7:830, FDI7:ServerCommunicationHARType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType ]
+    - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType, Abstract ]
 
   FDI7:ServerCommunicationISA100_WirelessDeviceType:
   - [ UAObjectType, FDI7:1788, FDI7:ServerCommunicationISA100_WirelessDeviceType ]
@@ -2183,7 +2183,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, FDI7:1788, FDI7:ServerCommunicationISA100_WirelessDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType ]
+    - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType, Abstract ]
 
   FDI7:ServerCommunicationGENERICDeviceType:
   - [ UAObjectType, FDI7:1913, FDI7:ServerCommunicationGENERICDeviceType ]
@@ -2431,10 +2431,10 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, FDI7:1913, FDI7:ServerCommunicationGENERICDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType ]
+    - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType, Abstract ]
 
   FDI7:ServerCommunicationServiceType:
-  - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType ]
+  - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType, Abstract ]
   - DisplayName: "ServerCommunicationServiceType"
   - HasComponent:
     - [ UAObject, FDI7:236, DI:MethodSet ]
@@ -2474,7 +2474,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType ]
+      - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1002, DI:DeviceType ]
 
@@ -2599,7 +2599,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, FDI7:997, FDI7:ServerCommunicationFFH1ServiceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType ]
+    - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType, Abstract ]
 
   FDI7:ServerCommunicationFFHSEServiceType:
   - [ UAObjectType, FDI7:1073, FDI7:ServerCommunicationFFHSEServiceType ]
@@ -2720,7 +2720,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, FDI7:1073, FDI7:ServerCommunicationFFHSEServiceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType ]
+    - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType, Abstract ]
 
   FDI7:ServerCommunicationPROFIBUSServiceType:
   - [ UAObjectType, FDI7:1149, FDI7:ServerCommunicationPROFIBUSServiceType ]
@@ -2802,7 +2802,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, FDI7:1149, FDI7:ServerCommunicationPROFIBUSServiceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType ]
+    - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType, Abstract ]
 
   FDI7:ServerCommunicationPROFINETServiceType:
   - [ UAObjectType, FDI7:1222, FDI7:ServerCommunicationPROFINETServiceType ]
@@ -2887,7 +2887,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, FDI7:1222, FDI7:ServerCommunicationPROFINETServiceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType ]
+    - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType, Abstract ]
 
   FDI7:ServerCommunicationHARTServiceType:
   - [ UAObjectType, FDI7:1295, FDI7:ServerCommunicationHARTServiceType ]
@@ -2997,7 +2997,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, FDI7:1295, FDI7:ServerCommunicationHARTServiceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType ]
+    - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType, Abstract ]
 
   FDI7:ServerCommunicationISA100_WirelessServiceType:
   - [ UAObjectType, FDI7:2057, FDI7:ServerCommunicationISA100_WirelessServiceType ]
@@ -3115,7 +3115,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, FDI7:2057, FDI7:ServerCommunicationISA100_WirelessServiceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType ]
+    - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType, Abstract ]
 
   FDI7:ServerCommunicationGENERICServiceType:
   - [ UAObjectType, FDI7:2133, FDI7:ServerCommunicationGENERICServiceType ]
@@ -3196,4 +3196,4 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, FDI7:2133, FDI7:ServerCommunicationGENERICServiceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType ]
+    - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType, Abstract ]

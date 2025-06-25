@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:DEXPISupplementaryDataType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "DEXPISupplementaryDataType",
     "description": "Additional data including the original XML source file, the DEXPI specification as UML XMI and used version numbers for the DEXPI specification and the Proteus schema",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -110,7 +111,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PlantModelType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PlantModelType",
     "description": "A model of a chemical plant. It includes various aspects such as the engineering content, a diagram, and metadata.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -909,7 +911,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:ProcessControlFunctionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "ProcessControlFunctionType",
     "description": "A requirement for control structures relating to Process Engineering. Association to ParentStructure (TechnicalItemParentStructure) Association to PlantTrain (PlantTrain) Association to PlantSystem (PlantSystem) Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -1140,7 +1143,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:SignalLineFunctionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "SignalLineFunctionType",
     "description": "Information flow function for signals. Association to Source (SignalConveyingFunctionSource) Association to Target (SignalConveyingFunctionTarget)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -1257,7 +1261,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:MeasuringLineFunctionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "MeasuringLineFunctionType",
     "description": "Information flow function for measured values. Association to Source (SignalConveyingFunctionSource) Association to Target (SignalConveyingFunctionTarget)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -1591,7 +1596,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:OfflinePrimaryElementType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "OfflinePrimaryElementType",
     "description": "A PrimaryElement that is not part of a PipingNetworkSegment.",
     "extends": "dtmi:opcua:DEXPI:PrimaryElementType;1",
@@ -2309,7 +2315,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:InlinePrimaryElementReferenceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "InlinePrimaryElementReferenceType",
     "description": "A reference to an InlinePrimaryElement that is part of a PipingNetworkSegment. Association to InlinePrimaryElement (InlinePrimaryElement)",
     "extends": "dtmi:opcua:DEXPI:PrimaryElementType;1",
@@ -2331,7 +2338,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PlantSectionIso10209_2012Type;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PlantSectionIso10209-2012Type",
     "description": "A plant section as defined by ISO 10209:2012. Association to ParentStructure (PlantSectionIso10209-2012ParentStructure) Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -2392,7 +2400,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:IndustrialComplexIso10209_2012Type;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "IndustrialComplexIso10209-2012Type",
     "description": "An industrial complex as defined by ISO 10209:2012. Association to ParentStructure (IndustrialComplexIso10209-2012ParentStructure) Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -2475,7 +2484,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:SiteIsa95Type;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "SiteIsa95Type",
     "description": "A site as defined by ISA 95. Association to ParentStructure (Isa95Enterprise)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -2558,7 +2568,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:AreaIsa95Type;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "AreaIsa95Type",
     "description": "An area as defined by ISA 95.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -2663,7 +2674,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PlantSystemType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PlantSystemType",
     "description": "A plant system.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -2702,7 +2714,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:ProcessPlantType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "ProcessPlantType",
     "description": "A plant employed in carrying out chemical processes, including the required supporting processes (from http://data.posccaesar.org/rdl/RDS7151859). Association to ParentStructure (ProcessPlantParentStructure) Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -2741,7 +2754,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:Isa95EnterpriseType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "Isa95EnterpriseType",
     "description": "An enterprise as defined by ISA 95.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -2802,7 +2816,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PlantTrainType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PlantTrainType",
     "description": "A plant train.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -2841,7 +2856,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:EjectorPumpType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "EjectorPumpType",
     "description": "A pump which uses pressurized gas or liquid passing through an ejector to transport liquid (from http://data.posccaesar.org/rdl/RDS860624).",
     "extends": "dtmi:opcua:DEXPI:PumpType;1",
@@ -2872,7 +2888,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:KneaderType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "KneaderType",
     "description": "A kneading machine that kneads different ingredients.",
     "extends": "dtmi:opcua:DEXPI:MixerType;1",
@@ -2919,7 +2936,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:HeatExchangerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "HeatExchangerType",
     "description": "An artefact that is intended to transfer heat from one object to another (from http://data.posccaesar.org/rdl/RDS304199). Association to Agitator (Agitator)",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
@@ -3021,7 +3039,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:RotaryPumpType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "RotaryPumpType",
     "description": "A positive displacement pump that consists of a chamber containing gears, cams, screws, vanes, plungers or similar elements actuated by relative rotation of the drive shaft or casing and which has no separate inlet and outlet valves (from http://data.posccaesar.org/rdl/RDS420749).",
     "extends": "dtmi:opcua:DEXPI:PumpType;1",
@@ -3068,7 +3087,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:ThinFilmEvaporatorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "ThinFilmEvaporatorType",
     "description": "A thin film evaporator.",
     "extends": "dtmi:opcua:DEXPI:HeatExchangerType;1",
@@ -3379,7 +3399,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:SpiralHeatExchangerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "SpiralHeatExchangerType",
     "description": "A spiral heat exchanger",
     "extends": "dtmi:opcua:DEXPI:HeatExchangerType;1",
@@ -3401,7 +3422,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:ColumnPackingsArrangementType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "ColumnPackingsArrangementType",
     "description": "The packings of a column.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -3486,7 +3508,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:ReciprocatingCompressorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "ReciprocatingCompressorType",
     "description": "A positive displacement compressor in which forced reduction of gas volume takes place by the movement of a displacing element in a cylinder or enclosure (from http://data.posccaesar.org/rdl/RDS417284).",
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
@@ -3533,7 +3556,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:SpecialCompressorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "SpecialCompressorType",
     "description": "A Compressor that is not covered by any of the sibling classes of SpecialCompressor.",
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
@@ -3651,7 +3675,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:CompressorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "CompressorType",
     "description": "A 'gas pressure increase device' and an 'artefact' that is driven by a prime mover by which energy is either constantly or periodically added to an amount of gas in order to increase its pressure (from http://data.posccaesar.org/rdl/RDS14286497).",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
@@ -3690,7 +3715,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:RotaryMixerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "RotaryMixerType",
     "description": "Rotating mixer.",
     "extends": "dtmi:opcua:DEXPI:MixerType;1",
@@ -3737,7 +3763,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:VesselType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "VesselType",
     "description": "A container intended for storage and/or processing of fluids (from http://data.posccaesar.org/rdl/RDS414674). Association to ColumnSections (TaggedColumnSection) Association to Agitator (Agitator)",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
@@ -3768,7 +3795,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:GasFilterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "GasFilterType",
     "description": "A filter that is specifically designed to filter a gas.",
     "extends": "dtmi:opcua:DEXPI:FilterType;1",
@@ -3831,7 +3859,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PressureVesselType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PressureVesselType",
     "description": "A vessel intended to withstand external and/or internal pressure (from http://data.posccaesar.org/rdl/RDS427229).",
     "extends": "dtmi:opcua:DEXPI:VesselType;1",
@@ -3862,7 +3891,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:SpecialVesselType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "SpecialVesselType",
     "description": "A Vessel that is not covered by any of other subclasses of Vessel.",
     "extends": "dtmi:opcua:DEXPI:VesselType;1",
@@ -3901,7 +3931,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:MixerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "MixerType",
     "description": "An object that mixes two or more different ingredients.",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
@@ -4018,7 +4049,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:AirCoolingSystemType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "AirCoolingSystemType",
     "description": "A cooling system which uses air as the cooling medium (from http://data.posccaesar.org/rdl/RDS277379).",
     "extends": "dtmi:opcua:DEXPI:HeatExchangerType;1",
@@ -4095,7 +4127,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:SiloType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "SiloType",
     "description": "A vessel that has a bottom in the shape of a cone and is intended to store solid particles (from http://data.posccaesar.org/rdl/RDS1022399).",
     "extends": "dtmi:opcua:DEXPI:VesselType;1",
@@ -4217,7 +4250,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:ReciprocatingPumpType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "ReciprocatingPumpType",
     "description": "a positive displacement pump which contains a displacing element intended to be moved in a reciprocating movement to exert pressure on a fluid, typically moving within a cylindrical space (from http://data.posccaesar.org/rdl/RDS416969).",
     "extends": "dtmi:opcua:DEXPI:PumpType;1",
@@ -4264,7 +4298,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:TaggedColumnSectionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "TaggedColumnSectionType",
     "description": "A fully tagged column section.",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
@@ -4479,7 +4514,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:ElectricHeaterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "ElectricHeaterType",
     "description": "A heater in which electric energy is converted into heat for useful purposes (from http://data.posccaesar.org/rdl/RDS14070475).",
     "extends": "dtmi:opcua:DEXPI:HeatExchangerType;1",
@@ -4557,7 +4593,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:CentrifugalCompressorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "CentrifugalCompressorType",
     "description": "A dynamic compressor in which one ore more impellers accelerate the gas and where the main flow through the impeller is radial (from http://data.posccaesar.org/rdl/RDS417194).",
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
@@ -4634,7 +4671,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PlateAndShellHeatExchangerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PlateAndShellHeatExchangerType",
     "description": "A corrugated plate heat exchanger that has a corrugated plate pack inside a shell (from http://data.posccaesar.org/rdl/RDS441719).",
     "extends": "dtmi:opcua:DEXPI:HeatExchangerType;1",
@@ -4681,7 +4719,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:CentrifugalPumpType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "CentrifugalPumpType",
     "description": "A dynamic pump utilizing impellers provided with vanes generating centrifugal force to achieve the required pressure head (from http://data.posccaesar.org/rdl/RDS416834).",
     "extends": "dtmi:opcua:DEXPI:PumpType;1",
@@ -5076,7 +5115,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:ColumnTraysArrangementType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "ColumnTraysArrangementType",
     "description": "The trays of a column.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -5123,7 +5163,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:SpecialPumpType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "SpecialPumpType",
     "description": "A Pump that is not covered by any of the sibling classes of SpecialPump.",
     "extends": "dtmi:opcua:DEXPI:PumpType;1",
@@ -5186,7 +5227,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:FilterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "FilterType",
     "description": "A separator intended to remove solids from vapour or liquid (from http://data.posccaesar.org/rdl/RDS300689).",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
@@ -5208,7 +5250,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:AirEjectorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "AirEjectorType",
     "description": "An ejector intended to create vacuum using compressed air (from http://data.posccaesar.org/rdl/RDS5770157).",
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
@@ -5247,7 +5290,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:StaticMixerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "StaticMixerType",
     "description": "A physical object that is intended to mix fluid by means of diverging the flow with static obstacles or by increasing locally the velocity.",
     "extends": "dtmi:opcua:DEXPI:MixerType;1",
@@ -5347,7 +5391,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:AgitatorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "AgitatorType",
     "description": "A dynamic mixer that stir or shake fluids by reaction force from moving vanes (from http://data.posccaesar.org/rdl/RDS16045622).",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
@@ -5394,7 +5439,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:AxialCompressorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "AxialCompressorType",
     "description": "A dynamic compressor in which the gas is accelerated by the action of a bladed rotor and where the main flow is along the rotation axis of the rotor (from http://data.posccaesar.org/rdl/RDS417239).",
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
@@ -5441,7 +5487,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:ShellAndTubeHeatExchangerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "ShellAndTubeHeatExchangerType",
     "description": "A tubular heat exchanger in which a tube bundle is surrounded by a shell (from http://data.posccaesar.org/rdl/RDS419084).",
     "extends": "dtmi:opcua:DEXPI:HeatExchangerType;1",
@@ -5527,7 +5574,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:TankType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "TankType",
     "description": "A vessel intended to contain fluid for storage. Typically a receiving or collecting function for further distribution. Typically with a vertical and cylindrical or square shape and a flat or conical bottom (from http://data.posccaesar.org/rdl/RDS445139).",
     "extends": "dtmi:opcua:DEXPI:VesselType;1",
@@ -5558,7 +5606,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:ProcessColumnType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "ProcessColumnType",
     "description": "A vertical vessel intended to enable chemical reactions or physical processes utilising differences in density of fluids and/or forced flow of fluid (from http://data.posccaesar.org/rdl/RDS4316825224).",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
@@ -5731,7 +5780,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:LiquidFilterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "LiquidFilterType",
     "description": "A filter that is specifically designed to filter a liquid.",
     "extends": "dtmi:opcua:DEXPI:FilterType;1",
@@ -5794,7 +5844,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:RotaryCompressorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "RotaryCompressorType",
     "description": "A positive displacement compressor in which compression displacement is effected by the positive action of rotating elements (from http://data.posccaesar.org/rdl/RDS435374).",
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
@@ -5841,7 +5892,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PumpType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PumpType",
     "description": "A physical object that is a driven piece of equipment in which energy is either constantly or periodically added to an amount of pumped liquid in order to increase the pressure required for the process in which the pump is in operation (from http://data.posccaesar.org/rdl/RDS327239).",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
@@ -6417,7 +6469,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:TurbineFlowMeterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "TurbineFlowMeterType",
     "description": "A velocity flow meter that uses a multi bladed rotor to measure fluid flow rate in units of volumetric flow through a closed conduit (from http://data.posccaesar.org/rdl/RDS417914).",
     "extends": "dtmi:opcua:DEXPI:InlinePrimaryElementType;1",
@@ -6439,7 +6492,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:AngleValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "AngleValveType",
     "description": "A valve that has valve ports which are not in-line (from http://data.posccaesar.org/rdl/RDS5789384).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
@@ -6461,7 +6515,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:StrainerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "StrainerType",
     "description": "A mechanical separator that is separating solid particles from a fluid by passing the fluid through a wire mesh, screen or metal plates containing perforations or slits (from http://data.posccaesar.org/rdl/RDS422504).",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -6577,7 +6632,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:FunnelType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "FunnelType",
     "description": "A hollow cone with a tube extending from the smaller end and that is designed to catch and direct a downward flow (from http://data.posccaesar.org/rdl/RDS6689917).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -6599,7 +6655,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:NeedleValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "NeedleValveType",
     "description": "A globe valve that has a closure member with the shape of a conical plug (needle) which closes into a small seat (from http://data.posccaesar.org/rdl/RDS421064).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
@@ -6621,7 +6678,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:InLineMixerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "InLineMixerType",
     "description": "A static mixer that is intended to be supported by connected equipment. Typically supported by piping (from http://data.posccaesar.org/rdl/RDS43167562195).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -6643,7 +6701,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:CheckValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "CheckValveType",
     "description": "A valve that permits fluid to flow in one direction only (from http://data.posccaesar.org/rdl/RDS292229).",
     "extends": "dtmi:opcua:DEXPI:PipingComponentType;1",
@@ -6789,7 +6848,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:FlangeType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "FlangeType",
     "description": "A physical object that is a projecting flat rim, plate,collar, or rib (from http://data.posccaesar.org/rdl/RDS13307654).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -6811,7 +6871,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:AngleBallValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "AngleBallValveType",
     "description": "An angle ball valve.",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
@@ -6833,7 +6894,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:BallValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "BallValveType",
     "description": "A rotary valve that has a ball closure member (from http://data.posccaesar.org/rdl/RDS416654).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
@@ -6855,7 +6917,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PlugValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PlugValveType",
     "description": "A rotary valve that has a quarter turn action in which the closure member is a cylindrical or tapered plug which operates by rotating on its axis and sealing against a downstream seat (from http://data.posccaesar.org/rdl/RDS421109).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
@@ -6877,7 +6940,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:CompensatorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "CompensatorType",
     "description": "A device compensating for axial or radial movement between two elements that is connected (from http://data.posccaesar.org/rdl/RDS1280084541).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -6899,7 +6963,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:InlinePrimaryElementType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "InlinePrimaryElementType",
     "description": "An inline primary element.",
     "extends": "dtmi:opcua:DEXPI:PipingComponentType;1",
@@ -7007,7 +7072,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:FlangedConnectionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "FlangedConnectionType",
     "description": "A flanged connection.",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -7029,7 +7095,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:HoseType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "HoseType",
     "description": "A tubular which is flexible and capable of conveying liquids under pressure (from http://data.posccaesar.org/rdl/RDS302174).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -7073,7 +7140,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:AngleGlobeValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "AngleGlobeValveType",
     "description": "A globe valve that deviates from the in-line design, i.e. with a body shape designed to adjust the flow direction with a specified angle relative to the straight through-flow an in-line valve would have provided for (from http://data.posccaesar.org/rdl/RDS882944).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
@@ -7095,7 +7163,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PositiveDisplacementFlowMeterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PositiveDisplacementFlowMeterType",
     "description": "A flow meter that measures the volumetric flow rate of a liquid or gas by separating the flow stream into known volumes and counting them over time (from http://data.posccaesar.org/rdl/RDS418094).",
     "extends": "dtmi:opcua:DEXPI:InlinePrimaryElementType;1",
@@ -7117,7 +7186,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:VariableAreaFlowMeterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "VariableAreaFlowMeterType",
     "description": "A flow meter consisting of a vertical tube with a conically shaped bore which widens to the top in which a solid body (float) is supported by the force exerted by the fluid stream (from http://data.posccaesar.org/rdl/RDS418229).",
     "extends": "dtmi:opcua:DEXPI:InlinePrimaryElementType;1",
@@ -7139,7 +7209,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:ElectromagneticFlowMeterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "ElectromagneticFlowMeterType",
     "description": "A velocity flow meter that is measuring flow rate of a conductive fluid running through a magnetic field by measuring the charge created when fluid interacting with the field (from http://data.posccaesar.org/rdl/RDS1009664).",
     "extends": "dtmi:opcua:DEXPI:InlinePrimaryElementType;1",
@@ -7161,7 +7232,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:SteamTrapType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "SteamTrapType",
     "description": "A trap that consists of a chamber into which condensed steam from steam pipes etc. is allowed to drain, and which automatically ejects it without permitting the escape of steam (from http://data.posccaesar.org/rdl/RDS5782388).",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -7277,7 +7349,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:IlluminatedSightGlassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "IlluminatedSightGlassType",
     "description": "An illuminated sight glass.",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -7321,7 +7394,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:FlowInPipeConnectorSymbolType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "FlowInPipeConnectorSymbolType",
     "description": "A pipe connector symbol that indicates that a preceding part of a PipingNetworkSegment is represented somewhere else, either on the same P&ID, or on some other P&ID.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -7351,7 +7425,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:FlowOutPipeConnectorSymbolType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "FlowOutPipeConnectorSymbolType",
     "description": "A pipe connector symbol that indicates that a subsequent part of a PipingNetworkSegment is represented somewhere else, either on the same P&ID, or on some other P&ID.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -7381,7 +7456,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:SpringLoadedGlobeSafetyValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "SpringLoadedGlobeSafetyValveType",
     "description": "A spring-loaded globe safety valve.",
     "extends": "dtmi:opcua:DEXPI:SafetyValveOrFittingType;1",
@@ -7403,7 +7479,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:SilencerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "SilencerType",
     "description": "A device intended to reduce a noise level (from http://data.posccaesar.org/rdl/RDS1049368591).",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -7519,7 +7596,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:ShutOffValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "ShutOffValveType",
     "description": "A shut off valve.",
     "extends": "dtmi:opcua:DEXPI:PipingComponentType;1",
@@ -7689,7 +7767,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:DirectPipingConnectionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "DirectPipingConnectionType",
     "description": "A direct connection between two piping items, i.e. a connection that is not realized by a pipe. Association to SourceItem (PipingSourceItem) Association to TargetItem (PipingTargetItem) Association to SourceNode (PipingNode) Association to TargetNode (PipingNode)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -7711,7 +7790,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:FlowDetectorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "FlowDetectorType",
     "description": "A detector that is intended to detect whether a fluid flow exists (from http://data.posccaesar.org/rdl/RDS1008719).",
     "extends": "dtmi:opcua:DEXPI:InlinePrimaryElementType;1",
@@ -7733,7 +7813,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:ConicalStrainerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "ConicalStrainerType",
     "description": "A strainer where the screen has a conical tubular shape (from http://data.posccaesar.org/rdl/RDS16044540).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -7755,7 +7836,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:SightGlassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "SightGlassType",
     "description": "A physical object that is transparent and intended for viewing a vessel or piping system interior (from http://data.posccaesar.org/rdl/RDS648674).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -7777,7 +7859,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:BreatherValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "BreatherValveType",
     "description": "A breather valve.",
     "extends": "dtmi:opcua:DEXPI:SafetyValveOrFittingType;1",
@@ -7799,7 +7882,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:GlobeValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "GlobeValveType",
     "description": "A valve that is a valve where the closure member is a disc or piston operating with linear motion normal to the flat or shaped seat (from http://data.posccaesar.org/rdl/RDS416204).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
@@ -7821,7 +7905,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PipeFlangeSpacerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PipeFlangeSpacerType",
     "description": "A 'spacer' and an 'artefact' that is intended to be inserted between two pipe flanged ends to provide the distance between the flanges required to insert a 'pipe flange spade' (from http://data.posccaesar.org/rdl/RDS472724).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -7843,7 +7928,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:BlindFlangeType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "BlindFlangeType",
     "description": "A pipe flange that is without a central opening and used to shut off a flanged pipe end (from http://data.posccaesar.org/rdl/RDS414719).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -7865,7 +7951,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:RuptureDiscType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "RuptureDiscType",
     "description": "A physical object that is designed to burst at a certain excess pressure. It is part of a rupture disc assembly (from http://data.posccaesar.org/rdl/RDS8372601).",
     "extends": "dtmi:opcua:DEXPI:SafetyValveOrFittingType;1",
@@ -7887,7 +7974,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:StraightwayValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "StraightwayValveType",
     "description": "A valve that is straight, i.e. the centerlines perpendicular to the ends are in-line with no offset (from http://data.posccaesar.org/rdl/RDS9390905).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
@@ -7909,7 +7997,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:GlobeCheckValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "GlobeCheckValveType",
     "description": "A globe chack valve.",
     "extends": "dtmi:opcua:DEXPI:CheckValveType;1",
@@ -7931,7 +8020,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PipeTeeType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PipeTeeType",
     "description": "An 'artefact' that has three piping ends in T-shape, including a branch at 90 degrees (from http://data.posccaesar.org/rdl/RDS427724).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -7953,7 +8043,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:SpringLoadedAngleGlobeSafetyValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "SpringLoadedAngleGlobeSafetyValveType",
     "description": "A spring-loaded angle globe safety valve.",
     "extends": "dtmi:opcua:DEXPI:SafetyValveOrFittingType;1",
@@ -7975,7 +8066,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PipeFittingType",
     "description": "A pipe fitting.",
     "extends": "dtmi:opcua:DEXPI:PipingComponentType;1",
@@ -8091,7 +8183,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PipeType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PipeType",
     "description": "An elementary piece of piping, i.e., not interrupted by any item. Association to SourceItem (PipingSourceItem) Association to TargetItem (PipingTargetItem) Association to SourceNode (PipingNode) Association to TargetNode (PipingNode)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -8113,7 +8206,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:VolumetricFlowDetectorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "VolumetricFlowDetectorType",
     "description": "A volumetric flow detector.",
     "extends": "dtmi:opcua:DEXPI:InlinePrimaryElementType;1",
@@ -8135,7 +8229,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PipeFlangeSpadeType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PipeFlangeSpadeType",
     "description": "A 'line blind' and an 'artefact' that is a circular plate with no central opening and holes to match mating flanged ends. It is also equipped with a handle (from http://data.posccaesar.org/rdl/RDS472679).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -8157,7 +8252,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:ClampedFlangeCouplingType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "ClampedFlangeCouplingType",
     "description": "A clamped flange coupling.",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -8802,7 +8898,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PenetrationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PenetrationType",
     "description": "A device intended to provide a penetration (from http://data.posccaesar.org/rdl/RDS13068275).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -8824,7 +8921,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:SwingCheckValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "SwingCheckValveType",
     "description": "A check valve that is a check valve where the closure member is a disc which swings freely on a hinge and which opens automatically when flow is established and closes automatically when flow ceases or is reversed (from http://data.posccaesar.org/rdl/RDS610424).",
     "extends": "dtmi:opcua:DEXPI:CheckValveType;1",
@@ -8977,7 +9075,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:SafetyValveOrFittingType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "SafetyValveOrFittingType",
     "description": "A safety valve or fitting.",
     "extends": "dtmi:opcua:DEXPI:PipingComponentType;1",
@@ -9048,7 +9147,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:VenturiTubeType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "VenturiTubeType",
     "description": "A 'measuring device' that has a constriction with a relative long passage with a smooth coned entry and exit (from http://data.posccaesar.org/rdl/RDS648044).",
     "extends": "dtmi:opcua:DEXPI:InlinePrimaryElementType;1",
@@ -9070,7 +9170,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:FlowNozzleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "FlowNozzleType",
     "description": "A nozzle with a smooth entry and a sharp exit (from http://data.posccaesar.org/rdl/RDS821024).",
     "extends": "dtmi:opcua:DEXPI:InlinePrimaryElementType;1",
@@ -9092,7 +9193,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:AnglePlugValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "AnglePlugValveType",
     "description": "An angle plug valve.",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
@@ -9114,7 +9216,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:VentilationDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "VentilationDeviceType",
     "description": "A 'device' that allows gas or vapour to leave a container under excess pressure (from http://data.posccaesar.org/rdl/RDS1049335351).",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -9230,7 +9333,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PipeCouplingType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PipeCouplingType",
     "description": "An 'artefact' that is a one-piece cylindrical section intended to join pipes and/or piping components (from http://data.posccaesar.org/rdl/RDS415664).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -9252,7 +9356,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:FlameArrestorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "FlameArrestorType",
     "description": "An 'arrestor' which is a trap covering an opening, e.g of a ventilation system or a pipe, to prevent flames from entering the system (from http://data.posccaesar.org/rdl/RDS1325028651).",
     "extends": "dtmi:opcua:DEXPI:SafetyValveOrFittingType;1",
@@ -9350,7 +9455,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:OrificePlateType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "OrificePlateType",
     "description": "An 'artefact' that is a thin plate with a specified hole in the middle. It is usually placed in a pipe to measure the rate of fluid flow (from http://data.posccaesar.org/rdl/RDS418364).",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
@@ -9488,7 +9594,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:ButterflyValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "ButterflyValveType",
     "description": "A rotary valve that has a closure member of a disc type with a shaft parallel, or near parallel, to the plane of the disc, with an axis of rotation transverse to the flow direction (from http://data.posccaesar.org/rdl/RDS416609).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
@@ -9623,7 +9730,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:GateValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "GateValveType",
     "description": "A valve that is a valve where the closure member is a gate or disc with a linear motion parallel, or nearly parallel, to the plane of flat seats, which are transverse to the direction of flow (from http://data.posccaesar.org/rdl/RDS416519).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
@@ -9645,7 +9753,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PipeReducerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PipeReducerType",
     "description": "An 'artefact' that has different nominal pipe size at the two ends, intended to connect pipes or piping components (from http://data.posccaesar.org/rdl/RDS416294).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -9667,7 +9776,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:LineBlindType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "LineBlindType",
     "description": "A functional unit used to blind off a process stream (from http://data.posccaesar.org/rdl/RDS280034).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
@@ -10068,7 +10178,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:RotationalSpeedType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "RotationalSpeedType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2014",
@@ -10104,7 +10215,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:HeatTransferCoefficientType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "HeatTransferCoefficientType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2018",
@@ -10140,7 +10252,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:TemperatureType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "TemperatureType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2022",
@@ -10205,7 +10318,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:AreaType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "AreaType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2029",
@@ -10241,7 +10355,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:VolumeFlowRateType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "VolumeFlowRateType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2033",
@@ -10277,7 +10392,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PowerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PowerType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2037",
@@ -10313,7 +10429,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:LengthType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "LengthType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2041",
@@ -10349,7 +10466,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PercentageType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PercentageType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2045",
@@ -10385,7 +10503,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:VolumeType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "VolumeType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2049",
@@ -10421,7 +10540,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:MassType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "MassType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2053",
@@ -10457,7 +10577,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:PressureType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PressureType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2057",
@@ -10493,7 +10614,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DEXPI:AngleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "AngleType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2061",

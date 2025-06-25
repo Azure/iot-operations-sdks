@@ -522,7 +522,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
 
   PNRIO:RioChannelGroupType:
-  - [ UAObjectType, PNRIO:1012, PNRIO:RioChannelGroupType ]
+  - [ UAObjectType, PNRIO:1012, PNRIO:RioChannelGroupType, Abstract ]
   - DisplayName: "RioChannelGroupType"
   - HasProperty:
     - [ UAVariable, PNRIO:6164, PNRIO:ApplicationTag, String, 0, 0 ]
@@ -565,19 +565,19 @@ DefinedTypes:
   - [ UAObjectType, PNRIO:1014, PNRIO:RioFaAnalogChannelGroupType ]
   - DisplayName: "RioFaAnalogChannelGroupType"
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1012, PNRIO:RioChannelGroupType ]
+    - [ UAObjectType, PNRIO:1012, PNRIO:RioChannelGroupType, Abstract ]
 
   PNRIO:RioFaDigitalChannelGroupType:
   - [ UAObjectType, PNRIO:1016, PNRIO:RioFaDigitalChannelGroupType ]
   - DisplayName: "RioFaDigitalChannelGroupType"
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1012, PNRIO:RioChannelGroupType ]
+    - [ UAObjectType, PNRIO:1012, PNRIO:RioChannelGroupType, Abstract ]
 
   PNRIO:RioPaAnalogChannelGroupType:
   - [ UAObjectType, PNRIO:1013, PNRIO:RioPaAnalogChannelGroupType ]
   - DisplayName: "RioPaAnalogChannelGroupType"
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1012, PNRIO:RioChannelGroupType ]
+    - [ UAObjectType, PNRIO:1012, PNRIO:RioChannelGroupType, Abstract ]
   - HasComponent:
     - [ UAMethod, PNRIO:7005, PNRIO:SetSimulation ]
     - DisplayName: "SetSimulation"
@@ -620,7 +620,7 @@ DefinedTypes:
   - [ UAObjectType, PNRIO:1015, PNRIO:RioPaDigitalChannelGroupType ]
   - DisplayName: "RioPaDigitalChannelGroupType"
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1012, PNRIO:RioChannelGroupType ]
+    - [ UAObjectType, PNRIO:1012, PNRIO:RioChannelGroupType, Abstract ]
   - HasComponent:
     - [ UAMethod, PNRIO:7006, PNRIO:SetSimulation ]
     - DisplayName: "SetSimulation"
@@ -660,7 +660,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
 
   PNRIO:RioChannelType:
-  - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
+  - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType, Abstract ]
   - DisplayName: "RioChannelType"
   - HasProperty:
     - [ UAVariable, PNRIO:6113, PNRIO:ApplicationTag, String, 0, 0 ]
@@ -723,7 +723,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
+    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType, Abstract ]
 
   PNRIO:RioFaAnalogOutputChannelType:
   - [ UAObjectType, PNRIO:1007, PNRIO:RioFaAnalogOutputChannelType ]
@@ -754,7 +754,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
+    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType, Abstract ]
   - HasComponent:
     - [ UAVariable, PNRIO:6137, PNRIO:SignalValue, Double, 0, 0 ]
     - DisplayName: "SignalValue"
@@ -780,7 +780,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
+    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType, Abstract ]
   - HasComponent:
     - [ UAVariable, PNRIO:6148, PNRIO:SignalValue, Double, 0, 0 ]
     - DisplayName: "SignalValue"
@@ -806,7 +806,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
+    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType, Abstract ]
   - HasComponent:
     - [ UAVariable, PNRIO:6161, PNRIO:SignalValue, Double, 0, 0 ]
     - DisplayName: "SignalValue"
@@ -906,7 +906,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
+    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType, Abstract ]
 
   PNRIO:RioPaAnalogOutputChannelType:
   - [ UAObjectType, PNRIO:1006, PNRIO:RioPaAnalogOutputChannelType ]
@@ -937,7 +937,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
+    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType, Abstract ]
   - HasComponent:
     - [ UAMethod, PNRIO:7029, PNRIO:SetManualOutValue ]
     - DisplayName: "SetManualOutValue"
@@ -1032,7 +1032,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
+    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType, Abstract ]
   - HasComponent:
     - [ UAMethod, PNRIO:7033, PNRIO:SetManualProcessValue ]
     - DisplayName: "SetManualProcessValue"
@@ -1127,7 +1127,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
+    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType, Abstract ]
   - HasComponent:
     - [ UAMethod, PNRIO:7040, PNRIO:SetManualOutValue ]
     - DisplayName: "SetManualOutValue"

@@ -88,7 +88,7 @@ DefinedTypes:
       - [ UAObjectType, 61, FolderType ]
 
   Mining.General:MiningEquipmentType:
-  - [ UAObjectType, Mining.General:1002, Mining.General:MiningEquipmentType ]
+  - [ UAObjectType, Mining.General:1002, Mining.General:MiningEquipmentType, Abstract ]
   - DisplayName: "MiningEquipmentType"
   - Description: "The MiningEquipmentType ObjectType describes the abstract blueprint for any type of mining field equipment or machinery"
   - HasSubtype_reverse:

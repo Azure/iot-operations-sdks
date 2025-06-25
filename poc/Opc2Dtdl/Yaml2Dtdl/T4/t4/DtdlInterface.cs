@@ -11,6 +11,7 @@ namespace Yaml2Dtdl
 {
     using System.Collections.Generic;
     using System.Linq;
+    using SpecMapper;
     using System;
     
     /// <summary>
@@ -38,8 +39,14 @@ namespace Yaml2Dtdl
     ""@id"": """);
             this.Write(this.ToStringHelper.ToStringWithCulture(this.modelId));
             this.Write(";1\",\r\n    \"@type\": [ \"Interface\"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.isArticle ? ", \"Article\"" : ""));
             this.Write(this.ToStringHelper.ToStringWithCulture(this.isEvent ? ", \"Event\"" : ""));
             this.Write(", \"Mqtt\", \"Congruence\" ],\r\n");
+ if (this.isArticle) { 
+            this.Write("    \"ontology\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(this.definedType))));
+            this.Write("\",\r\n");
+ } 
  if (this.definedType.DisplayName != null && this.definedType.DisplayName != string.Empty) { 
             this.Write("    \"displayName\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.definedType.DisplayName));

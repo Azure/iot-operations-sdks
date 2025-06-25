@@ -153,7 +153,7 @@ DefinedTypes:
       - [ UAObjectType, IA:1009, IA:AcousticSignalType ]
 
   IA:BaseCalibrationTargetCategoryType:
-  - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType ]
+  - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType, Abstract ]
   - DisplayName: "BaseCalibrationTargetCategoryType"
   - Description: "Abstract base type for categorizing calibration targets. Subtypes define the concrete categories."
   - HasSubtype_reverse:
@@ -164,21 +164,21 @@ DefinedTypes:
   - DisplayName: "DynamicCalibrationTargetCategoryType"
   - Description: "Characterizes a calibration target to be used together with a measurement instrument, that determines the values to be calibrated. It can be a piece created during the normal production process or an item specifically created for calibration purposes. The calibration target represents an individual piece or item, that is, if a new piece should be used or item is created, a new Object of this ObjectType is created."
   - HasSubtype_reverse:
-    - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType ]
+    - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType, Abstract ]
 
   IA:OneTimeCalibrationTargetCategoryType:
   - [ UAObjectType, IA:1017, IA:OneTimeCalibrationTargetCategoryType ]
   - DisplayName: "OneTimeCalibrationTargetCategoryType"
   - Description: "Categorizes a calibration target to be used only once, for example because the calibration destroys the target. Typically, Objects of this ObjectType do not represent one individual calibration target, but a batch of calibration targets with the same characteristics."
   - HasSubtype_reverse:
-    - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType ]
+    - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType, Abstract ]
 
   IA:ReusableCalibrationTargetCategoryType:
   - [ UAObjectType, IA:1015, IA:ReusableCalibrationTargetCategoryType ]
   - DisplayName: "ReusableCalibrationTargetCategoryType"
   - Description: "Categorizes a calibration target to be reused several times. For example, a calibration target like a meter, that is bought specifically for calibration and not destroyed by an individual usage is of this category."
   - HasSubtype_reverse:
-    - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType ]
+    - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType, Abstract ]
 
   IA:ReusableDeviceCalibrationTargetCategoryType:
   - [ UAObjectType, IA:1016, IA:ReusableDeviceCalibrationTargetCategoryType ]
@@ -188,7 +188,7 @@ DefinedTypes:
     - [ UAObjectType, IA:1015, IA:ReusableCalibrationTargetCategoryType ]
 
   IA:IStatisticsType:
-  - [ UAObjectType, IA:1011, IA:IStatisticsType ]
+  - [ UAObjectType, IA:1011, IA:IStatisticsType, Abstract ]
   - DisplayName: "IStatisticsType"
   - Description: "Base interface for managing statistical data."
   - HasSubtype_reverse:
@@ -200,7 +200,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, IA:1011, IA:IStatisticsType ]
+      - [ UAObjectType, IA:1011, IA:IStatisticsType, Abstract ]
   - HasProperty:
     - [ UAVariable, IA:6046, IA:StartTime, DateTime, 0, 3 ]
     - DisplayName: "StartTime"
@@ -210,14 +210,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1011, IA:IStatisticsType ]
+      - [ UAObjectType, IA:1011, IA:IStatisticsType, Abstract ]
 
   IA:IAggregateStatisticsType:
-  - [ UAObjectType, IA:1012, IA:IAggregateStatisticsType ]
+  - [ UAObjectType, IA:1012, IA:IAggregateStatisticsType, Abstract ]
   - DisplayName: "IAggregateStatisticsType"
   - Description: "Base interface for managing statistical data that is not rolled over all data from the start of tracking the statistical data are considered, until the tracking gets reset."
   - HasSubtype_reverse:
-    - [ UAObjectType, IA:1011, IA:IStatisticsType ]
+    - [ UAObjectType, IA:1011, IA:IStatisticsType, Abstract ]
   - HasProperty:
     - [ UAVariable, IA:6047, IA:ResetCondition, String, 0, 3 ]
     - DisplayName: "ResetCondition"
@@ -227,14 +227,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1012, IA:IAggregateStatisticsType ]
+      - [ UAObjectType, IA:1012, IA:IAggregateStatisticsType, Abstract ]
 
   IA:IRollingStatisticsType:
-  - [ UAObjectType, IA:1013, IA:IRollingStatisticsType ]
+  - [ UAObjectType, IA:1013, IA:IRollingStatisticsType, Abstract ]
   - DisplayName: "IRollingStatisticsType"
   - Description: "Base interface for managing statistical data that is rolled over, i.e. only a certain amount of data is considered for statistical data."
   - HasSubtype_reverse:
-    - [ UAObjectType, IA:1011, IA:IStatisticsType ]
+    - [ UAObjectType, IA:1011, IA:IStatisticsType, Abstract ]
   - HasProperty:
     - [ UAVariable, IA:6048, IA:WindowDuration, Duration, 0, 3 ]
     - DisplayName: "WindowDuration"
@@ -244,7 +244,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1013, IA:IRollingStatisticsType ]
+      - [ UAObjectType, IA:1013, IA:IRollingStatisticsType, Abstract ]
   - HasProperty:
     - [ UAVariable, IA:6049, IA:WindowNumberOfValues, UInt32, 0, 3 ]
     - DisplayName: "WindowNumberOfValues"
@@ -254,7 +254,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1013, IA:IRollingStatisticsType ]
+      - [ UAObjectType, IA:1013, IA:IRollingStatisticsType, Abstract ]
 
   IA:CalibrationTargetType:
   - [ UAObjectType, IA:1019, IA:CalibrationTargetType ]
@@ -267,7 +267,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType ]
+      - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType, Abstract ]
     - HasComponent_reverse:
       - [ UAObjectType, IA:1019, IA:CalibrationTargetType ]
   - HasComponent:
@@ -587,7 +587,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, IA:1005, IA:StackElementType ]
+      - [ UAObjectType, IA:1005, IA:StackElementType, Abstract ]
     - HasOrderedComponent_reverse:
       - [ UAObjectType, IA:1002, IA:BasicStacklightType ]
     - HasProperty:
@@ -692,7 +692,7 @@ DefinedTypes:
     - [ UAObjectType, IA:1002, IA:BasicStacklightType ]
 
   IA:StackElementType:
-  - [ UAObjectType, IA:1005, IA:StackElementType ]
+  - [ UAObjectType, IA:1005, IA:StackElementType, Abstract ]
   - DisplayName: "StackElementType"
   - Description: "Base class for elements in a stacklight."
   - HasInterface:
@@ -706,7 +706,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1005, IA:StackElementType ]
+      - [ UAObjectType, IA:1005, IA:StackElementType, Abstract ]
   - HasProperty:
     - [ UAVariable, IA:6015, IA:NumberInList, UInteger, 0, 0 ]
     - DisplayName: "NumberInList"
@@ -716,7 +716,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1005, IA:StackElementType ]
+      - [ UAObjectType, IA:1005, IA:StackElementType, Abstract ]
   - HasProperty:
     - [ UAVariable, IA:6013, IA:SignalOn, Boolean, 0, 3 ]
     - DisplayName: "SignalOn"
@@ -726,7 +726,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, IA:1005, IA:StackElementType ]
+      - [ UAObjectType, IA:1005, IA:StackElementType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
@@ -794,7 +794,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, IA:1007, IA:StackElementAcousticType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IA:1005, IA:StackElementType ]
+    - [ UAObjectType, IA:1005, IA:StackElementType, Abstract ]
 
   IA:StackElementLightType:
   - [ UAObjectType, IA:1006, IA:StackElementLightType ]
@@ -880,7 +880,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, IA:1006, IA:StackElementLightType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IA:1005, IA:StackElementType ]
+    - [ UAObjectType, IA:1005, IA:StackElementType, Abstract ]
 
   IA:StackLevelType:
   - [ UAObjectType, IA:1003, IA:StackLevelType ]

@@ -105,7 +105,7 @@ DataTypes:
 DefinedTypes:
 
   Glass.Flat:GlassEventType:
-  - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
+  - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType, Abstract ]
   - DisplayName: "GlassEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
@@ -113,7 +113,7 @@ DefinedTypes:
     - [ UAVariable, Glass.Flat:6405, Glass.Flat:Identifier, Glass.Flat:LimitedString64, 0, 3 ]
     - DisplayName: "Identifier"
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
+      - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -122,7 +122,7 @@ DefinedTypes:
     - [ UAVariable, Glass.Flat:6410, Glass.Flat:JobdIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
     - DisplayName: "JobdIdentifier"
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
+      - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -131,7 +131,7 @@ DefinedTypes:
     - [ UAVariable, Glass.Flat:6406, Glass.Flat:Location, Glass.Flat:LimitedString64, 0, 3 ]
     - DisplayName: "Location"
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
+      - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -140,54 +140,54 @@ DefinedTypes:
     - [ UAVariable, Glass.Flat:6411, Glass.Flat:MaterialIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
     - DisplayName: "MaterialIdentifier"
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
+      - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
 
   Glass.Flat:CommunicationErrorEventType:
-  - [ UAObjectType, Glass.Flat:1040, Glass.Flat:CommunicationErrorEventType ]
+  - [ UAObjectType, Glass.Flat:1040, Glass.Flat:CommunicationErrorEventType, Abstract ]
   - DisplayName: "CommunicationErrorEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
+    - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType, Abstract ]
 
   Glass.Flat:GlassMaterialEventType:
-  - [ UAObjectType, Glass.Flat:1031, Glass.Flat:GlassMaterialEventType ]
+  - [ UAObjectType, Glass.Flat:1031, Glass.Flat:GlassMaterialEventType, Abstract ]
   - DisplayName: "GlassMaterialEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
+    - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType, Abstract ]
 
   Glass.Flat:MaterialExitEventType:
-  - [ UAObjectType, Glass.Flat:1025, Glass.Flat:MaterialExitEventType ]
+  - [ UAObjectType, Glass.Flat:1025, Glass.Flat:MaterialExitEventType, Abstract ]
   - DisplayName: "MaterialExitEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1031, Glass.Flat:GlassMaterialEventType ]
+    - [ UAObjectType, Glass.Flat:1031, Glass.Flat:GlassMaterialEventType, Abstract ]
 
   Glass.Flat:MaterialMissingEventType:
-  - [ UAObjectType, Glass.Flat:1027, Glass.Flat:MaterialMissingEventType ]
+  - [ UAObjectType, Glass.Flat:1027, Glass.Flat:MaterialMissingEventType, Abstract ]
   - DisplayName: "MaterialMissingEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1031, Glass.Flat:GlassMaterialEventType ]
+    - [ UAObjectType, Glass.Flat:1031, Glass.Flat:GlassMaterialEventType, Abstract ]
 
   Glass.Flat:MaterialReceivedEventType:
-  - [ UAObjectType, Glass.Flat:1026, Glass.Flat:MaterialReceivedEventType ]
+  - [ UAObjectType, Glass.Flat:1026, Glass.Flat:MaterialReceivedEventType, Abstract ]
   - DisplayName: "MaterialReceivedEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1031, Glass.Flat:GlassMaterialEventType ]
+    - [ UAObjectType, Glass.Flat:1031, Glass.Flat:GlassMaterialEventType, Abstract ]
 
   Glass.Flat:IntermediateStepEvent:
-  - [ UAObjectType, Glass.Flat:1029, Glass.Flat:IntermediateStepEvent ]
+  - [ UAObjectType, Glass.Flat:1029, Glass.Flat:IntermediateStepEvent, Abstract ]
   - DisplayName: "IntermediateStepEvent"
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
+    - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, Glass.Flat:6412, Glass.Flat:ProcessStep, Glass.Flat:LimitedString64, 0, 3 ]
     - DisplayName: "ProcessStep"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1029, Glass.Flat:IntermediateStepEvent ]
+      - [ UAObjectType, Glass.Flat:1029, Glass.Flat:IntermediateStepEvent, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
@@ -198,78 +198,78 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1029, Glass.Flat:IntermediateStepEvent ]
+      - [ UAObjectType, Glass.Flat:1029, Glass.Flat:IntermediateStepEvent, Abstract ]
 
   Glass.Flat:InterruptedEventType:
-  - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType ]
+  - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType, Abstract ]
   - DisplayName: "InterruptedEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
+    - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, Glass.Flat:6403, Glass.Flat:ProcessName, Glass.Flat:LimitedString64, 0, 3 ]
     - DisplayName: "ProcessName"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType ]
+      - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
 
   Glass.Flat:EmergencyButtonPressedEventType:
-  - [ UAObjectType, Glass.Flat:1038, Glass.Flat:EmergencyButtonPressedEventType ]
+  - [ UAObjectType, Glass.Flat:1038, Glass.Flat:EmergencyButtonPressedEventType, Abstract ]
   - DisplayName: "EmergencyButtonPressedEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType ]
+    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType, Abstract ]
 
   Glass.Flat:MotorTemperatureTooHighEventType:
-  - [ UAObjectType, Glass.Flat:1039, Glass.Flat:MotorTemperatureTooHighEventType ]
+  - [ UAObjectType, Glass.Flat:1039, Glass.Flat:MotorTemperatureTooHighEventType, Abstract ]
   - DisplayName: "MotorTemperatureTooHighEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType ]
+    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType, Abstract ]
 
   Glass.Flat:OpenSecurityFenceType:
-  - [ UAObjectType, Glass.Flat:1033, Glass.Flat:OpenSecurityFenceType ]
+  - [ UAObjectType, Glass.Flat:1033, Glass.Flat:OpenSecurityFenceType, Abstract ]
   - DisplayName: "OpenSecurityFenceType"
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType ]
+    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType, Abstract ]
 
   Glass.Flat:OutOfJobEventType:
-  - [ UAObjectType, Glass.Flat:1036, Glass.Flat:OutOfJobEventType ]
+  - [ UAObjectType, Glass.Flat:1036, Glass.Flat:OutOfJobEventType, Abstract ]
   - DisplayName: "OutOfJobEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType ]
+    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType, Abstract ]
 
   Glass.Flat:ProcessParameterOutOfRangeType:
-  - [ UAObjectType, Glass.Flat:1034, Glass.Flat:ProcessParameterOutOfRangeType ]
+  - [ UAObjectType, Glass.Flat:1034, Glass.Flat:ProcessParameterOutOfRangeType, Abstract ]
   - DisplayName: "ProcessParameterOutOfRangeType"
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType ]
+    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType, Abstract ]
 
   Glass.Flat:ToolMissingEventType:
-  - [ UAObjectType, Glass.Flat:1035, Glass.Flat:ToolMissingEventType ]
+  - [ UAObjectType, Glass.Flat:1035, Glass.Flat:ToolMissingEventType, Abstract ]
   - DisplayName: "ToolMissingEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType ]
+    - [ UAObjectType, Glass.Flat:1032, Glass.Flat:InterruptedEventType, Abstract ]
 
   Glass.Flat:JobMovedEventType:
-  - [ UAObjectType, Glass.Flat:1037, Glass.Flat:JobMovedEventType ]
+  - [ UAObjectType, Glass.Flat:1037, Glass.Flat:JobMovedEventType, Abstract ]
   - DisplayName: "JobMovedEventType"
   - HasProperty:
     - [ UAVariable, Glass.Flat:6404, Glass.Flat:JobdIdentifier, Glass.Flat:LimitedString64, 0, 3 ]
     - DisplayName: "JobdIdentifier"
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1037, Glass.Flat:JobMovedEventType ]
+      - [ UAObjectType, Glass.Flat:1037, Glass.Flat:JobMovedEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType ]
+    - [ UAObjectType, Glass.Flat:1030, Glass.Flat:GlassEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, Glass.Flat:6407, Glass.Flat:NewPosition, Number, 0, 3 ]
     - DisplayName: "NewPosition"
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat:1037, Glass.Flat:JobMovedEventType ]
+      - [ UAObjectType, Glass.Flat:1037, Glass.Flat:JobMovedEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:

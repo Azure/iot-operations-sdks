@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_AC:AcDescriptorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/FX.AC",
     "displayName": "AcDescriptorType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=1027",
@@ -125,7 +126,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_AC:ClampBlockType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/FX.AC",
     "displayName": "ClampBlockType",
     "description": "ClampBlockType represents a wire connection block",
     "extends": "dtmi:opcua:FX_AC:AssetConnectorType;1",
@@ -201,7 +203,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_AC:SlotType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/FX.AC",
     "displayName": "SlotType",
     "description": "SlotType represents a physical slot where a module can attach",
     "extends": "dtmi:opcua:FX_AC:AssetConnectorType;1",
@@ -233,7 +236,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_AC:SocketType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/FX.AC",
     "displayName": "SocketType",
     "description": "SocketType represents a physical socket where a cable can be connected",
     "extends": "dtmi:opcua:FX_AC:AssetConnectorType;1",
@@ -263,7 +267,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_AC:AutomationComponentType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/FX.AC",
     "displayName": "AutomationComponentType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=2",
@@ -1860,7 +1865,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_AC:PubSubConnectionEndpointType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/FX.AC",
     "displayName": "PubSubConnectionEndpointType",
     "extends": "dtmi:opcua:FX_AC:ConnectionEndpointType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=1005",
@@ -2422,7 +2428,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_AC:FunctionalEntityType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/FX.AC",
     "displayName": "FunctionalEntityType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=4",
@@ -2765,7 +2772,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FX_AC:FxAssetType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/FX.AC",
     "displayName": "FxAssetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=3",

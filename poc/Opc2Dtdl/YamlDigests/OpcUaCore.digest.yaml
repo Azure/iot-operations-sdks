@@ -3085,20 +3085,20 @@ DataTypes:
 DefinedTypes:
 
   BaseVariableType:
-  - [ UAVariableType, 62, BaseVariableType ]
+  - [ UAVariableType, 62, BaseVariableType, Abstract ]
   - DisplayName: "BaseVariableType"
 
   BaseDataVariableType:
   - [ UAVariableType, 63, BaseDataVariableType ]
   - DisplayName: "BaseDataVariableType"
   - HasSubtype_reverse:
-    - [ UAVariableType, 62, BaseVariableType ]
+    - [ UAVariableType, 62, BaseVariableType, Abstract ]
 
   PropertyType:
   - [ UAVariableType, 68, PropertyType ]
   - DisplayName: "PropertyType"
   - HasSubtype_reverse:
-    - [ UAVariableType, 62, BaseVariableType ]
+    - [ UAVariableType, 62, BaseVariableType, Abstract ]
 
   DataTypeDescriptionType:
   - [ UAVariableType, 69, DataTypeDescriptionType, String, 0, 0 ]
@@ -3178,7 +3178,7 @@ DefinedTypes:
     - [ UAVariableType, 63, BaseDataVariableType ]
 
   ServerVendorCapabilityType:
-  - [ UAVariableType, 2137, ServerVendorCapabilityType ]
+  - [ UAVariableType, 2137, ServerVendorCapabilityType, Abstract ]
   - DisplayName: "ServerVendorCapabilityType"
   - HasSubtype_reverse:
     - [ UAVariableType, 63, BaseDataVariableType ]
@@ -6698,7 +6698,7 @@ DefinedTypes:
     - [ UAVariable, 32433, <FieldName> ]
     - DisplayName: "<FieldName>"
     - HasTypeDefinition:
-      - [ UAVariableType, 62, BaseVariableType ]
+      - [ UAVariableType, 62, BaseVariableType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
       - DisplayName: "MandatoryPlaceholder"
@@ -6711,7 +6711,7 @@ DefinedTypes:
     - [ UAVariable, 15014, <OptionalFieldName> ]
     - DisplayName: "<OptionalFieldName>"
     - HasTypeDefinition:
-      - [ UAVariableType, 62, BaseVariableType ]
+      - [ UAVariableType, 62, BaseVariableType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
       - DisplayName: "OptionalPlaceholder"
@@ -6858,7 +6858,7 @@ DefinedTypes:
     - [ UAVariableType, 2368, AnalogItemType, Number, -2, 0 ]
 
   DiscreteItemType:
-  - [ UAVariableType, 2372, DiscreteItemType ]
+  - [ UAVariableType, 2372, DiscreteItemType, Abstract ]
   - DisplayName: "DiscreteItemType"
   - HasSubtype_reverse:
     - [ UAVariableType, 2365, DataItemType ]
@@ -6893,7 +6893,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAVariableType, 2373, TwoStateDiscreteType, Boolean, -2, 0 ]
   - HasSubtype_reverse:
-    - [ UAVariableType, 2372, DiscreteItemType ]
+    - [ UAVariableType, 2372, DiscreteItemType, Abstract ]
 
   MultiStateDiscreteType:
   - [ UAVariableType, 2376, MultiStateDiscreteType, UInteger, -2, 0 ]
@@ -6912,7 +6912,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAVariableType, 2376, MultiStateDiscreteType, UInteger, -2, 0 ]
   - HasSubtype_reverse:
-    - [ UAVariableType, 2372, DiscreteItemType ]
+    - [ UAVariableType, 2372, DiscreteItemType, Abstract ]
 
   MultiStateValueDiscreteType:
   - [ UAVariableType, 11238, MultiStateValueDiscreteType, Number, -2, 0 ]
@@ -6944,10 +6944,10 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAVariableType, 11238, MultiStateValueDiscreteType, Number, -2, 0 ]
   - HasSubtype_reverse:
-    - [ UAVariableType, 2372, DiscreteItemType ]
+    - [ UAVariableType, 2372, DiscreteItemType, Abstract ]
 
   ArrayItemType:
-  - [ UAVariableType, 12021, ArrayItemType ]
+  - [ UAVariableType, 12021, ArrayItemType, Abstract ]
   - DisplayName: "ArrayItemType"
   - HasProperty:
     - [ UAVariable, 12024, InstrumentRange, Range, 0, 0 ]
@@ -6961,7 +6961,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAVariableType, 12021, ArrayItemType ]
+      - [ UAVariableType, 12021, ArrayItemType, Abstract ]
   - HasProperty:
     - [ UAVariable, 12025, EURange, Range, 0, 0 ]
     - DisplayName: "EURange"
@@ -6974,7 +6974,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAVariableType, 12021, ArrayItemType ]
+      - [ UAVariableType, 12021, ArrayItemType, Abstract ]
   - HasProperty:
     - [ UAVariable, 12026, EngineeringUnits, EUInformation, 0, 0 ]
     - DisplayName: "EngineeringUnits"
@@ -6987,7 +6987,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAVariableType, 12021, ArrayItemType ]
+      - [ UAVariableType, 12021, ArrayItemType, Abstract ]
   - HasProperty:
     - [ UAVariable, 12027, Title, LocalizedText, 0, 0 ]
     - DisplayName: "Title"
@@ -7000,7 +7000,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAVariableType, 12021, ArrayItemType ]
+      - [ UAVariableType, 12021, ArrayItemType, Abstract ]
   - HasProperty:
     - [ UAVariable, 12028, AxisScaleType, AxisScaleEnumeration, 0, 0 ]
     - DisplayName: "AxisScaleType"
@@ -7013,7 +7013,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAVariableType, 12021, ArrayItemType ]
+      - [ UAVariableType, 12021, ArrayItemType, Abstract ]
   - HasSubtype_reverse:
     - [ UAVariableType, 2365, DataItemType ]
 
@@ -7034,7 +7034,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAVariableType, 12029, YArrayItemType ]
   - HasSubtype_reverse:
-    - [ UAVariableType, 12021, ArrayItemType ]
+    - [ UAVariableType, 12021, ArrayItemType, Abstract ]
 
   XYArrayItemType:
   - [ UAVariableType, 12038, XYArrayItemType, XVType, 1, 0 ]
@@ -7053,7 +7053,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAVariableType, 12038, XYArrayItemType, XVType, 1, 0 ]
   - HasSubtype_reverse:
-    - [ UAVariableType, 12021, ArrayItemType ]
+    - [ UAVariableType, 12021, ArrayItemType, Abstract ]
 
   ImageItemType:
   - [ UAVariableType, 12047, ImageItemType ]
@@ -7085,7 +7085,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAVariableType, 12047, ImageItemType ]
   - HasSubtype_reverse:
-    - [ UAVariableType, 12021, ArrayItemType ]
+    - [ UAVariableType, 12021, ArrayItemType, Abstract ]
 
   CubeItemType:
   - [ UAVariableType, 12057, CubeItemType ]
@@ -7130,7 +7130,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAVariableType, 12057, CubeItemType ]
   - HasSubtype_reverse:
-    - [ UAVariableType, 12021, ArrayItemType ]
+    - [ UAVariableType, 12021, ArrayItemType, Abstract ]
 
   NDimensionArrayItemType:
   - [ UAVariableType, 12068, NDimensionArrayItemType ]
@@ -7149,7 +7149,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAVariableType, 12068, NDimensionArrayItemType ]
   - HasSubtype_reverse:
-    - [ UAVariableType, 12021, ArrayItemType ]
+    - [ UAVariableType, 12021, ArrayItemType, Abstract ]
 
   TwoStateVariableType:
   - [ UAVariableType, 8995, TwoStateVariableType, LocalizedText, 0, 0 ]
@@ -8809,7 +8809,7 @@ DefinedTypes:
     - [ UAVariable, 11562, <VendorCapability> ]
     - DisplayName: "<VendorCapability>"
     - HasTypeDefinition:
-      - [ UAVariableType, 2137, ServerVendorCapabilityType ]
+      - [ UAVariableType, 2137, ServerVendorCapabilityType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
       - DisplayName: "OptionalPlaceholder"
@@ -11939,7 +11939,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   BaseEventType:
-  - [ UAObjectType, 2041, BaseEventType ]
+  - [ UAObjectType, 2041, BaseEventType, Abstract ]
   - DisplayName: "BaseEventType"
   - HasProperty:
     - [ UAVariable, 2042, EventId, ByteString, 0, 0 ]
@@ -11953,7 +11953,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2041, BaseEventType ]
+      - [ UAObjectType, 2041, BaseEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2043, EventType, NodeId, 0, 0 ]
     - DisplayName: "EventType"
@@ -11966,7 +11966,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2041, BaseEventType ]
+      - [ UAObjectType, 2041, BaseEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2044, SourceNode, NodeId, 0, 0 ]
     - DisplayName: "SourceNode"
@@ -11979,7 +11979,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2041, BaseEventType ]
+      - [ UAObjectType, 2041, BaseEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2045, SourceName, String, 0, 0 ]
     - DisplayName: "SourceName"
@@ -11992,7 +11992,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2041, BaseEventType ]
+      - [ UAObjectType, 2041, BaseEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2046, Time, UtcTime, 0, 0 ]
     - DisplayName: "Time"
@@ -12005,7 +12005,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2041, BaseEventType ]
+      - [ UAObjectType, 2041, BaseEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2047, ReceiveTime, UtcTime, 0, 0 ]
     - DisplayName: "ReceiveTime"
@@ -12018,7 +12018,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2041, BaseEventType ]
+      - [ UAObjectType, 2041, BaseEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 3190, LocalTime, TimeZoneDataType, 0, 0 ]
     - DisplayName: "LocalTime"
@@ -12031,7 +12031,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2041, BaseEventType ]
+      - [ UAObjectType, 2041, BaseEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2050, Message, LocalizedText, 0, 0 ]
     - DisplayName: "Message"
@@ -12044,7 +12044,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2041, BaseEventType ]
+      - [ UAObjectType, 2041, BaseEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2051, Severity, UInt16, 0, 0 ]
     - DisplayName: "Severity"
@@ -12057,7 +12057,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2041, BaseEventType ]
+      - [ UAObjectType, 2041, BaseEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 31771, ConditionClassId, NodeId, 0, 0 ]
     - DisplayName: "ConditionClassId"
@@ -12070,7 +12070,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2041, BaseEventType ]
+      - [ UAObjectType, 2041, BaseEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 31772, ConditionClassName, LocalizedText, 0, 0 ]
     - DisplayName: "ConditionClassName"
@@ -12083,7 +12083,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2041, BaseEventType ]
+      - [ UAObjectType, 2041, BaseEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 31773, ConditionSubClassId, NodeId, 1, 0 ]
     - DisplayName: "ConditionSubClassId"
@@ -12096,7 +12096,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2041, BaseEventType ]
+      - [ UAObjectType, 2041, BaseEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 31774, ConditionSubClassName, LocalizedText, 1, 0 ]
     - DisplayName: "ConditionSubClassName"
@@ -12109,12 +12109,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2041, BaseEventType ]
+      - [ UAObjectType, 2041, BaseEventType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   AuditEventType:
-  - [ UAObjectType, 2052, AuditEventType ]
+  - [ UAObjectType, 2052, AuditEventType, Abstract ]
   - DisplayName: "AuditEventType"
   - HasProperty:
     - [ UAVariable, 2053, ActionTimeStamp, UtcTime, 0, 0 ]
@@ -12128,7 +12128,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2052, AuditEventType ]
+      - [ UAObjectType, 2052, AuditEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2054, Status, Boolean, 0, 0 ]
     - DisplayName: "Status"
@@ -12141,7 +12141,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2052, AuditEventType ]
+      - [ UAObjectType, 2052, AuditEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2055, ServerId, String, 0, 0 ]
     - DisplayName: "ServerId"
@@ -12154,7 +12154,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2052, AuditEventType ]
+      - [ UAObjectType, 2052, AuditEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2056, ClientAuditEntryId, String, 0, 0 ]
     - DisplayName: "ClientAuditEntryId"
@@ -12167,7 +12167,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2052, AuditEventType ]
+      - [ UAObjectType, 2052, AuditEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2057, ClientUserId, String, 0, 0 ]
     - DisplayName: "ClientUserId"
@@ -12180,12 +12180,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2052, AuditEventType ]
+      - [ UAObjectType, 2052, AuditEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2041, BaseEventType ]
+    - [ UAObjectType, 2041, BaseEventType, Abstract ]
 
   AuditSecurityEventType:
-  - [ UAObjectType, 2058, AuditSecurityEventType ]
+  - [ UAObjectType, 2058, AuditSecurityEventType, Abstract ]
   - DisplayName: "AuditSecurityEventType"
   - HasProperty:
     - [ UAVariable, 17615, StatusCodeId, StatusCode, 0, 0 ]
@@ -12199,12 +12199,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2058, AuditSecurityEventType ]
+      - [ UAObjectType, 2058, AuditSecurityEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2052, AuditEventType ]
+    - [ UAObjectType, 2052, AuditEventType, Abstract ]
 
   AuditChannelEventType:
-  - [ UAObjectType, 2059, AuditChannelEventType ]
+  - [ UAObjectType, 2059, AuditChannelEventType, Abstract ]
   - DisplayName: "AuditChannelEventType"
   - HasProperty:
     - [ UAVariable, 2745, SecureChannelId, String, 0, 0 ]
@@ -12218,12 +12218,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2059, AuditChannelEventType ]
+      - [ UAObjectType, 2059, AuditChannelEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2058, AuditSecurityEventType ]
+    - [ UAObjectType, 2058, AuditSecurityEventType, Abstract ]
 
   AuditOpenSecureChannelEventType:
-  - [ UAObjectType, 2060, AuditOpenSecureChannelEventType ]
+  - [ UAObjectType, 2060, AuditOpenSecureChannelEventType, Abstract ]
   - DisplayName: "AuditOpenSecureChannelEventType"
   - HasProperty:
     - [ UAVariable, 2061, ClientCertificate, ByteString, 0, 0 ]
@@ -12237,7 +12237,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2060, AuditOpenSecureChannelEventType ]
+      - [ UAObjectType, 2060, AuditOpenSecureChannelEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2746, ClientCertificateThumbprint, String, 0, 0 ]
     - DisplayName: "ClientCertificateThumbprint"
@@ -12250,7 +12250,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2060, AuditOpenSecureChannelEventType ]
+      - [ UAObjectType, 2060, AuditOpenSecureChannelEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2062, RequestType, SecurityTokenRequestType, 0, 0 ]
     - DisplayName: "RequestType"
@@ -12263,7 +12263,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2060, AuditOpenSecureChannelEventType ]
+      - [ UAObjectType, 2060, AuditOpenSecureChannelEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2063, SecurityPolicyUri, String, 0, 0 ]
     - DisplayName: "SecurityPolicyUri"
@@ -12276,7 +12276,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2060, AuditOpenSecureChannelEventType ]
+      - [ UAObjectType, 2060, AuditOpenSecureChannelEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2065, SecurityMode, MessageSecurityMode, 0, 0 ]
     - DisplayName: "SecurityMode"
@@ -12289,7 +12289,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2060, AuditOpenSecureChannelEventType ]
+      - [ UAObjectType, 2060, AuditOpenSecureChannelEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2066, RequestedLifetime, Duration, 0, 0 ]
     - DisplayName: "RequestedLifetime"
@@ -12302,7 +12302,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2060, AuditOpenSecureChannelEventType ]
+      - [ UAObjectType, 2060, AuditOpenSecureChannelEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 24135, CertificateErrorEventId, ByteString, 0, 0 ]
     - DisplayName: "CertificateErrorEventId"
@@ -12315,12 +12315,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2060, AuditOpenSecureChannelEventType ]
+      - [ UAObjectType, 2060, AuditOpenSecureChannelEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2059, AuditChannelEventType ]
+    - [ UAObjectType, 2059, AuditChannelEventType, Abstract ]
 
   AuditSessionEventType:
-  - [ UAObjectType, 2069, AuditSessionEventType ]
+  - [ UAObjectType, 2069, AuditSessionEventType, Abstract ]
   - DisplayName: "AuditSessionEventType"
   - HasProperty:
     - [ UAVariable, 2070, SessionId, NodeId, 0, 0 ]
@@ -12334,12 +12334,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2069, AuditSessionEventType ]
+      - [ UAObjectType, 2069, AuditSessionEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2058, AuditSecurityEventType ]
+    - [ UAObjectType, 2058, AuditSecurityEventType, Abstract ]
 
   AuditCreateSessionEventType:
-  - [ UAObjectType, 2071, AuditCreateSessionEventType ]
+  - [ UAObjectType, 2071, AuditCreateSessionEventType, Abstract ]
   - DisplayName: "AuditCreateSessionEventType"
   - HasProperty:
     - [ UAVariable, 2072, SecureChannelId, String, 0, 0 ]
@@ -12353,7 +12353,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2071, AuditCreateSessionEventType ]
+      - [ UAObjectType, 2071, AuditCreateSessionEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2073, ClientCertificate, ByteString, 0, 0 ]
     - DisplayName: "ClientCertificate"
@@ -12366,7 +12366,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2071, AuditCreateSessionEventType ]
+      - [ UAObjectType, 2071, AuditCreateSessionEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2747, ClientCertificateThumbprint, String, 0, 0 ]
     - DisplayName: "ClientCertificateThumbprint"
@@ -12379,7 +12379,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2071, AuditCreateSessionEventType ]
+      - [ UAObjectType, 2071, AuditCreateSessionEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2074, RevisedSessionTimeout, Duration, 0, 0 ]
     - DisplayName: "RevisedSessionTimeout"
@@ -12392,12 +12392,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2071, AuditCreateSessionEventType ]
+      - [ UAObjectType, 2071, AuditCreateSessionEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2069, AuditSessionEventType ]
+    - [ UAObjectType, 2069, AuditSessionEventType, Abstract ]
 
   AuditUrlMismatchEventType:
-  - [ UAObjectType, 2748, AuditUrlMismatchEventType ]
+  - [ UAObjectType, 2748, AuditUrlMismatchEventType, Abstract ]
   - DisplayName: "AuditUrlMismatchEventType"
   - HasProperty:
     - [ UAVariable, 2749, EndpointUrl, String, 0, 0 ]
@@ -12411,12 +12411,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2748, AuditUrlMismatchEventType ]
+      - [ UAObjectType, 2748, AuditUrlMismatchEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2071, AuditCreateSessionEventType ]
+    - [ UAObjectType, 2071, AuditCreateSessionEventType, Abstract ]
 
   AuditActivateSessionEventType:
-  - [ UAObjectType, 2075, AuditActivateSessionEventType ]
+  - [ UAObjectType, 2075, AuditActivateSessionEventType, Abstract ]
   - DisplayName: "AuditActivateSessionEventType"
   - HasProperty:
     - [ UAVariable, 2076, ClientSoftwareCertificates, SignedSoftwareCertificate, 1, 0 ]
@@ -12430,7 +12430,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2075, AuditActivateSessionEventType ]
+      - [ UAObjectType, 2075, AuditActivateSessionEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2077, UserIdentityToken, UserIdentityToken, 0, 0 ]
     - DisplayName: "UserIdentityToken"
@@ -12443,7 +12443,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2075, AuditActivateSessionEventType ]
+      - [ UAObjectType, 2075, AuditActivateSessionEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 11485, SecureChannelId, String, 0, 0 ]
     - DisplayName: "SecureChannelId"
@@ -12456,7 +12456,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2075, AuditActivateSessionEventType ]
+      - [ UAObjectType, 2075, AuditActivateSessionEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 19304, CurrentRoleIds, NodeId, 1, 0 ]
     - DisplayName: "CurrentRoleIds"
@@ -12469,12 +12469,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2075, AuditActivateSessionEventType ]
+      - [ UAObjectType, 2075, AuditActivateSessionEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2069, AuditSessionEventType ]
+    - [ UAObjectType, 2069, AuditSessionEventType, Abstract ]
 
   AuditCancelEventType:
-  - [ UAObjectType, 2078, AuditCancelEventType ]
+  - [ UAObjectType, 2078, AuditCancelEventType, Abstract ]
   - DisplayName: "AuditCancelEventType"
   - HasProperty:
     - [ UAVariable, 2079, RequestHandle, UInt32, 0, 0 ]
@@ -12488,12 +12488,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2078, AuditCancelEventType ]
+      - [ UAObjectType, 2078, AuditCancelEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2069, AuditSessionEventType ]
+    - [ UAObjectType, 2069, AuditSessionEventType, Abstract ]
 
   AuditCertificateEventType:
-  - [ UAObjectType, 2080, AuditCertificateEventType ]
+  - [ UAObjectType, 2080, AuditCertificateEventType, Abstract ]
   - DisplayName: "AuditCertificateEventType"
   - HasProperty:
     - [ UAVariable, 2081, Certificate, ByteString, 0, 0 ]
@@ -12507,12 +12507,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2080, AuditCertificateEventType ]
+      - [ UAObjectType, 2080, AuditCertificateEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2058, AuditSecurityEventType ]
+    - [ UAObjectType, 2058, AuditSecurityEventType, Abstract ]
 
   AuditCertificateDataMismatchEventType:
-  - [ UAObjectType, 2082, AuditCertificateDataMismatchEventType ]
+  - [ UAObjectType, 2082, AuditCertificateDataMismatchEventType, Abstract ]
   - DisplayName: "AuditCertificateDataMismatchEventType"
   - HasProperty:
     - [ UAVariable, 2083, InvalidHostname, String, 0, 0 ]
@@ -12526,7 +12526,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2082, AuditCertificateDataMismatchEventType ]
+      - [ UAObjectType, 2082, AuditCertificateDataMismatchEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2084, InvalidUri, String, 0, 0 ]
     - DisplayName: "InvalidUri"
@@ -12539,48 +12539,48 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2082, AuditCertificateDataMismatchEventType ]
+      - [ UAObjectType, 2082, AuditCertificateDataMismatchEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2080, AuditCertificateEventType ]
+    - [ UAObjectType, 2080, AuditCertificateEventType, Abstract ]
 
   AuditCertificateExpiredEventType:
-  - [ UAObjectType, 2085, AuditCertificateExpiredEventType ]
+  - [ UAObjectType, 2085, AuditCertificateExpiredEventType, Abstract ]
   - DisplayName: "AuditCertificateExpiredEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2080, AuditCertificateEventType ]
+    - [ UAObjectType, 2080, AuditCertificateEventType, Abstract ]
 
   AuditCertificateInvalidEventType:
-  - [ UAObjectType, 2086, AuditCertificateInvalidEventType ]
+  - [ UAObjectType, 2086, AuditCertificateInvalidEventType, Abstract ]
   - DisplayName: "AuditCertificateInvalidEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2080, AuditCertificateEventType ]
+    - [ UAObjectType, 2080, AuditCertificateEventType, Abstract ]
 
   AuditCertificateUntrustedEventType:
-  - [ UAObjectType, 2087, AuditCertificateUntrustedEventType ]
+  - [ UAObjectType, 2087, AuditCertificateUntrustedEventType, Abstract ]
   - DisplayName: "AuditCertificateUntrustedEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2080, AuditCertificateEventType ]
+    - [ UAObjectType, 2080, AuditCertificateEventType, Abstract ]
 
   AuditCertificateRevokedEventType:
-  - [ UAObjectType, 2088, AuditCertificateRevokedEventType ]
+  - [ UAObjectType, 2088, AuditCertificateRevokedEventType, Abstract ]
   - DisplayName: "AuditCertificateRevokedEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2080, AuditCertificateEventType ]
+    - [ UAObjectType, 2080, AuditCertificateEventType, Abstract ]
 
   AuditCertificateMismatchEventType:
-  - [ UAObjectType, 2089, AuditCertificateMismatchEventType ]
+  - [ UAObjectType, 2089, AuditCertificateMismatchEventType, Abstract ]
   - DisplayName: "AuditCertificateMismatchEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2080, AuditCertificateEventType ]
+    - [ UAObjectType, 2080, AuditCertificateEventType, Abstract ]
 
   AuditNodeManagementEventType:
-  - [ UAObjectType, 2090, AuditNodeManagementEventType ]
+  - [ UAObjectType, 2090, AuditNodeManagementEventType, Abstract ]
   - DisplayName: "AuditNodeManagementEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2052, AuditEventType ]
+    - [ UAObjectType, 2052, AuditEventType, Abstract ]
 
   AuditAddNodesEventType:
-  - [ UAObjectType, 2091, AuditAddNodesEventType ]
+  - [ UAObjectType, 2091, AuditAddNodesEventType, Abstract ]
   - DisplayName: "AuditAddNodesEventType"
   - HasProperty:
     - [ UAVariable, 2092, NodesToAdd, AddNodesItem, 1, 0 ]
@@ -12594,12 +12594,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2091, AuditAddNodesEventType ]
+      - [ UAObjectType, 2091, AuditAddNodesEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2090, AuditNodeManagementEventType ]
+    - [ UAObjectType, 2090, AuditNodeManagementEventType, Abstract ]
 
   AuditDeleteNodesEventType:
-  - [ UAObjectType, 2093, AuditDeleteNodesEventType ]
+  - [ UAObjectType, 2093, AuditDeleteNodesEventType, Abstract ]
   - DisplayName: "AuditDeleteNodesEventType"
   - HasProperty:
     - [ UAVariable, 2094, NodesToDelete, DeleteNodesItem, 1, 0 ]
@@ -12613,12 +12613,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2093, AuditDeleteNodesEventType ]
+      - [ UAObjectType, 2093, AuditDeleteNodesEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2090, AuditNodeManagementEventType ]
+    - [ UAObjectType, 2090, AuditNodeManagementEventType, Abstract ]
 
   AuditAddReferencesEventType:
-  - [ UAObjectType, 2095, AuditAddReferencesEventType ]
+  - [ UAObjectType, 2095, AuditAddReferencesEventType, Abstract ]
   - DisplayName: "AuditAddReferencesEventType"
   - HasProperty:
     - [ UAVariable, 2096, ReferencesToAdd, AddReferencesItem, 1, 0 ]
@@ -12632,12 +12632,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2095, AuditAddReferencesEventType ]
+      - [ UAObjectType, 2095, AuditAddReferencesEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2090, AuditNodeManagementEventType ]
+    - [ UAObjectType, 2090, AuditNodeManagementEventType, Abstract ]
 
   AuditDeleteReferencesEventType:
-  - [ UAObjectType, 2097, AuditDeleteReferencesEventType ]
+  - [ UAObjectType, 2097, AuditDeleteReferencesEventType, Abstract ]
   - DisplayName: "AuditDeleteReferencesEventType"
   - HasProperty:
     - [ UAVariable, 2098, ReferencesToDelete, DeleteReferencesItem, 1, 0 ]
@@ -12651,18 +12651,18 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2097, AuditDeleteReferencesEventType ]
+      - [ UAObjectType, 2097, AuditDeleteReferencesEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2090, AuditNodeManagementEventType ]
+    - [ UAObjectType, 2090, AuditNodeManagementEventType, Abstract ]
 
   AuditUpdateEventType:
-  - [ UAObjectType, 2099, AuditUpdateEventType ]
+  - [ UAObjectType, 2099, AuditUpdateEventType, Abstract ]
   - DisplayName: "AuditUpdateEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2052, AuditEventType ]
+    - [ UAObjectType, 2052, AuditEventType, Abstract ]
 
   AuditWriteUpdateEventType:
-  - [ UAObjectType, 2100, AuditWriteUpdateEventType ]
+  - [ UAObjectType, 2100, AuditWriteUpdateEventType, Abstract ]
   - DisplayName: "AuditWriteUpdateEventType"
   - HasProperty:
     - [ UAVariable, 2750, AttributeId, UInt32, 0, 0 ]
@@ -12676,7 +12676,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2100, AuditWriteUpdateEventType ]
+      - [ UAObjectType, 2100, AuditWriteUpdateEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2101, IndexRange, NumericRange, 0, 0 ]
     - DisplayName: "IndexRange"
@@ -12689,7 +12689,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2100, AuditWriteUpdateEventType ]
+      - [ UAObjectType, 2100, AuditWriteUpdateEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2102, OldValue ]
     - DisplayName: "OldValue"
@@ -12702,7 +12702,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2100, AuditWriteUpdateEventType ]
+      - [ UAObjectType, 2100, AuditWriteUpdateEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2103, NewValue ]
     - DisplayName: "NewValue"
@@ -12715,12 +12715,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2100, AuditWriteUpdateEventType ]
+      - [ UAObjectType, 2100, AuditWriteUpdateEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2099, AuditUpdateEventType ]
+    - [ UAObjectType, 2099, AuditUpdateEventType, Abstract ]
 
   AuditHistoryUpdateEventType:
-  - [ UAObjectType, 2104, AuditHistoryUpdateEventType ]
+  - [ UAObjectType, 2104, AuditHistoryUpdateEventType, Abstract ]
   - DisplayName: "AuditHistoryUpdateEventType"
   - HasProperty:
     - [ UAVariable, 2751, ParameterDataTypeId, NodeId, 0, 0 ]
@@ -12734,12 +12734,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2104, AuditHistoryUpdateEventType ]
+      - [ UAObjectType, 2104, AuditHistoryUpdateEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2099, AuditUpdateEventType ]
+    - [ UAObjectType, 2099, AuditUpdateEventType, Abstract ]
 
   AuditUpdateMethodEventType:
-  - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
+  - [ UAObjectType, 2127, AuditUpdateMethodEventType, Abstract ]
   - DisplayName: "AuditUpdateMethodEventType"
   - HasProperty:
     - [ UAVariable, 2128, MethodId, NodeId, 0, 0 ]
@@ -12753,7 +12753,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
+      - [ UAObjectType, 2127, AuditUpdateMethodEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 19305, StatusCodeId, StatusCode, 0, 0 ]
     - DisplayName: "StatusCodeId"
@@ -12766,7 +12766,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
+      - [ UAObjectType, 2127, AuditUpdateMethodEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2129, InputArguments ]
     - DisplayName: "InputArguments"
@@ -12779,7 +12779,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
+      - [ UAObjectType, 2127, AuditUpdateMethodEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 19306, OutputArguments ]
     - DisplayName: "OutputArguments"
@@ -12792,24 +12792,24 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
+      - [ UAObjectType, 2127, AuditUpdateMethodEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2052, AuditEventType ]
+    - [ UAObjectType, 2052, AuditEventType, Abstract ]
 
   SystemEventType:
-  - [ UAObjectType, 2130, SystemEventType ]
+  - [ UAObjectType, 2130, SystemEventType, Abstract ]
   - DisplayName: "SystemEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2041, BaseEventType ]
+    - [ UAObjectType, 2041, BaseEventType, Abstract ]
 
   DeviceFailureEventType:
-  - [ UAObjectType, 2131, DeviceFailureEventType ]
+  - [ UAObjectType, 2131, DeviceFailureEventType, Abstract ]
   - DisplayName: "DeviceFailureEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2130, SystemEventType ]
+    - [ UAObjectType, 2130, SystemEventType, Abstract ]
 
   SystemStatusChangeEventType:
-  - [ UAObjectType, 11446, SystemStatusChangeEventType ]
+  - [ UAObjectType, 11446, SystemStatusChangeEventType, Abstract ]
   - DisplayName: "SystemStatusChangeEventType"
   - HasProperty:
     - [ UAVariable, 11696, SystemState, ServerState, 0, 0 ]
@@ -12823,18 +12823,18 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 11446, SystemStatusChangeEventType ]
+      - [ UAObjectType, 11446, SystemStatusChangeEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2130, SystemEventType ]
+    - [ UAObjectType, 2130, SystemEventType, Abstract ]
 
   BaseModelChangeEventType:
-  - [ UAObjectType, 2132, BaseModelChangeEventType ]
+  - [ UAObjectType, 2132, BaseModelChangeEventType, Abstract ]
   - DisplayName: "BaseModelChangeEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2041, BaseEventType ]
+    - [ UAObjectType, 2041, BaseEventType, Abstract ]
 
   GeneralModelChangeEventType:
-  - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+  - [ UAObjectType, 2133, GeneralModelChangeEventType, Abstract ]
   - DisplayName: "GeneralModelChangeEventType"
   - HasProperty:
     - [ UAVariable, 2134, Changes, ModelChangeStructureDataType, 1, 0 ]
@@ -12848,12 +12848,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+      - [ UAObjectType, 2133, GeneralModelChangeEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2132, BaseModelChangeEventType ]
+    - [ UAObjectType, 2132, BaseModelChangeEventType, Abstract ]
 
   SemanticChangeEventType:
-  - [ UAObjectType, 2738, SemanticChangeEventType ]
+  - [ UAObjectType, 2738, SemanticChangeEventType, Abstract ]
   - DisplayName: "SemanticChangeEventType"
   - HasProperty:
     - [ UAVariable, 2739, Changes, SemanticChangeStructureDataType, 1, 0 ]
@@ -12867,18 +12867,18 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2738, SemanticChangeEventType ]
+      - [ UAObjectType, 2738, SemanticChangeEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2041, BaseEventType ]
+    - [ UAObjectType, 2041, BaseEventType, Abstract ]
 
   EventQueueOverflowEventType:
-  - [ UAObjectType, 3035, EventQueueOverflowEventType ]
+  - [ UAObjectType, 3035, EventQueueOverflowEventType, Abstract ]
   - DisplayName: "EventQueueOverflowEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2041, BaseEventType ]
+    - [ UAObjectType, 2041, BaseEventType, Abstract ]
 
   ProgressEventType:
-  - [ UAObjectType, 11436, ProgressEventType ]
+  - [ UAObjectType, 11436, ProgressEventType, Abstract ]
   - DisplayName: "ProgressEventType"
   - HasProperty:
     - [ UAVariable, 12502, Context ]
@@ -12892,7 +12892,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 11436, ProgressEventType ]
+      - [ UAObjectType, 11436, ProgressEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 12503, Progress, UInt16, 0, 0 ]
     - DisplayName: "Progress"
@@ -12905,12 +12905,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 11436, ProgressEventType ]
+      - [ UAObjectType, 11436, ProgressEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2041, BaseEventType ]
+    - [ UAObjectType, 2041, BaseEventType, Abstract ]
 
   AuditClientEventType:
-  - [ UAObjectType, 23606, AuditClientEventType ]
+  - [ UAObjectType, 23606, AuditClientEventType, Abstract ]
   - DisplayName: "AuditClientEventType"
   - HasProperty:
     - [ UAVariable, 23908, ServerUri, UriString, 0, 0 ]
@@ -12924,12 +12924,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 23606, AuditClientEventType ]
+      - [ UAObjectType, 23606, AuditClientEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2052, AuditEventType ]
+    - [ UAObjectType, 2052, AuditEventType, Abstract ]
 
   AuditClientUpdateMethodResultEventType:
-  - [ UAObjectType, 23926, AuditClientUpdateMethodResultEventType ]
+  - [ UAObjectType, 23926, AuditClientUpdateMethodResultEventType, Abstract ]
   - DisplayName: "AuditClientUpdateMethodResultEventType"
   - HasProperty:
     - [ UAVariable, 23994, ObjectId, ExpandedNodeId, 0, 0 ]
@@ -12943,7 +12943,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 23926, AuditClientUpdateMethodResultEventType ]
+      - [ UAObjectType, 23926, AuditClientUpdateMethodResultEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 23995, MethodId, ExpandedNodeId, 0, 0 ]
     - DisplayName: "MethodId"
@@ -12956,7 +12956,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 23926, AuditClientUpdateMethodResultEventType ]
+      - [ UAObjectType, 23926, AuditClientUpdateMethodResultEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 23998, StatusCodeId, StatusCode, 0, 0 ]
     - DisplayName: "StatusCodeId"
@@ -12969,7 +12969,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 23926, AuditClientUpdateMethodResultEventType ]
+      - [ UAObjectType, 23926, AuditClientUpdateMethodResultEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 23999, InputArguments ]
     - DisplayName: "InputArguments"
@@ -12982,7 +12982,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 23926, AuditClientUpdateMethodResultEventType ]
+      - [ UAObjectType, 23926, AuditClientUpdateMethodResultEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 25684, OutputArguments ]
     - DisplayName: "OutputArguments"
@@ -12995,9 +12995,9 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 23926, AuditClientUpdateMethodResultEventType ]
+      - [ UAObjectType, 23926, AuditClientUpdateMethodResultEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 23606, AuditClientEventType ]
+    - [ UAObjectType, 23606, AuditClientEventType, Abstract ]
 
   AggregateFunctionType:
   - [ UAObjectType, 2340, AggregateFunctionType ]
@@ -13064,7 +13064,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   FiniteStateMachineType:
-  - [ UAObjectType, 2771, FiniteStateMachineType ]
+  - [ UAObjectType, 2771, FiniteStateMachineType, Abstract ]
   - DisplayName: "FiniteStateMachineType"
   - HasComponent:
     - [ UAVariable, 2772, CurrentState, LocalizedText, 0, 0 ]
@@ -13091,7 +13091,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 2771, FiniteStateMachineType ]
+      - [ UAObjectType, 2771, FiniteStateMachineType, Abstract ]
   - HasComponent:
     - [ UAVariable, 2773, LastTransition, LocalizedText, 0, 0 ]
     - DisplayName: "LastTransition"
@@ -13117,7 +13117,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 2771, FiniteStateMachineType ]
+      - [ UAObjectType, 2771, FiniteStateMachineType, Abstract ]
   - HasComponent:
     - [ UAVariable, 17635, AvailableStates, NodeId, 1, 0 ]
     - DisplayName: "AvailableStates"
@@ -13130,7 +13130,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 2771, FiniteStateMachineType ]
+      - [ UAObjectType, 2771, FiniteStateMachineType, Abstract ]
   - HasComponent:
     - [ UAVariable, 17636, AvailableTransitions, NodeId, 1, 0 ]
     - DisplayName: "AvailableTransitions"
@@ -13143,7 +13143,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 2771, FiniteStateMachineType ]
+      - [ UAObjectType, 2771, FiniteStateMachineType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2299, StateMachineType ]
 
@@ -13198,7 +13198,7 @@ DefinedTypes:
     - [ UAObjectType, 2307, StateType ]
 
   TransitionEventType:
-  - [ UAObjectType, 2311, TransitionEventType ]
+  - [ UAObjectType, 2311, TransitionEventType, Abstract ]
   - DisplayName: "TransitionEventType"
   - HasComponent:
     - [ UAVariable, 2774, Transition, LocalizedText, 0, 0 ]
@@ -13225,7 +13225,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 2311, TransitionEventType ]
+      - [ UAObjectType, 2311, TransitionEventType, Abstract ]
   - HasComponent:
     - [ UAVariable, 2775, FromState, LocalizedText, 0, 0 ]
     - DisplayName: "FromState"
@@ -13251,7 +13251,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 2311, TransitionEventType ]
+      - [ UAObjectType, 2311, TransitionEventType, Abstract ]
   - HasComponent:
     - [ UAVariable, 2776, ToState, LocalizedText, 0, 0 ]
     - DisplayName: "ToState"
@@ -13277,12 +13277,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 2311, TransitionEventType ]
+      - [ UAObjectType, 2311, TransitionEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2041, BaseEventType ]
+    - [ UAObjectType, 2041, BaseEventType, Abstract ]
 
   AuditUpdateStateEventType:
-  - [ UAObjectType, 2315, AuditUpdateStateEventType ]
+  - [ UAObjectType, 2315, AuditUpdateStateEventType, Abstract ]
   - DisplayName: "AuditUpdateStateEventType"
   - HasProperty:
     - [ UAVariable, 2777, OldStateId ]
@@ -13296,7 +13296,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2315, AuditUpdateStateEventType ]
+      - [ UAObjectType, 2315, AuditUpdateStateEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 2778, NewStateId ]
     - DisplayName: "NewStateId"
@@ -13309,9 +13309,9 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2315, AuditUpdateStateEventType ]
+      - [ UAObjectType, 2315, AuditUpdateStateEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
+    - [ UAObjectType, 2127, AuditUpdateMethodEventType, Abstract ]
 
   FileDirectoryType:
   - [ UAObjectType, 13353, FileDirectoryType ]
@@ -14264,7 +14264,7 @@ DefinedTypes:
     - ToState:
       - [ UAObject, 15817, ReadPrepare ]
     - HasEffect:
-      - [ UAObjectType, 2311, TransitionEventType ]
+      - [ UAObjectType, 2311, TransitionEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
@@ -14290,7 +14290,7 @@ DefinedTypes:
     - ToState:
       - [ UAObject, 15819, ReadTransfer ]
     - HasEffect:
-      - [ UAObjectType, 2311, TransitionEventType ]
+      - [ UAObjectType, 2311, TransitionEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
@@ -14316,7 +14316,7 @@ DefinedTypes:
     - ToState:
       - [ UAObject, 15815, Idle ]
     - HasEffect:
-      - [ UAObjectType, 2311, TransitionEventType ]
+      - [ UAObjectType, 2311, TransitionEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
@@ -14342,7 +14342,7 @@ DefinedTypes:
     - ToState:
       - [ UAObject, 15821, ApplyWrite ]
     - HasEffect:
-      - [ UAObjectType, 2311, TransitionEventType ]
+      - [ UAObjectType, 2311, TransitionEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
@@ -14368,7 +14368,7 @@ DefinedTypes:
     - ToState:
       - [ UAObject, 15815, Idle ]
     - HasEffect:
-      - [ UAObjectType, 2311, TransitionEventType ]
+      - [ UAObjectType, 2311, TransitionEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
@@ -14394,7 +14394,7 @@ DefinedTypes:
     - ToState:
       - [ UAObject, 15823, Error ]
     - HasEffect:
-      - [ UAObjectType, 2311, TransitionEventType ]
+      - [ UAObjectType, 2311, TransitionEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
@@ -14420,7 +14420,7 @@ DefinedTypes:
     - ToState:
       - [ UAObject, 15823, Error ]
     - HasEffect:
-      - [ UAObjectType, 2311, TransitionEventType ]
+      - [ UAObjectType, 2311, TransitionEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
@@ -14446,7 +14446,7 @@ DefinedTypes:
     - ToState:
       - [ UAObject, 15823, Error ]
     - HasEffect:
-      - [ UAObjectType, 2311, TransitionEventType ]
+      - [ UAObjectType, 2311, TransitionEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
@@ -14472,7 +14472,7 @@ DefinedTypes:
     - ToState:
       - [ UAObject, 15815, Idle ]
     - HasEffect:
-      - [ UAObjectType, 2311, TransitionEventType ]
+      - [ UAObjectType, 2311, TransitionEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
@@ -14489,7 +14489,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, 15803, FileTransferStateMachineType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2771, FiniteStateMachineType ]
+    - [ UAObjectType, 2771, FiniteStateMachineType, Abstract ]
 
   RoleSetType:
   - [ UAObjectType, 15607, RoleSetType ]
@@ -14832,19 +14832,19 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   RoleMappingRuleChangedAuditEventType:
-  - [ UAObjectType, 17641, RoleMappingRuleChangedAuditEventType ]
+  - [ UAObjectType, 17641, RoleMappingRuleChangedAuditEventType, Abstract ]
   - DisplayName: "RoleMappingRuleChangedAuditEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
+    - [ UAObjectType, 2127, AuditUpdateMethodEventType, Abstract ]
 
   DictionaryEntryType:
-  - [ UAObjectType, 17589, DictionaryEntryType ]
+  - [ UAObjectType, 17589, DictionaryEntryType, Abstract ]
   - DisplayName: "DictionaryEntryType"
   - HasComponent:
     - [ UAObject, 17590, <DictionaryEntryName> ]
     - DisplayName: "<DictionaryEntryName>"
     - HasTypeDefinition:
-      - [ UAObjectType, 17589, DictionaryEntryType ]
+      - [ UAObjectType, 17589, DictionaryEntryType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
       - DisplayName: "OptionalPlaceholder"
@@ -14852,7 +14852,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 17589, DictionaryEntryType ]
+      - [ UAObjectType, 17589, DictionaryEntryType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
@@ -14876,7 +14876,7 @@ DefinedTypes:
     - [ UAObject, 17593, <DictionaryEntryName> ]
     - DisplayName: "<DictionaryEntryName>"
     - HasTypeDefinition:
-      - [ UAObjectType, 17589, DictionaryEntryType ]
+      - [ UAObjectType, 17589, DictionaryEntryType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
       - DisplayName: "OptionalPlaceholder"
@@ -14892,22 +14892,22 @@ DefinedTypes:
   - [ UAObjectType, 17598, IrdiDictionaryEntryType ]
   - DisplayName: "IrdiDictionaryEntryType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 17589, DictionaryEntryType ]
+    - [ UAObjectType, 17589, DictionaryEntryType, Abstract ]
 
   UriDictionaryEntryType:
   - [ UAObjectType, 17600, UriDictionaryEntryType ]
   - DisplayName: "UriDictionaryEntryType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 17589, DictionaryEntryType ]
+    - [ UAObjectType, 17589, DictionaryEntryType, Abstract ]
 
   BaseInterfaceType:
-  - [ UAObjectType, 17602, BaseInterfaceType ]
+  - [ UAObjectType, 17602, BaseInterfaceType, Abstract ]
   - DisplayName: "BaseInterfaceType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   IOrderedObjectType:
-  - [ UAObjectType, 23513, IOrderedObjectType ]
+  - [ UAObjectType, 23513, IOrderedObjectType, Abstract ]
   - DisplayName: "IOrderedObjectType"
   - HasProperty:
     - [ UAVariable, 23517, NumberInList, Number, 0, 0 ]
@@ -14921,9 +14921,9 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 23513, IOrderedObjectType ]
+      - [ UAObjectType, 23513, IOrderedObjectType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17602, BaseInterfaceType ]
+    - [ UAObjectType, 17602, BaseInterfaceType, Abstract ]
 
   OrderedListType:
   - [ UAObjectType, 23518, OrderedListType ]
@@ -14945,7 +14945,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, 23519, <OrderedObject> ]
     - HasInterface:
-      - [ UAObjectType, 23513, IOrderedObjectType ]
+      - [ UAObjectType, 23513, IOrderedObjectType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -14970,7 +14970,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, 23518, OrderedListType ]
   - GeneratesEvent:
-    - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+    - [ UAObjectType, 2133, GeneralModelChangeEventType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
@@ -14991,10 +14991,10 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, 32439, SyntaxReferenceEntryType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17589, DictionaryEntryType ]
+    - [ UAObjectType, 17589, DictionaryEntryType, Abstract ]
 
   UnitType:
-  - [ UAObjectType, 32442, UnitType ]
+  - [ UAObjectType, 32442, UnitType, Abstract ]
   - DisplayName: "UnitType"
   - HasProperty:
     - [ UAVariable, 32443, Symbol, LocalizedText, 0, 0 ]
@@ -15008,7 +15008,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 32442, UnitType ]
+      - [ UAObjectType, 32442, UnitType, Abstract ]
   - HasProperty:
     - [ UAVariable, 32445, UnitSystem, String, 0, 0 ]
     - DisplayName: "UnitSystem"
@@ -15021,7 +15021,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 32442, UnitType ]
+      - [ UAObjectType, 32442, UnitType, Abstract ]
   - HasProperty:
     - [ UAVariable, 32446, Discipline, String, 0, 0 ]
     - DisplayName: "Discipline"
@@ -15034,7 +15034,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 32442, UnitType ]
+      - [ UAObjectType, 32442, UnitType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
@@ -15136,7 +15136,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, 32462, CoherentUnit ]
     - HasTypeDefinition:
-      - [ UAObjectType, 32442, UnitType ]
+      - [ UAObjectType, 32442, UnitType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
       - DisplayName: "Optional"
@@ -15146,7 +15146,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, 32447, ServerUnitType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 32442, UnitType ]
+    - [ UAObjectType, 32442, UnitType, Abstract ]
 
   AlternativeUnitType:
   - [ UAObjectType, 32467, AlternativeUnitType ]
@@ -15191,7 +15191,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, 32467, AlternativeUnitType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 32442, UnitType ]
+    - [ UAObjectType, 32442, UnitType, Abstract ]
 
   QuantityType:
   - [ UAObjectType, 32475, QuantityType ]
@@ -15362,7 +15362,7 @@ DefinedTypes:
     - [ UAObjectType, 61, FolderType ]
 
   ConditionType:
-  - [ UAObjectType, 2782, ConditionType ]
+  - [ UAObjectType, 2782, ConditionType, Abstract ]
   - DisplayName: "ConditionType"
   - HasProperty:
     - [ UAVariable, 11112, ConditionClassId, NodeId, 0, 0 ]
@@ -15376,7 +15376,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasProperty:
     - [ UAVariable, 11113, ConditionClassName, LocalizedText, 0, 0 ]
     - DisplayName: "ConditionClassName"
@@ -15389,7 +15389,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasProperty:
     - [ UAVariable, 16363, ConditionSubClassId, NodeId, 1, 0 ]
     - DisplayName: "ConditionSubClassId"
@@ -15402,7 +15402,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasProperty:
     - [ UAVariable, 16364, ConditionSubClassName, LocalizedText, 1, 0 ]
     - DisplayName: "ConditionSubClassName"
@@ -15415,7 +15415,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasProperty:
     - [ UAVariable, 9009, ConditionName, String, 0, 0 ]
     - DisplayName: "ConditionName"
@@ -15428,7 +15428,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasProperty:
     - [ UAVariable, 9010, BranchId, NodeId, 0, 0 ]
     - DisplayName: "BranchId"
@@ -15441,7 +15441,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasProperty:
     - [ UAVariable, 3874, Retain, Boolean, 0, 0 ]
     - DisplayName: "Retain"
@@ -15454,14 +15454,14 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasProperty:
     - [ UAVariable, 32060, SupportsFilteredRetain, Boolean, 0, 0 ]
     - DisplayName: "SupportsFilteredRetain"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasComponent:
     - [ UAVariable, 9011, EnabledState, LocalizedText, 0, 0 ]
     - DisplayName: "EnabledState"
@@ -15540,7 +15540,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasComponent:
     - [ UAVariable, 9020, Quality, StatusCode, 0, 0 ]
     - DisplayName: "Quality"
@@ -15566,7 +15566,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasComponent:
     - [ UAVariable, 9022, LastSeverity, UInt16, 0, 0 ]
     - DisplayName: "LastSeverity"
@@ -15592,7 +15592,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasComponent:
     - [ UAVariable, 9024, Comment, LocalizedText, 0, 0 ]
     - DisplayName: "Comment"
@@ -15618,7 +15618,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasProperty:
     - [ UAVariable, 9026, ClientUserId, String, 0, 0 ]
     - DisplayName: "ClientUserId"
@@ -15631,7 +15631,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasComponent:
     - [ UAMethod, 9028, Disable ]
     - DisplayName: "Disable"
@@ -15644,7 +15644,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasComponent:
     - [ UAMethod, 9027, Enable ]
     - DisplayName: "Enable"
@@ -15657,7 +15657,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasComponent:
     - [ UAMethod, 9029, AddComment ]
     - DisplayName: "AddComment"
@@ -15686,7 +15686,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasComponent:
     - [ UAMethod, 3875, ConditionRefresh ]
     - DisplayName: "ConditionRefresh"
@@ -15706,11 +15706,11 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAMethod, 3875, ConditionRefresh ]
     - AlwaysGeneratesEvent:
-      - [ UAObjectType, 2787, RefreshStartEventType ]
+      - [ UAObjectType, 2787, RefreshStartEventType, Abstract ]
     - AlwaysGeneratesEvent:
-      - [ UAObjectType, 2788, RefreshEndEventType ]
+      - [ UAObjectType, 2788, RefreshEndEventType, Abstract ]
     - HasComponent_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasComponent:
     - [ UAMethod, 12912, ConditionRefresh2 ]
     - DisplayName: "ConditionRefresh2"
@@ -15731,13 +15731,13 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAMethod, 12912, ConditionRefresh2 ]
     - AlwaysGeneratesEvent:
-      - [ UAObjectType, 2787, RefreshStartEventType ]
+      - [ UAObjectType, 2787, RefreshStartEventType, Abstract ]
     - AlwaysGeneratesEvent:
-      - [ UAObjectType, 2788, RefreshEndEventType ]
+      - [ UAObjectType, 2788, RefreshEndEventType, Abstract ]
     - HasComponent_reverse:
-      - [ UAObjectType, 2782, ConditionType ]
+      - [ UAObjectType, 2782, ConditionType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2041, BaseEventType ]
+    - [ UAObjectType, 2041, BaseEventType, Abstract ]
 
   DialogConditionType:
   - [ UAObjectType, 2830, DialogConditionType ]
@@ -16014,7 +16014,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, 2830, DialogConditionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2782, ConditionType ]
+    - [ UAObjectType, 2782, ConditionType, Abstract ]
 
   AcknowledgeableConditionType:
   - [ UAObjectType, 2881, AcknowledgeableConditionType ]
@@ -16324,7 +16324,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, 2881, AcknowledgeableConditionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2782, ConditionType ]
+    - [ UAObjectType, 2782, ConditionType, Abstract ]
 
   AlarmConditionType:
   - [ UAObjectType, 2915, AlarmConditionType ]
@@ -18729,7 +18729,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, 2929, ShelvedStateMachineType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2771, FiniteStateMachineType ]
+    - [ UAObjectType, 2771, FiniteStateMachineType, Abstract ]
 
   LimitAlarmType:
   - [ UAObjectType, 2955, LimitAlarmType ]
@@ -19149,7 +19149,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, 9318, ExclusiveLimitStateMachineType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2771, FiniteStateMachineType ]
+    - [ UAObjectType, 2771, FiniteStateMachineType, Abstract ]
 
   ExclusiveLimitAlarmType:
   - [ UAObjectType, 9341, ExclusiveLimitAlarmType ]
@@ -20082,64 +20082,64 @@ DefinedTypes:
     - [ UAObjectType, 2915, AlarmConditionType ]
 
   BaseConditionClassType:
-  - [ UAObjectType, 11163, BaseConditionClassType ]
+  - [ UAObjectType, 11163, BaseConditionClassType, Abstract ]
   - DisplayName: "BaseConditionClassType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   ProcessConditionClassType:
-  - [ UAObjectType, 11164, ProcessConditionClassType ]
+  - [ UAObjectType, 11164, ProcessConditionClassType, Abstract ]
   - DisplayName: "ProcessConditionClassType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 11163, BaseConditionClassType ]
+    - [ UAObjectType, 11163, BaseConditionClassType, Abstract ]
 
   MaintenanceConditionClassType:
-  - [ UAObjectType, 11165, MaintenanceConditionClassType ]
+  - [ UAObjectType, 11165, MaintenanceConditionClassType, Abstract ]
   - DisplayName: "MaintenanceConditionClassType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 11163, BaseConditionClassType ]
+    - [ UAObjectType, 11163, BaseConditionClassType, Abstract ]
 
   SystemConditionClassType:
-  - [ UAObjectType, 11166, SystemConditionClassType ]
+  - [ UAObjectType, 11166, SystemConditionClassType, Abstract ]
   - DisplayName: "SystemConditionClassType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 11163, BaseConditionClassType ]
+    - [ UAObjectType, 11163, BaseConditionClassType, Abstract ]
 
   SafetyConditionClassType:
-  - [ UAObjectType, 17218, SafetyConditionClassType ]
+  - [ UAObjectType, 17218, SafetyConditionClassType, Abstract ]
   - DisplayName: "SafetyConditionClassType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 11163, BaseConditionClassType ]
+    - [ UAObjectType, 11163, BaseConditionClassType, Abstract ]
 
   HighlyManagedAlarmConditionClassType:
-  - [ UAObjectType, 17219, HighlyManagedAlarmConditionClassType ]
+  - [ UAObjectType, 17219, HighlyManagedAlarmConditionClassType, Abstract ]
   - DisplayName: "HighlyManagedAlarmConditionClassType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 11163, BaseConditionClassType ]
+    - [ UAObjectType, 11163, BaseConditionClassType, Abstract ]
 
   TrainingConditionClassType:
-  - [ UAObjectType, 17220, TrainingConditionClassType ]
+  - [ UAObjectType, 17220, TrainingConditionClassType, Abstract ]
   - DisplayName: "TrainingConditionClassType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 11163, BaseConditionClassType ]
+    - [ UAObjectType, 11163, BaseConditionClassType, Abstract ]
 
   StatisticalConditionClassType:
-  - [ UAObjectType, 18665, StatisticalConditionClassType ]
+  - [ UAObjectType, 18665, StatisticalConditionClassType, Abstract ]
   - DisplayName: "StatisticalConditionClassType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 11163, BaseConditionClassType ]
+    - [ UAObjectType, 11163, BaseConditionClassType, Abstract ]
 
   TestingConditionClassType:
-  - [ UAObjectType, 17221, TestingConditionClassType ]
+  - [ UAObjectType, 17221, TestingConditionClassType, Abstract ]
   - DisplayName: "TestingConditionClassType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 11163, BaseConditionClassType ]
+    - [ UAObjectType, 11163, BaseConditionClassType, Abstract ]
 
   AuditConditionEventType:
   - [ UAObjectType, 2790, AuditConditionEventType ]
   - DisplayName: "AuditConditionEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
+    - [ UAObjectType, 2127, AuditUpdateMethodEventType, Abstract ]
 
   AuditConditionEnableEventType:
   - [ UAObjectType, 2803, AuditConditionEnableEventType ]
@@ -20306,22 +20306,22 @@ DefinedTypes:
     - [ UAObjectType, 2790, AuditConditionEventType ]
 
   RefreshStartEventType:
-  - [ UAObjectType, 2787, RefreshStartEventType ]
+  - [ UAObjectType, 2787, RefreshStartEventType, Abstract ]
   - DisplayName: "RefreshStartEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2130, SystemEventType ]
+    - [ UAObjectType, 2130, SystemEventType, Abstract ]
 
   RefreshEndEventType:
-  - [ UAObjectType, 2788, RefreshEndEventType ]
+  - [ UAObjectType, 2788, RefreshEndEventType, Abstract ]
   - DisplayName: "RefreshEndEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2130, SystemEventType ]
+    - [ UAObjectType, 2130, SystemEventType, Abstract ]
 
   RefreshRequiredEventType:
-  - [ UAObjectType, 2789, RefreshRequiredEventType ]
+  - [ UAObjectType, 2789, RefreshRequiredEventType, Abstract ]
   - DisplayName: "RefreshRequiredEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2130, SystemEventType ]
+    - [ UAObjectType, 2130, SystemEventType, Abstract ]
 
   AlarmMetricsType:
   - [ UAObjectType, 17279, AlarmMetricsType ]
@@ -20473,7 +20473,7 @@ DefinedTypes:
     - [ UAMethod, 18666, Reset ]
     - DisplayName: "Reset"
     - AlwaysGeneratesEvent:
-      - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
+      - [ UAObjectType, 2127, AuditUpdateMethodEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
       - DisplayName: "Mandatory"
@@ -20982,9 +20982,9 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObjectType, 2391, ProgramStateMachineType ]
     - HasEffect:
-      - [ UAObjectType, 2378, ProgramTransitionEventType ]
+      - [ UAObjectType, 2378, ProgramTransitionEventType, Abstract ]
     - HasEffect:
-      - [ UAObjectType, 11856, AuditProgramTransitionEventType ]
+      - [ UAObjectType, 11856, AuditProgramTransitionEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
@@ -21023,9 +21023,9 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObjectType, 2391, ProgramStateMachineType ]
     - HasEffect:
-      - [ UAObjectType, 2378, ProgramTransitionEventType ]
+      - [ UAObjectType, 2378, ProgramTransitionEventType, Abstract ]
     - HasEffect:
-      - [ UAObjectType, 11856, AuditProgramTransitionEventType ]
+      - [ UAObjectType, 11856, AuditProgramTransitionEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
@@ -21068,9 +21068,9 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObjectType, 2391, ProgramStateMachineType ]
     - HasEffect:
-      - [ UAObjectType, 2378, ProgramTransitionEventType ]
+      - [ UAObjectType, 2378, ProgramTransitionEventType, Abstract ]
     - HasEffect:
-      - [ UAObjectType, 11856, AuditProgramTransitionEventType ]
+      - [ UAObjectType, 11856, AuditProgramTransitionEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
@@ -21096,9 +21096,9 @@ DefinedTypes:
     - ToState:
       - [ UAObject, 2400, Ready ]
     - HasEffect:
-      - [ UAObjectType, 2378, ProgramTransitionEventType ]
+      - [ UAObjectType, 2378, ProgramTransitionEventType, Abstract ]
     - HasEffect:
-      - [ UAObjectType, 11856, AuditProgramTransitionEventType ]
+      - [ UAObjectType, 11856, AuditProgramTransitionEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
@@ -21137,9 +21137,9 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObjectType, 2391, ProgramStateMachineType ]
     - HasEffect:
-      - [ UAObjectType, 2378, ProgramTransitionEventType ]
+      - [ UAObjectType, 2378, ProgramTransitionEventType, Abstract ]
     - HasEffect:
-      - [ UAObjectType, 11856, AuditProgramTransitionEventType ]
+      - [ UAObjectType, 11856, AuditProgramTransitionEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
@@ -21178,9 +21178,9 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObjectType, 2391, ProgramStateMachineType ]
     - HasEffect:
-      - [ UAObjectType, 2378, ProgramTransitionEventType ]
+      - [ UAObjectType, 2378, ProgramTransitionEventType, Abstract ]
     - HasEffect:
-      - [ UAObjectType, 11856, AuditProgramTransitionEventType ]
+      - [ UAObjectType, 11856, AuditProgramTransitionEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
@@ -21240,9 +21240,9 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObjectType, 2391, ProgramStateMachineType ]
     - HasEffect:
-      - [ UAObjectType, 2378, ProgramTransitionEventType ]
+      - [ UAObjectType, 2378, ProgramTransitionEventType, Abstract ]
     - HasEffect:
-      - [ UAObjectType, 11856, AuditProgramTransitionEventType ]
+      - [ UAObjectType, 11856, AuditProgramTransitionEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
@@ -21268,9 +21268,9 @@ DefinedTypes:
     - ToState:
       - [ UAObject, 2400, Ready ]
     - HasEffect:
-      - [ UAObjectType, 2378, ProgramTransitionEventType ]
+      - [ UAObjectType, 2378, ProgramTransitionEventType, Abstract ]
     - HasEffect:
-      - [ UAObjectType, 11856, AuditProgramTransitionEventType ]
+      - [ UAObjectType, 11856, AuditProgramTransitionEventType, Abstract ]
     - HasCause:
       - [ UAMethod, 2430, Reset ]
       - DisplayName: "Reset"
@@ -21330,9 +21330,9 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObjectType, 2391, ProgramStateMachineType ]
     - HasEffect:
-      - [ UAObjectType, 2378, ProgramTransitionEventType ]
+      - [ UAObjectType, 2378, ProgramTransitionEventType, Abstract ]
     - HasEffect:
-      - [ UAObjectType, 11856, AuditProgramTransitionEventType ]
+      - [ UAObjectType, 11856, AuditProgramTransitionEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasComponent_reverse:
@@ -21411,10 +21411,10 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, 2391, ProgramStateMachineType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2771, FiniteStateMachineType ]
+    - [ UAObjectType, 2771, FiniteStateMachineType, Abstract ]
 
   ProgramTransitionEventType:
-  - [ UAObjectType, 2378, ProgramTransitionEventType ]
+  - [ UAObjectType, 2378, ProgramTransitionEventType, Abstract ]
   - DisplayName: "ProgramTransitionEventType"
   - HasComponent:
     - [ UAVariable, 2379, IntermediateResult ]
@@ -21428,12 +21428,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 2378, ProgramTransitionEventType ]
+      - [ UAObjectType, 2378, ProgramTransitionEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2311, TransitionEventType ]
+    - [ UAObjectType, 2311, TransitionEventType, Abstract ]
 
   AuditProgramTransitionEventType:
-  - [ UAObjectType, 11856, AuditProgramTransitionEventType ]
+  - [ UAObjectType, 11856, AuditProgramTransitionEventType, Abstract ]
   - DisplayName: "AuditProgramTransitionEventType"
   - HasProperty:
     - [ UAVariable, 11875, TransitionNumber, UInt32, 0, 0 ]
@@ -21447,9 +21447,9 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 11856, AuditProgramTransitionEventType ]
+      - [ UAObjectType, 11856, AuditProgramTransitionEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2315, AuditUpdateStateEventType ]
+    - [ UAObjectType, 2315, AuditUpdateStateEventType, Abstract ]
 
   ProgramTransitionAuditEventType:
   - [ UAObjectType, 3806, ProgramTransitionAuditEventType ]
@@ -21481,7 +21481,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, 3806, ProgramTransitionAuditEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2315, AuditUpdateStateEventType ]
+    - [ UAObjectType, 2315, AuditUpdateStateEventType, Abstract ]
 
   HistoricalDataConfigurationType:
   - [ UAObjectType, 2318, HistoricalDataConfigurationType ]
@@ -22080,7 +22080,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   AuditHistoryEventUpdateEventType:
-  - [ UAObjectType, 2999, AuditHistoryEventUpdateEventType ]
+  - [ UAObjectType, 2999, AuditHistoryEventUpdateEventType, Abstract ]
   - DisplayName: "AuditHistoryEventUpdateEventType"
   - HasProperty:
     - [ UAVariable, 3025, UpdatedNode, NodeId, 0, 0 ]
@@ -22094,7 +22094,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2999, AuditHistoryEventUpdateEventType ]
+      - [ UAObjectType, 2999, AuditHistoryEventUpdateEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 3028, PerformInsertReplace, PerformUpdateType, 0, 0 ]
     - DisplayName: "PerformInsertReplace"
@@ -22107,7 +22107,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2999, AuditHistoryEventUpdateEventType ]
+      - [ UAObjectType, 2999, AuditHistoryEventUpdateEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 3003, Filter, EventFilter, 0, 0 ]
     - DisplayName: "Filter"
@@ -22120,7 +22120,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2999, AuditHistoryEventUpdateEventType ]
+      - [ UAObjectType, 2999, AuditHistoryEventUpdateEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 3029, NewValues, HistoryEventFieldList, 1, 0 ]
     - DisplayName: "NewValues"
@@ -22133,7 +22133,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2999, AuditHistoryEventUpdateEventType ]
+      - [ UAObjectType, 2999, AuditHistoryEventUpdateEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 3030, OldValues, HistoryEventFieldList, 1, 0 ]
     - DisplayName: "OldValues"
@@ -22146,12 +22146,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 2999, AuditHistoryEventUpdateEventType ]
+      - [ UAObjectType, 2999, AuditHistoryEventUpdateEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2104, AuditHistoryUpdateEventType ]
+    - [ UAObjectType, 2104, AuditHistoryUpdateEventType, Abstract ]
 
   AuditHistoryValueUpdateEventType:
-  - [ UAObjectType, 3006, AuditHistoryValueUpdateEventType ]
+  - [ UAObjectType, 3006, AuditHistoryValueUpdateEventType, Abstract ]
   - DisplayName: "AuditHistoryValueUpdateEventType"
   - HasProperty:
     - [ UAVariable, 3026, UpdatedNode, NodeId, 0, 0 ]
@@ -22165,7 +22165,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 3006, AuditHistoryValueUpdateEventType ]
+      - [ UAObjectType, 3006, AuditHistoryValueUpdateEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 3031, PerformInsertReplace, PerformUpdateType, 0, 0 ]
     - DisplayName: "PerformInsertReplace"
@@ -22178,7 +22178,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 3006, AuditHistoryValueUpdateEventType ]
+      - [ UAObjectType, 3006, AuditHistoryValueUpdateEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 3032, NewValues, DataValue, 1, 0 ]
     - DisplayName: "NewValues"
@@ -22191,7 +22191,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 3006, AuditHistoryValueUpdateEventType ]
+      - [ UAObjectType, 3006, AuditHistoryValueUpdateEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 3033, OldValues, DataValue, 1, 0 ]
     - DisplayName: "OldValues"
@@ -22204,12 +22204,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 3006, AuditHistoryValueUpdateEventType ]
+      - [ UAObjectType, 3006, AuditHistoryValueUpdateEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2104, AuditHistoryUpdateEventType ]
+    - [ UAObjectType, 2104, AuditHistoryUpdateEventType, Abstract ]
 
   AuditHistoryAnnotationUpdateEventType:
-  - [ UAObjectType, 19095, AuditHistoryAnnotationUpdateEventType ]
+  - [ UAObjectType, 19095, AuditHistoryAnnotationUpdateEventType, Abstract ]
   - DisplayName: "AuditHistoryAnnotationUpdateEventType"
   - HasProperty:
     - [ UAVariable, 19293, PerformInsertReplace, PerformUpdateType, 0, 0 ]
@@ -22223,7 +22223,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 19095, AuditHistoryAnnotationUpdateEventType ]
+      - [ UAObjectType, 19095, AuditHistoryAnnotationUpdateEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 19294, NewValues, Annotation, 1, 0 ]
     - DisplayName: "NewValues"
@@ -22236,7 +22236,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 19095, AuditHistoryAnnotationUpdateEventType ]
+      - [ UAObjectType, 19095, AuditHistoryAnnotationUpdateEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 19295, OldValues, Annotation, 1, 0 ]
     - DisplayName: "OldValues"
@@ -22249,12 +22249,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 19095, AuditHistoryAnnotationUpdateEventType ]
+      - [ UAObjectType, 19095, AuditHistoryAnnotationUpdateEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2104, AuditHistoryUpdateEventType ]
+    - [ UAObjectType, 2104, AuditHistoryUpdateEventType, Abstract ]
 
   AuditHistoryDeleteEventType:
-  - [ UAObjectType, 3012, AuditHistoryDeleteEventType ]
+  - [ UAObjectType, 3012, AuditHistoryDeleteEventType, Abstract ]
   - DisplayName: "AuditHistoryDeleteEventType"
   - HasProperty:
     - [ UAVariable, 3027, UpdatedNode, NodeId, 0, 0 ]
@@ -22268,12 +22268,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 3012, AuditHistoryDeleteEventType ]
+      - [ UAObjectType, 3012, AuditHistoryDeleteEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2104, AuditHistoryUpdateEventType ]
+    - [ UAObjectType, 2104, AuditHistoryUpdateEventType, Abstract ]
 
   AuditHistoryRawModifyDeleteEventType:
-  - [ UAObjectType, 3014, AuditHistoryRawModifyDeleteEventType ]
+  - [ UAObjectType, 3014, AuditHistoryRawModifyDeleteEventType, Abstract ]
   - DisplayName: "AuditHistoryRawModifyDeleteEventType"
   - HasProperty:
     - [ UAVariable, 3015, IsDeleteModified, Boolean, 0, 0 ]
@@ -22287,7 +22287,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 3014, AuditHistoryRawModifyDeleteEventType ]
+      - [ UAObjectType, 3014, AuditHistoryRawModifyDeleteEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 3016, StartTime, UtcTime, 0, 0 ]
     - DisplayName: "StartTime"
@@ -22300,7 +22300,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 3014, AuditHistoryRawModifyDeleteEventType ]
+      - [ UAObjectType, 3014, AuditHistoryRawModifyDeleteEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 3017, EndTime, UtcTime, 0, 0 ]
     - DisplayName: "EndTime"
@@ -22313,7 +22313,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 3014, AuditHistoryRawModifyDeleteEventType ]
+      - [ UAObjectType, 3014, AuditHistoryRawModifyDeleteEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 3034, OldValues, DataValue, 1, 0 ]
     - DisplayName: "OldValues"
@@ -22326,12 +22326,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 3014, AuditHistoryRawModifyDeleteEventType ]
+      - [ UAObjectType, 3014, AuditHistoryRawModifyDeleteEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 3012, AuditHistoryDeleteEventType ]
+    - [ UAObjectType, 3012, AuditHistoryDeleteEventType, Abstract ]
 
   AuditHistoryAtTimeDeleteEventType:
-  - [ UAObjectType, 3019, AuditHistoryAtTimeDeleteEventType ]
+  - [ UAObjectType, 3019, AuditHistoryAtTimeDeleteEventType, Abstract ]
   - DisplayName: "AuditHistoryAtTimeDeleteEventType"
   - HasProperty:
     - [ UAVariable, 3020, ReqTimes, UtcTime, 1, 0 ]
@@ -22345,7 +22345,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 3019, AuditHistoryAtTimeDeleteEventType ]
+      - [ UAObjectType, 3019, AuditHistoryAtTimeDeleteEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 3021, OldValues, DataValue, 1, 0 ]
     - DisplayName: "OldValues"
@@ -22358,12 +22358,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 3019, AuditHistoryAtTimeDeleteEventType ]
+      - [ UAObjectType, 3019, AuditHistoryAtTimeDeleteEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 3012, AuditHistoryDeleteEventType ]
+    - [ UAObjectType, 3012, AuditHistoryDeleteEventType, Abstract ]
 
   AuditHistoryEventDeleteEventType:
-  - [ UAObjectType, 3022, AuditHistoryEventDeleteEventType ]
+  - [ UAObjectType, 3022, AuditHistoryEventDeleteEventType, Abstract ]
   - DisplayName: "AuditHistoryEventDeleteEventType"
   - HasProperty:
     - [ UAVariable, 3023, EventIds, ByteString, 1, 0 ]
@@ -22377,7 +22377,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 3022, AuditHistoryEventDeleteEventType ]
+      - [ UAObjectType, 3022, AuditHistoryEventDeleteEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 3024, OldValues, HistoryEventFieldList, 0, 0 ]
     - DisplayName: "OldValues"
@@ -22390,18 +22390,18 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 3022, AuditHistoryEventDeleteEventType ]
+      - [ UAObjectType, 3022, AuditHistoryEventDeleteEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 3012, AuditHistoryDeleteEventType ]
+    - [ UAObjectType, 3012, AuditHistoryDeleteEventType, Abstract ]
 
   AuditHistoryConfigurationChangeEventType:
-  - [ UAObjectType, 32758, AuditHistoryConfigurationChangeEventType ]
+  - [ UAObjectType, 32758, AuditHistoryConfigurationChangeEventType, Abstract ]
   - DisplayName: "AuditHistoryConfigurationChangeEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2052, AuditEventType ]
+    - [ UAObjectType, 2052, AuditEventType, Abstract ]
 
   AuditHistoryBulkInsertEventType:
-  - [ UAObjectType, 32803, AuditHistoryBulkInsertEventType ]
+  - [ UAObjectType, 32803, AuditHistoryBulkInsertEventType, Abstract ]
   - DisplayName: "AuditHistoryBulkInsertEventType"
   - HasProperty:
     - [ UAVariable, 32821, UpdatedNode, NodeId, 0, 0 ]
@@ -22415,7 +22415,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 32803, AuditHistoryBulkInsertEventType ]
+      - [ UAObjectType, 32803, AuditHistoryBulkInsertEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 32822, StartTime, UtcTime, 0, 0 ]
     - DisplayName: "StartTime"
@@ -22428,7 +22428,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 32803, AuditHistoryBulkInsertEventType ]
+      - [ UAObjectType, 32803, AuditHistoryBulkInsertEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 32823, EndTime, UtcTime, 0, 0 ]
     - DisplayName: "EndTime"
@@ -22441,9 +22441,9 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 32803, AuditHistoryBulkInsertEventType ]
+      - [ UAObjectType, 32803, AuditHistoryBulkInsertEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2052, AuditEventType ]
+    - [ UAObjectType, 2052, AuditEventType, Abstract ]
 
   TrustListType:
   - [ UAObjectType, 12522, TrustListType ]
@@ -25966,46 +25966,46 @@ DefinedTypes:
     - [ UAObjectType, 61, FolderType ]
 
   CertificateType:
-  - [ UAObjectType, 12556, CertificateType ]
+  - [ UAObjectType, 12556, CertificateType, Abstract ]
   - DisplayName: "CertificateType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   ApplicationCertificateType:
-  - [ UAObjectType, 12557, ApplicationCertificateType ]
+  - [ UAObjectType, 12557, ApplicationCertificateType, Abstract ]
   - DisplayName: "ApplicationCertificateType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 12556, CertificateType ]
+    - [ UAObjectType, 12556, CertificateType, Abstract ]
 
   HttpsCertificateType:
   - [ UAObjectType, 12558, HttpsCertificateType ]
   - DisplayName: "HttpsCertificateType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 12556, CertificateType ]
+    - [ UAObjectType, 12556, CertificateType, Abstract ]
 
   UserCredentialCertificateType:
   - [ UAObjectType, 15181, UserCredentialCertificateType ]
   - DisplayName: "UserCredentialCertificateType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 12556, CertificateType ]
+    - [ UAObjectType, 12556, CertificateType, Abstract ]
 
   RsaMinApplicationCertificateType:
   - [ UAObjectType, 12559, RsaMinApplicationCertificateType ]
   - DisplayName: "RsaMinApplicationCertificateType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 12557, ApplicationCertificateType ]
+    - [ UAObjectType, 12557, ApplicationCertificateType, Abstract ]
 
   RsaSha256ApplicationCertificateType:
   - [ UAObjectType, 12560, RsaSha256ApplicationCertificateType ]
   - DisplayName: "RsaSha256ApplicationCertificateType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 12557, ApplicationCertificateType ]
+    - [ UAObjectType, 12557, ApplicationCertificateType, Abstract ]
 
   EccApplicationCertificateType:
   - [ UAObjectType, 23537, EccApplicationCertificateType ]
   - DisplayName: "EccApplicationCertificateType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 12557, ApplicationCertificateType ]
+    - [ UAObjectType, 12557, ApplicationCertificateType, Abstract ]
 
   EccNistP256ApplicationCertificateType:
   - [ UAObjectType, 23538, EccNistP256ApplicationCertificateType ]
@@ -26044,13 +26044,13 @@ DefinedTypes:
     - [ UAObjectType, 23537, EccApplicationCertificateType ]
 
   TrustListUpdateRequestedAuditEventType:
-  - [ UAObjectType, 32260, TrustListUpdateRequestedAuditEventType ]
+  - [ UAObjectType, 32260, TrustListUpdateRequestedAuditEventType, Abstract ]
   - DisplayName: "TrustListUpdateRequestedAuditEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
+    - [ UAObjectType, 2127, AuditUpdateMethodEventType, Abstract ]
 
   TrustListUpdatedAuditEventType:
-  - [ UAObjectType, 12561, TrustListUpdatedAuditEventType ]
+  - [ UAObjectType, 12561, TrustListUpdatedAuditEventType, Abstract ]
   - DisplayName: "TrustListUpdatedAuditEventType"
   - HasProperty:
     - [ UAVariable, 32281, TrustListId, NodeId, 0, 0 ]
@@ -26064,9 +26064,9 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 12561, TrustListUpdatedAuditEventType ]
+      - [ UAObjectType, 12561, TrustListUpdatedAuditEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
+    - [ UAObjectType, 2127, AuditUpdateMethodEventType, Abstract ]
 
   TransactionDiagnosticsType:
   - [ UAObjectType, 32286, TransactionDiagnosticsType ]
@@ -27752,13 +27752,13 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   CertificateUpdateRequestedAuditEventType:
-  - [ UAObjectType, 32306, CertificateUpdateRequestedAuditEventType ]
+  - [ UAObjectType, 32306, CertificateUpdateRequestedAuditEventType, Abstract ]
   - DisplayName: "CertificateUpdateRequestedAuditEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
+    - [ UAObjectType, 2127, AuditUpdateMethodEventType, Abstract ]
 
   CertificateUpdatedAuditEventType:
-  - [ UAObjectType, 12620, CertificateUpdatedAuditEventType ]
+  - [ UAObjectType, 12620, CertificateUpdatedAuditEventType, Abstract ]
   - DisplayName: "CertificateUpdatedAuditEventType"
   - HasProperty:
     - [ UAVariable, 13735, CertificateGroup, NodeId, 0, 0 ]
@@ -27772,7 +27772,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 12620, CertificateUpdatedAuditEventType ]
+      - [ UAObjectType, 12620, CertificateUpdatedAuditEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 13736, CertificateType, NodeId, 0, 0 ]
     - DisplayName: "CertificateType"
@@ -27785,9 +27785,9 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 12620, CertificateUpdatedAuditEventType ]
+      - [ UAObjectType, 12620, CertificateUpdatedAuditEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
+    - [ UAObjectType, 2127, AuditUpdateMethodEventType, Abstract ]
 
   KeyCredentialConfigurationFolderType:
   - [ UAObjectType, 17496, KeyCredentialConfigurationFolderType ]
@@ -28033,7 +28033,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   KeyCredentialAuditEventType:
-  - [ UAObjectType, 18011, KeyCredentialAuditEventType ]
+  - [ UAObjectType, 18011, KeyCredentialAuditEventType, Abstract ]
   - DisplayName: "KeyCredentialAuditEventType"
   - HasProperty:
     - [ UAVariable, 18028, ResourceUri, String, 0, 0 ]
@@ -28047,15 +28047,15 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 18011, KeyCredentialAuditEventType ]
+      - [ UAObjectType, 18011, KeyCredentialAuditEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
+    - [ UAObjectType, 2127, AuditUpdateMethodEventType, Abstract ]
 
   KeyCredentialUpdatedAuditEventType:
   - [ UAObjectType, 18029, KeyCredentialUpdatedAuditEventType ]
   - DisplayName: "KeyCredentialUpdatedAuditEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, 18011, KeyCredentialAuditEventType ]
+    - [ UAObjectType, 18011, KeyCredentialAuditEventType, Abstract ]
 
   KeyCredentialDeletedAuditEventType:
   - [ UAObjectType, 18047, KeyCredentialDeletedAuditEventType ]
@@ -28074,7 +28074,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, 18047, KeyCredentialDeletedAuditEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 18011, KeyCredentialAuditEventType ]
+    - [ UAObjectType, 18011, KeyCredentialAuditEventType, Abstract ]
 
   AuthorizationServicesConfigurationFolderType:
   - [ UAObjectType, 23556, AuthorizationServicesConfigurationFolderType ]
@@ -29871,7 +29871,7 @@ DefinedTypes:
         - HasComponent_reverse:
           - [ UAObject, 14423, Address ]
       - HasTypeDefinition:
-        - [ UAObjectType, 21145, NetworkAddressType ]
+        - [ UAObjectType, 21145, NetworkAddressType, Abstract ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
         - DisplayName: "Mandatory"
@@ -32498,7 +32498,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, 14221, Address ]
     - HasTypeDefinition:
-      - [ UAObjectType, 21145, NetworkAddressType ]
+      - [ UAObjectType, 21145, NetworkAddressType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
       - DisplayName: "Mandatory"
@@ -32511,7 +32511,7 @@ DefinedTypes:
     - [ UAObject, 17203, TransportSettings ]
     - DisplayName: "TransportSettings"
     - HasTypeDefinition:
-      - [ UAObjectType, 17721, ConnectionTransportType ]
+      - [ UAObjectType, 17721, ConnectionTransportType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
       - DisplayName: "Optional"
@@ -33410,13 +33410,13 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   ConnectionTransportType:
-  - [ UAObjectType, 17721, ConnectionTransportType ]
+  - [ UAObjectType, 17721, ConnectionTransportType, Abstract ]
   - DisplayName: "ConnectionTransportType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   PubSubGroupType:
-  - [ UAObjectType, 14232, PubSubGroupType ]
+  - [ UAObjectType, 14232, PubSubGroupType, Abstract ]
   - DisplayName: "PubSubGroupType"
   - HasProperty:
     - [ UAVariable, 15926, SecurityMode, MessageSecurityMode, 0, 0 ]
@@ -33430,7 +33430,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 14232, PubSubGroupType ]
+      - [ UAObjectType, 14232, PubSubGroupType, Abstract ]
   - HasProperty:
     - [ UAVariable, 15927, SecurityGroupId, String, 0, 0 ]
     - DisplayName: "SecurityGroupId"
@@ -33443,7 +33443,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 14232, PubSubGroupType ]
+      - [ UAObjectType, 14232, PubSubGroupType, Abstract ]
   - HasProperty:
     - [ UAVariable, 15928, SecurityKeyServices, EndpointDescription, 1, 0 ]
     - DisplayName: "SecurityKeyServices"
@@ -33456,7 +33456,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 14232, PubSubGroupType ]
+      - [ UAObjectType, 14232, PubSubGroupType, Abstract ]
   - HasProperty:
     - [ UAVariable, 17724, MaxNetworkMessageSize, UInt32, 0, 0 ]
     - DisplayName: "MaxNetworkMessageSize"
@@ -33469,7 +33469,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 14232, PubSubGroupType ]
+      - [ UAObjectType, 14232, PubSubGroupType, Abstract ]
   - HasProperty:
     - [ UAVariable, 17488, GroupProperties, KeyValuePair, 1, 0 ]
     - DisplayName: "GroupProperties"
@@ -33482,7 +33482,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 14232, PubSubGroupType ]
+      - [ UAObjectType, 14232, PubSubGroupType, Abstract ]
   - HasComponent:
     - [ UAObject, 15265, Status ]
     - DisplayName: "Status"
@@ -33508,7 +33508,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 14232, PubSubGroupType ]
+      - [ UAObjectType, 14232, PubSubGroupType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
@@ -33597,7 +33597,7 @@ DefinedTypes:
     - [ UAObject, 17741, TransportSettings ]
     - DisplayName: "TransportSettings"
     - HasTypeDefinition:
-      - [ UAObjectType, 17997, WriterGroupTransportType ]
+      - [ UAObjectType, 17997, WriterGroupTransportType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
       - DisplayName: "Optional"
@@ -33610,7 +33610,7 @@ DefinedTypes:
     - [ UAObject, 17742, MessageSettings ]
     - DisplayName: "MessageSettings"
     - HasTypeDefinition:
-      - [ UAObjectType, 17998, WriterGroupMessageType ]
+      - [ UAObjectType, 17998, WriterGroupMessageType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
       - DisplayName: "Optional"
@@ -34465,16 +34465,16 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, 17725, WriterGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 14232, PubSubGroupType ]
+    - [ UAObjectType, 14232, PubSubGroupType, Abstract ]
 
   WriterGroupTransportType:
-  - [ UAObjectType, 17997, WriterGroupTransportType ]
+  - [ UAObjectType, 17997, WriterGroupTransportType, Abstract ]
   - DisplayName: "WriterGroupTransportType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   WriterGroupMessageType:
-  - [ UAObjectType, 17998, WriterGroupMessageType ]
+  - [ UAObjectType, 17998, WriterGroupMessageType, Abstract ]
   - DisplayName: "WriterGroupMessageType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
@@ -35251,7 +35251,7 @@ DefinedTypes:
     - [ UAObject, 21080, TransportSettings ]
     - DisplayName: "TransportSettings"
     - HasTypeDefinition:
-      - [ UAObjectType, 21090, ReaderGroupTransportType ]
+      - [ UAObjectType, 21090, ReaderGroupTransportType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
       - DisplayName: "Optional"
@@ -35264,7 +35264,7 @@ DefinedTypes:
     - [ UAObject, 21081, MessageSettings ]
     - DisplayName: "MessageSettings"
     - HasTypeDefinition:
-      - [ UAObjectType, 21091, ReaderGroupMessageType ]
+      - [ UAObjectType, 21091, ReaderGroupMessageType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
       - DisplayName: "Optional"
@@ -35341,16 +35341,16 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, 17999, ReaderGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 14232, PubSubGroupType ]
+    - [ UAObjectType, 14232, PubSubGroupType, Abstract ]
 
   ReaderGroupTransportType:
-  - [ UAObjectType, 21090, ReaderGroupTransportType ]
+  - [ UAObjectType, 21090, ReaderGroupTransportType, Abstract ]
   - DisplayName: "ReaderGroupTransportType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   ReaderGroupMessageType:
-  - [ UAObjectType, 21091, ReaderGroupMessageType ]
+  - [ UAObjectType, 21091, ReaderGroupMessageType, Abstract ]
   - DisplayName: "ReaderGroupMessageType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
@@ -35414,7 +35414,7 @@ DefinedTypes:
     - [ UAObject, 15303, TransportSettings ]
     - DisplayName: "TransportSettings"
     - HasTypeDefinition:
-      - [ UAObjectType, 15305, DataSetWriterTransportType ]
+      - [ UAObjectType, 15305, DataSetWriterTransportType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
       - DisplayName: "Optional"
@@ -35427,7 +35427,7 @@ DefinedTypes:
     - [ UAObject, 21095, MessageSettings ]
     - DisplayName: "MessageSettings"
     - HasTypeDefinition:
-      - [ UAObjectType, 21096, DataSetWriterMessageType ]
+      - [ UAObjectType, 21096, DataSetWriterMessageType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
       - DisplayName: "Optional"
@@ -36010,13 +36010,13 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DataSetWriterTransportType:
-  - [ UAObjectType, 15305, DataSetWriterTransportType ]
+  - [ UAObjectType, 15305, DataSetWriterTransportType, Abstract ]
   - DisplayName: "DataSetWriterTransportType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DataSetWriterMessageType:
-  - [ UAObjectType, 21096, DataSetWriterMessageType ]
+  - [ UAObjectType, 21096, DataSetWriterMessageType, Abstract ]
   - DisplayName: "DataSetWriterMessageType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
@@ -36184,7 +36184,7 @@ DefinedTypes:
     - [ UAObject, 15311, TransportSettings ]
     - DisplayName: "TransportSettings"
     - HasTypeDefinition:
-      - [ UAObjectType, 15319, DataSetReaderTransportType ]
+      - [ UAObjectType, 15319, DataSetReaderTransportType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
       - DisplayName: "Optional"
@@ -36197,7 +36197,7 @@ DefinedTypes:
     - [ UAObject, 21103, MessageSettings ]
     - DisplayName: "MessageSettings"
     - HasTypeDefinition:
-      - [ UAObjectType, 21104, DataSetReaderMessageType ]
+      - [ UAObjectType, 21104, DataSetReaderMessageType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
       - DisplayName: "Optional"
@@ -36877,13 +36877,13 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DataSetReaderTransportType:
-  - [ UAObjectType, 15319, DataSetReaderTransportType ]
+  - [ UAObjectType, 15319, DataSetReaderTransportType, Abstract ]
   - DisplayName: "DataSetReaderTransportType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DataSetReaderMessageType:
-  - [ UAObjectType, 21104, DataSetReaderMessageType ]
+  - [ UAObjectType, 21104, DataSetReaderMessageType, Abstract ]
   - DisplayName: "DataSetReaderMessageType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
@@ -37429,7 +37429,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   PubSubDiagnosticsType:
-  - [ UAObjectType, 19677, PubSubDiagnosticsType ]
+  - [ UAObjectType, 19677, PubSubDiagnosticsType, Abstract ]
   - DisplayName: "PubSubDiagnosticsType"
   - HasComponent:
     - [ UAVariable, 19678, DiagnosticsLevel, DiagnosticsLevel, 0, 0 ]
@@ -37443,7 +37443,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 19677, PubSubDiagnosticsType ]
+      - [ UAObjectType, 19677, PubSubDiagnosticsType, Abstract ]
   - HasComponent:
     - [ UAVariable, 19679, TotalInformation, UInt32, 0, 0 ]
     - DisplayName: "TotalInformation"
@@ -37495,7 +37495,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 19677, PubSubDiagnosticsType ]
+      - [ UAObjectType, 19677, PubSubDiagnosticsType, Abstract ]
   - HasComponent:
     - [ UAVariable, 19684, TotalError, UInt32, 0, 0 ]
     - DisplayName: "TotalError"
@@ -37547,7 +37547,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 19677, PubSubDiagnosticsType ]
+      - [ UAObjectType, 19677, PubSubDiagnosticsType, Abstract ]
   - HasComponent:
     - [ UAMethod, 19689, Reset ]
     - DisplayName: "Reset"
@@ -37558,7 +37558,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 19677, PubSubDiagnosticsType ]
+      - [ UAObjectType, 19677, PubSubDiagnosticsType, Abstract ]
   - HasComponent:
     - [ UAVariable, 19690, SubError, Boolean, 0, 0 ]
     - DisplayName: "SubError"
@@ -37571,7 +37571,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 19677, PubSubDiagnosticsType ]
+      - [ UAObjectType, 19677, PubSubDiagnosticsType, Abstract ]
   - HasComponent:
     - [ UAObject, 19691, Counters ]
     - DisplayName: "Counters"
@@ -37896,7 +37896,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 19677, PubSubDiagnosticsType ]
+      - [ UAObjectType, 19677, PubSubDiagnosticsType, Abstract ]
   - HasComponent:
     - [ UAObject, 19722, LiveValues ]
     - DisplayName: "LiveValues"
@@ -37909,7 +37909,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 19677, PubSubDiagnosticsType ]
+      - [ UAObjectType, 19677, PubSubDiagnosticsType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
@@ -38034,7 +38034,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, 19732, PubSubDiagnosticsRootType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 19677, PubSubDiagnosticsType ]
+    - [ UAObjectType, 19677, PubSubDiagnosticsType, Abstract ]
 
   PubSubDiagnosticsConnectionType:
   - [ UAObjectType, 19786, PubSubDiagnosticsConnectionType ]
@@ -38079,7 +38079,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, 19786, PubSubDiagnosticsConnectionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 19677, PubSubDiagnosticsType ]
+    - [ UAObjectType, 19677, PubSubDiagnosticsType, Abstract ]
 
   PubSubDiagnosticsWriterGroupType:
   - [ UAObjectType, 19834, PubSubDiagnosticsWriterGroupType ]
@@ -38371,7 +38371,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, 19834, PubSubDiagnosticsWriterGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 19677, PubSubDiagnosticsType ]
+    - [ UAObjectType, 19677, PubSubDiagnosticsType, Abstract ]
 
   PubSubDiagnosticsReaderGroupType:
   - [ UAObjectType, 19903, PubSubDiagnosticsReaderGroupType ]
@@ -38611,7 +38611,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, 19903, PubSubDiagnosticsReaderGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 19677, PubSubDiagnosticsType ]
+    - [ UAObjectType, 19677, PubSubDiagnosticsType, Abstract ]
 
   PubSubDiagnosticsDataSetWriterType:
   - [ UAObjectType, 19968, PubSubDiagnosticsDataSetWriterType ]
@@ -38799,7 +38799,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, 19968, PubSubDiagnosticsDataSetWriterType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 19677, PubSubDiagnosticsType ]
+    - [ UAObjectType, 19677, PubSubDiagnosticsType, Abstract ]
 
   PubSubDiagnosticsDataSetReaderType:
   - [ UAObjectType, 20027, PubSubDiagnosticsDataSetReaderType ]
@@ -39091,7 +39091,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, 20027, PubSubDiagnosticsDataSetReaderType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 19677, PubSubDiagnosticsType ]
+    - [ UAObjectType, 19677, PubSubDiagnosticsType, Abstract ]
 
   PubSubCapabilitiesType:
   - [ UAObjectType, 23832, PubSubCapabilitiesType ]
@@ -39308,7 +39308,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   PubSubStatusEventType:
-  - [ UAObjectType, 15535, PubSubStatusEventType ]
+  - [ UAObjectType, 15535, PubSubStatusEventType, Abstract ]
   - DisplayName: "PubSubStatusEventType"
   - HasProperty:
     - [ UAVariable, 15545, ConnectionId, NodeId, 0, 0 ]
@@ -39322,7 +39322,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 15535, PubSubStatusEventType ]
+      - [ UAObjectType, 15535, PubSubStatusEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 15546, GroupId, NodeId, 0, 0 ]
     - DisplayName: "GroupId"
@@ -39335,7 +39335,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 15535, PubSubStatusEventType ]
+      - [ UAObjectType, 15535, PubSubStatusEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 15547, State, PubSubState, 0, 0 ]
     - DisplayName: "State"
@@ -39348,12 +39348,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 15535, PubSubStatusEventType ]
+      - [ UAObjectType, 15535, PubSubStatusEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 2130, SystemEventType ]
+    - [ UAObjectType, 2130, SystemEventType, Abstract ]
 
   PubSubTransportLimitsExceedEventType:
-  - [ UAObjectType, 15548, PubSubTransportLimitsExceedEventType ]
+  - [ UAObjectType, 15548, PubSubTransportLimitsExceedEventType, Abstract ]
   - DisplayName: "PubSubTransportLimitsExceedEventType"
   - HasProperty:
     - [ UAVariable, 15561, Actual, UInt32, 0, 0 ]
@@ -39367,7 +39367,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 15548, PubSubTransportLimitsExceedEventType ]
+      - [ UAObjectType, 15548, PubSubTransportLimitsExceedEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, 15562, Maximum, UInt32, 0, 0 ]
     - DisplayName: "Maximum"
@@ -39380,12 +39380,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 15548, PubSubTransportLimitsExceedEventType ]
+      - [ UAObjectType, 15548, PubSubTransportLimitsExceedEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 15535, PubSubStatusEventType ]
+    - [ UAObjectType, 15535, PubSubStatusEventType, Abstract ]
 
   PubSubCommunicationFailureEventType:
-  - [ UAObjectType, 15563, PubSubCommunicationFailureEventType ]
+  - [ UAObjectType, 15563, PubSubCommunicationFailureEventType, Abstract ]
   - DisplayName: "PubSubCommunicationFailureEventType"
   - HasProperty:
     - [ UAVariable, 15576, Error, StatusCode, 0, 0 ]
@@ -39399,9 +39399,9 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasProperty_reverse:
-      - [ UAObjectType, 15563, PubSubCommunicationFailureEventType ]
+      - [ UAObjectType, 15563, PubSubCommunicationFailureEventType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 15535, PubSubStatusEventType ]
+    - [ UAObjectType, 15535, PubSubStatusEventType, Abstract ]
 
   UadpWriterGroupMessageType:
   - [ UAObjectType, 21105, UadpWriterGroupMessageType ]
@@ -39472,7 +39472,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, 21105, UadpWriterGroupMessageType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17998, WriterGroupMessageType ]
+    - [ UAObjectType, 17998, WriterGroupMessageType, Abstract ]
 
   UadpDataSetWriterMessageType:
   - [ UAObjectType, 21111, UadpDataSetWriterMessageType ]
@@ -39530,7 +39530,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, 21111, UadpDataSetWriterMessageType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 21096, DataSetWriterMessageType ]
+    - [ UAObjectType, 21096, DataSetWriterMessageType, Abstract ]
 
   UadpDataSetReaderMessageType:
   - [ UAObjectType, 21116, UadpDataSetReaderMessageType ]
@@ -39653,7 +39653,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, 21116, UadpDataSetReaderMessageType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 21104, DataSetReaderMessageType ]
+    - [ UAObjectType, 21104, DataSetReaderMessageType, Abstract ]
 
   JsonWriterGroupMessageType:
   - [ UAObjectType, 21126, JsonWriterGroupMessageType ]
@@ -39672,7 +39672,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, 21126, JsonWriterGroupMessageType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17998, WriterGroupMessageType ]
+    - [ UAObjectType, 17998, WriterGroupMessageType, Abstract ]
 
   JsonDataSetWriterMessageType:
   - [ UAObjectType, 21128, JsonDataSetWriterMessageType ]
@@ -39691,7 +39691,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, 21128, JsonDataSetWriterMessageType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 21096, DataSetWriterMessageType ]
+    - [ UAObjectType, 21096, DataSetWriterMessageType, Abstract ]
 
   JsonDataSetReaderMessageType:
   - [ UAObjectType, 21130, JsonDataSetReaderMessageType ]
@@ -39723,7 +39723,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, 21130, JsonDataSetReaderMessageType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 21104, DataSetReaderMessageType ]
+    - [ UAObjectType, 21104, DataSetReaderMessageType, Abstract ]
 
   DatagramConnectionTransportType:
   - [ UAObjectType, 15064, DatagramConnectionTransportType ]
@@ -39758,7 +39758,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, 15072, DiscoveryAddress ]
     - HasTypeDefinition:
-      - [ UAObjectType, 21145, NetworkAddressType ]
+      - [ UAObjectType, 21145, NetworkAddressType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
       - DisplayName: "Mandatory"
@@ -39820,7 +39820,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, 15064, DatagramConnectionTransportType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17721, ConnectionTransportType ]
+    - [ UAObjectType, 17721, ConnectionTransportType, Abstract ]
 
   DatagramWriterGroupTransportType:
   - [ UAObjectType, 21133, DatagramWriterGroupTransportType ]
@@ -39881,7 +39881,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, 23842, Address ]
     - HasTypeDefinition:
-      - [ UAObjectType, 21145, NetworkAddressType ]
+      - [ UAObjectType, 21145, NetworkAddressType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
       - DisplayName: "Optional"
@@ -39943,7 +39943,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, 21133, DatagramWriterGroupTransportType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17997, WriterGroupTransportType ]
+    - [ UAObjectType, 17997, WriterGroupTransportType, Abstract ]
 
   DatagramDataSetReaderTransportType:
   - [ UAObjectType, 24016, DatagramDataSetReaderTransportType ]
@@ -39978,7 +39978,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, 24017, Address ]
     - HasTypeDefinition:
-      - [ UAObjectType, 21145, NetworkAddressType ]
+      - [ UAObjectType, 21145, NetworkAddressType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
       - DisplayName: "Optional"
@@ -40027,7 +40027,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, 24016, DatagramDataSetReaderTransportType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 15319, DataSetReaderTransportType ]
+    - [ UAObjectType, 15319, DataSetReaderTransportType, Abstract ]
 
   BrokerConnectionTransportType:
   - [ UAObjectType, 15155, BrokerConnectionTransportType ]
@@ -40059,7 +40059,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, 15155, BrokerConnectionTransportType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17721, ConnectionTransportType ]
+    - [ UAObjectType, 17721, ConnectionTransportType, Abstract ]
 
   BrokerWriterGroupTransportType:
   - [ UAObjectType, 21136, BrokerWriterGroupTransportType ]
@@ -40117,7 +40117,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, 21136, BrokerWriterGroupTransportType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17997, WriterGroupTransportType ]
+    - [ UAObjectType, 17997, WriterGroupTransportType, Abstract ]
 
   BrokerDataSetWriterTransportType:
   - [ UAObjectType, 21138, BrokerDataSetWriterTransportType ]
@@ -40201,7 +40201,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, 21138, BrokerDataSetWriterTransportType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 15305, DataSetWriterTransportType ]
+    - [ UAObjectType, 15305, DataSetWriterTransportType, Abstract ]
 
   BrokerDataSetReaderTransportType:
   - [ UAObjectType, 21142, BrokerDataSetReaderTransportType ]
@@ -40272,10 +40272,10 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, 21142, BrokerDataSetReaderTransportType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 15319, DataSetReaderTransportType ]
+    - [ UAObjectType, 15319, DataSetReaderTransportType, Abstract ]
 
   NetworkAddressType:
-  - [ UAObjectType, 21145, NetworkAddressType ]
+  - [ UAObjectType, 21145, NetworkAddressType, Abstract ]
   - DisplayName: "NetworkAddressType"
   - HasComponent:
     - [ UAVariable, 21146, NetworkInterface, String, 0, 0 ]
@@ -40302,7 +40302,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 21145, NetworkAddressType ]
+      - [ UAObjectType, 21145, NetworkAddressType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
@@ -40323,7 +40323,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, 21147, NetworkAddressUrlType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 21145, NetworkAddressType ]
+    - [ UAObjectType, 21145, NetworkAddressType, Abstract ]
 
   AliasNameType:
   - [ UAObjectType, 23455, AliasNameType ]
@@ -41477,7 +41477,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   IIetfBaseNetworkInterfaceType:
-  - [ UAObjectType, 24148, IIetfBaseNetworkInterfaceType ]
+  - [ UAObjectType, 24148, IIetfBaseNetworkInterfaceType, Abstract ]
   - DisplayName: "IIetfBaseNetworkInterfaceType"
   - HasComponent:
     - [ UAVariable, 24149, AdminStatus, InterfaceAdminStatus, 0, 0 ]
@@ -41491,7 +41491,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24148, IIetfBaseNetworkInterfaceType ]
+      - [ UAObjectType, 24148, IIetfBaseNetworkInterfaceType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24150, OperStatus, InterfaceOperStatus, 0, 0 ]
     - DisplayName: "OperStatus"
@@ -41504,7 +41504,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24148, IIetfBaseNetworkInterfaceType ]
+      - [ UAObjectType, 24148, IIetfBaseNetworkInterfaceType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24151, PhysAddress, String, 0, 0 ]
     - DisplayName: "PhysAddress"
@@ -41517,7 +41517,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24148, IIetfBaseNetworkInterfaceType ]
+      - [ UAObjectType, 24148, IIetfBaseNetworkInterfaceType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24152, Speed, UInt64, 0, 0 ]
     - DisplayName: "Speed"
@@ -41544,12 +41544,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24148, IIetfBaseNetworkInterfaceType ]
+      - [ UAObjectType, 24148, IIetfBaseNetworkInterfaceType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17602, BaseInterfaceType ]
+    - [ UAObjectType, 17602, BaseInterfaceType, Abstract ]
 
   IIeeeBaseEthernetPortType:
-  - [ UAObjectType, 24158, IIeeeBaseEthernetPortType ]
+  - [ UAObjectType, 24158, IIeeeBaseEthernetPortType, Abstract ]
   - DisplayName: "IIeeeBaseEthernetPortType"
   - HasComponent:
     - [ UAVariable, 24159, Speed, UInt64, 0, 0 ]
@@ -41577,7 +41577,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24158, IIeeeBaseEthernetPortType ]
+      - [ UAObjectType, 24158, IIeeeBaseEthernetPortType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24165, Duplex, Duplex, 0, 0 ]
     - DisplayName: "Duplex"
@@ -41590,7 +41590,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24158, IIeeeBaseEthernetPortType ]
+      - [ UAObjectType, 24158, IIeeeBaseEthernetPortType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24166, MaxFrameLength, UInt16, 0, 0 ]
     - DisplayName: "MaxFrameLength"
@@ -41603,12 +41603,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24158, IIeeeBaseEthernetPortType ]
+      - [ UAObjectType, 24158, IIeeeBaseEthernetPortType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17602, BaseInterfaceType ]
+    - [ UAObjectType, 17602, BaseInterfaceType, Abstract ]
 
   IIeeeAutoNegotiationStatusType:
-  - [ UAObjectType, 24233, IIeeeAutoNegotiationStatusType ]
+  - [ UAObjectType, 24233, IIeeeAutoNegotiationStatusType, Abstract ]
   - DisplayName: "IIeeeAutoNegotiationStatusType"
   - HasComponent:
     - [ UAVariable, 24234, NegotiationStatus, NegotiationStatus, 0, 0 ]
@@ -41622,12 +41622,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24233, IIeeeAutoNegotiationStatusType ]
+      - [ UAObjectType, 24233, IIeeeAutoNegotiationStatusType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17602, BaseInterfaceType ]
+    - [ UAObjectType, 17602, BaseInterfaceType, Abstract ]
 
   IBaseEthernetCapabilitiesType:
-  - [ UAObjectType, 24167, IBaseEthernetCapabilitiesType ]
+  - [ UAObjectType, 24167, IBaseEthernetCapabilitiesType, Abstract ]
   - DisplayName: "IBaseEthernetCapabilitiesType"
   - HasComponent:
     - [ UAVariable, 24168, VlanTagCapable, Boolean, 0, 0 ]
@@ -41641,12 +41641,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24167, IBaseEthernetCapabilitiesType ]
+      - [ UAObjectType, 24167, IBaseEthernetCapabilitiesType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17602, BaseInterfaceType ]
+    - [ UAObjectType, 17602, BaseInterfaceType, Abstract ]
 
   IVlanIdType:
-  - [ UAObjectType, 25218, IVlanIdType ]
+  - [ UAObjectType, 25218, IVlanIdType, Abstract ]
   - DisplayName: "IVlanIdType"
   - HasComponent:
     - [ UAVariable, 25219, VlanId, UInt16, 0, 0 ]
@@ -41660,12 +41660,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 25218, IVlanIdType ]
+      - [ UAObjectType, 25218, IVlanIdType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17602, BaseInterfaceType ]
+    - [ UAObjectType, 17602, BaseInterfaceType, Abstract ]
 
   ISrClassType:
-  - [ UAObjectType, 24169, ISrClassType ]
+  - [ UAObjectType, 24169, ISrClassType, Abstract ]
   - DisplayName: "ISrClassType"
   - HasComponent:
     - [ UAVariable, 24170, Id, Byte, 0, 0 ]
@@ -41679,7 +41679,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24169, ISrClassType ]
+      - [ UAObjectType, 24169, ISrClassType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24171, Priority, Byte, 0, 0 ]
     - DisplayName: "Priority"
@@ -41692,7 +41692,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24169, ISrClassType ]
+      - [ UAObjectType, 24169, ISrClassType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24172, Vid, UInt16, 0, 0 ]
     - DisplayName: "Vid"
@@ -41705,12 +41705,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24169, ISrClassType ]
+      - [ UAObjectType, 24169, ISrClassType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17602, BaseInterfaceType ]
+    - [ UAObjectType, 17602, BaseInterfaceType, Abstract ]
 
   IIeeeBaseTsnStreamType:
-  - [ UAObjectType, 24173, IIeeeBaseTsnStreamType ]
+  - [ UAObjectType, 24173, IIeeeBaseTsnStreamType, Abstract ]
   - DisplayName: "IIeeeBaseTsnStreamType"
   - HasComponent:
     - [ UAVariable, 24174, StreamId, Byte, 1, 0 ]
@@ -41724,7 +41724,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24173, IIeeeBaseTsnStreamType ]
+      - [ UAObjectType, 24173, IIeeeBaseTsnStreamType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24175, StreamName, String, 0, 0 ]
     - DisplayName: "StreamName"
@@ -41737,7 +41737,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24173, IIeeeBaseTsnStreamType ]
+      - [ UAObjectType, 24173, IIeeeBaseTsnStreamType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24176, State, TsnStreamState, 0, 0 ]
     - DisplayName: "State"
@@ -41750,7 +41750,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24173, IIeeeBaseTsnStreamType ]
+      - [ UAObjectType, 24173, IIeeeBaseTsnStreamType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24177, AccumulatedLatency, UInt32, 0, 0 ]
     - DisplayName: "AccumulatedLatency"
@@ -41763,7 +41763,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24173, IIeeeBaseTsnStreamType ]
+      - [ UAObjectType, 24173, IIeeeBaseTsnStreamType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24178, SrClassId, Byte, 0, 0 ]
     - DisplayName: "SrClassId"
@@ -41776,12 +41776,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24173, IIeeeBaseTsnStreamType ]
+      - [ UAObjectType, 24173, IIeeeBaseTsnStreamType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17602, BaseInterfaceType ]
+    - [ UAObjectType, 17602, BaseInterfaceType, Abstract ]
 
   IIeeeBaseTsnTrafficSpecificationType:
-  - [ UAObjectType, 24179, IIeeeBaseTsnTrafficSpecificationType ]
+  - [ UAObjectType, 24179, IIeeeBaseTsnTrafficSpecificationType, Abstract ]
   - DisplayName: "IIeeeBaseTsnTrafficSpecificationType"
   - HasComponent:
     - [ UAVariable, 24180, MaxIntervalFrames, UInt16, 0, 0 ]
@@ -41795,7 +41795,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24179, IIeeeBaseTsnTrafficSpecificationType ]
+      - [ UAObjectType, 24179, IIeeeBaseTsnTrafficSpecificationType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24181, MaxFrameSize, UInt32, 0, 0 ]
     - DisplayName: "MaxFrameSize"
@@ -41808,7 +41808,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24179, IIeeeBaseTsnTrafficSpecificationType ]
+      - [ UAObjectType, 24179, IIeeeBaseTsnTrafficSpecificationType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24182, Interval, UnsignedRationalNumber, 0, 0 ]
     - DisplayName: "Interval"
@@ -41821,12 +41821,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24179, IIeeeBaseTsnTrafficSpecificationType ]
+      - [ UAObjectType, 24179, IIeeeBaseTsnTrafficSpecificationType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17602, BaseInterfaceType ]
+    - [ UAObjectType, 17602, BaseInterfaceType, Abstract ]
 
   IIeeeBaseTsnStatusStreamType:
-  - [ UAObjectType, 24183, IIeeeBaseTsnStatusStreamType ]
+  - [ UAObjectType, 24183, IIeeeBaseTsnStatusStreamType, Abstract ]
   - DisplayName: "IIeeeBaseTsnStatusStreamType"
   - HasComponent:
     - [ UAVariable, 24184, TalkerStatus, TsnTalkerStatus, 0, 0 ]
@@ -41840,7 +41840,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24183, IIeeeBaseTsnStatusStreamType ]
+      - [ UAObjectType, 24183, IIeeeBaseTsnStatusStreamType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24185, ListenerStatus, TsnListenerStatus, 0, 0 ]
     - DisplayName: "ListenerStatus"
@@ -41853,7 +41853,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24183, IIeeeBaseTsnStatusStreamType ]
+      - [ UAObjectType, 24183, IIeeeBaseTsnStatusStreamType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24186, FailureCode, TsnFailureCode, 0, 0 ]
     - DisplayName: "FailureCode"
@@ -41866,7 +41866,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24183, IIeeeBaseTsnStatusStreamType ]
+      - [ UAObjectType, 24183, IIeeeBaseTsnStatusStreamType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24187, FailureSystemIdentifier, Byte, 2, 0 ]
     - DisplayName: "FailureSystemIdentifier"
@@ -41879,12 +41879,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24183, IIeeeBaseTsnStatusStreamType ]
+      - [ UAObjectType, 24183, IIeeeBaseTsnStatusStreamType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17602, BaseInterfaceType ]
+    - [ UAObjectType, 17602, BaseInterfaceType, Abstract ]
 
   IIeeeTsnInterfaceConfigurationType:
-  - [ UAObjectType, 24188, IIeeeTsnInterfaceConfigurationType ]
+  - [ UAObjectType, 24188, IIeeeTsnInterfaceConfigurationType, Abstract ]
   - DisplayName: "IIeeeTsnInterfaceConfigurationType"
   - HasComponent:
     - [ UAVariable, 24189, MacAddress, String, 0, 0 ]
@@ -41898,7 +41898,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24188, IIeeeTsnInterfaceConfigurationType ]
+      - [ UAObjectType, 24188, IIeeeTsnInterfaceConfigurationType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24190, InterfaceName, String, 0, 0 ]
     - DisplayName: "InterfaceName"
@@ -41911,12 +41911,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24188, IIeeeTsnInterfaceConfigurationType ]
+      - [ UAObjectType, 24188, IIeeeTsnInterfaceConfigurationType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17602, BaseInterfaceType ]
+    - [ UAObjectType, 17602, BaseInterfaceType, Abstract ]
 
   IIeeeTsnInterfaceConfigurationTalkerType:
-  - [ UAObjectType, 24191, IIeeeTsnInterfaceConfigurationTalkerType ]
+  - [ UAObjectType, 24191, IIeeeTsnInterfaceConfigurationTalkerType, Abstract ]
   - DisplayName: "IIeeeTsnInterfaceConfigurationTalkerType"
   - HasComponent:
     - [ UAVariable, 24194, TimeAwareOffset, UInt32, 0, 0 ]
@@ -41930,12 +41930,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24191, IIeeeTsnInterfaceConfigurationTalkerType ]
+      - [ UAObjectType, 24191, IIeeeTsnInterfaceConfigurationTalkerType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 24188, IIeeeTsnInterfaceConfigurationType ]
+    - [ UAObjectType, 24188, IIeeeTsnInterfaceConfigurationType, Abstract ]
 
   IIeeeTsnInterfaceConfigurationListenerType:
-  - [ UAObjectType, 24195, IIeeeTsnInterfaceConfigurationListenerType ]
+  - [ UAObjectType, 24195, IIeeeTsnInterfaceConfigurationListenerType, Abstract ]
   - DisplayName: "IIeeeTsnInterfaceConfigurationListenerType"
   - HasComponent:
     - [ UAVariable, 24198, ReceiveOffset, UInt32, 0, 0 ]
@@ -41949,12 +41949,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24195, IIeeeTsnInterfaceConfigurationListenerType ]
+      - [ UAObjectType, 24195, IIeeeTsnInterfaceConfigurationListenerType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 24188, IIeeeTsnInterfaceConfigurationType ]
+    - [ UAObjectType, 24188, IIeeeTsnInterfaceConfigurationType, Abstract ]
 
   IIeeeTsnMacAddressType:
-  - [ UAObjectType, 24199, IIeeeTsnMacAddressType ]
+  - [ UAObjectType, 24199, IIeeeTsnMacAddressType, Abstract ]
   - DisplayName: "IIeeeTsnMacAddressType"
   - HasComponent:
     - [ UAVariable, 24200, DestinationAddress, Byte, 1, 0 ]
@@ -41968,7 +41968,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24199, IIeeeTsnMacAddressType ]
+      - [ UAObjectType, 24199, IIeeeTsnMacAddressType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24201, SourceAddress, Byte, 1, 0 ]
     - DisplayName: "SourceAddress"
@@ -41981,12 +41981,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24199, IIeeeTsnMacAddressType ]
+      - [ UAObjectType, 24199, IIeeeTsnMacAddressType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17602, BaseInterfaceType ]
+    - [ UAObjectType, 17602, BaseInterfaceType, Abstract ]
 
   IIeeeTsnVlanTagType:
-  - [ UAObjectType, 24202, IIeeeTsnVlanTagType ]
+  - [ UAObjectType, 24202, IIeeeTsnVlanTagType, Abstract ]
   - DisplayName: "IIeeeTsnVlanTagType"
   - HasComponent:
     - [ UAVariable, 24203, VlanId, UInt16, 0, 0 ]
@@ -42000,7 +42000,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24202, IIeeeTsnVlanTagType ]
+      - [ UAObjectType, 24202, IIeeeTsnVlanTagType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24204, PriorityCodePoint, Byte, 0, 0 ]
     - DisplayName: "PriorityCodePoint"
@@ -42013,12 +42013,12 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24202, IIeeeTsnVlanTagType ]
+      - [ UAObjectType, 24202, IIeeeTsnVlanTagType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17602, BaseInterfaceType ]
+    - [ UAObjectType, 17602, BaseInterfaceType, Abstract ]
 
   IPriorityMappingEntryType:
-  - [ UAObjectType, 24205, IPriorityMappingEntryType ]
+  - [ UAObjectType, 24205, IPriorityMappingEntryType, Abstract ]
   - DisplayName: "IPriorityMappingEntryType"
   - HasComponent:
     - [ UAVariable, 24206, MappingUri, String, 0, 0 ]
@@ -42032,7 +42032,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24205, IPriorityMappingEntryType ]
+      - [ UAObjectType, 24205, IPriorityMappingEntryType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24207, PriorityLabel, String, 0, 0 ]
     - DisplayName: "PriorityLabel"
@@ -42045,7 +42045,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24205, IPriorityMappingEntryType ]
+      - [ UAObjectType, 24205, IPriorityMappingEntryType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24208, PriorityValue_PCP, Byte, 0, 0 ]
     - DisplayName: "PriorityValue_PCP"
@@ -42058,7 +42058,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24205, IPriorityMappingEntryType ]
+      - [ UAObjectType, 24205, IPriorityMappingEntryType, Abstract ]
   - HasComponent:
     - [ UAVariable, 24209, PriorityValue_DSCP, UInt32, 0, 0 ]
     - DisplayName: "PriorityValue_DSCP"
@@ -42071,9 +42071,9 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, 77, ModellingRuleType ]
     - HasComponent_reverse:
-      - [ UAObjectType, 24205, IPriorityMappingEntryType ]
+      - [ UAObjectType, 24205, IPriorityMappingEntryType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, 17602, BaseInterfaceType ]
+    - [ UAObjectType, 17602, BaseInterfaceType, Abstract ]
 
   IetfBaseNetworkInterfaceType:
   - [ UAObjectType, 25221, IetfBaseNetworkInterfaceType ]
@@ -42148,7 +42148,7 @@ DefinedTypes:
     - [ UAObject, 25226, <InterfaceName> ]
     - DisplayName: "<InterfaceName>"
     - HasInterface:
-      - [ UAObjectType, 24148, IIetfBaseNetworkInterfaceType ]
+      - [ UAObjectType, 24148, IIetfBaseNetworkInterfaceType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -42160,7 +42160,7 @@ DefinedTypes:
     - i=25238_reverse:
       - [ UAObjectType, 25221, IetfBaseNetworkInterfaceType ]
   - HasInterface:
-    - [ UAObjectType, 24148, IIetfBaseNetworkInterfaceType ]
+    - [ UAObjectType, 24148, IIetfBaseNetworkInterfaceType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 

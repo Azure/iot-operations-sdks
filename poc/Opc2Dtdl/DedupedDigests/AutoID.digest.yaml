@@ -277,7 +277,7 @@ DataTypes:
 DefinedTypes:
 
   AutoID:AutoIdDiagnosticsEventType:
-  - [ UAObjectType, AutoID:1010, AutoID:AutoIdDiagnosticsEventType ]
+  - [ UAObjectType, AutoID:1010, AutoID:AutoIdDiagnosticsEventType, Abstract ]
   - DisplayName: "AutoIdDiagnosticsEventType"
   - Description: "AutoID diagnostic data"
   - HasSubtype_reverse:
@@ -290,7 +290,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
 
   AutoID:AutoIdAccessEventType:
-  - [ UAObjectType, AutoID:1015, AutoID:AutoIdAccessEventType ]
+  - [ UAObjectType, AutoID:1015, AutoID:AutoIdAccessEventType, Abstract ]
   - DisplayName: "AutoIdAccessEventType"
   - Description: "Data of the access on one or more AutoID Identifier."
   - HasProperty:
@@ -300,7 +300,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AutoID:1010, AutoID:AutoIdDiagnosticsEventType ]
+    - [ UAObjectType, AutoID:1010, AutoID:AutoIdDiagnosticsEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, AutoID:6092, AutoID:Client, String, 0, 0 ]
     - DisplayName: "Client"
@@ -315,25 +315,25 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
 
   AutoID:RfidAccessEventType:
-  - [ UAObjectType, AutoID:1016, AutoID:RfidAccessEventType ]
+  - [ UAObjectType, AutoID:1016, AutoID:RfidAccessEventType, Abstract ]
   - DisplayName: "RfidAccessEventType"
   - Description: "Data of the access on one or more Rfid Transponder."
   - HasSubtype_reverse:
-    - [ UAObjectType, AutoID:1015, AutoID:AutoIdAccessEventType ]
+    - [ UAObjectType, AutoID:1015, AutoID:AutoIdAccessEventType, Abstract ]
 
   AutoID:AutoIdLogEntryEventType:
-  - [ UAObjectType, AutoID:1017, AutoID:AutoIdLogEntryEventType ]
+  - [ UAObjectType, AutoID:1017, AutoID:AutoIdLogEntryEventType, Abstract ]
   - DisplayName: "AutoIdLogEntryEventType"
   - Description: "One entry written to the log of the device."
   - HasSubtype_reverse:
-    - [ UAObjectType, AutoID:1010, AutoID:AutoIdDiagnosticsEventType ]
+    - [ UAObjectType, AutoID:1010, AutoID:AutoIdDiagnosticsEventType, Abstract ]
 
   AutoID:AutoIdPresenceEventType:
-  - [ UAObjectType, AutoID:1018, AutoID:AutoIdPresenceEventType ]
+  - [ UAObjectType, AutoID:1018, AutoID:AutoIdPresenceEventType, Abstract ]
   - DisplayName: "AutoIdPresenceEventType"
   - Description: "Current presence of AutoID Identifier."
   - HasSubtype_reverse:
-    - [ UAObjectType, AutoID:1010, AutoID:AutoIdDiagnosticsEventType ]
+    - [ UAObjectType, AutoID:1010, AutoID:AutoIdDiagnosticsEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, AutoID:6095, AutoID:Presence, UInt16, 0, 0 ]
     - DisplayName: "Presence"
@@ -342,7 +342,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
 
   AutoID:AutoIdScanEventType:
-  - [ UAObjectType, AutoID:1004, AutoID:AutoIdScanEventType ]
+  - [ UAObjectType, AutoID:1004, AutoID:AutoIdScanEventType, Abstract ]
   - DisplayName: "AutoIdScanEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
@@ -358,37 +358,37 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
 
   AutoID:OcrScanEventType:
-  - [ UAObjectType, AutoID:1005, AutoID:OcrScanEventType ]
+  - [ UAObjectType, AutoID:1005, AutoID:OcrScanEventType, Abstract ]
   - DisplayName: "OcrScanEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, AutoID:1004, AutoID:AutoIdScanEventType ]
+    - [ UAObjectType, AutoID:1004, AutoID:AutoIdScanEventType, Abstract ]
 
   AutoID:OpticalScanEventType:
-  - [ UAObjectType, AutoID:1009, AutoID:OpticalScanEventType ]
+  - [ UAObjectType, AutoID:1009, AutoID:OpticalScanEventType, Abstract ]
   - DisplayName: "OpticalScanEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, AutoID:1004, AutoID:AutoIdScanEventType ]
+    - [ UAObjectType, AutoID:1004, AutoID:AutoIdScanEventType, Abstract ]
 
   AutoID:OpticalVerifierScanEventType:
-  - [ UAObjectType, AutoID:1013, AutoID:OpticalVerifierScanEventType ]
+  - [ UAObjectType, AutoID:1013, AutoID:OpticalVerifierScanEventType, Abstract ]
   - DisplayName: "OpticalVerifierScanEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, AutoID:1009, AutoID:OpticalScanEventType ]
+    - [ UAObjectType, AutoID:1009, AutoID:OpticalScanEventType, Abstract ]
 
   AutoID:RfidScanEventType:
-  - [ UAObjectType, AutoID:1006, AutoID:RfidScanEventType ]
+  - [ UAObjectType, AutoID:1006, AutoID:RfidScanEventType, Abstract ]
   - DisplayName: "RfidScanEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, AutoID:1004, AutoID:AutoIdScanEventType ]
+    - [ UAObjectType, AutoID:1004, AutoID:AutoIdScanEventType, Abstract ]
 
   AutoID:RtlsLocationEventType:
-  - [ UAObjectType, AutoID:1014, AutoID:RtlsLocationEventType ]
+  - [ UAObjectType, AutoID:1014, AutoID:RtlsLocationEventType, Abstract ]
   - DisplayName: "RtlsLocationEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, AutoID:1004, AutoID:AutoIdScanEventType ]
+    - [ UAObjectType, AutoID:1004, AutoID:AutoIdScanEventType, Abstract ]
 
   AutoID:AutoIdDeviceType:
-  - [ UAObjectType, AutoID:1001, AutoID:AutoIdDeviceType ]
+  - [ UAObjectType, AutoID:1001, AutoID:AutoIdDeviceType, Abstract ]
   - DisplayName: "AutoIdDeviceType"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1002, DI:DeviceType ]
@@ -541,7 +541,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AutoID:1001, AutoID:AutoIdDeviceType ]
+    - [ UAObjectType, AutoID:1001, AutoID:AutoIdDeviceType, Abstract ]
 
   AutoID:OpticalReaderDeviceType:
   - [ UAObjectType, AutoID:1008, AutoID:OpticalReaderDeviceType ]
@@ -554,7 +554,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AutoID:1001, AutoID:AutoIdDeviceType ]
+    - [ UAObjectType, AutoID:1001, AutoID:AutoIdDeviceType, Abstract ]
 
   AutoID:OpticalVerifierDeviceType:
   - [ UAObjectType, AutoID:1011, AutoID:OpticalVerifierDeviceType ]
@@ -654,7 +654,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AutoID:1001, AutoID:AutoIdDeviceType ]
+    - [ UAObjectType, AutoID:1001, AutoID:AutoIdDeviceType, Abstract ]
   - HasComponent:
     - [ UAMethod, AutoID:7016, AutoID:SetTagPassword ]
     - DisplayName: "SetTagPassword"
@@ -784,7 +784,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AutoID:1001, AutoID:AutoIdDeviceType ]
+    - [ UAObjectType, AutoID:1001, AutoID:AutoIdDeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, AutoID:6215, AutoID:SpeedUnit, EUInformation, 0, 3 ]
     - DisplayName: "SpeedUnit"

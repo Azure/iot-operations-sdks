@@ -400,7 +400,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   Scales.V2:ProductType:
-  - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
+  - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType, Abstract ]
   - DisplayName: "ProductType"
   - Description: "Represents a product related to the scale."
   - HasProperty:
@@ -472,7 +472,7 @@ DefinedTypes:
   - DisplayName: "AutomaticFillingProductType"
   - Description: "Represents a product of an automatic filling scale."
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
+    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType, Abstract ]
   - HasComponent:
     - [ UAVariable, Scales.V2:552, Scales.V2:FeedRateMeasuringInterval, Duration, 0, 3 ]
     - DisplayName: "FeedRateMeasuringInterval"
@@ -563,7 +563,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
+    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType, Abstract ]
   - HasComponent:
     - [ UAObject, Scales.V2:87, Scales.V2:LastItem ]
     - DisplayName: "LastItem"
@@ -649,7 +649,7 @@ DefinedTypes:
   - DisplayName: "ContinuousProductType"
   - Description: "Represents a product of a continuous scale."
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
+    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType, Abstract ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60217, Scales.V2:MaterialDensity, Number, 0, 3 ]
     - DisplayName: "MaterialDensity"
@@ -721,7 +721,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
+    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType, Abstract ]
   - HasComponent:
     - [ UAVariable, Scales.V2:173, Scales.V2:ReferencePieceWeight, Number, 0, 3 ]
     - DisplayName: "ReferencePieceWeight"
@@ -810,7 +810,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
+    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType, Abstract ]
   - HasComponent:
     - [ UAVariable, Scales.V2:632, Scales.V2:Report, Scales.V2:RecipeReportElementType, 1, 3 ]
     - DisplayName: "Report"
@@ -836,7 +836,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
+    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType, Abstract ]
   - HasComponent:
     - [ UAVariable, Scales.V2:1318, Scales.V2:UnitPrice, Number, 0, 3 ]
     - DisplayName: "UnitPrice"
@@ -854,7 +854,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
+    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType, Abstract ]
   - HasComponent:
     - [ UAVariable, Scales.V2:634, Scales.V2:VolumeTargetValue, Number, 0, 3 ]
     - DisplayName: "VolumeTargetValue"
@@ -975,10 +975,10 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
+    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType, Abstract ]
 
   Scales.V2:RecipeElementType:
-  - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType ]
+  - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType, Abstract ]
   - DisplayName: "RecipeElementType"
   - Description: "Represents a step, process or action in a recipe."
   - HasSubtype_reverse:
@@ -989,7 +989,7 @@ DefinedTypes:
   - DisplayName: "ActivationType"
   - Description: "Represents an activation step in a recipe."
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType ]
+    - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType, Abstract ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60219, Scales.V2:TargetValue, Number, 0, 3 ]
     - DisplayName: "TargetValue"
@@ -1009,11 +1009,11 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
 
   Scales.V2:ConditionSleepType:
-  - [ UAObjectType, Scales.V2:37, Scales.V2:ConditionSleepType ]
+  - [ UAObjectType, Scales.V2:37, Scales.V2:ConditionSleepType, Abstract ]
   - DisplayName: "ConditionSleepType"
   - Description: "Represents a condition sleep step in a recipe."
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType ]
+    - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType, Abstract ]
   - HasComponent:
     - [ UAVariable, Scales.V2:299, Scales.V2:TargetThresholdValue ]
     - DisplayName: "TargetThresholdValue"
@@ -1044,7 +1044,7 @@ DefinedTypes:
   - DisplayName: "AnalogConditionSleepType"
   - Description: "Represents a condition sleep step in a recipe."
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:37, Scales.V2:ConditionSleepType ]
+    - [ UAObjectType, Scales.V2:37, Scales.V2:ConditionSleepType, Abstract ]
   - HasProperty:
     - [ UAVariable, Scales.V2:302, Scales.V2:ConditionMode, Scales.V2:EqualityAndRelationalOperator, 0, 3 ]
     - DisplayName: "ConditionMode"
@@ -1063,7 +1063,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:37, Scales.V2:ConditionSleepType ]
+    - [ UAObjectType, Scales.V2:37, Scales.V2:ConditionSleepType, Abstract ]
 
   Scales.V2:TimerType:
   - [ UAObjectType, Scales.V2:36, Scales.V2:TimerType ]
@@ -1076,7 +1076,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType ]
+    - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType, Abstract ]
 
   Scales.V2:UserInstructionType:
   - [ UAObjectType, Scales.V2:33, Scales.V2:UserInstructionType ]
@@ -1095,7 +1095,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType ]
+    - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType, Abstract ]
 
   Scales.V2:WeighingType:
   - [ UAObjectType, Scales.V2:34, Scales.V2:WeighingType ]
@@ -1122,7 +1122,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType ]
+    - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType, Abstract ]
 
   Scales.V2:RecipeManagementType:
   - [ UAObjectType, Scales.V2:30, Scales.V2:RecipeManagementType ]
@@ -1412,7 +1412,7 @@ DefinedTypes:
     - [ UAObjectType, DI:15063, DI:ComponentType ]
 
   Scales.V2:ScaleDeviceType:
-  - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
+  - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType, Abstract ]
   - DisplayName: "ScaleDeviceType"
   - Description: "Represents a scale."
   - HasComponent:
@@ -1544,7 +1544,7 @@ DefinedTypes:
   - DisplayName: "AutomaticFillingScaleType"
   - Description: "Represents an automatic filling scale."
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
+    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType, Abstract ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60189, Scales.V2:Deviation, Number, 0, 3 ]
     - DisplayName: "Deviation"
@@ -1563,7 +1563,7 @@ DefinedTypes:
   - DisplayName: "CatchweigherType"
   - Description: "Represents a Catchweigher. It has no method or properties defined."
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
+    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType, Abstract ]
 
   Scales.V2:AutomaticWeightPriceLabelerType:
   - [ UAObjectType, Scales.V2:49, Scales.V2:AutomaticWeightPriceLabelerType ]
@@ -1598,7 +1598,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Scales.V2:27, Scales.V2:TotalizerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
+    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType, Abstract ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60153, Scales.V2:ControlMagnitude, Number, 0, 3 ]
     - DisplayName: "ControlMagnitude"
@@ -1719,7 +1719,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
+    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType, Abstract ]
   - HasComponent:
     - [ UAVariable, Scales.V2:605, Scales.V2:ReferenceOptimisationRange, Number, 0, 3 ]
     - DisplayName: "ReferenceOptimisationRange"
@@ -1803,7 +1803,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Scales.V2:30, Scales.V2:RecipeManagementType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
+    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType, Abstract ]
   - HasComponent:
     - [ UAMethod, Scales.V2:785, Scales.V2:SkipCurrentRecipeElement ]
     - DisplayName: "SkipCurrentRecipeElement"
@@ -1865,7 +1865,7 @@ DefinedTypes:
   - DisplayName: "SimpleScaleType"
   - Description: "Represents a simple scale."
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
+    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType, Abstract ]
 
   Scales.V2:HopperScaleType:
   - [ UAObjectType, Scales.V2:9, Scales.V2:HopperScaleType ]
@@ -2014,7 +2014,7 @@ DefinedTypes:
   - DisplayName: "TotalizingHopperScaleType"
   - Description: "Represents a totalizing hopper scale."
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
+    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType, Abstract ]
 
   Scales.V2:VehicleScaleType:
   - [ UAObjectType, Scales.V2:834, Scales.V2:VehicleScaleType ]
@@ -2056,7 +2056,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
+    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType, Abstract ]
 
   Scales.V2:ScaleSystemType:
   - [ UAObjectType, Scales.V2:44, Scales.V2:ScaleSystemType ]

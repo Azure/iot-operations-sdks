@@ -1125,7 +1125,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   I4AAS:AASDataSpecificationType:
-  - [ UAObjectType, I4AAS:1027, I4AAS:AASDataSpecificationType ]
+  - [ UAObjectType, I4AAS:1027, I4AAS:AASDataSpecificationType, Abstract ]
   - DisplayName: "AASDataSpecificationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
@@ -1135,7 +1135,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
-      - [ UAObjectType, I4AAS:1027, I4AAS:AASDataSpecificationType ]
+      - [ UAObjectType, I4AAS:1027, I4AAS:AASDataSpecificationType, Abstract ]
     - Organizes_reverse:
       - [ UAObject, 17594, Dictionaries ]
   - HasInterface:
@@ -1145,7 +1145,7 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
   - DisplayName: "AASDataSpecificationIEC61360Type"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1027, I4AAS:AASDataSpecificationType ]
+    - [ UAObjectType, I4AAS:1027, I4AAS:AASDataSpecificationType, Abstract ]
   - HasComponent:
     - [ UAObject, I4AAS:5027, I4AAS:Administration ]
     - DisplayName: "Administration"
@@ -2122,13 +2122,13 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
 
   I4AAS:AASSubmodelElementType:
-  - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+  - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - DisplayName: "AASSubmodelElementType"
   - HasComponent:
     - [ UAObject, I4AAS:5011, I4AAS:<DataSpecification> ]
     - DisplayName: "<DataSpecification>"
     - HasComponent_reverse:
-      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasDictionaryEntry:
@@ -2280,7 +2280,7 @@ DefinedTypes:
     - [ UAObject, I4AAS:5101, I4AAS:<IRDI_or_IRI_or_Custom_concept_description_entry> ]
     - DisplayName: "<IRDI or IRI or Custom concept description entry>"
     - HasDictionaryEntry_reverse:
-      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - Organizes_reverse:
@@ -2289,7 +2289,7 @@ DefinedTypes:
     - [ UAObject, I4AAS:5031, I4AAS:<Qualifier> ]
     - DisplayName: "<Qualifier>"
     - HasComponent_reverse:
-      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1032, I4AAS:AASQualifierType ]
     - HasDictionaryEntry:
@@ -2340,7 +2340,7 @@ DefinedTypes:
     - [ UAVariable, I4AAS:6126, I4AAS:Category, String, 0, 3 ]
     - DisplayName: "Category"
     - HasProperty_reverse:
-      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -2351,7 +2351,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
-      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
     - Organizes_reverse:
       - [ UAObject, 17594, Dictionaries ]
   - HasInterface:
@@ -2381,7 +2381,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
 
@@ -2389,7 +2389,7 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1016, I4AAS:AASBlobType ]
   - DisplayName: "AASBlobType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasComponent:
     - [ UAObject, I4AAS:5015, I4AAS:File ]
     - DisplayName: "File"
@@ -2602,7 +2602,7 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1014, I4AAS:AASCapabilityType ]
   - DisplayName: "AASCapabilityType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5095, I4AAS:Admin-shell.io/aas/2/0/Property ]
     - DisplayName: "Admin-shell.io/aas/2/0/Property"
@@ -2626,7 +2626,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1022, I4AAS:AASEntityType ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
     - HasProperty:
       - [ UAVariable, I4AAS:6130, I4AAS:Category, String, 0, 3 ]
       - DisplayName: "Category"
@@ -2702,7 +2702,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasComponent:
     - [ UAObject, I4AAS:5022, I4AAS:Asset ]
     - DisplayName: "Asset"
@@ -2881,7 +2881,7 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1021, I4AAS:AASEventType ]
   - DisplayName: "AASEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5066, I4AAS:Admin-shell.io/aas/2/0/BasicEvent ]
     - DisplayName: "Admin-shell.io/aas/2/0/BasicEvent"
@@ -2896,7 +2896,7 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1017, I4AAS:AASFileType ]
   - DisplayName: "AASFileType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasComponent:
     - [ UAObject, I4AAS:5016, I4AAS:File ]
     - DisplayName: "File"
@@ -3136,7 +3136,7 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1012, I4AAS:AASMultiLanguagePropertyType ]
   - DisplayName: "AASMultiLanguagePropertyType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5091, I4AAS:Admin-shell.io/aas/2/0/MultiLanguageProperty ]
     - DisplayName: "Admin-shell.io/aas/2/0/MultiLanguageProperty"
@@ -3322,7 +3322,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5094, I4AAS:Admin-shell.io/aas/2/0/Operation ]
     - DisplayName: "Admin-shell.io/aas/2/0/Operation"
@@ -3337,7 +3337,7 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1013, I4AAS:AASPropertyType ]
   - DisplayName: "AASPropertyType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5095, I4AAS:Admin-shell.io/aas/2/0/Property ]
     - DisplayName: "Admin-shell.io/aas/2/0/Property"
@@ -3538,7 +3538,7 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1023, I4AAS:AASRangeType ]
   - DisplayName: "AASRangeType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5105, I4AAS:Admin-shell.io/aas/2/0/Range ]
     - DisplayName: "Admin-shell.io/aas/2/0/Range"
@@ -3607,7 +3607,7 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1020, I4AAS:AASReferenceElementType ]
   - DisplayName: "AASReferenceElementType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5113, I4AAS:Admin-shell.io/aas/2/0/ReferenceElement ]
     - DisplayName: "Admin-shell.io/aas/2/0/ReferenceElement"
@@ -3768,7 +3768,7 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1018, I4AAS:AASRelationshipElementType ]
   - DisplayName: "AASRelationshipElementType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasComponent:
     - [ UAObject, I4AAS:5017, I4AAS:First ]
     - DisplayName: "First"
@@ -4080,7 +4080,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1019, I4AAS:AASAnnotatedRelationshipElementType ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
     - HasProperty:
       - [ UAVariable, I4AAS:6129, I4AAS:Category, String, 0, 3 ]
       - DisplayName: "Category"
@@ -4176,7 +4176,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1010, I4AAS:AASSubmodelElementCollectionType ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
     - HasProperty:
       - [ UAVariable, I4AAS:6128, I4AAS:Category, String, 0, 3 ]
       - DisplayName: "Category"
@@ -4254,7 +4254,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasProperty:
     - [ UAVariable, I4AAS:6017, I4AAS:AllowDuplicates, Boolean, 0, 3 ]
     - DisplayName: "AllowDuplicates"
@@ -4294,7 +4294,7 @@ DefinedTypes:
     - HasOrderedComponent_reverse:
       - [ UAObjectType, I4AAS:1011, I4AAS:AASOrderedSubmodelElementCollectionType ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
     - HasProperty:
       - [ UAVariable, I4AAS:6131, I4AAS:Category, String, 0, 3 ]
       - DisplayName: "Category"
@@ -4525,7 +4525,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1006, I4AAS:AASSubmodelType ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
     - HasProperty:
       - [ UAVariable, I4AAS:6127, I4AAS:Category, String, 0, 3 ]
       - DisplayName: "Category"
@@ -4663,7 +4663,7 @@ DefinedTypes:
     - Organizes_reverse:
       - [ UAObject, 17594, Dictionaries ]
   - HasInterface_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
@@ -4710,7 +4710,7 @@ DefinedTypes:
   - HasInterface_reverse:
     - [ UAObjectType, I4AAS:1026, I4AAS:AASCustomConceptDescriptionType ]
   - HasInterface_reverse:
-    - [ UAObjectType, I4AAS:1027, I4AAS:AASDataSpecificationType ]
+    - [ UAObjectType, I4AAS:1027, I4AAS:AASDataSpecificationType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, I4AAS:1033, I4AAS:IAASReferableType ]
   - HasComponent:

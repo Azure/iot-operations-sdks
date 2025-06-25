@@ -71,7 +71,7 @@ DataTypes:
 DefinedTypes:
 
   Machinery.ProcessValues:ZeroPointAdjustmentEventType:
-  - [ UAObjectType, Machinery.ProcessValues:1002, Machinery.ProcessValues:ZeroPointAdjustmentEventType ]
+  - [ UAObjectType, Machinery.ProcessValues:1002, Machinery.ProcessValues:ZeroPointAdjustmentEventType, Abstract ]
   - DisplayName: "ZeroPointAdjustmentEventType"
   - Description: "Provides information, that a zero-point adjustment took place"
   - HasSubtype_reverse:

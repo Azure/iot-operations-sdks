@@ -80,9 +80,10 @@
             }
 
             Dictionary<string, List<string>> objectTypeIdSupers = new();
+            HashSet<string> typeDefinitions = new();
             foreach (string yamlFilePath in Directory.GetFiles(sourceRoot, $"*{sourceFileSuffix}"))
             {
-                Preload(yamlFilePath, objectTypeIdSupers);
+                Preload(yamlFilePath, objectTypeIdSupers, typeDefinitions);
             }
 
             CotypeRuleEngine cotypeRuleEngine = new CotypeRuleEngine(objectTypeIdSupers, cotypeRulesFile);
@@ -92,7 +93,7 @@
                 string yamlFileName = Path.GetFileName(yamlFilePath);
                 string specName = yamlFileName.Substring(0, yamlFileName.Length - sourceFileSuffix.Length);
 
-                ConvertToDtdl(coreOpcUaDigest, yamlFilePath, destRoot, specName, unitTypesDict, objectTypeIdSupers, cotypeRuleEngine);
+                ConvertToDtdl(coreOpcUaDigest, yamlFilePath, destRoot, specName, unitTypesDict, objectTypeIdSupers, typeDefinitions, cotypeRuleEngine);
             }
 
             Console.WriteLine();
@@ -154,7 +155,7 @@
             }
         }
 
-        private static void Preload(string sourceFilePath, Dictionary<string, List<string>> objectTypeIdSupers)
+        private static void Preload(string sourceFilePath, Dictionary<string, List<string>> objectTypeIdSupers, HashSet<string> typeDefinitions)
         {
             string yamlFileName = Path.GetFileName(sourceFilePath);
 
@@ -172,6 +173,18 @@
                     string objectTypeId = TypeConverter.GetModelId(definedType.Value);
 
                     objectTypeIdSupers[objectTypeId] = superTypeIds;
+
+                    foreach (OpcUaContent content in definedType.Value.Contents)
+                    {
+                        if (content.Relationship == "HasComponent" && content.DefinedType.NodeType == "UAObject")
+                        {
+                            string? typeDefinition = content.DefinedType.Contents.FirstOrDefault(c => c.Relationship == "HasTypeDefinition" && c.DefinedType.NodeType == "UAObjectType")?.DefinedType?.BrowseName;
+                            if (typeDefinition != null)
+                            {
+                                typeDefinitions.Add(typeDefinition);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -189,7 +202,7 @@
             return false;
         }
 
-        private static void ConvertToDtdl(OpcUaDigest coreOpcUaDigest, string yamlFilePath, string destRoot, string specName, Dictionary<int, (string, string)> unitTypesDict, Dictionary<string, List<string>> objectTypeIdSupers, CotypeRuleEngine cotypeRuleEngine)
+        private static void ConvertToDtdl(OpcUaDigest coreOpcUaDigest, string yamlFilePath, string destRoot, string specName, Dictionary<int, (string, string)> unitTypesDict, Dictionary<string, List<string>> objectTypeIdSupers, HashSet<string> typeDefinitions, CotypeRuleEngine cotypeRuleEngine)
         {
             Console.WriteLine($"Processing file {yamlFilePath}");
 
@@ -210,8 +223,9 @@
                     {
                         string modelId = TypeConverter.GetModelId(definedType.Value);
                         bool isEvent = DoesAncestorHaveType(TypeConverter.GetModelId(definedType.Value), "dtmi:opcua:OpcUaCore:BaseEventType", objectTypeIdSupers);
+                        bool isArticle = !typeDefinitions.Contains(definedType.Key) && definedType.Value.Datatype != "Abstract" && !isEvent;
                         bool appendComma = ix < opcUaDigest.DefinedTypes.Count;
-                        DtdlInterface dtdlInterface = new DtdlInterface(modelId, isEvent, definedType.Value, opcUaDigest.DataTypes, coreOpcUaDigest.DataTypes, unitTypesDict, cotypeRuleEngine, appendComma);
+                        DtdlInterface dtdlInterface = new DtdlInterface(modelId, isArticle, isEvent, definedType.Value, opcUaDigest.DataTypes, coreOpcUaDigest.DataTypes, unitTypesDict, cotypeRuleEngine, appendComma);
                         string jsonText = dtdlInterface.TransformText();
 
                         outputFile.Write(jsonText);

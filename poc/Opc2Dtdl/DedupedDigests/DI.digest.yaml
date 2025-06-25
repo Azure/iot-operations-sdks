@@ -48,7 +48,7 @@ DataTypes:
 DefinedTypes:
 
   DI:TopologyElementType:
-  - [ UAObjectType, DI:1001, DI:TopologyElementType ]
+  - [ UAObjectType, DI:1001, DI:TopologyElementType, Abstract ]
   - DisplayName: "TopologyElementType"
   - Description: "Defines the basic information components for all configurable elements in a device topology"
   - HasComponent:
@@ -95,7 +95,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DI:IVendorNameplateType:
-  - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+  - [ UAObjectType, DI:15035, DI:IVendorNameplateType, Abstract ]
   - DisplayName: "IVendorNameplateType"
   - HasProperty:
     - [ UAVariable, DI:15036, DI:Manufacturer, LocalizedText, 0, 0 ]
@@ -171,7 +171,7 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   DI:ITagNameplateType:
-  - [ UAObjectType, DI:15048, DI:ITagNameplateType ]
+  - [ UAObjectType, DI:15048, DI:ITagNameplateType, Abstract ]
   - DisplayName: "ITagNameplateType"
   - HasProperty:
     - [ UAVariable, DI:15049, DI:AssetId, String, 0, 0 ]
@@ -187,7 +187,7 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   DI:IDeviceHealthType:
-  - [ UAObjectType, DI:15051, DI:IDeviceHealthType ]
+  - [ UAObjectType, DI:15051, DI:IDeviceHealthType, Abstract ]
   - DisplayName: "IDeviceHealthType"
   - HasComponent:
     - [ UAVariable, DI:15052, DI:DeviceHealth, DI:DeviceHealthEnumeration, 0, 0 ]
@@ -205,7 +205,7 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   DI:ISupportInfoType:
-  - [ UAObjectType, DI:15054, DI:ISupportInfoType ]
+  - [ UAObjectType, DI:15054, DI:ISupportInfoType, Abstract ]
   - DisplayName: "ISupportInfoType"
   - HasComponent:
     - [ UAObject, DI:15055, DI:DeviceTypeImage ]
@@ -246,7 +246,7 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   DI:ComponentType:
-  - [ UAObjectType, DI:15063, DI:ComponentType ]
+  - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
   - DisplayName: "ComponentType"
   - HasProperty:
     - [ UAVariable, DI:15086, DI:Manufacturer, LocalizedText, 0, 0 ]
@@ -319,17 +319,17 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1001, DI:TopologyElementType ]
+    - [ UAObjectType, DI:1001, DI:TopologyElementType, Abstract ]
 
   DI:DeviceType:
-  - [ UAObjectType, DI:1002, DI:DeviceType ]
+  - [ UAObjectType, DI:1002, DI:DeviceType, Abstract ]
   - DisplayName: "DeviceType"
   - Description: "Defines the basic information components for all configurable elements in a device topology"
   - HasComponent:
     - [ UAObject, DI:6571, DI:<CPIdentifier> ]
     - DisplayName: "<CPIdentifier>"
     - HasTypeDefinition:
-      - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
+      - [ UAObjectType, DI:6308, DI:ConnectionPointType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
@@ -377,16 +377,16 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, DI:ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
 
   DI:SoftwareType:
   - [ UAObjectType, DI:15106, DI:SoftwareType ]
   - DisplayName: "SoftwareType"
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, DI:ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType, Abstract ]
 
   DI:BlockType:
-  - [ UAObjectType, DI:1003, DI:BlockType ]
+  - [ UAObjectType, DI:1003, DI:BlockType, Abstract ]
   - DisplayName: "BlockType"
   - Description: "Adds the concept of Blocks needed for block-oriented FieldDevices"
   - HasProperty:
@@ -420,10 +420,10 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1001, DI:TopologyElementType ]
+    - [ UAObjectType, DI:1001, DI:TopologyElementType, Abstract ]
 
   DI:DeviceHealthDiagnosticAlarmType:
-  - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
+  - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType, Abstract ]
   - DisplayName: "DeviceHealthDiagnosticAlarmType"
   - HasSubtype_reverse:
     - [ UAObjectType, 18347, InstrumentDiagnosticAlarmType ]
@@ -432,25 +432,25 @@ DefinedTypes:
   - [ UAObjectType, DI:15292, DI:FailureAlarmType ]
   - DisplayName: "FailureAlarmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
+    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType, Abstract ]
 
   DI:CheckFunctionAlarmType:
   - [ UAObjectType, DI:15441, DI:CheckFunctionAlarmType ]
   - DisplayName: "CheckFunctionAlarmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
+    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType, Abstract ]
 
   DI:OffSpecAlarmType:
   - [ UAObjectType, DI:15590, DI:OffSpecAlarmType ]
   - DisplayName: "OffSpecAlarmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
+    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType, Abstract ]
 
   DI:MaintenanceRequiredAlarmType:
   - [ UAObjectType, DI:15739, DI:MaintenanceRequiredAlarmType ]
   - DisplayName: "MaintenanceRequiredAlarmType"
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
+    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType, Abstract ]
 
   DI:ConfigurableObjectType:
   - [ UAObjectType, DI:1004, DI:ConfigurableObjectType ]
@@ -475,53 +475,53 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DI:BaseLifetimeIndicationType:
-  - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
+  - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType, Abstract ]
   - DisplayName: "BaseLifetimeIndicationType"
   - Description: "Base indication type not further defining a semantic"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DI:TimeIndicationType:
-  - [ UAObjectType, DI:474, DI:TimeIndicationType ]
+  - [ UAObjectType, DI:474, DI:TimeIndicationType, Abstract ]
   - DisplayName: "TimeIndicationType"
   - Description: "Indicates the time the entity has been in use or can still be used"
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType, Abstract ]
 
   DI:NumberOfPartsIndicationType:
-  - [ UAObjectType, DI:475, DI:NumberOfPartsIndicationType ]
+  - [ UAObjectType, DI:475, DI:NumberOfPartsIndicationType, Abstract ]
   - DisplayName: "NumberOfPartsIndicationType"
   - Description: "Indicates the total number of parts that have been produced or can still be produced."
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType, Abstract ]
 
   DI:NumberOfUsagesIndicationType:
-  - [ UAObjectType, DI:476, DI:NumberOfUsagesIndicationType ]
+  - [ UAObjectType, DI:476, DI:NumberOfUsagesIndicationType, Abstract ]
   - DisplayName: "NumberOfUsagesIndicationType"
   - Description: "Indicates counting the process steps the entity has been used or can still be used for (for example usages of a punching tool)."
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType, Abstract ]
 
   DI:LengthIndicationType:
-  - [ UAObjectType, DI:477, DI:LengthIndicationType ]
+  - [ UAObjectType, DI:477, DI:LengthIndicationType, Abstract ]
   - DisplayName: "LengthIndicationType"
   - Description: "Indicates the abraded length, for example of a drill."
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType, Abstract ]
 
   DI:DiameterIndicationType:
-  - [ UAObjectType, DI:478, DI:DiameterIndicationType ]
+  - [ UAObjectType, DI:478, DI:DiameterIndicationType, Abstract ]
   - DisplayName: "DiameterIndicationType"
   - Description: "Indicates the abraded diameter, for example of a drill."
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType, Abstract ]
 
   DI:SubstanceVolumeIndicationType:
-  - [ UAObjectType, DI:479, DI:SubstanceVolumeIndicationType ]
+  - [ UAObjectType, DI:479, DI:SubstanceVolumeIndicationType, Abstract ]
   - DisplayName: "SubstanceVolumeIndicationType"
   - Description: "Indicates the volume of a substance, for example of a liquid."
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType, Abstract ]
 
   DI:FunctionalGroupType:
   - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
@@ -552,7 +552,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DI:IOperationCounterType:
-  - [ UAObjectType, DI:480, DI:IOperationCounterType ]
+  - [ UAObjectType, DI:480, DI:IOperationCounterType, Abstract ]
   - DisplayName: "IOperationCounterType"
   - Description: "Interface defining counters for the duration of operation"
   - HasProperty:
@@ -599,7 +599,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DI:ConnectionPointType:
-  - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
+  - [ UAObjectType, DI:6308, DI:ConnectionPointType, Abstract ]
   - DisplayName: "ConnectionPointType"
   - Description: "Represents the interface (interface card) of a Device to a Network."
   - HasComponent:
@@ -618,7 +618,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1001, DI:TopologyElementType ]
+    - [ UAObjectType, DI:1001, DI:TopologyElementType, Abstract ]
 
   DI:TransferServicesType:
   - [ UAObjectType, DI:6526, DI:TransferServicesType ]
@@ -766,7 +766,7 @@ DefinedTypes:
     - [ UAObject, DI:2, DI:Loading ]
     - DisplayName: "Loading"
     - HasTypeDefinition:
-      - [ UAObjectType, DI:135, DI:SoftwareLoadingType ]
+      - [ UAObjectType, DI:135, DI:SoftwareLoadingType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -821,7 +821,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DI:SoftwareLoadingType:
-  - [ UAObjectType, DI:135, DI:SoftwareLoadingType ]
+  - [ UAObjectType, DI:135, DI:SoftwareLoadingType, Abstract ]
   - DisplayName: "SoftwareLoadingType"
   - HasComponent:
     - [ UAVariable, DI:136, DI:UpdateKey, String, 0, 0 ]
@@ -832,7 +832,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DI:PackageLoadingType:
-  - [ UAObjectType, DI:137, DI:PackageLoadingType ]
+  - [ UAObjectType, DI:137, DI:PackageLoadingType, Abstract ]
   - DisplayName: "PackageLoadingType"
   - HasComponent:
     - [ UAObject, DI:139, DI:CurrentVersion ]
@@ -859,7 +859,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:135, DI:SoftwareLoadingType ]
+    - [ UAObjectType, DI:135, DI:SoftwareLoadingType, Abstract ]
 
   DI:DirectLoadingType:
   - [ UAObjectType, DI:153, DI:DirectLoadingType ]
@@ -875,7 +875,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:137, DI:PackageLoadingType ]
+    - [ UAObjectType, DI:137, DI:PackageLoadingType, Abstract ]
 
   DI:CachedLoadingType:
   - [ UAObjectType, DI:171, DI:CachedLoadingType ]
@@ -916,7 +916,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:137, DI:PackageLoadingType ]
+    - [ UAObjectType, DI:137, DI:PackageLoadingType, Abstract ]
 
   DI:FileSystemLoadingType:
   - [ UAObjectType, DI:192, DI:FileSystemLoadingType ]
@@ -968,7 +968,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:135, DI:SoftwareLoadingType ]
+    - [ UAObjectType, DI:135, DI:SoftwareLoadingType, Abstract ]
 
   DI:SoftwareVersionType:
   - [ UAObjectType, DI:212, DI:SoftwareVersionType ]

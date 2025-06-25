@@ -96,7 +96,7 @@ DataTypes:
 DefinedTypes:
 
   MDIS:MDISBaseObjectType:
-  - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+  - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - DisplayName: "MDISBaseObjectType"
   - Description: "The definition of a MDIS base Object type from which all other object types are derived"
   - HasSubtype_reverse:
@@ -146,11 +146,11 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
 
   MDIS:MDISAggregateObjectType:
-  - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+  - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType, Abstract ]
   - DisplayName: "MDISAggregateObjectType"
   - Description: "The definition of a MDIS standard Aggregate Object"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasComponent:
     - [ UAObject, MDIS:1437, MDIS:<ChokePlaceholder> ]
     - DisplayName: "<ChokePlaceholder>"
@@ -262,7 +262,7 @@ DefinedTypes:
   - DisplayName: "MDISChokeObjectType"
   - Description: "The definition of a MDIS standard Choke Object"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasComponent:
     - [ UAMethod, MDIS:1159, MDIS:Abort ]
     - DisplayName: "Abort"
@@ -375,7 +375,7 @@ DefinedTypes:
   - DisplayName: "MDISCIMVObjectType"
   - Description: "The definition of a MDIS standard CIMV Object"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasComponent:
     - [ UAMethod, MDIS:15176, MDIS:Abort ]
     - DisplayName: "Abort"
@@ -545,7 +545,7 @@ DefinedTypes:
   - DisplayName: "MDISDigitalInstrumentObjectType"
   - Description: "The definition of a MDIS standard Digital Instrument"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasComponent:
     - [ UAVariable, MDIS:970, MDIS:State, Boolean, 0, 0 ]
     - DisplayName: "State"
@@ -610,7 +610,7 @@ DefinedTypes:
   - DisplayName: "MDISDiscreteInstrumentObjectType"
   - Description: "The definition of a MDIS standard Discrete Instrument"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasComponent:
     - [ UAVariable, MDIS:1223, MDIS:State, UInt32, 0, 0 ]
     - DisplayName: "State"
@@ -675,7 +675,7 @@ DefinedTypes:
   - DisplayName: "MDISElectricChokeObjectType"
   - Description: "The definition of a MDIS standard Electric Choke Object"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasComponent:
     - [ UAMethod, MDIS:15094, MDIS:Abort ]
     - DisplayName: "Abort"
@@ -736,7 +736,7 @@ DefinedTypes:
   - DisplayName: "MDISInstrumentObjectType"
   - Description: "The definition of a MDIS standard Instrument"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasComponent:
     - [ UAVariable, MDIS:1058, MDIS:HHlimit, Boolean, 0, 0 ]
     - DisplayName: "HHlimit"
@@ -846,7 +846,7 @@ DefinedTypes:
   - DisplayName: "MDISMotorObjectType"
   - Description: "The definition of a MDIS standard Motor Object"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasComponent:
     - [ UAVariable, MDIS:15396, MDIS:DefeatableStartInterlock, Boolean, 0, 0 ]
     - DisplayName: "DefeatableStartInterlock"
@@ -919,7 +919,7 @@ DefinedTypes:
   - DisplayName: "MDISValveObjectType"
   - Description: "The definition of a MDIS standard Valve Object"
   - HasSubtype_reverse:
-    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+    - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType, Abstract ]
   - HasProperty:
     - [ UAVariable, MDIS:888, MDIS:CloseTimeDuration, Duration, 0, 0 ]
     - DisplayName: "CloseTimeDuration"

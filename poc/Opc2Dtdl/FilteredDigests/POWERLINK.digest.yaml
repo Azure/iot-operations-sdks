@@ -130,7 +130,7 @@ DefinedTypes:
     - [ UAObjectType, DI:1006, DI:ProtocolType ]
 
   POWERLINK:PowerlinkConnectionPointType:
-  - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
+  - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType, Abstract ]
   - DisplayName: "PowerlinkConnectionPointType"
   - Description: "defines the POWERLINK Objects, which are common for both POWERLINK Managing Node and POWERLINK Controlled Node"
   - HasComponent:
@@ -243,7 +243,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
+    - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType, Abstract ]
 
   POWERLINK:PowerlinkMnConnectionPointType:
   - [ UAObjectType, POWERLINK:5, POWERLINK:PowerlinkMnConnectionPointType ]
@@ -271,7 +271,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
+    - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType, Abstract ]
 
   POWERLINK:PowerlinkDeviceType:
   - [ UAObjectType, POWERLINK:2, POWERLINK:PowerlinkDeviceType ]

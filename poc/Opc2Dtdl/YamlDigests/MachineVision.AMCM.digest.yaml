@@ -107,7 +107,7 @@ DefinedTypes:
     - [ UAVariableType, 63, BaseDataVariableType ]
 
   MachineVision.AMCM:IVisionInfoType:
-  - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+  - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - DisplayName: "IVisionInfoType"
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5002, MachineVision.AMCM:Health ]
@@ -137,7 +137,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, MachineVision.AMCM:5002, MachineVision.AMCM:Health ]
     - HasAddIn_reverse:
-      - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+      - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
     - HasComponent:
       - [ UAVariable, MachineVision.AMCM:6198, MachineVision.AMCM:RemainingLifeTime, Number, 0, 3 ]
       - DisplayName: "RemainingLifeTime"
@@ -264,7 +264,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5003, DI:Identification ]
     - HasAddIn_reverse:
-      - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+      - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
     - HasProperty:
       - [ UAVariable, MachineVision.AMCM:6215, Machinery:InitialOperationDate, DateTime, 0, 0 ]
       - DisplayName: "InitialOperationDate"
@@ -413,7 +413,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5001, DI:Maintenance ]
     - HasAddIn_reverse:
-      - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+      - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
     - HasProperty:
       - [ UAVariable, MachineVision.AMCM:6205, MachineVision.AMCM:MaintenanceRecord, String, 0, 3 ]
       - DisplayName: "MaintenanceRecord"
@@ -597,10 +597,10 @@ DefinedTypes:
     - [ UAObject, MachineVision.AMCM:5057, MachineVision.AMCM:<NetworkDevice> ]
 
   MachineVision.AMCM:ICableType:
-  - [ UAObjectType, MachineVision.AMCM:1018, MachineVision.AMCM:ICableType ]
+  - [ UAObjectType, MachineVision.AMCM:1018, MachineVision.AMCM:ICableType, Abstract ]
   - DisplayName: "ICableType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5151, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -659,7 +659,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, MachineVision.AMCM:5151, DI:Maintenance ]
     - HasAddIn_reverse:
-      - [ UAObjectType, MachineVision.AMCM:1018, MachineVision.AMCM:ICableType ]
+      - [ UAObjectType, MachineVision.AMCM:1018, MachineVision.AMCM:ICableType, Abstract ]
     - HasProperty:
       - [ UAVariable, MachineVision.AMCM:6144, MachineVision.AMCM:Shielding, String, 0, 3 ]
       - DisplayName: "Shielding"
@@ -676,7 +676,7 @@ DefinedTypes:
     - [ UAObject, MachineVision.AMCM:5059, MachineVision.AMCM:<Cable> ]
 
   MachineVision.AMCM:IComputingDeviceType:
-  - [ UAObjectType, MachineVision.AMCM:1009, MachineVision.AMCM:IComputingDeviceType ]
+  - [ UAObjectType, MachineVision.AMCM:1009, MachineVision.AMCM:IComputingDeviceType, Abstract ]
   - DisplayName: "IComputingDeviceType"
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5139, MachineVision.AMCM:Health ]
@@ -726,7 +726,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, MachineVision.AMCM:5139, MachineVision.AMCM:Health ]
     - HasAddIn_reverse:
-      - [ UAObjectType, MachineVision.AMCM:1009, MachineVision.AMCM:IComputingDeviceType ]
+      - [ UAObjectType, MachineVision.AMCM:1009, MachineVision.AMCM:IComputingDeviceType, Abstract ]
     - HasProperty:
       - [ UAVariable, MachineVision.AMCM:6089, MachineVision.AMCM:MassStorageState, String, 0, 3 ]
       - DisplayName: "MassStorageState"
@@ -836,7 +836,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, MachineVision.AMCM:5139, MachineVision.AMCM:Health ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5140, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -855,7 +855,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5140, DI:Maintenance ]
     - HasAddIn_reverse:
-      - [ UAObjectType, MachineVision.AMCM:1009, MachineVision.AMCM:IComputingDeviceType ]
+      - [ UAObjectType, MachineVision.AMCM:1009, MachineVision.AMCM:IComputingDeviceType, Abstract ]
     - HasProperty:
       - [ UAVariable, MachineVision.AMCM:6093, MachineVision.AMCM:OperatingSystemInfo, String, 0, 3 ]
       - DisplayName: "OperatingSystemInfo"
@@ -882,10 +882,10 @@ DefinedTypes:
     - [ UAObject, MachineVision.AMCM:5011, MachineVision.AMCM:<ComputingDevice> ]
 
   MachineVision.AMCM:IDisplayUnitType:
-  - [ UAObjectType, MachineVision.AMCM:1011, MachineVision.AMCM:IDisplayUnitType ]
+  - [ UAObjectType, MachineVision.AMCM:1011, MachineVision.AMCM:IDisplayUnitType, Abstract ]
   - DisplayName: "IDisplayUnitType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5144, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -914,7 +914,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5144, DI:Maintenance ]
     - HasAddIn_reverse:
-      - [ UAObjectType, MachineVision.AMCM:1011, MachineVision.AMCM:IDisplayUnitType ]
+      - [ UAObjectType, MachineVision.AMCM:1011, MachineVision.AMCM:IDisplayUnitType, Abstract ]
     - HasProperty:
       - [ UAVariable, MachineVision.AMCM:6099, MachineVision.AMCM:ResolutionInUse, String, 0, 3 ]
       - DisplayName: "ResolutionInUse"
@@ -931,10 +931,10 @@ DefinedTypes:
     - [ UAObject, MachineVision.AMCM:5013, MachineVision.AMCM:<DisplayUnit> ]
 
   MachineVision.AMCM:ILampType:
-  - [ UAObjectType, MachineVision.AMCM:1016, MachineVision.AMCM:ILampType ]
+  - [ UAObjectType, MachineVision.AMCM:1016, MachineVision.AMCM:ILampType, Abstract ]
   - DisplayName: "ILampType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5149, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -953,7 +953,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5149, DI:Maintenance ]
     - HasAddIn_reverse:
-      - [ UAObjectType, MachineVision.AMCM:1016, MachineVision.AMCM:ILampType ]
+      - [ UAObjectType, MachineVision.AMCM:1016, MachineVision.AMCM:ILampType, Abstract ]
     - HasProperty:
       - [ UAVariable, MachineVision.AMCM:6131, MachineVision.AMCM:Quality, Byte, 0, 3 ]
       - DisplayName: "Quality"
@@ -1000,10 +1000,10 @@ DefinedTypes:
     - [ UAObject, MachineVision.AMCM:5033, MachineVision.AMCM:<Lamp> ]
 
   MachineVision.AMCM:ILensType:
-  - [ UAObjectType, MachineVision.AMCM:1013, MachineVision.AMCM:ILensType ]
+  - [ UAObjectType, MachineVision.AMCM:1013, MachineVision.AMCM:ILensType, Abstract ]
   - DisplayName: "ILensType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5147, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -1062,7 +1062,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5147, DI:Maintenance ]
     - HasAddIn_reverse:
-      - [ UAObjectType, MachineVision.AMCM:1013, MachineVision.AMCM:ILensType ]
+      - [ UAObjectType, MachineVision.AMCM:1013, MachineVision.AMCM:ILensType, Abstract ]
     - HasProperty:
       - [ UAVariable, MachineVision.AMCM:6124, MachineVision.AMCM:MinimumWorkingDistance, Double, 0, 3 ]
       - DisplayName: "MinimumWorkingDistance"
@@ -1138,10 +1138,10 @@ DefinedTypes:
     - [ UAObject, MachineVision.AMCM:5021, MachineVision.AMCM:<Lens> ]
 
   MachineVision.AMCM:ILicenseType:
-  - [ UAObjectType, MachineVision.AMCM:1017, MachineVision.AMCM:ILicenseType ]
+  - [ UAObjectType, MachineVision.AMCM:1017, MachineVision.AMCM:ILicenseType, Abstract ]
   - DisplayName: "ILicenseType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5150, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -1210,7 +1210,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5150, DI:Maintenance ]
     - HasAddIn_reverse:
-      - [ UAObjectType, MachineVision.AMCM:1017, MachineVision.AMCM:ILicenseType ]
+      - [ UAObjectType, MachineVision.AMCM:1017, MachineVision.AMCM:ILicenseType, Abstract ]
     - HasProperty:
       - [ UAVariable, MachineVision.AMCM:6136, MachineVision.AMCM:StartDate, UtcTime, 0, 3 ]
       - DisplayName: "StartDate"
@@ -1227,10 +1227,10 @@ DefinedTypes:
     - [ UAObject, MachineVision.AMCM:5053, MachineVision.AMCM:<License> ]
 
   MachineVision.AMCM:ILightingControllerType:
-  - [ UAObjectType, MachineVision.AMCM:1015, MachineVision.AMCM:ILightingControllerType ]
+  - [ UAObjectType, MachineVision.AMCM:1015, MachineVision.AMCM:ILightingControllerType, Abstract ]
   - DisplayName: "ILightingControllerType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5148, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -1258,14 +1258,14 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, MachineVision.AMCM:5148, DI:Maintenance ]
     - HasAddIn_reverse:
-      - [ UAObjectType, MachineVision.AMCM:1015, MachineVision.AMCM:ILightingControllerType ]
+      - [ UAObjectType, MachineVision.AMCM:1015, MachineVision.AMCM:ILightingControllerType, Abstract ]
   - HasInterface_reverse:
     - [ UAObjectType, MachineVision.AMCM:1029, MachineVision.AMCM:VisionLightingControllerType ]
   - HasInterface_reverse:
     - [ UAObject, MachineVision.AMCM:5035, MachineVision.AMCM:<LightingController> ]
 
   MachineVision.AMCM:IPhysicalInterfaceType:
-  - [ UAObjectType, MachineVision.AMCM:1012, MachineVision.AMCM:IPhysicalInterfaceType ]
+  - [ UAObjectType, MachineVision.AMCM:1012, MachineVision.AMCM:IPhysicalInterfaceType, Abstract ]
   - DisplayName: "IPhysicalInterfaceType"
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5145, MachineVision.AMCM:Health ]
@@ -1285,9 +1285,9 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5145, MachineVision.AMCM:Health ]
     - HasAddIn_reverse:
-      - [ UAObjectType, MachineVision.AMCM:1012, MachineVision.AMCM:IPhysicalInterfaceType ]
+      - [ UAObjectType, MachineVision.AMCM:1012, MachineVision.AMCM:IPhysicalInterfaceType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5146, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -1306,7 +1306,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5146, DI:Maintenance ]
     - HasAddIn_reverse:
-      - [ UAObjectType, MachineVision.AMCM:1012, MachineVision.AMCM:IPhysicalInterfaceType ]
+      - [ UAObjectType, MachineVision.AMCM:1012, MachineVision.AMCM:IPhysicalInterfaceType, Abstract ]
   - HasInterface_reverse:
     - [ UAObjectType, MachineVision.AMCM:1014, MachineVision.AMCM:VisionPhysicalInterfaceType ]
   - HasInterface_reverse:
@@ -1461,7 +1461,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAObject, MachineVision.AMCM:5006, DI:Identification ]
     - HasInterface:
-      - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+      - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
     - HasAddIn:
       - [ UAObject, MachineVision.AMCM:5007, DI:Maintenance ]
       - DisplayName: "Maintenance"
@@ -2349,7 +2349,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5181, DI:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5180, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -2607,7 +2607,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, MachineVision.AMCM:5184, MachineVision.AMCM:Health ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1018, MachineVision.AMCM:ICableType ]
+    - [ UAObjectType, MachineVision.AMCM:1018, MachineVision.AMCM:ICableType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5182, DI:Identification ]
     - DisplayName: "Identification"
@@ -2923,7 +2923,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5208, DI:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5207, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -3083,7 +3083,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5143, MachineVision.AMCM:Health ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1009, MachineVision.AMCM:IComputingDeviceType ]
+    - [ UAObjectType, MachineVision.AMCM:1009, MachineVision.AMCM:IComputingDeviceType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5141, DI:Identification ]
     - DisplayName: "Identification"
@@ -3309,7 +3309,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5153, MachineVision.AMCM:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1011, MachineVision.AMCM:IDisplayUnitType ]
+    - [ UAObjectType, MachineVision.AMCM:1011, MachineVision.AMCM:IDisplayUnitType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5154, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -3496,7 +3496,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5155, MachineVision.AMCM:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5156, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -3565,7 +3565,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5160, MachineVision.AMCM:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5159, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -3634,7 +3634,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5162, DI:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5163, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -3703,7 +3703,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5165, DI:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1016, MachineVision.AMCM:ILampType ]
+    - [ UAObjectType, MachineVision.AMCM:1016, MachineVision.AMCM:ILampType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5164, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -3822,7 +3822,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5168, DI:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5167, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -3891,7 +3891,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5172, DI:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1013, MachineVision.AMCM:ILensType ]
+    - [ UAObjectType, MachineVision.AMCM:1013, MachineVision.AMCM:ILensType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5171, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -4079,7 +4079,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5173, DI:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1017, MachineVision.AMCM:ILicenseType ]
+    - [ UAObjectType, MachineVision.AMCM:1017, MachineVision.AMCM:ILicenseType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5174, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -4218,7 +4218,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5177, DI:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1015, MachineVision.AMCM:ILightingControllerType ]
+    - [ UAObjectType, MachineVision.AMCM:1015, MachineVision.AMCM:ILightingControllerType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5176, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -4306,7 +4306,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5187, DI:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5185, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -4375,7 +4375,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5188, DI:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5189, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -4444,7 +4444,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5193, DI:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5192, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -4513,7 +4513,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5194, DI:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5195, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -4592,7 +4592,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5198, DI:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1012, MachineVision.AMCM:IPhysicalInterfaceType ]
+    - [ UAObjectType, MachineVision.AMCM:1012, MachineVision.AMCM:IPhysicalInterfaceType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5197, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -4671,7 +4671,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5202, DI:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5201, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -4740,7 +4740,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5203, DI:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5204, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -4923,7 +4923,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5223, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
       - HasComponent:
         - [ UAObject, MachineVision.AMCM:5225, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -5179,7 +5179,7 @@ DefinedTypes:
           - HasComponent_reverse:
             - [ UAObject, MachineVision.AMCM:5136, MachineVision.AMCM:Health ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1018, MachineVision.AMCM:ICableType ]
+        - [ UAObjectType, MachineVision.AMCM:1018, MachineVision.AMCM:ICableType, Abstract ]
       - HasComponent:
         - [ UAObject, MachineVision.AMCM:5137, DI:Identification ]
         - DisplayName: "Identification"
@@ -5463,7 +5463,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5107, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5108, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -5718,7 +5718,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5125, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5126, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -5953,7 +5953,7 @@ DefinedTypes:
           - HasComponent_reverse:
             - [ UAObject, MachineVision.AMCM:5064, MachineVision.AMCM:Health ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1009, MachineVision.AMCM:IComputingDeviceType ]
+        - [ UAObjectType, MachineVision.AMCM:1009, MachineVision.AMCM:IComputingDeviceType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5065, DI:Identification ]
         - DisplayName: "Identification"
@@ -6237,7 +6237,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5068, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1011, MachineVision.AMCM:IDisplayUnitType ]
+        - [ UAObjectType, MachineVision.AMCM:1011, MachineVision.AMCM:IDisplayUnitType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5069, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -6492,7 +6492,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5077, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5078, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -6854,7 +6854,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5116, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5117, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -7296,7 +7296,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5074, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5075, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -7399,7 +7399,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, MachineVision.AMCM:1008, MachineVision.AMCM:VisionSystemAssetType ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5032, MachineVision.AMCM:Lamps ]
     - DisplayName: "Lamps"
@@ -7553,7 +7553,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5098, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1016, MachineVision.AMCM:ILampType ]
+        - [ UAObjectType, MachineVision.AMCM:1016, MachineVision.AMCM:ILampType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5099, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -7808,7 +7808,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5083, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5084, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -8063,7 +8063,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5080, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1013, MachineVision.AMCM:ILensType ]
+        - [ UAObjectType, MachineVision.AMCM:1013, MachineVision.AMCM:ILensType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5081, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -8318,7 +8318,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5128, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1017, MachineVision.AMCM:ILicenseType ]
+        - [ UAObjectType, MachineVision.AMCM:1017, MachineVision.AMCM:ILicenseType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5129, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -8573,7 +8573,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5101, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1015, MachineVision.AMCM:ILightingControllerType ]
+        - [ UAObjectType, MachineVision.AMCM:1015, MachineVision.AMCM:ILightingControllerType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5102, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -8927,7 +8927,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5119, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5120, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -9182,7 +9182,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5134, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5135, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -9437,7 +9437,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5086, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5087, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -9692,7 +9692,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5089, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5090, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -9947,7 +9947,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5104, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5105, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -10202,7 +10202,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5071, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1012, MachineVision.AMCM:IPhysicalInterfaceType ]
+        - [ UAObjectType, MachineVision.AMCM:1012, MachineVision.AMCM:IPhysicalInterfaceType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5072, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -10457,7 +10457,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5122, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5123, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -10712,7 +10712,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5131, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5132, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -10967,7 +10967,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5113, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5114, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -11222,7 +11222,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5095, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5096, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -11477,7 +11477,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAObject, MachineVision.AMCM:5092, DI:Identification ]
       - HasInterface:
-        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+        - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
       - HasAddIn:
         - [ UAObject, MachineVision.AMCM:5093, DI:Maintenance ]
         - DisplayName: "Maintenance"
@@ -11726,7 +11726,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5209, DI:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5210, DI:Maintenance ]
     - DisplayName: "Maintenance"
@@ -11953,7 +11953,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, MachineVision.AMCM:5214, MachineVision.AMCM:Identification ]
   - HasInterface:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - HasAddIn:
     - [ UAObject, MachineVision.AMCM:5212, DI:Maintenance ]
     - DisplayName: "Maintenance"

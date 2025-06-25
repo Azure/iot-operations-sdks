@@ -149,7 +149,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PDRV:VelocityDriveAxisType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PDRV",
     "displayName": "VelocityDriveAxisType",
     "extends": "dtmi:opcua:PDRV:DriveAxisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1002",
@@ -170,7 +171,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PDRV:FrequencyDriveAxisType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PDRV",
     "displayName": "FrequencyDriveAxisType",
     "extends": "dtmi:opcua:PDRV:DriveAxisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1005",
@@ -191,7 +193,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PDRV:PositioningDriveAxisType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PDRV",
     "displayName": "PositioningDriveAxisType",
     "extends": "dtmi:opcua:PDRV:DriveAxisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1006",
@@ -236,7 +239,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PDRV:TraversingTaskType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PDRV",
     "displayName": "TraversingTaskType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1007",
@@ -300,7 +304,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PDRV:VelocityServoDriveAxisType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PDRV",
     "displayName": "VelocityServoDriveAxisType",
     "extends": "dtmi:opcua:PDRV:DriveAxisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1008",
@@ -352,7 +357,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PDRV:PositionServoDriveAxisType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PDRV",
     "displayName": "PositionServoDriveAxisType",
     "extends": "dtmi:opcua:PDRV:DriveAxisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1009",

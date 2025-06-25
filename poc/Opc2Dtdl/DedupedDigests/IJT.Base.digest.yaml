@@ -586,7 +586,7 @@ DefinedTypes:
     - [ UAObjectType, 2881, AcknowledgeableConditionType ]
 
   IJT.Base:JoiningSystemEventType:
-  - [ UAObjectType, IJT.Base:1006, IJT.Base:JoiningSystemEventType ]
+  - [ UAObjectType, IJT.Base:1006, IJT.Base:JoiningSystemEventType, Abstract ]
   - DisplayName: "JoiningSystemEventType"
   - Description: "The JoiningSystemEventType is used to send any type of events from a joining system. Note: The type of event is determined by the usage of respective Condition Class(es) and Condition SubClass(es) properties defined in 0:BaseEventType."
   - HasComponent:
@@ -629,14 +629,14 @@ DefinedTypes:
     - [ UAObjectType, 2041, BaseEventType ]
 
   IJT.Base:JoiningSystemResultReadyEventType:
-  - [ UAObjectType, IJT.Base:1007, IJT.Base:JoiningSystemResultReadyEventType ]
+  - [ UAObjectType, IJT.Base:1007, IJT.Base:JoiningSystemResultReadyEventType, Abstract ]
   - DisplayName: "JoiningSystemResultReadyEventType"
   - Description: "This EventType provides information of a complete or partial result from a joining system."
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery.Result:1002, Machinery.Result:ResultReadyEventType ]
 
   IJT.Base:IJoiningAdditionalInformationType:
-  - [ UAObjectType, IJT.Base:1017, IJT.Base:IJoiningAdditionalInformationType ]
+  - [ UAObjectType, IJT.Base:1017, IJT.Base:IJoiningAdditionalInformationType, Abstract ]
   - DisplayName: "IJoiningAdditionalInformationType"
   - Description: "The IJoiningAdditionalInformationType provides additional parameters for Identification of a given asset."
   - HasProperty:
@@ -661,7 +661,7 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   IJT.Base:IJoiningSystemAssetType:
-  - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+  - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
   - DisplayName: "IJoiningSystemAssetType"
   - Description: "This is a generic interface common for all assets in a given Joining System. The purpose of this interface is to provide a standard way of identification and common information for all the assets. This interface has a standard MachineryItemIdentificationType add-in which can be assigned with MachineIdentificationType or MachineryComponentIdentificationType for a given asset based on the requirement of the system."
   - HasComponent:
@@ -699,82 +699,82 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   IJT.Base:IAccessoryType:
-  - [ UAObjectType, IJT.Base:1015, IJT.Base:IAccessoryType ]
+  - [ UAObjectType, IJT.Base:1015, IJT.Base:IAccessoryType, Abstract ]
   - DisplayName: "IAccessoryType"
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
 
   IJT.Base:IBatteryType:
-  - [ UAObjectType, IJT.Base:1010, IJT.Base:IBatteryType ]
+  - [ UAObjectType, IJT.Base:1010, IJT.Base:IBatteryType, Abstract ]
   - DisplayName: "IBatteryType"
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
 
   IJT.Base:ICableType:
-  - [ UAObjectType, IJT.Base:1014, IJT.Base:ICableType ]
+  - [ UAObjectType, IJT.Base:1014, IJT.Base:ICableType, Abstract ]
   - DisplayName: "ICableType"
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
 
   IJT.Base:IControllerType:
-  - [ UAObjectType, IJT.Base:1003, IJT.Base:IControllerType ]
+  - [ UAObjectType, IJT.Base:1003, IJT.Base:IControllerType, Abstract ]
   - DisplayName: "IControllerType"
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
 
   IJT.Base:IFeederType:
-  - [ UAObjectType, IJT.Base:1012, IJT.Base:IFeederType ]
+  - [ UAObjectType, IJT.Base:1012, IJT.Base:IFeederType, Abstract ]
   - DisplayName: "IFeederType"
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
 
   IJT.Base:IMemoryDeviceType:
-  - [ UAObjectType, IJT.Base:1013, IJT.Base:IMemoryDeviceType ]
+  - [ UAObjectType, IJT.Base:1013, IJT.Base:IMemoryDeviceType, Abstract ]
   - DisplayName: "IMemoryDeviceType"
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
 
   IJT.Base:IPowerSupplyType:
-  - [ UAObjectType, IJT.Base:1009, IJT.Base:IPowerSupplyType ]
+  - [ UAObjectType, IJT.Base:1009, IJT.Base:IPowerSupplyType, Abstract ]
   - DisplayName: "IPowerSupplyType"
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
 
   IJT.Base:ISensorType:
-  - [ UAObjectType, IJT.Base:1011, IJT.Base:ISensorType ]
+  - [ UAObjectType, IJT.Base:1011, IJT.Base:ISensorType, Abstract ]
   - DisplayName: "ISensorType"
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
 
   IJT.Base:IServoType:
-  - [ UAObjectType, IJT.Base:1008, IJT.Base:IServoType ]
+  - [ UAObjectType, IJT.Base:1008, IJT.Base:IServoType, Abstract ]
   - DisplayName: "IServoType"
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
 
   IJT.Base:ISoftwareType:
-  - [ UAObjectType, IJT.Base:1019, IJT.Base:ISoftwareType ]
+  - [ UAObjectType, IJT.Base:1019, IJT.Base:ISoftwareType, Abstract ]
   - DisplayName: "ISoftwareType"
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
 
   IJT.Base:ISubComponentType:
-  - [ UAObjectType, IJT.Base:1016, IJT.Base:ISubComponentType ]
+  - [ UAObjectType, IJT.Base:1016, IJT.Base:ISubComponentType, Abstract ]
   - DisplayName: "ISubComponentType"
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
 
   IJT.Base:IToolType:
-  - [ UAObjectType, IJT.Base:1004, IJT.Base:IToolType ]
+  - [ UAObjectType, IJT.Base:1004, IJT.Base:IToolType, Abstract ]
   - DisplayName: "IToolType"
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
 
   IJT.Base:IVirtualStationType:
-  - [ UAObjectType, IJT.Base:1031, IJT.Base:IVirtualStationType ]
+  - [ UAObjectType, IJT.Base:1031, IJT.Base:IVirtualStationType, Abstract ]
   - DisplayName: "IVirtualStationType"
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
 
   IJT.Base:JoiningSystemIdentificationType:
   - [ UAObjectType, IJT.Base:1029, IJT.Base:JoiningSystemIdentificationType ]

@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:PADIMType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "PADIMType",
     "extends": "dtmi:opcua:DI:ComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1009",
@@ -331,7 +332,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:AnalogSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "AnalogSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1022",
@@ -382,7 +384,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:ControlSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "ControlSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1023",
@@ -483,7 +486,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:DiscreteSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "DiscreteSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1036",
@@ -512,7 +516,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:TwoStateDiscreteSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "TwoStateDiscreteSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1037",
@@ -541,7 +546,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:MultiStateDiscreteSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "MultiStateDiscreteSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1038",
@@ -570,7 +576,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:TwoStateDiscreteControlSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "TwoStateDiscreteControlSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1223",
@@ -624,7 +631,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:MultiStateDiscreteControlSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "MultiStateDiscreteControlSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1239",
@@ -1762,7 +1770,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "AnalyticalSignalType",
     "extends": "dtmi:opcua:PADIM:AnalogSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1065",
@@ -1783,7 +1792,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:AmperometricSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "AmperometricSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1066",
@@ -1804,7 +1814,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:ConductivitySignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "ConductivitySignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1067",
@@ -1825,7 +1836,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:FlameIonisationSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "FlameIonisationSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1069",
@@ -1846,7 +1858,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:NonDispersiveInfraredSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "NonDispersiveInfraredSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1071",
@@ -1867,7 +1880,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:OpticalFluorescenseQuenchingSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "OpticalFluorescenseQuenchingSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1073",
@@ -1888,7 +1902,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:ParamagneticSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "ParamagneticSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1075",
@@ -1909,7 +1924,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:PhSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "PhSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1076",
@@ -1930,7 +1946,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:ThermalConductivitySignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "ThermalConductivitySignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1077",
@@ -1951,7 +1968,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:TocSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "TocSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1078",
@@ -1972,7 +1990,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:TunableDiodeLaserSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "TunableDiodeLaserSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1079",
@@ -1993,7 +2012,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:ZirconiumDioxideSignalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "ZirconiumDioxideSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1081",
@@ -2014,7 +2034,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Process analyser",
     "extends": "dtmi:opcua:PADIM:PADIMType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1082",
@@ -2035,7 +2056,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:AmperometricAnalyserType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Amperometric analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1083",
@@ -2056,7 +2078,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:ConductivityMeterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Conductivity meter",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1084",
@@ -2077,7 +2100,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:FlameIonisationDetectorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Flame ionisation detector",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1085",
@@ -2098,7 +2122,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:NonDispersiveInfraredGasAnalyserType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Non-dispersive infrared gas analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1086",
@@ -2119,7 +2144,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:OpticalFluorescenseQuenchingSensorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Optical fluorescence quenching sensor",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1087",
@@ -2140,7 +2166,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:ParamagneticGasAnalyserType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Paramagnetic gas analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1088",
@@ -2161,7 +2188,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:PhMeterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "pH meter",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1089",
@@ -2182,7 +2210,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:ThermalConductivityGasAnalyserType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Thermal conductivity gas analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1090",
@@ -2203,7 +2232,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:TocAnalyserType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "TOC analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1091",
@@ -2224,7 +2254,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:TunableDiodeLaserSpectrometerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Tunable diode laser spectrometer",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1092",
@@ -2245,7 +2276,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PADIM:ZirconiumDioxideAnalyserType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Zirconium dioxide analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1093",

@@ -600,7 +600,7 @@ DefinedTypes:
     - [ UAVariableType, Machinery.Result:2001, Machinery.Result:ResultType ]
 
   TTD:TTDResultReadyEventType:
-  - [ UAObjectType, TTD:1006, TTD:TTDResultReadyEventType ]
+  - [ UAObjectType, TTD:1006, TTD:TTDResultReadyEventType, Abstract ]
   - DisplayName: "TTDResultReadyEventType"
   - Description: "Provides information of a complete or partial result."
   - HasComponent:
@@ -611,7 +611,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, TTD:2003, TTD:TTDResultType, Machinery.Result:ResultDataType, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, TTD:1006, TTD:TTDResultReadyEventType ]
+      - [ UAObjectType, TTD:1006, TTD:TTDResultReadyEventType, Abstract ]
     - HasStructuredComponent:
       - [ UAVariable, TTD:6039, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - DisplayName: "ResultMetaData"
@@ -1241,7 +1241,7 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery.Result:1004, Machinery.Result:ResultManagementType ]
   - GeneratesEvent:
-    - [ UAObjectType, TTD:1006, TTD:TTDResultReadyEventType ]
+    - [ UAObjectType, TTD:1006, TTD:TTDResultReadyEventType, Abstract ]
 
   TTD:TextileTestingDeviceType:
   - [ UAObjectType, TTD:1010, TTD:TextileTestingDeviceType ]

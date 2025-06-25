@@ -349,13 +349,13 @@ DataTypes:
 DefinedTypes:
 
   PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
+  - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType, Abstract ]
   - DisplayName: "ExtrusionDeviceType"
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.GeneralTypes:5023, PlasticsRubber.Extrusion.GeneralTypes:AdditionalMeasuringDevices ]
     - DisplayName: "AdditionalMeasuringDevices"
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType, Abstract ]
     - GeneratesEvent:
       - [ UAObjectType, 2133, GeneralModelChangeEventType ]
     - HasTypeDefinition:
@@ -411,7 +411,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1063, PlasticsRubber.GeneralTypes:EnergyType ]
     - HasModellingRule:
@@ -487,7 +487,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1063, PlasticsRubber.GeneralTypes:EnergyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
@@ -521,7 +521,7 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.GeneralTypes:6035, PlasticsRubber.Extrusion.GeneralTypes:IsPresent, Boolean, 0, 0 ]
     - DisplayName: "IsPresent"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -530,7 +530,7 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.GeneralTypes:6020, PlasticsRubber.Extrusion.GeneralTypes:LineId, String, 0, 3 ]
     - DisplayName: "LineId"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -611,7 +611,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1016, PlasticsRubber.GeneralTypes:MachineConfigurationType ]
     - HasModellingRule:
@@ -735,7 +735,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1009, PlasticsRubber.GeneralTypes:MachineInformationType ]
     - HasModellingRule:
@@ -867,7 +867,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, PlasticsRubber.GeneralTypes:MaintenanceType ]
     - HasModellingRule:
@@ -1019,7 +1019,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.GeneralTypes:5012, PlasticsRubber.Extrusion.GeneralTypes:PressureAir ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType, Abstract ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.GeneralTypes:5014, PlasticsRubber.Extrusion.GeneralTypes:ProductionDatasetManagement ]
     - DisplayName: "ProductionDatasetManagement"
@@ -1278,7 +1278,7 @@ DefinedTypes:
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.GeneralTypes:5020, PlasticsRubber.GeneralTypes:ProductionDatasetLists ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1008, PlasticsRubber.GeneralTypes:ProductionDatasetManagementType ]
     - HasComponent:
@@ -1431,7 +1431,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.GeneralTypes:5018, PlasticsRubber.Extrusion.GeneralTypes:StartDevice ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, PlasticsRubber.GeneralTypes:StartDeviceType ]
     - HasComponent:
@@ -1465,7 +1465,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.GeneralTypes:6037, PlasticsRubber.Extrusion.GeneralTypes:Strand, UInt32, 0, 0 ]
     - DisplayName: "Strand"
@@ -1474,7 +1474,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.GeneralTypes:6036, PlasticsRubber.Extrusion.GeneralTypes:Target, String, -3, 0 ]
     - DisplayName: "Target"
@@ -1483,7 +1483,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType, Abstract ]
 
   PlasticsRubber.Extrusion.GeneralTypes:ExtrusionTemperatureZonesType:
   - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1017, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionTemperatureZonesType ]

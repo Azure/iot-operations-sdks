@@ -256,7 +256,7 @@ DefinedTypes:
       - [ UAObjectType, ECM:1014, ECM:AccuracyDomainType ]
 
   ECM:IEnergyProfileD0Type:
-  - [ UAObjectType, ECM:1011, ECM:IEnergyProfileD0Type ]
+  - [ UAObjectType, ECM:1011, ECM:IEnergyProfileD0Type, Abstract ]
   - DisplayName: "IEnergyProfileD0Type"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -313,7 +313,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, ECM:6102, ECM:DcCurrent, Float, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, ECM:1011, ECM:IEnergyProfileD0Type ]
+      - [ UAObjectType, ECM:1011, ECM:IEnergyProfileD0Type, Abstract ]
     - HasProperty:
       - [ UAVariable, ECM:6105, ECM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -362,7 +362,7 @@ DefinedTypes:
           - [ UAVariable, ECM:6269, ECM:Resource, UInt32, 0, 3 ]
 
   ECM:IEnergyProfileD1Type:
-  - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type ]
+  - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type, Abstract ]
   - DisplayName: "IEnergyProfileD1Type"
   - HasComponent:
     - [ UAVariable, ECM:6307, ECM:DcActivePower, Float, 0, 3 ]
@@ -408,7 +408,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, ECM:6307, ECM:DcActivePower, Float, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type ]
+      - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type, Abstract ]
     - HasProperty:
       - [ UAVariable, ECM:6351, ECM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -499,7 +499,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, ECM:6291, ECM:DcCurrent, Float, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type ]
+      - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type, Abstract ]
     - HasProperty:
       - [ UAVariable, ECM:6347, ECM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -590,7 +590,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, ECM:6331, ECM:DcElectricalCharge, Float, 0, 3 ]
     - HasStatisticComponent_reverse:
-      - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type ]
+      - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type, Abstract ]
     - HasProperty:
       - [ UAVariable, ECM:6355, ECM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -681,7 +681,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, ECM:6323, ECM:DcEnergyTotalExportLp, Float, 0, 3 ]
     - HasStatisticComponent_reverse:
-      - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type ]
+      - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type, Abstract ]
     - HasProperty:
       - [ UAVariable, ECM:6362, ECM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -772,7 +772,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, ECM:6339, ECM:DcRelativeCharge, Float, 0, 3 ]
     - HasStatisticComponent_reverse:
-      - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type ]
+      - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type, Abstract ]
     - HasProperty:
       - [ UAVariable, ECM:6357, ECM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -863,7 +863,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, ECM:6299, ECM:DcVoltage, Float, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type ]
+      - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type, Abstract ]
     - HasProperty:
       - [ UAVariable, ECM:6349, ECM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -954,7 +954,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, ECM:6315, ECM:DcEnergyTotalImportLp, Float, 0, 3 ]
     - HasStatisticComponent_reverse:
-      - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type ]
+      - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type, Abstract ]
     - HasProperty:
       - [ UAVariable, ECM:6353, ECM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1005,7 +1005,7 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   ECM:IEnergyProfileE0Type:
-  - [ UAObjectType, ECM:1007, ECM:IEnergyProfileE0Type ]
+  - [ UAObjectType, ECM:1007, ECM:IEnergyProfileE0Type, Abstract ]
   - DisplayName: "IEnergyProfileE0Type"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -1062,7 +1062,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, ECM:6060, ECM:AcCurrentPe, ECM:AcPeDataType, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, ECM:1007, ECM:IEnergyProfileE0Type ]
+      - [ UAObjectType, ECM:1007, ECM:IEnergyProfileE0Type, Abstract ]
     - HasProperty:
       - [ UAVariable, ECM:6063, ECM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1111,7 +1111,7 @@ DefinedTypes:
           - [ UAVariable, ECM:6173, ECM:Resource, UInt32, 0, 3 ]
 
   ECM:IEnergyProfileE1Type:
-  - [ UAObjectType, ECM:1008, ECM:IEnergyProfileE1Type ]
+  - [ UAObjectType, ECM:1008, ECM:IEnergyProfileE1Type, Abstract ]
   - DisplayName: "IEnergyProfileE1Type"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -1123,7 +1123,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, ECM:2002, ECM:EnergyMeasurementValueType ]
     - HasComponent_reverse:
-      - [ UAObjectType, ECM:1008, ECM:IEnergyProfileE1Type ]
+      - [ UAObjectType, ECM:1008, ECM:IEnergyProfileE1Type, Abstract ]
     - HasComponent:
       - [ UAVariable, ECM:6091, ECM:AccuracyClass, UInt32, 0, 0 ]
       - DisplayName: "AccuracyClass"
@@ -1217,7 +1217,7 @@ DefinedTypes:
           - [ UAVariable, ECM:6179, ECM:Resource, UInt32, 0, 3 ]
 
   ECM:IEnergyProfileE2Type:
-  - [ UAObjectType, ECM:1009, ECM:IEnergyProfileE2Type ]
+  - [ UAObjectType, ECM:1009, ECM:IEnergyProfileE2Type, Abstract ]
   - DisplayName: "IEnergyProfileE2Type"
   - HasStatisticComponent:
     - [ UAVariable, ECM:6076, ECM:AcActiveEnergyTotalExportLp, Float, 0, 3 ]
@@ -1318,7 +1318,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAVariable, ECM:6197, ECM:Resource, UInt32, 0, 3 ]
     - HasStatisticComponent_reverse:
-      - [ UAObjectType, ECM:1009, ECM:IEnergyProfileE2Type ]
+      - [ UAObjectType, ECM:1009, ECM:IEnergyProfileE2Type, Abstract ]
   - HasStatisticComponent:
     - [ UAVariable, ECM:6072, ECM:AcActiveEnergyTotalImportLp, Float, 0, 3 ]
     - DisplayName: "AcActiveEnergyTotalImportLp"
@@ -1418,7 +1418,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAVariable, ECM:6191, ECM:Resource, UInt32, 0, 3 ]
     - HasStatisticComponent_reverse:
-      - [ UAObjectType, ECM:1009, ECM:IEnergyProfileE2Type ]
+      - [ UAObjectType, ECM:1009, ECM:IEnergyProfileE2Type, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
@@ -1429,7 +1429,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, ECM:2002, ECM:EnergyMeasurementValueType ]
     - HasComponent_reverse:
-      - [ UAObjectType, ECM:1009, ECM:IEnergyProfileE2Type ]
+      - [ UAObjectType, ECM:1009, ECM:IEnergyProfileE2Type, Abstract ]
     - HasComponent:
       - [ UAVariable, ECM:6122, ECM:AccuracyClass, UInt32, 0, 0 ]
       - DisplayName: "AccuracyClass"
@@ -1523,7 +1523,7 @@ DefinedTypes:
           - [ UAVariable, ECM:6185, ECM:Resource, UInt32, 0, 3 ]
 
   ECM:IEnergyProfileE3Type:
-  - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type ]
+  - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type, Abstract ]
   - DisplayName: "IEnergyProfileE3Type"
   - HasStatisticComponent:
     - [ UAVariable, ECM:6086, ECM:AcActiveEnergyTotalExportHp, Double, 0, 3 ]
@@ -1624,7 +1624,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAVariable, ECM:6248, ECM:Resource, UInt32, 0, 3 ]
     - HasStatisticComponent_reverse:
-      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type ]
+      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type, Abstract ]
   - HasStatisticComponent:
     - [ UAVariable, ECM:6082, ECM:AcActiveEnergyTotalImportHp, Double, 0, 3 ]
     - DisplayName: "AcActiveEnergyTotalImportHp"
@@ -1724,7 +1724,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAVariable, ECM:6245, ECM:Resource, UInt32, 0, 3 ]
     - HasStatisticComponent_reverse:
-      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type ]
+      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type, Abstract ]
   - HasStatisticComponent:
     - [ UAVariable, ECM:6094, ECM:AcReactiveEnergyTotalExportHp, Double, 0, 3 ]
     - DisplayName: "AcReactiveEnergyTotalExportHp"
@@ -1824,7 +1824,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAVariable, ECM:6254, ECM:Resource, UInt32, 0, 3 ]
     - HasStatisticComponent_reverse:
-      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type ]
+      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type, Abstract ]
   - HasStatisticComponent:
     - [ UAVariable, ECM:6090, ECM:AcReactiveEnergyTotalImportHp, Double, 0, 3 ]
     - DisplayName: "AcReactiveEnergyTotalImportHp"
@@ -1924,7 +1924,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAVariable, ECM:6251, ECM:Resource, UInt32, 0, 3 ]
     - HasStatisticComponent_reverse:
-      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type ]
+      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
@@ -1935,7 +1935,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, ECM:2002, ECM:EnergyMeasurementValueType ]
     - HasComponent_reverse:
-      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type ]
+      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type, Abstract ]
     - HasComponent:
       - [ UAVariable, ECM:6205, ECM:AccuracyClass, UInt32, 0, 0 ]
       - DisplayName: "AccuracyClass"
@@ -2080,7 +2080,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, ECM:6100, ECM:AcCurrentPe, ECM:AcPeDataType, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type ]
+      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type, Abstract ]
     - HasProperty:
       - [ UAVariable, ECM:6127, ECM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -2180,7 +2180,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, ECM:6101, ECM:AcPowerFactorPe, ECM:AcPeDataType, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type ]
+      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type, Abstract ]
     - HasProperty:
       - [ UAVariable, ECM:6167, ECM:MeasurementID, UInt16, 0, 0 ]
       - DisplayName: "MeasurementID"
@@ -2270,7 +2270,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, ECM:6081, ECM:AcReactivePowerPe, ECM:AcPeDataType, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type ]
+      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type, Abstract ]
     - HasProperty:
       - [ UAVariable, ECM:6133, ECM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -2370,7 +2370,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, ECM:6098, ECM:AcVoltagePe, ECM:AcPeDataType, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type ]
+      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type, Abstract ]
     - HasProperty:
       - [ UAVariable, ECM:6136, ECM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -2470,7 +2470,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, ECM:6099, ECM:AcVoltagePp, ECM:AcPpDataType, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type ]
+      - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type, Abstract ]
     - HasProperty:
       - [ UAVariable, ECM:6139, ECM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"

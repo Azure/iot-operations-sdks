@@ -327,7 +327,7 @@ DataTypes:
 DefinedTypes:
 
   Pumps:IPumpVendorNameplateType:
-  - [ UAObjectType, Pumps:1004, Pumps:IPumpVendorNameplateType ]
+  - [ UAObjectType, Pumps:1004, Pumps:IPumpVendorNameplateType, Abstract ]
   - DisplayName: "IPumpVendorNameplateType"
   - HasProperty:
     - [ UAVariable, Pumps:6063, Pumps:ArticleNumber, String, 0, 0 ]
@@ -393,7 +393,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
 
   Pumps:DiscreteObjectType:
-  - [ UAObjectType, Pumps:1029, Pumps:DiscreteObjectType ]
+  - [ UAObjectType, Pumps:1029, Pumps:DiscreteObjectType, Abstract ]
   - DisplayName: "DiscreteObjectType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
@@ -414,7 +414,7 @@ DefinedTypes:
   - [ UAObjectType, Pumps:1030, Pumps:DiscreteInputObjectType ]
   - DisplayName: "DiscreteInputObjectType"
   - HasSubtype_reverse:
-    - [ UAObjectType, Pumps:1029, Pumps:DiscreteObjectType ]
+    - [ UAObjectType, Pumps:1029, Pumps:DiscreteObjectType, Abstract ]
   - HasComponent:
     - [ UAVariable, Pumps:8837, Pumps:DiscreteInputValue, Boolean, 0, 0 ]
     - DisplayName: "DiscreteInputValue"
@@ -426,7 +426,7 @@ DefinedTypes:
   - [ UAObjectType, Pumps:1031, Pumps:DiscreteOutputObjectType ]
   - DisplayName: "DiscreteOutputObjectType"
   - HasSubtype_reverse:
-    - [ UAObjectType, Pumps:1029, Pumps:DiscreteObjectType ]
+    - [ UAObjectType, Pumps:1029, Pumps:DiscreteObjectType, Abstract ]
   - HasComponent:
     - [ UAVariable, Pumps:8781, Pumps:DiscreteOutputValue, Boolean, 0, 3 ]
     - DisplayName: "DiscreteOutputValue"
@@ -873,7 +873,7 @@ DefinedTypes:
       - [ UAObjectType, Pumps:1022, Pumps:SystemRequirementsType ]
 
   Pumps:ConnectionDesignType:
-  - [ UAObjectType, Pumps:1040, Pumps:ConnectionDesignType ]
+  - [ UAObjectType, Pumps:1040, Pumps:ConnectionDesignType, Abstract ]
   - DisplayName: "ConnectionDesignType"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
@@ -912,7 +912,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Pumps:1040, Pumps:ConnectionDesignType ]
+    - [ UAObjectType, Pumps:1040, Pumps:ConnectionDesignType, Abstract ]
   - HasComponent:
     - [ UAVariable, Pumps:9310, Pumps:MaximumAllowableInletPressure, Double, 0, 0 ]
     - DisplayName: "MaximumAllowableInletPressure"
@@ -1026,7 +1026,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Pumps:1040, Pumps:ConnectionDesignType ]
+    - [ UAObjectType, Pumps:1040, Pumps:ConnectionDesignType, Abstract ]
   - HasComponent:
     - [ UAVariable, Pumps:9283, Pumps:ReliefValveAccumulationPressure, Double, 0, 0 ]
     - DisplayName: "ReliefValveAccumulationPressure"
@@ -1077,7 +1077,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
 
   Pumps:ConnectionImplementationType:
-  - [ UAObjectType, Pumps:1046, Pumps:ConnectionImplementationType ]
+  - [ UAObjectType, Pumps:1046, Pumps:ConnectionImplementationType, Abstract ]
   - DisplayName: "ConnectionImplementationType"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
@@ -1104,7 +1104,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Pumps:1046, Pumps:ConnectionImplementationType ]
+    - [ UAObjectType, Pumps:1046, Pumps:ConnectionImplementationType, Abstract ]
   - HasComponent:
     - [ UAVariable, Pumps:9408, Pumps:MeanRatedVelocityAtInlet, Double, 0, 3 ]
     - DisplayName: "MeanRatedVelocityAtInlet"
@@ -1170,7 +1170,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Pumps:1046, Pumps:ConnectionImplementationType ]
+    - [ UAObjectType, Pumps:1046, Pumps:ConnectionImplementationType, Abstract ]
   - HasComponent:
     - [ UAVariable, Pumps:9393, Pumps:RatedOutletPressure, Double, 0, 3 ]
     - DisplayName: "RatedOutletPressure"
@@ -6369,7 +6369,7 @@ DefinedTypes:
     - [ UAObjectType, 61, FolderType ]
 
   Pumps:PortType:
-  - [ UAObjectType, Pumps:1035, Pumps:PortType ]
+  - [ UAObjectType, Pumps:1035, Pumps:PortType, Abstract ]
   - DisplayName: "PortType"
   - HasComponent:
     - [ UAVariable, Pumps:9246, Pumps:Category, String, 0, 3 ]
@@ -6404,7 +6404,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Pumps:1035, Pumps:PortType ]
+    - [ UAObjectType, Pumps:1035, Pumps:PortType, Abstract ]
   - HasComponent:
     - [ UAObject, Pumps:5116, Pumps:Measurements ]
     - DisplayName: "Measurements"
@@ -6434,7 +6434,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Pumps:1035, Pumps:PortType ]
+    - [ UAObjectType, Pumps:1035, Pumps:PortType, Abstract ]
   - HasComponent:
     - [ UAObject, Pumps:5109, Pumps:Measurements ]
     - DisplayName: "Measurements"
@@ -6480,7 +6480,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Pumps:1049, Pumps:OutletConnectionMeasurementsType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Pumps:1035, Pumps:PortType ]
+    - [ UAObjectType, Pumps:1035, Pumps:PortType, Abstract ]
   - HasComponent:
     - [ UAObject, Pumps:5114, Pumps:SystemRequirements ]
     - DisplayName: "SystemRequirements"

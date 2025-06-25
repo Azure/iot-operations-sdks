@@ -404,6 +404,7 @@
             string valueRankStr = string.Empty;
             string accessLevelStr = string.Empty;
             XmlAttribute? dataTypeAttr = xmlNode.Attributes!["DataType"];
+            XmlAttribute? isAbstractAttr = xmlNode.Attributes!["IsAbstract"];
             if (dataTypeAttr != null)
             {
                 dataTypeStr = $", {ResolveDataType(dataTypeAttr.Value, localAliasToResolvedNodeIdMap, namespaceMap)}";
@@ -415,6 +416,13 @@
                 XmlAttribute? accessLevelAttr = xmlNode.Attributes!["AccessLevel"];
                 int accessLevel = int.Parse(accessLevelAttr?.Value ?? "0");
                 accessLevelStr = $", {accessLevel}";
+            }
+            else if (isAbstractAttr != null)
+            {
+                if (isAbstractAttr.Value == "true")
+                {
+                    dataTypeStr = ", Abstract";
+                }
             }
 
             outputFile.WriteLine($"{currentIndent}- [ {xmlNode.Name}, {nodeId}, {browseName}{dataTypeStr}{valueRankStr}{accessLevelStr} ]");

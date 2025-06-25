@@ -223,7 +223,7 @@ DefinedTypes:
     - [ UAObjectType, 61, FolderType ]
 
   GDS:ApplicationRegistrationChangedAuditEventType:
-  - [ UAObjectType, GDS:26, GDS:ApplicationRegistrationChangedAuditEventType ]
+  - [ UAObjectType, GDS:26, GDS:ApplicationRegistrationChangedAuditEventType, Abstract ]
   - DisplayName: "ApplicationRegistrationChangedAuditEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
@@ -827,7 +827,7 @@ DefinedTypes:
     - [ UAObjectType, GDS:13, GDS:DirectoryType ]
 
   GDS:CertificateRequestedAuditEventType:
-  - [ UAObjectType, GDS:91, GDS:CertificateRequestedAuditEventType ]
+  - [ UAObjectType, GDS:91, GDS:CertificateRequestedAuditEventType, Abstract ]
   - DisplayName: "CertificateRequestedAuditEventType"
   - HasProperty:
     - [ UAVariable, GDS:717, GDS:CertificateGroup, NodeId, 0, 0 ]
@@ -837,7 +837,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, GDS:91, GDS:CertificateRequestedAuditEventType ]
+      - [ UAObjectType, GDS:91, GDS:CertificateRequestedAuditEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, GDS:718, GDS:CertificateType, NodeId, 0, 0 ]
     - DisplayName: "CertificateType"
@@ -846,12 +846,12 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, GDS:91, GDS:CertificateRequestedAuditEventType ]
+      - [ UAObjectType, GDS:91, GDS:CertificateRequestedAuditEventType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
 
   GDS:CertificateDeliveredAuditEventType:
-  - [ UAObjectType, GDS:109, GDS:CertificateDeliveredAuditEventType ]
+  - [ UAObjectType, GDS:109, GDS:CertificateDeliveredAuditEventType, Abstract ]
   - DisplayName: "CertificateDeliveredAuditEventType"
   - HasProperty:
     - [ UAVariable, GDS:719, GDS:CertificateGroup, NodeId, 0, 0 ]
@@ -861,7 +861,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, GDS:109, GDS:CertificateDeliveredAuditEventType ]
+      - [ UAObjectType, GDS:109, GDS:CertificateDeliveredAuditEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, GDS:720, GDS:CertificateType, NodeId, 0, 0 ]
     - DisplayName: "CertificateType"
@@ -870,7 +870,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, GDS:109, GDS:CertificateDeliveredAuditEventType ]
+      - [ UAObjectType, GDS:109, GDS:CertificateDeliveredAuditEventType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
 
@@ -1245,7 +1245,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   GDS:AccessTokenIssuedAuditEventType:
-  - [ UAObjectType, GDS:975, GDS:AccessTokenIssuedAuditEventType ]
+  - [ UAObjectType, GDS:975, GDS:AccessTokenIssuedAuditEventType, Abstract ]
   - DisplayName: "AccessTokenIssuedAuditEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, 2127, AuditUpdateMethodEventType ]

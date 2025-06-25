@@ -501,7 +501,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:FoilType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Glass.Flat",
     "displayName": "FoilType",
     "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1019",
@@ -522,7 +523,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:GasMixType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Glass.Flat",
     "displayName": "GasMixType",
     "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1010",
@@ -749,7 +751,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:PackagingType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Glass.Flat",
     "displayName": "PackagingType",
     "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1017",
@@ -792,7 +795,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:SealingMaterialType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Glass.Flat",
     "displayName": "SealingMaterialType",
     "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1018",
@@ -845,7 +849,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:SpacerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Glass.Flat",
     "displayName": "SpacerType",
     "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1016",
@@ -1066,7 +1071,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:GlassMachineIdentificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Glass.Flat",
     "displayName": "GlassMachineIdentificationType",
     "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1020",
@@ -1179,7 +1185,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:GlassMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Glass.Flat",
     "displayName": "GlassMachineType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1015",
@@ -1315,7 +1322,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:ProductionJobType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Glass.Flat",
     "displayName": "ProductionJobType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1004",
@@ -1448,7 +1456,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:AssemblyJobType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Glass.Flat",
     "displayName": "AssemblyJobType",
     "extends": "dtmi:opcua:Glass_Flat:ProductionJobType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1008",
@@ -1483,7 +1492,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:CuttingJobType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Glass.Flat",
     "displayName": "CuttingJobType",
     "extends": "dtmi:opcua:Glass_Flat:ProductionJobType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1007",
@@ -1518,7 +1528,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Glass_Flat:ProcessingJobType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Glass.Flat",
     "displayName": "ProcessingJobType",
     "extends": "dtmi:opcua:Glass_Flat:ProductionJobType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat;i=1009",

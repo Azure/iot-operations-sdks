@@ -1269,7 +1269,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Woodworking:WwMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Woodworking",
     "displayName": "WwMachineType",
     "description": "The WwMachineType represents a woodworking machine.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",

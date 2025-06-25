@@ -543,7 +543,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   FX.AC:AssetConnectorType:
-  - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
+  - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType, Abstract ]
   - DisplayName: "AssetConnectorType"
   - Description: "AssetConnectorType provides information about physical connections that are part of an asset"
   - HasProperty:
@@ -554,7 +554,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
+      - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType, Abstract ]
   - HasProperty:
     - [ UAVariable, FX.AC:116, FX.AC:Name, String, 0, 3 ]
     - DisplayName: "Name"
@@ -563,7 +563,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
+      - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
@@ -599,7 +599,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, FX.AC:7, FX.AC:ClampBlockType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
+    - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType, Abstract ]
   - HasComponent:
     - [ UAVariable, FX.AC:1250, FX.AC:Kind, UInt16, 0, 3 ]
     - DisplayName: "Kind"
@@ -642,7 +642,7 @@ DefinedTypes:
   - DisplayName: "ClampType"
   - Description: "ClampType represents a wire connection"
   - HasSubtype_reverse:
-    - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
+    - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType, Abstract ]
   - HasComponent:
     - [ UAVariable, FX.AC:215, FX.AC:Kind, UInt16, 0, 3 ]
     - DisplayName: "Kind"
@@ -703,7 +703,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, FX.AC:6, FX.AC:SlotType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
+    - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType, Abstract ]
 
   FX.AC:SocketType:
   - [ UAObjectType, FX.AC:8, FX.AC:SocketType ]
@@ -746,7 +746,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, FX.AC:8, FX.AC:SocketType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
+    - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType, Abstract ]
 
   FX.AC:AutomationComponentType:
   - [ UAObjectType, FX.AC:2, FX.AC:AutomationComponentType ]
@@ -1083,16 +1083,16 @@ DefinedTypes:
     - [ UAObjectType, 11446, SystemStatusChangeEventType ]
 
   FX.AC:AuditUaFxEventType:
-  - [ UAObjectType, FX.AC:1030, FX.AC:AuditUaFxEventType ]
+  - [ UAObjectType, FX.AC:1030, FX.AC:AuditUaFxEventType, Abstract ]
   - DisplayName: "AuditUaFxEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, 2052, AuditEventType ]
 
   FX.AC:AuditConnectionCleanupEventType:
-  - [ UAObjectType, FX.AC:1040, FX.AC:AuditConnectionCleanupEventType ]
+  - [ UAObjectType, FX.AC:1040, FX.AC:AuditConnectionCleanupEventType, Abstract ]
   - DisplayName: "AuditConnectionCleanupEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, FX.AC:1030, FX.AC:AuditUaFxEventType ]
+    - [ UAObjectType, FX.AC:1030, FX.AC:AuditUaFxEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, FX.AC:6351, FX.AC:RelatedEndpoint, FX.Data:RelatedEndpointDataType, 0, 3 ]
     - DisplayName: "RelatedEndpoint"
@@ -1101,7 +1101,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:1040, FX.AC:AuditConnectionCleanupEventType ]
+      - [ UAObjectType, FX.AC:1040, FX.AC:AuditConnectionCleanupEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, FX.AC:6350, FX.AC:RemovedEndpoint, String, 0, 3 ]
     - DisplayName: "RemovedEndpoint"
@@ -1110,10 +1110,10 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:1040, FX.AC:AuditConnectionCleanupEventType ]
+      - [ UAObjectType, FX.AC:1040, FX.AC:AuditConnectionCleanupEventType, Abstract ]
 
   FX.AC:IAssetExtensionsType:
-  - [ UAObjectType, FX.AC:1009, FX.AC:IAssetExtensionsType ]
+  - [ UAObjectType, FX.AC:1009, FX.AC:IAssetExtensionsType, Abstract ]
   - DisplayName: "IAssetExtensionsType"
   - HasComponent:
     - [ UAObject, FX.AC:5042, FX.AC:Connectors ]
@@ -1123,14 +1123,14 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1009, FX.AC:IAssetExtensionsType ]
+      - [ UAObjectType, FX.AC:1009, FX.AC:IAssetExtensionsType, Abstract ]
   - HasInterface_reverse:
     - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   FX.AC:IAssetRevisionType:
-  - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType ]
+  - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType, Abstract ]
   - DisplayName: "IAssetRevisionType"
   - HasProperty:
     - [ UAVariable, FX.AC:119, FX.AC:BuildAssetNumber, UInt16, 0, 3 ]
@@ -1140,7 +1140,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType ]
+      - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType, Abstract ]
   - HasInterface_reverse:
     - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasProperty:
@@ -1151,7 +1151,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType ]
+      - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType, Abstract ]
   - HasProperty:
     - [ UAVariable, FX.AC:118, FX.AC:MinorAssetVersion, UInt16, 0, 3 ]
     - DisplayName: "MinorAssetVersion"
@@ -1160,7 +1160,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType ]
+      - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType, Abstract ]
   - HasProperty:
     - [ UAVariable, FX.AC:120, FX.AC:SubBuildAssetNumber, UInt16, 0, 3 ]
     - DisplayName: "SubBuildAssetNumber"
@@ -1169,7 +1169,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType ]
+      - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType, Abstract ]
   - HasComponent:
     - [ UAMethod, FX.AC:1476, FX.AC:VerifyAsset ]
     - DisplayName: "VerifyAsset"
@@ -1200,12 +1200,12 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAMethod, FX.AC:1476, FX.AC:VerifyAsset ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType ]
+      - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   FX.AC:IFunctionalEntityType:
-  - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+  - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType, Abstract ]
   - DisplayName: "IFunctionalEntityType"
   - HasProperty:
     - [ UAVariable, FX.AC:129, FX.AC:ApplicationIdentifier, FX.AC:ApplicationIdentifierDataType, 1, 3 ]
@@ -1215,7 +1215,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType, Abstract ]
   - HasProperty:
     - [ UAVariable, FX.AC:127, FX.AC:AuthorAssignedIdentifier, String, 0, 3 ]
     - DisplayName: "AuthorAssignedIdentifier"
@@ -1224,7 +1224,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType, Abstract ]
   - HasProperty:
     - [ UAVariable, FX.AC:128, FX.AC:AuthorAssignedVersion, FX.AC:FxVersion, 0, 3 ]
     - DisplayName: "AuthorAssignedVersion"
@@ -1233,7 +1233,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType, Abstract ]
   - HasProperty:
     - [ UAVariable, FX.AC:126, FX.AC:AuthorUri, UriString, 0, 3 ]
     - DisplayName: "AuthorUri"
@@ -1242,7 +1242,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType, Abstract ]
   - HasComponent:
     - [ UAObject, FX.AC:5039, FX.AC:Capabilities ]
     - DisplayName: "Capabilities"
@@ -1251,7 +1251,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, FX.AC:1008, FX.AC:FunctionalEntityCapabilitiesType ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType, Abstract ]
     - HasCapability:
       - [ UAVariable, FX.AC:6121, FX.AC:FeedbackSignalRequired, Boolean, 0, 3 ]
       - DisplayName: "FeedbackSignalRequired"
@@ -1269,7 +1269,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType, Abstract ]
   - HasComponent:
     - [ UAObject, FX.AC:52, FX.AC:ConnectionEndpoints ]
     - DisplayName: "ConnectionEndpoints"
@@ -1278,7 +1278,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType, Abstract ]
   - HasComponent:
     - [ UAObject, FX.AC:1064, FX.AC:ControlGroups ]
     - DisplayName: "ControlGroups"
@@ -1287,7 +1287,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType, Abstract ]
   - HasInterface_reverse:
     - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
   - HasComponent:
@@ -1298,7 +1298,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType, Abstract ]
   - HasComponent:
     - [ UAVariable, FX.AC:6101, FX.AC:OperationalHealth, FX.AC:OperationalHealthOptionSet, 0, 0 ]
     - DisplayName: "OperationalHealth"
@@ -1307,7 +1307,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType, Abstract ]
   - HasComponent:
     - [ UAObject, FX.AC:5035, FX.AC:OperationalHealthAlarms ]
     - DisplayName: "OperationalHealthAlarms"
@@ -1316,7 +1316,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType, Abstract ]
   - HasComponent:
     - [ UAObject, FX.AC:1204, FX.AC:OutputData ]
     - DisplayName: "OutputData"
@@ -1325,7 +1325,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, FX.AC:1019, FX.AC:OutputsFolderType ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType, Abstract ]
   - HasComponent:
     - [ UAObject, FX.AC:5007, FX.AC:PublisherCapabilities ]
     - DisplayName: "PublisherCapabilities"
@@ -1352,7 +1352,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, FX.AC:5007, FX.AC:PublisherCapabilities ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType, Abstract ]
     - HasComponent:
       - [ UAVariable, FX.AC:6033, FX.AC:SupportedPublishingIntervals, FX.AC:IntervalRange, 1, 3 ]
       - DisplayName: "SupportedPublishingIntervals"
@@ -1397,7 +1397,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, FX.AC:5008, FX.AC:SubscriberCapabilities ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType, Abstract ]
     - HasComponent:
       - [ UAVariable, FX.AC:6038, FX.AC:SupportedMessageReceiveTimeouts, FX.AC:IntervalRange, 1, 3 ]
       - DisplayName: "SupportedMessageReceiveTimeouts"
@@ -1454,12 +1454,12 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAMethod, FX.AC:289, FX.AC:Verify ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+      - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   FX.AC:ConnectionEndpointType:
-  - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
+  - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType, Abstract ]
   - DisplayName: "ConnectionEndpointType"
   - HasComponent:
     - [ UAVariable, FX.AC:1316, FX.AC:CleanupTimeout, Duration, 0, 3 ]
@@ -1469,7 +1469,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
+      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType, Abstract ]
   - HasComponent:
     - [ UAVariable, FX.AC:6197, FX.AC:InputVariables, NodeId, 1, 3 ]
     - DisplayName: "InputVariables"
@@ -1478,7 +1478,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
+      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType, Abstract ]
   - HasComponent:
     - [ UAVariable, FX.AC:1308, FX.AC:IsPersistent, Boolean, 0, 3 ]
     - DisplayName: "IsPersistent"
@@ -1487,7 +1487,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
+      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType, Abstract ]
   - HasComponent:
     - [ UAVariable, FX.AC:6198, FX.AC:OutputVariables, NodeId, 1, 3 ]
     - DisplayName: "OutputVariables"
@@ -1496,7 +1496,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
+      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType, Abstract ]
   - HasComponent:
     - [ UAVariable, FX.AC:6069, FX.AC:RelatedEndpoint, FX.Data:RelatedEndpointDataType, 0, 3 ]
     - DisplayName: "RelatedEndpoint"
@@ -1505,7 +1505,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
+      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType, Abstract ]
   - HasComponent:
     - [ UAVariable, FX.AC:1300, FX.AC:Status, FX.AC:ConnectionEndpointStatusEnum, 0, 0 ]
     - DisplayName: "Status"
@@ -1514,7 +1514,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
+      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
@@ -1531,7 +1531,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, FX.AC:1005, FX.AC:PubSubConnectionEndpointType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
+    - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType, Abstract ]
 
   FX.AC:ControlGroupType:
   - [ UAObjectType, FX.AC:15, FX.AC:ControlGroupType ]
@@ -2264,7 +2264,7 @@ DefinedTypes:
     - [ UAObject, FX.AC:1077, FX.AC:<ConnectionEndpoint> ]
     - DisplayName: "<ConnectionEndpoint>"
     - HasTypeDefinition:
-      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType ]
+      - [ UAObjectType, FX.AC:1002, FX.AC:ConnectionEndpointType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasConnectionEndpoint_reverse:
@@ -3123,7 +3123,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, FX.AC:4, FX.AC:FunctionalEntityType ]
   - HasInterface:
-    - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType ]
+    - [ UAObjectType, FX.AC:11, FX.AC:IFunctionalEntityType, Abstract ]
   - HasComponent:
     - [ UAObject, FX.AC:1125, FX.AC:InputData ]
     - DisplayName: "InputData"
@@ -3333,7 +3333,7 @@ DefinedTypes:
       - [ UAObject, FX.AC:76, FX.AC:<AssetConnector> ]
       - DisplayName: "<AssetConnector>"
       - HasTypeDefinition:
-        - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType ]
+        - [ UAObjectType, FX.AC:5, FX.AC:AssetConnectorType, Abstract ]
       - HasModellingRule:
         - [ UAObject, 11508, OptionalPlaceholder ]
       - HasComponent_reverse:
@@ -3404,9 +3404,9 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, FX.AC:3, FX.AC:FxAssetType ]
   - HasInterface:
-    - [ UAObjectType, FX.AC:1009, FX.AC:IAssetExtensionsType ]
+    - [ UAObjectType, FX.AC:1009, FX.AC:IAssetExtensionsType, Abstract ]
   - HasInterface:
-    - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType ]
+    - [ UAObjectType, FX.AC:9, FX.AC:IAssetRevisionType, Abstract ]
   - HasInterface:
     - [ UAObjectType, DI:15051, DI:IDeviceHealthType ]
   - HasInterface:

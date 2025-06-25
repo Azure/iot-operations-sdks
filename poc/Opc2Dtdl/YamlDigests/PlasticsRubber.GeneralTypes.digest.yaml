@@ -636,14 +636,14 @@ DefinedTypes:
     - [ UAObjectType, PlasticsRubber.GeneralTypes:1020, PlasticsRubber.GeneralTypes:MachineMESStatusType ]
 
   PlasticsRubber.GeneralTypes:CycleParametersEventType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
   - DisplayName: "CycleParametersEventType"
   - Description: "Information on a production cycle"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.GeneralTypes:6249, PlasticsRubber.GeneralTypes:AverageCycleTime, Duration, 0, 5 ]
     - DisplayName: "AverageCycleTime"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -653,7 +653,7 @@ DefinedTypes:
     - DisplayName: "BoxBadPartsCounter"
     - Description: "Number of bad parts produced in the current box"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -662,7 +662,7 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.GeneralTypes:6049, PlasticsRubber.GeneralTypes:BoxCycleCounter, UInt64, 0, 5 ]
     - DisplayName: "BoxCycleCounter"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -672,7 +672,7 @@ DefinedTypes:
     - DisplayName: "BoxGoodPartsCounter"
     - Description: "Number of good parts produced in the current box"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -682,7 +682,7 @@ DefinedTypes:
     - DisplayName: "BoxId"
     - Description: "Id of the box in which the current production is put in"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -692,7 +692,7 @@ DefinedTypes:
     - DisplayName: "BoxPartsCounter"
     - Description: "Total number of parts produced in the current box"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -702,7 +702,7 @@ DefinedTypes:
     - DisplayName: "BoxTestSamplesCounter"
     - Description: "Number of test sample parts produced in the current box"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -712,7 +712,7 @@ DefinedTypes:
     - DisplayName: "CavityCycleQuality"
     - Description: "Quality of the cycle for each cavity"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -722,7 +722,7 @@ DefinedTypes:
     - DisplayName: "CurrentLotName"
     - Description: "Name of the current production lot"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -734,7 +734,7 @@ DefinedTypes:
     - DisplayName: "CycleQuality"
     - Description: "Quality of the whole cycle"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -744,7 +744,7 @@ DefinedTypes:
     - DisplayName: "CycleTime"
     - Description: "Cycle time"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -754,7 +754,7 @@ DefinedTypes:
     - DisplayName: "JobBadPartsCounter"
     - Description: "Number of bad parts produced in the current job"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -764,7 +764,7 @@ DefinedTypes:
     - DisplayName: "JobCycleCounter"
     - Description: "Number of the cycle in the job"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -774,7 +774,7 @@ DefinedTypes:
     - DisplayName: "JobGoodPartsCounter"
     - Description: "Number of good parts produced in the current job"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -784,7 +784,7 @@ DefinedTypes:
     - DisplayName: "JobName"
     - Description: "Name of the job"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -794,7 +794,7 @@ DefinedTypes:
     - DisplayName: "JobPartsCounter"
     - Description: "Total number of parts produced in the current job"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -804,7 +804,7 @@ DefinedTypes:
     - DisplayName: "JobStatus"
     - Description: "Current status of the job"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -814,7 +814,7 @@ DefinedTypes:
     - DisplayName: "JobTestSamplesCounter"
     - Description: "Number of test sample parts produced in the current job"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -824,7 +824,7 @@ DefinedTypes:
     - DisplayName: "MachineCycleCounter"
     - Description: "Number of finished cycles in the machine life time"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -836,12 +836,12 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
 
   PlasticsRubber.GeneralTypes:DiagnosisEndEventType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1060, PlasticsRubber.GeneralTypes:DiagnosisEndEventType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1060, PlasticsRubber.GeneralTypes:DiagnosisEndEventType, Abstract ]
   - DisplayName: "DiagnosisEndEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
@@ -853,12 +853,12 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1060, PlasticsRubber.GeneralTypes:DiagnosisEndEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1060, PlasticsRubber.GeneralTypes:DiagnosisEndEventType, Abstract ]
   - GeneratesEvent_reverse:
     - [ UAObjectType, PlasticsRubber.GeneralTypes:1066, PlasticsRubber.GeneralTypes:DiagnosticsType ]
 
   PlasticsRubber.GeneralTypes:DiagnosisStepEndEventType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1062, PlasticsRubber.GeneralTypes:DiagnosisStepEndEventType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1062, PlasticsRubber.GeneralTypes:DiagnosisStepEndEventType, Abstract ]
   - DisplayName: "DiagnosisStepEndEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
@@ -866,7 +866,7 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.GeneralTypes:6502, PlasticsRubber.GeneralTypes:InputNode, NodeId, 0, 0 ]
     - DisplayName: "InputNode"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1062, PlasticsRubber.GeneralTypes:DiagnosisStepEndEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1062, PlasticsRubber.GeneralTypes:DiagnosisStepEndEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -879,12 +879,12 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1062, PlasticsRubber.GeneralTypes:DiagnosisStepEndEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1062, PlasticsRubber.GeneralTypes:DiagnosisStepEndEventType, Abstract ]
   - GeneratesEvent_reverse:
     - [ UAObjectType, PlasticsRubber.GeneralTypes:1066, PlasticsRubber.GeneralTypes:DiagnosticsType ]
 
   PlasticsRubber.GeneralTypes:LogbookEventType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType, Abstract ]
   - DisplayName: "LogbookEventType"
   - Description: "Logbook events are fired by the machine for the documentation of relevant changes in the machine configuration/status"
   - HasProperty:
@@ -892,7 +892,7 @@ DefinedTypes:
     - DisplayName: "EventOriginator"
     - Description: "Originator of a logbook event"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -902,7 +902,7 @@ DefinedTypes:
     - DisplayName: "JobCycleCounter"
     - Description: "Current value of JobCycleCounter in the ActiveJobValues Object when the event is fired. Only to be used for cyclic production"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -966,7 +966,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.GeneralTypes:6163, PlasticsRubber.GeneralTypes:UserLevel, String, 0, 0 ]
       - DisplayName: "UserLevel"
@@ -991,11 +991,11 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1045, PlasticsRubber.GeneralTypes:UserType ]
 
   PlasticsRubber.GeneralTypes:MachineModeChangeLogType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1014, PlasticsRubber.GeneralTypes:MachineModeChangeLogType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1014, PlasticsRubber.GeneralTypes:MachineModeChangeLogType, Abstract ]
   - DisplayName: "MachineModeChangeLogType"
   - Description: "The MachineModeChangeLogType is used for logging changes of the machine mode"
   - HasSubtype_reverse:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.GeneralTypes:6175, PlasticsRubber.GeneralTypes:NewMachineMode, PlasticsRubber.GeneralTypes:MachineModeEnumeration, 0, 0 ]
     - DisplayName: "NewMachineMode"
@@ -1003,7 +1003,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1014, PlasticsRubber.GeneralTypes:MachineModeChangeLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1014, PlasticsRubber.GeneralTypes:MachineModeChangeLogType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
@@ -1013,12 +1013,12 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1014, PlasticsRubber.GeneralTypes:MachineModeChangeLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1014, PlasticsRubber.GeneralTypes:MachineModeChangeLogType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
 
   PlasticsRubber.GeneralTypes:MessageLogType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1042, PlasticsRubber.GeneralTypes:MessageLogType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1042, PlasticsRubber.GeneralTypes:MessageLogType, Abstract ]
   - DisplayName: "MessageLogType"
   - Description: "The MessageLogType is used for logging MessageConditions"
   - HasProperty:
@@ -1026,7 +1026,7 @@ DefinedTypes:
     - DisplayName: "Classification"
     - Description: "Classification of the message"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1042, PlasticsRubber.GeneralTypes:MessageLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1042, PlasticsRubber.GeneralTypes:MessageLogType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1036,7 +1036,7 @@ DefinedTypes:
     - DisplayName: "Id"
     - Description: "Id of the message"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1042, PlasticsRubber.GeneralTypes:MessageLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1042, PlasticsRubber.GeneralTypes:MessageLogType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1046,16 +1046,16 @@ DefinedTypes:
     - DisplayName: "IsStandstillMessage"
     - Description: "Indication if the message has led to a standstill"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1042, PlasticsRubber.GeneralTypes:MessageLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1042, PlasticsRubber.GeneralTypes:MessageLogType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType, Abstract ]
 
   PlasticsRubber.GeneralTypes:ParameterChangeLogType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1010, PlasticsRubber.GeneralTypes:ParameterChangeLogType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1010, PlasticsRubber.GeneralTypes:ParameterChangeLogType, Abstract ]
   - DisplayName: "ParameterChangeLogType"
   - Description: "The ParameterChangeLogType is used for the logging of relevant changes in production parameters. The decision which parameter is relevant for the production is done by the machine."
   - HasProperty:
@@ -1065,7 +1065,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1010, PlasticsRubber.GeneralTypes:ParameterChangeLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1010, PlasticsRubber.GeneralTypes:ParameterChangeLogType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
@@ -1074,7 +1074,7 @@ DefinedTypes:
     - Description: "New unit of the changed parameter"
     - UnitId: -1
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1010, PlasticsRubber.GeneralTypes:ParameterChangeLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1010, PlasticsRubber.GeneralTypes:ParameterChangeLogType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1086,7 +1086,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1010, PlasticsRubber.GeneralTypes:ParameterChangeLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1010, PlasticsRubber.GeneralTypes:ParameterChangeLogType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
@@ -1095,7 +1095,7 @@ DefinedTypes:
     - Description: "Old unit of the changed parameter"
     - UnitId: -1
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1010, PlasticsRubber.GeneralTypes:ParameterChangeLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1010, PlasticsRubber.GeneralTypes:ParameterChangeLogType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1107,14 +1107,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1010, PlasticsRubber.GeneralTypes:ParameterChangeLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1010, PlasticsRubber.GeneralTypes:ParameterChangeLogType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType, Abstract ]
 
   PlasticsRubber.GeneralTypes:ProductionDatasetChangeLogType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1012, PlasticsRubber.GeneralTypes:ProductionDatasetChangeLogType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1012, PlasticsRubber.GeneralTypes:ProductionDatasetChangeLogType, Abstract ]
   - DisplayName: "ProductionDatasetChangeLogType"
   - Description: "The ProductionDatasetChangeLogType is used when a new production dataset is loaded and activated in the control system of the machine"
   - HasProperty:
@@ -1124,7 +1124,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1012, PlasticsRubber.GeneralTypes:ProductionDatasetChangeLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1012, PlasticsRubber.GeneralTypes:ProductionDatasetChangeLogType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
@@ -1134,14 +1134,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1012, PlasticsRubber.GeneralTypes:ProductionDatasetChangeLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1012, PlasticsRubber.GeneralTypes:ProductionDatasetChangeLogType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType, Abstract ]
 
   PlasticsRubber.GeneralTypes:ProductionDatasetFrozenLogType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1041, PlasticsRubber.GeneralTypes:ProductionDatasetFrozenLogType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1041, PlasticsRubber.GeneralTypes:ProductionDatasetFrozenLogType, Abstract ]
   - DisplayName: "ProductionDatasetFrozenLogType"
   - Description: "The ProductionDatasetFrozenLogType is used when a production dataset is locked or unlocked"
   - HasProperty:
@@ -1151,7 +1151,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1041, PlasticsRubber.GeneralTypes:ProductionDatasetFrozenLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1041, PlasticsRubber.GeneralTypes:ProductionDatasetFrozenLogType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
@@ -1161,14 +1161,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1041, PlasticsRubber.GeneralTypes:ProductionDatasetFrozenLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1041, PlasticsRubber.GeneralTypes:ProductionDatasetFrozenLogType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType, Abstract ]
 
   PlasticsRubber.GeneralTypes:ProductionStatusChangeLogType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1044, PlasticsRubber.GeneralTypes:ProductionStatusChangeLogType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1044, PlasticsRubber.GeneralTypes:ProductionStatusChangeLogType, Abstract ]
   - DisplayName: "ProductionStatusChangeLogType"
   - Description: "The ProductionStatusChangeLogType is used for logging changes of the production status"
   - HasProperty:
@@ -1178,7 +1178,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1044, PlasticsRubber.GeneralTypes:ProductionStatusChangeLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1044, PlasticsRubber.GeneralTypes:ProductionStatusChangeLogType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
@@ -1188,14 +1188,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1044, PlasticsRubber.GeneralTypes:ProductionStatusChangeLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1044, PlasticsRubber.GeneralTypes:ProductionStatusChangeLogType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType, Abstract ]
 
   PlasticsRubber.GeneralTypes:RemoteAccessLogType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1022, PlasticsRubber.GeneralTypes:RemoteAccessLogType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1022, PlasticsRubber.GeneralTypes:RemoteAccessLogType, Abstract ]
   - DisplayName: "RemoteAccessLogType"
   - Description: "The RemoteAccessLogType is used for logging access from outside to the machine (e.g. remote service)"
   - HasProperty:
@@ -1205,11 +1205,11 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1022, PlasticsRubber.GeneralTypes:RemoteAccessLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1022, PlasticsRubber.GeneralTypes:RemoteAccessLogType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.GeneralTypes:6012, PlasticsRubber.GeneralTypes:RemoteUserName, String, 0, 0 ]
     - DisplayName: "RemoteUserName"
@@ -1219,7 +1219,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1022, PlasticsRubber.GeneralTypes:RemoteAccessLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1022, PlasticsRubber.GeneralTypes:RemoteAccessLogType, Abstract ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.GeneralTypes:6013, PlasticsRubber.GeneralTypes:UserChange, PlasticsRubber.GeneralTypes:UserChangeEnumeration, 0, 0 ]
     - DisplayName: "UserChange"
@@ -1229,10 +1229,10 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1022, PlasticsRubber.GeneralTypes:RemoteAccessLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1022, PlasticsRubber.GeneralTypes:RemoteAccessLogType, Abstract ]
 
   PlasticsRubber.GeneralTypes:SequenceChangeLogType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1043, PlasticsRubber.GeneralTypes:SequenceChangeLogType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1043, PlasticsRubber.GeneralTypes:SequenceChangeLogType, Abstract ]
   - DisplayName: "SequenceChangeLogType"
   - Description: "The SequenceChangeLogType is used for the logging changes in the production sequence"
   - HasProperty:
@@ -1244,12 +1244,12 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1043, PlasticsRubber.GeneralTypes:SequenceChangeLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1043, PlasticsRubber.GeneralTypes:SequenceChangeLogType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType, Abstract ]
 
   PlasticsRubber.GeneralTypes:StandstillReasonLogType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1013, PlasticsRubber.GeneralTypes:StandstillReasonLogType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1013, PlasticsRubber.GeneralTypes:StandstillReasonLogType, Abstract ]
   - DisplayName: "StandstillReasonLogType"
   - Description: "The StandstillReasonLogType is used for logging StandstillReasons"
   - HasProperty:
@@ -1261,12 +1261,12 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1013, PlasticsRubber.GeneralTypes:StandstillReasonLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1013, PlasticsRubber.GeneralTypes:StandstillReasonLogType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType, Abstract ]
 
   PlasticsRubber.GeneralTypes:UserFeedbackLogType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1046, PlasticsRubber.GeneralTypes:UserFeedbackLogType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1046, PlasticsRubber.GeneralTypes:UserFeedbackLogType, Abstract ]
   - DisplayName: "UserFeedbackLogType"
   - Description: "The UserFeedbackLogType is used for logging text messages entered by the user into the machine control system"
   - HasProperty:
@@ -1274,16 +1274,16 @@ DefinedTypes:
     - DisplayName: "Classification"
     - Description: "Classification of the message"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1046, PlasticsRubber.GeneralTypes:UserFeedbackLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1046, PlasticsRubber.GeneralTypes:UserFeedbackLogType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType, Abstract ]
 
   PlasticsRubber.GeneralTypes:UserLogType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1015, PlasticsRubber.GeneralTypes:UserLogType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1015, PlasticsRubber.GeneralTypes:UserLogType, Abstract ]
   - DisplayName: "UserLogType"
   - Description: "The UserLogType is used for logging which users are logged in to the machine"
   - HasProperty:
@@ -1295,18 +1295,18 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1015, PlasticsRubber.GeneralTypes:UserLogType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1015, PlasticsRubber.GeneralTypes:UserLogType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType, Abstract ]
 
   PlasticsRubber.GeneralTypes:RequestAddMaterialEventType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1061, PlasticsRubber.GeneralTypes:RequestAddMaterialEventType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1061, PlasticsRubber.GeneralTypes:RequestAddMaterialEventType, Abstract ]
   - DisplayName: "RequestAddMaterialEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.GeneralTypes:6513, PlasticsRubber.GeneralTypes:Id, String, 0, 3 ]
     - DisplayName: "Id"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1061, PlasticsRubber.GeneralTypes:RequestAddMaterialEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1061, PlasticsRubber.GeneralTypes:RequestAddMaterialEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1317,7 +1317,7 @@ DefinedTypes:
     - [ UAObjectType, 2041, BaseEventType ]
 
   PlasticsRubber.GeneralTypes:RequestCyclicJobListEventType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1028, PlasticsRubber.GeneralTypes:RequestCyclicJobListEventType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1028, PlasticsRubber.GeneralTypes:RequestCyclicJobListEventType, Abstract ]
   - DisplayName: "RequestCyclicJobListEventType"
   - Description: "This EventType is used to initiate a call of SendCyclicJobList by the client"
   - HasSubtype_reverse:
@@ -1326,14 +1326,14 @@ DefinedTypes:
     - [ UAObjectType, PlasticsRubber.GeneralTypes:1032, PlasticsRubber.GeneralTypes:JobsType ]
 
   PlasticsRubber.GeneralTypes:RequestCyclicJobWriteEventType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1025, PlasticsRubber.GeneralTypes:RequestCyclicJobWriteEventType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1025, PlasticsRubber.GeneralTypes:RequestCyclicJobWriteEventType, Abstract ]
   - DisplayName: "RequestCyclicJobWriteEventType"
   - Description: "This EventType is used to initiate a call of the SetCyclicJobData Method by the client"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.GeneralTypes:6070, PlasticsRubber.GeneralTypes:JobName, String, 0, 0 ]
     - DisplayName: "JobName"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1025, PlasticsRubber.GeneralTypes:RequestCyclicJobWriteEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1025, PlasticsRubber.GeneralTypes:RequestCyclicJobWriteEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1344,7 +1344,7 @@ DefinedTypes:
     - [ UAObjectType, 2041, BaseEventType ]
 
   PlasticsRubber.GeneralTypes:RequestJobListEventType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1027, PlasticsRubber.GeneralTypes:RequestJobListEventType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1027, PlasticsRubber.GeneralTypes:RequestJobListEventType, Abstract ]
   - DisplayName: "RequestJobListEventType"
   - Description: "This EventType is used to initiate a call of SendJobList by the client"
   - HasSubtype_reverse:
@@ -1353,7 +1353,7 @@ DefinedTypes:
     - [ UAObjectType, PlasticsRubber.GeneralTypes:1032, PlasticsRubber.GeneralTypes:JobsType ]
 
   PlasticsRubber.GeneralTypes:RequestProductionDatasetListEventType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1040, PlasticsRubber.GeneralTypes:RequestProductionDatasetListEventType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1040, PlasticsRubber.GeneralTypes:RequestProductionDatasetListEventType, Abstract ]
   - DisplayName: "RequestProductionDatasetListEventType"
   - Description: "This EventType is used initiate a call of SendProductionDatasetList by the client"
   - HasProperty:
@@ -1363,7 +1363,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1040, PlasticsRubber.GeneralTypes:RequestProductionDatasetListEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1040, PlasticsRubber.GeneralTypes:RequestProductionDatasetListEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
@@ -1373,7 +1373,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1040, PlasticsRubber.GeneralTypes:RequestProductionDatasetListEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1040, PlasticsRubber.GeneralTypes:RequestProductionDatasetListEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - GeneratesEvent_reverse:
@@ -1386,7 +1386,7 @@ DefinedTypes:
     - [ UAObject, PlasticsRubber.GeneralTypes:5008, PlasticsRubber.GeneralTypes:ProductionDatasetTransfer ]
 
   PlasticsRubber.GeneralTypes:RequestProductionDatasetReadEventType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1006, PlasticsRubber.GeneralTypes:RequestProductionDatasetReadEventType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1006, PlasticsRubber.GeneralTypes:RequestProductionDatasetReadEventType, Abstract ]
   - DisplayName: "RequestProductionDatasetReadEventType"
   - Description: "This EventType is used to trigger a production dataset transfer from the server to the client by the server (e.g. initiated by the operator)"
   - HasProperty:
@@ -1396,7 +1396,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1006, PlasticsRubber.GeneralTypes:RequestProductionDatasetReadEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1006, PlasticsRubber.GeneralTypes:RequestProductionDatasetReadEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
@@ -1410,12 +1410,12 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1006, PlasticsRubber.GeneralTypes:RequestProductionDatasetReadEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1006, PlasticsRubber.GeneralTypes:RequestProductionDatasetReadEventType, Abstract ]
   - GeneratesEvent_reverse:
     - [ UAObject, PlasticsRubber.GeneralTypes:5008, PlasticsRubber.GeneralTypes:ProductionDatasetTransfer ]
 
   PlasticsRubber.GeneralTypes:RequestProductionDatasetWriteEventType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1007, PlasticsRubber.GeneralTypes:RequestProductionDatasetWriteEventType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1007, PlasticsRubber.GeneralTypes:RequestProductionDatasetWriteEventType, Abstract ]
   - DisplayName: "RequestProductionDatasetWriteEventType"
   - Description: "This EventType is used to trigger a production dataset transfer from the client to the server by the server (e.g. initiated by the operator)"
   - HasProperty:
@@ -1423,7 +1423,7 @@ DefinedTypes:
     - DisplayName: "Components"
     - Description: "Array which indicates which parts of the production dataset shall be activated in the machine control after writing"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1007, PlasticsRubber.GeneralTypes:RequestProductionDatasetWriteEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1007, PlasticsRubber.GeneralTypes:RequestProductionDatasetWriteEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1435,7 +1435,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1007, PlasticsRubber.GeneralTypes:RequestProductionDatasetWriteEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1007, PlasticsRubber.GeneralTypes:RequestProductionDatasetWriteEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
@@ -1449,7 +1449,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1007, PlasticsRubber.GeneralTypes:RequestProductionDatasetWriteEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1007, PlasticsRubber.GeneralTypes:RequestProductionDatasetWriteEventType, Abstract ]
   - GeneratesEvent_reverse:
     - [ UAObject, PlasticsRubber.GeneralTypes:5008, PlasticsRubber.GeneralTypes:ProductionDatasetTransfer ]
 
@@ -1510,9 +1510,9 @@ DefinedTypes:
   - [ UAObjectType, PlasticsRubber.GeneralTypes:1066, PlasticsRubber.GeneralTypes:DiagnosticsType ]
   - DisplayName: "DiagnosticsType"
   - GeneratesEvent:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1060, PlasticsRubber.GeneralTypes:DiagnosisEndEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1060, PlasticsRubber.GeneralTypes:DiagnosisEndEventType, Abstract ]
   - GeneratesEvent:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1062, PlasticsRubber.GeneralTypes:DiagnosisStepEndEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1062, PlasticsRubber.GeneralTypes:DiagnosisStepEndEventType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
@@ -3619,7 +3619,7 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1063, PlasticsRubber.GeneralTypes:EnergyType ]
 
   PlasticsRubber.GeneralTypes:JobInformationType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType, Abstract ]
   - DisplayName: "JobInformationType"
   - Description: "Information about a production job"
   - HasProperty:
@@ -3627,7 +3627,7 @@ DefinedTypes:
     - DisplayName: "ContinueAtJobEnd"
     - Description: "Indication if the machine continues the production even if the nominal output has been reached"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -3637,7 +3637,7 @@ DefinedTypes:
     - DisplayName: "CustomerName"
     - Description: "Name of the customer for that the job is produced"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -3647,7 +3647,7 @@ DefinedTypes:
     - DisplayName: "JobDescription"
     - Description: "Description of the job"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -3659,7 +3659,7 @@ DefinedTypes:
     - DisplayName: "JobName"
     - Description: "Name of the job"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -3671,7 +3671,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
@@ -3681,7 +3681,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
@@ -3691,7 +3691,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
@@ -3701,7 +3701,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
@@ -3711,7 +3711,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
 
@@ -3770,7 +3770,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - GeneratesEvent:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1025, PlasticsRubber.GeneralTypes:RequestCyclicJobWriteEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1025, PlasticsRubber.GeneralTypes:RequestCyclicJobWriteEventType, Abstract ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7025, PlasticsRubber.GeneralTypes:SetCyclicJobData ]
     - DisplayName: "SetCyclicJobData"
@@ -3804,7 +3804,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1024, PlasticsRubber.GeneralTypes:CyclicJobInformationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType, Abstract ]
 
   PlasticsRubber.GeneralTypes:JobsType:
   - [ UAObjectType, PlasticsRubber.GeneralTypes:1032, PlasticsRubber.GeneralTypes:JobsType ]
@@ -3847,7 +3847,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.GeneralTypes:6327, PlasticsRubber.GeneralTypes:JobName, String, 0, 0 ]
       - DisplayName: "JobName"
@@ -4009,7 +4009,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1037, PlasticsRubber.GeneralTypes:JobInformationType, Abstract ]
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1032, PlasticsRubber.GeneralTypes:JobsType ]
     - HasProperty:
@@ -4077,9 +4077,9 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - GeneratesEvent:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1028, PlasticsRubber.GeneralTypes:RequestCyclicJobListEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1028, PlasticsRubber.GeneralTypes:RequestCyclicJobListEventType, Abstract ]
   - GeneratesEvent:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1027, PlasticsRubber.GeneralTypes:RequestJobListEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1027, PlasticsRubber.GeneralTypes:RequestJobListEventType, Abstract ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7040, PlasticsRubber.GeneralTypes:SendCyclicJobList ]
     - DisplayName: "SendCyclicJobList"
@@ -4811,7 +4811,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1059, PlasticsRubber.GeneralTypes:MaterialListType ]
   - GeneratesEvent:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1061, PlasticsRubber.GeneralTypes:RequestAddMaterialEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1061, PlasticsRubber.GeneralTypes:RequestAddMaterialEventType, Abstract ]
 
   PlasticsRubber.GeneralTypes:MaterialType:
   - [ UAObjectType, PlasticsRubber.GeneralTypes:1002, PlasticsRubber.GeneralTypes:MaterialType ]
@@ -6257,7 +6257,7 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.GeneralTypes:5040, PlasticsRubber.GeneralTypes:StartDevice ]
 
   PlasticsRubber.GeneralTypes:MouldCycleParametersType:
-  - [ UAObjectType, PlasticsRubber.GeneralTypes:1005, PlasticsRubber.GeneralTypes:MouldCycleParametersType ]
+  - [ UAObjectType, PlasticsRubber.GeneralTypes:1005, PlasticsRubber.GeneralTypes:MouldCycleParametersType, Abstract ]
   - DisplayName: "MouldCycleParametersType"
   - Description: "Information on the production cycle related to a mould"
   - HasProperty:
@@ -6265,7 +6265,7 @@ DefinedTypes:
     - DisplayName: "Index"
     - Description: "Number of the mould"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1005, PlasticsRubber.GeneralTypes:MouldCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1005, PlasticsRubber.GeneralTypes:MouldCycleParametersType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -6793,7 +6793,7 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - GeneratesEvent:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1040, PlasticsRubber.GeneralTypes:RequestProductionDatasetListEventType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1040, PlasticsRubber.GeneralTypes:RequestProductionDatasetListEventType, Abstract ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.GeneralTypes:7004, PlasticsRubber.GeneralTypes:SendProductionDatasetList ]
     - DisplayName: "SendProductionDatasetList"
@@ -7047,7 +7047,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1003, PlasticsRubber.GeneralTypes:ProductionDatasetListsType ]
     - GeneratesEvent:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1040, PlasticsRubber.GeneralTypes:RequestProductionDatasetListEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1040, PlasticsRubber.GeneralTypes:RequestProductionDatasetListEventType, Abstract ]
     - HasComponent:
       - [ UAMethod, PlasticsRubber.GeneralTypes:7006, PlasticsRubber.GeneralTypes:SendProductionDatasetList ]
       - DisplayName: "SendProductionDatasetList"
@@ -7176,11 +7176,11 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1008, PlasticsRubber.GeneralTypes:ProductionDatasetManagementType ]
     - GeneratesEvent:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1040, PlasticsRubber.GeneralTypes:RequestProductionDatasetListEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1040, PlasticsRubber.GeneralTypes:RequestProductionDatasetListEventType, Abstract ]
     - GeneratesEvent:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1006, PlasticsRubber.GeneralTypes:RequestProductionDatasetReadEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1006, PlasticsRubber.GeneralTypes:RequestProductionDatasetReadEventType, Abstract ]
     - GeneratesEvent:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1007, PlasticsRubber.GeneralTypes:RequestProductionDatasetWriteEventType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1007, PlasticsRubber.GeneralTypes:RequestProductionDatasetWriteEventType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 15744, TemporaryFileTransferType ]
   - HasComponent:

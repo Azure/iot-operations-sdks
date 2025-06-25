@@ -3328,7 +3328,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:CarrierType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "CarrierType",
     "description": "The CarrierType ObjectType provides a description for a uniquely identified reusable carrier. Examples of CarrierType implementations are AGVs, trays with RFIDs, IBCs with RFIDs, bins with permanent bar codes.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -4031,7 +4032,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MotorAggregatesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "MotorAggregatesType",
     "description": "The MotorAggregatesType ObjectType provides aggregates computed by the underlying system for an analog input.",
     "extends": "dtmi:opcua:TMC_v2:ControlModuleAggregatesType;1",
@@ -4070,7 +4072,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:ValveAggregatesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "ValveAggregatesType",
     "description": "The ValveAggregatesType ObjectType provides aggregates computed by the underlying system for an analog input.",
     "extends": "dtmi:opcua:TMC_v2:ControlModuleAggregatesType;1",
@@ -4600,7 +4603,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:AnalogInputSetupType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "AnalogInputSetupType",
     "description": "The AnalogInputSetupType ObjectType provides settings and other affordance to set up an analog input.",
     "extends": "dtmi:opcua:TMC_v2:ControlModuleSetupType;1",
@@ -4631,7 +4635,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:DigitalInputSetupType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "DigitalInputSetupType",
     "description": "The DigitalInputSetupType ObjectType provides settings and other affordance to set up an analog input.",
     "extends": "dtmi:opcua:TMC_v2:ControlModuleSetupType;1",
@@ -4662,7 +4667,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MotorSetupType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "MotorSetupType",
     "description": "The MotorSetupType ObjectType provides settings and other affordances to set up a motor.",
     "extends": "dtmi:opcua:TMC_v2:ControlModuleSetupType;1",
@@ -4711,7 +4717,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:ValveSetupType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "ValveSetupType",
     "description": "The ValveSetupType ObjectType provides aggregates computed by the underlying system for a valve.",
     "extends": "dtmi:opcua:TMC_v2:ControlModuleSetupType;1",
@@ -5854,7 +5861,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MachineModuleHistoricalRecordType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "MachineModuleHistoricalRecordType",
     "description": "The MachineModuleHistoricalRecordType ObjectType contains the specifications of the machine module that have been valid in the past.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -8340,7 +8348,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MaterialLocationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "MaterialLocationType",
     "description": "The MaterialLocationType ObjectType describes locations where material is stored around a machine module. Examples of such locations are the designated areas on the floor where materials are delivered for consumption or where material produced by the machine is waiting to be collected. When the location where the material is stored is integral part of the mechanics or control of the machine, the location shall be modelled as a MaterialStorageBuffer.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -8736,7 +8745,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:ProcessItemType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "ProcessItemType",
     "description": "The ProcessItemType is used to measure and monitor over time a measurement point. The ProcessItemType also provides aggregates (Avg, Max, Min, Std, Total) that are computed by the underlying system.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -9533,7 +9543,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:TMCExecuteStateMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "TMCExecuteStateMachineType",
     "extends": "dtmi:opcua:PackML:PackMLExecuteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1028",
@@ -9712,7 +9723,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:TMCMachineStateMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "TMCMachineStateMachineType",
     "extends": "dtmi:opcua:PackML:PackMLMachineStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1019",
@@ -9770,7 +9782,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:ProductionOrderExecutionStateMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "ProductionOrderExecutionStateMachineType",
     "description": "The ProductionOrderExecutionStateMachineType provides state information about the execution of a production order at a production line.",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
@@ -10385,7 +10398,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:ControlModuleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "ControlModuleType",
     "description": "The ControlModuleType ObjectType represents a control module according to the ISA 95 Physical Structure.",
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
@@ -10443,7 +10457,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:AnalogInputType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "AnalogInputType",
     "description": "The AnalogInputType ObjectType describes an analog input signal.",
     "extends": "dtmi:opcua:TMC_v2:ControlModuleType;1",
@@ -10482,7 +10497,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:DigitalInputType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "DigitalInputType",
     "description": "The DigitalInputType ObjectType describes a digital input signal.",
     "extends": "dtmi:opcua:TMC_v2:ControlModuleType;1",
@@ -10513,7 +10529,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MotorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "MotorType",
     "description": "The MotorType ObjectType describes a motor.",
     "extends": "dtmi:opcua:TMC_v2:ControlModuleType;1",
@@ -10535,7 +10552,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:SensorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "SensorType",
     "description": "The MotorType ObjectType describes a sensor.",
     "extends": "dtmi:opcua:TMC_v2:ControlModuleType;1",
@@ -10557,7 +10575,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:ValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "ValveType",
     "description": "The MotorType ObjectType describes a valve.",
     "extends": "dtmi:opcua:TMC_v2:ControlModuleType;1",
@@ -10579,7 +10598,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:DefectDetectionSensorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "DefectDetectionSensorType",
     "description": "The DefectDetectionSensorType represents a sensor or sensing system fitted to the machine module that detects product defects or a quality sampling point that can be triggered by an operator.",
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
@@ -10721,7 +10741,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:EquipmentModuleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "EquipmentModuleType",
     "description": "The EquipmentModuleType ObjectType represents an equipment module according to the ISA 95 Physical Structure.",
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
@@ -10797,7 +10818,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MachineModuleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "MachineModuleType",
     "description": "The MachineModuleType represents a machine module or workcentre.",
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
@@ -10974,7 +10996,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MaterialLoadingPointType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "MaterialLoadingPointType",
     "description": "The MaterialLoadingPointType ObjectType describes the machine module part where materials are loaded (either manually or by means of an automated system or both) and the materials being loaded, as well as the brand integrity checks required.",
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
@@ -11631,7 +11654,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MaterialOutputPointType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "MaterialOutputPointType",
     "description": "This OPC UA MaterialOutputPointType ObjectType describes the capability and real time information about the hand-over point of material from one machine module to another.",
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
@@ -12068,7 +12092,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MaterialRejectionPointType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "MaterialRejectionPointType",
     "description": "The MaterialRejectionPointType describes a device that is capable of rejecting product from the product flow.",
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
@@ -12410,7 +12435,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:MaterialStorageBufferType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "MaterialStorageBufferType",
     "description": "The MaterialStorageBufferType ObjectType describes locations where the product is stored in a machine module and the stored product.",
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
@@ -12799,7 +12825,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:ProcessControlLoopType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "ProcessControlLoopType",
     "description": "The ProcessControlLoopType is the general description of a control loop consisting of the desired value (SetPoint) for a measured value (ProcessValue) which is obtained by acting on an actuator (ControlValue).",
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
@@ -12877,7 +12904,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "ProductionOrderOrchestrationLayerType",
     "description": "The ProductionOrderOrchestrationLayerType (POOL) ObjectType consists of a set of variables, generated events and methods that are used to orchestrate production orders for a set of Machine Modules that implement the MachineModuleProductionType and are variously connected in a production line.",
     "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
@@ -14000,7 +14028,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:TMC_v2:UserInterfaceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/TMC.v2",
     "displayName": "UserInterfaceType",
     "description": "The UserInterfaceType provides a generic User Interface description.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",

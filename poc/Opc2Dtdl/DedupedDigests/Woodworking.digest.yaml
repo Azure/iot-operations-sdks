@@ -152,7 +152,7 @@ DefinedTypes:
     - [ UAObjectType, 2041, BaseEventType ]
 
   Woodworking:IWwBaseStateType:
-  - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType ]
+  - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType, Abstract ]
   - DisplayName: "IWwBaseStateType"
   - Description: "The IWwBaseStateType represents the state of an unit. An unit can be a machine of part of a machine."
   - HasComponent:
@@ -183,7 +183,7 @@ DefinedTypes:
       - [ UAObjectType, 58, BaseObjectType ]
 
   Woodworking:IWwEventMessageType:
-  - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType ]
+  - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType, Abstract ]
   - DisplayName: "IWwEventMessageType"
   - Description: "The interface definition IWwEventMessageType describes the common extensions for all events and conditions. Each instance definition that includes this interface with a HasInterface reference defines the predefined extensions"
   - HasProperty:
@@ -232,7 +232,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
 
   Woodworking:IWwStateType:
-  - [ UAObjectType, Woodworking:8, Woodworking:IWwStateType ]
+  - [ UAObjectType, Woodworking:8, Woodworking:IWwStateType, Abstract ]
   - DisplayName: "IWwStateType"
   - Description: "The IWwStateType provides a list of machine states."
   - HasComponent:
@@ -255,7 +255,7 @@ DefinedTypes:
       - [ UAObjectType, 58, BaseObjectType ]
 
   Woodworking:IWwSubUnitsType:
-  - [ UAObjectType, Woodworking:7, Woodworking:IWwSubUnitsType ]
+  - [ UAObjectType, Woodworking:7, Woodworking:IWwSubUnitsType, Abstract ]
   - DisplayName: "IWwSubUnitsType"
   - Description: "The IWwSubUnitsType provides a list of subUnits."
   - HasComponent:
@@ -270,7 +270,7 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   Woodworking:IWwUnitFlagsType:
-  - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+  - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - DisplayName: "IWwUnitFlagsType"
   - Description: "The IWwUnitFlagsType represents the flags of a unit"
   - HasComponent:
@@ -432,7 +432,7 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   Woodworking:IWwUnitOverviewType:
-  - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType ]
+  - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType, Abstract ]
   - DisplayName: "IWwUnitOverviewType"
   - Description: "The IWwUnitOverviewType represents the generalized state of a unit."
   - HasComponent:
@@ -451,7 +451,7 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   Woodworking:IWwUnitValuesType:
-  - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+  - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
   - DisplayName: "IWwUnitValuesType"
   - Description: "The IWwUnitValuesType represents the values of a unit"
   - HasComponent:

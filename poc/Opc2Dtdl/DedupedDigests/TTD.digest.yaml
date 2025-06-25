@@ -504,7 +504,7 @@ DataTypes:
 DefinedTypes:
 
   TTD:TTDResultReadyEventType:
-  - [ UAObjectType, TTD:1006, TTD:TTDResultReadyEventType ]
+  - [ UAObjectType, TTD:1006, TTD:TTDResultReadyEventType, Abstract ]
   - DisplayName: "TTDResultReadyEventType"
   - Description: "Provides information of a complete or partial result."
   - HasSubtype_reverse:

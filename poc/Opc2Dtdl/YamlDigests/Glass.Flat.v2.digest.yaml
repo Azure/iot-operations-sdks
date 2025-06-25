@@ -311,7 +311,7 @@ DataTypes:
 DefinedTypes:
 
   Glass.Flat.v2:GlassEventType:
-  - [ UAObjectType, Glass.Flat.v2:1030, Glass.Flat.v2:GlassEventType ]
+  - [ UAObjectType, Glass.Flat.v2:1030, Glass.Flat.v2:GlassEventType, Abstract ]
   - DisplayName: "GlassEventType"
   - HasProperty:
     - [ UAVariable, Glass.Flat.v2:6405, Glass.Flat.v2:Identifier ]
@@ -321,7 +321,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat.v2:1030, Glass.Flat.v2:GlassEventType ]
+      - [ UAObjectType, Glass.Flat.v2:1030, Glass.Flat.v2:GlassEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, Glass.Flat.v2:6410, Glass.Flat.v2:JobdIdentifier ]
     - DisplayName: "JobdIdentifier"
@@ -330,7 +330,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat.v2:1030, Glass.Flat.v2:GlassEventType ]
+      - [ UAObjectType, Glass.Flat.v2:1030, Glass.Flat.v2:GlassEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, Glass.Flat.v2:6406, Glass.Flat.v2:Location ]
     - DisplayName: "Location"
@@ -339,7 +339,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat.v2:1030, Glass.Flat.v2:GlassEventType ]
+      - [ UAObjectType, Glass.Flat.v2:1030, Glass.Flat.v2:GlassEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, Glass.Flat.v2:6411, Glass.Flat.v2:MaterialIdentifier ]
     - DisplayName: "MaterialIdentifier"
@@ -348,7 +348,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, Glass.Flat.v2:1030, Glass.Flat.v2:GlassEventType ]
+      - [ UAObjectType, Glass.Flat.v2:1030, Glass.Flat.v2:GlassEventType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 

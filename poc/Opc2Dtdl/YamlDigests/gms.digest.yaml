@@ -536,7 +536,7 @@ DefinedTypes:
     - [ UAObjectType, 2955, LimitAlarmType ]
 
   GMS:IntermediateResultEventType:
-  - [ UAObjectType, GMS:1001, GMS:IntermediateResultEventType ]
+  - [ UAObjectType, GMS:1001, GMS:IntermediateResultEventType, Abstract ]
   - DisplayName: "IntermediateResultEventType"
   - HasComponent:
     - [ UAObject, GMS:5033, GMS:<Characteristics> ]
@@ -546,7 +546,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, GMS:1001, GMS:IntermediateResultEventType ]
+      - [ UAObjectType, GMS:1001, GMS:IntermediateResultEventType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery.Result:1002, Machinery.Result:ResultReadyEventType ]
   - HasProperty:
@@ -557,7 +557,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, GMS:1001, GMS:IntermediateResultEventType ]
+      - [ UAObjectType, GMS:1001, GMS:IntermediateResultEventType, Abstract ]
   - GeneratesEvent_reverse:
     - [ UAObjectType, GMS:1008, GMS:GMSResultManagementType ]
 
@@ -2437,7 +2437,7 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery.Result:1004, Machinery.Result:ResultManagementType ]
   - GeneratesEvent:
-    - [ UAObjectType, GMS:1001, GMS:IntermediateResultEventType ]
+    - [ UAObjectType, GMS:1001, GMS:IntermediateResultEventType, Abstract ]
 
   GMS:RotaryTableType:
   - [ UAObjectType, GMS:1018, GMS:RotaryTableType ]

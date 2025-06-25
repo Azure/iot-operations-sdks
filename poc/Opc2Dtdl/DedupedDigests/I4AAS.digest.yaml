@@ -246,7 +246,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   I4AAS:AASDataSpecificationType:
-  - [ UAObjectType, I4AAS:1027, I4AAS:AASDataSpecificationType ]
+  - [ UAObjectType, I4AAS:1027, I4AAS:AASDataSpecificationType, Abstract ]
   - DisplayName: "AASDataSpecificationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
@@ -255,7 +255,7 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
   - DisplayName: "AASDataSpecificationIEC61360Type"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1027, I4AAS:AASDataSpecificationType ]
+    - [ UAObjectType, I4AAS:1027, I4AAS:AASDataSpecificationType, Abstract ]
   - HasComponent:
     - [ UAObject, I4AAS:5027, I4AAS:Administration ]
     - DisplayName: "Administration"
@@ -415,7 +415,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
 
   I4AAS:AASSubmodelElementType:
-  - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+  - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - DisplayName: "AASSubmodelElementType"
   - HasComponent:
     - [ UAObject, I4AAS:5011, I4AAS:<DataSpecification> ]
@@ -448,7 +448,7 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1016, I4AAS:AASBlobType ]
   - DisplayName: "AASBlobType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasComponent:
     - [ UAObject, I4AAS:5015, I4AAS:File ]
     - DisplayName: "File"
@@ -461,7 +461,7 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1014, I4AAS:AASCapabilityType ]
   - DisplayName: "AASCapabilityType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
 
   I4AAS:AASEntityType:
   - [ UAObjectType, I4AAS:1022, I4AAS:AASEntityType ]
@@ -470,11 +470,11 @@ DefinedTypes:
     - [ UAObject, I4AAS:5021, I4AAS:<SubmodelElement> ]
     - DisplayName: "<SubmodelElement>"
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasComponent:
     - [ UAObject, I4AAS:5022, I4AAS:Asset ]
     - DisplayName: "Asset"
@@ -492,13 +492,13 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1021, I4AAS:AASEventType ]
   - DisplayName: "AASEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
 
   I4AAS:AASFileType:
   - [ UAObjectType, I4AAS:1017, I4AAS:AASFileType ]
   - DisplayName: "AASFileType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasComponent:
     - [ UAObject, I4AAS:5016, I4AAS:File ]
     - DisplayName: "File"
@@ -521,7 +521,7 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1012, I4AAS:AASMultiLanguagePropertyType ]
   - DisplayName: "AASMultiLanguagePropertyType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasProperty:
     - [ UAVariable, I4AAS:6019, I4AAS:Value, LocalizedText, 1, 3 ]
     - DisplayName: "Value"
@@ -544,13 +544,13 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
 
   I4AAS:AASPropertyType:
   - [ UAObjectType, I4AAS:1013, I4AAS:AASPropertyType ]
   - DisplayName: "AASPropertyType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasProperty:
     - [ UAVariable, I4AAS:6020, I4AAS:Value ]
     - DisplayName: "Value"
@@ -573,7 +573,7 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1023, I4AAS:AASRangeType ]
   - DisplayName: "AASRangeType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasProperty:
     - [ UAVariable, I4AAS:6059, I4AAS:Max ]
     - DisplayName: "Max"
@@ -594,7 +594,7 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1020, I4AAS:AASReferenceElementType ]
   - DisplayName: "AASReferenceElementType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasComponent:
     - [ UAObject, I4AAS:5020, I4AAS:Value ]
     - DisplayName: "Value"
@@ -607,7 +607,7 @@ DefinedTypes:
   - [ UAObjectType, I4AAS:1018, I4AAS:AASRelationshipElementType ]
   - DisplayName: "AASRelationshipElementType"
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasComponent:
     - [ UAObject, I4AAS:5017, I4AAS:First ]
     - DisplayName: "First"
@@ -630,7 +630,7 @@ DefinedTypes:
     - [ UAObject, I4AAS:5019, I4AAS:<DataElement> ]
     - DisplayName: "<DataElement>"
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
@@ -643,11 +643,11 @@ DefinedTypes:
     - [ UAObject, I4AAS:5012, I4AAS:<SubmodelElement> ]
     - DisplayName: "<SubmodelElement>"
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
   - HasProperty:
     - [ UAVariable, I4AAS:6017, I4AAS:AllowDuplicates, Boolean, 0, 3 ]
     - DisplayName: "AllowDuplicates"
@@ -681,7 +681,7 @@ DefinedTypes:
     - [ UAObject, I4AAS:5010, I4AAS:<SubmodelElement> ]
     - DisplayName: "<SubmodelElement>"
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:

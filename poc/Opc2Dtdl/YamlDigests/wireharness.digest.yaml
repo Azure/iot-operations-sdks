@@ -906,7 +906,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   WireHarness:ProductFinishedEventType:
-  - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType ]
+  - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType, Abstract ]
   - DisplayName: "ProductFinishedEventType"
   - HasProperty:
     - [ UAVariable, WireHarness:6078, WireHarness:EndTime, DateTime, 0, 3 ]
@@ -916,7 +916,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType ]
+      - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, WireHarness:6066, WireHarness:JobOrderID, String, 0, 3 ]
     - DisplayName: "JobOrderID"
@@ -925,7 +925,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType ]
+      - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, WireHarness:6067, WireHarness:MaterialDefinitionID, String, 0, 3 ]
     - DisplayName: "MaterialDefinitionID"
@@ -934,7 +934,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType ]
+      - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
   - HasProperty:
@@ -945,7 +945,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType ]
+      - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, WireHarness:6079, WireHarness:ResultIDs, TrimmedString, 1, 3 ]
     - DisplayName: "ResultIDs"
@@ -954,7 +954,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType ]
+      - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, WireHarness:6075, WireHarness:Run, UInt32, 0, 3 ]
     - DisplayName: "Run"
@@ -963,7 +963,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType ]
+      - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, WireHarness:6077, WireHarness:StartTime, DateTime, 0, 3 ]
     - DisplayName: "StartTime"
@@ -972,7 +972,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType ]
+      - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, WireHarness:6080, WireHarness:State, Machinery.Jobs:JobResult, 0, 3 ]
     - DisplayName: "State"
@@ -981,10 +981,10 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType ]
+      - [ UAObjectType, WireHarness:1005, WireHarness:ProductFinishedEventType, Abstract ]
 
   WireHarness:RunCompleteEventType:
-  - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType ]
+  - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType, Abstract ]
   - DisplayName: "RunCompleteEventType"
   - HasProperty:
     - [ UAVariable, WireHarness:6056, WireHarness:EndTime, DateTime, 0, 3 ]
@@ -994,7 +994,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType ]
+      - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, WireHarness:6061, WireHarness:GoodQuantity, Double, 0, 3 ]
     - DisplayName: "GoodQuantity"
@@ -1003,7 +1003,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType ]
+      - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, WireHarness:6036, WireHarness:JobOrderID, String, 0, 3 ]
     - DisplayName: "JobOrderID"
@@ -1012,7 +1012,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType ]
+      - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, WireHarness:6059, WireHarness:ProducedQuantity, Double, 0, 3 ]
     - DisplayName: "ProducedQuantity"
@@ -1021,7 +1021,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType ]
+      - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, WireHarness:6062, WireHarness:ProductIDs, String, 1, 3 ]
     - DisplayName: "ProductIDs"
@@ -1030,7 +1030,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType ]
+      - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, WireHarness:6052, WireHarness:Run, UInt32, 0, 3 ]
     - DisplayName: "Run"
@@ -1039,7 +1039,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType ]
+      - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
   - HasProperty:
@@ -1050,7 +1050,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType ]
+      - [ UAObjectType, WireHarness:1008, WireHarness:RunCompleteEventType, Abstract ]
 
   WireHarness:WireHarnessMachineIdentificationType:
   - [ UAObjectType, WireHarness:1003, WireHarness:WireHarnessMachineIdentificationType ]

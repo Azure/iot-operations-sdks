@@ -40,7 +40,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   WoT-Con:IWoTAssetType:
-  - [ UAObjectType, WoT-Con:42, WoT-Con:IWoTAssetType ]
+  - [ UAObjectType, WoT-Con:42, WoT-Con:IWoTAssetType, Abstract ]
   - DisplayName: "IWoTAssetType"
   - HasComponent:
     - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]

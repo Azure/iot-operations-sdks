@@ -63,7 +63,7 @@ DefinedTypes:
     - [ UAVariableType, 2368, AnalogItemType ]
 
   CSPPlusForMachine:CsppMachineType:
-  - [ UAObjectType, CSPPlusForMachine:1001, CSPPlusForMachine:CsppMachineType ]
+  - [ UAObjectType, CSPPlusForMachine:1001, CSPPlusForMachine:CsppMachineType, Abstract ]
   - DisplayName: "CsppMachineType"
   - HasComponent:
     - [ UAObject, CSPPlusForMachine:5001, DI:ParameterSet ]
@@ -91,7 +91,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, CSPPlusForMachine:1001, CSPPlusForMachine:CsppMachineType ]
+      - [ UAObjectType, CSPPlusForMachine:1001, CSPPlusForMachine:CsppMachineType, Abstract ]
   - HasComponent:
     - [ UAObject, CSPPlusForMachine:5002, CSPPlusForMachine:<CommIfSection> ]
     - DisplayName: "<CommIfSection>"
@@ -145,6 +145,6 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, CSPPlusForMachine:1001, CSPPlusForMachine:CsppMachineType ]
+      - [ UAObjectType, CSPPlusForMachine:1001, CSPPlusForMachine:CsppMachineType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1002, DI:DeviceType ]

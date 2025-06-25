@@ -367,7 +367,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
 
   CommercialKitchenEquipment:KitchenDeviceParameterType:
-  - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+  - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType, Abstract ]
   - DisplayName: "KitchenDeviceParameterType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
@@ -468,7 +468,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType, Abstract ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6200, CommercialKitchenEquipment:IsDoorOpen, Boolean, 0, 0 ]
     - DisplayName: "IsDoorOpen"
@@ -625,7 +625,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType, Abstract ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6368, CommercialKitchenEquipment:CurrentState, CommercialKitchenEquipment:CoffeeMachineModeEnumeration, 0, 3 ]
     - DisplayName: "CurrentState"
@@ -678,7 +678,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType, Abstract ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6393, CommercialKitchenEquipment:CoffeeType, UInt32, 0, 3 ]
     - DisplayName: "CoffeeType"
@@ -803,7 +803,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType, Abstract ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6130, CommercialKitchenEquipment:IsDoorOpen, Boolean, 0, 0 ]
     - DisplayName: "IsDoorOpen"
@@ -944,7 +944,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType, Abstract ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6252, CommercialKitchenEquipment:CookingLevel, Int32, 0, 0 ]
     - DisplayName: "CookingLevel"
@@ -1041,7 +1041,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType, Abstract ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6530, CommercialKitchenEquipment:CurrentState, CommercialKitchenEquipment:CurrentStateEnumeration, 0, 0 ]
     - DisplayName: "CurrentState"
@@ -1159,7 +1159,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType, Abstract ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6458, CommercialKitchenEquipment:FinalRinseTemperatureSetpoint_<No.>, UInt16, 0, 0 ]
     - DisplayName: "FinalRinseTemperatureSetpoint_<No.>"
@@ -1270,7 +1270,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType, Abstract ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6032, CommercialKitchenEquipment:IsLiftUp, Boolean, 0, 0 ]
     - DisplayName: "IsLiftUp"
@@ -1351,7 +1351,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType, Abstract ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6559, CommercialKitchenEquipment:GrillingZoneName, String, 0, 0 ]
     - DisplayName: "GrillingZoneName"
@@ -1454,7 +1454,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType, Abstract ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6072, CommercialKitchenEquipment:IsLidLocked, Boolean, 0, 0 ]
     - DisplayName: "IsLidLocked"
@@ -1519,7 +1519,7 @@ DefinedTypes:
   - [ UAObjectType, CommercialKitchenEquipment:1035, CommercialKitchenEquipment:IceMachineParameterType ]
   - DisplayName: "IceMachineParameterType"
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType, Abstract ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6622, CommercialKitchenEquipment:LastFreezeTime, Int32, 0, 0 ]
     - DisplayName: "LastFreezeTime"
@@ -1606,7 +1606,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType, Abstract ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6595, CommercialKitchenEquipment:MicrowaveEnergy, Int32, 0, 0 ]
     - DisplayName: "MicrowaveEnergy"
@@ -1761,7 +1761,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType, Abstract ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6301, CommercialKitchenEquipment:SetCoreTemperature, Float, 0, 0 ]
     - DisplayName: "SetCoreTemperature"
@@ -1865,7 +1865,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType, Abstract ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6338, CommercialKitchenEquipment:ProgramMode, CommercialKitchenEquipment:PastaCookerModeEnumeration, 0, 0 ]
     - DisplayName: "ProgramMode"
@@ -1978,7 +1978,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType, Abstract ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6207, CommercialKitchenEquipment:ProgramMode, CommercialKitchenEquipment:PressureCookingKettleModeEnumeration, 0, 0 ]
     - DisplayName: "ProgramMode"
@@ -2092,7 +2092,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType, Abstract ]
   - HasComponent:
     - [ UAVariable, CommercialKitchenEquipment:6505, CommercialKitchenEquipment:Type, CommercialKitchenEquipment:TrayTypeEnumeration, 0, 0 ]
     - DisplayName: "Type"
@@ -2100,7 +2100,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
 
   CommercialKitchenEquipment:CommercialKitchenDeviceType:
-  - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
+  - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType, Abstract ]
   - DisplayName: "CommercialKitchenDeviceType"
   - HasComponent:
     - [ UAObject, CommercialKitchenEquipment:5001, CommercialKitchenEquipment:BatchInformation ]
@@ -2155,7 +2155,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType, Abstract ]
   - HasComponent:
     - [ UAObject, CommercialKitchenEquipment:5013, CommercialKitchenEquipment:Parameters ]
     - DisplayName: "Parameters"
@@ -2175,7 +2175,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, CommercialKitchenEquipment:6146, CommercialKitchenEquipment:EnergySource, CommercialKitchenEquipment:EnergySourceEnumeration, 0, 0 ]
     - DisplayName: "EnergySource"
@@ -2213,7 +2213,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, CommercialKitchenEquipment:6270, CommercialKitchenEquipment:EnergySource, CommercialKitchenEquipment:EnergySourceEnumeration, 0, 0 ]
     - DisplayName: "EnergySource"
@@ -2241,7 +2241,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, CommercialKitchenEquipment:6552, CommercialKitchenEquipment:EnergySource, CommercialKitchenEquipment:EnergySourceEnumeration, 0, 0 ]
     - DisplayName: "EnergySource"
@@ -2273,7 +2273,7 @@ DefinedTypes:
   - [ UAObjectType, CommercialKitchenEquipment:1026, CommercialKitchenEquipment:DishWashingMachineDeviceType ]
   - DisplayName: "DishWashingMachineDeviceType"
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType, Abstract ]
   - HasComponent:
     - [ UAObject, CommercialKitchenEquipment:5015, CommercialKitchenEquipment:Parameters ]
     - DisplayName: "Parameters"
@@ -2298,7 +2298,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, CommercialKitchenEquipment:6037, CommercialKitchenEquipment:IsWithLift, Boolean, 0, 0 ]
     - DisplayName: "IsWithLift"
@@ -2314,7 +2314,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType, Abstract ]
   - HasComponent:
     - [ UAObject, CommercialKitchenEquipment:5018, CommercialKitchenEquipment:GrillingZone_<No.> ]
     - DisplayName: "GrillingZone_<No.>"
@@ -2339,7 +2339,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType, Abstract ]
   - HasProperty:
     - [ UAVariable, CommercialKitchenEquipment:6079, CommercialKitchenEquipment:IsWithPressure, Boolean, 0, 0 ]
     - DisplayName: "IsWithPressure"
@@ -2357,7 +2357,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType, Abstract ]
 
   CommercialKitchenEquipment:MicrowaveCombiOvenDeviceType:
   - [ UAObjectType, CommercialKitchenEquipment:1034, CommercialKitchenEquipment:MicrowaveCombiOvenDeviceType ]
@@ -2370,7 +2370,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, CommercialKitchenEquipment:1033, CommercialKitchenEquipment:MicrowaveCombiOvenParameterType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType, Abstract ]
 
   CommercialKitchenEquipment:MultiFunctionPanDeviceType:
   - [ UAObjectType, CommercialKitchenEquipment:1019, CommercialKitchenEquipment:MultiFunctionPanDeviceType ]
@@ -2388,7 +2388,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, CommercialKitchenEquipment:1018, CommercialKitchenEquipment:MultiFunctionPanParameterType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType, Abstract ]
 
   CommercialKitchenEquipment:OvenDeviceType:
   - [ UAObjectType, CommercialKitchenEquipment:1013, CommercialKitchenEquipment:OvenDeviceType ]
@@ -2401,7 +2401,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType, Abstract ]
 
   CommercialKitchenEquipment:PastaCookerDeviceType:
   - [ UAObjectType, CommercialKitchenEquipment:1021, CommercialKitchenEquipment:PastaCookerDeviceType ]
@@ -2424,7 +2424,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, CommercialKitchenEquipment:1020, CommercialKitchenEquipment:PastaCookerParameterType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType, Abstract ]
 
   CommercialKitchenEquipment:PressureCookingKettleDeviceType:
   - [ UAObjectType, CommercialKitchenEquipment:1015, CommercialKitchenEquipment:PressureCookingKettleDeviceType ]
@@ -2442,13 +2442,13 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, CommercialKitchenEquipment:1014, CommercialKitchenEquipment:PressureCookingKettleParameterType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType, Abstract ]
 
   CommercialKitchenEquipment:ServeryCounterDeviceType:
   - [ UAObjectType, CommercialKitchenEquipment:1028, CommercialKitchenEquipment:ServeryCounterDeviceType ]
   - DisplayName: "ServeryCounterDeviceType"
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType, Abstract ]
   - HasComponent:
     - [ UAObject, CommercialKitchenEquipment:5016, CommercialKitchenEquipment:Tray_<No.> ]
     - DisplayName: "Tray_<No.>"

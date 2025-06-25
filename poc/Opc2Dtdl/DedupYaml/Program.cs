@@ -189,8 +189,12 @@
             if (definedType.Datatype != null)
             {
                 dataTypeStr = $", {definedType.Datatype}";
-                valueRankStr = $", {definedType.ValueRank}";
-                accessLevelStr = $", {definedType.AccessLevel}";
+
+                if (definedType.Datatype != "Abstract")
+                {
+                    valueRankStr = $", {definedType.ValueRank}";
+                    accessLevelStr = $", {definedType.AccessLevel}";
+                }
             }
 
             outputFile.WriteLine($"{currentIndent}- [ {definedType.NodeType}, {definedType.NodeId}, {definedType.BrowseName}{dataTypeStr}{valueRankStr}{accessLevelStr} ]");

@@ -386,55 +386,55 @@ DefinedTypes:
     - [ UAVariableType, 63, BaseDataVariableType ]
 
   MetalForming:FormingProcessConditionClassType:
-  - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
+  - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType, Abstract ]
   - DisplayName: "FormingProcessConditionClassType"
   - HasSubtype_reverse:
     - [ UAObjectType, 11164, ProcessConditionClassType ]
 
   MetalForming:AllowableTiltingExceededConditionClassType:
-  - [ UAObjectType, MetalForming:1011, MetalForming:AllowableTiltingExceededConditionClassType ]
+  - [ UAObjectType, MetalForming:1011, MetalForming:AllowableTiltingExceededConditionClassType, Abstract ]
   - DisplayName: "AllowableTiltingExceededConditionClassType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
+    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType, Abstract ]
 
   MetalForming:BreakthroughTonnageExceededConditionClassType:
-  - [ UAObjectType, MetalForming:1014, MetalForming:BreakthroughTonnageExceededConditionClassType ]
+  - [ UAObjectType, MetalForming:1014, MetalForming:BreakthroughTonnageExceededConditionClassType, Abstract ]
   - DisplayName: "BreakthroughTonnageExceededConditionClassType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
+    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType, Abstract ]
 
   MetalForming:CorrectionValueOutOfRangeConditionClassType:
-  - [ UAObjectType, MetalForming:1020, MetalForming:CorrectionValueOutOfRangeConditionClassType ]
+  - [ UAObjectType, MetalForming:1020, MetalForming:CorrectionValueOutOfRangeConditionClassType, Abstract ]
   - DisplayName: "CorrectionValueOutOfRangeConditionClassType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
+    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType, Abstract ]
 
   MetalForming:EccentricLoadExceededConditionClassType:
-  - [ UAObjectType, MetalForming:1006, MetalForming:EccentricLoadExceededConditionClassType ]
+  - [ UAObjectType, MetalForming:1006, MetalForming:EccentricLoadExceededConditionClassType, Abstract ]
   - DisplayName: "EccentricLoadExceededConditionClassType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
+    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType, Abstract ]
 
   MetalForming:OverloadTriggeredConditionClassType:
-  - [ UAObjectType, MetalForming:1005, MetalForming:OverloadTriggeredConditionClassType ]
+  - [ UAObjectType, MetalForming:1005, MetalForming:OverloadTriggeredConditionClassType, Abstract ]
   - DisplayName: "OverloadTriggeredConditionClassType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
+    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType, Abstract ]
 
   MetalForming:PositionOutOfRangeConditionClassType:
-  - [ UAObjectType, MetalForming:1017, MetalForming:PositionOutOfRangeConditionClassType ]
+  - [ UAObjectType, MetalForming:1017, MetalForming:PositionOutOfRangeConditionClassType, Abstract ]
   - DisplayName: "PositionOutOfRangeConditionClassType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
+    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType, Abstract ]
 
   MetalForming:ProcessForceExceededConditionClassType:
-  - [ UAObjectType, MetalForming:1009, MetalForming:ProcessForceExceededConditionClassType ]
+  - [ UAObjectType, MetalForming:1009, MetalForming:ProcessForceExceededConditionClassType, Abstract ]
   - DisplayName: "ProcessForceExceededConditionClassType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
+    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType, Abstract ]
 
   MetalForming:CyclicEventType:
-  - [ UAObjectType, MetalForming:1016, MetalForming:CyclicEventType ]
+  - [ UAObjectType, MetalForming:1016, MetalForming:CyclicEventType, Abstract ]
   - DisplayName: "CyclicEventType"
   - HasComponent:
     - [ UAObject, MetalForming:5019, MetalForming:CurrentProcessValue ]
@@ -472,7 +472,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAVariable, MetalForming:6051, PADIM:AnalogSignal, Number, -2, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, MetalForming:1016, MetalForming:CyclicEventType ]
+      - [ UAObjectType, MetalForming:1016, MetalForming:CyclicEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, MetalForming:6054, PADIM:SignalTag, String, 0, 3 ]
       - DisplayName: "Tag"
@@ -490,7 +490,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MetalForming:1016, MetalForming:CyclicEventType ]
+      - [ UAObjectType, MetalForming:1016, MetalForming:CyclicEventType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
   - HasComponent:
@@ -501,7 +501,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, MetalForming:1016, MetalForming:CyclicEventType ]
+      - [ UAObjectType, MetalForming:1016, MetalForming:CyclicEventType, Abstract ]
 
   MetalForming:FormingToolType:
   - [ UAObjectType, MetalForming:1010, MetalForming:FormingToolType ]

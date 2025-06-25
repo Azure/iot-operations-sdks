@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:IPtTagNameplateType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "IPtTagNameplateType",
     "description": "Is a subtype of IMachineTagNameplateType defined in OPC 40001-1",
     "extends": "dtmi:opcua:Machinery:IMachineTagNameplateType;1",
@@ -90,7 +91,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtBleedAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtBleedAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1008",
@@ -136,7 +138,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtBrakeAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtBrakeAttributesType",
     "description": "Provides attributes of a brake",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -374,7 +377,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtCapacitanceAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtCapacitanceAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1004",
@@ -755,7 +759,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtCommunicationInterfaceAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtCommunicationInterfaceAttributesType",
     "description": "Provides information about the communication attributes",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
@@ -825,7 +830,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtCoolingAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtCoolingAttributesType",
     "description": "Provides information about the cooling type",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
@@ -956,7 +962,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtFunctionalSafetyAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtFunctionalSafetyAttributesType",
     "description": "Provides the attributes describing various safety functions, certifications and safety transport protocols.",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
@@ -999,7 +1006,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtFuseAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtFuseAttributesType",
     "description": "Provides the attributes describing a fuse",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
@@ -1295,7 +1303,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtOutputInterfaceAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtOutputInterfaceAttributesType",
     "description": "Provides ....",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
@@ -1461,7 +1470,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtSafetyFunctionsAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtSafetyFunctionsAttributesType",
     "description": "Provides the attributes describing the safety functions, standards, safety integrity level (SIL), safety perofmrance level and safety category.",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
@@ -1559,7 +1569,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtContactorAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtContactorAttributesType",
     "description": "power train contactor type",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -1641,7 +1652,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtDcBusAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtDcBusAttributesType",
     "description": "Provides attributes for the DCBus",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -1706,7 +1718,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtElectronicOverloadRelayAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtElectronicOverloadRelayAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1014",
@@ -1810,7 +1823,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtEncoderAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtEncoderAttributesType",
     "description": "Provides attributes for the encoder",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -1847,7 +1861,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtEncoderLinearAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtEncoderLinearAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtEncoderAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1024",
@@ -1914,7 +1929,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtEncoderRotaryAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtEncoderRotaryAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtEncoderAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1021",
@@ -2023,7 +2039,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtEncoderInterfaceAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtEncoderInterfaceAttributesType",
     "description": "The PtEncoderInterfaceAttributesType provides the most common attributes of the encoder interface",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -2053,7 +2070,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtEncoderInterfaceProtocolAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtEncoderInterfaceProtocolAttributesType",
     "description": "Provides attributes for the encoder interface protocol",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -2083,7 +2101,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtGearAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtGearAttributesType",
     "description": "power train gear type",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -2205,7 +2224,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtInputConverterAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtInputConverterAttributesType",
     "description": "Provides attributes for the input converter of a drive",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -2282,7 +2302,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtInputFilterAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtInputFilterAttributesType",
     "description": "Provides attributes for line filter functionality",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -2333,7 +2354,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtMotorAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtMotorAttributesType",
     "description": "Provides operation mode rated attributes of a amotor",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -2363,7 +2385,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtMotorLinearAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtMotorLinearAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtMotorAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1012",
@@ -2406,7 +2429,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtMotorRotaryAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtMotorRotaryAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtMotorAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1009",
@@ -2493,7 +2517,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtMotorManagementDeviceAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtMotorManagementDeviceAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1023",
@@ -2693,7 +2718,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtMotorRatedAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtMotorRatedAttributesType",
     "description": "Provides operation mode rated attributes of a amotor",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -2776,7 +2802,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtMotorLinearRatedAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtMotorLinearRatedAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtMotorRatedAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1018",
@@ -2840,7 +2867,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtMotorRotaryRatedAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtMotorRotaryRatedAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtMotorRatedAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1015",
@@ -2904,7 +2932,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtMotorStarterAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtMotorStarterAttributesType",
     "description": "Provides attributes of a motor starter",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -3001,7 +3030,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtOutputConverterAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtOutputConverterAttributesType",
     "description": "Provides attributes for the output converter of a drive",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -3048,7 +3078,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtOutputFilterAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtOutputFilterAttributesType",
     "description": "Provides attributes for load-side filter functionality",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -3085,7 +3116,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtPrechargeAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtPrechargeAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1010",
@@ -3149,7 +3181,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtReactorAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtReactorAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1006",
@@ -3178,7 +3211,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtSoftStarterAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtSoftStarterAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1019",
@@ -3251,7 +3285,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtTemperatureSensorAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtTemperatureSensorAttributesType",
     "description": "Provides attributes for a temperature sensor",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -3311,7 +3346,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtVibrationSensorAttributesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtVibrationSensorAttributesType",
     "description": "Provides attributes for a vibration sensor",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -3429,7 +3465,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetType",
     "description": "Provides properties required for identifying assets of a powertrain",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -3860,7 +3897,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetBleedType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetBleedType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1013",
@@ -3881,7 +3919,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetBrakeType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetBrakeType",
     "description": "Describes a brake used in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -3903,7 +3942,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetCommunicationModuleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetCommunicationModuleType",
     "description": "Describes a communication module of an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -3925,7 +3965,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetContactorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetContactorType",
     "description": "powertrain asset contactor type",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -3947,7 +3988,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetControlModuleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetControlModuleType",
     "description": "Describes the control part of an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -3969,7 +4011,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetCoolingType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetCoolingType",
     "description": "Describes the colling part of an inveter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -3991,7 +4034,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetDcBusModuleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetDcBusModuleType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1005",
@@ -4012,7 +4056,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetDriveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetDriveType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1035",
@@ -4033,7 +4078,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetFrequencyConverterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetFrequencyConverterType",
     "extends": "dtmi:opcua:Powertrain:PtAssetDriveType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1016",
@@ -4054,7 +4100,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetServoDriveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetServoDriveType",
     "extends": "dtmi:opcua:Powertrain:PtAssetDriveType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1020",
@@ -4075,7 +4122,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetVariableSpeedDriveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetVariableSpeedDriveType",
     "extends": "dtmi:opcua:Powertrain:PtAssetDriveType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1028",
@@ -4096,7 +4144,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetElectricalBrakingModuleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetElectricalBrakingModuleType",
     "description": "Brakeing module including brake resistor of an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4118,7 +4167,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetElectricOverloadRelayType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetElectricOverloadRelayType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1026",
@@ -4139,7 +4189,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetEncoderInterfaceModuleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetEncoderInterfaceModuleType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1045",
@@ -4160,7 +4211,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetEncoderType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetEncoderType",
     "description": "Describes an encoder used in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4182,7 +4234,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetEncoderLinearType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetEncoderLinearType",
     "extends": "dtmi:opcua:Powertrain:PtAssetEncoderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1042",
@@ -4203,7 +4256,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetEncoderRotaryType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetEncoderRotaryType",
     "extends": "dtmi:opcua:Powertrain:PtAssetEncoderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1039",
@@ -4224,7 +4278,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetGearType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetGearType",
     "description": "Describes a gear in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4246,7 +4301,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetInputConverterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetInputConverterType",
     "description": "Describes an input converter in an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4268,7 +4324,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetInputFilterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetInputFilterType",
     "description": "Describes an input filter in an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4290,7 +4347,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetInputOutputConverterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetInputOutputConverterType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1022",
@@ -4311,7 +4369,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetInputReactorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetInputReactorType",
     "description": "Describes an input filter realized by an input reactor",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4333,7 +4392,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetIoModuleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetIoModuleType",
     "description": "Describes the IO-Module part of an inveter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4355,7 +4415,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetMotorManagementDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetMotorManagementDeviceType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1040",
@@ -4376,7 +4437,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetMotorStarterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetMotorStarterType",
     "description": "powertrain asset motor startet type",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4398,7 +4460,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetMotorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetMotorType",
     "description": "Describes a motor in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4420,7 +4483,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetMotorLinearType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetMotorLinearType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1030",
@@ -4441,7 +4505,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedMotorLinearType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetDriveIntegratedMotorLinearType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorLinearType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1017",
@@ -4462,7 +4527,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedGearMotorLinearType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetDriveIntegratedGearMotorLinearType",
     "extends": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedMotorLinearType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1036",
@@ -4483,7 +4549,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetGearMotorLinearType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetGearMotorLinearType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorLinearType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1029",
@@ -4504,7 +4571,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetMotorRotaryType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetMotorRotaryType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1027",
@@ -4525,7 +4593,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedMotorRotaryType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetDriveIntegratedMotorRotaryType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorRotaryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1011",
@@ -4546,7 +4615,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedGearMotorRotaryType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetDriveIntegratedGearMotorRotaryType",
     "extends": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedMotorRotaryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1033",
@@ -4567,7 +4637,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetGearMotorRotaryType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetGearMotorRotaryType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorRotaryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1025",
@@ -4588,7 +4659,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetOutputConverterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetOutputConverterType",
     "description": "Describes an output converter in an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4610,7 +4682,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetOutputFilterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetOutputFilterType",
     "description": "Describes an output filter in an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4632,7 +4705,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetOutputReactorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetOutputReactorType",
     "description": "Describes an output reactor in an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4654,7 +4728,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetPrechargeType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetPrechargeType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1031",
@@ -4675,7 +4750,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetReactorFilterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetReactorFilterType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1007",
@@ -4696,7 +4772,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetSafetyModuleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetSafetyModuleType",
     "description": "Describes the functional safety part of an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4718,7 +4795,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetSoftStarterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetSoftStarterType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1034",
@@ -4739,7 +4817,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetTemperatureSensorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetTemperatureSensorType",
     "description": "Describes a temperature sensor used in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4761,7 +4840,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetVibrationSensorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetVibrationSensorType",
     "description": "Vibration sensor used in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",

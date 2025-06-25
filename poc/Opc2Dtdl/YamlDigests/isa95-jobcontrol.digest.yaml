@@ -114,7 +114,7 @@ DataTypes:
 DefinedTypes:
 
   isa95-jobcontrol:ISA95JobOrderStatusEventType:
-  - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+  - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
   - DisplayName: "ISA95JobOrderStatusEventType"
   - GeneratesEvent_reverse:
     - [ UAObjectType, isa95-jobcontrol:1003, isa95-jobcontrol:ISA95JobResponseProviderObjectType ]
@@ -126,7 +126,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, isa95-jobcontrol:6049, isa95-jobcontrol:JobResponse, isa95-jobcontrol:ISA95JobResponseDataType, 0, 3 ]
     - DisplayName: "JobResponse"
@@ -135,7 +135,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, isa95-jobcontrol:6048, isa95-jobcontrol:JobState, isa95-jobcontrol:ISA95StateDataType, 1, 3 ]
     - DisplayName: "JobState"
@@ -144,7 +144,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
   - HasEffect_reverse:
@@ -205,7 +205,7 @@ DefinedTypes:
   - DisplayName: "ISA95JobResponseProviderObjectType"
   - Description: "The OPENSCSJobResponseProviderObjectType contains a method to receive unsolicited job response requests."
   - GeneratesEvent:
-    - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+    - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
   - HasComponent:
     - [ UAVariable, isa95-jobcontrol:6050, isa95-jobcontrol:JobOrderResponseList, isa95-jobcontrol:ISA95JobResponseDataType, 1, 3 ]
     - DisplayName: "JobOrderResponseList"
@@ -723,7 +723,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1002, isa95-jobcontrol:ISA95JobOrderReceiverObjectType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6010, isa95-jobcontrol:TransitionNumber, UInt32, 0, 0 ]
       - DisplayName: "TransitionNumber"
@@ -746,7 +746,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1002, isa95-jobcontrol:ISA95JobOrderReceiverObjectType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6080, isa95-jobcontrol:TransitionNumber, UInt32, 0, 0 ]
       - DisplayName: "TransitionNumber"
@@ -805,7 +805,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1002, isa95-jobcontrol:ISA95JobOrderReceiverObjectType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5035, isa95-jobcontrol:NotAllowedToStart ]
     - HasCause:
@@ -862,7 +862,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1002, isa95-jobcontrol:ISA95JobOrderReceiverObjectType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5037, isa95-jobcontrol:Running ]
     - HasProperty:
@@ -933,7 +933,7 @@ DefinedTypes:
     - FromState:
       - [ UAObject, isa95-jobcontrol:5038, isa95-jobcontrol:Interrupted ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6085, isa95-jobcontrol:TransitionNumber, UInt32, 0, 0 ]
       - DisplayName: "TransitionNumber"
@@ -956,7 +956,7 @@ DefinedTypes:
     - FromState:
       - [ UAObject, isa95-jobcontrol:5038, isa95-jobcontrol:Interrupted ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - HasCause:
       - [ UAMethod, isa95-jobcontrol:7006, isa95-jobcontrol:Stop ]
       - DisplayName: "Stop"
@@ -1015,7 +1015,7 @@ DefinedTypes:
     - FromState:
       - [ UAObject, isa95-jobcontrol:5038, isa95-jobcontrol:Interrupted ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - HasCause:
       - [ UAMethod, isa95-jobcontrol:7008, isa95-jobcontrol:Resume ]
       - DisplayName: "Resume"
@@ -1118,7 +1118,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1002, isa95-jobcontrol:ISA95JobOrderReceiverObjectType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5035, isa95-jobcontrol:NotAllowedToStart ]
     - HasProperty:
@@ -1141,7 +1141,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1002, isa95-jobcontrol:ISA95JobOrderReceiverObjectType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5035, isa95-jobcontrol:NotAllowedToStart ]
     - HasCause:
@@ -1196,7 +1196,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1002, isa95-jobcontrol:ISA95JobOrderReceiverObjectType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5035, isa95-jobcontrol:NotAllowedToStart ]
     - FromState:
@@ -1305,7 +1305,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1002, isa95-jobcontrol:ISA95JobOrderReceiverObjectType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5037, isa95-jobcontrol:Running ]
     - HasProperty:
@@ -1328,7 +1328,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1002, isa95-jobcontrol:ISA95JobOrderReceiverObjectType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5037, isa95-jobcontrol:Running ]
     - HasCause:
@@ -1389,7 +1389,7 @@ DefinedTypes:
     - ToState:
       - [ UAObject, isa95-jobcontrol:5038, isa95-jobcontrol:Interrupted ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - HasCause:
       - [ UAMethod, isa95-jobcontrol:7007, isa95-jobcontrol:Pause ]
       - DisplayName: "Pause"
@@ -2115,7 +2115,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1008, isa95-jobcontrol:ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6011, isa95-jobcontrol:TransitionNumber, UInt32, 0, 0 ]
       - DisplayName: "TransitionNumber"
@@ -2138,7 +2138,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1008, isa95-jobcontrol:ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6109, isa95-jobcontrol:TransitionNumber, UInt32, 0, 0 ]
       - DisplayName: "TransitionNumber"
@@ -2197,7 +2197,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1008, isa95-jobcontrol:ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5063, isa95-jobcontrol:NotAllowedToStart ]
     - HasCause:
@@ -2254,7 +2254,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1008, isa95-jobcontrol:ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5065, isa95-jobcontrol:Running ]
     - HasProperty:
@@ -2325,7 +2325,7 @@ DefinedTypes:
     - FromState:
       - [ UAObject, isa95-jobcontrol:5066, isa95-jobcontrol:Interrupted ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6114, isa95-jobcontrol:TransitionNumber, UInt32, 0, 0 ]
       - DisplayName: "TransitionNumber"
@@ -2348,7 +2348,7 @@ DefinedTypes:
     - FromState:
       - [ UAObject, isa95-jobcontrol:5066, isa95-jobcontrol:Interrupted ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - HasCause:
       - [ UAMethod, isa95-jobcontrol:7006, isa95-jobcontrol:Stop ]
       - DisplayName: "Stop"
@@ -2407,7 +2407,7 @@ DefinedTypes:
     - FromState:
       - [ UAObject, isa95-jobcontrol:5066, isa95-jobcontrol:Interrupted ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - HasCause:
       - [ UAMethod, isa95-jobcontrol:7008, isa95-jobcontrol:Resume ]
       - DisplayName: "Resume"
@@ -2510,7 +2510,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1008, isa95-jobcontrol:ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5063, isa95-jobcontrol:NotAllowedToStart ]
     - HasProperty:
@@ -2533,7 +2533,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1008, isa95-jobcontrol:ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5063, isa95-jobcontrol:NotAllowedToStart ]
     - HasCause:
@@ -2588,7 +2588,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1008, isa95-jobcontrol:ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5063, isa95-jobcontrol:NotAllowedToStart ]
     - ToState:
@@ -2697,7 +2697,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1008, isa95-jobcontrol:ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5065, isa95-jobcontrol:Running ]
     - HasProperty:
@@ -2720,7 +2720,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, isa95-jobcontrol:1008, isa95-jobcontrol:ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5065, isa95-jobcontrol:Running ]
     - HasCause:
@@ -2781,7 +2781,7 @@ DefinedTypes:
     - ToState:
       - [ UAObject, isa95-jobcontrol:5066, isa95-jobcontrol:Interrupted ]
     - HasEffect:
-      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+      - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType, Abstract ]
     - HasCause:
       - [ UAMethod, isa95-jobcontrol:7007, isa95-jobcontrol:Pause ]
       - DisplayName: "Pause"

@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Mining_DevelopmentSupport_RoofSupportSystem:RoofSupportSystemType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Mining.DevelopmentSupport.RoofSupportSystem",
     "displayName": "RoofSupportSystemType",
     "description": "The RoofSupportSystemType ObjectType describes a Roof Support System for longwall mining operations",
     "extends": "dtmi:opcua:Mining_General:MiningEquipmentType;1",

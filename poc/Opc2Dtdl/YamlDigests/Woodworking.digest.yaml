@@ -137,7 +137,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, Woodworking:13, Woodworking:WwBaseEventType ]
   - HasInterface:
-    - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType ]
+    - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType, Abstract ]
   - HasProperty:
     - [ UAVariable, Woodworking:260, Woodworking:LocalizedMessages, LocalizedText, 1, 0 ]
     - DisplayName: "LocalizedMessages"
@@ -184,7 +184,7 @@ DefinedTypes:
     - [ UAObjectType, Woodworking:15, Woodworking:WwEventsDispatcherType ]
 
   Woodworking:IWwBaseStateType:
-  - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType ]
+  - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType, Abstract ]
   - DisplayName: "IWwBaseStateType"
   - Description: "The IWwBaseStateType represents the state of an unit. An unit can be a machine of part of a machine."
   - HasComponent:
@@ -286,7 +286,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, Woodworking:5003, Woodworking:Flags ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType ]
+      - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType, Abstract ]
     - HasComponent:
       - [ UAVariable, Woodworking:6084, Woodworking:Hold, Boolean, 0, 0 ]
       - DisplayName: "Hold"
@@ -298,7 +298,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, Woodworking:5003, Woodworking:Flags ]
     - HasInterface:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
     - HasComponent:
       - [ UAVariable, Woodworking:6089, Woodworking:LoadingEnabled, Boolean, 0, 0 ]
       - DisplayName: "LoadingEnabled"
@@ -488,9 +488,9 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, Woodworking:5004, Woodworking:Overview ]
     - HasInterface:
-      - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType ]
+      - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType, Abstract ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType ]
+      - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
@@ -1547,7 +1547,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAVariable, Woodworking:6100, Woodworking:FeedSpeed, Double, 0, 0 ]
     - HasInterface:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasComponent:
       - [ UAVariable, Woodworking:6111, Woodworking:RelativeErrorTime, UInt64, 0, 0 ]
       - DisplayName: "RelativeErrorTime"
@@ -2420,7 +2420,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAVariable, Woodworking:6099, Woodworking:SpindleOverride, UInt32, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType ]
+      - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType, Abstract ]
   - HasInterface_reverse:
     - [ UAObject, Woodworking:5002, Woodworking:<SubUnit> ]
   - HasInterface_reverse:
@@ -2433,7 +2433,7 @@ DefinedTypes:
     - [ UAObject, Woodworking:5036, Woodworking:<SubUnit> ]
 
   Woodworking:IWwEventMessageType:
-  - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType ]
+  - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType, Abstract ]
   - DisplayName: "IWwEventMessageType"
   - Description: "The interface definition IWwEventMessageType describes the common extensions for all events and conditions. Each instance definition that includes this interface with a HasInterface reference defines the predefined extensions"
   - HasProperty:
@@ -2445,7 +2445,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType ]
+      - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType, Abstract ]
   - HasProperty:
     - [ UAVariable, Woodworking:6169, Woodworking:EventCategory, Woodworking:WwEventCategoryEnumeration, 0, 0 ]
     - DisplayName: "EventCategory"
@@ -2455,7 +2455,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType ]
+      - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType, Abstract ]
   - HasProperty:
     - [ UAVariable, Woodworking:6220, Woodworking:Group, String, 0, 0 ]
     - DisplayName: "Group"
@@ -2465,7 +2465,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType ]
+      - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType, Abstract ]
   - HasInterface_reverse:
     - [ UAObjectType, Woodworking:13, Woodworking:WwBaseEventType ]
   - HasSubtype_reverse:
@@ -2479,7 +2479,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType ]
+      - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType, Abstract ]
   - HasProperty:
     - [ UAVariable, Woodworking:6217, Woodworking:MessageId, String, 0, 0 ]
     - DisplayName: "MessageId"
@@ -2489,7 +2489,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType ]
+      - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType, Abstract ]
   - HasProperty:
     - [ UAVariable, Woodworking:6218, Woodworking:MessageName, String, 0, 0 ]
     - DisplayName: "MessageName"
@@ -2499,7 +2499,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType ]
+      - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType, Abstract ]
   - HasProperty:
     - [ UAVariable, Woodworking:6219, Woodworking:PathParts, String, 1, 0 ]
     - DisplayName: "PathParts"
@@ -2509,10 +2509,10 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType ]
+      - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType, Abstract ]
 
   Woodworking:IWwStateType:
-  - [ UAObjectType, Woodworking:8, Woodworking:IWwStateType ]
+  - [ UAObjectType, Woodworking:8, Woodworking:IWwStateType, Abstract ]
   - DisplayName: "IWwStateType"
   - Description: "The IWwStateType provides a list of machine states."
   - HasComponent:
@@ -2634,7 +2634,7 @@ DefinedTypes:
         - HasComponent_reverse:
           - [ UAObject, Woodworking:5017, Woodworking:Flags ]
       - HasInterface:
-        - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+        - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
       - HasComponent:
         - [ UAVariable, Woodworking:6157, Woodworking:LoadingEnabled, Boolean, 0, 0 ]
         - DisplayName: "LoadingEnabled"
@@ -2796,9 +2796,9 @@ DefinedTypes:
         - HasComponent_reverse:
           - [ UAObject, Woodworking:5017, Woodworking:Flags ]
     - HasInterface:
-      - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType ]
+      - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType, Abstract ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:8, Woodworking:IWwStateType ]
+      - [ UAObjectType, Woodworking:8, Woodworking:IWwStateType, Abstract ]
     - HasComponent:
       - [ UAObject, Woodworking:5020, Woodworking:Overview ]
       - DisplayName: "Overview"
@@ -2828,7 +2828,7 @@ DefinedTypes:
         - HasComponent_reverse:
           - [ UAObject, Woodworking:5020, Woodworking:Overview ]
       - HasInterface:
-        - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType ]
+        - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType, Abstract ]
       - HasComponent_reverse:
         - [ UAObject, Woodworking:5009, Woodworking:Machine ]
     - HasComponent:
@@ -3885,7 +3885,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAVariable, Woodworking:6166, Woodworking:FeedSpeed, Double, 0, 0 ]
       - HasInterface:
-        - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+        - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
       - HasComponent:
         - [ UAVariable, Woodworking:6177, Woodworking:RelativeErrorTime, UInt64, 0, 0 ]
         - DisplayName: "RelativeErrorTime"
@@ -4899,7 +4899,7 @@ DefinedTypes:
           - HasComponent_reverse:
             - [ UAObject, Woodworking:5022, Woodworking:Flags ]
         - HasInterface:
-          - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+          - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
         - HasComponent:
           - [ UAVariable, Woodworking:6235, Woodworking:LoadingEnabled, Boolean, 0, 0 ]
           - DisplayName: "LoadingEnabled"
@@ -5061,7 +5061,7 @@ DefinedTypes:
           - HasComponent_reverse:
             - [ UAObject, Woodworking:5022, Woodworking:Flags ]
       - HasInterface:
-        - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType ]
+        - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType, Abstract ]
       - HasComponent:
         - [ UAObject, Woodworking:5023, Woodworking:Overview ]
         - DisplayName: "Overview"
@@ -5091,7 +5091,7 @@ DefinedTypes:
           - HasComponent_reverse:
             - [ UAObject, Woodworking:5023, Woodworking:Overview ]
         - HasInterface:
-          - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType ]
+          - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType, Abstract ]
         - HasComponent_reverse:
           - [ UAObject, Woodworking:5021, Woodworking:<SubUnit> ]
       - HasComponent:
@@ -6139,7 +6139,7 @@ DefinedTypes:
             - HasProperty_reverse:
               - [ UAVariable, Woodworking:6256, Woodworking:FeedSpeed, Double, 0, 0 ]
         - HasInterface:
-          - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+          - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
         - HasComponent:
           - [ UAVariable, Woodworking:6267, Woodworking:RelativeErrorTime, UInt64, 0, 0 ]
           - DisplayName: "RelativeErrorTime"
@@ -7023,14 +7023,14 @@ DefinedTypes:
         - HasComponent_reverse:
           - [ UAObject, Woodworking:5021, Woodworking:<SubUnit> ]
     - HasInterface:
-      - [ UAObjectType, Woodworking:7, Woodworking:IWwSubUnitsType ]
+      - [ UAObjectType, Woodworking:7, Woodworking:IWwSubUnitsType, Abstract ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:8, Woodworking:IWwStateType ]
+      - [ UAObjectType, Woodworking:8, Woodworking:IWwStateType, Abstract ]
   - HasInterface_reverse:
     - [ UAObject, Woodworking:5001, Woodworking:State ]
 
   Woodworking:IWwSubUnitsType:
-  - [ UAObjectType, Woodworking:7, Woodworking:IWwSubUnitsType ]
+  - [ UAObjectType, Woodworking:7, Woodworking:IWwSubUnitsType, Abstract ]
   - DisplayName: "IWwSubUnitsType"
   - Description: "The IWwSubUnitsType provides a list of subUnits."
   - HasComponent:
@@ -7042,7 +7042,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:7, Woodworking:IWwSubUnitsType ]
+      - [ UAObjectType, Woodworking:7, Woodworking:IWwSubUnitsType, Abstract ]
     - HasComponent:
       - [ UAObject, Woodworking:5026, Woodworking:Flags ]
       - DisplayName: "Flags"
@@ -7154,7 +7154,7 @@ DefinedTypes:
         - HasComponent_reverse:
           - [ UAObject, Woodworking:5026, Woodworking:Flags ]
       - HasInterface:
-        - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+        - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
       - HasComponent:
         - [ UAVariable, Woodworking:6317, Woodworking:LoadingEnabled, Boolean, 0, 0 ]
         - DisplayName: "LoadingEnabled"
@@ -7316,7 +7316,7 @@ DefinedTypes:
         - HasComponent_reverse:
           - [ UAObject, Woodworking:5026, Woodworking:Flags ]
     - HasInterface:
-      - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType ]
+      - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType, Abstract ]
     - HasComponent:
       - [ UAObject, Woodworking:5027, Woodworking:Overview ]
       - DisplayName: "Overview"
@@ -7346,7 +7346,7 @@ DefinedTypes:
         - HasComponent_reverse:
           - [ UAObject, Woodworking:5027, Woodworking:Overview ]
       - HasInterface:
-        - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType ]
+        - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType, Abstract ]
       - HasComponent_reverse:
         - [ UAObject, Woodworking:5002, Woodworking:<SubUnit> ]
     - HasComponent:
@@ -8403,7 +8403,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAVariable, Woodworking:6332, Woodworking:FeedSpeed, Double, 0, 0 ]
       - HasInterface:
-        - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+        - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
       - HasComponent:
         - [ UAVariable, Woodworking:6343, Woodworking:RelativeErrorTime, UInt64, 0, 0 ]
         - DisplayName: "RelativeErrorTime"
@@ -9285,7 +9285,7 @@ DefinedTypes:
     - [ UAObject, Woodworking:5031, Woodworking:SubUnits ]
 
   Woodworking:IWwUnitFlagsType:
-  - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+  - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - DisplayName: "IWwUnitFlagsType"
   - Description: "The IWwUnitFlagsType represents the flags of a unit"
   - HasComponent:
@@ -9297,7 +9297,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:97, Woodworking:Alarm, Boolean, 0, 0 ]
     - DisplayName: "Alarm"
@@ -9307,7 +9307,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:92, Woodworking:Calibrated, Boolean, 0, 0 ]
     - DisplayName: "Calibrated"
@@ -9317,7 +9317,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:89, Woodworking:DustChipSuction, Boolean, 0, 0 ]
     - DisplayName: "DustChipSuction"
@@ -9327,7 +9327,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:90, Woodworking:Emergency, Boolean, 0, 0 ]
     - DisplayName: "Emergency"
@@ -9337,7 +9337,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:108, Woodworking:EnergySaving, Boolean, 0, 0 ]
     - DisplayName: "EnergySaving"
@@ -9347,7 +9347,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:96, Woodworking:Error, Boolean, 0, 0 ]
     - DisplayName: "Error"
@@ -9357,7 +9357,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:109, Woodworking:ExternalEmergency, Boolean, 0, 0 ]
     - DisplayName: "ExternalEmergency"
@@ -9367,7 +9367,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:111, Woodworking:FeedRuns, Boolean, 0, 0 ]
     - DisplayName: "FeedRuns"
@@ -9377,7 +9377,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:99, Woodworking:Hold, Boolean, 0, 0 ]
     - DisplayName: "Hold"
@@ -9387,7 +9387,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:6033, Woodworking:LoadingEnabled, Boolean, 0, 0 ]
     - DisplayName: "LoadingEnabled"
@@ -9396,7 +9396,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:86, Woodworking:MachineInitialized, Boolean, 0, 0 ]
     - DisplayName: "MachineInitialized"
@@ -9406,7 +9406,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:85, Woodworking:MachineOn, Boolean, 0, 0 ]
     - DisplayName: "MachineOn"
@@ -9416,7 +9416,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:110, Woodworking:MaintenanceRequired, Boolean, 0, 0 ]
     - DisplayName: "MaintenanceRequired"
@@ -9426,7 +9426,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:103, Woodworking:ManualActivityRequired, Boolean, 0, 0 ]
     - DisplayName: "ManualActivityRequired"
@@ -9436,7 +9436,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:95, Woodworking:Moving, Boolean, 0, 0 ]
     - DisplayName: "Moving"
@@ -9446,7 +9446,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:87, Woodworking:PowerPresent, Boolean, 0, 0 ]
     - DisplayName: "PowerPresent"
@@ -9456,7 +9456,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:102, Woodworking:RecipeInHold, Boolean, 0, 0 ]
     - DisplayName: "RecipeInHold"
@@ -9466,7 +9466,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:100, Woodworking:RecipeInRun, Boolean, 0, 0 ]
     - DisplayName: "RecipeInRun"
@@ -9476,7 +9476,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:101, Woodworking:RecipeInSetup, Boolean, 0, 0 ]
     - DisplayName: "RecipeInSetup"
@@ -9486,7 +9486,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:93, Woodworking:Remote, Boolean, 0, 0 ]
     - DisplayName: "Remote"
@@ -9496,7 +9496,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:91, Woodworking:Safety, Boolean, 0, 0 ]
     - DisplayName: "Safety"
@@ -9506,7 +9506,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:107, Woodworking:WaitLoad, Boolean, 0, 0 ]
     - DisplayName: "WaitLoad"
@@ -9516,7 +9516,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:106, Woodworking:WaitUnload, Boolean, 0, 0 ]
     - DisplayName: "WaitUnload"
@@ -9526,7 +9526,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:98, Woodworking:Warning, Boolean, 0, 0 ]
     - DisplayName: "Warning"
@@ -9536,7 +9536,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:94, Woodworking:WorkpiecePresent, Boolean, 0, 0 ]
     - DisplayName: "WorkpiecePresent"
@@ -9546,7 +9546,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+      - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasInterface_reverse:
@@ -9563,7 +9563,7 @@ DefinedTypes:
     - [ UAObject, Woodworking:5037, Woodworking:Flags ]
 
   Woodworking:IWwUnitOverviewType:
-  - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType ]
+  - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType, Abstract ]
   - DisplayName: "IWwUnitOverviewType"
   - Description: "The IWwUnitOverviewType represents the generalized state of a unit."
   - HasComponent:
@@ -9575,7 +9575,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType ]
+      - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType, Abstract ]
   - HasComponent:
     - [ UAVariable, Woodworking:129, Woodworking:CurrentState, Woodworking:WwUnitStateEnumeration, 0, 0 ]
     - DisplayName: "CurrentState"
@@ -9585,7 +9585,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType ]
+      - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasInterface_reverse:
@@ -9602,7 +9602,7 @@ DefinedTypes:
     - [ UAObject, Woodworking:5038, Woodworking:Overview ]
 
   Woodworking:IWwUnitValuesType:
-  - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+  - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
   - DisplayName: "IWwUnitValuesType"
   - Description: "The IWwUnitValuesType represents the values of a unit"
   - HasComponent:
@@ -9614,7 +9614,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6540, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -9669,7 +9669,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6545, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -9724,7 +9724,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6555, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -9779,7 +9779,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6550, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -9834,7 +9834,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6560, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -9889,7 +9889,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6565, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -9944,7 +9944,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6570, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -9999,7 +9999,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6575, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -10054,7 +10054,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6580, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -10109,7 +10109,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6585, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -10164,7 +10164,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6590, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -10219,7 +10219,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6595, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -10274,7 +10274,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6600, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -10329,7 +10329,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6605, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -10384,7 +10384,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6610, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -10439,7 +10439,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6615, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -10494,7 +10494,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6620, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -10549,7 +10549,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6625, Woodworking:Definition, String, 0, 0 ]
       - DisplayName: "Definition"
@@ -10631,7 +10631,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Woodworking:6052, Woodworking:FeedSpeed, Double, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6633, Woodworking:InstrumentRange, Range, 0, 0 ]
       - DisplayName: "InstrumentRange"
@@ -10697,7 +10697,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Woodworking:6053, Woodworking:RelativeErrorTime, UInt64, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6639, Woodworking:ValuePrecision, Double, 0, 0 ]
       - DisplayName: "ValuePrecision"
@@ -10752,7 +10752,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Woodworking:6054, Woodworking:RelativeLength, UInt64, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6644, Woodworking:ValuePrecision, Double, 0, 0 ]
       - DisplayName: "ValuePrecision"
@@ -10807,7 +10807,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Woodworking:6055, Woodworking:RelativeMachineOnTime, UInt64, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6649, Woodworking:ValuePrecision, Double, 0, 0 ]
       - DisplayName: "ValuePrecision"
@@ -10862,7 +10862,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Woodworking:6057, Woodworking:RelativePiecesIn, UInt64, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6659, Woodworking:ValuePrecision, Double, 0, 0 ]
       - DisplayName: "ValuePrecision"
@@ -10917,7 +10917,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Woodworking:6058, Woodworking:RelativePiecesOut, UInt64, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6664, Woodworking:ValuePrecision, Double, 0, 0 ]
       - DisplayName: "ValuePrecision"
@@ -10972,7 +10972,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Woodworking:6059, Woodworking:RelativePowerPresentTime, UInt64, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6669, Woodworking:ValuePrecision, Double, 0, 0 ]
       - DisplayName: "ValuePrecision"
@@ -11027,7 +11027,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Woodworking:6060, Woodworking:RelativeProductionTime, UInt64, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6674, Woodworking:ValuePrecision, Double, 0, 0 ]
       - DisplayName: "ValuePrecision"
@@ -11082,7 +11082,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Woodworking:6061, Woodworking:RelativeProductionWaitWorkpieceTime, UInt64, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6679, Woodworking:ValuePrecision, Double, 0, 0 ]
       - DisplayName: "ValuePrecision"
@@ -11137,7 +11137,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Woodworking:6062, Woodworking:RelativeProductionWithoutWorkpieceTime, UInt64, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6684, Woodworking:ValuePrecision, Double, 0, 0 ]
       - DisplayName: "ValuePrecision"
@@ -11192,7 +11192,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Woodworking:6063, Woodworking:RelativeReadyTime, UInt64, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6689, Woodworking:ValuePrecision, Double, 0, 0 ]
       - DisplayName: "ValuePrecision"
@@ -11247,7 +11247,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Woodworking:6064, Woodworking:RelativeRunsAborted, UInt64, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6694, Woodworking:ValuePrecision, Double, 0, 0 ]
       - DisplayName: "ValuePrecision"
@@ -11302,7 +11302,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Woodworking:6065, Woodworking:RelativeRunsGood, UInt64, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6699, Woodworking:ValuePrecision, Double, 0, 0 ]
       - DisplayName: "ValuePrecision"
@@ -11357,7 +11357,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Woodworking:6066, Woodworking:RelativeRunsTotal, UInt64, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6704, Woodworking:ValuePrecision, Double, 0, 0 ]
       - DisplayName: "ValuePrecision"
@@ -11412,7 +11412,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Woodworking:6067, Woodworking:RelativeStandbyTime, UInt64, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6709, Woodworking:ValuePrecision, Double, 0, 0 ]
       - DisplayName: "ValuePrecision"
@@ -11467,7 +11467,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Woodworking:6068, Woodworking:RelativeWorkingTime, UInt64, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6714, Woodworking:ValuePrecision, Double, 0, 0 ]
       - DisplayName: "ValuePrecision"
@@ -11522,7 +11522,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, Woodworking:6069, Woodworking:SpindleOverride, UInt32, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+      - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
     - HasProperty:
       - [ UAVariable, Woodworking:6719, Woodworking:ValuePrecision, Double, 0, 0 ]
       - DisplayName: "ValuePrecision"
@@ -11798,7 +11798,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasInterface:
-      - [ UAObjectType, Woodworking:8, Woodworking:IWwStateType ]
+      - [ UAObjectType, Woodworking:8, Woodworking:IWwStateType, Abstract ]
     - HasComponent:
       - [ UAObject, Woodworking:5030, Woodworking:Machine ]
       - DisplayName: "Machine"
@@ -11918,7 +11918,7 @@ DefinedTypes:
           - HasComponent_reverse:
             - [ UAObject, Woodworking:5032, Woodworking:Flags ]
         - HasInterface:
-          - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+          - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
         - HasComponent:
           - [ UAVariable, Woodworking:6385, Woodworking:LoadingEnabled, Boolean, 0, 0 ]
           - DisplayName: "LoadingEnabled"
@@ -12080,7 +12080,7 @@ DefinedTypes:
           - HasComponent_reverse:
             - [ UAObject, Woodworking:5032, Woodworking:Flags ]
       - HasInterface:
-        - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType ]
+        - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType, Abstract ]
       - HasComponent_reverse:
         - [ UAObject, Woodworking:5001, Woodworking:State ]
       - HasComponent:
@@ -12112,7 +12112,7 @@ DefinedTypes:
           - HasComponent_reverse:
             - [ UAObject, Woodworking:5033, Woodworking:Overview ]
         - HasInterface:
-          - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType ]
+          - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType, Abstract ]
         - HasComponent_reverse:
           - [ UAObject, Woodworking:5030, Woodworking:Machine ]
       - HasComponent:
@@ -13169,7 +13169,7 @@ DefinedTypes:
             - HasProperty_reverse:
               - [ UAVariable, Woodworking:6400, Woodworking:FeedSpeed, Double, 0, 0 ]
         - HasInterface:
-          - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+          - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
         - HasComponent:
           - [ UAVariable, Woodworking:6411, Woodworking:RelativeErrorTime, UInt64, 0, 0 ]
           - DisplayName: "RelativeErrorTime"
@@ -14183,7 +14183,7 @@ DefinedTypes:
             - HasComponent_reverse:
               - [ UAObject, Woodworking:5037, Woodworking:Flags ]
           - HasInterface:
-            - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+            - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType, Abstract ]
           - HasComponent:
             - [ UAVariable, Woodworking:6453, Woodworking:LoadingEnabled, Boolean, 0, 0 ]
             - DisplayName: "LoadingEnabled"
@@ -14345,7 +14345,7 @@ DefinedTypes:
             - HasComponent_reverse:
               - [ UAObject, Woodworking:5037, Woodworking:Flags ]
         - HasInterface:
-          - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType ]
+          - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType, Abstract ]
         - HasComponent:
           - [ UAObject, Woodworking:5038, Woodworking:Overview ]
           - DisplayName: "Overview"
@@ -14375,7 +14375,7 @@ DefinedTypes:
             - HasComponent_reverse:
               - [ UAObject, Woodworking:5038, Woodworking:Overview ]
           - HasInterface:
-            - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType ]
+            - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType, Abstract ]
           - HasComponent_reverse:
             - [ UAObject, Woodworking:5036, Woodworking:<SubUnit> ]
         - HasComponent:
@@ -15432,7 +15432,7 @@ DefinedTypes:
               - HasProperty_reverse:
                 - [ UAVariable, Woodworking:6468, Woodworking:FeedSpeed, Double, 0, 0 ]
           - HasInterface:
-            - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+            - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType, Abstract ]
           - HasComponent:
             - [ UAVariable, Woodworking:6479, Woodworking:RelativeErrorTime, UInt64, 0, 0 ]
             - DisplayName: "RelativeErrorTime"
@@ -16316,7 +16316,7 @@ DefinedTypes:
           - HasComponent_reverse:
             - [ UAObject, Woodworking:5036, Woodworking:<SubUnit> ]
       - HasInterface:
-        - [ UAObjectType, Woodworking:7, Woodworking:IWwSubUnitsType ]
+        - [ UAObjectType, Woodworking:7, Woodworking:IWwSubUnitsType, Abstract ]
       - HasComponent_reverse:
         - [ UAObject, Woodworking:5001, Woodworking:State ]
   - HasSubtype_reverse:

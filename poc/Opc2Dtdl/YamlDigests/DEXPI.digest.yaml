@@ -361,10 +361,10 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:BaseDEXPIObjectType:
-  - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+  - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - DisplayName: "BaseDEXPIObjectType"
   - Description: "Base object type, parent for all DEXPI Object types"
   - HasSubtype_reverse:
@@ -389,7 +389,7 @@ DefinedTypes:
     - DisplayName: "<StructureItem>"
     - Description: "OPC UA Object(s) that are part of the Object Type"
     - HasTypeDefinition:
-      - [ UAObjectType, DEXPI:1308, DEXPI:PlantStructureItemType ]
+      - [ UAObjectType, DEXPI:1308, DEXPI:PlantStructureItemType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
@@ -405,7 +405,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1068, DEXPI:PlantModelType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:PlantType:
   - [ UAObjectType, DEXPI:1072, DEXPI:PlantType ]
@@ -466,13 +466,13 @@ DefinedTypes:
     - DisplayName: "<TaggedPlantItem>"
     - Description: "OPC UA Object(s) that are part of the Object Type"
     - HasTypeDefinition:
-      - [ UAObjectType, DEXPI:1337, DEXPI:TaggedPlantItemType ]
+      - [ UAObjectType, DEXPI:1337, DEXPI:TaggedPlantItemType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1072, DEXPI:PlantType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:MetaDataType:
   - [ UAObjectType, DEXPI:1079, DEXPI:MetaDataType ]
@@ -849,14 +849,14 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1079, DEXPI:MetaDataType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:SensingLocationType:
-  - [ UAObjectType, DEXPI:1117, DEXPI:SensingLocationType ]
+  - [ UAObjectType, DEXPI:1117, DEXPI:SensingLocationType, Abstract ]
   - DisplayName: "SensingLocationType"
   - Description: "An object than can act as a SensingLocation of a ProcessSignalGeneratingFunction."
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:ProcessSignalGeneratingSystemType:
   - [ UAObjectType, DEXPI:1118, DEXPI:ProcessSignalGeneratingSystemType ]
@@ -903,7 +903,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1118, DEXPI:ProcessSignalGeneratingSystemType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:PositionerType:
   - [ UAObjectType, DEXPI:1127, DEXPI:PositionerType ]
@@ -930,7 +930,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1127, DEXPI:PositionerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:ProcessInstrumentationFunctionType:
   - [ UAObjectType, DEXPI:1130, DEXPI:ProcessInstrumentationFunctionType ]
@@ -1107,7 +1107,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1130, DEXPI:ProcessInstrumentationFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:ProcessControlFunctionType:
   - [ UAObjectType, DEXPI:1152, DEXPI:ProcessControlFunctionType ]
@@ -1284,7 +1284,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1152, DEXPI:ProcessControlFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
     - [ UAObjectType, DEXPI:1130, DEXPI:ProcessInstrumentationFunctionType ]
 
@@ -1333,7 +1333,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1174, DEXPI:SignalLineFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
     - [ UAObjectType, DEXPI:1251, DEXPI:SignalConveyingFunctionType ]
 
@@ -1382,7 +1382,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1181, DEXPI:MeasuringLineFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
     - [ UAObjectType, DEXPI:1251, DEXPI:SignalConveyingFunctionType ]
 
@@ -1401,7 +1401,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1188, DEXPI:InstrumentationLoopFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:PrimaryElementType:
   - [ UAObjectType, DEXPI:1195, DEXPI:PrimaryElementType ]
@@ -1418,7 +1418,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1195, DEXPI:PrimaryElementType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasSubtype:
     - [ UAObjectType, DEXPI:1220, DEXPI:OfflinePrimaryElementType ]
   - HasSubtype:
@@ -1439,7 +1439,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1197, DEXPI:ShutOffValveReferenceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:ActuatingSystemType:
   - [ UAObjectType, DEXPI:1200, DEXPI:ActuatingSystemType ]
@@ -1496,7 +1496,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1200, DEXPI:ActuatingSystemType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:ProcessSignalGeneratingFunctionType:
   - [ UAObjectType, DEXPI:1210, DEXPI:ProcessSignalGeneratingFunctionType ]
@@ -1523,14 +1523,14 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1210, DEXPI:ProcessSignalGeneratingFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:SignalConveyingFunctionTargetType:
-  - [ UAObjectType, DEXPI:1219, DEXPI:SignalConveyingFunctionTargetType ]
+  - [ UAObjectType, DEXPI:1219, DEXPI:SignalConveyingFunctionTargetType, Abstract ]
   - DisplayName: "SignalConveyingFunctionTargetType"
   - Description: "An object than can act as the Target of a SignalConveyingFunction."
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:OfflinePrimaryElementType:
   - [ UAObjectType, DEXPI:1220, DEXPI:OfflinePrimaryElementType ]
@@ -1736,7 +1736,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1239, DEXPI:ActuatingFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:TransmitterType:
   - [ UAObjectType, DEXPI:1247, DEXPI:TransmitterType ]
@@ -1763,14 +1763,14 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1247, DEXPI:TransmitterType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:SignalConveyingFunctionSourceType:
-  - [ UAObjectType, DEXPI:1250, DEXPI:SignalConveyingFunctionSourceType ]
+  - [ UAObjectType, DEXPI:1250, DEXPI:SignalConveyingFunctionSourceType, Abstract ]
   - DisplayName: "SignalConveyingFunctionSourceType"
   - Description: "An object than can act as the Source of a SignalConveyingFunction."
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:SignalConveyingFunctionType:
   - [ UAObjectType, DEXPI:1251, DEXPI:SignalConveyingFunctionType ]
@@ -1817,7 +1817,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1251, DEXPI:SignalConveyingFunctionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:ControlledActuatorType:
   - [ UAObjectType, DEXPI:1258, DEXPI:ControlledActuatorType ]
@@ -1864,7 +1864,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1258, DEXPI:ControlledActuatorType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:InlinePrimaryElementReferenceType:
   - [ UAObjectType, DEXPI:1263, DEXPI:InlinePrimaryElementReferenceType ]
@@ -1898,14 +1898,14 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1265, DEXPI:PlantSectionIso10209-2012Type ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:AreaIsa95LocatedStructureType:
-  - [ UAObjectType, DEXPI:1270, DEXPI:AreaIsa95LocatedStructureType ]
+  - [ UAObjectType, DEXPI:1270, DEXPI:AreaIsa95LocatedStructureType, Abstract ]
   - DisplayName: "AreaIsa95LocatedStructureType"
   - Description: "A structure that can be located in an AreaIsa95. Association to AreaIsa95 (AreaIsa95)"
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:IndustrialComplexIso10209-2012Type:
   - [ UAObjectType, DEXPI:1272, DEXPI:IndustrialComplexIso10209-2012Type ]
@@ -1932,21 +1932,21 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1272, DEXPI:IndustrialComplexIso10209-2012Type ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:PlantTrainLocatedStructureType:
-  - [ UAObjectType, DEXPI:1277, DEXPI:PlantTrainLocatedStructureType ]
+  - [ UAObjectType, DEXPI:1277, DEXPI:PlantTrainLocatedStructureType, Abstract ]
   - DisplayName: "PlantTrainLocatedStructureType"
   - Description: "A structure can be located in a PlantTrain. Association to PlantTrain (PlantTrain)"
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:ProcessPlantParentStructureType:
-  - [ UAObjectType, DEXPI:1279, DEXPI:ProcessPlantParentStructureType ]
+  - [ UAObjectType, DEXPI:1279, DEXPI:ProcessPlantParentStructureType, Abstract ]
   - DisplayName: "ProcessPlantParentStructureType"
   - Description: "A PlantItemStructure that is a suitable ParentStructure of a ProcessPlant."
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:SiteIsa95Type:
   - [ UAObjectType, DEXPI:1280, DEXPI:SiteIsa95Type ]
@@ -1973,21 +1973,21 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1280, DEXPI:SiteIsa95Type ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:IndustrialComplexIso10209-2012ParentStructureType:
-  - [ UAObjectType, DEXPI:1284, DEXPI:IndustrialComplexIso10209-2012ParentStructureType ]
+  - [ UAObjectType, DEXPI:1284, DEXPI:IndustrialComplexIso10209-2012ParentStructureType, Abstract ]
   - DisplayName: "IndustrialComplexIso10209-2012ParentStructureType"
   - Description: "A PlantItemStructure that is a suitable ParentStructure of am IndustrialComplexIso10209-2012."
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:TechnicalItemType:
-  - [ UAObjectType, DEXPI:1285, DEXPI:TechnicalItemType ]
+  - [ UAObjectType, DEXPI:1285, DEXPI:TechnicalItemType, Abstract ]
   - DisplayName: "TechnicalItemType"
   - Description: "An item at the lowest level of the plant structure. Association to ParentStructure (TechnicalItemParentStructure) Association to PlantTrain (PlantTrain) Association to PlantSystem (PlantSystem) Association to AreaIsa95 (AreaIsa95)"
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:AreaIsa95Type:
   - [ UAObjectType, DEXPI:1290, DEXPI:AreaIsa95Type ]
@@ -2014,28 +2014,28 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1290, DEXPI:AreaIsa95Type ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:PlantSystemLocatedStructureType:
-  - [ UAObjectType, DEXPI:1293, DEXPI:PlantSystemLocatedStructureType ]
+  - [ UAObjectType, DEXPI:1293, DEXPI:PlantSystemLocatedStructureType, Abstract ]
   - DisplayName: "PlantSystemLocatedStructureType"
   - Description: "A structure can be located in a PlantSystem. Association to PlantSystem (PlantSystem)"
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:TechnicalItemParentStructureType:
-  - [ UAObjectType, DEXPI:1295, DEXPI:TechnicalItemParentStructureType ]
+  - [ UAObjectType, DEXPI:1295, DEXPI:TechnicalItemParentStructureType, Abstract ]
   - DisplayName: "TechnicalItemParentStructureType"
   - Description: "A PlantItemStructure that is a suitable ParentStructure of a TechnicalItem."
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:PlantSectionIso10209-2012ParentStructureType:
-  - [ UAObjectType, DEXPI:1296, DEXPI:PlantSectionIso10209-2012ParentStructureType ]
+  - [ UAObjectType, DEXPI:1296, DEXPI:PlantSectionIso10209-2012ParentStructureType, Abstract ]
   - DisplayName: "PlantSectionIso10209-2012ParentStructureType"
   - Description: "A PlantItemStructure that is a suitable ParentStructure of a PlantSectionIso10209-2012."
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:PlantSystemType:
   - [ UAObjectType, DEXPI:1297, DEXPI:PlantSystemType ]
@@ -2062,7 +2062,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1297, DEXPI:PlantSystemType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:ProcessPlantType:
   - [ UAObjectType, DEXPI:1300, DEXPI:ProcessPlantType ]
@@ -2089,7 +2089,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1300, DEXPI:ProcessPlantType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:Isa95EnterpriseType:
   - [ UAObjectType, DEXPI:1305, DEXPI:Isa95EnterpriseType ]
@@ -2116,14 +2116,14 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1305, DEXPI:Isa95EnterpriseType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:PlantStructureItemType:
-  - [ UAObjectType, DEXPI:1308, DEXPI:PlantStructureItemType ]
+  - [ UAObjectType, DEXPI:1308, DEXPI:PlantStructureItemType, Abstract ]
   - DisplayName: "PlantStructureItemType"
   - Description: "Item of the plant break down structure."
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:PlantTrainType:
   - [ UAObjectType, DEXPI:1309, DEXPI:PlantTrainType ]
@@ -2150,7 +2150,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1309, DEXPI:PlantTrainType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:EjectorPumpType:
   - [ UAObjectType, DEXPI:1312, DEXPI:EjectorPumpType ]
@@ -2388,7 +2388,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1326, DEXPI:HeatExchangerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
+    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType, Abstract ]
   - HasSubtype:
     - [ UAObjectType, DEXPI:1350, DEXPI:ThinFilmEvaporatorType ]
   - HasSubtype:
@@ -2403,7 +2403,7 @@ DefinedTypes:
     - [ UAObjectType, DEXPI:1653, DEXPI:ShellAndTubeHeatExchangerType ]
 
   DEXPI:TaggedPlantItemType:
-  - [ UAObjectType, DEXPI:1337, DEXPI:TaggedPlantItemType ]
+  - [ UAObjectType, DEXPI:1337, DEXPI:TaggedPlantItemType, Abstract ]
   - DisplayName: "TaggedPlantItemType"
   - Description: "A fully tagged item in a plant."
   - HasComponent:
@@ -2415,7 +2415,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1337, DEXPI:TaggedPlantItemType ]
+      - [ UAObjectType, DEXPI:1337, DEXPI:TaggedPlantItemType, Abstract ]
   - HasComponent:
     - [ UAVariable, DEXPI:1339, DEXPI:TagNamePrefixAssignmentClass, String, 0, 3 ]
     - DisplayName: "TagNamePrefixAssignmentClass"
@@ -2425,7 +2425,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1337, DEXPI:TaggedPlantItemType ]
+      - [ UAObjectType, DEXPI:1337, DEXPI:TaggedPlantItemType, Abstract ]
   - HasComponent:
     - [ UAVariable, DEXPI:1340, DEXPI:TagNameSequenceNumberAssignmentClass, String, 0, 3 ]
     - DisplayName: "TagNameSequenceNumberAssignmentClass"
@@ -2435,7 +2435,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1337, DEXPI:TaggedPlantItemType ]
+      - [ UAObjectType, DEXPI:1337, DEXPI:TaggedPlantItemType, Abstract ]
   - HasComponent:
     - [ UAVariable, DEXPI:1341, DEXPI:TagNameSuffixAssignmentClass, String, 0, 3 ]
     - DisplayName: "TagNameSuffixAssignmentClass"
@@ -2445,9 +2445,9 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1337, DEXPI:TaggedPlantItemType ]
+      - [ UAObjectType, DEXPI:1337, DEXPI:TaggedPlantItemType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:RotaryPumpType:
   - [ UAObjectType, DEXPI:1342, DEXPI:RotaryPumpType ]
@@ -2703,9 +2703,9 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1361, DEXPI:NozzleType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:2006, DEXPI:PipingNodeOwnerType ]
+    - [ UAObjectType, DEXPI:2006, DEXPI:PipingNodeOwnerType, Abstract ]
 
   DEXPI:SpiralHeatExchangerType:
   - [ UAObjectType, DEXPI:1369, DEXPI:SpiralHeatExchangerType ]
@@ -2780,10 +2780,10 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1370, DEXPI:ColumnPackingsArrangementType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:ChamberOwnerType:
-  - [ UAObjectType, DEXPI:1377, DEXPI:ChamberOwnerType ]
+  - [ UAObjectType, DEXPI:1377, DEXPI:ChamberOwnerType, Abstract ]
   - DisplayName: "ChamberOwnerType"
   - Description: "An object that can have chambers."
   - HasComponent:
@@ -2795,9 +2795,9 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1377, DEXPI:ChamberOwnerType ]
+      - [ UAObjectType, DEXPI:1377, DEXPI:ChamberOwnerType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:ReciprocatingCompressorType:
   - [ UAObjectType, DEXPI:1379, DEXPI:ReciprocatingCompressorType ]
@@ -2990,7 +2990,7 @@ DefinedTypes:
     - DisplayName: "<CompressorEquipmentItem>"
     - Description: "OPC UA Object(s) that are part of the Object Type"
     - HasTypeDefinition:
-      - [ UAObjectType, DEXPI:1636, DEXPI:CompressorEquipmentType ]
+      - [ UAObjectType, DEXPI:1636, DEXPI:CompressorEquipmentType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
@@ -3079,15 +3079,15 @@ DefinedTypes:
     - DisplayName: "<Internal>"
     - Description: "OPC UA Object(s) that are part of the Object Type"
     - HasTypeDefinition:
-      - [ UAObjectType, DEXPI:1489, DEXPI:ColumnInternalsArrangementType ]
+      - [ UAObjectType, DEXPI:1489, DEXPI:ColumnInternalsArrangementType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1399, DEXPI:SubTaggedColumnSectionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:1494, DEXPI:ColumnSectionType ]
+    - [ UAObjectType, DEXPI:1494, DEXPI:ColumnSectionType, Abstract ]
 
   DEXPI:CompressorType:
   - [ UAObjectType, DEXPI:1408, DEXPI:CompressorType ]
@@ -3160,7 +3160,7 @@ DefinedTypes:
   - HasSubtype:
     - [ UAObjectType, DEXPI:1387, DEXPI:SpecialCompressorType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
+    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType, Abstract ]
   - HasSubtype:
     - [ UAObjectType, DEXPI:1566, DEXPI:CentrifugalCompressorType ]
   - HasSubtype:
@@ -3306,7 +3306,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1425, DEXPI:VesselType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
+    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType, Abstract ]
   - HasSubtype:
     - [ UAObjectType, DEXPI:1445, DEXPI:PressureVesselType ]
   - HasSubtype:
@@ -3562,7 +3562,7 @@ DefinedTypes:
   - HasSubtype:
     - [ UAObjectType, DEXPI:1415, DEXPI:RotaryMixerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
+    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType, Abstract ]
   - HasSubtype:
     - [ UAObjectType, DEXPI:1625, DEXPI:StaticMixerType ]
 
@@ -3777,7 +3777,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1456, DEXPI:FilterUnitType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:AirCoolingSystemType:
   - [ UAObjectType, DEXPI:1478, DEXPI:AirCoolingSystemType ]
@@ -3890,11 +3890,11 @@ DefinedTypes:
     - [ UAObjectType, DEXPI:1326, DEXPI:HeatExchangerType ]
 
   DEXPI:ColumnInternalsArrangementType:
-  - [ UAObjectType, DEXPI:1489, DEXPI:ColumnInternalsArrangementType ]
+  - [ UAObjectType, DEXPI:1489, DEXPI:ColumnInternalsArrangementType, Abstract ]
   - DisplayName: "ColumnInternalsArrangementType"
   - Description: "The internals of a column."
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:SiloType:
   - [ UAObjectType, DEXPI:1490, DEXPI:SiloType ]
@@ -3918,10 +3918,10 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1491, DEXPI:HeatExchangerRotorType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:ColumnSectionType:
-  - [ UAObjectType, DEXPI:1494, DEXPI:ColumnSectionType ]
+  - [ UAObjectType, DEXPI:1494, DEXPI:ColumnSectionType, Abstract ]
   - DisplayName: "ColumnSectionType"
   - Description: "A column section."
   - HasComponent:
@@ -3954,7 +3954,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, DEXPI:1495, DEXPI:Height, Double, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1494, DEXPI:ColumnSectionType ]
+      - [ UAObjectType, DEXPI:1494, DEXPI:ColumnSectionType, Abstract ]
   - HasComponent:
     - [ UAVariable, DEXPI:1498, DEXPI:InsideDiameter, Double, 0, 3 ]
     - DisplayName: "InsideDiameter"
@@ -3985,26 +3985,26 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, DEXPI:1498, DEXPI:InsideDiameter, Double, 0, 3 ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1494, DEXPI:ColumnSectionType ]
+      - [ UAObjectType, DEXPI:1494, DEXPI:ColumnSectionType, Abstract ]
   - HasComponent:
     - [ UAObject, DEXPI:2095, DEXPI:<Internal> ]
     - DisplayName: "<Internal>"
     - Description: "OPC UA Object(s) that are part of the Object Type"
     - HasTypeDefinition:
-      - [ UAObjectType, DEXPI:1489, DEXPI:ColumnInternalsArrangementType ]
+      - [ UAObjectType, DEXPI:1489, DEXPI:ColumnInternalsArrangementType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1494, DEXPI:ColumnSectionType ]
+      - [ UAObjectType, DEXPI:1494, DEXPI:ColumnSectionType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:PumpEquipmentType:
-  - [ UAObjectType, DEXPI:1502, DEXPI:PumpEquipmentType ]
+  - [ UAObjectType, DEXPI:1502, DEXPI:PumpEquipmentType, Abstract ]
   - DisplayName: "PumpEquipmentType"
   - Description: "Equipment of a Pump."
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:ReciprocatingPumpType:
   - [ UAObjectType, DEXPI:1503, DEXPI:ReciprocatingPumpType ]
@@ -4196,17 +4196,17 @@ DefinedTypes:
     - DisplayName: "<Internal>"
     - Description: "OPC UA Object(s) that are part of the Object Type"
     - HasTypeDefinition:
-      - [ UAObjectType, DEXPI:1489, DEXPI:ColumnInternalsArrangementType ]
+      - [ UAObjectType, DEXPI:1489, DEXPI:ColumnInternalsArrangementType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1511, DEXPI:TaggedColumnSectionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
+    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:1337, DEXPI:TaggedPlantItemType ]
+    - [ UAObjectType, DEXPI:1337, DEXPI:TaggedPlantItemType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:1494, DEXPI:ColumnSectionType ]
+    - [ UAObjectType, DEXPI:1494, DEXPI:ColumnSectionType, Abstract ]
 
   DEXPI:ChamberType:
   - [ UAObjectType, DEXPI:1523, DEXPI:ChamberType ]
@@ -4552,7 +4552,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1523, DEXPI:ChamberType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:ElectricHeaterType:
   - [ UAObjectType, DEXPI:1557, DEXPI:ElectricHeaterType ]
@@ -4627,7 +4627,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1562, DEXPI:MixingElementAssemblyType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:CentrifugalCompressorType:
   - [ UAObjectType, DEXPI:1566, DEXPI:CentrifugalCompressorType ]
@@ -4709,7 +4709,7 @@ DefinedTypes:
     - [ UAObjectType, DEXPI:1408, DEXPI:CompressorType ]
 
   DEXPI:NozzleOwnerType:
-  - [ UAObjectType, DEXPI:1574, DEXPI:NozzleOwnerType ]
+  - [ UAObjectType, DEXPI:1574, DEXPI:NozzleOwnerType, Abstract ]
   - DisplayName: "NozzleOwnerType"
   - Description: "An object that can have nozzles."
   - HasComponent:
@@ -4721,9 +4721,9 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1574, DEXPI:NozzleOwnerType ]
+      - [ UAObjectType, DEXPI:1574, DEXPI:NozzleOwnerType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:PlateAndShellHeatExchangerType:
   - [ UAObjectType, DEXPI:1576, DEXPI:PlateAndShellHeatExchangerType ]
@@ -4979,7 +4979,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1592, DEXPI:TubeBundleType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:ColumnTraysArrangementType:
   - [ UAObjectType, DEXPI:1603, DEXPI:ColumnTraysArrangementType ]
@@ -5016,7 +5016,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1603, DEXPI:ColumnTraysArrangementType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:SpecialPumpType:
   - [ UAObjectType, DEXPI:1607, DEXPI:SpecialPumpType ]
@@ -5130,7 +5130,7 @@ DefinedTypes:
     - DisplayName: "<PumpEquipmentItem>"
     - Description: "OPC UA Object(s) that are part of the Object Type"
     - HasTypeDefinition:
-      - [ UAObjectType, DEXPI:1502, DEXPI:PumpEquipmentType ]
+      - [ UAObjectType, DEXPI:1502, DEXPI:PumpEquipmentType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
@@ -5145,7 +5145,7 @@ DefinedTypes:
   - HasSubtype:
     - [ UAObjectType, DEXPI:1431, DEXPI:GasFilterType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
+    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType, Abstract ]
   - HasSubtype:
     - [ UAObjectType, DEXPI:1694, DEXPI:LiquidFilterType ]
 
@@ -5291,14 +5291,14 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1629, DEXPI:ImpellerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:CompressorEquipmentType:
-  - [ UAObjectType, DEXPI:1636, DEXPI:CompressorEquipmentType ]
+  - [ UAObjectType, DEXPI:1636, DEXPI:CompressorEquipmentType, Abstract ]
   - DisplayName: "CompressorEquipmentType"
   - Description: "Equipment of a Compressor."
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:AgitatorType:
   - [ UAObjectType, DEXPI:1637, DEXPI:AgitatorType ]
@@ -5377,7 +5377,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1637, DEXPI:AgitatorType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
+    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType, Abstract ]
 
   DEXPI:AxialCompressorType:
   - [ UAObjectType, DEXPI:1645, DEXPI:AxialCompressorType ]
@@ -5541,7 +5541,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1656, DEXPI:DisplacerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:TankType:
   - [ UAObjectType, DEXPI:1663, DEXPI:TankType ]
@@ -5627,7 +5627,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1667, DEXPI:ProcessColumnType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
+    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType, Abstract ]
 
   DEXPI:AgitatorRotorType:
   - [ UAObjectType, DEXPI:1672, DEXPI:AgitatorRotorType ]
@@ -5716,10 +5716,10 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1672, DEXPI:AgitatorRotorType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:EquipmentType:
-  - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
+  - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType, Abstract ]
   - DisplayName: "EquipmentType"
   - Description: "A piece of equipment. Association to ParentStructure (TechnicalItemParentStructure) Association to PlantTrain (PlantTrain) Association to PlantSystem (PlantSystem) Association to AreaIsa95 (AreaIsa95)"
   - HasComponent:
@@ -5731,7 +5731,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
+      - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType, Abstract ]
   - HasComponent:
     - [ UAVariable, DEXPI:1686, DEXPI:TagNameAssignmentClass, String, 0, 3 ]
     - DisplayName: "TagNameAssignmentClass"
@@ -5741,7 +5741,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
+      - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType, Abstract ]
   - HasComponent:
     - [ UAVariable, DEXPI:1687, DEXPI:TagNamePrefixAssignmentClass, String, 0, 3 ]
     - DisplayName: "TagNamePrefixAssignmentClass"
@@ -5751,7 +5751,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
+      - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType, Abstract ]
   - HasComponent:
     - [ UAVariable, DEXPI:1688, DEXPI:TagNameSequenceNumberAssignmentClass, String, 0, 3 ]
     - DisplayName: "TagNameSequenceNumberAssignmentClass"
@@ -5761,7 +5761,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
+      - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType, Abstract ]
   - HasComponent:
     - [ UAVariable, DEXPI:1689, DEXPI:TagNameSuffixAssignmentClass, String, 0, 3 ]
     - DisplayName: "TagNameSuffixAssignmentClass"
@@ -5771,7 +5771,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
+      - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType, Abstract ]
   - HasComponent:
     - [ UAObject, DEXPI:2108, DEXPI:<Chamber> ]
     - DisplayName: "<Chamber>"
@@ -5781,7 +5781,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
+      - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType, Abstract ]
   - HasComponent:
     - [ UAObject, DEXPI:2109, DEXPI:<Nozzle> ]
     - DisplayName: "<Nozzle>"
@@ -5791,7 +5791,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
+      - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType, Abstract ]
   - HasSubtype:
     - [ UAObjectType, DEXPI:1326, DEXPI:HeatExchangerType ]
   - HasSubtype:
@@ -5809,15 +5809,15 @@ DefinedTypes:
   - HasSubtype:
     - [ UAObjectType, DEXPI:1667, DEXPI:ProcessColumnType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasSubtype:
     - [ UAObjectType, DEXPI:1716, DEXPI:PumpType ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:1377, DEXPI:ChamberOwnerType ]
+    - [ UAObjectType, DEXPI:1377, DEXPI:ChamberOwnerType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:1574, DEXPI:NozzleOwnerType ]
+    - [ UAObjectType, DEXPI:1574, DEXPI:NozzleOwnerType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:1337, DEXPI:TaggedPlantItemType ]
+    - [ UAObjectType, DEXPI:1337, DEXPI:TaggedPlantItemType, Abstract ]
 
   DEXPI:LiquidFilterType:
   - [ UAObjectType, DEXPI:1694, DEXPI:LiquidFilterType ]
@@ -6147,7 +6147,7 @@ DefinedTypes:
   - HasSubtype:
     - [ UAObjectType, DEXPI:1607, DEXPI:SpecialPumpType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType ]
+    - [ UAObjectType, DEXPI:1682, DEXPI:EquipmentType, Abstract ]
 
   DEXPI:PipingNetworkSystemType:
   - [ UAObjectType, DEXPI:1726, DEXPI:PipingNetworkSystemType ]
@@ -6386,14 +6386,14 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1726, DEXPI:PipingNetworkSystemType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:PipingNetworkSegmentItemType:
-  - [ UAObjectType, DEXPI:1754, DEXPI:PipingNetworkSegmentItemType ]
+  - [ UAObjectType, DEXPI:1754, DEXPI:PipingNetworkSegmentItemType, Abstract ]
   - DisplayName: "PipingNetworkSegmentItemType"
   - Description: "An item that can be part of a PipingNetworkSegment."
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:TurbineFlowMeterType:
   - [ UAObjectType, DEXPI:1755, DEXPI:TurbineFlowMeterType ]
@@ -6536,7 +6536,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1757, DEXPI:StrainerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
     - [ UAObjectType, DEXPI:1877, DEXPI:PipeFittingType ]
 
@@ -6688,14 +6688,14 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1773, DEXPI:CheckValveType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType ]
+    - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType, Abstract ]
   - HasSubtype:
     - [ UAObjectType, DEXPI:1874, DEXPI:GlobeCheckValveType ]
   - HasSubtype:
     - [ UAObjectType, DEXPI:1937, DEXPI:SwingCheckValveType ]
 
   DEXPI:PipeConnectorSymbolType:
-  - [ UAObjectType, DEXPI:1786, DEXPI:PipeConnectorSymbolType ]
+  - [ UAObjectType, DEXPI:1786, DEXPI:PipeConnectorSymbolType, Abstract ]
   - DisplayName: "PipeConnectorSymbolType"
   - Description: "A pipe connector symbol. It is usually drawn as an arrow."
   - HasComponent:
@@ -6707,11 +6707,11 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1786, DEXPI:PipeConnectorSymbolType ]
+      - [ UAObjectType, DEXPI:1786, DEXPI:PipeConnectorSymbolType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:2006, DEXPI:PipingNodeOwnerType ]
+    - [ UAObjectType, DEXPI:2006, DEXPI:PipingNodeOwnerType, Abstract ]
 
   DEXPI:FlangeType:
   - [ UAObjectType, DEXPI:1788, DEXPI:FlangeType ]
@@ -6867,7 +6867,7 @@ DefinedTypes:
   - HasSubtype:
     - [ UAObjectType, DEXPI:1755, DEXPI:TurbineFlowMeterType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType ]
+    - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType, Abstract ]
   - HasSubtype:
     - [ UAObjectType, DEXPI:1809, DEXPI:PositiveDisplacementFlowMeterType ]
   - HasSubtype:
@@ -6898,11 +6898,11 @@ DefinedTypes:
     - [ UAObjectType, DEXPI:1877, DEXPI:PipeFittingType ]
 
   DEXPI:PipingSourceItemType:
-  - [ UAObjectType, DEXPI:1807, DEXPI:PipingSourceItemType ]
+  - [ UAObjectType, DEXPI:1807, DEXPI:PipingSourceItemType, Abstract ]
   - DisplayName: "PipingSourceItemType"
   - Description: "An item that can be the source of a PipingConnection (attribute SourceItem) or a PipingNetworkSegment (attribute SourceItem)."
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:AngleGlobeValveType:
   - [ UAObjectType, DEXPI:1808, DEXPI:AngleGlobeValveType ]
@@ -7059,7 +7059,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1812, DEXPI:SteamTrapType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
     - [ UAObjectType, DEXPI:1877, DEXPI:PipeFittingType ]
 
@@ -7071,11 +7071,11 @@ DefinedTypes:
     - [ UAObjectType, DEXPI:1877, DEXPI:PipeFittingType ]
 
   DEXPI:PipingTargetItemType:
-  - [ UAObjectType, DEXPI:1826, DEXPI:PipingTargetItemType ]
+  - [ UAObjectType, DEXPI:1826, DEXPI:PipingTargetItemType, Abstract ]
   - DisplayName: "PipingTargetItemType"
   - Description: "An item that can be the target of a PipingConnection (attribute TargetItem) or a PipingNetworkSegment (attribute TargetItem)."
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:FlowInPipeConnectorSymbolType:
   - [ UAObjectType, DEXPI:1827, DEXPI:FlowInPipeConnectorSymbolType ]
@@ -7092,9 +7092,9 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1827, DEXPI:FlowInPipeConnectorSymbolType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:1786, DEXPI:PipeConnectorSymbolType ]
+    - [ UAObjectType, DEXPI:1786, DEXPI:PipeConnectorSymbolType, Abstract ]
 
   DEXPI:FlowOutPipeConnectorSymbolType:
   - [ UAObjectType, DEXPI:1829, DEXPI:FlowOutPipeConnectorSymbolType ]
@@ -7111,9 +7111,9 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1829, DEXPI:FlowOutPipeConnectorSymbolType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:1786, DEXPI:PipeConnectorSymbolType ]
+    - [ UAObjectType, DEXPI:1786, DEXPI:PipeConnectorSymbolType, Abstract ]
 
   DEXPI:SpringLoadedGlobeSafetyValveType:
   - [ UAObjectType, DEXPI:1831, DEXPI:SpringLoadedGlobeSafetyValveType ]
@@ -7249,7 +7249,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1832, DEXPI:SilencerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
     - [ UAObjectType, DEXPI:1877, DEXPI:PipeFittingType ]
 
@@ -7412,7 +7412,7 @@ DefinedTypes:
   - HasSubtype:
     - [ UAObjectType, DEXPI:1808, DEXPI:AngleGlobeValveType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType ]
+    - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType, Abstract ]
   - HasSubtype:
     - [ UAObjectType, DEXPI:1869, DEXPI:GlobeValveType ]
   - HasSubtype:
@@ -7429,7 +7429,7 @@ DefinedTypes:
   - DisplayName: "DirectPipingConnectionType"
   - Description: "A direct connection between two piping items, i.e. a connection that is not realized by a pipe. Association to SourceItem (PipingSourceItem) Association to TargetItem (PipingTargetItem) Association to SourceNode (PipingNode) Association to TargetNode (PipingNode)"
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:FlowDetectorType:
   - [ UAObjectType, DEXPI:1865, DEXPI:FlowDetectorType ]
@@ -7666,7 +7666,7 @@ DefinedTypes:
   - HasSubtype:
     - [ UAObjectType, DEXPI:1875, DEXPI:PipeTeeType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType ]
+    - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType, Abstract ]
   - HasSubtype:
     - [ UAObjectType, DEXPI:1896, DEXPI:PipeFlangeSpadeType ]
   - HasSubtype:
@@ -7685,7 +7685,7 @@ DefinedTypes:
   - DisplayName: "PipeType"
   - Description: "An elementary piece of piping, i.e., not interrupted by any item. Association to SourceItem (PipingSourceItem) Association to TargetItem (PipingTargetItem) Association to SourceNode (PipingNode) Association to TargetNode (PipingNode)"
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:VolumetricFlowDetectorType:
   - [ UAObjectType, DEXPI:1895, DEXPI:VolumetricFlowDetectorType ]
@@ -8031,7 +8031,7 @@ DefinedTypes:
     - DisplayName: "<Item>"
     - Description: "OPC UA Object(s) that are part of the Object Type"
     - HasTypeDefinition:
-      - [ UAObjectType, DEXPI:1754, DEXPI:PipingNetworkSegmentItemType ]
+      - [ UAObjectType, DEXPI:1754, DEXPI:PipingNetworkSegmentItemType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
@@ -8041,13 +8041,13 @@ DefinedTypes:
     - DisplayName: "<Connection>"
     - Description: "OPC UA Object(s) that are part of the Object Type"
     - HasTypeDefinition:
-      - [ UAObjectType, DEXPI:1989, DEXPI:PipingConnectionType ]
+      - [ UAObjectType, DEXPI:1989, DEXPI:PipingConnectionType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1898, DEXPI:PipingNetworkSegmentType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:PenetrationType:
   - [ UAObjectType, DEXPI:1936, DEXPI:PenetrationType ]
@@ -8118,9 +8118,9 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1938, DEXPI:PropertyBreakType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:2006, DEXPI:PipingNodeOwnerType ]
+    - [ UAObjectType, DEXPI:2006, DEXPI:PipingNodeOwnerType, Abstract ]
 
   DEXPI:SafetyValveOrFittingType:
   - [ UAObjectType, DEXPI:1944, DEXPI:SafetyValveOrFittingType ]
@@ -8237,7 +8237,7 @@ DefinedTypes:
   - HasSubtype:
     - [ UAObjectType, DEXPI:1876, DEXPI:SpringLoadedAngleGlobeSafetyValveType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType ]
+    - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType, Abstract ]
   - HasSubtype:
     - [ UAObjectType, DEXPI:1972, DEXPI:FlameArrestorType ]
 
@@ -8389,7 +8389,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1958, DEXPI:VentilationDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
     - [ UAObjectType, DEXPI:1877, DEXPI:PipeFittingType ]
 
@@ -8564,16 +8564,16 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:1976, DEXPI:OrificePlateType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
     - [ UAObjectType, DEXPI:1877, DEXPI:PipeFittingType ]
 
   DEXPI:PipingConnectionType:
-  - [ UAObjectType, DEXPI:1989, DEXPI:PipingConnectionType ]
+  - [ UAObjectType, DEXPI:1989, DEXPI:PipingConnectionType, Abstract ]
   - DisplayName: "PipingConnectionType"
   - Description: "An elementary connection between two piping items. Association to SourceItem (PipingSourceItem) Association to TargetItem (PipingTargetItem) Association to SourceNode (PipingNode) Association to TargetNode (PipingNode)"
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:ButterflyValveType:
   - [ UAObjectType, DEXPI:1994, DEXPI:ButterflyValveType ]
@@ -8583,7 +8583,7 @@ DefinedTypes:
     - [ UAObjectType, DEXPI:1845, DEXPI:ShutOffValveType ]
 
   DEXPI:PipingComponentType:
-  - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType ]
+  - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType, Abstract ]
   - DisplayName: "PipingComponentType"
   - Description: "A piping component"
   - HasComponent:
@@ -8595,7 +8595,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType ]
+      - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType, Abstract ]
   - HasComponent:
     - [ UAVariable, DEXPI:1997, DEXPI:FluidCodeAssignmentClass, String, 0, 3 ]
     - DisplayName: "FluidCodeAssignmentClass"
@@ -8605,7 +8605,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType ]
+      - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType, Abstract ]
   - HasComponent:
     - [ UAVariable, DEXPI:1998, DEXPI:NominalDiametersRepresentationAssignmentClass, String, 0, 3 ]
     - DisplayName: "NominalDiametersRepresentationAssignmentClass"
@@ -8615,7 +8615,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType ]
+      - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType, Abstract ]
   - HasComponent:
     - [ UAVariable, DEXPI:1999, DEXPI:OnHoldSpecialization, DEXPI:OnHoldClassification, 0, 3 ]
     - DisplayName: "OnHoldSpecialization"
@@ -8625,7 +8625,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType ]
+      - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType, Abstract ]
   - HasComponent:
     - [ UAVariable, DEXPI:2000, DEXPI:PipingClassArtefactSpecialization, DEXPI:PipingClassArtefactClassification, 0, 3 ]
     - DisplayName: "PipingClassArtefactSpecialization"
@@ -8635,7 +8635,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType ]
+      - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType, Abstract ]
   - HasComponent:
     - [ UAVariable, DEXPI:2001, DEXPI:PressureTestCircuitNumberAssignmentClass, String, 0, 3 ]
     - DisplayName: "PressureTestCircuitNumberAssignmentClass"
@@ -8645,7 +8645,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType ]
+      - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType, Abstract ]
   - HasComponent:
     - [ UAObject, DEXPI:2120, DEXPI:<Node> ]
     - DisplayName: "<Node>"
@@ -8655,7 +8655,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType ]
+      - [ UAObjectType, DEXPI:1995, DEXPI:PipingComponentType, Abstract ]
   - HasSubtype:
     - [ UAObjectType, DEXPI:1773, DEXPI:CheckValveType ]
   - HasSubtype:
@@ -8667,9 +8667,9 @@ DefinedTypes:
   - HasSubtype:
     - [ UAObjectType, DEXPI:1944, DEXPI:SafetyValveOrFittingType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:2006, DEXPI:PipingNodeOwnerType ]
+    - [ UAObjectType, DEXPI:2006, DEXPI:PipingNodeOwnerType, Abstract ]
 
   DEXPI:GateValveType:
   - [ UAObjectType, DEXPI:2003, DEXPI:GateValveType ]
@@ -8693,7 +8693,7 @@ DefinedTypes:
     - [ UAObjectType, DEXPI:1877, DEXPI:PipeFittingType ]
 
   DEXPI:PipingNodeOwnerType:
-  - [ UAObjectType, DEXPI:2006, DEXPI:PipingNodeOwnerType ]
+  - [ UAObjectType, DEXPI:2006, DEXPI:PipingNodeOwnerType, Abstract ]
   - DisplayName: "PipingNodeOwnerType"
   - Description: "An object that can have PipingNodes."
   - HasComponent:
@@ -8705,9 +8705,9 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:2006, DEXPI:PipingNodeOwnerType ]
+      - [ UAObjectType, DEXPI:2006, DEXPI:PipingNodeOwnerType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:PipingNodeType:
   - [ UAObjectType, DEXPI:2008, DEXPI:PipingNodeType ]
@@ -8764,7 +8764,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:2008, DEXPI:PipingNodeType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:RotationalSpeedType:
   - [ UAObjectType, DEXPI:2014, DEXPI:RotationalSpeedType ]
@@ -8791,9 +8791,9 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:2014, DEXPI:RotationalSpeedType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType ]
+    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType, Abstract ]
 
   DEXPI:HeatTransferCoefficientType:
   - [ UAObjectType, DEXPI:2018, DEXPI:HeatTransferCoefficientType ]
@@ -8820,9 +8820,9 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:2018, DEXPI:HeatTransferCoefficientType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType ]
+    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType, Abstract ]
 
   DEXPI:TemperatureType:
   - [ UAObjectType, DEXPI:2022, DEXPI:TemperatureType ]
@@ -8849,12 +8849,12 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:2022, DEXPI:TemperatureType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType ]
+    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType, Abstract ]
 
   DEXPI:PhysicalQuantityType:
-  - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType ]
+  - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType, Abstract ]
   - DisplayName: "PhysicalQuantityType"
   - Description: ""
   - HasComponent:
@@ -8866,9 +8866,9 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType ]
+      - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType, Abstract ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
 
   DEXPI:AreaType:
   - [ UAObjectType, DEXPI:2029, DEXPI:AreaType ]
@@ -8895,9 +8895,9 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:2029, DEXPI:AreaType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType ]
+    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType, Abstract ]
 
   DEXPI:VolumeFlowRateType:
   - [ UAObjectType, DEXPI:2033, DEXPI:VolumeFlowRateType ]
@@ -8924,9 +8924,9 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:2033, DEXPI:VolumeFlowRateType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType ]
+    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType, Abstract ]
 
   DEXPI:PowerType:
   - [ UAObjectType, DEXPI:2037, DEXPI:PowerType ]
@@ -8953,9 +8953,9 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:2037, DEXPI:PowerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType ]
+    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType, Abstract ]
 
   DEXPI:LengthType:
   - [ UAObjectType, DEXPI:2041, DEXPI:LengthType ]
@@ -8982,9 +8982,9 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:2041, DEXPI:LengthType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType ]
+    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType, Abstract ]
 
   DEXPI:PercentageType:
   - [ UAObjectType, DEXPI:2045, DEXPI:PercentageType ]
@@ -9011,9 +9011,9 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:2045, DEXPI:PercentageType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType ]
+    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType, Abstract ]
 
   DEXPI:VolumeType:
   - [ UAObjectType, DEXPI:2049, DEXPI:VolumeType ]
@@ -9040,9 +9040,9 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:2049, DEXPI:VolumeType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType ]
+    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType, Abstract ]
 
   DEXPI:MassType:
   - [ UAObjectType, DEXPI:2053, DEXPI:MassType ]
@@ -9069,9 +9069,9 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:2053, DEXPI:MassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType ]
+    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType, Abstract ]
 
   DEXPI:PressureType:
   - [ UAObjectType, DEXPI:2057, DEXPI:PressureType ]
@@ -9098,9 +9098,9 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:2057, DEXPI:PressureType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType ]
+    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType, Abstract ]
 
   DEXPI:AngleType:
   - [ UAObjectType, DEXPI:2061, DEXPI:AngleType ]
@@ -9127,6 +9127,6 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, DEXPI:2061, DEXPI:AngleType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType ]
+    - [ UAObjectType, DEXPI:1060, DEXPI:BaseDEXPIObjectType, Abstract ]
   - HasDEXPIRelationship:
-    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType ]
+    - [ UAObjectType, DEXPI:2026, DEXPI:PhysicalQuantityType, Abstract ]

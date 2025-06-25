@@ -1225,7 +1225,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AutoID:OcrReaderDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AutoID",
     "displayName": "OcrReaderDeviceType",
     "extends": "dtmi:opcua:AutoID:AutoIdDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1002",
@@ -1254,7 +1255,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AutoID:OpticalReaderDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AutoID",
     "displayName": "OpticalReaderDeviceType",
     "extends": "dtmi:opcua:AutoID:AutoIdDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1008",
@@ -1283,7 +1285,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AutoID:OpticalVerifierDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AutoID",
     "displayName": "OpticalVerifierDeviceType",
     "extends": "dtmi:opcua:AutoID:OpticalReaderDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1011",
@@ -1304,7 +1307,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AutoID",
     "displayName": "RfidReaderDeviceType",
     "extends": "dtmi:opcua:AutoID:AutoIdDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1003",
@@ -1949,7 +1953,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AutoID:RtlsDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AutoID",
     "displayName": "RtlsDeviceType",
     "extends": "dtmi:opcua:AutoID:AutoIdDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1012",

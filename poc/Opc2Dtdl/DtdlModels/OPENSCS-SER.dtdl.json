@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/OPENSCS-SER",
     "displayName": "OPENSCSAggregationManagerObjectType",
     "description": "The aggregation manager receives unsolicited events through the aggregation methods. The aggregation methods have the same method signature.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -295,7 +296,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/OPENSCS-SER",
     "displayName": "OPENSCSEventManagerObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15062",
@@ -1039,7 +1041,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/OPENSCS-SER",
     "displayName": "OPENSCSPoolManagerObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15032",
@@ -1716,7 +1719,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSSIDClassObjectType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/OPENSCS-SER",
     "displayName": "OPENSCSSIDClassObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15102",

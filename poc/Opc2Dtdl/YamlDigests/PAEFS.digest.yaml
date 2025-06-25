@@ -702,7 +702,7 @@ DefinedTypes:
     - [ UAObjectType, 2782, ConditionType ]
 
   PAEFS:HighVoltageUnitSupplyActiveEventType:
-  - [ UAObjectType, PAEFS:1031, PAEFS:HighVoltageUnitSupplyActiveEventType ]
+  - [ UAObjectType, PAEFS:1031, PAEFS:HighVoltageUnitSupplyActiveEventType, Abstract ]
   - DisplayName: "HighVoltageUnitSupplyActiveEventType"
   - Description: "Triggered when the high voltage unit supply is activated or deactivated"
   - HasProperty:
@@ -714,7 +714,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PAEFS:1031, PAEFS:HighVoltageUnitSupplyActiveEventType ]
+      - [ UAObjectType, PAEFS:1031, PAEFS:HighVoltageUnitSupplyActiveEventType, Abstract ]
   - GeneratesEvent_reverse:
     - [ UAObjectType, PAEFS:1015, PAEFS:HighVoltageUnitType ]
   - HasSubtype_reverse:
@@ -2455,7 +2455,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
-        - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+        - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType, Abstract ]
       - HasComponent_reverse:
         - [ UAObject, PAEFS:5018, PAEFS:<FilterUnit> ]
     - HasComponent:
@@ -3395,7 +3395,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+      - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType, Abstract ]
     - HasComponent_reverse:
       - [ UAObjectType, PAEFS:1012, PAEFS:FilterUnitType ]
   - HasComponent:
@@ -4296,7 +4296,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, PAEFS:6088, PAEFS:CurrentOutput, Double, 0, 0 ]
   - GeneratesEvent:
-    - [ UAObjectType, PAEFS:1031, PAEFS:HighVoltageUnitSupplyActiveEventType ]
+    - [ UAObjectType, PAEFS:1031, PAEFS:HighVoltageUnitSupplyActiveEventType, Abstract ]
   - HasInterface:
     - [ UAObjectType, DI:480, DI:IOperationCounterType ]
   - HasProperty:
@@ -4901,7 +4901,7 @@ DefinedTypes:
         - [ UAObject, PAEFS:5057, PAEFS:Signal ]
 
   PAEFS:SeparatorType:
-  - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+  - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType, Abstract ]
   - DisplayName: "SeparatorType"
   - Description: "This is the abstract base type for separators. It contains optional sensor values that are common to all separators. Users may use one of the subtypes provided within this specification or create their own type."
   - HasProperty:
@@ -4913,7 +4913,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+      - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType, Abstract ]
   - HasComponent:
     - [ UAObject, PAEFS:5001, PAEFS:FilterMediumState ]
     - DisplayName: "FilterMediumState"
@@ -4923,7 +4923,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, PAEFS:SensorMonitoringType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+      - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType, Abstract ]
     - HasComponent:
       - [ UAObject, PAEFS:5034, PAEFS:Signal ]
       - DisplayName: "Signal"
@@ -4980,7 +4980,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, PAEFS:SensorMonitoringType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+      - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType, Abstract ]
     - HasComponent:
       - [ UAObject, PAEFS:5050, PAEFS:Signal ]
       - DisplayName: "Signal"
@@ -5037,7 +5037,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasAddIn_reverse:
-      - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+      - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType, Abstract ]
     - HasProperty:
       - [ UAVariable, PAEFS:6468, DI:Manufacturer, LocalizedText, 0, 0 ]
       - DisplayName: "Manufacturer"
@@ -5076,7 +5076,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasAddIn_reverse:
-        - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+        - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType, Abstract ]
       - HasProperty:
         - [ UAVariable, PAEFS:6468, DI:Manufacturer, LocalizedText, 0, 0 ]
         - DisplayName: "Manufacturer"
@@ -5100,7 +5100,7 @@ DefinedTypes:
       - HasAddIn_reverse:
         - [ UAObject, PAEFS:5113, Machinery:MachineryBuildingBlocks ]
     - HasComponent_reverse:
-      - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+      - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType, Abstract ]
     - HasAddIn:
       - [ UAObject, PAEFS:5104, Machinery:MachineryItemState ]
       - DisplayName: "MachineryItemState"
@@ -5128,7 +5128,7 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAVariable, PAEFS:6236, PAEFS:CurrentState, LocalizedText, 0, 0 ]
       - HasAddIn_reverse:
-        - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+        - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType, Abstract ]
       - HasAddIn_reverse:
         - [ UAObject, PAEFS:5113, Machinery:MachineryBuildingBlocks ]
   - HasAddIn:
@@ -5158,7 +5158,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAVariable, PAEFS:6236, PAEFS:CurrentState, LocalizedText, 0, 0 ]
     - HasAddIn_reverse:
-      - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+      - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType, Abstract ]
     - HasAddIn_reverse:
       - [ UAObject, PAEFS:5113, Machinery:MachineryBuildingBlocks ]
   - HasSubtype_reverse:
@@ -5219,14 +5219,14 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAObject, PAEFS:5061, PAEFS:Signal ]
     - HasComponent_reverse:
-      - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+      - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType, Abstract ]
 
   PAEFS:AutomaticRollFilterType:
   - [ UAObjectType, PAEFS:1021, PAEFS:AutomaticRollFilterType ]
   - DisplayName: "AutomaticRollFilterType"
   - Description: "A separator that is regenerated by rolling up the filter medium."
   - HasSubtype_reverse:
-    - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+    - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType, Abstract ]
   - HasProperty:
     - [ UAVariable, PAEFS:6389, PAEFS:EndOfFilterRoll, Boolean, 0, 0 ]
     - DisplayName: "EndOfFilterRoll"
@@ -5245,7 +5245,7 @@ DefinedTypes:
   - DisplayName: "CartridgeFilterType"
   - Description: "A basic mechanical separator."
   - HasSubtype_reverse:
-    - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+    - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType, Abstract ]
 
   PAEFS:ElectrostaticPrecipitatorType:
   - [ UAObjectType, PAEFS:1018, PAEFS:ElectrostaticPrecipitatorType ]
@@ -5262,7 +5262,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, PAEFS:1018, PAEFS:ElectrostaticPrecipitatorType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+    - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType, Abstract ]
 
   PAEFS:WetSeparatorType:
   - [ UAObjectType, PAEFS:1014, PAEFS:WetSeparatorType ]
@@ -5317,7 +5317,7 @@ DefinedTypes:
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1027, PAEFS:WashingAgentInflowOpenConditionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+    - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType, Abstract ]
 
   PAEFS:TemperatureRegulatorType:
   - [ UAObjectType, PAEFS:1017, PAEFS:TemperatureRegulatorType ]

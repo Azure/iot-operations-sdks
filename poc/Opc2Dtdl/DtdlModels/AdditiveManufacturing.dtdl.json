@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AdditiveManufacturing:EquipmentAMType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AdditiveManufacturing",
     "displayName": "EquipmentAMType",
     "extends": "dtmi:opcua:MachineTool:EquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=1003",
@@ -187,7 +188,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AdditiveManufacturing:MachineIdentificationAMType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AdditiveManufacturing",
     "displayName": "MachineIdentificationAMType",
     "description": "The MachineIdentificationAMType of the Additive Manufacturing information model holds static data which shall uniquely identify an AM machine among a pool of the AM machine operating entity.",
     "extends": "dtmi:opcua:MachineTool:MachineToolIdentificationType;1",
@@ -219,7 +221,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AdditiveManufacturing:AdditiveManufacturingType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AdditiveManufacturing",
     "displayName": "AdditiveManufacturingType",
     "description": "The AdditiveManufacturingType represents the entire additive manufacturing interface of this information model. It is the entry point to the OPC UA interface of an AM machine and provides a basic structure. An instance of this type aggregates all information related to one AM machine.",
     "extends": "dtmi:opcua:MachineTool:MachineToolType;1",
@@ -241,7 +244,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AdditiveManufacturing:ProcessValueAMType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AdditiveManufacturing",
     "displayName": "ProcessValueAMType",
     "description": "The ProcessValueAMType provides sensor monitoring information of an AM machine.",
     "extends": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType;1",

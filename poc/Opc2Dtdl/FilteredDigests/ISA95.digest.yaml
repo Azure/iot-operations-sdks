@@ -132,21 +132,21 @@ DataTypes:
 DefinedTypes:
 
   ISA95:ISA95ClassType:
-  - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
+  - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType, Abstract ]
   - DisplayName: "ISA95ClassType"
   - Description: "This abstract ObjectType is used to define groupings of functionality that is associated with an ISA95Object"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   ISA95:ISA95ObjectType:
-  - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType ]
+  - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType, Abstract ]
   - DisplayName: "ISA95ObjectType"
   - Description: "This abstract ObjectType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   ISA95:ISA95TestSpecificationType:
-  - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType ]
+  - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType, Abstract ]
   - DisplayName: "ISA95TestSpecificationType"
   - Description: "This ObjectType indicates the existence of a test specification."
   - HasSubtype_reverse:
@@ -157,35 +157,35 @@ DefinedTypes:
   - DisplayName: "QualificationTestSpecificationType"
   - Description: "This ObjectType indicates the existence of a test specification."
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType ]
+    - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType, Abstract ]
 
   ISA95:PersonnelClassType:
   - [ UAObjectType, ISA95:4996, ISA95:PersonnelClassType ]
   - DisplayName: "PersonnelClassType"
   - Description: "This ObjectType indicates a grouping of persons with similar characteristics for a definite purpose such as manufacturing operations definition, scheduling, capability and performance"
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
+    - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType, Abstract ]
 
   ISA95:PersonType:
   - [ UAObjectType, ISA95:5131, ISA95:PersonType ]
   - DisplayName: "PersonType"
   - Description: "This ObjectType indicates a specifically identified individual"
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType ]
+    - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType, Abstract ]
 
   ISA95:PhysicalAssetCapabilityTestSpecificationType:
   - [ UAObjectType, ISA95:5057, ISA95:PhysicalAssetCapabilityTestSpecificationType ]
   - DisplayName: "PhysicalAssetCapabilityTestSpecificationType"
   - Description: "This ObjectType indicates the existence of a test specification."
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType ]
+    - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType, Abstract ]
 
   ISA95:PhysicalAssetClassType:
   - [ UAObjectType, ISA95:5078, ISA95:PhysicalAssetClassType ]
   - DisplayName: "PhysicalAssetClassType"
   - Description: "This ObjectType indicates a grouping of equipment with similar characteristics for a definite purpose such as manufacturing operations definition, scheduling, capability and performance"
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
+    - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType, Abstract ]
 
   ISA95:PhysicalAssetType:
   - [ UAObjectType, ISA95:5085, ISA95:PhysicalAssetType ]
@@ -197,21 +197,21 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType ]
+    - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType, Abstract ]
 
   ISA95:EquipmentCapabilityTestSpecificationType:
   - [ UAObjectType, ISA95:5015, ISA95:EquipmentCapabilityTestSpecificationType ]
   - DisplayName: "EquipmentCapabilityTestSpecificationType"
   - Description: "This ObjectType indicates the existence of a test specification."
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType ]
+    - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType, Abstract ]
 
   ISA95:EquipmentClassType:
   - [ UAObjectType, ISA95:5034, ISA95:EquipmentClassType ]
   - DisplayName: "EquipmentClassType"
   - Description: "This ObjectType indicates a grouping of equipment with similar characteristics for a definite purpose such as manufacturing operations definition, scheduling, capability and performance"
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
+    - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType, Abstract ]
 
   ISA95:EquipmentType:
   - [ UAObjectType, ISA95:5040, ISA95:EquipmentType ]
@@ -223,39 +223,39 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType ]
+    - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType, Abstract ]
 
   ISA95:MaterialTestSpecificationType:
   - [ UAObjectType, ISA95:5172, ISA95:MaterialTestSpecificationType ]
   - DisplayName: "MaterialTestSpecificationType"
   - Description: "This ObjectType indicates the existence of a test specification."
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType ]
+    - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType, Abstract ]
 
   ISA95:MaterialClassType:
   - [ UAObjectType, ISA95:5209, ISA95:MaterialClassType ]
   - DisplayName: "MaterialClassType"
   - Description: ""
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
+    - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType, Abstract ]
 
   ISA95:MaterialDefinitionType:
   - [ UAObjectType, ISA95:5219, ISA95:MaterialDefinitionType ]
   - DisplayName: "MaterialDefinitionType"
   - Description: ""
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
+    - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType, Abstract ]
 
   ISA95:MaterialLotType:
   - [ UAObjectType, ISA95:5232, ISA95:MaterialLotType ]
   - DisplayName: "MaterialLotType"
   - Description: ""
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType ]
+    - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType, Abstract ]
 
   ISA95:MaterialSublotType:
   - [ UAObjectType, ISA95:5259, ISA95:MaterialSublotType ]
   - DisplayName: "MaterialSublotType"
   - Description: ""
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType ]
+    - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType, Abstract ]

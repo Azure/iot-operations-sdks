@@ -311,7 +311,7 @@ DataTypes:
 DefinedTypes:
 
   Glass.Flat.v2:GlassEventType:
-  - [ UAObjectType, Glass.Flat.v2:1030, Glass.Flat.v2:GlassEventType ]
+  - [ UAObjectType, Glass.Flat.v2:1030, Glass.Flat.v2:GlassEventType, Abstract ]
   - DisplayName: "GlassEventType"
   - HasProperty:
     - [ UAVariable, Glass.Flat.v2:6405, Glass.Flat.v2:Identifier ]

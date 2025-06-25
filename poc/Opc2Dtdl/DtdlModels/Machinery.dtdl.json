@@ -275,7 +275,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Machinery:MachineIdentificationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Machinery",
     "displayName": "MachineIdentificationType",
     "description": "Contains information about the identification and nameplate of a machine",
     "extends": "dtmi:opcua:Machinery:MachineryItemIdentificationType;1",
@@ -341,7 +342,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Machinery:MachineryOperationCounterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Machinery",
     "displayName": "MachineryOperationCounterType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Machinery;i=1009",
@@ -400,7 +402,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Machinery:MachineryLifetimeCounterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Machinery",
     "displayName": "MachineryLifetimeCounterType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Machinery;i=1015",
@@ -703,7 +706,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Machinery:MachineryOperationModeStateMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Machinery",
     "displayName": "MachineryOperationModeStateMachineType",
     "description": "State machine representing the operation mode of a MachineryItem",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",

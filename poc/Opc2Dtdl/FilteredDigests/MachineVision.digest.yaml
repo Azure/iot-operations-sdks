@@ -148,7 +148,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
 
   MachineVision:VisionConditionType:
-  - [ UAObjectType, MachineVision:1033, MachineVision:VisionConditionType ]
+  - [ UAObjectType, MachineVision:1033, MachineVision:VisionConditionType, Abstract ]
   - DisplayName: "VisionConditionType"
   - HasProperty:
     - [ UAVariable, MachineVision:6206, MachineVision:BlockReaction, Boolean, 0, 3 ]
@@ -227,19 +227,19 @@ DefinedTypes:
   - [ UAObjectType, MachineVision:1035, MachineVision:VisionErrorConditionType ]
   - DisplayName: "VisionErrorConditionType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision:1033, MachineVision:VisionConditionType ]
+    - [ UAObjectType, MachineVision:1033, MachineVision:VisionConditionType, Abstract ]
 
   MachineVision:VisionPersistentErrorConditionType:
   - [ UAObjectType, MachineVision:1036, MachineVision:VisionPersistentErrorConditionType ]
   - DisplayName: "VisionPersistentErrorConditionType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision:1033, MachineVision:VisionConditionType ]
+    - [ UAObjectType, MachineVision:1033, MachineVision:VisionConditionType, Abstract ]
 
   MachineVision:VisionWarningConditionType:
   - [ UAObjectType, MachineVision:1034, MachineVision:VisionWarningConditionType ]
   - DisplayName: "VisionWarningConditionType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision:1033, MachineVision:VisionConditionType ]
+    - [ UAObjectType, MachineVision:1033, MachineVision:VisionConditionType, Abstract ]
 
   MachineVision:EnterStepSequenceEventType:
   - [ UAObjectType, MachineVision:1027, MachineVision:EnterStepSequenceEventType ]
@@ -412,7 +412,7 @@ DefinedTypes:
     - [ UAObjectType, 2311, TransitionEventType ]
 
   MachineVision:VisionEventType:
-  - [ UAObjectType, MachineVision:1015, MachineVision:VisionEventType ]
+  - [ UAObjectType, MachineVision:1015, MachineVision:VisionEventType, Abstract ]
   - DisplayName: "VisionEventType"
   - HasProperty:
     - [ UAVariable, MachineVision:6193, MachineVision:CausePath, String, 0, 3 ]
@@ -471,13 +471,13 @@ DefinedTypes:
   - [ UAObjectType, MachineVision:1037, MachineVision:VisionDiagnosticInfoEventType ]
   - DisplayName: "VisionDiagnosticInfoEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision:1015, MachineVision:VisionEventType ]
+    - [ UAObjectType, MachineVision:1015, MachineVision:VisionEventType, Abstract ]
 
   MachineVision:VisionInformationEventType:
   - [ UAObjectType, MachineVision:1038, MachineVision:VisionInformationEventType ]
   - DisplayName: "VisionInformationEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision:1015, MachineVision:VisionEventType ]
+    - [ UAObjectType, MachineVision:1015, MachineVision:VisionEventType, Abstract ]
 
   MachineVision:VisionSafetyEventType:
   - [ UAObjectType, MachineVision:1030, MachineVision:VisionSafetyEventType ]

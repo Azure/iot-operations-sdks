@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Safety:SafetyConsumerParametersType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Safety",
     "displayName": "SafetyConsumerParametersType",
     "description": "Safety parameters for the SafetyProvider",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -54,7 +55,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Safety:SafetyConsumerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Safety",
     "displayName": "SafetyConsumerType",
     "extends": "dtmi:opcua:Safety:SafetyObjectsType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1005",
@@ -75,7 +77,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Safety:SafetyProviderType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Safety",
     "displayName": "SafetyProviderType",
     "extends": "dtmi:opcua:Safety:SafetyObjectsType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1003",
@@ -96,7 +99,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Safety:SafetyPDUsType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Safety",
     "displayName": "SafetyPDUsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1007",
@@ -117,7 +121,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Safety:SafetyProviderParametersType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Safety",
     "displayName": "SafetyProviderParametersType",
     "description": "Safety parameters for the SafetyProvider",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",

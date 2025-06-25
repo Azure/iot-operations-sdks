@@ -83,7 +83,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceHAConfigType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "KitchenDeviceHAConfigType",
     "extends": "dtmi:opcua:OpcUaCore:HistoricalDataConfigurationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1003",
@@ -3420,7 +3421,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "CoffeeMachineDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1024",
@@ -3456,7 +3458,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "CombiSteamerDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1011",
@@ -3548,7 +3551,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:CookingKettleDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "CookingKettleDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1017",
@@ -3624,7 +3628,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:CookingZoneDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "CookingZoneDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1030",
@@ -3707,7 +3712,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "DishWashingMachineDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1026",
@@ -3736,7 +3742,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:FryerDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "FryerDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1007",
@@ -3803,7 +3810,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "FryingAndGrillingDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1032",
@@ -3862,7 +3870,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingPanDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "FryingPanDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1009",
@@ -3930,7 +3939,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:IceMachineDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "IceMachineDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1036",
@@ -3959,7 +3969,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:MicrowaveCombiOvenDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "MicrowaveCombiOvenDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1034",
@@ -3988,7 +3999,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "MultiFunctionPanDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1019",
@@ -4047,7 +4059,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:OvenDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "OvenDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1013",
@@ -4075,7 +4088,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:PastaCookerDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "PastaCookerDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1021",
@@ -4143,7 +4157,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:PressureCookingKettleDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "PressureCookingKettleDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1015",
@@ -4203,7 +4218,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:ServeryCounterDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "ServeryCounterDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1028",

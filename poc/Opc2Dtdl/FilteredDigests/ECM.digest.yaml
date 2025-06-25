@@ -138,7 +138,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
 
   ECM:IEnergyProfileD0Type:
-  - [ UAObjectType, ECM:1011, ECM:IEnergyProfileD0Type ]
+  - [ UAObjectType, ECM:1011, ECM:IEnergyProfileD0Type, Abstract ]
   - DisplayName: "IEnergyProfileD0Type"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -165,7 +165,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
 
   ECM:IEnergyProfileD1Type:
-  - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type ]
+  - [ UAObjectType, ECM:1015, ECM:IEnergyProfileD1Type, Abstract ]
   - DisplayName: "IEnergyProfileD1Type"
   - HasComponent:
     - [ UAVariable, ECM:6307, ECM:DcActivePower, Float, 0, 3 ]
@@ -234,7 +234,7 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   ECM:IEnergyProfileE0Type:
-  - [ UAObjectType, ECM:1007, ECM:IEnergyProfileE0Type ]
+  - [ UAObjectType, ECM:1007, ECM:IEnergyProfileE0Type, Abstract ]
   - DisplayName: "IEnergyProfileE0Type"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -261,7 +261,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
 
   ECM:IEnergyProfileE1Type:
-  - [ UAObjectType, ECM:1008, ECM:IEnergyProfileE1Type ]
+  - [ UAObjectType, ECM:1008, ECM:IEnergyProfileE1Type, Abstract ]
   - DisplayName: "IEnergyProfileE1Type"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -288,7 +288,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
 
   ECM:IEnergyProfileE2Type:
-  - [ UAObjectType, ECM:1009, ECM:IEnergyProfileE2Type ]
+  - [ UAObjectType, ECM:1009, ECM:IEnergyProfileE2Type, Abstract ]
   - DisplayName: "IEnergyProfileE2Type"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -315,7 +315,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
 
   ECM:IEnergyProfileE3Type:
-  - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type ]
+  - [ UAObjectType, ECM:1010, ECM:IEnergyProfileE3Type, Abstract ]
   - DisplayName: "IEnergyProfileE3Type"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]

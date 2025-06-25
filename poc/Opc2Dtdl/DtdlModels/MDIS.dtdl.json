@@ -2046,7 +2046,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:MDIS:MDISInformationObjectType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/MDIS",
     "displayName": "MDISInformationObjectType",
     "description": "The definition of a MDIS standard Information object",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",

@@ -340,7 +340,7 @@ DataTypes:
 DefinedTypes:
 
   IJT.Tightening:ITighteningToolParametersType:
-  - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
+  - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType, Abstract ]
   - DisplayName: "ITighteningToolParametersType"
   - Description: "This interface is inherited from 0:BaseInterfaceType to add additional parameters of a tool in a tightening system. It shall be added to 2:Parameters object of the tool instance."
   - HasComponent:

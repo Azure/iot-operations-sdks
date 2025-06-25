@@ -349,7 +349,7 @@ DataTypes:
 DefinedTypes:
 
   PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
+  - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType, Abstract ]
   - DisplayName: "ExtrusionDeviceType"
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.GeneralTypes:5023, PlasticsRubber.Extrusion.GeneralTypes:AdditionalMeasuringDevices ]

@@ -312,13 +312,13 @@ DataTypes:
 DefinedTypes:
 
   PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1012, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType ]
+  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1012, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType, Abstract ]
   - DisplayName: "JobGroupStatusChangedEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6189, PlasticsRubber.Extrusion.ExtrusionLine:ActiveStatus, PlasticsRubber.GeneralTypes:JobStatusEnumeration, 0, 0 ]
     - DisplayName: "ActiveStatus"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1012, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1012, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -327,7 +327,7 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6187, PlasticsRubber.Extrusion.ExtrusionLine:Id, String, 0, 0 ]
     - DisplayName: "Id"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1012, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1012, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -338,7 +338,7 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6188, PlasticsRubber.Extrusion.ExtrusionLine:LastStatus, PlasticsRubber.GeneralTypes:JobStatusEnumeration, 0, 0 ]
     - DisplayName: "LastStatus"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1012, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1012, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -351,13 +351,13 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6271, PlasticsRubber.Extrusion.ExtrusionLine:NodeVersion, String, 0, 0 ]
 
   PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType ]
+  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType, Abstract ]
   - DisplayName: "JobStatusChangedEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6098, PlasticsRubber.Extrusion.ExtrusionLine:ActiveStatus, PlasticsRubber.GeneralTypes:JobStatusEnumeration, 0, 0 ]
     - DisplayName: "ActiveStatus"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -366,7 +366,7 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6095, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupId, String, 0, 0 ]
     - DisplayName: "JobGroupId"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -375,7 +375,7 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6096, PlasticsRubber.Extrusion.ExtrusionLine:JobId, String, 0, 0 ]
     - DisplayName: "JobId"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -386,7 +386,7 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6097, PlasticsRubber.Extrusion.ExtrusionLine:LastStatus, PlasticsRubber.GeneralTypes:JobStatusEnumeration, 0, 0 ]
     - DisplayName: "LastStatus"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -399,13 +399,13 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6271, PlasticsRubber.Extrusion.ExtrusionLine:NodeVersion, String, 0, 0 ]
 
   PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1010, PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType ]
+  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1010, PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType, Abstract ]
   - DisplayName: "LotFinishedEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6103, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupId, String, 0, 0 ]
     - DisplayName: "JobGroupId"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1010, PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1010, PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -414,7 +414,7 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6104, PlasticsRubber.Extrusion.ExtrusionLine:JobId, String, 0, 0 ]
     - DisplayName: "JobId"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1010, PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1010, PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -423,7 +423,7 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6105, PlasticsRubber.Extrusion.ExtrusionLine:Lot, UInt32, 0, 0 ]
     - DisplayName: "Lot"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1010, PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1010, PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -438,13 +438,13 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6271, PlasticsRubber.Extrusion.ExtrusionLine:NodeVersion, String, 0, 0 ]
 
   PlasticsRubber.Extrusion.ExtrusionLine:RequestAddMaterialEventType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1006, PlasticsRubber.Extrusion.ExtrusionLine:RequestAddMaterialEventType ]
+  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1006, PlasticsRubber.Extrusion.ExtrusionLine:RequestAddMaterialEventType, Abstract ]
   - DisplayName: "RequestAddMaterialEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6142, PlasticsRubber.Extrusion.ExtrusionLine:Id, String, 0, 3 ]
     - DisplayName: "Id"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1006, PlasticsRubber.Extrusion.ExtrusionLine:RequestAddMaterialEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1006, PlasticsRubber.Extrusion.ExtrusionLine:RequestAddMaterialEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -455,13 +455,13 @@ DefinedTypes:
     - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5020, PlasticsRubber.Extrusion.ExtrusionLine:MaterialList ]
 
   PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType ]
+  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType, Abstract ]
   - DisplayName: "UnitFinishedEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6102, PlasticsRubber.Extrusion.ExtrusionLine:GoodProduct, Boolean, 0, 0 ]
     - DisplayName: "GoodProduct"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -470,7 +470,7 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6099, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupId, String, 0, 0 ]
     - DisplayName: "JobGroupId"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -479,7 +479,7 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6100, PlasticsRubber.Extrusion.ExtrusionLine:JobId, String, 0, 0 ]
     - DisplayName: "JobId"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -492,7 +492,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
   - GeneratesEvent_reverse:
@@ -608,11 +608,11 @@ DefinedTypes:
       - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6271, PlasticsRubber.Extrusion.ExtrusionLine:NodeVersion, String, 0, 0 ]
       - DisplayName: "NodeVersion"
       - GeneratesEvent:
-        - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1012, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType ]
+        - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1012, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType, Abstract ]
       - GeneratesEvent:
-        - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType ]
+        - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType, Abstract ]
       - GeneratesEvent:
-        - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1010, PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType ]
+        - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1010, PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType, Abstract ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -620,7 +620,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - GeneratesEvent:
-        - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType ]
+        - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
@@ -1077,7 +1077,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5020, PlasticsRubber.Extrusion.ExtrusionLine:MaterialList ]
     - GeneratesEvent:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1006, PlasticsRubber.Extrusion.ExtrusionLine:RequestAddMaterialEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1006, PlasticsRubber.Extrusion.ExtrusionLine:RequestAddMaterialEventType, Abstract ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5004, PlasticsRubber.Extrusion.ExtrusionLine:MESMessage ]
     - DisplayName: "MESMessage"
@@ -2210,22 +2210,22 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5021, PlasticsRubber.Extrusion.ExtrusionLine:JobGroup_<Nr> ]
   - GeneratesEvent:
-    - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1012, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType ]
+    - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1012, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - GeneratesEvent:
-    - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType ]
+    - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType, Abstract ]
   - GeneratesEvent:
-    - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1010, PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType ]
+    - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1010, PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6190, PlasticsRubber.Extrusion.ExtrusionLine:NodeVersion, String, 0, 0 ]
     - DisplayName: "NodeVersion"
     - GeneratesEvent:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1012, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1012, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType, Abstract ]
     - GeneratesEvent:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType, Abstract ]
     - GeneratesEvent:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1010, PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1010, PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
@@ -2233,7 +2233,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - GeneratesEvent:
-      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType ]
+      - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType, Abstract ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.Extrusion.ExtrusionLine:7028, PlasticsRubber.Extrusion.ExtrusionLine:RemoveJobGroupById ]
     - DisplayName: "RemoveJobGroupById"
@@ -2271,7 +2271,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1013, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupsType ]
   - GeneratesEvent:
-    - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType ]
+    - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType, Abstract ]
 
   PlasticsRubber.Extrusion.ExtrusionLine:JobGroupType:
   - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1011, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupType ]

@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:ActiveProgramType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "ActiveProgramType",
     "description": "The ActiveProgramType specifies the current state of operation of a FunctionalUnit. It provides context and information about the currently active program on the device. This allows users to follow the progress of a program run in a standardized fashion by organising steps into a flat, linear sequence.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -32,7 +33,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:LADSComponentsType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "LADSComponentsType",
     "description": "The LADSComponentsType is a type used for structuring objects of type LADSComponentsType in an unordered list structure.",
     "extends": "dtmi:opcua:Machinery:MachineComponentsType;1",
@@ -54,7 +56,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:LADSOperationCountersType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "LADSOperationCountersType",
     "extends": "dtmi:opcua:Machinery:MachineryOperationCounterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1034",
@@ -75,7 +78,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:FunctionalUnitSetType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "FunctionalUnitSetType",
     "description": "The FunctionalUnitSetType provides a set of a FunctionalUnit objects.",
     "extends": "dtmi:opcua:LADS:SetType;1",
@@ -97,7 +101,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:FunctionSetType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "FunctionSetType",
     "description": "The FunctionSetType is used for organising FunctionType objects in an unordered list structure.",
     "extends": "dtmi:opcua:LADS:SetType;1",
@@ -119,7 +124,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:ProgramTemplateSetType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "ProgramTemplateSetType",
     "description": "The ProgramTemplateSetType is used for organising ProgramTemplateType objects in an unordered list structure.",
     "extends": "dtmi:opcua:LADS:SetType;1",
@@ -141,7 +147,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:ProgramTemplateType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "ProgramTemplateType",
     "description": "The ProgramTemplateType provides a program template.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -163,7 +170,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:SupportedPropertiesSetType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "SupportedPropertiesSetType",
     "description": "The SupportedPropertiesSetType provides a set of properties which are supported as members of a properties list Argument for Method calls such as, FunctionalUnit.StartFunctions() or ActiveProgram.Start().",
     "extends": "dtmi:opcua:LADS:SetType;1",
@@ -185,7 +193,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:SupportedPropertyType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "SupportedPropertyType",
     "description": "The SupportedPropertyType provides alias names and links to variables within the information model, typically target values or parameters of Functions. This makes it possible to specify a list of KeyValuePairs as an input object. The SupportedPropertyType is used in the SupportedPropertiesSet of the FunctionalUnit or ActiveProgram. The name of each Property object is used as a key in the KeyValuePair list input Argument of the Start()/StartFunctions() Method. Each Property object should contain an Organizes Reference to the target variable to which it belongs. Thus, the metadata of the target variable can be introspected online. The name of the Property object is typically an alias for a variable in the Device.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -207,7 +216,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:ResultFileSetType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "ResultFileSetType",
     "description": "The ResultFileSetType is used for organising ResultFileType objects in an unordered list structure.",
     "extends": "dtmi:opcua:LADS:SetType;1",
@@ -229,7 +239,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:ResultFileType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "ResultFileType",
     "description": "ResultFile provides a description of a file that is part of a result of a program managers run.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -251,7 +262,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:ResultSetType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "ResultSetType",
     "description": "The ResultSetType is used for organising ResultType objects in an unordered list structure.",
     "extends": "dtmi:opcua:LADS:SetType;1",
@@ -273,7 +285,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:ResultType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "ResultType",
     "description": "The ResultType provides the results of a specific program run.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -295,7 +308,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:CoverStateMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "CoverStateMachineType",
     "description": "he CoverStateMachineType is used to control the lid, door, or cover of a laboratory device. One Device may have any arbitrary number of lids, doors, covers and their corresponding CoverFunction.",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
@@ -317,7 +331,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:LADSDeviceStateMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "LADSDeviceStateMachineType",
     "description": "The LADSDeviceStateMachineType state machine represents the Device’s operation mode. It is inspired by the AnalyserDeviceStateMachineType from the Analyzer Devices Specification.",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
@@ -360,7 +375,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:RunningStateMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "RunningStateMachineType",
     "description": "The RunningStateMachineType is a sub-state machine of the FunctionalStateMachine and includes detailed substates.",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
@@ -382,7 +398,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:MaintenanceSetType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "MaintenanceSetType",
     "description": "The MaintenanceSetType is a set containing all maintenance tasks for a Device or Component according to the recommendations in OPC UA 10000-110.",
     "extends": "dtmi:opcua:LADS:SetType;1",
@@ -426,7 +443,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:LADSDeviceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "LADSDeviceType",
     "description": "The LADSDeviceType provides a base class for laboratory- and analytical devices.",
     "extends": "dtmi:opcua:DI:DeviceType;1",
@@ -448,7 +466,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:LADSComponentType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "LADSComponentType",
     "description": "Devices may be composed of tangible sub-components. A component is represented by the LADSComponentType. A component itself may also have sub-components.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
@@ -470,7 +489,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:FunctionalUnitType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "FunctionalUnitType",
     "description": "The FunctionalUnitType represents a functional unit of a laboratory or analytical device.",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
@@ -536,7 +556,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:AnalogControlFunctionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "AnalogControlFunctionType",
     "description": "The AnalogControlFunctionType describes an analogue control function (using analogue values). More specialized analogue control functions can be derived from this ObjectType.",
     "extends": "dtmi:opcua:LADS:BaseControlFunctionType;1",
@@ -558,7 +579,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:AnalogControlFunctionWithTotalizerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "AnalogControlFunctionWithTotalizerType",
     "description": "The AnalogControlFunctionWithTotalizerType describes an analogue control (using analogue values) function with totalizer. Typical usage examples include but are not limited to fluid controllers where the quantity of fluid needs to be accurately measured and totalled for metering purposes.",
     "extends": "dtmi:opcua:LADS:AnalogControlFunctionType;1",
@@ -602,7 +624,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:MultiStateDiscreteControlFunctionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "MultiStateDiscreteControlFunctionType",
     "description": "The MultiStateDiscreteControlFunctionType describes a discrete control function (using more than two discrete values).",
     "extends": "dtmi:opcua:LADS:DiscreteControlFunctionType;1",
@@ -624,7 +647,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:TwoStateDiscreteControlFunctionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "TwoStateDiscreteControlFunctionType",
     "description": "The TwoStateDiscreteControlFunctionType describes a discrete control function with two possible values (e.g., on/off).",
     "extends": "dtmi:opcua:LADS:DiscreteControlFunctionType;1",
@@ -668,7 +692,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:AnalogScalarSensorFunctionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "AnalogScalarSensorFunctionType",
     "description": "The AnalogScalarSensorFunctionType is a concrete subtype of the AnalogSensorFunctionType which represents an analogue measured value.",
     "extends": "dtmi:opcua:LADS:AnalogSensorFunctionType;1",
@@ -712,7 +737,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:CoverFunctionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "CoverFunctionType",
     "description": "The CoverFunctionType is used to control the cover, door, or lid of a Laboratory Device.",
     "extends": "dtmi:opcua:LADS:FunctionType;1",
@@ -734,7 +760,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:ProgramManagerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "ProgramManagerType",
     "description": "The ProgramManager provides the functional unit's program manager.",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
@@ -756,7 +783,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:TimerControlFunctionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "TimerControlFunctionType",
     "description": "The TimerControlFunctionType defines a simple “one shot” Timer which stops once it has elapsed. It follows the design of other LADS ControlFunctions, utilizing the same state machine and similar variable definitions. As soon as the CurrentValue reaches the TargetValue, the CurrentState of the TimerFunction automatically transitions to Off. This is typically accompanied by some (internal) action/effect, such as stopping the execution of a Function or similar. In the SuspendedState the CurrentValue holds its current value and does not count further until the state switches back to On, either due to a Client command or an internal state change.",
     "extends": "dtmi:opcua:LADS:BaseControlFunctionType;1",
@@ -778,7 +806,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:AnalogScalarSensorFunctionWithCompensationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "AnalogScalarSensorFunctionWithCompensationType",
     "description": "The AnalogScalarSensorFunctionWithCompensationType represents a compensated analogue measured value (e.g. pH sensor, dissolved oxygen sensor, ..)",
     "extends": "dtmi:opcua:LADS:AnalogScalarSensorFunctionType;1",
@@ -800,7 +829,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:ControllerTuningParameterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "ControllerTuningParameterType",
     "description": "The ControllerTuningParameterType is an abstract class. It is formally defined in Table 85. Subtypes of the ControllerTuningParameterType contain the parameters and information about a Controller (configuration).",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -822,7 +852,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:PidControllerParameterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "PidControllerParameterType",
     "description": "The PidControllerParameterType contains the parameters of an PID controller.",
     "extends": "dtmi:opcua:LADS:ControllerTuningParameterType;1",
@@ -844,7 +875,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:TwoStateDiscreteSensorFunctionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "TwoStateDiscreteSensorFunctionType",
     "description": "The TwoStateDiscreteSensorFunctionType represents a Boolean value that is measured by a Sensor.",
     "extends": "dtmi:opcua:LADS:DiscreteSensorFunctionType;1",
@@ -866,7 +898,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:MultiStateDiscreteSensorFunctionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "MultiStateDiscreteSensorFunctionType",
     "description": "The MultiStateDiscreteSensorFunctionType represents a value that is measured by a Sensor and can only be set to a discrete set of values.",
     "extends": "dtmi:opcua:LADS:DiscreteSensorFunctionType;1",
@@ -888,7 +921,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:FunctionalUnitStateMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "FunctionalUnitStateMachineType",
     "description": "Represents the state of a FunctionalUnit in a LADS Device",
     "extends": "dtmi:opcua:LADS:FunctionalStateMachineType;1",
@@ -910,7 +944,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:ControlFunctionStateMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "ControlFunctionStateMachineType",
     "description": "Represents the state of a Function in a LADS Device",
     "extends": "dtmi:opcua:LADS:FunctionalStateMachineType;1",
@@ -932,7 +967,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:MultiModeAnalogControlFunctionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "MultiModeAnalogControlFunctionType",
     "description": "The MultiModeAnalogControlFunctionType is used when a controller or actuator can be operated in different modes, depending on how the target value and current value are represented. A common example in the laboratory and analytical domain is a peristaltic pump. In this case, the user can choose from various operation modes, such as relative pump speed (0 to 100%), absolute pump rotor speed in RPM, volumetric rate in mL/min (requiring pump calibration), or mass flow rate in g/min (requiring knowledge of the fluid density). Another example in the laboratory and analytical domain is centrifuges. Operators can select between RPM or RCF (Rotational Centrifugal Force, defined as a multiple of G-force) modes. The RCF mode considers the radius of the centrifuge rotor when converting RCF to RPM.",
     "extends": "dtmi:opcua:LADS:BaseControlFunctionType;1",
@@ -954,7 +990,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:ControllerParameterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "ControllerParameterType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1048",
@@ -975,7 +1012,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:ControllerParameterSetType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "ControllerParameterSetType",
     "description": "The ControllerParameterSetType is used for organising ControllerParameterType objects in an unordered list structure.",
     "extends": "dtmi:opcua:LADS:SetType;1",
@@ -997,7 +1035,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:AnalogControlFunctionWithComposedTargetValueType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "AnalogControlFunctionWithComposedTargetValueType",
     "description": "The AnalogControlFunctionWithComposedTargetValueType describes an analogue control function (using analogue values), but the TargetValue is composed of several partial values. An example of a composed target value used in mechanical stress analysers involves combining a static/constant base value with periodically changing values for defined amplitude, frequency, and waveform. As the TargetValue is calculated from variables in the TargetValueSet, it should be read-only.",
     "extends": "dtmi:opcua:LADS:AnalogControlFunctionType;1",
@@ -1019,7 +1058,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:MultiSensorFunctionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "MultiSensorFunctionType",
     "description": "The MultiSensorFunction represents complex detectors with multiple sensors targeting a specific measurement task, e.g. diode array detector of a HPLC system. The specific sensor elements are represented by sensor-functions in the FunctionSet.",
     "extends": "dtmi:opcua:LADS:BaseSensorFunctionType;1",
@@ -1041,7 +1081,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:AnalogControlFunctionWithRelativeTargetValueType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "AnalogControlFunctionWithRelativeTargetValueType",
     "description": "The AnalogControlFunctionWithRelativeTargetValueType supports applications where the target value is typically modified by relative increments or decrements. Examples of its usage include position controllers where the actuator needs to modify its position relative to the last defined position by a specific amount, or dispenser controllers that are responsible for aspirating or dispensing a certain volume of fluid. The optional DecreaseRate and IncreaseRate variables can be utilized to customize the dynamics of the resulting action based on application-specific requirements. These variables allow for adapting to factors such as viscosity when aspirating or dispensing fluids.",
     "extends": "dtmi:opcua:LADS:AnalogControlFunctionType;1",
@@ -1063,7 +1104,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:AnalogArraySensorFunctionType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "AnalogArraySensorFunctionType",
     "description": "The AnalogArraySensorFunctionType is a concrete subtype of the AnalogSensorFunctionType which represents an array of analogue measured values.",
     "extends": "dtmi:opcua:LADS:AnalogSensorFunctionType;1",
@@ -1107,7 +1149,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:VariableSetType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "VariableSetType",
     "description": "The VariableSetType is used for storing additional sample data that was created during a run.",
     "extends": "dtmi:opcua:LADS:SetType;1",
@@ -1151,7 +1194,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:LADS:LADSOperationModeStateMachineType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "LADSOperationModeStateMachineType",
     "description": "State machine representing the operation mode of a laboratory device. Optional methods allow for initiating changes of the operation mode from remote.",
     "extends": "dtmi:opcua:Machinery:MachineryOperationModeStateMachineType;1",

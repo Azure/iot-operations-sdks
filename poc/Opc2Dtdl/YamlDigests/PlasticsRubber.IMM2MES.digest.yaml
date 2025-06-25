@@ -2093,7 +2093,7 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.IMM2MES:5003, PlasticsRubber.IMM2MES:ProductionDatasetManagement ]
 
   PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType:
-  - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+  - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
   - DisplayName: "InjectionUnitCycleParametersType"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6118, PlasticsRubber.IMM2MES:BackPressure, Double, 0, 0 ]
@@ -2102,7 +2102,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6120, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -2131,7 +2131,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6448, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -2160,7 +2160,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6122, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -2188,7 +2188,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6475, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -2216,7 +2216,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6449, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -2245,7 +2245,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6450, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -2274,7 +2274,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -2302,7 +2302,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -2331,7 +2331,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -2360,7 +2360,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -2389,7 +2389,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -2418,7 +2418,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -2447,7 +2447,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
@@ -2455,7 +2455,7 @@ DefinedTypes:
     - DisplayName: "Index"
     - Description: "Index of the injection unit"
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -2485,7 +2485,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -2513,7 +2513,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -2541,7 +2541,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -2551,7 +2551,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -2584,7 +2584,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6211, PlasticsRubber.IMM2MES:PlastificationCircumferentialSpeedMaximum, Double, 0, 0 ]
     - DisplayName: "PlastificationCircumferentialSpeedMaximum"
@@ -2613,7 +2613,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6194, PlasticsRubber.IMM2MES:PlastificationHydraulicPressureAverage, Double, 0, 0 ]
     - DisplayName: "PlastificationHydraulicPressureAverage"
@@ -2641,7 +2641,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6197, PlasticsRubber.IMM2MES:PlastificationHydraulicPressureMaximum, Double, 0, 0 ]
     - DisplayName: "PlastificationHydraulicPressureMaximum"
@@ -2670,7 +2670,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6223, PlasticsRubber.IMM2MES:PlastificationRotationalSpeedAverage, Double, 0, 0 ]
     - DisplayName: "PlastificationRotationalSpeedAverage"
@@ -2699,7 +2699,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6225, PlasticsRubber.IMM2MES:PlastificationRotationalSpeedMaximum, Double, 0, 0 ]
     - DisplayName: "PlastificationRotationalSpeedMaximum"
@@ -2728,7 +2728,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6067, PlasticsRubber.IMM2MES:PlastificationSpecificPressureAverage, Double, 0, 0 ]
     - DisplayName: "PlastificationSpecificPressureAverage"
@@ -2756,7 +2756,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6069, PlasticsRubber.IMM2MES:PlastificationSpecificPressureMaximum, Double, 0, 0 ]
     - DisplayName: "PlastificationSpecificPressureMaximum"
@@ -2784,7 +2784,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6063, PlasticsRubber.IMM2MES:PlastificationVolume, Double, 0, 0 ]
     - DisplayName: "PlastificationVolume"
@@ -2813,7 +2813,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6247, PlasticsRubber.IMM2MES:SpecificPressureMaximum, Double, 0, 0 ]
     - DisplayName: "SpecificPressureMaximum"
@@ -2842,7 +2842,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6117, PlasticsRubber.IMM2MES:TransferCavityPressure, Double, 0, 0 ]
     - DisplayName: "TransferCavityPressure"
@@ -2871,7 +2871,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6156, PlasticsRubber.IMM2MES:TransferHydraulicPressure, Double, 0, 0 ]
     - DisplayName: "TransferHydraulicPressure"
@@ -2900,7 +2900,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6228, PlasticsRubber.IMM2MES:TransferSpecificPressure, Double, 0, 0 ]
     - DisplayName: "TransferSpecificPressure"
@@ -2929,7 +2929,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6071, PlasticsRubber.IMM2MES:TransferStroke, Double, 0, 0 ]
     - DisplayName: "TransferStroke"
@@ -2957,7 +2957,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6254, PlasticsRubber.IMM2MES:TransferVolume, Double, 0, 0 ]
     - DisplayName: "TransferVolume"
@@ -2986,7 +2986,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6166, PlasticsRubber.IMM2MES:VPChangeOverPosition, Double, 0, 0 ]
     - DisplayName: "VPChangeOverPosition"
@@ -3014,7 +3014,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType, Abstract ]
 
   PlasticsRubber.IMM2MES:InjectionUnitsType:
   - [ UAObjectType, PlasticsRubber.IMM2MES:1016, PlasticsRubber.IMM2MES:InjectionUnitsType ]

@@ -45,7 +45,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   Safety:SafetyObjectsType:
-  - [ UAObjectType, Safety:1004, Safety:SafetyObjectsType ]
+  - [ UAObjectType, Safety:1004, Safety:SafetyObjectsType, Abstract ]
   - DisplayName: "SafetyObjectsType"
   - Description: "Base type of all safety objects"
   - HasSubtype_reverse:
@@ -55,13 +55,13 @@ DefinedTypes:
   - [ UAObjectType, Safety:1005, Safety:SafetyConsumerType ]
   - DisplayName: "SafetyConsumerType"
   - HasSubtype_reverse:
-    - [ UAObjectType, Safety:1004, Safety:SafetyObjectsType ]
+    - [ UAObjectType, Safety:1004, Safety:SafetyObjectsType, Abstract ]
 
   Safety:SafetyProviderType:
   - [ UAObjectType, Safety:1003, Safety:SafetyProviderType ]
   - DisplayName: "SafetyProviderType"
   - HasSubtype_reverse:
-    - [ UAObjectType, Safety:1004, Safety:SafetyObjectsType ]
+    - [ UAObjectType, Safety:1004, Safety:SafetyObjectsType, Abstract ]
 
   Safety:SafetyPDUsType:
   - [ UAObjectType, Safety:1007, Safety:SafetyPDUsType ]

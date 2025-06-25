@@ -312,7 +312,7 @@ DataTypes:
 DefinedTypes:
 
   PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1012, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType ]
+  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1012, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType, Abstract ]
   - DisplayName: "JobGroupStatusChangedEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6189, PlasticsRubber.Extrusion.ExtrusionLine:ActiveStatus, PlasticsRubber.GeneralTypes:JobStatusEnumeration, 0, 0 ]
@@ -333,7 +333,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType ]
+  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType, Abstract ]
   - DisplayName: "JobStatusChangedEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6098, PlasticsRubber.Extrusion.ExtrusionLine:ActiveStatus, PlasticsRubber.GeneralTypes:JobStatusEnumeration, 0, 0 ]
@@ -359,7 +359,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1010, PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType ]
+  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1010, PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType, Abstract ]
   - DisplayName: "LotFinishedEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6103, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupId, String, 0, 0 ]
@@ -380,7 +380,7 @@ DefinedTypes:
     - [ UAObjectType, 2041, BaseEventType ]
 
   PlasticsRubber.Extrusion.ExtrusionLine:RequestAddMaterialEventType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1006, PlasticsRubber.Extrusion.ExtrusionLine:RequestAddMaterialEventType ]
+  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1006, PlasticsRubber.Extrusion.ExtrusionLine:RequestAddMaterialEventType, Abstract ]
   - DisplayName: "RequestAddMaterialEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6142, PlasticsRubber.Extrusion.ExtrusionLine:Id, String, 0, 3 ]
@@ -391,7 +391,7 @@ DefinedTypes:
     - [ UAObjectType, 2041, BaseEventType ]
 
   PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType:
-  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType ]
+  - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType, Abstract ]
   - DisplayName: "UnitFinishedEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6102, PlasticsRubber.Extrusion.ExtrusionLine:GoodProduct, Boolean, 0, 0 ]

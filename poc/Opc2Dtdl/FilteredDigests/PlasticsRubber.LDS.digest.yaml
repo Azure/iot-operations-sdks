@@ -413,7 +413,7 @@ DefinedTypes:
     - [ UAObjectType, PlasticsRubber.GeneralTypes:1052, PlasticsRubber.GeneralTypes:HelpOffNormalAlarmType ]
 
   PlasticsRubber.LDS:LDSCycleParametersEventType:
-  - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+  - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
   - DisplayName: "LDSCycleParametersEventType"
   - Description: "Information on a dosing cycle"
   - HasSubtype_reverse:

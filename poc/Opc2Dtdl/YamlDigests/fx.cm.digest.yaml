@@ -773,14 +773,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.CM:1016, FX.CM:CommunicationModelConfigurationType ]
+      - [ UAObjectType, FX.CM:1016, FX.CM:CommunicationModelConfigurationType, Abstract ]
     - HasComponent_reverse:
       - [ UAObjectType, FX.CM:1246, FX.CM:AutomationComponentConfigurationType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   FX.CM:ConnectionConfigurationSetEventType:
-  - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType ]
+  - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType, Abstract ]
   - DisplayName: "ConnectionConfigurationSetEventType"
   - HasProperty:
     - [ UAVariable, FX.CM:6354, FX.CM:Action, FX.CM:FxProcessEnum, 0, 3 ]
@@ -790,7 +790,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType ]
+      - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, FX.CM:6352, FX.CM:ConnectionConfigurationSetNode, NodeId, 0, 3 ]
     - DisplayName: "ConnectionConfigurationSetNode"
@@ -799,7 +799,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType ]
+      - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, FX.CM:6353, FX.CM:Name, String, 0, 3 ]
     - DisplayName: "Name"
@@ -808,33 +808,33 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType ]
+      - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
   FX.CM:ConnectionConfigurationSetProcessingFailedEventType:
-  - [ UAObjectType, FX.CM:1009, FX.CM:ConnectionConfigurationSetProcessingFailedEventType ]
+  - [ UAObjectType, FX.CM:1009, FX.CM:ConnectionConfigurationSetProcessingFailedEventType, Abstract ]
   - DisplayName: "ConnectionConfigurationSetProcessingFailedEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType ]
+    - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType, Abstract ]
   - HasEffect_reverse:
     - [ UAObject, FX.CM:1176, FX.CM:ProcessingToError ]
 
   FX.CM:ConnectionConfigurationSetProcessingStartedEventType:
-  - [ UAObjectType, FX.CM:1007, FX.CM:ConnectionConfigurationSetProcessingStartedEventType ]
+  - [ UAObjectType, FX.CM:1007, FX.CM:ConnectionConfigurationSetProcessingStartedEventType, Abstract ]
   - DisplayName: "ConnectionConfigurationSetProcessingStartedEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType ]
+    - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType, Abstract ]
   - HasEffect_reverse:
     - [ UAObject, FX.CM:1174, FX.CM:ReadyToProcessing ]
   - HasEffect_reverse:
     - [ UAObject, FX.CM:1177, FX.CM:ErrorToProcessing ]
 
   FX.CM:ConnectionConfigurationSetProcessingSucceededEventType:
-  - [ UAObjectType, FX.CM:1008, FX.CM:ConnectionConfigurationSetProcessingSucceededEventType ]
+  - [ UAObjectType, FX.CM:1008, FX.CM:ConnectionConfigurationSetProcessingSucceededEventType, Abstract ]
   - DisplayName: "ConnectionConfigurationSetProcessingSucceededEventType"
   - HasSubtype_reverse:
-    - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType ]
+    - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType, Abstract ]
   - HasEffect_reverse:
     - [ UAObject, FX.CM:1175, FX.CM:ProcessingToReady ]
 
@@ -1067,7 +1067,7 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   FX.CM:CommunicationFlowConfigurationType:
-  - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType ]
+  - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType, Abstract ]
   - DisplayName: "CommunicationFlowConfigurationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
@@ -1175,7 +1175,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAVariable, FX.CM:1461, FX.CM:PublishingInterval, Duration, 0, 3 ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType ]
+    - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType, Abstract ]
   - HasComponent:
     - [ UAVariable, FX.CM:6113, FX.CM:Qos, FX.CM:CommunicationFlowQosDataType, 0, 3 ]
     - DisplayName: "Qos"
@@ -1250,7 +1250,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1014, FX.CM:PubSubCommunicationFlowConfigurationType ]
 
   FX.CM:CommunicationModelConfigurationType:
-  - [ UAObjectType, FX.CM:1016, FX.CM:CommunicationModelConfigurationType ]
+  - [ UAObjectType, FX.CM:1016, FX.CM:CommunicationModelConfigurationType, Abstract ]
   - DisplayName: "CommunicationModelConfigurationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
@@ -1286,7 +1286,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, FX.CM:1042, FX.CM:PubSubCommunicationModelConfigurationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, FX.CM:1016, FX.CM:CommunicationModelConfigurationType ]
+    - [ UAObjectType, FX.CM:1016, FX.CM:CommunicationModelConfigurationType, Abstract ]
   - HasComponent:
     - [ UAVariable, FX.CM:6528, FX.CM:PubSubConfiguration, PubSubConfiguration2DataType, 0, 3 ]
     - DisplayName: "PubSubConfiguration"
@@ -1351,7 +1351,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
-        - [ UAObjectType, FX.CM:1016, FX.CM:CommunicationModelConfigurationType ]
+        - [ UAObjectType, FX.CM:1016, FX.CM:CommunicationModelConfigurationType, Abstract ]
       - HasComponent_reverse:
         - [ UAObject, FX.CM:5004, FX.CM:<AutomationComponentConfiguration> ]
     - ToConnectionEndpointConfiguration:
@@ -1504,7 +1504,7 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
-          - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType ]
+          - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType, Abstract ]
         - HasCommunicationFlowConfiguration_reverse:
           - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
         - ToInboundFlow_reverse:
@@ -1517,7 +1517,7 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
-          - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType ]
+          - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType, Abstract ]
         - HasCommunicationFlowConfiguration_reverse:
           - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
         - ToInboundFlow_reverse:
@@ -1662,7 +1662,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType ]
+      - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType, Abstract ]
     - HasCommunicationFlowConfiguration_reverse:
       - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
     - ToInboundFlow_reverse:
@@ -1828,7 +1828,7 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
-          - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType ]
+          - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType, Abstract ]
         - HasCommunicationFlowConfiguration_reverse:
           - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
         - ToInboundFlow_reverse:
@@ -1841,7 +1841,7 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
-          - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType ]
+          - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType, Abstract ]
         - HasCommunicationFlowConfiguration_reverse:
           - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
         - ToInboundFlow_reverse:
@@ -2036,7 +2036,7 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
-          - [ UAObjectType, FX.CM:1016, FX.CM:CommunicationModelConfigurationType ]
+          - [ UAObjectType, FX.CM:1016, FX.CM:CommunicationModelConfigurationType, Abstract ]
         - HasComponent_reverse:
           - [ UAObject, FX.CM:5004, FX.CM:<AutomationComponentConfiguration> ]
       - ToConnectionEndpointConfiguration:
@@ -2189,7 +2189,7 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 11510, MandatoryPlaceholder ]
           - HasTypeDefinition:
-            - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType ]
+            - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType, Abstract ]
           - HasCommunicationFlowConfiguration_reverse:
             - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
           - ToInboundFlow_reverse:
@@ -2202,7 +2202,7 @@ DefinedTypes:
           - HasModellingRule:
             - [ UAObject, 11510, MandatoryPlaceholder ]
           - HasTypeDefinition:
-            - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType ]
+            - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType, Abstract ]
           - HasCommunicationFlowConfiguration_reverse:
             - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
           - ToInboundFlow_reverse:
@@ -3345,7 +3345,7 @@ DefinedTypes:
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
-          - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType ]
+          - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType, Abstract ]
         - HasCommunicationFlowConfiguration_reverse:
           - [ UAObject, FX.CM:5005, FX.CM:<ConnectionConfigurationSet> ]
       - HasConnectionConfiguration:
@@ -4126,7 +4126,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasEffect:
-      - [ UAObjectType, FX.CM:1007, FX.CM:ConnectionConfigurationSetProcessingStartedEventType ]
+      - [ UAObjectType, FX.CM:1007, FX.CM:ConnectionConfigurationSetProcessingStartedEventType, Abstract ]
     - FromState:
       - [ UAObject, FX.CM:1171, FX.CM:Error ]
     - HasComponent_reverse:
@@ -4228,7 +4228,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasEffect:
-      - [ UAObjectType, FX.CM:1009, FX.CM:ConnectionConfigurationSetProcessingFailedEventType ]
+      - [ UAObjectType, FX.CM:1009, FX.CM:ConnectionConfigurationSetProcessingFailedEventType, Abstract ]
     - ToState:
       - [ UAObject, FX.CM:1171, FX.CM:Error ]
     - FromState:
@@ -4250,7 +4250,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasEffect:
-      - [ UAObjectType, FX.CM:1008, FX.CM:ConnectionConfigurationSetProcessingSucceededEventType ]
+      - [ UAObjectType, FX.CM:1008, FX.CM:ConnectionConfigurationSetProcessingSucceededEventType, Abstract ]
     - HasCause:
       - [ UAMethod, FX.CM:1483, FX.CM:ProcessConnectionConfigurationSets ]
       - DisplayName: "ProcessConnectionConfigurationSets"
@@ -4330,7 +4330,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasEffect:
-      - [ UAObjectType, FX.CM:1007, FX.CM:ConnectionConfigurationSetProcessingStartedEventType ]
+      - [ UAObjectType, FX.CM:1007, FX.CM:ConnectionConfigurationSetProcessingStartedEventType, Abstract ]
     - HasCause:
       - [ UAMethod, FX.CM:1483, FX.CM:ProcessConnectionConfigurationSets ]
       - DisplayName: "ProcessConnectionConfigurationSets"

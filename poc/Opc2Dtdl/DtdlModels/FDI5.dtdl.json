@@ -31,7 +31,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FDI5:ActionServiceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://fdi-cooperation.com/OPCUA/FDI5",
     "displayName": "ActionServiceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5;i=21",
@@ -177,7 +178,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FDI5:EditContextType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://fdi-cooperation.com/OPCUA/FDI5",
     "displayName": "EditContextType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5;i=54",
@@ -566,7 +568,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:FDI5:DirectDeviceAccessType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://fdi-cooperation.com/OPCUA/FDI5",
     "displayName": "DirectDeviceAccessType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5;i=82",

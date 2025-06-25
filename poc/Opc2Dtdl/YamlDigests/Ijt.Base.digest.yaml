@@ -861,7 +861,7 @@ DefinedTypes:
     - [ UAObjectType, 2881, AcknowledgeableConditionType ]
 
   IJT.Base:JoiningSystemEventType:
-  - [ UAObjectType, IJT.Base:1006, IJT.Base:JoiningSystemEventType ]
+  - [ UAObjectType, IJT.Base:1006, IJT.Base:JoiningSystemEventType, Abstract ]
   - DisplayName: "JoiningSystemEventType"
   - Description: "The JoiningSystemEventType is used to send any type of events from a joining system. Note: The type of event is determined by the usage of respective Condition Class(es) and Condition SubClass(es) properties defined in 0:BaseEventType."
   - HasComponent:
@@ -903,7 +903,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAVariable, IJT.Base:6039, IJT.Base:JoiningSystemEventContent ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Base:1006, IJT.Base:JoiningSystemEventType ]
+      - [ UAObjectType, IJT.Base:1006, IJT.Base:JoiningSystemEventType, Abstract ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6278, IJT.Base:JoiningTechnology, LocalizedText, 0, 0 ]
       - DisplayName: "JoiningTechnology"
@@ -928,7 +928,7 @@ DefinedTypes:
     - [ UAObjectType, 2041, BaseEventType ]
 
   IJT.Base:JoiningSystemResultReadyEventType:
-  - [ UAObjectType, IJT.Base:1007, IJT.Base:JoiningSystemResultReadyEventType ]
+  - [ UAObjectType, IJT.Base:1007, IJT.Base:JoiningSystemResultReadyEventType, Abstract ]
   - DisplayName: "JoiningSystemResultReadyEventType"
   - Description: "This EventType provides information of a complete or partial result from a joining system."
   - HasComponent:
@@ -939,7 +939,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Base:1007, IJT.Base:JoiningSystemResultReadyEventType ]
+      - [ UAObjectType, IJT.Base:1007, IJT.Base:JoiningSystemResultReadyEventType, Abstract ]
     - HasStructuredComponent:
       - [ UAVariable, IJT.Base:6210, Machinery.Result:ResultContent ]
       - DisplayName: "ResultContent"
@@ -1074,7 +1074,7 @@ DefinedTypes:
     - [ UAObjectType, IJT.Base:1022, IJT.Base:JoiningSystemResultManagementType ]
 
   IJT.Base:IJoiningAdditionalInformationType:
-  - [ UAObjectType, IJT.Base:1017, IJT.Base:IJoiningAdditionalInformationType ]
+  - [ UAObjectType, IJT.Base:1017, IJT.Base:IJoiningAdditionalInformationType, Abstract ]
   - DisplayName: "IJoiningAdditionalInformationType"
   - Description: "The IJoiningAdditionalInformationType provides additional parameters for Identification of a given asset."
   - HasProperty:
@@ -1086,7 +1086,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, IJT.Base:1017, IJT.Base:IJoiningAdditionalInformationType ]
+      - [ UAObjectType, IJT.Base:1017, IJT.Base:IJoiningAdditionalInformationType, Abstract ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6176, IJT.Base:JoiningTechnology, LocalizedText, 0, 0 ]
     - DisplayName: "JoiningTechnology"
@@ -1096,7 +1096,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, IJT.Base:1017, IJT.Base:IJoiningAdditionalInformationType ]
+      - [ UAObjectType, IJT.Base:1017, IJT.Base:IJoiningAdditionalInformationType, Abstract ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6452, IJT.Base:SupplierCode, String, 0, 0 ]
     - DisplayName: "SupplierCode"
@@ -1106,14 +1106,14 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, IJT.Base:1017, IJT.Base:IJoiningAdditionalInformationType ]
+      - [ UAObjectType, IJT.Base:1017, IJT.Base:IJoiningAdditionalInformationType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasInterface_reverse:
     - [ UAObject, IJT.Base:5052, DI:Identification ]
 
   IJT.Base:IJoiningSystemAssetType:
-  - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+  - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
   - DisplayName: "IJoiningSystemAssetType"
   - Description: "This is a generic interface common for all assets in a given Joining System. The purpose of this interface is to provide a standard way of identification and common information for all the assets. This interface has a standard MachineryItemIdentificationType add-in which can be assigned with MachineIdentificationType or MachineryComponentIdentificationType for a given asset based on the requirement of the system."
   - HasComponent:
@@ -1174,7 +1174,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, IJT.Base:5045, IJT.Base:Health ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+      - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
     - HasInterface:
       - [ UAObjectType, DI:15051, DI:IDeviceHealthType ]
     - HasComponent:
@@ -1206,9 +1206,9 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, IJT.Base:5052, DI:Identification ]
     - HasAddIn_reverse:
-      - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+      - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
     - HasInterface:
-      - [ UAObjectType, IJT.Base:1017, IJT.Base:IJoiningAdditionalInformationType ]
+      - [ UAObjectType, IJT.Base:1017, IJT.Base:IJoiningAdditionalInformationType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6016, IJT.Base:JoiningTechnology, LocalizedText, 0, 0 ]
       - DisplayName: "JoiningTechnology"
@@ -1298,7 +1298,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAVariable, IJT.Base:6164, Machinery:<LifetimeVariable>, Number, 0, 3 ]
     - HasAddIn_reverse:
-      - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+      - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
     - HasAddIn_reverse:
       - [ UAObject, IJT.Base:5080, Machinery:MachineryBuildingBlocks ]
   - HasComponent:
@@ -1327,9 +1327,9 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAObject, IJT.Base:5052, DI:Identification ]
       - HasAddIn_reverse:
-        - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+        - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
       - HasInterface:
-        - [ UAObjectType, IJT.Base:1017, IJT.Base:IJoiningAdditionalInformationType ]
+        - [ UAObjectType, IJT.Base:1017, IJT.Base:IJoiningAdditionalInformationType, Abstract ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6016, IJT.Base:JoiningTechnology, LocalizedText, 0, 0 ]
         - DisplayName: "JoiningTechnology"
@@ -1419,11 +1419,11 @@ DefinedTypes:
           - HasProperty_reverse:
             - [ UAVariable, IJT.Base:6164, Machinery:<LifetimeVariable>, Number, 0, 3 ]
       - HasAddIn_reverse:
-        - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+        - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
       - HasAddIn_reverse:
         - [ UAObject, IJT.Base:5080, Machinery:MachineryBuildingBlocks ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+      - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
     - HasAddIn:
       - [ UAObject, IJT.Base:5002, DI:OperationCounters ]
       - DisplayName: "OperationCounters"
@@ -1435,7 +1435,7 @@ DefinedTypes:
       - HasInterface:
         - [ UAObjectType, DI:480, DI:IOperationCounterType ]
       - HasAddIn_reverse:
-        - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+        - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6017, DI:OperationCycleCounter, UInteger, 0, 3 ]
         - DisplayName: "OperationCycleCounter"
@@ -1547,7 +1547,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, IJT.Base:5027, DI:Maintenance ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+      - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
     - HasComponent:
       - [ UAObject, IJT.Base:5020, IJT.Base:Service ]
       - DisplayName: "Service"
@@ -1669,7 +1669,7 @@ DefinedTypes:
     - HasInterface:
       - [ UAObjectType, DI:480, DI:IOperationCounterType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+      - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6017, DI:OperationCycleCounter, UInteger, 0, 3 ]
       - DisplayName: "OperationCycleCounter"
@@ -1741,15 +1741,15 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, IJT.Base:5015, IJT.Base:Parameters ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+      - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   IJT.Base:IAccessoryType:
-  - [ UAObjectType, IJT.Base:1015, IJT.Base:IAccessoryType ]
+  - [ UAObjectType, IJT.Base:1015, IJT.Base:IAccessoryType, Abstract ]
   - DisplayName: "IAccessoryType"
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
   - HasAddIn:
     - [ UAObject, IJT.Base:5099, DI:Identification ]
     - DisplayName: "Identification"
@@ -1759,7 +1759,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, IJT.Base:1015, IJT.Base:IAccessoryType ]
+      - [ UAObjectType, IJT.Base:1015, IJT.Base:IAccessoryType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6031, DI:Manufacturer, LocalizedText, 0, 0 ]
       - DisplayName: "Manufacturer"
@@ -1789,7 +1789,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Base:1015, IJT.Base:IAccessoryType ]
+      - [ UAObjectType, IJT.Base:1015, IJT.Base:IAccessoryType, Abstract ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6117, IJT.Base:Type, String, 0, 0 ]
       - DisplayName: "Type"
@@ -1804,10 +1804,10 @@ DefinedTypes:
     - [ UAObject, IJT.Base:5034, IJT.Base:<Accessory> ]
 
   IJT.Base:IBatteryType:
-  - [ UAObjectType, IJT.Base:1010, IJT.Base:IBatteryType ]
+  - [ UAObjectType, IJT.Base:1010, IJT.Base:IBatteryType, Abstract ]
   - DisplayName: "IBatteryType"
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
   - HasAddIn:
     - [ UAObject, IJT.Base:5151, DI:Identification ]
     - DisplayName: "Identification"
@@ -1817,7 +1817,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, IJT.Base:1010, IJT.Base:IBatteryType ]
+      - [ UAObjectType, IJT.Base:1010, IJT.Base:IBatteryType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6144, DI:Manufacturer, LocalizedText, 0, 0 ]
       - DisplayName: "Manufacturer"
@@ -1937,7 +1937,7 @@ DefinedTypes:
         - HasComponent_reverse:
           - [ UAVariable, IJT.Base:6119, IJT.Base:NominalVoltage, Double, 0, 0 ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Base:1010, IJT.Base:IBatteryType ]
+      - [ UAObjectType, IJT.Base:1010, IJT.Base:IBatteryType, Abstract ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6123, IJT.Base:StateOfCharge, Byte, 0, 0 ]
       - DisplayName: "StateOfCharge"
@@ -1972,10 +1972,10 @@ DefinedTypes:
     - [ UAObject, IJT.Base:5035, IJT.Base:<Battery> ]
 
   IJT.Base:ICableType:
-  - [ UAObjectType, IJT.Base:1014, IJT.Base:ICableType ]
+  - [ UAObjectType, IJT.Base:1014, IJT.Base:ICableType, Abstract ]
   - DisplayName: "ICableType"
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
   - HasAddIn:
     - [ UAObject, IJT.Base:5152, DI:Identification ]
     - DisplayName: "Identification"
@@ -1985,7 +1985,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, IJT.Base:1014, IJT.Base:ICableType ]
+      - [ UAObjectType, IJT.Base:1014, IJT.Base:ICableType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6178, DI:Manufacturer, LocalizedText, 0, 0 ]
       - DisplayName: "Manufacturer"
@@ -2025,7 +2025,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, IJT.Base:5010, IJT.Base:Parameters ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Base:1014, IJT.Base:ICableType ]
+      - [ UAObjectType, IJT.Base:1014, IJT.Base:ICableType, Abstract ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6130, IJT.Base:Type, Byte, 0, 0 ]
       - DisplayName: "Type"
@@ -2049,10 +2049,10 @@ DefinedTypes:
     - [ UAObject, IJT.Base:5036, IJT.Base:<Cable> ]
 
   IJT.Base:IControllerType:
-  - [ UAObjectType, IJT.Base:1003, IJT.Base:IControllerType ]
+  - [ UAObjectType, IJT.Base:1003, IJT.Base:IControllerType, Abstract ]
   - DisplayName: "IControllerType"
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
   - HasAddIn:
     - [ UAObject, IJT.Base:5086, DI:Identification ]
     - DisplayName: "Identification"
@@ -2062,7 +2062,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, IJT.Base:1003, IJT.Base:IControllerType ]
+      - [ UAObjectType, IJT.Base:1003, IJT.Base:IControllerType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6024, DI:Manufacturer, LocalizedText, 0, 0 ]
       - DisplayName: "Manufacturer"
@@ -2092,7 +2092,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Base:1003, IJT.Base:IControllerType ]
+      - [ UAObjectType, IJT.Base:1003, IJT.Base:IControllerType, Abstract ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6128, IJT.Base:Type, Byte, 0, 0 ]
       - DisplayName: "Type"
@@ -2116,7 +2116,7 @@ DefinedTypes:
     - [ UAObject, IJT.Base:5037, IJT.Base:<Controller> ]
 
   IJT.Base:IFeederType:
-  - [ UAObjectType, IJT.Base:1012, IJT.Base:IFeederType ]
+  - [ UAObjectType, IJT.Base:1012, IJT.Base:IFeederType, Abstract ]
   - DisplayName: "IFeederType"
   - HasAddIn:
     - [ UAObject, IJT.Base:5153, DI:Identification ]
@@ -2127,7 +2127,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, IJT.Base:1012, IJT.Base:IFeederType ]
+      - [ UAObjectType, IJT.Base:1012, IJT.Base:IFeederType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6180, DI:Manufacturer, LocalizedText, 0, 0 ]
       - DisplayName: "Manufacturer"
@@ -2149,7 +2149,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, IJT.Base:5153, DI:Identification ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
   - HasComponent:
     - [ UAObject, IJT.Base:5011, IJT.Base:Parameters ]
     - DisplayName: "Parameters"
@@ -2219,7 +2219,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, IJT.Base:5011, IJT.Base:Parameters ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Base:1012, IJT.Base:IFeederType ]
+      - [ UAObjectType, IJT.Base:1012, IJT.Base:IFeederType, Abstract ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6146, IJT.Base:Type, Byte, 0, 0 ]
       - DisplayName: "Type"
@@ -2243,7 +2243,7 @@ DefinedTypes:
     - [ UAObject, IJT.Base:5038, IJT.Base:<Feeder> ]
 
   IJT.Base:IMemoryDeviceType:
-  - [ UAObjectType, IJT.Base:1013, IJT.Base:IMemoryDeviceType ]
+  - [ UAObjectType, IJT.Base:1013, IJT.Base:IMemoryDeviceType, Abstract ]
   - DisplayName: "IMemoryDeviceType"
   - HasAddIn:
     - [ UAObject, IJT.Base:5154, DI:Identification ]
@@ -2254,7 +2254,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, IJT.Base:1013, IJT.Base:IMemoryDeviceType ]
+      - [ UAObjectType, IJT.Base:1013, IJT.Base:IMemoryDeviceType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6182, DI:Manufacturer, LocalizedText, 0, 0 ]
       - DisplayName: "Manufacturer"
@@ -2276,7 +2276,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, IJT.Base:5154, DI:Identification ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
   - HasComponent:
     - [ UAObject, IJT.Base:5013, IJT.Base:Parameters ]
     - DisplayName: "Parameters"
@@ -2286,7 +2286,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Base:1013, IJT.Base:IMemoryDeviceType ]
+      - [ UAObjectType, IJT.Base:1013, IJT.Base:IMemoryDeviceType, Abstract ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6154, IJT.Base:StorageCapacity, UInt64, 0, 0 ]
       - DisplayName: "StorageCapacity"
@@ -2321,7 +2321,7 @@ DefinedTypes:
     - [ UAObject, IJT.Base:5039, IJT.Base:<MemoryDevice> ]
 
   IJT.Base:IPowerSupplyType:
-  - [ UAObjectType, IJT.Base:1009, IJT.Base:IPowerSupplyType ]
+  - [ UAObjectType, IJT.Base:1009, IJT.Base:IPowerSupplyType, Abstract ]
   - DisplayName: "IPowerSupplyType"
   - HasAddIn:
     - [ UAObject, IJT.Base:5155, DI:Identification ]
@@ -2332,7 +2332,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, IJT.Base:1009, IJT.Base:IPowerSupplyType ]
+      - [ UAObjectType, IJT.Base:1009, IJT.Base:IPowerSupplyType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6188, DI:Manufacturer, LocalizedText, 0, 0 ]
       - DisplayName: "Manufacturer"
@@ -2354,7 +2354,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, IJT.Base:5155, DI:Identification ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
   - HasComponent:
     - [ UAObject, IJT.Base:5012, IJT.Base:Parameters ]
     - DisplayName: "Parameters"
@@ -2464,12 +2464,12 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, IJT.Base:5012, IJT.Base:Parameters ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Base:1009, IJT.Base:IPowerSupplyType ]
+      - [ UAObjectType, IJT.Base:1009, IJT.Base:IPowerSupplyType, Abstract ]
   - HasInterface_reverse:
     - [ UAObject, IJT.Base:5040, IJT.Base:<PowerSupply> ]
 
   IJT.Base:ISensorType:
-  - [ UAObjectType, IJT.Base:1011, IJT.Base:ISensorType ]
+  - [ UAObjectType, IJT.Base:1011, IJT.Base:ISensorType, Abstract ]
   - DisplayName: "ISensorType"
   - HasAddIn:
     - [ UAObject, IJT.Base:5156, DI:Identification ]
@@ -2480,7 +2480,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, IJT.Base:1011, IJT.Base:ISensorType ]
+      - [ UAObjectType, IJT.Base:1011, IJT.Base:ISensorType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6190, DI:Manufacturer, LocalizedText, 0, 0 ]
       - DisplayName: "Manufacturer"
@@ -2502,7 +2502,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, IJT.Base:5156, DI:Identification ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
   - HasComponent:
     - [ UAObject, IJT.Base:5014, IJT.Base:Parameters ]
     - DisplayName: "Parameters"
@@ -2532,7 +2532,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, IJT.Base:5014, IJT.Base:Parameters ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Base:1011, IJT.Base:ISensorType ]
+      - [ UAObjectType, IJT.Base:1011, IJT.Base:ISensorType, Abstract ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6169, IJT.Base:Type, Byte, 0, 0 ]
       - DisplayName: "Type"
@@ -2556,7 +2556,7 @@ DefinedTypes:
     - [ UAObject, IJT.Base:5041, IJT.Base:<Sensor> ]
 
   IJT.Base:IServoType:
-  - [ UAObjectType, IJT.Base:1008, IJT.Base:IServoType ]
+  - [ UAObjectType, IJT.Base:1008, IJT.Base:IServoType, Abstract ]
   - DisplayName: "IServoType"
   - HasAddIn:
     - [ UAObject, IJT.Base:5157, DI:Identification ]
@@ -2567,7 +2567,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, IJT.Base:1008, IJT.Base:IServoType ]
+      - [ UAObjectType, IJT.Base:1008, IJT.Base:IServoType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6199, DI:Manufacturer, LocalizedText, 0, 0 ]
       - DisplayName: "Manufacturer"
@@ -2589,7 +2589,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, IJT.Base:5157, DI:Identification ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
   - HasComponent:
     - [ UAObject, IJT.Base:5007, IJT.Base:Parameters ]
     - DisplayName: "Parameters"
@@ -2609,12 +2609,12 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, IJT.Base:5007, IJT.Base:Parameters ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Base:1008, IJT.Base:IServoType ]
+      - [ UAObjectType, IJT.Base:1008, IJT.Base:IServoType, Abstract ]
   - HasInterface_reverse:
     - [ UAObject, IJT.Base:5042, IJT.Base:<Servo> ]
 
   IJT.Base:ISoftwareType:
-  - [ UAObjectType, IJT.Base:1019, IJT.Base:ISoftwareType ]
+  - [ UAObjectType, IJT.Base:1019, IJT.Base:ISoftwareType, Abstract ]
   - DisplayName: "ISoftwareType"
   - HasAddIn:
     - [ UAObject, IJT.Base:5158, DI:Identification ]
@@ -2625,7 +2625,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, IJT.Base:1019, IJT.Base:ISoftwareType ]
+      - [ UAObjectType, IJT.Base:1019, IJT.Base:ISoftwareType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6201, DI:Manufacturer, LocalizedText, 0, 0 ]
       - DisplayName: "Manufacturer"
@@ -2647,12 +2647,12 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, IJT.Base:5158, DI:Identification ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
   - HasInterface_reverse:
     - [ UAObject, IJT.Base:5101, IJT.Base:<Software> ]
 
   IJT.Base:ISubComponentType:
-  - [ UAObjectType, IJT.Base:1016, IJT.Base:ISubComponentType ]
+  - [ UAObjectType, IJT.Base:1016, IJT.Base:ISubComponentType, Abstract ]
   - DisplayName: "ISubComponentType"
   - HasAddIn:
     - [ UAObject, IJT.Base:5159, DI:Identification ]
@@ -2663,7 +2663,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, IJT.Base:1016, IJT.Base:ISubComponentType ]
+      - [ UAObjectType, IJT.Base:1016, IJT.Base:ISubComponentType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6203, DI:Manufacturer, LocalizedText, 0, 0 ]
       - DisplayName: "Manufacturer"
@@ -2685,7 +2685,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, IJT.Base:5159, DI:Identification ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
   - HasComponent:
     - [ UAObject, IJT.Base:5019, IJT.Base:Parameters ]
     - DisplayName: "Parameters"
@@ -2695,7 +2695,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Base:1016, IJT.Base:ISubComponentType ]
+      - [ UAObjectType, IJT.Base:1016, IJT.Base:ISubComponentType, Abstract ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6185, IJT.Base:Type, String, 0, 0 ]
       - DisplayName: "Type"
@@ -2710,7 +2710,7 @@ DefinedTypes:
     - [ UAObject, IJT.Base:5043, IJT.Base:<SubComponent> ]
 
   IJT.Base:IToolType:
-  - [ UAObjectType, IJT.Base:1004, IJT.Base:IToolType ]
+  - [ UAObjectType, IJT.Base:1004, IJT.Base:IToolType, Abstract ]
   - DisplayName: "IToolType"
   - HasAddIn:
     - [ UAObject, IJT.Base:5160, DI:Identification ]
@@ -2721,7 +2721,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, IJT.Base:1004, IJT.Base:IToolType ]
+      - [ UAObjectType, IJT.Base:1004, IJT.Base:IToolType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6205, DI:Manufacturer, LocalizedText, 0, 0 ]
       - DisplayName: "Manufacturer"
@@ -2743,7 +2743,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, IJT.Base:5160, DI:Identification ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
   - HasComponent:
     - [ UAObject, IJT.Base:5008, IJT.Base:Parameters ]
     - DisplayName: "Parameters"
@@ -2753,7 +2753,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, IJT.Base:1004, IJT.Base:IToolType ]
+      - [ UAObjectType, IJT.Base:1004, IJT.Base:IToolType, Abstract ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6133, IJT.Base:Type, Byte, 0, 0 ]
       - DisplayName: "Type"
@@ -2777,7 +2777,7 @@ DefinedTypes:
     - [ UAObject, IJT.Base:5044, IJT.Base:<Tool> ]
 
   IJT.Base:IVirtualStationType:
-  - [ UAObjectType, IJT.Base:1031, IJT.Base:IVirtualStationType ]
+  - [ UAObjectType, IJT.Base:1031, IJT.Base:IVirtualStationType, Abstract ]
   - DisplayName: "IVirtualStationType"
   - HasAddIn:
     - [ UAObject, IJT.Base:5161, DI:Identification ]
@@ -2788,7 +2788,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
     - HasAddIn_reverse:
-      - [ UAObjectType, IJT.Base:1031, IJT.Base:IVirtualStationType ]
+      - [ UAObjectType, IJT.Base:1031, IJT.Base:IVirtualStationType, Abstract ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6209, DI:Manufacturer, LocalizedText, 0, 0 ]
       - DisplayName: "Manufacturer"
@@ -2810,7 +2810,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, IJT.Base:5161, DI:Identification ]
   - HasSubtype_reverse:
-    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+    - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType, Abstract ]
   - HasInterface_reverse:
     - [ UAObject, IJT.Base:5088, IJT.Base:<VirtualStation> ]
 
@@ -4040,7 +4040,7 @@ DefinedTypes:
           - HasComponent_reverse:
             - [ UAObject, IJT.Base:5032, IJT.Base:Accessories ]
           - HasInterface:
-            - [ UAObjectType, IJT.Base:1015, IJT.Base:IAccessoryType ]
+            - [ UAObjectType, IJT.Base:1015, IJT.Base:IAccessoryType, Abstract ]
           - HasAddIn:
             - [ UAObject, IJT.Base:5093, DI:Identification ]
             - DisplayName: "Identification"
@@ -4103,7 +4103,7 @@ DefinedTypes:
           - HasComponent_reverse:
             - [ UAObject, IJT.Base:5029, IJT.Base:Batteries ]
           - HasInterface:
-            - [ UAObjectType, IJT.Base:1010, IJT.Base:IBatteryType ]
+            - [ UAObjectType, IJT.Base:1010, IJT.Base:IBatteryType, Abstract ]
           - HasAddIn:
             - [ UAObject, IJT.Base:5127, DI:Identification ]
             - DisplayName: "Identification"
@@ -4183,7 +4183,7 @@ DefinedTypes:
           - HasComponent_reverse:
             - [ UAObject, IJT.Base:5028, IJT.Base:Cables ]
           - HasInterface:
-            - [ UAObjectType, IJT.Base:1014, IJT.Base:ICableType ]
+            - [ UAObjectType, IJT.Base:1014, IJT.Base:ICableType, Abstract ]
           - HasAddIn:
             - [ UAObject, IJT.Base:5129, DI:Identification ]
             - DisplayName: "Identification"
@@ -4243,7 +4243,7 @@ DefinedTypes:
           - HasComponent_reverse:
             - [ UAObject, IJT.Base:5018, IJT.Base:Controllers ]
           - HasInterface:
-            - [ UAObjectType, IJT.Base:1003, IJT.Base:IControllerType ]
+            - [ UAObjectType, IJT.Base:1003, IJT.Base:IControllerType, Abstract ]
           - HasAddIn:
             - [ UAObject, IJT.Base:5077, DI:Identification ]
             - DisplayName: "Identification"
@@ -4333,7 +4333,7 @@ DefinedTypes:
               - HasProperty_reverse:
                 - [ UAObject, IJT.Base:5131, DI:Identification ]
           - HasInterface:
-            - [ UAObjectType, IJT.Base:1012, IJT.Base:IFeederType ]
+            - [ UAObjectType, IJT.Base:1012, IJT.Base:IFeederType, Abstract ]
           - HasComponent:
             - [ UAObject, IJT.Base:5132, IJT.Base:Parameters ]
             - DisplayName: "Parameters"
@@ -4403,7 +4403,7 @@ DefinedTypes:
               - HasProperty_reverse:
                 - [ UAObject, IJT.Base:5133, DI:Identification ]
           - HasInterface:
-            - [ UAObjectType, IJT.Base:1013, IJT.Base:IMemoryDeviceType ]
+            - [ UAObjectType, IJT.Base:1013, IJT.Base:IMemoryDeviceType, Abstract ]
           - HasComponent:
             - [ UAObject, IJT.Base:5134, IJT.Base:Parameters ]
             - DisplayName: "Parameters"
@@ -4463,7 +4463,7 @@ DefinedTypes:
               - HasProperty_reverse:
                 - [ UAObject, IJT.Base:5135, DI:Identification ]
           - HasInterface:
-            - [ UAObjectType, IJT.Base:1009, IJT.Base:IPowerSupplyType ]
+            - [ UAObjectType, IJT.Base:1009, IJT.Base:IPowerSupplyType, Abstract ]
           - HasComponent:
             - [ UAObject, IJT.Base:5136, IJT.Base:Parameters ]
             - DisplayName: "Parameters"
@@ -4533,7 +4533,7 @@ DefinedTypes:
               - HasProperty_reverse:
                 - [ UAObject, IJT.Base:5137, DI:Identification ]
           - HasInterface:
-            - [ UAObjectType, IJT.Base:1011, IJT.Base:ISensorType ]
+            - [ UAObjectType, IJT.Base:1011, IJT.Base:ISensorType, Abstract ]
           - HasComponent:
             - [ UAObject, IJT.Base:5138, IJT.Base:Parameters ]
             - DisplayName: "Parameters"
@@ -4593,7 +4593,7 @@ DefinedTypes:
               - HasProperty_reverse:
                 - [ UAObject, IJT.Base:5139, DI:Identification ]
           - HasInterface:
-            - [ UAObjectType, IJT.Base:1008, IJT.Base:IServoType ]
+            - [ UAObjectType, IJT.Base:1008, IJT.Base:IServoType, Abstract ]
           - HasComponent:
             - [ UAObject, IJT.Base:5140, IJT.Base:Parameters ]
             - DisplayName: "Parameters"
@@ -4673,7 +4673,7 @@ DefinedTypes:
               - HasProperty_reverse:
                 - [ UAObject, IJT.Base:5143, DI:Identification ]
           - HasInterface:
-            - [ UAObjectType, IJT.Base:1019, IJT.Base:ISoftwareType ]
+            - [ UAObjectType, IJT.Base:1019, IJT.Base:ISoftwareType, Abstract ]
         - HasComponent_reverse:
           - [ UAObject, IJT.Base:5016, IJT.Base:Assets ]
       - HasComponent:
@@ -4723,7 +4723,7 @@ DefinedTypes:
               - HasProperty_reverse:
                 - [ UAObject, IJT.Base:5141, DI:Identification ]
           - HasInterface:
-            - [ UAObjectType, IJT.Base:1016, IJT.Base:ISubComponentType ]
+            - [ UAObjectType, IJT.Base:1016, IJT.Base:ISubComponentType, Abstract ]
           - HasComponent:
             - [ UAObject, IJT.Base:5142, IJT.Base:Parameters ]
             - DisplayName: "Parameters"
@@ -4783,7 +4783,7 @@ DefinedTypes:
               - HasProperty_reverse:
                 - [ UAObject, IJT.Base:5145, DI:Identification ]
           - HasInterface:
-            - [ UAObjectType, IJT.Base:1004, IJT.Base:IToolType ]
+            - [ UAObjectType, IJT.Base:1004, IJT.Base:IToolType, Abstract ]
           - HasComponent:
             - [ UAObject, IJT.Base:5146, IJT.Base:Parameters ]
             - DisplayName: "Parameters"
@@ -4862,7 +4862,7 @@ DefinedTypes:
               - HasProperty_reverse:
                 - [ UAObject, IJT.Base:5144, DI:Identification ]
           - HasInterface:
-            - [ UAObjectType, IJT.Base:1031, IJT.Base:IVirtualStationType ]
+            - [ UAObjectType, IJT.Base:1031, IJT.Base:IVirtualStationType, Abstract ]
         - HasComponent_reverse:
           - [ UAObject, IJT.Base:5016, IJT.Base:Assets ]
     - HasAddIn:
@@ -7190,7 +7190,7 @@ DefinedTypes:
   - DisplayName: "JoiningSystemResultManagementType"
   - Description: "The JoiningSystemResultManagementType is a subtype of ResultManagementType and provides mechanism to access results generated by the underlying joining system."
   - GeneratesEvent:
-    - [ UAObjectType, IJT.Base:1007, IJT.Base:JoiningSystemResultReadyEventType ]
+    - [ UAObjectType, IJT.Base:1007, IJT.Base:JoiningSystemResultReadyEventType, Abstract ]
   - HasComponent:
     - [ UAObject, IJT.Base:5098, Machinery.Result:Results ]
     - DisplayName: "Results"

@@ -60,7 +60,7 @@ DataTypes:
 DefinedTypes:
 
   MachineVision.AMCM:IVisionInfoType:
-  - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+  - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
   - DisplayName: "IVisionInfoType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -80,52 +80,52 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   MachineVision.AMCM:ICableType:
-  - [ UAObjectType, MachineVision.AMCM:1018, MachineVision.AMCM:ICableType ]
+  - [ UAObjectType, MachineVision.AMCM:1018, MachineVision.AMCM:ICableType, Abstract ]
   - DisplayName: "ICableType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
 
   MachineVision.AMCM:IComputingDeviceType:
-  - [ UAObjectType, MachineVision.AMCM:1009, MachineVision.AMCM:IComputingDeviceType ]
+  - [ UAObjectType, MachineVision.AMCM:1009, MachineVision.AMCM:IComputingDeviceType, Abstract ]
   - DisplayName: "IComputingDeviceType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
 
   MachineVision.AMCM:IDisplayUnitType:
-  - [ UAObjectType, MachineVision.AMCM:1011, MachineVision.AMCM:IDisplayUnitType ]
+  - [ UAObjectType, MachineVision.AMCM:1011, MachineVision.AMCM:IDisplayUnitType, Abstract ]
   - DisplayName: "IDisplayUnitType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
 
   MachineVision.AMCM:ILampType:
-  - [ UAObjectType, MachineVision.AMCM:1016, MachineVision.AMCM:ILampType ]
+  - [ UAObjectType, MachineVision.AMCM:1016, MachineVision.AMCM:ILampType, Abstract ]
   - DisplayName: "ILampType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
 
   MachineVision.AMCM:ILensType:
-  - [ UAObjectType, MachineVision.AMCM:1013, MachineVision.AMCM:ILensType ]
+  - [ UAObjectType, MachineVision.AMCM:1013, MachineVision.AMCM:ILensType, Abstract ]
   - DisplayName: "ILensType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
 
   MachineVision.AMCM:ILicenseType:
-  - [ UAObjectType, MachineVision.AMCM:1017, MachineVision.AMCM:ILicenseType ]
+  - [ UAObjectType, MachineVision.AMCM:1017, MachineVision.AMCM:ILicenseType, Abstract ]
   - DisplayName: "ILicenseType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
 
   MachineVision.AMCM:ILightingControllerType:
-  - [ UAObjectType, MachineVision.AMCM:1015, MachineVision.AMCM:ILightingControllerType ]
+  - [ UAObjectType, MachineVision.AMCM:1015, MachineVision.AMCM:ILightingControllerType, Abstract ]
   - DisplayName: "ILightingControllerType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
 
   MachineVision.AMCM:IPhysicalInterfaceType:
-  - [ UAObjectType, MachineVision.AMCM:1012, MachineVision.AMCM:IPhysicalInterfaceType ]
+  - [ UAObjectType, MachineVision.AMCM:1012, MachineVision.AMCM:IPhysicalInterfaceType, Abstract ]
   - DisplayName: "IPhysicalInterfaceType"
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType, Abstract ]
 
   MachineVision.AMCM:VisionItemFolderType:
   - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]

@@ -159,7 +159,7 @@ DefinedTypes:
     - [ UAObjectType, 61, FolderType ]
 
   GDS:ApplicationRegistrationChangedAuditEventType:
-  - [ UAObjectType, GDS:26, GDS:ApplicationRegistrationChangedAuditEventType ]
+  - [ UAObjectType, GDS:26, GDS:ApplicationRegistrationChangedAuditEventType, Abstract ]
   - DisplayName: "ApplicationRegistrationChangedAuditEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
@@ -354,7 +354,7 @@ DefinedTypes:
     - [ UAObjectType, GDS:13, GDS:DirectoryType ]
 
   GDS:CertificateRequestedAuditEventType:
-  - [ UAObjectType, GDS:91, GDS:CertificateRequestedAuditEventType ]
+  - [ UAObjectType, GDS:91, GDS:CertificateRequestedAuditEventType, Abstract ]
   - DisplayName: "CertificateRequestedAuditEventType"
   - HasProperty:
     - [ UAVariable, GDS:717, GDS:CertificateGroup, NodeId, 0, 0 ]
@@ -370,7 +370,7 @@ DefinedTypes:
     - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
 
   GDS:CertificateDeliveredAuditEventType:
-  - [ UAObjectType, GDS:109, GDS:CertificateDeliveredAuditEventType ]
+  - [ UAObjectType, GDS:109, GDS:CertificateDeliveredAuditEventType, Abstract ]
   - DisplayName: "CertificateDeliveredAuditEventType"
   - HasProperty:
     - [ UAVariable, GDS:719, GDS:CertificateGroup, NodeId, 0, 0 ]
@@ -557,7 +557,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   GDS:AccessTokenIssuedAuditEventType:
-  - [ UAObjectType, GDS:975, GDS:AccessTokenIssuedAuditEventType ]
+  - [ UAObjectType, GDS:975, GDS:AccessTokenIssuedAuditEventType, Abstract ]
   - DisplayName: "AccessTokenIssuedAuditEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, 2127, AuditUpdateMethodEventType ]

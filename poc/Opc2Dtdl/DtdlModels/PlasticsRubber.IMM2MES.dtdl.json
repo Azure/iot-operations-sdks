@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_IMM2MES:IMM_MES_InterfaceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
     "displayName": "IMM_MES_InterfaceType",
     "description": "Root ObjectType representing an injection moulding machine with all its subcomponents for data exchange with an MES",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",

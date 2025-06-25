@@ -297,7 +297,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_HotRunner:HRD_InterfaceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
     "displayName": "HRD_InterfaceType",
     "description": "Root ObjectType representing a hot runner device with its subcomponents",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",

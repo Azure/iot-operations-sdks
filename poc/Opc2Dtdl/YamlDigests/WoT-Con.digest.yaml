@@ -9,7 +9,7 @@ DefinedTypes:
     - [ UAObject, WoT-Con:2, WoT-Con:<WoTAssetName> ]
     - DisplayName: "<WoTAssetName>"
     - HasInterface:
-      - [ UAObjectType, WoT-Con:42, WoT-Con:IWoTAssetType ]
+      - [ UAObjectType, WoT-Con:42, WoT-Con:IWoTAssetType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -67,7 +67,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
 
   WoT-Con:IWoTAssetType:
-  - [ UAObjectType, WoT-Con:42, WoT-Con:IWoTAssetType ]
+  - [ UAObjectType, WoT-Con:42, WoT-Con:IWoTAssetType, Abstract ]
   - DisplayName: "IWoTAssetType"
   - HasComponent:
     - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
@@ -275,7 +275,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, WoT-Con:42, WoT-Con:IWoTAssetType ]
+      - [ UAObjectType, WoT-Con:42, WoT-Con:IWoTAssetType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
@@ -490,7 +490,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, WoT-Con:115, WoT-Con:WoTAssetType ]
   - HasInterface:
-    - [ UAObjectType, WoT-Con:42, WoT-Con:IWoTAssetType ]
+    - [ UAObjectType, WoT-Con:42, WoT-Con:IWoTAssetType, Abstract ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 

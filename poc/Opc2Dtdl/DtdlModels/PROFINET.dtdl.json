@@ -1804,7 +1804,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PROFINET:IPv4FeatureType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PROFINET",
     "displayName": "IPv4FeatureType",
     "extends": "dtmi:opcua:PROFINET:NetworkComponentFeatureType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1017",
@@ -1899,7 +1900,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PROFINET:EthernetInterfaceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PROFINET",
     "displayName": "EthernetInterfaceType",
     "extends": "dtmi:opcua:PROFINET:NetworkComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1014",
@@ -1931,7 +1933,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PROFINET:EthernetPortType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PROFINET",
     "displayName": "EthernetPortType",
     "extends": "dtmi:opcua:PROFINET:NetworkComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1015",
@@ -1984,7 +1987,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PROFINET:PnApplicationRelationType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PROFINET",
     "displayName": "PnApplicationRelationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1029",
@@ -2139,7 +2143,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PROFINET:PnAssetType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PROFINET",
     "displayName": "PnAssetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1006",
@@ -2718,7 +2723,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PROFINET:PnPortType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PROFINET",
     "displayName": "PnPortType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1010",

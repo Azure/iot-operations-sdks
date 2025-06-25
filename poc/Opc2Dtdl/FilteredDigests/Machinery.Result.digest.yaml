@@ -57,7 +57,7 @@ DataTypes:
 DefinedTypes:
 
   Machinery.Result:ResultReadyEventType:
-  - [ UAObjectType, Machinery.Result:1002, Machinery.Result:ResultReadyEventType ]
+  - [ UAObjectType, Machinery.Result:1002, Machinery.Result:ResultReadyEventType, Abstract ]
   - DisplayName: "ResultReadyEventType"
   - Description: "Provides information of a complete or partial result."
   - HasComponent:

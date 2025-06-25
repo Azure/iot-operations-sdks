@@ -1317,7 +1317,7 @@ DefinedTypes:
     - [ UAObjectType, PlasticsRubber.GeneralTypes:1052, PlasticsRubber.GeneralTypes:HelpOffNormalAlarmType ]
 
   PlasticsRubber.LDS:LDSCycleParametersEventType:
-  - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+  - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
   - DisplayName: "LDSCycleParametersEventType"
   - Description: "Information on a dosing cycle"
   - HasSubtype_reverse:
@@ -1333,7 +1333,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6489, PlasticsRubber.LDS:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1361,7 +1361,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6490, PlasticsRubber.LDS:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1389,7 +1389,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6491, PlasticsRubber.LDS:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1417,7 +1417,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.LDS:6451, PlasticsRubber.LDS:DosingTime, Duration, 0, 0 ]
     - DisplayName: "DosingTime"
@@ -1427,7 +1427,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.LDS:6485, PlasticsRubber.LDS:FilterPressurePrimary, Double, 0, 0 ]
     - DisplayName: "FilterPressurePrimary"
@@ -1437,7 +1437,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6492, PlasticsRubber.LDS:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1465,7 +1465,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6493, PlasticsRubber.LDS:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1493,7 +1493,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6494, PlasticsRubber.LDS:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1521,7 +1521,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6495, PlasticsRubber.LDS:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1549,7 +1549,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6496, PlasticsRubber.LDS:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1577,7 +1577,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6497, PlasticsRubber.LDS:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1605,7 +1605,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6454, PlasticsRubber.LDS:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1633,7 +1633,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6499, PlasticsRubber.LDS:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1661,7 +1661,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6500, PlasticsRubber.LDS:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1689,7 +1689,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6501, PlasticsRubber.LDS:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1717,7 +1717,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6502, PlasticsRubber.LDS:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1745,7 +1745,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6503, PlasticsRubber.LDS:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1773,7 +1773,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6504, PlasticsRubber.LDS:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -1801,7 +1801,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6505, PlasticsRubber.LDS:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -2384,7 +2384,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.LDS:5010, PlasticsRubber.LDS:Operation ]
       - GeneratesEvent:
-        - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+        - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.LDS:6096, PlasticsRubber.LDS:ActivateRemoteControl, UInt16, 0, 3 ]
       - DisplayName: "ActivateRemoteControl"
@@ -4050,7 +4050,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.LDS:5010, PlasticsRubber.LDS:Operation ]
     - GeneratesEvent:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.LDS:6199, PlasticsRubber.LDS:MaterialBalanceSystemType, PlasticsRubber.LDS:MaterialBalanceSystemTypeEnumeration, 0, 0 ]
       - DisplayName: "MaterialBalanceSystemType"
@@ -4252,7 +4252,7 @@ DefinedTypes:
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.LDS:5010, PlasticsRubber.LDS:Operation ]
       - GeneratesEvent:
-        - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+        - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.LDS:6179, PlasticsRubber.LDS:RemoteControlActivated, UInt16, 0, 0 ]
       - DisplayName: "RemoteControlActivated"
@@ -4444,7 +4444,7 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, PlasticsRubber.LDS:1006, PlasticsRubber.LDS:OperationType ]
     - GeneratesEvent:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.LDS:6060, PlasticsRubber.LDS:ActivateRemoteControl, UInt16, 0, 3 ]
     - DisplayName: "ActivateRemoteControl"
@@ -6949,7 +6949,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.LDS:1006, PlasticsRubber.LDS:OperationType ]
   - GeneratesEvent:
-    - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+    - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.LDS:6061, PlasticsRubber.LDS:MaterialBalanceSystemType, PlasticsRubber.LDS:MaterialBalanceSystemTypeEnumeration, 0, 0 ]
     - DisplayName: "MaterialBalanceSystemType"
@@ -7151,7 +7151,7 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.LDS:1006, PlasticsRubber.LDS:OperationType ]
     - GeneratesEvent:
-      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType, Abstract ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.LDS:6086, PlasticsRubber.LDS:RemoteControlActivated, UInt16, 0, 0 ]
     - DisplayName: "RemoteControlActivated"

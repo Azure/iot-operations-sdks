@@ -175,7 +175,7 @@ DefinedTypes:
       - [ UAVariableType, PNEM:2002, PNEM:MeasurementValueType ]
 
   PNEM:IEnergyProfileD0Type:
-  - [ UAObjectType, PNEM:1011, PNEM:IEnergyProfileD0Type ]
+  - [ UAObjectType, PNEM:1011, PNEM:IEnergyProfileD0Type, Abstract ]
   - DisplayName: "IEnergyProfileD0Type"
   - HasComponent:
     - [ UAVariable, PNEM:6102, PNEM:DcCurrent, Float, 0, 3 ]
@@ -199,7 +199,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1011, PNEM:IEnergyProfileD0Type ]
+      - [ UAObjectType, PNEM:1011, PNEM:IEnergyProfileD0Type, Abstract ]
     - HasProperty:
       - [ UAVariable, PNEM:6105, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -227,7 +227,7 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   PNEM:IEnergyProfileE0Type:
-  - [ UAObjectType, PNEM:1007, PNEM:IEnergyProfileE0Type ]
+  - [ UAObjectType, PNEM:1007, PNEM:IEnergyProfileE0Type, Abstract ]
   - DisplayName: "IEnergyProfileE0Type"
   - HasComponent:
     - [ UAVariable, PNEM:6060, PNEM:AcCurrent, PNEM:AcPeDataType, 0, 3 ]
@@ -251,7 +251,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1007, PNEM:IEnergyProfileE0Type ]
+      - [ UAObjectType, PNEM:1007, PNEM:IEnergyProfileE0Type, Abstract ]
     - HasProperty:
       - [ UAVariable, PNEM:6063, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -279,13 +279,13 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   PNEM:IEnergyProfileE1Type:
-  - [ UAObjectType, PNEM:1008, PNEM:IEnergyProfileE1Type ]
+  - [ UAObjectType, PNEM:1008, PNEM:IEnergyProfileE1Type, Abstract ]
   - DisplayName: "IEnergyProfileE1Type"
   - HasComponent:
     - [ UAVariable, PNEM:6064, PNEM:AcActivePowerTotal, Float, 0, 3 ]
     - DisplayName: "AcActivePowerTotal"
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1008, PNEM:IEnergyProfileE1Type ]
+      - [ UAObjectType, PNEM:1008, PNEM:IEnergyProfileE1Type, Abstract ]
     - HasProperty:
       - [ UAVariable, PNEM:6065, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - DisplayName: "AccuracyClass"
@@ -331,13 +331,13 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   PNEM:IEnergyProfileE2Type:
-  - [ UAObjectType, PNEM:1009, PNEM:IEnergyProfileE2Type ]
+  - [ UAObjectType, PNEM:1009, PNEM:IEnergyProfileE2Type, Abstract ]
   - DisplayName: "IEnergyProfileE2Type"
   - HasComponent:
     - [ UAVariable, PNEM:6076, PNEM:AcActiveEnergyTotalExportLp, Float, 0, 3 ]
     - DisplayName: "AcActiveEnergyTotalExportLp"
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1009, PNEM:IEnergyProfileE2Type ]
+      - [ UAObjectType, PNEM:1009, PNEM:IEnergyProfileE2Type, Abstract ]
     - HasProperty:
       - [ UAVariable, PNEM:6077, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - DisplayName: "AccuracyClass"
@@ -383,7 +383,7 @@ DefinedTypes:
     - [ UAVariable, PNEM:6072, PNEM:AcActiveEnergyTotalImportLp, Float, 0, 3 ]
     - DisplayName: "AcActiveEnergyTotalImportLp"
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1009, PNEM:IEnergyProfileE2Type ]
+      - [ UAObjectType, PNEM:1009, PNEM:IEnergyProfileE2Type, Abstract ]
     - HasProperty:
       - [ UAVariable, PNEM:6073, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - DisplayName: "AccuracyClass"
@@ -429,7 +429,7 @@ DefinedTypes:
     - [ UAVariable, PNEM:6068, PNEM:AcActivePowerTotal, Float, 0, 3 ]
     - DisplayName: "AcActivePowerTotal"
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1009, PNEM:IEnergyProfileE2Type ]
+      - [ UAObjectType, PNEM:1009, PNEM:IEnergyProfileE2Type, Abstract ]
     - HasProperty:
       - [ UAVariable, PNEM:6069, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - DisplayName: "AccuracyClass"
@@ -475,13 +475,13 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
   PNEM:IEnergyProfileE3Type:
-  - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
+  - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type, Abstract ]
   - DisplayName: "IEnergyProfileE3Type"
   - HasComponent:
     - [ UAVariable, PNEM:6086, PNEM:AcActiveEnergyTotalExportHp, Double, 0, 3 ]
     - DisplayName: "AcActiveEnergyTotalExportHp"
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type, Abstract ]
     - HasProperty:
       - [ UAVariable, PNEM:6087, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - DisplayName: "AccuracyClass"
@@ -527,7 +527,7 @@ DefinedTypes:
     - [ UAVariable, PNEM:6082, PNEM:AcActiveEnergyTotalImportHp, Double, 0, 3 ]
     - DisplayName: "AcActiveEnergyTotalImportHp"
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type, Abstract ]
     - HasProperty:
       - [ UAVariable, PNEM:6083, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - DisplayName: "AccuracyClass"
@@ -573,7 +573,7 @@ DefinedTypes:
     - [ UAVariable, PNEM:6080, PNEM:AcActivePower, PNEM:AcPeDataType, 0, 3 ]
     - DisplayName: "AcActivePower"
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type, Abstract ]
     - HasProperty:
       - [ UAVariable, PNEM:6122, PNEM:AccuracyClass, PNEM:AccuracyClassEnumeration, 0, 0 ]
       - DisplayName: "AccuracyClass"
@@ -637,7 +637,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type, Abstract ]
     - HasProperty:
       - [ UAVariable, PNEM:6127, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -683,7 +683,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -719,7 +719,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type, Abstract ]
     - HasProperty:
       - [ UAVariable, PNEM:6097, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -765,7 +765,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type, Abstract ]
     - HasProperty:
       - [ UAVariable, PNEM:6093, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -811,7 +811,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type, Abstract ]
     - HasProperty:
       - [ UAVariable, PNEM:6133, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -857,7 +857,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type, Abstract ]
     - HasProperty:
       - [ UAVariable, PNEM:6136, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"
@@ -903,7 +903,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type ]
+      - [ UAObjectType, PNEM:1010, PNEM:IEnergyProfileE3Type, Abstract ]
     - HasProperty:
       - [ UAVariable, PNEM:6139, PNEM:EngineeringUnits, EUInformation, 0, 0 ]
       - DisplayName: "EngineeringUnits"

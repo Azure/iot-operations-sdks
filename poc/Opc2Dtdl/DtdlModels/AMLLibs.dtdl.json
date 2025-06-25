@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "AutomationMLBaseInterface",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=22",
@@ -31,7 +32,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Order;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Order",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=25",
@@ -60,7 +62,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:PortConnector;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PortConnector",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=28",
@@ -81,7 +84,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:InterlockingConnector;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "InterlockingConnector",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=31",
@@ -102,7 +106,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:PPRConnector;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PPRConnector",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=34",
@@ -123,7 +128,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:ExternalDataConnector;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ExternalDataConnector",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=37",
@@ -152,7 +158,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Communication;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Communication",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=179",
@@ -173,7 +180,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:AttachmentInterface;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "AttachmentInterface",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=43",
@@ -194,7 +202,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:COLLADAInterface;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "COLLADAInterface",
     "extends": "dtmi:opcua:AMLLibs:ExternalDataConnector;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=52",
@@ -215,7 +224,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:PLCopenXMLInterface;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PLCopenXMLInterface",
     "extends": "dtmi:opcua:AMLLibs:ExternalDataConnector;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=55",
@@ -236,7 +246,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:LogicInterface;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "LogicInterface",
     "extends": "dtmi:opcua:AMLLibs:PLCopenXMLInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=58",
@@ -257,7 +268,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:VariableInterface;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "VariableInterface",
     "extends": "dtmi:opcua:AMLLibs:PLCopenXMLInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=61",
@@ -278,7 +290,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:InterlockingVariableInterface;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "InterlockingVariableInterface",
     "extends": "dtmi:opcua:AMLLibs:VariableInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=64",
@@ -307,7 +320,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:SignalInterface;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "SignalInterface",
     "extends": "dtmi:opcua:AMLLibs:Communication;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=71",
@@ -328,7 +342,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "AutomationMLBaseRole",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=74",
@@ -349,7 +364,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Group;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Group",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=77",
@@ -378,7 +394,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Facet;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Facet",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=80",
@@ -399,7 +416,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Port;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Port",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=83",
@@ -475,7 +493,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Resource;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Resource",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=86",
@@ -496,7 +515,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Product;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Product",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=89",
@@ -517,7 +537,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Process;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Process",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=92",
@@ -538,7 +559,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Structure;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Structure",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=95",
@@ -559,7 +581,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:PropertySet;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PropertySet",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=98",
@@ -580,7 +603,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Frame;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Frame",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=101",
@@ -601,7 +625,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:SignalGroup;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "SignalGroup",
     "extends": "dtmi:opcua:AMLLibs:Group;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=107",
@@ -622,7 +647,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:ComponentGroup;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ComponentGroup",
     "extends": "dtmi:opcua:AMLLibs:Group;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=110",
@@ -643,7 +669,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:ProductStructure;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ProductStructure",
     "extends": "dtmi:opcua:AMLLibs:Structure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=131",
@@ -664,7 +691,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:ProcessStructure;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ProcessStructure",
     "extends": "dtmi:opcua:AMLLibs:Structure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=134",
@@ -685,7 +713,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:ResourceStructure;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ResourceStructure",
     "extends": "dtmi:opcua:AMLLibs:Structure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=137",
@@ -706,7 +735,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:BatchManufacturingEquipment;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "BatchManufacturingEquipment",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=140",
@@ -727,7 +757,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:ContManufacturingEquipment;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ContManufacturingEquipment",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=143",
@@ -748,7 +779,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "DiscManufacturingEquipment",
     "extends": "dtmi:opcua:AMLLibs:Resource;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=146",
@@ -769,7 +801,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Transport;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Transport",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=149",
@@ -790,7 +823,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Storage;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Storage",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=152",
@@ -811,7 +845,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Fixture;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Fixture",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=155",
@@ -832,7 +867,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Gate;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Gate",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=158",
@@ -853,7 +889,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Robot;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Robot",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=161",
@@ -874,7 +911,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Tool;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Tool",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=164",
@@ -895,7 +933,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Carrier;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Carrier",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=167",
@@ -916,7 +955,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Machine;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Machine",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=170",
@@ -937,7 +977,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:StaticObject;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "StaticObject",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=173",
@@ -958,7 +999,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:ControlEquipment;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ControlEquipment",
     "extends": "dtmi:opcua:AMLLibs:Resource;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=176",
@@ -979,7 +1021,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:ControlHardware;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ControlHardware",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=182",
@@ -1000,7 +1043,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Sensor;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Sensor",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=185",
@@ -1021,7 +1065,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Actuator;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Actuator",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=188",
@@ -1042,7 +1087,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Controller;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Controller",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=191",
@@ -1063,7 +1109,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:PC;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PC",
     "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=194",
@@ -1084,7 +1131,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:IPC;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "IPC",
     "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=197",
@@ -1105,7 +1153,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:EmbeddedDevice;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "EmbeddedDevice",
     "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=200",
@@ -1126,7 +1175,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Handheld;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Handheld",
     "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=203",
@@ -1147,7 +1197,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:PLC;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PLC",
     "extends": "dtmi:opcua:AMLLibs:Controller;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=206",
@@ -1168,7 +1219,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:NC;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "NC",
     "extends": "dtmi:opcua:AMLLibs:Controller;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=209",
@@ -1189,7 +1241,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:RC;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "RC",
     "extends": "dtmi:opcua:AMLLibs:Controller;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=212",
@@ -1210,7 +1263,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:PAC;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PAC",
     "extends": "dtmi:opcua:AMLLibs:Controller;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=215",
@@ -1231,7 +1285,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:PLCFacet;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PLCFacet",
     "extends": "dtmi:opcua:AMLLibs:Facet;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=218",
@@ -1252,7 +1307,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:HMIFacet;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "HMIFacet",
     "extends": "dtmi:opcua:AMLLibs:Facet;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=221",
@@ -1273,7 +1329,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Enterprise;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Enterprise",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=224",
@@ -1294,7 +1351,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Site;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Site",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=227",
@@ -1315,7 +1373,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Area;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Area",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=230",
@@ -1336,7 +1395,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:ProductionLine;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ProductionLine",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=233",
@@ -1357,7 +1417,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:WorkCell;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "WorkCell",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=236",
@@ -1378,7 +1439,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:ProcessCell;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ProcessCell",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=239",
@@ -1399,7 +1461,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Unit;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Unit",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=242",
@@ -1420,7 +1483,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:ProductionUnit;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ProductionUnit",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=245",
@@ -1441,7 +1505,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:StorageZone;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "StorageZone",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=248",
@@ -1462,7 +1527,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:StorageUnit;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "StorageUnit",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=251",
@@ -1483,7 +1549,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Turntable;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Turntable",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=254",
@@ -1504,7 +1571,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Conveyor;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Conveyor",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=257",
@@ -1525,7 +1593,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:LiftingTable;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "LiftingTable",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=260",
@@ -1546,7 +1615,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:AGV;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "AGV",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=263",
@@ -1567,7 +1637,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Transposer;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Transposer",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=266",
@@ -1588,7 +1659,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:CarrierHandlingSystem;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "CarrierHandlingSystem",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=269",
@@ -1609,7 +1681,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:BodyStore;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "BodyStore",
     "extends": "dtmi:opcua:AMLLibs:Storage;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=272",
@@ -1630,7 +1703,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Lift;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Lift",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=275",
@@ -1651,7 +1725,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Rollerbed;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Rollerbed",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=278",
@@ -1672,7 +1747,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:StationaryTool;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "StationaryTool",
     "extends": "dtmi:opcua:AMLLibs:Tool;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=281",
@@ -1693,7 +1769,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:MovableTool;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "MovableTool",
     "extends": "dtmi:opcua:AMLLibs:Tool;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=284",
@@ -1714,7 +1791,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:ControlCabinet;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ControlCabinet",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=287",
@@ -1735,7 +1813,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:IODevice;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "IODevice",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=290",
@@ -1756,7 +1835,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:HMI;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "HMI",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=293",
@@ -1777,7 +1857,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:ActuatingDrive;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ActuatingDrive",
     "extends": "dtmi:opcua:AMLLibs:Actuator;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=296",
@@ -1798,7 +1879,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:MotionController;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "MotionController",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=299",
@@ -1819,7 +1901,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Panel;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Panel",
     "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=302",
@@ -1840,7 +1923,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:MeasuringEquipment;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "MeasuringEquipment",
     "extends": "dtmi:opcua:AMLLibs:Resource;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=305",
@@ -1861,7 +1945,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Clamp;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Clamp",
     "extends": "dtmi:opcua:AMLLibs:Fixture;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=308",
@@ -1882,7 +1967,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:ProcessController;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ProcessController",
     "extends": "dtmi:opcua:AMLLibs:Controller;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=311",
@@ -1903,7 +1989,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Loader;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Loader",
     "extends": "dtmi:opcua:AMLLibs:Storage;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=314",
@@ -1924,7 +2011,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:Unloader;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Unloader",
     "extends": "dtmi:opcua:AMLLibs:Storage;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=317",
@@ -1945,7 +2033,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:BeltConveyor;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "BeltConveyor",
     "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=320",
@@ -1966,7 +2055,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:RollConveyor;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "RollConveyor",
     "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=323",
@@ -1987,7 +2077,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:ChainConveyor;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ChainConveyor",
     "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=326",
@@ -2008,7 +2099,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:PalletConveyor;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PalletConveyor",
     "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=329",
@@ -2029,7 +2121,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:OverheadConveyor;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "OverheadConveyor",
     "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=332",
@@ -2050,7 +2143,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:AMLLibs:WarningEquipment;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "WarningEquipment",
     "extends": "dtmi:opcua:AMLLibs:HMI;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=335",

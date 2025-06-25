@@ -627,7 +627,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DI:SoftwareType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DI",
     "displayName": "SoftwareType",
     "extends": "dtmi:opcua:DI:ComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15106",
@@ -1135,7 +1136,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DI:NetworkType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DI",
     "displayName": "NetworkType",
     "description": "Represents the communication means for Devices that are connected to it.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -1211,7 +1213,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DI:TransferServicesType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DI",
     "displayName": "TransferServicesType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6526",
@@ -1490,7 +1493,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DI:SoftwareUpdateType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DI",
     "displayName": "SoftwareUpdateType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=1",
@@ -1666,7 +1670,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DI:DirectLoadingType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DI",
     "displayName": "DirectLoadingType",
     "extends": "dtmi:opcua:DI:PackageLoadingType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=153",
@@ -1734,7 +1739,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DI:CachedLoadingType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DI",
     "displayName": "CachedLoadingType",
     "extends": "dtmi:opcua:DI:PackageLoadingType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=171",
@@ -1849,7 +1855,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:DI:FileSystemLoadingType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/DI",
     "displayName": "FileSystemLoadingType",
     "extends": "dtmi:opcua:DI:SoftwareLoadingType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=192",

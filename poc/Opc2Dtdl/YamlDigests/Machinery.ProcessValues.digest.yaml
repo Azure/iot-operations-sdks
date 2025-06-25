@@ -314,7 +314,7 @@ DefinedTypes:
       - [ UAVariableType, Machinery.ProcessValues:2003, Machinery.ProcessValues:ProcessValueSetpointVariableType, Number, -2, 0 ]
 
   Machinery.ProcessValues:ZeroPointAdjustmentEventType:
-  - [ UAObjectType, Machinery.ProcessValues:1002, Machinery.ProcessValues:ZeroPointAdjustmentEventType ]
+  - [ UAObjectType, Machinery.ProcessValues:1002, Machinery.ProcessValues:ZeroPointAdjustmentEventType, Abstract ]
   - DisplayName: "ZeroPointAdjustmentEventType"
   - Description: "Provides information, that a zero-point adjustment took place"
   - HasSubtype_reverse:
@@ -327,7 +327,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, Machinery.ProcessValues:1002, Machinery.ProcessValues:ZeroPointAdjustmentEventType ]
+      - [ UAObjectType, Machinery.ProcessValues:1002, Machinery.ProcessValues:ZeroPointAdjustmentEventType, Abstract ]
   - GeneratesEvent_reverse:
     - [ UAMethod, Machinery.ProcessValues:7001, PADIM:ZeroPointAdjustment ]
 
@@ -1343,4 +1343,4 @@ DefinedTypes:
     - HasComponent_reverse:
       - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
     - GeneratesEvent:
-      - [ UAObjectType, Machinery.ProcessValues:1002, Machinery.ProcessValues:ZeroPointAdjustmentEventType ]
+      - [ UAObjectType, Machinery.ProcessValues:1002, Machinery.ProcessValues:ZeroPointAdjustmentEventType, Abstract ]

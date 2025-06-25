@@ -896,7 +896,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_TCD:TCD_InterfaceType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
     "displayName": "TCD_InterfaceType",
     "description": "Root ObjectType representing a temperature control device with its subcomponents",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",

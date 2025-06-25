@@ -49,7 +49,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:CASType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "CASType",
     "description": "Compressed air system type",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -1015,7 +1016,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:CompressorDesignType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "CompressorDesignType",
     "description": "Static design properties of a compressor.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1110,7 +1112,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:ConverterDesignType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "ConverterDesignType",
     "description": "Static design properties of a converter.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1132,7 +1135,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:DrainDesignType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "DrainDesignType",
     "description": "Static design properties of a condensate drain.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1154,7 +1158,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:DryerDesignType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "DryerDesignType",
     "description": "Static design properties of a dryer.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1185,7 +1190,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:FilterDesignType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "FilterDesignType",
     "description": "Static design properties of a filter.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1294,7 +1300,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:ReceiverDesignType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "ReceiverDesignType",
     "description": "Static design properties of a receiver.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1325,7 +1332,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:SensorDesignType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "SensorDesignType",
     "description": "Static design properties of a sensor.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1422,7 +1430,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:SeparatorDesignType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "SeparatorDesignType",
     "description": "Static design properties of a separator.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1444,7 +1453,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:ValveDesignType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "ValveDesignType",
     "description": "Static design properties of a valve.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1730,7 +1740,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:CompressorOperationalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "CompressorOperationalType",
     "description": "Contains parameters and methods useful for normal operation of the compressor, like process data.",
     "extends": "dtmi:opcua:CAS:OperationalType;1",
@@ -1785,7 +1796,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:ConverterOperationalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "ConverterOperationalType",
     "description": "Contains parameters and methods useful for normal operation of the converter, like process data.",
     "extends": "dtmi:opcua:CAS:OperationalType;1",
@@ -1816,7 +1828,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:DrainOperationalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "DrainOperationalType",
     "description": "Contains parameters and methods useful for normal operation of the condensate drain, like process data.",
     "extends": "dtmi:opcua:CAS:OperationalType;1",
@@ -1846,7 +1859,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:DryerOperationalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "DryerOperationalType",
     "description": "Contains parameters and methods useful for normal operation of the dryer, like process data.",
     "extends": "dtmi:opcua:CAS:OperationalType;1",
@@ -1877,7 +1891,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:ValveOperationalType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "ValveOperationalType",
     "description": "Contains parameters and methods useful for normal operation of the valve, like process data.",
     "extends": "dtmi:opcua:CAS:OperationalType;1",
@@ -1997,7 +2012,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:CompressorStatisticsType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "CompressorStatisticsType",
     "description": "Contains parameters and methods related to counting process or maintenance data of the compressor.",
     "extends": "dtmi:opcua:CAS:StatisticsType;1",
@@ -2241,7 +2257,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:AirnetType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "AirnetType",
     "description": "In a compressed air system the airnet describes the piping, including valves and vessels, and all components between the inlet of the compressed air station and the distribution point to the customer, including compressors, dryers, filters, etc. A compressed air system may contain several airnets and it’s possible for the master control system to manage all airnets simultaniously. A component, like a compressor, must not be assigned to more than one airnet.",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
@@ -2317,7 +2334,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:CASComponentType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "CASComponentType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1021",
@@ -2430,7 +2448,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:ChargingSystemType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "ChargingSystemType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1005",
@@ -2451,7 +2470,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:CompressorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "CompressorType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1039",
@@ -2472,7 +2492,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:ConverterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "ConverterType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1029",
@@ -2493,7 +2514,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:CoolingSystemType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "CoolingSystemType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1001",
@@ -2514,7 +2536,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:DrainType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "DrainType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1025",
@@ -2535,7 +2558,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:DryerType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "DryerType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1030",
@@ -2556,7 +2580,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:FilterType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "FilterType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1034",
@@ -2577,7 +2602,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:HeatRecoverySystemType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "HeatRecoverySystemType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1042",
@@ -2598,7 +2624,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:ReceiverType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "ReceiverType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1022",
@@ -2619,7 +2646,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:SensorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "SensorType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1015",
@@ -2658,7 +2686,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:SeparatorType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "SeparatorType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1026",
@@ -2679,7 +2708,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:CAS:ValveType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "ValveType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1024",

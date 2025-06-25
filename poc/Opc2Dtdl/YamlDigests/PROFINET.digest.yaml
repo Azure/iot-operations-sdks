@@ -334,11 +334,11 @@ DefinedTypes:
     - HasProperty_reverse:
       - [ UAObjectType, PROFINET:1002, PROFINET:PnDiagnosisAlarmType ]
   - GeneratesEvent_reverse:
-    - [ UAObjectType, PROFINET:1020, PROFINET:IPnRealSubmoduleType ]
+    - [ UAObjectType, PROFINET:1020, PROFINET:IPnRealSubmoduleType, Abstract ]
   - GeneratesEvent_reverse:
-    - [ UAObjectType, PROFINET:1025, PROFINET:IPnRealModuleType ]
+    - [ UAObjectType, PROFINET:1025, PROFINET:IPnRealModuleType, Abstract ]
   - GeneratesEvent_reverse:
-    - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType ]
+    - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType, Abstract ]
   - GeneratesEvent_reverse:
     - [ UAObject, PROFINET:5025, PROFINET:<Submodules> ]
   - GeneratesEvent_reverse:
@@ -372,11 +372,11 @@ DefinedTypes:
   - GeneratesEvent_reverse:
     - [ UAObjectType, PROFINET:1006, PROFINET:PnAssetType ]
   - GeneratesEvent_reverse:
-    - [ UAObjectType, PROFINET:1020, PROFINET:IPnRealSubmoduleType ]
+    - [ UAObjectType, PROFINET:1020, PROFINET:IPnRealSubmoduleType, Abstract ]
   - GeneratesEvent_reverse:
-    - [ UAObjectType, PROFINET:1025, PROFINET:IPnRealModuleType ]
+    - [ UAObjectType, PROFINET:1025, PROFINET:IPnRealModuleType, Abstract ]
   - GeneratesEvent_reverse:
-    - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType ]
+    - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType, Abstract ]
   - GeneratesEvent_reverse:
     - [ UAObject, PROFINET:5025, PROFINET:<Submodules> ]
   - GeneratesEvent_reverse:
@@ -393,7 +393,7 @@ DefinedTypes:
     - [ UAObjectType, PROFINET:1010, PROFINET:PnPortType ]
 
   PROFINET:IPnDomainType:
-  - [ UAObjectType, PROFINET:1031, PROFINET:IPnDomainType ]
+  - [ UAObjectType, PROFINET:1031, PROFINET:IPnDomainType, Abstract ]
   - DisplayName: "IPnDomainType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -403,18 +403,18 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1031, PROFINET:IPnDomainType ]
+      - [ UAObjectType, PROFINET:1031, PROFINET:IPnDomainType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, PROFINET:1033, PROFINET:PnEquipmentContainerType ]
 
   PROFINET:IPnEquipmentType:
-  - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType ]
+  - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType, Abstract ]
   - DisplayName: "IPnEquipmentType"
   - HasComponent:
     - [ UAObject, PROFINET:5041, PROFINET:Alarms ]
     - DisplayName: "Alarms"
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType ]
+      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -423,7 +423,7 @@ DefinedTypes:
     - [ UAObject, PROFINET:5039, PROFINET:Assets ]
     - DisplayName: "Assets"
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType ]
+      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -434,7 +434,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType ]
+      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -450,7 +450,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType ]
+      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -522,7 +522,7 @@ DefinedTypes:
     - [ UAObject, PROFINET:5037, PROFINET:Interfaces ]
     - DisplayName: "Interfaces"
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType ]
+      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -533,7 +533,7 @@ DefinedTypes:
     - [ UAObject, PROFINET:5038, PROFINET:Modules ]
     - DisplayName: "Modules"
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType ]
+      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -548,7 +548,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType ]
+      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType, Abstract ]
   - HasProperty:
     - [ UAVariable, PROFINET:6175, PROFINET:Vendor, String, 0, 0 ]
     - DisplayName: "Vendor"
@@ -557,39 +557,39 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType ]
+      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType, Abstract ]
   - HasInterface_reverse:
     - [ UAObject, PROFINET:5042, PROFINET:<PnEquipments> ]
 
   PROFINET:IPnControllerType:
-  - [ UAObjectType, PROFINET:1035, PROFINET:IPnControllerType ]
+  - [ UAObjectType, PROFINET:1035, PROFINET:IPnControllerType, Abstract ]
   - DisplayName: "IPnControllerType"
   - HasComponent:
     - [ UAObject, PROFINET:5043, PROFINET:ARs ]
     - DisplayName: "ARs"
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1035, PROFINET:IPnControllerType ]
+      - [ UAObjectType, PROFINET:1035, PROFINET:IPnControllerType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PROFINET:1030, PROFINET:PnApplicationRelationContainerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType ]
+    - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType, Abstract ]
 
   PROFINET:IPnDeviceType:
-  - [ UAObjectType, PROFINET:1034, PROFINET:IPnDeviceType ]
+  - [ UAObjectType, PROFINET:1034, PROFINET:IPnDeviceType, Abstract ]
   - DisplayName: "IPnDeviceType"
   - HasProperty:
     - [ UAVariable, PROFINET:6177, PROFINET:GSDDescription, String, 0, 0 ]
     - DisplayName: "GSDDescription"
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1034, PROFINET:IPnDeviceType ]
+      - [ UAObjectType, PROFINET:1034, PROFINET:IPnDeviceType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType ]
+    - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType, Abstract ]
   - HasComponent:
     - [ UAVariable, PROFINET:6178, PROFINET:State, PROFINET:PnDeviceStateEnumeration, 0, 0 ]
     - DisplayName: "State"
@@ -598,16 +598,16 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1034, PROFINET:IPnDeviceType ]
+      - [ UAObjectType, PROFINET:1034, PROFINET:IPnDeviceType, Abstract ]
 
   PROFINET:IPnInterfaceType:
-  - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType ]
+  - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType, Abstract ]
   - DisplayName: "IPnInterfaceType"
   - HasProperty:
     - [ UAVariable, PROFINET:6091, PROFINET:DeviceId, UInt16, 0, 0 ]
     - DisplayName: "DeviceId"
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType ]
+      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -616,7 +616,7 @@ DefinedTypes:
     - [ UAVariable, PROFINET:6092, PROFINET:DeviceInstance, UInt16, 0, 0 ]
     - DisplayName: "DeviceInstance"
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType ]
+      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -625,7 +625,7 @@ DefinedTypes:
     - [ UAVariable, PROFINET:6088, PROFINET:DeviceRole, PROFINET:PnDeviceRoleOptionSet, 0, 0 ]
     - DisplayName: "DeviceRole"
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType ]
+      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -634,7 +634,7 @@ DefinedTypes:
     - [ UAVariable, PROFINET:6089, PROFINET:DeviceVendor, String, 0, 0 ]
     - DisplayName: "DeviceVendor"
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType ]
+      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -643,7 +643,7 @@ DefinedTypes:
     - [ UAObject, PROFINET:5011, PROFINET:EthernetInterface ]
     - DisplayName: "EthernetInterface"
     - CommLinkTo_reverse:
-      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType ]
+      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, PROFINET:1014, PROFINET:EthernetInterfaceType ]
     - HasComponent:
@@ -665,14 +665,14 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType ]
+      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType, Abstract ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, PROFINET:6094, PROFINET:OEMDeviceId, UInt16, 0, 0 ]
     - DisplayName: "OEMDeviceId"
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType ]
+      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -681,7 +681,7 @@ DefinedTypes:
     - [ UAVariable, PROFINET:6093, PROFINET:OEMVendorId, UInt16, 0, 0 ]
     - DisplayName: "OEMVendorId"
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType ]
+      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -694,7 +694,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, PROFINET:1011, PROFINET:PnPortContainerType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType ]
+      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType, Abstract ]
   - HasComponent:
     - [ UAMethod, PROFINET:7004, PROFINET:SetNameOfStation ]
     - DisplayName: "SetNameOfStation"
@@ -712,7 +712,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType ]
+      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType, Abstract ]
   - HasComponent:
     - [ UAObject, PROFINET:5021, PROFINET:Statistic ]
     - DisplayName: "Statistic"
@@ -721,7 +721,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, PROFINET:1012, PROFINET:PnPortStatisticType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType ]
+      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType, Abstract ]
   - HasProperty:
     - [ UAVariable, PROFINET:6090, PROFINET:VendorId, UInt16, 0, 0 ]
     - DisplayName: "VendorId"
@@ -730,18 +730,18 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType ]
+      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType, Abstract ]
   - HasInterface_reverse:
     - [ UAObject, PROFINET:5012, PROFINET:<Interfaces> ]
 
   PROFINET:IPnModuleType:
-  - [ UAObjectType, PROFINET:1024, PROFINET:IPnModuleType ]
+  - [ UAObjectType, PROFINET:1024, PROFINET:IPnModuleType, Abstract ]
   - DisplayName: "IPnModuleType"
   - HasProperty:
     - [ UAVariable, PROFINET:6147, PROFINET:GSDDescription, String, 0, 0 ]
     - DisplayName: "GSDDescription"
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1024, PROFINET:IPnModuleType ]
+      - [ UAObjectType, PROFINET:1024, PROFINET:IPnModuleType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -750,7 +750,7 @@ DefinedTypes:
     - [ UAVariable, PROFINET:6146, PROFINET:GSDName, String, 0, 0 ]
     - DisplayName: "GSDName"
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1024, PROFINET:IPnModuleType ]
+      - [ UAObjectType, PROFINET:1024, PROFINET:IPnModuleType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -759,7 +759,7 @@ DefinedTypes:
     - [ UAVariable, PROFINET:6145, PROFINET:IdentNumber, UInt32, 0, 0 ]
     - DisplayName: "IdentNumber"
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1024, PROFINET:IPnModuleType ]
+      - [ UAObjectType, PROFINET:1024, PROFINET:IPnModuleType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -774,13 +774,13 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1024, PROFINET:IPnModuleType ]
+      - [ UAObjectType, PROFINET:1024, PROFINET:IPnModuleType, Abstract ]
 
   PROFINET:IPnExpectedModuleType:
-  - [ UAObjectType, PROFINET:1027, PROFINET:IPnExpectedModuleType ]
+  - [ UAObjectType, PROFINET:1027, PROFINET:IPnExpectedModuleType, Abstract ]
   - DisplayName: "IPnExpectedModuleType"
   - HasSubtype_reverse:
-    - [ UAObjectType, PROFINET:1024, PROFINET:IPnModuleType ]
+    - [ UAObjectType, PROFINET:1024, PROFINET:IPnModuleType, Abstract ]
   - HasComponent:
     - [ UAVariable, PROFINET:6157, PROFINET:State, PROFINET:PnModuleStateEnumeration, 0, 0 ]
     - DisplayName: "State"
@@ -789,7 +789,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1027, PROFINET:IPnExpectedModuleType ]
+      - [ UAObjectType, PROFINET:1027, PROFINET:IPnExpectedModuleType, Abstract ]
   - HasComponent:
     - [ UAObject, PROFINET:5032, PROFINET:Submodules ]
     - DisplayName: "Submodules"
@@ -798,18 +798,18 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, PROFINET:1023, PROFINET:PnExpectedSubmoduleContainerType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1027, PROFINET:IPnExpectedModuleType ]
+      - [ UAObjectType, PROFINET:1027, PROFINET:IPnExpectedModuleType, Abstract ]
   - HasInterface_reverse:
     - [ UAObject, PROFINET:5033, PROFINET:<Modules> ]
 
   PROFINET:IPnRealModuleType:
-  - [ UAObjectType, PROFINET:1025, PROFINET:IPnRealModuleType ]
+  - [ UAObjectType, PROFINET:1025, PROFINET:IPnRealModuleType, Abstract ]
   - DisplayName: "IPnRealModuleType"
   - HasComponent:
     - [ UAObject, PROFINET:5030, PROFINET:Alarms ]
     - DisplayName: "Alarms"
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1025, PROFINET:IPnRealModuleType ]
+      - [ UAObjectType, PROFINET:1025, PROFINET:IPnRealModuleType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -820,7 +820,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1025, PROFINET:IPnRealModuleType ]
+      - [ UAObjectType, PROFINET:1025, PROFINET:IPnRealModuleType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -836,7 +836,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1025, PROFINET:IPnRealModuleType ]
+      - [ UAObjectType, PROFINET:1025, PROFINET:IPnRealModuleType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -905,7 +905,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, PROFINET:5029, PROFINET:IM ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PROFINET:1024, PROFINET:IPnModuleType ]
+    - [ UAObjectType, PROFINET:1024, PROFINET:IPnModuleType, Abstract ]
   - GeneratesEvent:
     - [ UAObjectType, PROFINET:1003, PROFINET:PnAssetChangedEventType ]
   - GeneratesEvent:
@@ -918,18 +918,18 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, PROFINET:1021, PROFINET:PnRealSubmoduleContainerType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1025, PROFINET:IPnRealModuleType ]
+      - [ UAObjectType, PROFINET:1025, PROFINET:IPnRealModuleType, Abstract ]
   - HasInterface_reverse:
     - [ UAObject, PROFINET:5031, PROFINET:<Modules> ]
 
   PROFINET:IPnSubmoduleType:
-  - [ UAObjectType, PROFINET:1019, PROFINET:IPnSubmoduleType ]
+  - [ UAObjectType, PROFINET:1019, PROFINET:IPnSubmoduleType, Abstract ]
   - DisplayName: "IPnSubmoduleType"
   - HasProperty:
     - [ UAVariable, PROFINET:6130, PROFINET:API, UInt32, 0, 0 ]
     - DisplayName: "API"
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1019, PROFINET:IPnSubmoduleType ]
+      - [ UAObjectType, PROFINET:1019, PROFINET:IPnSubmoduleType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -938,7 +938,7 @@ DefinedTypes:
     - [ UAVariable, PROFINET:6134, PROFINET:GSDDescription, String, 0, 0 ]
     - DisplayName: "GSDDescription"
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1019, PROFINET:IPnSubmoduleType ]
+      - [ UAObjectType, PROFINET:1019, PROFINET:IPnSubmoduleType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -947,7 +947,7 @@ DefinedTypes:
     - [ UAVariable, PROFINET:6133, PROFINET:GSDName, String, 0, 0 ]
     - DisplayName: "GSDName"
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1019, PROFINET:IPnSubmoduleType ]
+      - [ UAObjectType, PROFINET:1019, PROFINET:IPnSubmoduleType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -956,7 +956,7 @@ DefinedTypes:
     - [ UAVariable, PROFINET:6132, PROFINET:IdentNumber, UInt32, 0, 0 ]
     - DisplayName: "IdentNumber"
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1019, PROFINET:IPnSubmoduleType ]
+      - [ UAObjectType, PROFINET:1019, PROFINET:IPnSubmoduleType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -971,13 +971,13 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
-      - [ UAObjectType, PROFINET:1019, PROFINET:IPnSubmoduleType ]
+      - [ UAObjectType, PROFINET:1019, PROFINET:IPnSubmoduleType, Abstract ]
 
   PROFINET:IPnExpectedSubmoduleType:
-  - [ UAObjectType, PROFINET:1022, PROFINET:IPnExpectedSubmoduleType ]
+  - [ UAObjectType, PROFINET:1022, PROFINET:IPnExpectedSubmoduleType, Abstract ]
   - DisplayName: "IPnExpectedSubmoduleType"
   - HasSubtype_reverse:
-    - [ UAObjectType, PROFINET:1019, PROFINET:IPnSubmoduleType ]
+    - [ UAObjectType, PROFINET:1019, PROFINET:IPnSubmoduleType, Abstract ]
   - HasComponent:
     - [ UAObject, PROFINET:5026, PROFINET:State ]
     - DisplayName: "State"
@@ -986,18 +986,18 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, PROFINET:1018, PROFINET:PnSubmoduleStateType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1022, PROFINET:IPnExpectedSubmoduleType ]
+      - [ UAObjectType, PROFINET:1022, PROFINET:IPnExpectedSubmoduleType, Abstract ]
   - HasInterface_reverse:
     - [ UAObject, PROFINET:5027, PROFINET:<Submodules> ]
 
   PROFINET:IPnRealSubmoduleType:
-  - [ UAObjectType, PROFINET:1020, PROFINET:IPnRealSubmoduleType ]
+  - [ UAObjectType, PROFINET:1020, PROFINET:IPnRealSubmoduleType, Abstract ]
   - DisplayName: "IPnRealSubmoduleType"
   - HasComponent:
     - [ UAObject, PROFINET:5024, PROFINET:Alarms ]
     - DisplayName: "Alarms"
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1020, PROFINET:IPnRealSubmoduleType ]
+      - [ UAObjectType, PROFINET:1020, PROFINET:IPnRealSubmoduleType, Abstract ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -1008,7 +1008,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1020, PROFINET:IPnRealSubmoduleType ]
+      - [ UAObjectType, PROFINET:1020, PROFINET:IPnRealSubmoduleType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -1024,7 +1024,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1020, PROFINET:IPnRealSubmoduleType ]
+      - [ UAObjectType, PROFINET:1020, PROFINET:IPnRealSubmoduleType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1093,7 +1093,7 @@ DefinedTypes:
       - HasProperty_reverse:
         - [ UAObject, PROFINET:5023, PROFINET:IM ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PROFINET:1019, PROFINET:IPnSubmoduleType ]
+    - [ UAObjectType, PROFINET:1019, PROFINET:IPnSubmoduleType, Abstract ]
   - GeneratesEvent:
     - [ UAObjectType, PROFINET:1003, PROFINET:PnAssetChangedEventType ]
   - GeneratesEvent:
@@ -1102,7 +1102,7 @@ DefinedTypes:
     - [ UAObject, PROFINET:5025, PROFINET:<Submodules> ]
 
   PROFINET:NetworkComponentFeatureType:
-  - [ UAObjectType, PROFINET:1016, PROFINET:NetworkComponentFeatureType ]
+  - [ UAObjectType, PROFINET:1016, PROFINET:NetworkComponentFeatureType, Abstract ]
   - DisplayName: "NetworkComponentFeatureType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
@@ -1138,7 +1138,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PROFINET:1016, PROFINET:NetworkComponentFeatureType ]
+    - [ UAObjectType, PROFINET:1016, PROFINET:NetworkComponentFeatureType, Abstract ]
   - HasComponent:
     - [ UAVariable, PROFINET:6112, PROFINET:SubnetMask, Byte, 1, 0 ]
     - DisplayName: "SubnetMask"
@@ -1150,24 +1150,24 @@ DefinedTypes:
       - [ UAObjectType, PROFINET:1017, PROFINET:IPv4FeatureType ]
 
   PROFINET:NetworkComponentType:
-  - [ UAObjectType, PROFINET:1013, PROFINET:NetworkComponentType ]
+  - [ UAObjectType, PROFINET:1013, PROFINET:NetworkComponentType, Abstract ]
   - DisplayName: "NetworkComponentType"
   - CommLinkTo:
     - [ UAObject, PROFINET:5015, PROFINET:<ComponentName> ]
     - DisplayName: "<ComponentName>"
     - CommLinkTo_reverse:
-      - [ UAObjectType, PROFINET:1013, PROFINET:NetworkComponentType ]
+      - [ UAObjectType, PROFINET:1013, PROFINET:NetworkComponentType, Abstract ]
     - HasTypeDefinition:
-      - [ UAObjectType, PROFINET:1013, PROFINET:NetworkComponentType ]
+      - [ UAObjectType, PROFINET:1013, PROFINET:NetworkComponentType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, PROFINET:5014, PROFINET:<FeatureName> ]
     - DisplayName: "<FeatureName>"
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1013, PROFINET:NetworkComponentType ]
+      - [ UAObjectType, PROFINET:1013, PROFINET:NetworkComponentType, Abstract ]
     - HasTypeDefinition:
-      - [ UAObjectType, PROFINET:1016, PROFINET:NetworkComponentFeatureType ]
+      - [ UAObjectType, PROFINET:1016, PROFINET:NetworkComponentFeatureType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
@@ -1176,7 +1176,7 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
-      - [ UAObjectType, PROFINET:1013, PROFINET:NetworkComponentType ]
+      - [ UAObjectType, PROFINET:1013, PROFINET:NetworkComponentType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1195,7 +1195,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PROFINET:1013, PROFINET:NetworkComponentType ]
+    - [ UAObjectType, PROFINET:1013, PROFINET:NetworkComponentType, Abstract ]
   - HasComponent:
     - [ UAVariable, PROFINET:6110, PROFINET:MacAddress, Byte, 1, 0 ]
     - DisplayName: "MacAddress"
@@ -1219,7 +1219,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PROFINET:1013, PROFINET:NetworkComponentType ]
+    - [ UAObjectType, PROFINET:1013, PROFINET:NetworkComponentType, Abstract ]
   - HasComponent:
     - [ UAVariable, PROFINET:6179, PROFINET:PhysAddress, Byte, 1, 0 ]
     - DisplayName: "PhysAddress"
@@ -1690,7 +1690,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAObjectType, PROFINET:1009, PROFINET:PnInterfaceContainerType ]
     - HasInterface:
-      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType ]
+      - [ UAObjectType, PROFINET:1032, PROFINET:IPnEquipmentType, Abstract ]
     - HasComponent:
       - [ UAObject, PROFINET:5046, PROFINET:Modules ]
       - DisplayName: "Modules"
@@ -1763,7 +1763,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasInterface:
-      - [ UAObjectType, PROFINET:1027, PROFINET:IPnExpectedModuleType ]
+      - [ UAObjectType, PROFINET:1027, PROFINET:IPnExpectedModuleType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasProperty:
@@ -1843,7 +1843,7 @@ DefinedTypes:
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasInterface:
-      - [ UAObjectType, PROFINET:1022, PROFINET:IPnExpectedSubmoduleType ]
+      - [ UAObjectType, PROFINET:1022, PROFINET:IPnExpectedSubmoduleType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent:
@@ -2138,7 +2138,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasInterface:
-      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType ]
+      - [ UAObjectType, PROFINET:1008, PROFINET:IPnInterfaceType, Abstract ]
     - HasProperty:
       - [ UAVariable, PROFINET:6190, PROFINET:NameOfStation, String, 0, 0 ]
       - DisplayName: "NameOfStation"
@@ -2508,7 +2508,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAObject, PROFINET:5051, PROFINET:IM ]
     - HasInterface:
-      - [ UAObjectType, PROFINET:1025, PROFINET:IPnRealModuleType ]
+      - [ UAObjectType, PROFINET:1025, PROFINET:IPnRealModuleType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - GeneratesEvent:
@@ -2682,7 +2682,7 @@ DefinedTypes:
         - HasProperty_reverse:
           - [ UAObject, PROFINET:5054, PROFINET:IM ]
     - HasInterface:
-      - [ UAObjectType, PROFINET:1020, PROFINET:IPnRealSubmoduleType ]
+      - [ UAObjectType, PROFINET:1020, PROFINET:IPnRealSubmoduleType, Abstract ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - GeneratesEvent:

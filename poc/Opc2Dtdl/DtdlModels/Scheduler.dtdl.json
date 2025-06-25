@@ -10,7 +10,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scheduler:CalendarType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scheduler",
     "displayName": "CalendarType",
     "description": "Provides a list of calendar dates. Each entry in the list describes a specific date or date pattern, or range of dates",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -465,7 +466,8 @@
       "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:opcua:Scheduler:ScheduleType;1",
-    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Scheduler",
     "displayName": "ScheduleType",
     "description": "Defines a periodic schedule that can recur over a range of dates. The schedule may have optional exceptions at arbitrary times or dates. The basic unit of a schedule is days, which are divided into two types: normal days within a week and exception days. A priority mechanism defines which scheduled event is currently valid. The schedule includes a PresentValue Variable whose value describes the current state of the schedule, including a default value when no schedules are in effect.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",

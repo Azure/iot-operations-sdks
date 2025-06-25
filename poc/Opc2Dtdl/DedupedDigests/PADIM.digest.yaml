@@ -148,7 +148,7 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
 
   PADIM:IAdministrationType:
-  - [ UAObjectType, PADIM:1050, PADIM:IAdministrationType ]
+  - [ UAObjectType, PADIM:1050, PADIM:IAdministrationType, Abstract ]
   - DisplayName: "IAdministrationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -176,7 +176,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
 
   PADIM:ISignalSetType:
-  - [ UAObjectType, PADIM:1052, PADIM:ISignalSetType ]
+  - [ UAObjectType, PADIM:1052, PADIM:ISignalSetType, Abstract ]
   - DisplayName: "ISignalSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -419,7 +419,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
 
   PADIM:IGeneralDeviceConditionSetType:
-  - [ UAObjectType, PADIM:1044, PADIM:IGeneralDeviceConditionSetType ]
+  - [ UAObjectType, PADIM:1044, PADIM:IGeneralDeviceConditionSetType, Abstract ]
   - DisplayName: "IGeneralDeviceConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -439,7 +439,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
 
   PADIM:ICalibrationType:
-  - [ UAObjectType, PADIM:1045, PADIM:ICalibrationType ]
+  - [ UAObjectType, PADIM:1045, PADIM:ICalibrationType, Abstract ]
   - DisplayName: "ICalibrationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -462,7 +462,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
 
   PADIM:IPhCalibrationType:
-  - [ UAObjectType, PADIM:1046, PADIM:IPhCalibrationType ]
+  - [ UAObjectType, PADIM:1046, PADIM:IPhCalibrationType, Abstract ]
   - DisplayName: "IPhCalibrationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -495,7 +495,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
 
   PADIM:IConductivityCalibrationType:
-  - [ UAObjectType, PADIM:1047, PADIM:IConductivityCalibrationType ]
+  - [ UAObjectType, PADIM:1047, PADIM:IConductivityCalibrationType, Abstract ]
   - DisplayName: "IConductivityCalibrationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -512,7 +512,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
 
   PADIM:IAmperometricCalibrationType:
-  - [ UAObjectType, PADIM:1048, PADIM:IAmperometricCalibrationType ]
+  - [ UAObjectType, PADIM:1048, PADIM:IAmperometricCalibrationType, Abstract ]
   - DisplayName: "IAmperometricCalibrationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -550,7 +550,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
 
   PADIM:IOpticalFluorescenseQuenchingCalibrationType:
-  - [ UAObjectType, PADIM:1049, PADIM:IOpticalFluorescenseQuenchingCalibrationType ]
+  - [ UAObjectType, PADIM:1049, PADIM:IOpticalFluorescenseQuenchingCalibrationType, Abstract ]
   - DisplayName: "IOpticalFluorescenseQuenchingCalibrationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -588,7 +588,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
 
   PADIM:ITocDeviceConditionSetType:
-  - [ UAObjectType, PADIM:1053, PADIM:ITocDeviceConditionSetType ]
+  - [ UAObjectType, PADIM:1053, PADIM:ITocDeviceConditionSetType, Abstract ]
   - DisplayName: "ITocDeviceConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -671,7 +671,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
 
   PADIM:IFlameIonisationDeviceConditionSetType:
-  - [ UAObjectType, PADIM:1054, PADIM:IFlameIonisationDeviceConditionSetType ]
+  - [ UAObjectType, PADIM:1054, PADIM:IFlameIonisationDeviceConditionSetType, Abstract ]
   - DisplayName: "IFlameIonisationDeviceConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -721,7 +721,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
 
   PADIM:INonDispersiveInfraredSignalConditionSetType:
-  - [ UAObjectType, PADIM:1055, PADIM:INonDispersiveInfraredSignalConditionSetType ]
+  - [ UAObjectType, PADIM:1055, PADIM:INonDispersiveInfraredSignalConditionSetType, Abstract ]
   - DisplayName: "INonDispersiveInfraredSignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -765,7 +765,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
 
   PADIM:ITocSignalConditionSetType:
-  - [ UAObjectType, PADIM:1056, PADIM:ITocSignalConditionSetType ]
+  - [ UAObjectType, PADIM:1056, PADIM:ITocSignalConditionSetType, Abstract ]
   - DisplayName: "ITocSignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -842,7 +842,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
 
   PADIM:IParamagneticSignalConditionSetType:
-  - [ UAObjectType, PADIM:1057, PADIM:IParamagneticSignalConditionSetType ]
+  - [ UAObjectType, PADIM:1057, PADIM:IParamagneticSignalConditionSetType, Abstract ]
   - DisplayName: "IParamagneticSignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -870,7 +870,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
 
   PADIM:IThermalConductivitySignalConditionSetType:
-  - [ UAObjectType, PADIM:1058, PADIM:IThermalConductivitySignalConditionSetType ]
+  - [ UAObjectType, PADIM:1058, PADIM:IThermalConductivitySignalConditionSetType, Abstract ]
   - DisplayName: "IThermalConductivitySignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -887,7 +887,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
 
   PADIM:ITunableDiodeLaserSignalConditionSetType:
-  - [ UAObjectType, PADIM:1059, PADIM:ITunableDiodeLaserSignalConditionSetType ]
+  - [ UAObjectType, PADIM:1059, PADIM:ITunableDiodeLaserSignalConditionSetType, Abstract ]
   - DisplayName: "ITunableDiodeLaserSignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -941,7 +941,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
 
   PADIM:IZirconiumDioxideSignalConditionSetType:
-  - [ UAObjectType, PADIM:1060, PADIM:IZirconiumDioxideSignalConditionSetType ]
+  - [ UAObjectType, PADIM:1060, PADIM:IZirconiumDioxideSignalConditionSetType, Abstract ]
   - DisplayName: "IZirconiumDioxideSignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -974,7 +974,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
 
   PADIM:IPhSignalConditionSetType:
-  - [ UAObjectType, PADIM:1061, PADIM:IPhSignalConditionSetType ]
+  - [ UAObjectType, PADIM:1061, PADIM:IPhSignalConditionSetType, Abstract ]
   - DisplayName: "IPhSignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -1039,7 +1039,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
 
   PADIM:IConductivitySignalConditionSetType:
-  - [ UAObjectType, PADIM:1062, PADIM:IConductivitySignalConditionSetType ]
+  - [ UAObjectType, PADIM:1062, PADIM:IConductivitySignalConditionSetType, Abstract ]
   - DisplayName: "IConductivitySignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -1076,7 +1076,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
 
   PADIM:IOpticalFluorescenseQuenchingSignalConditionSetType:
-  - [ UAObjectType, PADIM:1063, PADIM:IOpticalFluorescenseQuenchingSignalConditionSetType ]
+  - [ UAObjectType, PADIM:1063, PADIM:IOpticalFluorescenseQuenchingSignalConditionSetType, Abstract ]
   - DisplayName: "IOpticalFluorescenseQuenchingSignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
@@ -1114,7 +1114,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
 
   PADIM:IAmperometricSignalConditionSetType:
-  - [ UAObjectType, PADIM:1064, PADIM:IAmperometricSignalConditionSetType ]
+  - [ UAObjectType, PADIM:1064, PADIM:IAmperometricSignalConditionSetType, Abstract ]
   - DisplayName: "IAmperometricSignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
