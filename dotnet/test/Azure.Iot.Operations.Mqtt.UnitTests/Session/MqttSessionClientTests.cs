@@ -2469,7 +2469,6 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             var connectOptions = new MqttClientOptions(new MqttClientTcpOptions("localhost", 1883))
             {
                 SessionExpiryInterval = 100,
-                AioPersistence = true
             };
 
             await sessionClient.ConnectAsync(connectOptions);
@@ -2485,7 +2484,8 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
 
             MqttApplicationMessage publish = new("someTopic")
             {
-                AioPersistence = true
+                AioPersistence = true,
+                Retain = true,
             };
 
             // Don't care about the PUBACK
